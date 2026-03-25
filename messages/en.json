@@ -30,6 +30,8 @@
     "noResults": "No lenses match your filters."
   },
   "LensDetail": {
+    "brand": "Brand",
+    "focalLength": "Focal Length",
     "focalLengthEquiv": "Equiv. Focal Length",
     "maxAperture": "Max Aperture",
     "minAperture": "Min Aperture",
@@ -37,14 +39,17 @@
     "ois": "OIS",
     "wr": "Weather Resistant",
     "weight": "Weight",
-    "diameter": "Diameter",
-    "length": "Length",
+    "dimensions": "Dimensions",
     "filterSize": "Filter Size",
     "minFocusDist": "Min Focus Distance",
-    "price": "Approx. Price (CNY)",
     "releaseYear": "Release Year",
     "yes": "Yes",
     "no": "No",
     "unknown": "N/A"
+  },
+  "Compare": {
+    "title": "Compare",
+    "backToLenses": "Back to Lenses",
+    "noLenses": "No lenses selected. Go back and pick some to compare."
   }
 }

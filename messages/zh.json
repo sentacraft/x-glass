@@ -30,6 +30,8 @@
     "noResults": "没有符合条件的镜头。"
   },
   "LensDetail": {
+    "brand": "品牌",
+    "focalLength": "焦距",
     "focalLengthEquiv": "等效焦距",
     "maxAperture": "最大光圈",
     "minAperture": "最小光圈",
@@ -37,14 +39,17 @@
     "ois": "光学防抖",
     "wr": "防滴防尘",
     "weight": "重量",
-    "diameter": "直径",
-    "length": "镜头长度",
+    "dimensions": "尺寸",
     "filterSize": "滤镜口径",
     "minFocusDist": "最近对焦距离",
-    "price": "参考价格",
     "releaseYear": "发布年份",
     "yes": "有",
     "no": "无",
     "unknown": "未知"
+  },
+  "Compare": {
+    "title": "对比",
+    "backToLenses": "返回列表",
+    "noLenses": "未选择镜头，请返回列表选择要对比的镜头。"
   }
 }
