@@ -1,15 +1,17 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import type { FilterState, FocalRange, LensType } from '@/lib/lenses';
+import type { FilterState, FocalRange, LensType, SortKey } from '@/lib/lenses';
 
 interface Props {
   filters: FilterState;
   brands: string[];
+  sort: SortKey;
   onChange: (filters: FilterState) => void;
+  onSortChange: (sort: SortKey) => void;
 }
 
-export default function LensFilters({ filters, brands, onChange }: Props) {
+export default function LensFilters({ filters, brands, sort, onChange, onSortChange }: Props) {
   const t = useTranslations('LensList');
 
   function set<K extends keyof FilterState>(key: K, value: FilterState[K]) {
@@ -70,6 +72,23 @@ export default function LensFilters({ filters, brands, onChange }: Props) {
           <option value="wide">{t('wide')}</option>
           <option value="standard">{t('standard')}</option>
           <option value="tele">{t('tele')}</option>
+        </select>
+      </div>
+
+      {/* Sort */}
+      <div className="flex flex-col gap-1">
+        <label className="text-xs font-medium text-zinc-500 dark:text-zinc-400">
+          {t('sortBy')}
+        </label>
+        <select
+          value={sort}
+          onChange={(e) => onSortChange(e.target.value as SortKey)}
+          className={selectClass}
+        >
+          <option value="focalLength">{t('sortFocalLength')}</option>
+          <option value="maxAperture">{t('sortAperture')}</option>
+          <option value="weightG">{t('sortWeight')}</option>
+          <option value="releaseYear">{t('sortYear')}</option>
         </select>
       </div>
 

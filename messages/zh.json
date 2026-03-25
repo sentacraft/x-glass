@@ -7,6 +7,15 @@
     "lenses": "镜头列表",
     "compare": "对比"
   },
+  "Home": {
+    "cta": "浏览镜头",
+    "feature1Title": "筛选",
+    "feature1Desc": "按品牌、焦段、光圈、自动对焦、防滴防尘筛选",
+    "feature2Title": "对比",
+    "feature2Desc": "最多 4 款镜头并排规格对比",
+    "feature3Title": "等效焦距",
+    "feature3Desc": "自动 ×1.5 换算等效全画幅焦距"
+  },
   "LensList": {
     "title": "镜头列表",
     "brand": "品牌",
@@ -22,6 +31,11 @@
     "tele": "长焦（>85mm）",
     "afOnly": "仅自动对焦",
     "wrOnly": "仅防滴防尘",
+    "sortBy": "排序",
+    "sortFocalLength": "焦距",
+    "sortAperture": "最大光圈",
+    "sortWeight": "重量",
+    "sortYear": "最新优先",
     "addToCompare": "加入对比",
     "removeFromCompare": "移除",
     "compareCount": "已选 {count} 款",

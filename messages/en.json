@@ -7,6 +7,15 @@
     "lenses": "Lenses",
     "compare": "Compare"
   },
+  "Home": {
+    "cta": "Browse Lenses",
+    "feature1Title": "Filter",
+    "feature1Desc": "By brand, focal length, aperture, AF, and weather resistance",
+    "feature2Title": "Compare",
+    "feature2Desc": "Side-by-side specs for up to 4 lenses",
+    "feature3Title": "Equiv. FL",
+    "feature3Desc": "Automatic ×1.5 crop factor conversion"
+  },
   "LensList": {
     "title": "Lenses",
     "brand": "Brand",
@@ -22,6 +31,11 @@
     "tele": "Tele (>85mm)",
     "afOnly": "AF Only",
     "wrOnly": "WR Only",
+    "sortBy": "Sort by",
+    "sortFocalLength": "Focal Length",
+    "sortAperture": "Max Aperture",
+    "sortWeight": "Weight",
+    "sortYear": "Newest First",
     "addToCompare": "Add to Compare",
     "removeFromCompare": "Remove",
     "compareCount": "{count} selected",

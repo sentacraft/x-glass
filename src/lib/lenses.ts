@@ -42,3 +42,15 @@ export function filterLenses(lenses: Lens[], filters: FilterState): Lens[] {
 export function getUniqueBrands(lenses: Lens[]): string[] {
   return [...new Set(lenses.map((l) => l.brand))].sort();
 }
+
+export type SortKey = 'focalLength' | 'maxAperture' | 'weightG' | 'releaseYear';
+
+export const defaultSort: SortKey = 'focalLength';
+
+// releaseYear: newest first; everything else: ascending
+export function sortLenses(lenses: Lens[], key: SortKey): Lens[] {
+  return [...lenses].sort((a, b) => {
+    if (key === 'releaseYear') return b.releaseYear - a.releaseYear;
+    return a[key] - b[key];
+  });
+}
