@@ -1,0 +1,42 @@
+{
+  "Common": {
+    "appName": "X Glass",
+    "appDesc": "富士 X 卡口镜头对比工具"
+  },
+  "Nav": {
+    "lenses": "镜头列表",
+    "compare": "对比"
+  },
+  "LensList": {
+    "title": "镜头列表",
+    "filter": "筛选",
+    "brand": "品牌",
+    "focalLength": "焦距",
+    "maxAperture": "最大光圈",
+    "afOnly": "仅自动对焦",
+    "wrOnly": "仅防滴防尘",
+    "allBrands": "全部品牌",
+    "addToCompare": "加入对比",
+    "removeFromCompare": "移除对比",
+    "compareCount": "已选 {count} 款",
+    "goCompare": "开始对比"
+  },
+  "LensDetail": {
+    "focalLengthEquiv": "等效焦距",
+    "maxAperture": "最大光圈",
+    "minAperture": "最小光圈",
+    "af": "自动对焦",
+    "ois": "光学防抖",
+    "wr": "防滴防尘",
+    "weight": "重量",
+    "diameter": "直径",
+    "length": "镜头长度",
+    "filterSize": "滤镜口径",
+    "minFocusDist": "最近对焦距离",
+    "price": "参考价格",
+    "releaseYear": "发布年份",
+    "yes": "有",
+    "no": "无",
+    "unknown": "未知"
+  }
+}

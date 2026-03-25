@@ -84,6 +84,11 @@ x-glass/
 │   └── miniprogram/   # 原生小程序（届时决定）
 ```
 
+## 开发规范
+
+- **语言优先级**：优先保证英文版本（`en.json`）功能完整正确；开发时同步更新 `zh.json`，但以英文为准，中文翻译可暂时留空或粗译。
+- **代码注释语言**：所有代码注释（inline comments、block comments、JSDoc）统一用英文，禁止出现中文。
+
 ## 当前阶段：Phase 1
 
 - [ ] 初始化 Next.js 项目，部署到 Vercel

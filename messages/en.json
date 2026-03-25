@@ -1,0 +1,42 @@
+{
+  "Common": {
+    "appName": "X Glass",
+    "appDesc": "Fujifilm X-Mount Lens Comparison Tool"
+  },
+  "Nav": {
+    "lenses": "Lenses",
+    "compare": "Compare"
+  },
+  "LensList": {
+    "title": "Lens List",
+    "filter": "Filter",
+    "brand": "Brand",
+    "focalLength": "Focal Length",
+    "maxAperture": "Max Aperture",
+    "afOnly": "AF Only",
+    "wrOnly": "WR Only",
+    "allBrands": "All Brands",
+    "addToCompare": "Add to Compare",
+    "removeFromCompare": "Remove",
+    "compareCount": "{count} selected",
+    "goCompare": "Compare"
+  },
+  "LensDetail": {
+    "focalLengthEquiv": "Equiv. Focal Length",
+    "maxAperture": "Max Aperture",
+    "minAperture": "Min Aperture",
+    "af": "Autofocus",
+    "ois": "OIS",
+    "wr": "Weather Resistant",
+    "weight": "Weight",
+    "diameter": "Diameter",
+    "length": "Length",
+    "filterSize": "Filter Size",
+    "minFocusDist": "Min Focus Distance",
+    "price": "Approx. Price (CNY)",
+    "releaseYear": "Release Year",
+    "yes": "Yes",
+    "no": "No",
+    "unknown": "N/A"
+  }
+}
