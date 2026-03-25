@@ -1,23 +1,24 @@
 export interface Lens {
-  id: string;                        // "xf35mm-f14-r"
-  brand: string;                     // "Fujifilm" | "Viltrox" | "Sigma" ...
-  series: string;                    // "XF" | "XC" | ""
-  model: string;                     // "XF35mmF1.4 R"
-  generation?: number;               // 1 | 2，区分同焦段新老代
-  focalLength: number;               // 实际焦距（mm）
-  focalLengthEquiv: number;          // 等效全画幅（×1.5 自动计算）
-  maxAperture: number;               // 1.4
-  minAperture: number;
+  id: string;                     // e.g. "xf35mm-f14-r"
+  brand: string;                  // e.g. "Fujifilm" | "Viltrox" | "Sigma"
+  series: string;                 // e.g. "XF" | "XC" | "" (empty for third-party)
+  model: string;                  // official model name, e.g. "XF35mmF1.4 R"
+  generation?: number;            // 1 | 2 — differentiates old vs new versions of same focal length
+  focalLength: number;            // actual focal length in mm (wide end for zooms)
+  focalLengthMax?: number;        // telephoto end in mm; presence indicates zoom lens
+  focalLengthEquiv: number;       // 35mm equivalent of focalLength (×1.5)
+  maxAperture: number;            // e.g. 1.4 (wide-end value for variable-aperture zooms)
+  minAperture: number;            // smallest aperture (largest f-number)
   af: boolean;
   ois: boolean;
   wr: boolean;
-  weightG: number;
-  diameterMm: number;
-  lengthMm: number;
-  filterMm: number;
-  minFocusDistanceCm: number;
-  priceApproxCNY: number | null;
+  weightG: number;                // weight in grams
+  diameterMm: number;             // max diameter in mm
+  lengthMm: number;               // length in mm
+  filterMm: number;               // filter thread diameter in mm
+  minFocusDistanceCm: number;     // minimum focus distance in cm
+  // priceApproxCNY: number | null; -- deferred, not planned for any near-term phase
   releaseYear: number;
   officialUrl?: string;
-  mtfImageUrl?: string;              // 二期填充，MVP 阶段留空
+  mtfImageUrl?: string;           // phase 2 — leave empty for MVP
 }
