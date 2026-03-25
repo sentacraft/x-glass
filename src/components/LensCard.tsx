@@ -1,0 +1,92 @@
+'use client';
+
+import { useTranslations } from 'next-intl';
+import type { Lens } from '@/lib/types';
+
+interface Props {
+  lens: Lens;
+  isSelected: boolean;
+  selectionDisabled: boolean;
+  onToggle: () => void;
+}
+
+export default function LensCard({ lens, isSelected, selectionDisabled, onToggle }: Props) {
+  const t = useTranslations('LensList');
+  const isZoom = lens.focalLengthMax !== undefined;
+
+  const focalDisplay = isZoom
+    ? `${lens.focalLength}–${lens.focalLengthMax}mm`
+    : `${lens.focalLength}mm`;
+
+  const equivDisplay = isZoom
+    ? `${lens.focalLengthEquiv}–${Math.round(lens.focalLengthMax! * 1.5)}mm`
+    : `${lens.focalLengthEquiv}mm`;
+
+  return (
+    <div
+      className={`rounded-xl border bg-white dark:bg-zinc-900 p-4 flex flex-col gap-3 transition-all ${
+        isSelected
+          ? 'border-blue-500 ring-1 ring-blue-500'
+          : 'border-zinc-200 dark:border-zinc-800'
+      }`}
+    >
+      {/* Header */}
+      <div className="flex items-start justify-between gap-2">
+        <div className="min-w-0">
+          <p className="text-xs text-zinc-500 dark:text-zinc-400 truncate">
+            {lens.brand}
+            {lens.series ? ` · ${lens.series}` : ''}
+          </p>
+          <h3 className="font-semibold text-sm text-zinc-900 dark:text-zinc-50 leading-snug mt-0.5">
+            {lens.model}
+            {lens.generation !== undefined && (
+              <span className="font-normal text-zinc-400 dark:text-zinc-500">
+                {' '}
+                gen{lens.generation}
+              </span>
+            )}
+          </h3>
+        </div>
+        <div className="flex gap-1 shrink-0 flex-wrap justify-end max-w-[80px]">
+          {lens.af && <Chip>AF</Chip>}
+          {lens.ois && <Chip>OIS</Chip>}
+          {lens.wr && <Chip>WR</Chip>}
+        </div>
+      </div>
+
+      {/* Specs */}
+      <dl className="text-xs text-zinc-600 dark:text-zinc-400 grid grid-cols-2 gap-y-1">
+        <div>
+          <span>{focalDisplay}</span>
+          <span className="text-zinc-400 dark:text-zinc-500"> ({equivDisplay})</span>
+        </div>
+        <div className="text-right">f/{lens.maxAperture}</div>
+        <div>{lens.weightG}g</div>
+        <div className="text-right">{lens.releaseYear}</div>
+      </dl>
+
+      {/* Compare toggle */}
+      <button
+        onClick={onToggle}
+        disabled={selectionDisabled}
+        className={`mt-auto text-xs font-medium px-3 py-1.5 rounded-lg w-full transition-colors ${
+          isSelected
+            ? 'bg-blue-500 text-white hover:bg-blue-600'
+            : selectionDisabled
+              ? 'bg-zinc-100 dark:bg-zinc-800 text-zinc-400 dark:text-zinc-600 cursor-not-allowed'
+              : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-zinc-700'
+        }`}
+      >
+        {isSelected ? t('removeFromCompare') : t('addToCompare')}
+      </button>
+    </div>
+  );
+}
+
+function Chip({ children }: { children: React.ReactNode }) {
+  return (
+    <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-md bg-zinc-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400">
+      {children}
+    </span>
+  );
+}

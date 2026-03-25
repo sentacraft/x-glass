@@ -8,18 +8,26 @@
     "compare": "Compare"
   },
   "LensList": {
-    "title": "Lens List",
-    "filter": "Filter",
+    "title": "Lenses",
     "brand": "Brand",
-    "focalLength": "Focal Length",
-    "maxAperture": "Max Aperture",
+    "allBrands": "All Brands",
+    "lensType": "Type",
+    "allTypes": "All",
+    "primes": "Primes",
+    "zooms": "Zooms",
+    "focalRange": "Focal Range",
+    "allRanges": "All",
+    "wide": "Wide (≤35mm equiv)",
+    "standard": "Standard (35–85mm)",
+    "tele": "Tele (>85mm)",
     "afOnly": "AF Only",
     "wrOnly": "WR Only",
-    "allBrands": "All Brands",
     "addToCompare": "Add to Compare",
     "removeFromCompare": "Remove",
     "compareCount": "{count} selected",
-    "goCompare": "Compare"
+    "goCompare": "Compare ({count})",
+    "resultsCount": "{count} lenses",
+    "noResults": "No lenses match your filters."
   },
   "LensDetail": {
     "focalLengthEquiv": "Equiv. Focal Length",
