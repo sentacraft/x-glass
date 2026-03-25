@@ -1,6 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
+import { Link } from '@/i18n/navigation';
 import type { Lens } from '@/lib/types';
 
 interface Props {
@@ -24,61 +25,69 @@ export default function LensCard({ lens, isSelected, selectionDisabled, onToggle
 
   return (
     <div
-      className={`rounded-xl border bg-white dark:bg-zinc-900 p-4 flex flex-col gap-3 transition-all ${
+      className={`h-full rounded-xl border bg-white dark:bg-zinc-900 flex flex-col transition-all ${
         isSelected
           ? 'border-blue-500 ring-1 ring-blue-500'
           : 'border-zinc-200 dark:border-zinc-800'
       }`}
     >
-      {/* Header */}
-      <div className="flex items-start justify-between gap-2">
-        <div className="min-w-0">
-          <p className="text-xs text-zinc-500 dark:text-zinc-400 truncate">
-            {lens.brand}
-            {lens.series ? ` · ${lens.series}` : ''}
-          </p>
-          <h3 className="font-semibold text-sm text-zinc-900 dark:text-zinc-50 leading-snug mt-0.5">
-            {lens.model}
-            {lens.generation !== undefined && (
-              <span className="font-normal text-zinc-400 dark:text-zinc-500">
-                {' '}
-                gen{lens.generation}
-              </span>
-            )}
-          </h3>
+      {/* Clickable detail area */}
+      <Link
+        href={`/lenses/${lens.id}`}
+        className="flex-1 p-4 flex flex-col gap-3 hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors rounded-t-xl"
+      >
+        {/* Header */}
+        <div className="flex items-start justify-between gap-2">
+          <div className="min-w-0">
+            <p className="text-xs text-zinc-500 dark:text-zinc-400 truncate">
+              {lens.brand}
+              {lens.series ? ` · ${lens.series}` : ''}
+            </p>
+            <h3 className="font-semibold text-sm text-zinc-900 dark:text-zinc-50 leading-snug mt-0.5">
+              {lens.model}
+              {lens.generation !== undefined && (
+                <span className="font-normal text-zinc-400 dark:text-zinc-500">
+                  {' '}
+                  gen{lens.generation}
+                </span>
+              )}
+            </h3>
+          </div>
+          <div className="flex gap-1 shrink-0 flex-wrap justify-end max-w-[80px]">
+            {lens.af && <Chip>AF</Chip>}
+            {lens.ois && <Chip>OIS</Chip>}
+            {lens.wr && <Chip>WR</Chip>}
+          </div>
         </div>
-        <div className="flex gap-1 shrink-0 flex-wrap justify-end max-w-[80px]">
-          {lens.af && <Chip>AF</Chip>}
-          {lens.ois && <Chip>OIS</Chip>}
-          {lens.wr && <Chip>WR</Chip>}
-        </div>
-      </div>
 
-      {/* Specs */}
-      <dl className="text-xs text-zinc-600 dark:text-zinc-400 grid grid-cols-2 gap-y-1">
-        <div>
-          <span>{focalDisplay}</span>
-          <span className="text-zinc-400 dark:text-zinc-500"> ({equivDisplay})</span>
-        </div>
-        <div className="text-right">f/{lens.maxAperture}</div>
-        <div>{lens.weightG}g</div>
-        <div className="text-right">{lens.releaseYear}</div>
-      </dl>
+        {/* Specs */}
+        <dl className="text-xs text-zinc-600 dark:text-zinc-400 grid grid-cols-2 gap-y-1">
+          <div>
+            <span>{focalDisplay}</span>
+            <span className="text-zinc-400 dark:text-zinc-500"> ({equivDisplay})</span>
+          </div>
+          <div className="text-right">f/{lens.maxAperture}</div>
+          <div>{lens.weightG}g</div>
+          <div className="text-right">{lens.releaseYear}</div>
+        </dl>
+      </Link>
 
       {/* Compare toggle */}
-      <button
-        onClick={onToggle}
-        disabled={selectionDisabled}
-        className={`mt-auto text-xs font-medium px-3 py-1.5 rounded-lg w-full transition-colors ${
-          isSelected
-            ? 'bg-blue-500 text-white hover:bg-blue-600'
-            : selectionDisabled
-              ? 'bg-zinc-100 dark:bg-zinc-800 text-zinc-400 dark:text-zinc-600 cursor-not-allowed'
-              : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-zinc-700'
-        }`}
-      >
-        {isSelected ? t('removeFromCompare') : t('addToCompare')}
-      </button>
+      <div className="mt-auto px-4 pb-4">
+        <button
+          onClick={onToggle}
+          disabled={selectionDisabled}
+          className={`text-xs font-medium px-3 py-1.5 rounded-lg w-full transition-colors ${
+            isSelected
+              ? 'bg-blue-500 text-white hover:bg-blue-600'
+              : selectionDisabled
+                ? 'bg-zinc-100 dark:bg-zinc-800 text-zinc-400 dark:text-zinc-600 cursor-not-allowed'
+                : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-zinc-700'
+          }`}
+        >
+          {isSelected ? t('removeFromCompare') : t('addToCompare')}
+        </button>
+      </div>
     </div>
   );
 }

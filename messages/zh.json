@@ -59,11 +59,16 @@
     "releaseYear": "发布年份",
     "yes": "有",
     "no": "无",
-    "unknown": "未知"
+    "unknown": "未知",
+    "backToLenses": "返回列表",
+    "addToCompare": "加入对比",
+    "officialSite": "官网",
+    "notFound": "未找到该镜头。"
   },
   "Compare": {
     "title": "对比",
     "backToLenses": "返回列表",
-    "noLenses": "未选择镜头，请返回列表选择要对比的镜头。"
+    "noLenses": "未选择镜头，请返回列表选择要对比的镜头。",
+    "officialSite": "官网"
   }
 }

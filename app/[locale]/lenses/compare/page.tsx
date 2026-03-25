@@ -1,7 +1,29 @@
+import type { Metadata } from 'next';
+import Image from 'next/image';
 import { getTranslations } from 'next-intl/server';
-import { allLenses } from '@/lib/lenses';
+import { allLenses, getLensUrl } from '@/lib/lenses';
 import { Link } from '@/i18n/navigation';
 import type { Lens } from '@/lib/types';
+
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: Promise<{ ids?: string }>;
+}): Promise<Metadata> {
+  const { ids } = await searchParams;
+  const idList = (ids ?? '').split(',').filter(Boolean).slice(0, 4);
+  const lenses = idList
+    .map((id) => allLenses.find((l) => l.id === id))
+    .filter((l): l is Lens => l !== undefined);
+
+  if (lenses.length < 2) return { title: 'Compare' };
+
+  const title = lenses.map((l) => l.model).join(' vs ');
+  return {
+    title,
+    openGraph: { title: `${title} | X Glass` },
+  };
+}
 
 export default async function ComparePage({
   searchParams,
@@ -149,23 +171,80 @@ export default async function ComparePage({
           <thead>
             <tr className="border-b border-zinc-200 dark:border-zinc-800">
               <th className="w-36 px-4 py-3 bg-zinc-50 dark:bg-zinc-900/60" />
-              {lenses.map((lens) => (
-                <th
-                  key={lens.id}
-                  className="px-4 py-3 text-left bg-zinc-50 dark:bg-zinc-900/60 min-w-[180px]"
-                >
-                  <p className="text-xs font-normal text-zinc-500 dark:text-zinc-400">
-                    {lens.brand}
-                    {lens.series ? ` · ${lens.series}` : ''}
-                  </p>
-                  <p className="font-semibold text-zinc-900 dark:text-zinc-50">{lens.model}</p>
-                  {lens.generation !== undefined && (
-                    <p className="text-xs font-normal text-zinc-400 dark:text-zinc-500">
-                      gen{lens.generation}
+              {lenses.map((lens) => {
+                const url = getLensUrl(lens);
+                return (
+                  <th
+                    key={lens.id}
+                    className="px-4 py-4 text-left bg-zinc-50 dark:bg-zinc-900/60 min-w-[180px]"
+                  >
+                    {/* Product image */}
+                    <div className="mb-3 w-full aspect-square max-w-[140px] rounded-lg overflow-hidden bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center">
+                      {lens.imageUrl ? (
+                        <Image
+                          src={lens.imageUrl}
+                          alt={lens.model}
+                          width={140}
+                          height={140}
+                          className="object-contain w-full h-full"
+                        />
+                      ) : (
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="1.2"
+                          className="w-12 h-12 text-zinc-300 dark:text-zinc-600"
+                        >
+                          <circle cx="12" cy="12" r="4" />
+                          <circle cx="12" cy="12" r="8" />
+                          <circle cx="12" cy="12" r="10.5" />
+                          <line x1="2" y1="12" x2="4" y2="12" />
+                          <line x1="20" y1="12" x2="22" y2="12" />
+                        </svg>
+                      )}
+                    </div>
+
+                    {/* Brand / series */}
+                    <p className="text-xs font-normal text-zinc-500 dark:text-zinc-400">
+                      {lens.brand}
+                      {lens.series ? ` · ${lens.series}` : ''}
                     </p>
-                  )}
-                </th>
-              ))}
+
+                    {/* Model name */}
+                    <p className="font-semibold text-zinc-900 dark:text-zinc-50">{lens.model}</p>
+
+                    {lens.generation !== undefined && (
+                      <p className="text-xs font-normal text-zinc-400 dark:text-zinc-500">
+                        gen{lens.generation}
+                      </p>
+                    )}
+
+                    {/* Official site link */}
+                    {url && (
+                      <a
+                        href={url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="mt-2 inline-flex items-center gap-1 text-xs text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300 transition-colors"
+                      >
+                        {t('officialSite')}
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 12 12"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="1.5"
+                          className="w-3 h-3"
+                        >
+                          <path d="M2 10L10 2M10 2H5M10 2v5" />
+                        </svg>
+                      </a>
+                    )}
+                  </th>
+                );
+              })}
             </tr>
           </thead>
 

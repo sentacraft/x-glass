@@ -17,8 +17,18 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'X Glass',
-  description: '富士 X 卡口镜头对比工具',
+  title: {
+    default: 'X Glass',
+    template: '%s | X Glass',
+  },
+  description: 'Fujifilm X-Mount lens comparison tool — filter, compare specs, and convert focal lengths. 富士 X 卡口镜头对比工具。',
+  openGraph: {
+    siteName: 'X Glass',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary',
+  },
 };
 
 export function generateStaticParams() {

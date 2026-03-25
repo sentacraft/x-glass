@@ -59,11 +59,16 @@
     "releaseYear": "Release Year",
     "yes": "Yes",
     "no": "No",
-    "unknown": "N/A"
+    "unknown": "N/A",
+    "backToLenses": "Back to Lenses",
+    "addToCompare": "Add to Compare",
+    "officialSite": "Official site",
+    "notFound": "Lens not found."
   },
   "Compare": {
     "title": "Compare",
     "backToLenses": "Back to Lenses",
-    "noLenses": "No lenses selected. Go back and pick some to compare."
+    "noLenses": "No lenses selected. Go back and pick some to compare.",
+    "officialSite": "Official site"
   }
 }

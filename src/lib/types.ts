@@ -20,5 +20,6 @@ export interface Lens {
   // priceApproxCNY: number | null; -- deferred, not planned for any near-term phase
   releaseYear: number;
   officialUrl?: string;
+  imageUrl?: string;              // main product image (front view)
   mtfImageUrl?: string;           // phase 2 — leave empty for MVP
 }

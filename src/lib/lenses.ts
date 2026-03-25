@@ -43,6 +43,18 @@ export function getUniqueBrands(lenses: Lens[]): string[] {
   return [...new Set(lenses.map((l) => l.brand))].sort();
 }
 
+// Brand-level catalog URLs (English/global). Used as fallback when officialUrl is absent.
+const BRAND_URLS: Record<string, string> = {
+  Fujifilm: 'https://fujifilm-x.com/global/products/lenses/',
+  Viltrox: 'https://viltrox.com/',
+  Sigma: 'https://www.sigma-global.com/en/lenses/categories/mirrorless/fujifilm-x.html',
+  Tamron: 'https://www.tamron.com/en/lenses/',
+};
+
+export function getLensUrl(lens: Lens): string | undefined {
+  return lens.officialUrl ?? BRAND_URLS[lens.brand];
+}
+
 export type SortKey = 'focalLength' | 'maxAperture' | 'weightG' | 'releaseYear';
 
 export const defaultSort: SortKey = 'focalLength';

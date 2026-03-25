@@ -16,7 +16,9 @@
     "lengthMm": 58.4,
     "filterMm": 58,
     "minFocusDistanceCm": 18,
-    "releaseYear": 2012
+    "releaseYear": 2012,
+    "imageUrl": "https://fujifilm-x.b-cdn.net/wp-content/uploads/2019/10/XF14mmF2.8-R-1.png",
+    "officialUrl": "https://fujifilm-x.com/global/products/lenses/xf14mmf28-r/"
   },
   {
     "id": "xf16mm-f14-r-wr",
@@ -35,7 +37,9 @@
     "lengthMm": 73.0,
     "filterMm": 67,
     "minFocusDistanceCm": 15,
-    "releaseYear": 2015
+    "releaseYear": 2015,
+    "imageUrl": "/next.svg",
+    "officialUrl": "https://fujifilm-x.com/global/products/lenses/xf16mmf14-r-wr/"
   },
   {
     "id": "xf18mm-f2-r",
@@ -54,7 +58,9 @@
     "lengthMm": 41.0,
     "filterMm": 52,
     "minFocusDistanceCm": 18,
-    "releaseYear": 2012
+    "releaseYear": 2012,
+    "imageUrl": "/next.svg",
+    "officialUrl": "https://fujifilm-x.com/global/products/lenses/xf18mmf2-r/"
   },
   {
     "id": "xf23mm-f14-r",
@@ -74,7 +80,9 @@
     "lengthMm": 62.6,
     "filterMm": 62,
     "minFocusDistanceCm": 28,
-    "releaseYear": 2013
+    "releaseYear": 2013,
+    "imageUrl": "/next.svg",
+    "officialUrl": "https://fujifilm-x.com/global/products/discontinued-lenses/xf23mmf14-r/"
   },
   {
     "id": "xf23mm-f14-r-lm-wr",
@@ -94,7 +102,9 @@
     "lengthMm": 74.4,
     "filterMm": 62,
     "minFocusDistanceCm": 19,
-    "releaseYear": 2022
+    "releaseYear": 2022,
+    "imageUrl": "/next.svg",
+    "officialUrl": "https://fujifilm-x.com/global/products/lenses/xf23mmf14-r-lm-wr/"
   },
   {
     "id": "xf23mm-f2-r-wr",
@@ -113,7 +123,9 @@
     "lengthMm": 55.5,
     "filterMm": 43,
     "minFocusDistanceCm": 22,
-    "releaseYear": 2016
+    "releaseYear": 2016,
+    "imageUrl": "/next.svg",
+    "officialUrl": "https://fujifilm-x.com/global/products/lenses/xf23mmf2-r-wr/"
   },
   {
     "id": "xf27mm-f28-r-wr",
@@ -132,7 +144,9 @@
     "lengthMm": 23.0,
     "filterMm": 39,
     "minFocusDistanceCm": 34,
-    "releaseYear": 2021
+    "releaseYear": 2021,
+    "imageUrl": "/next.svg",
+    "officialUrl": "https://fujifilm-x.com/global/products/lenses/xf27mmf28-r-wr/"
   },
   {
     "id": "xf35mm-f14-r",
@@ -152,7 +166,9 @@
     "lengthMm": 54.9,
     "filterMm": 52,
     "minFocusDistanceCm": 28,
-    "releaseYear": 2012
+    "releaseYear": 2012,
+    "imageUrl": "/next.svg",
+    "officialUrl": "https://fujifilm-x.com/global/products/lenses/xf35mmf14-r/"
   },
   {
     "id": "xf35mm-f2-r-wr",
@@ -171,7 +187,9 @@
     "lengthMm": 45.9,
     "filterMm": 43,
     "minFocusDistanceCm": 35,
-    "releaseYear": 2015
+    "releaseYear": 2015,
+    "imageUrl": "/next.svg",
+    "officialUrl": "https://fujifilm-x.com/global/products/lenses/xf35mmf2-r-wr/"
   },
   {
     "id": "xf50mm-f10-r-wr",
@@ -190,7 +208,9 @@
     "lengthMm": 73.5,
     "filterMm": 77,
     "minFocusDistanceCm": 70,
-    "releaseYear": 2020
+    "releaseYear": 2020,
+    "imageUrl": "/next.svg",
+    "officialUrl": "https://fujifilm-x.com/global/products/lenses/"
   },
   {
     "id": "xf50mm-f2-r-wr",
@@ -209,7 +229,9 @@
     "lengthMm": 49.4,
     "filterMm": 46,
     "minFocusDistanceCm": 35,
-    "releaseYear": 2017
+    "releaseYear": 2017,
+    "imageUrl": "/next.svg",
+    "officialUrl": "https://fujifilm-x.com/global/products/lenses/xf50mmf2-r-wr/"
   },
   {
     "id": "xf56mm-f12-r",
@@ -229,7 +251,9 @@
     "lengthMm": 69.7,
     "filterMm": 62,
     "minFocusDistanceCm": 70,
-    "releaseYear": 2014
+    "releaseYear": 2014,
+    "imageUrl": "/next.svg",
+    "officialUrl": "https://fujifilm-x.com/global/products/discontinued-lenses/xf56mmf12-r/"
   },
   {
     "id": "xf56mm-f12-r-wr",
@@ -249,7 +273,9 @@
     "lengthMm": 78.4,
     "filterMm": 67,
     "minFocusDistanceCm": 50,
-    "releaseYear": 2022
+    "releaseYear": 2022,
+    "imageUrl": "/next.svg",
+    "officialUrl": "https://fujifilm-x.com/global/products/lenses/"
   },
   {
     "id": "xf80mm-f28-macro-ois-wr",
@@ -268,7 +294,9 @@
     "lengthMm": 106.0,
     "filterMm": 62,
     "minFocusDistanceCm": 25,
-    "releaseYear": 2017
+    "releaseYear": 2017,
+    "imageUrl": "/next.svg",
+    "officialUrl": "https://fujifilm-x.com/global/products/lenses/"
   },
   {
     "id": "xf90mm-f2-lm-wr",
@@ -287,7 +315,9 @@
     "lengthMm": 105.6,
     "filterMm": 62,
     "minFocusDistanceCm": 60,
-    "releaseYear": 2015
+    "releaseYear": 2015,
+    "imageUrl": "/next.svg",
+    "officialUrl": "https://fujifilm-x.com/global/products/lenses/xf90mmf2-r-lm-wr/"
   },
   {
     "id": "xf10-24mm-f4-ois-wr",
@@ -307,7 +337,9 @@
     "lengthMm": 87.6,
     "filterMm": 72,
     "minFocusDistanceCm": 24,
-    "releaseYear": 2018
+    "releaseYear": 2018,
+    "imageUrl": "/next.svg",
+    "officialUrl": "https://fujifilm-x.com/global/products/lenses/xf10-24mmf4-r-ois-wr/"
   },
   {
     "id": "xf16-55mm-f28-lm-wr",
@@ -327,7 +359,9 @@
     "lengthMm": 106.7,
     "filterMm": 77,
     "minFocusDistanceCm": 30,
-    "releaseYear": 2015
+    "releaseYear": 2015,
+    "imageUrl": "/next.svg",
+    "officialUrl": "https://fujifilm-x.com/global/products/lenses/"
   },
   {
     "id": "xf18-55mm-f28-4-lm-ois",
@@ -347,7 +381,9 @@
     "lengthMm": 70.4,
     "filterMm": 58,
     "minFocusDistanceCm": 35,
-    "releaseYear": 2012
+    "releaseYear": 2012,
+    "imageUrl": "/next.svg",
+    "officialUrl": "https://fujifilm-x.com/global/products/lenses/"
   },
   {
     "id": "xf50-140mm-f28-lm-ois-wr",
@@ -367,7 +403,9 @@
     "lengthMm": 175.9,
     "filterMm": 72,
     "minFocusDistanceCm": 100,
-    "releaseYear": 2014
+    "releaseYear": 2014,
+    "imageUrl": "/next.svg",
+    "officialUrl": "https://fujifilm-x.com/global/products/lenses/"
   },
   {
     "id": "xf70-300mm-f4-56-lm-ois-wr",
@@ -387,7 +425,9 @@
     "lengthMm": 132.5,
     "filterMm": 67,
     "minFocusDistanceCm": 83,
-    "releaseYear": 2021
+    "releaseYear": 2021,
+    "imageUrl": "/next.svg",
+    "officialUrl": "https://fujifilm-x.com/global/products/lenses/"
   },
   {
     "id": "xf100-400mm-f45-56-lm-ois-wr",
@@ -407,7 +447,9 @@
     "lengthMm": 210.5,
     "filterMm": 77,
     "minFocusDistanceCm": 175,
-    "releaseYear": 2015
+    "releaseYear": 2015,
+    "imageUrl": "/next.svg",
+    "officialUrl": "https://fujifilm-x.com/global/products/lenses/"
   },
   {
     "id": "xc15-45mm-f35-56-ois-pz",
@@ -427,7 +469,9 @@
     "lengthMm": 44.2,
     "filterMm": 52,
     "minFocusDistanceCm": 13,
-    "releaseYear": 2018
+    "releaseYear": 2018,
+    "imageUrl": "/next.svg",
+    "officialUrl": "https://fujifilm-x.com/global/products/lenses/"
   },
   {
     "id": "xc35mm-f2",
@@ -446,7 +490,9 @@
     "lengthMm": 46.9,
     "filterMm": 43,
     "minFocusDistanceCm": 35,
-    "releaseYear": 2020
+    "releaseYear": 2020,
+    "imageUrl": "/next.svg",
+    "officialUrl": "https://fujifilm-x.com/global/products/lenses/xc35mmf2/"
   },
   {
     "id": "viltrox-af-13mm-f14-xf",
@@ -465,7 +511,9 @@
     "lengthMm": 68.0,
     "filterMm": 62,
     "minFocusDistanceCm": 19,
-    "releaseYear": 2023
+    "releaseYear": 2023,
+    "imageUrl": "/next.svg",
+    "officialUrl": "https://viltrox.com/"
   },
   {
     "id": "viltrox-af-23mm-f14-xf",
@@ -484,7 +532,9 @@
     "lengthMm": 72.0,
     "filterMm": 62,
     "minFocusDistanceCm": 19,
-    "releaseYear": 2020
+    "releaseYear": 2020,
+    "imageUrl": "/next.svg",
+    "officialUrl": "https://viltrox.com/"
   },
   {
     "id": "viltrox-af-27mm-f12-xf-pro",
@@ -503,7 +553,9 @@
     "lengthMm": 73.0,
     "filterMm": 62,
     "minFocusDistanceCm": 35,
-    "releaseYear": 2023
+    "releaseYear": 2023,
+    "imageUrl": "/next.svg",
+    "officialUrl": "https://viltrox.com/"
   },
   {
     "id": "viltrox-af-33mm-f14-xf",
@@ -522,7 +574,9 @@
     "lengthMm": 69.0,
     "filterMm": 62,
     "minFocusDistanceCm": 35,
-    "releaseYear": 2021
+    "releaseYear": 2021,
+    "imageUrl": "/next.svg",
+    "officialUrl": "https://viltrox.com/"
   },
   {
     "id": "viltrox-af-56mm-f14-xf",
@@ -541,7 +595,9 @@
     "lengthMm": 72.0,
     "filterMm": 62,
     "minFocusDistanceCm": 47,
-    "releaseYear": 2020
+    "releaseYear": 2020,
+    "imageUrl": "/next.svg",
+    "officialUrl": "https://viltrox.com/"
   },
   {
     "id": "viltrox-af-75mm-f12-xf-pro",
@@ -560,7 +616,9 @@
     "lengthMm": 76.0,
     "filterMm": 67,
     "minFocusDistanceCm": 55,
-    "releaseYear": 2023
+    "releaseYear": 2023,
+    "imageUrl": "/next.svg",
+    "officialUrl": "https://viltrox.com/"
   },
   {
     "id": "viltrox-af-85mm-f18-xf-ii",
@@ -579,7 +637,9 @@
     "lengthMm": 78.0,
     "filterMm": 67,
     "minFocusDistanceCm": 90,
-    "releaseYear": 2021
+    "releaseYear": 2021,
+    "imageUrl": "/next.svg",
+    "officialUrl": "https://viltrox.com/"
   },
   {
     "id": "sigma-10-18mm-f28-dc-dn-c",
@@ -599,7 +659,9 @@
     "lengthMm": 68.8,
     "filterMm": 67,
     "minFocusDistanceCm": 11.6,
-    "releaseYear": 2022
+    "releaseYear": 2022,
+    "imageUrl": "/next.svg",
+    "officialUrl": "https://www.sigma-global.com/en/lenses/categories/mirrorless/fujifilm-x.html"
   },
   {
     "id": "sigma-16mm-f14-dc-dn-c",
@@ -618,7 +680,9 @@
     "lengthMm": 92.3,
     "filterMm": 67,
     "minFocusDistanceCm": 25,
-    "releaseYear": 2018
+    "releaseYear": 2018,
+    "imageUrl": "/next.svg",
+    "officialUrl": "https://www.sigma-global.com/en/lenses/categories/mirrorless/fujifilm-x.html"
   },
   {
     "id": "sigma-18-50mm-f28-dc-dn-c",
@@ -638,7 +702,9 @@
     "lengthMm": 76.8,
     "filterMm": 55,
     "minFocusDistanceCm": 12.1,
-    "releaseYear": 2021
+    "releaseYear": 2021,
+    "imageUrl": "/next.svg",
+    "officialUrl": "https://www.sigma-global.com/en/lenses/categories/mirrorless/fujifilm-x.html"
   },
   {
     "id": "sigma-23mm-f14-dc-dn-c",
@@ -657,7 +723,9 @@
     "lengthMm": 74.0,
     "filterMm": 62,
     "minFocusDistanceCm": 29,
-    "releaseYear": 2023
+    "releaseYear": 2023,
+    "imageUrl": "/next.svg",
+    "officialUrl": "https://www.sigma-global.com/en/lenses/categories/mirrorless/fujifilm-x.html"
   },
   {
     "id": "sigma-30mm-f14-dc-dn-c",
@@ -676,7 +744,9 @@
     "lengthMm": 73.3,
     "filterMm": 52,
     "minFocusDistanceCm": 30,
-    "releaseYear": 2018
+    "releaseYear": 2018,
+    "imageUrl": "/next.svg",
+    "officialUrl": "https://www.sigma-global.com/en/lenses/categories/mirrorless/fujifilm-x.html"
   },
   {
     "id": "sigma-56mm-f14-dc-dn-c",
@@ -695,7 +765,9 @@
     "lengthMm": 59.5,
     "filterMm": 55,
     "minFocusDistanceCm": 50,
-    "releaseYear": 2018
+    "releaseYear": 2018,
+    "imageUrl": "/next.svg",
+    "officialUrl": "https://www.sigma-global.com/en/lenses/categories/mirrorless/fujifilm-x.html"
   },
   {
     "id": "tamron-11-20mm-f28-di-iii-a-rxd",
@@ -715,7 +787,9 @@
     "lengthMm": 86.2,
     "filterMm": 67,
     "minFocusDistanceCm": 15,
-    "releaseYear": 2021
+    "releaseYear": 2021,
+    "imageUrl": "/next.svg",
+    "officialUrl": "https://www.tamron.com/en/lenses/"
   },
   {
     "id": "tamron-17-70mm-f28-di-iii-a-vc-rxd",
@@ -735,7 +809,9 @@
     "lengthMm": 119.3,
     "filterMm": 67,
     "minFocusDistanceCm": 19,
-    "releaseYear": 2021
+    "releaseYear": 2021,
+    "imageUrl": "/next.svg",
+    "officialUrl": "https://www.tamron.com/en/lenses/"
   },
   {
     "id": "tamron-18-300mm-f35-63-di-iii-a-vc-vxd",
@@ -755,7 +831,9 @@
     "lengthMm": 125.6,
     "filterMm": 67,
     "minFocusDistanceCm": 15,
-    "releaseYear": 2022
+    "releaseYear": 2022,
+    "imageUrl": "/next.svg",
+    "officialUrl": "https://www.tamron.com/en/lenses/"
   },
   {
     "id": "tamron-150-500mm-f5-67-di-iii-vc-vxd",
@@ -775,6 +853,8 @@
     "lengthMm": 209.6,
     "filterMm": 82,
     "minFocusDistanceCm": 60,
-    "releaseYear": 2022
+    "releaseYear": 2022,
+    "imageUrl": "/next.svg",
+    "officialUrl": "https://www.tamron.com/en/lenses/"
   }
 ]
