@@ -10,7 +10,9 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'LensList' });
-  return { title: t('title') };
+  return { 
+    title: t('title') 
+  };
 }
 
 export default function LensesPage() {

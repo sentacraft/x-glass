@@ -53,16 +53,6 @@ export default async function ComparePage({
     );
   }
 
-  // Precompute best values (highlight direction: min or max)
-  const best = {
-    maxAperture: Math.min(...lenses.map((l) => l.maxAperture)),
-    weightG: Math.min(...lenses.map((l) => l.weightG)),
-    minFocusDistanceCm: Math.min(...lenses.map((l) => l.minFocusDistanceCm)),
-    releaseYear: Math.max(...lenses.map((l) => l.releaseYear)),
-  };
-
-  type NumericBestKey = keyof typeof best;
-
   type Row =
     | { kind: 'text'; label: string; getValue: (l: Lens) => string }
     | {
@@ -70,7 +60,7 @@ export default async function ComparePage({
         label: string;
         getValue: (l: Lens) => number;
         format: (v: number) => string;
-        bestKey: NumericBestKey;
+        bestDir: 'min' | 'max';
       }
     | { kind: 'bool'; label: string; getValue: (l: Lens) => boolean };
 
@@ -95,7 +85,7 @@ export default async function ComparePage({
       label: td('maxAperture'),
       getValue: (l) => l.maxAperture,
       format: (v) => `f/${v}`,
-      bestKey: 'maxAperture',
+      bestDir: 'min',
     },
     {
       kind: 'bool',
@@ -117,7 +107,7 @@ export default async function ComparePage({
       label: td('weight'),
       getValue: (l) => l.weightG,
       format: (v) => `${v}g`,
-      bestKey: 'weightG',
+      bestDir: 'min',
     },
     {
       kind: 'text',
@@ -134,14 +124,14 @@ export default async function ComparePage({
       label: td('minFocusDist'),
       getValue: (l) => l.minFocusDistanceCm,
       format: (v) => `${v}cm`,
-      bestKey: 'minFocusDistanceCm',
+      bestDir: 'min',
     },
     {
       kind: 'numeric',
       label: td('releaseYear'),
       getValue: (l) => l.releaseYear,
       format: (v) => String(v),
-      bestKey: 'releaseYear',
+      bestDir: 'max',
     },
   ];
 
@@ -271,7 +261,9 @@ export default async function ComparePage({
 
                   if (row.kind === 'numeric') {
                     const val = row.getValue(lens);
-                    const isBest = val === best[row.bestKey];
+                    const vals = lenses.map(row.getValue);
+                    const bestVal = row.bestDir === 'min' ? Math.min(...vals) : Math.max(...vals);
+                    const isBest = val === bestVal;
                     return (
                       <td
                         key={lens.id}
