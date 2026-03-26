@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { useTranslations } from 'next-intl';
-import { Link } from '@/i18n/navigation';
-import type { Lens } from '@/lib/types';
-import { formatFocalDisplay, formatEquivDisplay } from '@/lib/lenses';
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
+import type { Lens } from "@/lib/types";
+import { formatFocalDisplay, formatEquivDisplay } from "@/lib/lenses";
 
 interface Props {
   lens: Lens;
@@ -12,8 +12,13 @@ interface Props {
   onToggle: () => void;
 }
 
-export default function LensCard({ lens, isSelected, selectionDisabled, onToggle }: Props) {
-  const t = useTranslations('LensList');
+export default function LensCard({
+  lens,
+  isSelected,
+  selectionDisabled,
+  onToggle,
+}: Props) {
+  const t = useTranslations("LensList");
   const focalDisplay = formatFocalDisplay(lens);
   const equivDisplay = formatEquivDisplay(lens);
 
@@ -21,8 +26,8 @@ export default function LensCard({ lens, isSelected, selectionDisabled, onToggle
     <div
       className={`h-full rounded-xl border bg-white dark:bg-zinc-900 flex flex-col transition-all ${
         isSelected
-          ? 'border-blue-500 ring-1 ring-blue-500'
-          : 'border-zinc-200 dark:border-zinc-800'
+          ? "border-blue-500 ring-1 ring-blue-500"
+          : "border-zinc-200 dark:border-zinc-800"
       }`}
     >
       {/* Clickable detail area */}
@@ -35,13 +40,13 @@ export default function LensCard({ lens, isSelected, selectionDisabled, onToggle
           <div className="min-w-0">
             <p className="text-xs text-zinc-500 dark:text-zinc-400 truncate">
               {lens.brand}
-              {lens.series ? ` · ${lens.series}` : ''}
+              {lens.series ? ` · ${lens.series}` : ""}
             </p>
             <h3 className="font-semibold text-sm text-zinc-900 dark:text-zinc-50 leading-snug mt-0.5">
               {lens.model}
               {lens.generation !== undefined && (
                 <span className="font-normal text-zinc-400 dark:text-zinc-500">
-                  {' '}
+                  {" "}
                   gen{lens.generation}
                 </span>
               )}
@@ -58,7 +63,10 @@ export default function LensCard({ lens, isSelected, selectionDisabled, onToggle
         <dl className="text-xs text-zinc-600 dark:text-zinc-400 grid grid-cols-2 gap-y-1">
           <div>
             <span>{focalDisplay}</span>
-            <span className="text-zinc-400 dark:text-zinc-500"> ({equivDisplay})</span>
+            <span className="text-zinc-400 dark:text-zinc-500">
+              {" "}
+              ({equivDisplay})
+            </span>
           </div>
           <div className="text-right">f/{lens.maxAperture}</div>
           <div>{lens.weightG}g</div>
@@ -73,13 +81,13 @@ export default function LensCard({ lens, isSelected, selectionDisabled, onToggle
           disabled={selectionDisabled}
           className={`text-xs font-medium px-3 py-1.5 rounded-lg w-full transition-colors ${
             isSelected
-              ? 'bg-blue-500 text-white hover:bg-blue-600'
+              ? "bg-blue-500 text-white hover:bg-blue-600"
               : selectionDisabled
-                ? 'bg-zinc-100 dark:bg-zinc-800 text-zinc-400 dark:text-zinc-600 cursor-not-allowed'
-                : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-zinc-700'
+                ? "bg-zinc-100 dark:bg-zinc-800 text-zinc-400 dark:text-zinc-600 cursor-not-allowed"
+                : "bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-zinc-700"
           }`}
         >
-          {isSelected ? t('removeFromCompare') : t('addToCompare')}
+          {isSelected ? t("removeFromCompare") : t("addToCompare")}
         </button>
       </div>
     </div>

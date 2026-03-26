@@ -1,16 +1,27 @@
-import type { Metadata } from 'next';
-import Image from 'next/image';
-import { notFound } from 'next/navigation';
-import { getTranslations } from 'next-intl/server';
-import { allLenses, getLensUrl, formatFocalDisplay, formatEquivDisplay } from '@/lib/lenses';
-import { Link } from '@/i18n/navigation';
+import type { Metadata } from "next";
+import Image from "next/image";
+import { notFound } from "next/navigation";
+import { getTranslations } from "next-intl/server";
+import {
+  allLenses,
+  getLensUrl,
+  formatFocalDisplay,
+  formatEquivDisplay,
+} from "@/lib/lenses";
+import { Link } from "@/i18n/navigation";
 
 type Params = Promise<{ locale: string; id: string }>;
 
-export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: Params;
+}): Promise<Metadata> {
   const { id } = await params;
   const lens = allLenses.find((l) => l.id === id);
-  if (!lens) return { title: 'Lens Not Found' };
+  if (!lens) {
+    return { title: "Lens Not Found" };
+  }
   return {
     title: lens.model,
     openGraph: { title: `${lens.model} | X Glass` },
@@ -21,9 +32,11 @@ export default async function LensDetailPage({ params }: { params: Params }) {
   const { id } = await params;
   const lens = allLenses.find((l) => l.id === id);
 
-  if (!lens) notFound();
+  if (!lens) {
+    notFound();
+  }
 
-  const t = await getTranslations('LensDetail');
+  const t = await getTranslations("LensDetail");
   const url = getLensUrl(lens);
   const focalDisplay = formatFocalDisplay(lens);
   const equivDisplay = formatEquivDisplay(lens);
@@ -33,19 +46,25 @@ export default async function LensDetailPage({ params }: { params: Params }) {
     | { label: string; bool: boolean };
 
   const specs: SpecRow[] = [
-    { label: t('brand'), value: `${lens.brand}${lens.series ? ` ${lens.series}` : ''}` },
-    { label: t('focalLength'), value: focalDisplay },
-    { label: t('focalLengthEquiv'), value: equivDisplay },
-    { label: t('maxAperture'), value: `f/${lens.maxAperture}` },
-    { label: t('minAperture'), value: `f/${lens.minAperture}` },
-    { label: t('af'), bool: lens.af },
-    { label: t('ois'), bool: lens.ois },
-    { label: t('wr'), bool: lens.wr },
-    { label: t('weight'), value: `${lens.weightG}g` },
-    { label: t('dimensions'), value: `⌀${lens.diameterMm} × ${lens.lengthMm}mm` },
-    { label: t('filterSize'), value: `${lens.filterMm}mm` },
-    { label: t('minFocusDist'), value: `${lens.minFocusDistanceCm}cm` },
-    { label: t('releaseYear'), value: String(lens.releaseYear) },
+    {
+      label: t("brand"),
+      value: `${lens.brand}${lens.series ? ` ${lens.series}` : ""}`,
+    },
+    { label: t("focalLength"), value: focalDisplay },
+    { label: t("focalLengthEquiv"), value: equivDisplay },
+    { label: t("maxAperture"), value: `f/${lens.maxAperture}` },
+    { label: t("minAperture"), value: `f/${lens.minAperture}` },
+    { label: t("af"), bool: lens.af },
+    { label: t("ois"), bool: lens.ois },
+    { label: t("wr"), bool: lens.wr },
+    { label: t("weight"), value: `${lens.weightG}g` },
+    {
+      label: t("dimensions"),
+      value: `⌀${lens.diameterMm} × ${lens.lengthMm}mm`,
+    },
+    { label: t("filterSize"), value: `${lens.filterMm}mm` },
+    { label: t("minFocusDist"), value: `${lens.minFocusDistanceCm}cm` },
+    { label: t("releaseYear"), value: String(lens.releaseYear) },
   ];
 
   return (
@@ -55,7 +74,7 @@ export default async function LensDetailPage({ params }: { params: Params }) {
         href="/lenses"
         className="self-start text-sm text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 transition-colors"
       >
-        ← {t('backToLenses')}
+        ← {t("backToLenses")}
       </Link>
 
       {/* Main content */}
@@ -96,7 +115,7 @@ export default async function LensDetailPage({ params }: { params: Params }) {
           <div>
             <p className="text-sm text-zinc-500 dark:text-zinc-400">
               {lens.brand}
-              {lens.series ? ` · ${lens.series}` : ''}
+              {lens.series ? ` · ${lens.series}` : ""}
             </p>
             <h1 className="text-2xl font-bold text-zinc-900 dark:text-zinc-50 mt-1">
               {lens.model}
@@ -114,7 +133,7 @@ export default async function LensDetailPage({ params }: { params: Params }) {
               href={`/lenses/compare?ids=${lens.id}`}
               className="inline-flex items-center gap-1.5 text-sm font-medium px-4 py-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600 transition-colors"
             >
-              {t('addToCompare')}
+              {t("addToCompare")}
             </Link>
             {url && (
               <a
@@ -123,7 +142,7 @@ export default async function LensDetailPage({ params }: { params: Params }) {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 text-sm font-medium px-4 py-2 rounded-lg border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors"
               >
-                {t('officialSite')}
+                {t("officialSite")}
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 12 12"
@@ -151,14 +170,16 @@ export default async function LensDetailPage({ params }: { params: Params }) {
                       {row.label}
                     </td>
                     <td className="px-4 py-2.5 text-zinc-700 dark:text-zinc-300">
-                      {'bool' in row ? (
+                      {"bool" in row ? (
                         <span className="inline-flex items-center gap-1.5">
                           <span
                             className={`inline-block w-2 h-2 rounded-full ${
-                              row.bool ? 'bg-green-500' : 'bg-zinc-300 dark:bg-zinc-600'
+                              row.bool
+                                ? "bg-green-500"
+                                : "bg-zinc-300 dark:bg-zinc-600"
                             }`}
                           />
-                          {row.bool ? t('yes') : t('no')}
+                          {row.bool ? t("yes") : t("no")}
                         </span>
                       ) : (
                         row.value

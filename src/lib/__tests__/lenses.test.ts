@@ -1,5 +1,5 @@
-import { describe, it, expect } from 'vitest';
-import type { Lens } from '../types';
+import { describe, it, expect } from "vitest";
+import type { Lens } from "../types";
 import {
   isZoom,
   focalEquivMin,
@@ -11,15 +11,17 @@ import {
   getUniqueBrands,
   getLensUrl,
   defaultFilters,
-} from '../lenses';
+} from "../lenses";
 
 // Minimal Lens factory — only fill in fields relevant to each test
-function makeLens(overrides: Partial<Lens> & Pick<Lens, 'focalLengthMin' | 'focalLengthMax'>): Lens {
+function makeLens(
+  overrides: Partial<Lens> & Pick<Lens, "focalLengthMin" | "focalLengthMax">
+): Lens {
   return {
-    id: 'test-lens',
-    brand: 'Fujifilm',
-    series: 'XF',
-    model: 'XF35mmF1.4 R',
+    id: "test-lens",
+    brand: "Fujifilm",
+    series: "XF",
+    model: "XF35mmF1.4 R",
     focalLengthMin: overrides.focalLengthMin,
     focalLengthMax: overrides.focalLengthMax,
     maxAperture: 1.4,
@@ -43,12 +45,12 @@ const zoom1835 = makeLens({ focalLengthMin: 18, focalLengthMax: 55 });
 // ---------------------------------------------------------------------------
 // isZoom
 // ---------------------------------------------------------------------------
-describe('isZoom', () => {
-  it('returns false for a prime', () => {
+describe("isZoom", () => {
+  it("returns false for a prime", () => {
     expect(isZoom(prime35)).toBe(false);
   });
 
-  it('returns true for a zoom', () => {
+  it("returns true for a zoom", () => {
     expect(isZoom(zoom1835)).toBe(true);
   });
 });
@@ -56,13 +58,13 @@ describe('isZoom', () => {
 // ---------------------------------------------------------------------------
 // focalEquivMin / focalEquivMax (crop factor 1.5)
 // ---------------------------------------------------------------------------
-describe('focalEquivMin / focalEquivMax', () => {
-  it('calculates equiv for a prime', () => {
+describe("focalEquivMin / focalEquivMax", () => {
+  it("calculates equiv for a prime", () => {
     expect(focalEquivMin(prime35)).toBe(53); // 35 * 1.5 = 52.5 → 53
     expect(focalEquivMax(prime35)).toBe(53);
   });
 
-  it('calculates wide and tele ends for a zoom', () => {
+  it("calculates wide and tele ends for a zoom", () => {
     expect(focalEquivMin(zoom1835)).toBe(27); // 18 * 1.5 = 27
     expect(focalEquivMax(zoom1835)).toBe(83); // 55 * 1.5 = 82.5 → 83
   });
@@ -71,23 +73,23 @@ describe('focalEquivMin / focalEquivMax', () => {
 // ---------------------------------------------------------------------------
 // formatFocalDisplay / formatEquivDisplay
 // ---------------------------------------------------------------------------
-describe('formatFocalDisplay', () => {
-  it('shows single value for prime', () => {
-    expect(formatFocalDisplay(prime35)).toBe('35mm');
+describe("formatFocalDisplay", () => {
+  it("shows single value for prime", () => {
+    expect(formatFocalDisplay(prime35)).toBe("35mm");
   });
 
-  it('shows range for zoom', () => {
-    expect(formatFocalDisplay(zoom1835)).toBe('18–55mm');
+  it("shows range for zoom", () => {
+    expect(formatFocalDisplay(zoom1835)).toBe("18–55mm");
   });
 });
 
-describe('formatEquivDisplay', () => {
-  it('shows single equiv for prime', () => {
-    expect(formatEquivDisplay(prime35)).toBe('53mm');
+describe("formatEquivDisplay", () => {
+  it("shows single equiv for prime", () => {
+    expect(formatEquivDisplay(prime35)).toBe("53mm");
   });
 
-  it('shows equiv range for zoom', () => {
-    expect(formatEquivDisplay(zoom1835)).toBe('27–83mm');
+  it("shows equiv range for zoom", () => {
+    expect(formatEquivDisplay(zoom1835)).toBe("27–83mm");
   });
 });
 
@@ -95,68 +97,116 @@ describe('formatEquivDisplay', () => {
 // filterLenses
 // ---------------------------------------------------------------------------
 const lensPool: Lens[] = [
-  makeLens({ id: 'fuji-prime', brand: 'Fujifilm', focalLengthMin: 35, focalLengthMax: 35, af: true, wr: false }),
-  makeLens({ id: 'fuji-zoom', brand: 'Fujifilm', focalLengthMin: 18, focalLengthMax: 55, af: true, wr: true }),
-  makeLens({ id: 'sigma-prime', brand: 'Sigma', focalLengthMin: 56, focalLengthMax: 56, af: true, wr: false }),
-  makeLens({ id: 'mf-prime', brand: 'Viltrox', focalLengthMin: 75, focalLengthMax: 75, af: false, wr: false }),
+  makeLens({
+    id: "fuji-prime",
+    brand: "Fujifilm",
+    focalLengthMin: 35,
+    focalLengthMax: 35,
+    af: true,
+    wr: false,
+  }),
+  makeLens({
+    id: "fuji-zoom",
+    brand: "Fujifilm",
+    focalLengthMin: 18,
+    focalLengthMax: 55,
+    af: true,
+    wr: true,
+  }),
+  makeLens({
+    id: "sigma-prime",
+    brand: "Sigma",
+    focalLengthMin: 56,
+    focalLengthMax: 56,
+    af: true,
+    wr: false,
+  }),
+  makeLens({
+    id: "mf-prime",
+    brand: "Viltrox",
+    focalLengthMin: 75,
+    focalLengthMax: 75,
+    af: false,
+    wr: false,
+  }),
 ];
 
-describe('filterLenses', () => {
-  it('returns all lenses with default filters', () => {
+describe("filterLenses", () => {
+  it("returns all lenses with default filters", () => {
     expect(filterLenses(lensPool, defaultFilters)).toHaveLength(4);
   });
 
-  it('filters by brand', () => {
-    const result = filterLenses(lensPool, { ...defaultFilters, brand: 'Fujifilm' });
+  it("filters by brand", () => {
+    const result = filterLenses(lensPool, {
+      ...defaultFilters,
+      brand: "Fujifilm",
+    });
     expect(result).toHaveLength(2);
-    expect(result.every(l => l.brand === 'Fujifilm')).toBe(true);
+    expect(result.every((l) => l.brand === "Fujifilm")).toBe(true);
   });
 
-  it('filters by type: prime', () => {
-    const result = filterLenses(lensPool, { ...defaultFilters, type: 'prime' });
-    expect(result.every(l => l.focalLengthMin === l.focalLengthMax)).toBe(true);
+  it("filters by type: prime", () => {
+    const result = filterLenses(lensPool, { ...defaultFilters, type: "prime" });
+    expect(result.every((l) => l.focalLengthMin === l.focalLengthMax)).toBe(
+      true
+    );
   });
 
-  it('filters by type: zoom', () => {
-    const result = filterLenses(lensPool, { ...defaultFilters, type: 'zoom' });
-    expect(result.every(l => l.focalLengthMin !== l.focalLengthMax)).toBe(true);
+  it("filters by type: zoom", () => {
+    const result = filterLenses(lensPool, { ...defaultFilters, type: "zoom" });
+    expect(result.every((l) => l.focalLengthMin !== l.focalLengthMax)).toBe(
+      true
+    );
   });
 
-  it('filters by focalRange: wide (equiv <= 35)', () => {
+  it("filters by focalRange: wide (equiv <= 35)", () => {
     // fuji-zoom 18-55: equivMin = 27 (wide), fuji-prime 35: equivMin = 53 (not wide)
-    const result = filterLenses(lensPool, { ...defaultFilters, focalRange: 'wide' });
-    expect(result.map(l => l.id)).toContain('fuji-zoom');
-    expect(result.map(l => l.id)).not.toContain('fuji-prime');
+    const result = filterLenses(lensPool, {
+      ...defaultFilters,
+      focalRange: "wide",
+    });
+    expect(result.map((l) => l.id)).toContain("fuji-zoom");
+    expect(result.map((l) => l.id)).not.toContain("fuji-prime");
   });
 
-  it('filters by focalRange: standard (35 < equiv <= 85)', () => {
-    const result = filterLenses(lensPool, { ...defaultFilters, focalRange: 'standard' });
-    expect(result.map(l => l.id)).toContain('fuji-prime'); // equivMin=53
-    expect(result.map(l => l.id)).toContain('sigma-prime'); // equivMin=84
+  it("filters by focalRange: standard (35 < equiv <= 85)", () => {
+    const result = filterLenses(lensPool, {
+      ...defaultFilters,
+      focalRange: "standard",
+    });
+    expect(result.map((l) => l.id)).toContain("fuji-prime"); // equivMin=53
+    expect(result.map((l) => l.id)).toContain("sigma-prime"); // equivMin=84
   });
 
-  it('filters by focalRange: tele (equiv > 85)', () => {
-    const result = filterLenses(lensPool, { ...defaultFilters, focalRange: 'tele' });
-    expect(result.map(l => l.id)).toContain('mf-prime'); // equivMin=113
+  it("filters by focalRange: tele (equiv > 85)", () => {
+    const result = filterLenses(lensPool, {
+      ...defaultFilters,
+      focalRange: "tele",
+    });
+    expect(result.map((l) => l.id)).toContain("mf-prime"); // equivMin=113
   });
 
-  it('filters by afOnly', () => {
+  it("filters by afOnly", () => {
     const result = filterLenses(lensPool, { ...defaultFilters, afOnly: true });
-    expect(result.every(l => l.af)).toBe(true);
-    expect(result.map(l => l.id)).not.toContain('mf-prime');
+    expect(result.every((l) => l.af)).toBe(true);
+    expect(result.map((l) => l.id)).not.toContain("mf-prime");
   });
 
-  it('filters by wrOnly', () => {
+  it("filters by wrOnly", () => {
     const result = filterLenses(lensPool, { ...defaultFilters, wrOnly: true });
-    expect(result.every(l => l.wr)).toBe(true);
+    expect(result.every((l) => l.wr)).toBe(true);
     expect(result).toHaveLength(1);
-    expect(result[0].id).toBe('fuji-zoom');
+    expect(result[0].id).toBe("fuji-zoom");
   });
 
-  it('combines multiple filters', () => {
-    const result = filterLenses(lensPool, { ...defaultFilters, brand: 'Fujifilm', type: 'zoom' });
+  it("combines multiple filters", () => {
+    const result = filterLenses(lensPool, {
+      ...defaultFilters,
+      brand: "Fujifilm",
+      type: "zoom",
+    });
     expect(result).toHaveLength(1);
-    expect(result[0].id).toBe('fuji-zoom');
+    expect(result[0].id).toBe("fuji-zoom");
   });
 });
 
@@ -164,35 +214,56 @@ describe('filterLenses', () => {
 // sortLenses
 // ---------------------------------------------------------------------------
 const sortPool: Lens[] = [
-  makeLens({ id: 'a', focalLengthMin: 56, focalLengthMax: 56, maxAperture: 1.4, weightG: 300, releaseYear: 2020 }),
-  makeLens({ id: 'b', focalLengthMin: 18, focalLengthMax: 18, maxAperture: 2.8, weightG: 150, releaseYear: 2015 }),
-  makeLens({ id: 'c', focalLengthMin: 35, focalLengthMax: 35, maxAperture: 2.0, weightG: 200, releaseYear: 2018 }),
+  makeLens({
+    id: "a",
+    focalLengthMin: 56,
+    focalLengthMax: 56,
+    maxAperture: 1.4,
+    weightG: 300,
+    releaseYear: 2020,
+  }),
+  makeLens({
+    id: "b",
+    focalLengthMin: 18,
+    focalLengthMax: 18,
+    maxAperture: 2.8,
+    weightG: 150,
+    releaseYear: 2015,
+  }),
+  makeLens({
+    id: "c",
+    focalLengthMin: 35,
+    focalLengthMax: 35,
+    maxAperture: 2.0,
+    weightG: 200,
+    releaseYear: 2018,
+  }),
 ];
 
-describe('sortLenses', () => {
-  it('sorts by focalLengthMin ascending', () => {
-    const ids = sortLenses(sortPool, 'focalLengthMin').map(l => l.id);
-    expect(ids).toEqual(['b', 'c', 'a']);
+describe("sortLenses", () => {
+  it("sorts by focalLengthMin ascending", () => {
+    const ids = sortLenses(sortPool, "focalLengthMin").map((l) => l.id);
+    expect(ids).toEqual(["b", "c", "a"]);
   });
 
-  it('sorts by maxAperture ascending (wider aperture = smaller number = first)', () => {
-    const ids = sortLenses(sortPool, 'maxAperture').map(l => l.id);
-    expect(ids).toEqual(['a', 'c', 'b']);
+  it("sorts by maxAperture ascending (wider aperture = smaller number = first)", () => {
+    const ids = sortLenses(sortPool, "maxAperture").map((l) => l.id);
+    expect(ids).toEqual(["a", "c", "b"]);
   });
 
-  it('sorts by weightG ascending', () => {
-    const ids = sortLenses(sortPool, 'weightG').map(l => l.id);
-    expect(ids).toEqual(['b', 'c', 'a']);
+  it("sorts by weightG ascending", () => {
+    const ids = sortLenses(sortPool, "weightG").map((l) => l.id);
+    expect(ids).toEqual(["b", "c", "a"]);
   });
 
-  it('sorts by releaseYear descending (newest first)', () => {
-    const ids = sortLenses(sortPool, 'releaseYear').map(l => l.id);
-    expect(ids).toEqual(['a', 'c', 'b']);
+  it("sorts by releaseYear descending (newest first)", () => {
+    const ids = sortLenses(sortPool, "releaseYear").map((l) => l.id);
+    expect(ids).toEqual(["a", "c", "b"]);
   });
 
-  it('does not mutate the original array', () => {
+  it("does not mutate the original array", () => {
     const original = [...sortPool];
-    sortLenses(sortPool, 'focalLengthMin');
+    sortLenses(sortPool, "focalLengthMin");
     expect(sortPool).toEqual(original);
   });
 });
@@ -200,12 +271,12 @@ describe('sortLenses', () => {
 // ---------------------------------------------------------------------------
 // getUniqueBrands
 // ---------------------------------------------------------------------------
-describe('getUniqueBrands', () => {
-  it('returns sorted unique brands', () => {
-    expect(getUniqueBrands(lensPool)).toEqual(['Fujifilm', 'Sigma', 'Viltrox']);
+describe("getUniqueBrands", () => {
+  it("returns sorted unique brands", () => {
+    expect(getUniqueBrands(lensPool)).toEqual(["Fujifilm", "Sigma", "Viltrox"]);
   });
 
-  it('returns empty array for empty input', () => {
+  it("returns empty array for empty input", () => {
     expect(getUniqueBrands([])).toEqual([]);
   });
 });
@@ -213,19 +284,33 @@ describe('getUniqueBrands', () => {
 // ---------------------------------------------------------------------------
 // getLensUrl
 // ---------------------------------------------------------------------------
-describe('getLensUrl', () => {
-  it('returns officialUrl when present', () => {
-    const lens = makeLens({ focalLengthMin: 35, focalLengthMax: 35, officialUrl: 'https://example.com/lens' });
-    expect(getLensUrl(lens)).toBe('https://example.com/lens');
+describe("getLensUrl", () => {
+  it("returns officialUrl when present", () => {
+    const lens = makeLens({
+      focalLengthMin: 35,
+      focalLengthMax: 35,
+      officialUrl: "https://example.com/lens",
+    });
+    expect(getLensUrl(lens)).toBe("https://example.com/lens");
   });
 
-  it('falls back to brand URL for Fujifilm', () => {
-    const lens = makeLens({ focalLengthMin: 35, focalLengthMax: 35, brand: 'Fujifilm' });
-    expect(getLensUrl(lens)).toBe('https://fujifilm-x.com/global/products/lenses/');
+  it("falls back to brand URL for Fujifilm", () => {
+    const lens = makeLens({
+      focalLengthMin: 35,
+      focalLengthMax: 35,
+      brand: "Fujifilm",
+    });
+    expect(getLensUrl(lens)).toBe(
+      "https://fujifilm-x.com/global/products/lenses/"
+    );
   });
 
-  it('returns undefined for unknown brand without officialUrl', () => {
-    const lens = makeLens({ focalLengthMin: 35, focalLengthMax: 35, brand: 'UnknownBrand' });
+  it("returns undefined for unknown brand without officialUrl", () => {
+    const lens = makeLens({
+      focalLengthMin: 35,
+      focalLengthMax: 35,
+      brand: "UnknownBrand",
+    });
     expect(getLensUrl(lens)).toBeUndefined();
   });
 });

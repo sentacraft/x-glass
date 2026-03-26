@@ -1,9 +1,14 @@
-import type { Metadata } from 'next';
-import Image from 'next/image';
-import { getTranslations } from 'next-intl/server';
-import { allLenses, getLensUrl, formatFocalDisplay, formatEquivDisplay } from '@/lib/lenses';
-import { Link } from '@/i18n/navigation';
-import type { Lens } from '@/lib/types';
+import type { Metadata } from "next";
+import Image from "next/image";
+import { getTranslations } from "next-intl/server";
+import {
+  allLenses,
+  getLensUrl,
+  formatFocalDisplay,
+  formatEquivDisplay,
+} from "@/lib/lenses";
+import { Link } from "@/i18n/navigation";
+import type { Lens } from "@/lib/types";
 
 export async function generateMetadata({
   searchParams,
@@ -11,14 +16,16 @@ export async function generateMetadata({
   searchParams: Promise<{ ids?: string }>;
 }): Promise<Metadata> {
   const { ids } = await searchParams;
-  const idList = (ids ?? '').split(',').filter(Boolean).slice(0, 4);
+  const idList = (ids ?? "").split(",").filter(Boolean).slice(0, 4);
   const lenses = idList
     .map((id) => allLenses.find((l) => l.id === id))
     .filter((l): l is Lens => l !== undefined);
 
-  if (lenses.length < 2) return { title: 'Compare' };
+  if (lenses.length < 2) {
+    return { title: "Compare" };
+  }
 
-  const title = lenses.map((l) => l.model).join(' vs ');
+  const title = lenses.map((l) => l.model).join(" vs ");
   return {
     title,
     openGraph: { title: `${title} | X Glass` },
@@ -31,10 +38,10 @@ export default async function ComparePage({
   searchParams: Promise<{ ids?: string }>;
 }) {
   const { ids } = await searchParams;
-  const t = await getTranslations('Compare');
-  const td = await getTranslations('LensDetail');
+  const t = await getTranslations("Compare");
+  const td = await getTranslations("LensDetail");
 
-  const idList = (ids ?? '').split(',').filter(Boolean).slice(0, 4);
+  const idList = (ids ?? "").split(",").filter(Boolean).slice(0, 4);
   const lenses = idList
     .map((id) => allLenses.find((l) => l.id === id))
     .filter((l): l is Lens => l !== undefined);
@@ -42,96 +49,93 @@ export default async function ComparePage({
   if (lenses.length === 0) {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-16 flex flex-col items-center gap-4 text-center">
-        <p className="text-zinc-500 dark:text-zinc-400">{t('noLenses')}</p>
-        <Link
-          href="/lenses"
-          className="text-sm text-blue-500 hover:underline"
-        >
-          ← {t('backToLenses')}
+        <p className="text-zinc-500 dark:text-zinc-400">{t("noLenses")}</p>
+        <Link href="/lenses" className="text-sm text-blue-500 hover:underline">
+          ← {t("backToLenses")}
         </Link>
       </div>
     );
   }
 
   type Row =
-    | { kind: 'text'; label: string; getValue: (l: Lens) => string }
+    | { kind: "text"; label: string; getValue: (l: Lens) => string }
     | {
-        kind: 'numeric';
+        kind: "numeric";
         label: string;
         getValue: (l: Lens) => number;
         format: (v: number) => string;
-        bestDir: 'min' | 'max';
+        bestDir: "min" | "max";
       }
-    | { kind: 'bool'; label: string; getValue: (l: Lens) => boolean };
+    | { kind: "bool"; label: string; getValue: (l: Lens) => boolean };
 
   const rows: Row[] = [
     {
-      kind: 'text',
-      label: td('brand'),
-      getValue: (l) => `${l.brand}${l.series ? ` ${l.series}` : ''}`,
+      kind: "text",
+      label: td("brand"),
+      getValue: (l) => `${l.brand}${l.series ? ` ${l.series}` : ""}`,
     },
     {
-      kind: 'text',
-      label: td('focalLength'),
+      kind: "text",
+      label: td("focalLength"),
       getValue: (l) => formatFocalDisplay(l),
     },
     {
-      kind: 'text',
-      label: td('focalLengthEquiv'),
+      kind: "text",
+      label: td("focalLengthEquiv"),
       getValue: (l) => formatEquivDisplay(l),
     },
     {
-      kind: 'numeric',
-      label: td('maxAperture'),
+      kind: "numeric",
+      label: td("maxAperture"),
       getValue: (l) => l.maxAperture,
       format: (v) => `f/${v}`,
-      bestDir: 'min',
+      bestDir: "min",
     },
     {
-      kind: 'bool',
-      label: td('af'),
+      kind: "bool",
+      label: td("af"),
       getValue: (l) => l.af,
     },
     {
-      kind: 'bool',
-      label: td('ois'),
+      kind: "bool",
+      label: td("ois"),
       getValue: (l) => l.ois,
     },
     {
-      kind: 'bool',
-      label: td('wr'),
+      kind: "bool",
+      label: td("wr"),
       getValue: (l) => l.wr,
     },
     {
-      kind: 'numeric',
-      label: td('weight'),
+      kind: "numeric",
+      label: td("weight"),
       getValue: (l) => l.weightG,
       format: (v) => `${v}g`,
-      bestDir: 'min',
+      bestDir: "min",
     },
     {
-      kind: 'text',
-      label: td('dimensions'),
+      kind: "text",
+      label: td("dimensions"),
       getValue: (l) => `⌀${l.diameterMm} × ${l.lengthMm}mm`,
     },
     {
-      kind: 'text',
-      label: td('filterSize'),
+      kind: "text",
+      label: td("filterSize"),
       getValue: (l) => `${l.filterMm}mm`,
     },
     {
-      kind: 'numeric',
-      label: td('minFocusDist'),
+      kind: "numeric",
+      label: td("minFocusDist"),
       getValue: (l) => l.minFocusDistanceCm,
       format: (v) => `${v}cm`,
-      bestDir: 'min',
+      bestDir: "min",
     },
     {
-      kind: 'numeric',
-      label: td('releaseYear'),
+      kind: "numeric",
+      label: td("releaseYear"),
       getValue: (l) => l.releaseYear,
       format: (v) => String(v),
-      bestDir: 'max',
+      bestDir: "max",
     },
   ];
 
@@ -145,7 +149,9 @@ export default async function ComparePage({
         >
           ←
         </Link>
-        <h1 className="text-2xl font-bold text-zinc-900 dark:text-zinc-50">{t('title')}</h1>
+        <h1 className="text-2xl font-bold text-zinc-900 dark:text-zinc-50">
+          {t("title")}
+        </h1>
       </div>
 
       {/* Table */}
@@ -193,11 +199,13 @@ export default async function ComparePage({
                     {/* Brand / series */}
                     <p className="text-xs font-normal text-zinc-500 dark:text-zinc-400">
                       {lens.brand}
-                      {lens.series ? ` · ${lens.series}` : ''}
+                      {lens.series ? ` · ${lens.series}` : ""}
                     </p>
 
                     {/* Model name */}
-                    <p className="font-semibold text-zinc-900 dark:text-zinc-50">{lens.model}</p>
+                    <p className="font-semibold text-zinc-900 dark:text-zinc-50">
+                      {lens.model}
+                    </p>
 
                     {lens.generation !== undefined && (
                       <p className="text-xs font-normal text-zinc-400 dark:text-zinc-500">
@@ -213,7 +221,7 @@ export default async function ComparePage({
                         rel="noopener noreferrer"
                         className="mt-2 inline-flex items-center gap-1 text-xs text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300 transition-colors"
                       >
-                        {t('officialSite')}
+                        {t("officialSite")}
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 12 12"
@@ -245,32 +253,40 @@ export default async function ComparePage({
 
                 {/* Values */}
                 {lenses.map((lens) => {
-                  if (row.kind === 'bool') {
+                  if (row.kind === "bool") {
                     const val = row.getValue(lens);
                     return (
-                      <td key={lens.id} className="px-4 py-3 text-zinc-700 dark:text-zinc-300">
+                      <td
+                        key={lens.id}
+                        className="px-4 py-3 text-zinc-700 dark:text-zinc-300"
+                      >
                         <span
                           className={`inline-block w-2 h-2 rounded-full mr-2 align-middle ${
-                            val ? 'bg-green-500' : 'bg-zinc-300 dark:bg-zinc-600'
+                            val
+                              ? "bg-green-500"
+                              : "bg-zinc-300 dark:bg-zinc-600"
                           }`}
                         />
-                        {val ? td('yes') : td('no')}
+                        {val ? td("yes") : td("no")}
                       </td>
                     );
                   }
 
-                  if (row.kind === 'numeric') {
+                  if (row.kind === "numeric") {
                     const val = row.getValue(lens);
                     const vals = lenses.map(row.getValue);
-                    const bestVal = row.bestDir === 'min' ? Math.min(...vals) : Math.max(...vals);
+                    const bestVal =
+                      row.bestDir === "min"
+                        ? Math.min(...vals)
+                        : Math.max(...vals);
                     const isBest = val === bestVal;
                     return (
                       <td
                         key={lens.id}
                         className={`px-4 py-3 font-medium tabular-nums ${
                           isBest
-                            ? 'text-blue-600 dark:text-blue-400'
-                            : 'text-zinc-700 dark:text-zinc-300'
+                            ? "text-blue-600 dark:text-blue-400"
+                            : "text-zinc-700 dark:text-zinc-300"
                         }`}
                       >
                         {row.format(val)}
@@ -284,7 +300,10 @@ export default async function ComparePage({
                   }
 
                   return (
-                    <td key={lens.id} className="px-4 py-3 text-zinc-700 dark:text-zinc-300">
+                    <td
+                      key={lens.id}
+                      className="px-4 py-3 text-zinc-700 dark:text-zinc-300"
+                    >
                       {row.getValue(lens)}
                     </td>
                   );
@@ -300,7 +319,7 @@ export default async function ComparePage({
         href="/lenses"
         className="self-start text-sm text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 transition-colors"
       >
-        ← {t('backToLenses')}
+        ← {t("backToLenses")}
       </Link>
     </div>
   );

@@ -1,7 +1,7 @@
-import type { Metadata } from 'next';
-import { getTranslations } from 'next-intl/server';
-import { allLenses } from '@/lib/lenses';
-import LensListClient from '@/components/LensListClient';
+import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
+import { allLenses } from "@/lib/lenses";
+import LensListClient from "@/components/LensListClient";
 
 export async function generateMetadata({
   params,
@@ -9,9 +9,9 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: 'LensList' });
-  return { 
-    title: t('title') 
+  const t = await getTranslations({ locale, namespace: "LensList" });
+  return {
+    title: t("title"),
   };
 }
 

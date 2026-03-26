@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { useTranslations } from 'next-intl';
-import { useRouter } from '@/i18n/navigation';
-import type { Lens } from '@/lib/types';
+import { useTranslations } from "next-intl";
+import { useRouter } from "@/i18n/navigation";
+import type { Lens } from "@/lib/types";
 
 interface Props {
   selectedLenses: Lens[];
@@ -10,13 +10,15 @@ interface Props {
 }
 
 export default function CompareBar({ selectedLenses, onRemove }: Props) {
-  const t = useTranslations('LensList');
+  const t = useTranslations("LensList");
   const router = useRouter();
 
-  if (selectedLenses.length === 0) return null;
+  if (selectedLenses.length === 0) {
+    return null;
+  }
 
   function handleCompare() {
-    const ids = selectedLenses.map((l) => l.id).join(',');
+    const ids = selectedLenses.map((l) => l.id).join(",");
     router.push(`/lenses/compare?ids=${ids}`);
   }
 
@@ -47,7 +49,7 @@ export default function CompareBar({ selectedLenses, onRemove }: Props) {
           disabled={selectedLenses.length < 2}
           className="shrink-0 text-sm font-medium px-4 py-2 rounded-xl bg-blue-500 text-white hover:bg-blue-600 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
         >
-          {t('goCompare', { count: selectedLenses.length })}
+          {t("goCompare", { count: selectedLenses.length })}
         </button>
       </div>
     </div>
