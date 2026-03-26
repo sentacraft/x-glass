@@ -48,9 +48,9 @@ export default function LensCard({ lens, isSelected, selectionDisabled, onToggle
             </h3>
           </div>
           <div className="flex gap-1 shrink-0 flex-wrap justify-end max-w-[80px]">
-            {lens.af && <Chip>AF</Chip>}
-            {lens.ois && <Chip>OIS</Chip>}
-            {lens.wr && <Chip>WR</Chip>}
+            {lens.af && <Badge>AF</Badge>}
+            {lens.ois && <Badge>OIS</Badge>}
+            {lens.wr && <Badge>WR</Badge>}
           </div>
         </div>
 
@@ -86,7 +86,7 @@ export default function LensCard({ lens, isSelected, selectionDisabled, onToggle
   );
 }
 
-function Chip({ children }: { children: React.ReactNode }) {
+function Badge({ children }: { children: React.ReactNode }) {
   return (
     <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-md bg-zinc-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400">
       {children}
