@@ -2,6 +2,14 @@
 
 import { useTranslations } from "next-intl";
 import type { FilterState, FocalRange, LensType, SortKey } from "@/lib/lenses";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
 
 interface Props {
   filters: FilterState;
@@ -23,9 +31,6 @@ export default function LensFilters({
     onFiltersChange({ ...filters, [key]: value });
   }
 
-  const selectClass =
-    "text-sm border border-zinc-200 dark:border-zinc-700 rounded-lg px-3 py-1.5 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-50 focus:outline-none focus:ring-2 focus:ring-blue-500";
-
   const labelClass = "text-xs font-medium text-zinc-500 dark:text-zinc-400";
 
   return (
@@ -35,19 +40,22 @@ export default function LensFilters({
         <label htmlFor="filter-brand" className={labelClass}>
           {t("brand")}
         </label>
-        <select
-          id="filter-brand"
+        <Select
           value={filters.brand}
-          onChange={(e) => updateFilters("brand", e.target.value)}
-          className={selectClass}
+          onValueChange={(v) => updateFilters("brand", v ?? "")}
         >
-          <option value="">{t("allBrands")}</option>
-          {brands.map((b) => (
-            <option key={b} value={b}>
-              {b}
-            </option>
-          ))}
-        </select>
+          <SelectTrigger id="filter-brand">
+            <SelectValue placeholder={t("allBrands")} />
+          </SelectTrigger>
+          <SelectContent align="start">
+            <SelectItem value="">{t("allBrands")}</SelectItem>
+            {brands.map((b) => (
+              <SelectItem key={b} value={b}>
+                {b}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
 
       {/* Lens type */}
@@ -55,18 +63,19 @@ export default function LensFilters({
         <label htmlFor="filter-type" className={labelClass}>
           {t("lensType")}
         </label>
-        <select
-          id="filter-type"
+        <Select
           value={filters.type}
-          onChange={(e) =>
-            updateFilters("type", e.target.value as LensType | "")
-          }
-          className={selectClass}
+          onValueChange={(v) => updateFilters("type", (v ?? "") as LensType | "")}
         >
-          <option value="">{t("allTypes")}</option>
-          <option value="prime">{t("primes")}</option>
-          <option value="zoom">{t("zooms")}</option>
-        </select>
+          <SelectTrigger id="filter-type">
+            <SelectValue placeholder={t("allTypes")} />
+          </SelectTrigger>
+          <SelectContent align="start">
+            <SelectItem value="">{t("allTypes")}</SelectItem>
+            <SelectItem value="prime">{t("primes")}</SelectItem>
+            <SelectItem value="zoom">{t("zooms")}</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
 
       {/* Focal range */}
@@ -74,19 +83,22 @@ export default function LensFilters({
         <label htmlFor="filter-focal-range" className={labelClass}>
           {t("focalRange")}
         </label>
-        <select
-          id="filter-focal-range"
+        <Select
           value={filters.focalRange}
-          onChange={(e) =>
-            updateFilters("focalRange", e.target.value as FocalRange | "")
+          onValueChange={(v) =>
+            updateFilters("focalRange", (v ?? "") as FocalRange | "")
           }
-          className={selectClass}
         >
-          <option value="">{t("allRanges")}</option>
-          <option value="wide">{t("wide")}</option>
-          <option value="standard">{t("standard")}</option>
-          <option value="tele">{t("tele")}</option>
-        </select>
+          <SelectTrigger id="filter-focal-range">
+            <SelectValue placeholder={t("allRanges")} />
+          </SelectTrigger>
+          <SelectContent align="start">
+            <SelectItem value="">{t("allRanges")}</SelectItem>
+            <SelectItem value="wide">{t("wide")}</SelectItem>
+            <SelectItem value="standard">{t("standard")}</SelectItem>
+            <SelectItem value="tele">{t("tele")}</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
 
       {/* Sort */}
@@ -94,17 +106,22 @@ export default function LensFilters({
         <label htmlFor="filter-sort" className={labelClass}>
           {t("sortBy")}
         </label>
-        <select
-          id="filter-sort"
+        <Select
           value={filters.sort}
-          onChange={(e) => updateFilters("sort", e.target.value as SortKey)}
-          className={selectClass}
+          onValueChange={(v) => updateFilters("sort", (v ?? "focalLengthMin") as SortKey)}
         >
-          <option value="focalLengthMin">{t("sortFocalLength")}</option>
-          <option value="maxAperture">{t("sortAperture")}</option>
-          <option value="weightG">{t("sortWeight")}</option>
-          <option value="releaseYear">{t("sortYear")}</option>
-        </select>
+          <SelectTrigger id="filter-sort">
+            <SelectValue placeholder={t("sortFocalLength")} />
+          </SelectTrigger>
+          <SelectContent align="start">
+            <SelectItem value="focalLengthMin">
+              {t("sortFocalLength")}
+            </SelectItem>
+            <SelectItem value="maxAperture">{t("sortAperture")}</SelectItem>
+            <SelectItem value="weightG">{t("sortWeight")}</SelectItem>
+            <SelectItem value="releaseYear">{t("sortYear")}</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
 
       {/* Checkboxes */}
@@ -112,20 +129,16 @@ export default function LensFilters({
         <span className={labelClass}>&nbsp;</span>
         <div className="flex gap-4 py-1.5">
           <label className="flex items-center gap-2 text-sm text-zinc-700 dark:text-zinc-300 cursor-pointer select-none">
-            <input
-              type="checkbox"
+            <Checkbox
               checked={filters.afOnly}
-              onChange={(e) => updateFilters("afOnly", e.target.checked)}
-              className="rounded border-zinc-300 dark:border-zinc-600 text-blue-500 focus:ring-blue-500"
+              onCheckedChange={(v) => updateFilters("afOnly", v as boolean)}
             />
             {t("afOnly")}
           </label>
           <label className="flex items-center gap-2 text-sm text-zinc-700 dark:text-zinc-300 cursor-pointer select-none">
-            <input
-              type="checkbox"
+            <Checkbox
               checked={filters.wrOnly}
-              onChange={(e) => updateFilters("wrOnly", e.target.checked)}
-              className="rounded border-zinc-300 dark:border-zinc-600 text-blue-500 focus:ring-blue-500"
+              onCheckedChange={(v) => updateFilters("wrOnly", v as boolean)}
             />
             {t("wrOnly")}
           </label>
