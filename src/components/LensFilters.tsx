@@ -85,7 +85,7 @@ export default function LensFilters({ filters, brands, sort, onChange, onSortCha
           onChange={(e) => onSortChange(e.target.value as SortKey)}
           className={selectClass}
         >
-          <option value="focalLength">{t('sortFocalLength')}</option>
+          <option value="focalLengthMin">{t('sortFocalLength')}</option>
           <option value="maxAperture">{t('sortAperture')}</option>
           <option value="weightG">{t('sortWeight')}</option>
           <option value="releaseYear">{t('sortYear')}</option>

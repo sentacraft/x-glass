@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
-import { allLenses, getLensUrl } from '@/lib/lenses';
+import { allLenses, getLensUrl, formatFocalDisplay, formatEquivDisplay } from '@/lib/lenses';
 import { Link } from '@/i18n/navigation';
 
 type Params = Promise<{ locale: string; id: string }>;
@@ -24,16 +24,9 @@ export default async function LensDetailPage({ params }: { params: Params }) {
   if (!lens) notFound();
 
   const t = await getTranslations('LensDetail');
-  const isZoom = lens.focalLengthMax !== undefined;
   const url = getLensUrl(lens);
-
-  const focalDisplay = isZoom
-    ? `${lens.focalLength}–${lens.focalLengthMax}mm`
-    : `${lens.focalLength}mm`;
-
-  const equivDisplay = isZoom
-    ? `${lens.focalLengthEquiv}–${Math.round(lens.focalLengthMax! * 1.5)}mm`
-    : `${lens.focalLengthEquiv}mm`;
+  const focalDisplay = formatFocalDisplay(lens);
+  const equivDisplay = formatEquivDisplay(lens);
 
   type SpecRow =
     | { label: string; value: string }

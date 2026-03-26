@@ -4,9 +4,8 @@ export interface Lens {
   series: string;                 // e.g. "XF" | "XC" | "" (empty for third-party)
   model: string;                  // official model name, e.g. "XF35mmF1.4 R"
   generation?: number;            // 1 | 2 — differentiates old vs new versions of same focal length
-  focalLength: number;            // actual focal length in mm (wide end for zooms)
-  focalLengthMax?: number;        // telephoto end in mm; presence indicates zoom lens
-  focalLengthEquiv: number;       // 35mm equivalent of focalLength (×1.5)
+  focalLengthMin: number;         // wide end in mm (equals focalLengthMax for primes)
+  focalLengthMax: number;         // tele end in mm (equals focalLengthMin for primes)
   maxAperture: number;            // e.g. 1.4 (wide-end value for variable-aperture zooms)
   minAperture: number;            // smallest aperture (largest f-number)
   af: boolean;

@@ -4,8 +4,6 @@
     "brand": "Fujifilm",
     "series": "XF",
     "model": "XF14mmF2.8 R",
-    "focalLength": 14,
-    "focalLengthEquiv": 21,
     "maxAperture": 2.8,
     "minAperture": 22,
     "af": true,
@@ -18,15 +16,15 @@
     "minFocusDistanceCm": 18,
     "releaseYear": 2012,
     "imageUrl": "https://fujifilm-x.b-cdn.net/wp-content/uploads/2019/10/XF14mmF2.8-R-1.png",
-    "officialUrl": "https://fujifilm-x.com/global/products/lenses/xf14mmf28-r/"
+    "officialUrl": "https://fujifilm-x.com/global/products/lenses/xf14mmf28-r/",
+    "focalLengthMin": 14,
+    "focalLengthMax": 14
   },
   {
     "id": "xf16mm-f14-r-wr",
     "brand": "Fujifilm",
     "series": "XF",
     "model": "XF16mmF1.4 R WR",
-    "focalLength": 16,
-    "focalLengthEquiv": 24,
     "maxAperture": 1.4,
     "minAperture": 16,
     "af": true,
@@ -39,15 +37,15 @@
     "minFocusDistanceCm": 15,
     "releaseYear": 2015,
     "imageUrl": "/next.svg",
-    "officialUrl": "https://fujifilm-x.com/global/products/lenses/xf16mmf14-r-wr/"
+    "officialUrl": "https://fujifilm-x.com/global/products/lenses/xf16mmf14-r-wr/",
+    "focalLengthMin": 16,
+    "focalLengthMax": 16
   },
   {
     "id": "xf18mm-f2-r",
     "brand": "Fujifilm",
     "series": "XF",
     "model": "XF18mmF2 R",
-    "focalLength": 18,
-    "focalLengthEquiv": 27,
     "maxAperture": 2,
     "minAperture": 16,
     "af": true,
@@ -60,7 +58,9 @@
     "minFocusDistanceCm": 18,
     "releaseYear": 2012,
     "imageUrl": "/next.svg",
-    "officialUrl": "https://fujifilm-x.com/global/products/lenses/xf18mmf2-r/"
+    "officialUrl": "https://fujifilm-x.com/global/products/lenses/xf18mmf2-r/",
+    "focalLengthMin": 18,
+    "focalLengthMax": 18
   },
   {
     "id": "xf23mm-f14-r",
@@ -68,8 +68,6 @@
     "series": "XF",
     "model": "XF23mmF1.4 R",
     "generation": 1,
-    "focalLength": 23,
-    "focalLengthEquiv": 35,
     "maxAperture": 1.4,
     "minAperture": 16,
     "af": true,
@@ -82,7 +80,9 @@
     "minFocusDistanceCm": 28,
     "releaseYear": 2013,
     "imageUrl": "/next.svg",
-    "officialUrl": "https://fujifilm-x.com/global/products/discontinued-lenses/xf23mmf14-r/"
+    "officialUrl": "https://fujifilm-x.com/global/products/discontinued-lenses/xf23mmf14-r/",
+    "focalLengthMin": 23,
+    "focalLengthMax": 23
   },
   {
     "id": "xf23mm-f14-r-lm-wr",
@@ -90,8 +90,6 @@
     "series": "XF",
     "model": "XF23mmF1.4 R LM WR",
     "generation": 2,
-    "focalLength": 23,
-    "focalLengthEquiv": 35,
     "maxAperture": 1.4,
     "minAperture": 16,
     "af": true,
@@ -104,15 +102,15 @@
     "minFocusDistanceCm": 19,
     "releaseYear": 2022,
     "imageUrl": "/next.svg",
-    "officialUrl": "https://fujifilm-x.com/global/products/lenses/xf23mmf14-r-lm-wr/"
+    "officialUrl": "https://fujifilm-x.com/global/products/lenses/xf23mmf14-r-lm-wr/",
+    "focalLengthMin": 23,
+    "focalLengthMax": 23
   },
   {
     "id": "xf23mm-f2-r-wr",
     "brand": "Fujifilm",
     "series": "XF",
     "model": "XF23mmF2 R WR",
-    "focalLength": 23,
-    "focalLengthEquiv": 35,
     "maxAperture": 2,
     "minAperture": 16,
     "af": true,
@@ -125,15 +123,15 @@
     "minFocusDistanceCm": 22,
     "releaseYear": 2016,
     "imageUrl": "/next.svg",
-    "officialUrl": "https://fujifilm-x.com/global/products/lenses/xf23mmf2-r-wr/"
+    "officialUrl": "https://fujifilm-x.com/global/products/lenses/xf23mmf2-r-wr/",
+    "focalLengthMin": 23,
+    "focalLengthMax": 23
   },
   {
     "id": "xf27mm-f28-r-wr",
     "brand": "Fujifilm",
     "series": "XF",
     "model": "XF27mmF2.8 R WR",
-    "focalLength": 27,
-    "focalLengthEquiv": 41,
     "maxAperture": 2.8,
     "minAperture": 16,
     "af": true,
@@ -146,7 +144,9 @@
     "minFocusDistanceCm": 34,
     "releaseYear": 2021,
     "imageUrl": "/next.svg",
-    "officialUrl": "https://fujifilm-x.com/global/products/lenses/xf27mmf28-r-wr/"
+    "officialUrl": "https://fujifilm-x.com/global/products/lenses/xf27mmf28-r-wr/",
+    "focalLengthMin": 27,
+    "focalLengthMax": 27
   },
   {
     "id": "xf35mm-f14-r",
@@ -154,8 +154,6 @@
     "series": "XF",
     "model": "XF35mmF1.4 R",
     "generation": 1,
-    "focalLength": 35,
-    "focalLengthEquiv": 53,
     "maxAperture": 1.4,
     "minAperture": 16,
     "af": true,
@@ -168,15 +166,15 @@
     "minFocusDistanceCm": 28,
     "releaseYear": 2012,
     "imageUrl": "/next.svg",
-    "officialUrl": "https://fujifilm-x.com/global/products/lenses/xf35mmf14-r/"
+    "officialUrl": "https://fujifilm-x.com/global/products/lenses/xf35mmf14-r/",
+    "focalLengthMin": 35,
+    "focalLengthMax": 35
   },
   {
     "id": "xf35mm-f2-r-wr",
     "brand": "Fujifilm",
     "series": "XF",
     "model": "XF35mmF2 R WR",
-    "focalLength": 35,
-    "focalLengthEquiv": 53,
     "maxAperture": 2,
     "minAperture": 16,
     "af": true,
@@ -189,15 +187,15 @@
     "minFocusDistanceCm": 35,
     "releaseYear": 2015,
     "imageUrl": "/next.svg",
-    "officialUrl": "https://fujifilm-x.com/global/products/lenses/xf35mmf2-r-wr/"
+    "officialUrl": "https://fujifilm-x.com/global/products/lenses/xf35mmf2-r-wr/",
+    "focalLengthMin": 35,
+    "focalLengthMax": 35
   },
   {
     "id": "xf50mm-f10-r-wr",
     "brand": "Fujifilm",
     "series": "XF",
     "model": "XF50mmF1.0 R WR",
-    "focalLength": 50,
-    "focalLengthEquiv": 75,
     "maxAperture": 1.0,
     "minAperture": 16,
     "af": true,
@@ -210,15 +208,15 @@
     "minFocusDistanceCm": 70,
     "releaseYear": 2020,
     "imageUrl": "/next.svg",
-    "officialUrl": "https://fujifilm-x.com/global/products/lenses/"
+    "officialUrl": "https://fujifilm-x.com/global/products/lenses/",
+    "focalLengthMin": 50,
+    "focalLengthMax": 50
   },
   {
     "id": "xf50mm-f2-r-wr",
     "brand": "Fujifilm",
     "series": "XF",
     "model": "XF50mmF2 R WR",
-    "focalLength": 50,
-    "focalLengthEquiv": 75,
     "maxAperture": 2,
     "minAperture": 16,
     "af": true,
@@ -231,7 +229,9 @@
     "minFocusDistanceCm": 35,
     "releaseYear": 2017,
     "imageUrl": "/next.svg",
-    "officialUrl": "https://fujifilm-x.com/global/products/lenses/xf50mmf2-r-wr/"
+    "officialUrl": "https://fujifilm-x.com/global/products/lenses/xf50mmf2-r-wr/",
+    "focalLengthMin": 50,
+    "focalLengthMax": 50
   },
   {
     "id": "xf56mm-f12-r",
@@ -239,8 +239,6 @@
     "series": "XF",
     "model": "XF56mmF1.2 R",
     "generation": 1,
-    "focalLength": 56,
-    "focalLengthEquiv": 84,
     "maxAperture": 1.2,
     "minAperture": 16,
     "af": true,
@@ -253,7 +251,9 @@
     "minFocusDistanceCm": 70,
     "releaseYear": 2014,
     "imageUrl": "/next.svg",
-    "officialUrl": "https://fujifilm-x.com/global/products/discontinued-lenses/xf56mmf12-r/"
+    "officialUrl": "https://fujifilm-x.com/global/products/discontinued-lenses/xf56mmf12-r/",
+    "focalLengthMin": 56,
+    "focalLengthMax": 56
   },
   {
     "id": "xf56mm-f12-r-wr",
@@ -261,8 +261,6 @@
     "series": "XF",
     "model": "XF56mmF1.2 R WR",
     "generation": 2,
-    "focalLength": 56,
-    "focalLengthEquiv": 84,
     "maxAperture": 1.2,
     "minAperture": 16,
     "af": true,
@@ -275,15 +273,15 @@
     "minFocusDistanceCm": 50,
     "releaseYear": 2022,
     "imageUrl": "/next.svg",
-    "officialUrl": "https://fujifilm-x.com/global/products/lenses/"
+    "officialUrl": "https://fujifilm-x.com/global/products/lenses/",
+    "focalLengthMin": 56,
+    "focalLengthMax": 56
   },
   {
     "id": "xf80mm-f28-macro-ois-wr",
     "brand": "Fujifilm",
     "series": "XF",
     "model": "XF80mmF2.8 R LM OIS WR Macro",
-    "focalLength": 80,
-    "focalLengthEquiv": 120,
     "maxAperture": 2.8,
     "minAperture": 22,
     "af": true,
@@ -296,15 +294,15 @@
     "minFocusDistanceCm": 25,
     "releaseYear": 2017,
     "imageUrl": "/next.svg",
-    "officialUrl": "https://fujifilm-x.com/global/products/lenses/"
+    "officialUrl": "https://fujifilm-x.com/global/products/lenses/",
+    "focalLengthMin": 80,
+    "focalLengthMax": 80
   },
   {
     "id": "xf90mm-f2-lm-wr",
     "brand": "Fujifilm",
     "series": "XF",
     "model": "XF90mmF2 R LM WR",
-    "focalLength": 90,
-    "focalLengthEquiv": 135,
     "maxAperture": 2,
     "minAperture": 22,
     "af": true,
@@ -317,16 +315,15 @@
     "minFocusDistanceCm": 60,
     "releaseYear": 2015,
     "imageUrl": "/next.svg",
-    "officialUrl": "https://fujifilm-x.com/global/products/lenses/xf90mmf2-r-lm-wr/"
+    "officialUrl": "https://fujifilm-x.com/global/products/lenses/xf90mmf2-r-lm-wr/",
+    "focalLengthMin": 90,
+    "focalLengthMax": 90
   },
   {
     "id": "xf10-24mm-f4-ois-wr",
     "brand": "Fujifilm",
     "series": "XF",
     "model": "XF10-24mmF4 R OIS WR",
-    "focalLength": 10,
-    "focalLengthMax": 24,
-    "focalLengthEquiv": 15,
     "maxAperture": 4,
     "minAperture": 22,
     "af": true,
@@ -339,16 +336,15 @@
     "minFocusDistanceCm": 24,
     "releaseYear": 2018,
     "imageUrl": "/next.svg",
-    "officialUrl": "https://fujifilm-x.com/global/products/lenses/xf10-24mmf4-r-ois-wr/"
+    "officialUrl": "https://fujifilm-x.com/global/products/lenses/xf10-24mmf4-r-ois-wr/",
+    "focalLengthMin": 10,
+    "focalLengthMax": 24
   },
   {
     "id": "xf16-55mm-f28-lm-wr",
     "brand": "Fujifilm",
     "series": "XF",
     "model": "XF16-55mmF2.8 R LM WR",
-    "focalLength": 16,
-    "focalLengthMax": 55,
-    "focalLengthEquiv": 24,
     "maxAperture": 2.8,
     "minAperture": 22,
     "af": true,
@@ -361,16 +357,15 @@
     "minFocusDistanceCm": 30,
     "releaseYear": 2015,
     "imageUrl": "/next.svg",
-    "officialUrl": "https://fujifilm-x.com/global/products/lenses/"
+    "officialUrl": "https://fujifilm-x.com/global/products/lenses/",
+    "focalLengthMin": 16,
+    "focalLengthMax": 55
   },
   {
     "id": "xf18-55mm-f28-4-lm-ois",
     "brand": "Fujifilm",
     "series": "XF",
     "model": "XF18-55mmF2.8-4 R LM OIS",
-    "focalLength": 18,
-    "focalLengthMax": 55,
-    "focalLengthEquiv": 27,
     "maxAperture": 2.8,
     "minAperture": 22,
     "af": true,
@@ -383,16 +378,15 @@
     "minFocusDistanceCm": 35,
     "releaseYear": 2012,
     "imageUrl": "/next.svg",
-    "officialUrl": "https://fujifilm-x.com/global/products/lenses/"
+    "officialUrl": "https://fujifilm-x.com/global/products/lenses/",
+    "focalLengthMin": 18,
+    "focalLengthMax": 55
   },
   {
     "id": "xf50-140mm-f28-lm-ois-wr",
     "brand": "Fujifilm",
     "series": "XF",
     "model": "XF50-140mmF2.8 R LM OIS WR",
-    "focalLength": 50,
-    "focalLengthMax": 140,
-    "focalLengthEquiv": 75,
     "maxAperture": 2.8,
     "minAperture": 22,
     "af": true,
@@ -405,16 +399,15 @@
     "minFocusDistanceCm": 100,
     "releaseYear": 2014,
     "imageUrl": "/next.svg",
-    "officialUrl": "https://fujifilm-x.com/global/products/lenses/"
+    "officialUrl": "https://fujifilm-x.com/global/products/lenses/",
+    "focalLengthMin": 50,
+    "focalLengthMax": 140
   },
   {
     "id": "xf70-300mm-f4-56-lm-ois-wr",
     "brand": "Fujifilm",
     "series": "XF",
     "model": "XF70-300mmF4-5.6 R LM OIS WR",
-    "focalLength": 70,
-    "focalLengthMax": 300,
-    "focalLengthEquiv": 105,
     "maxAperture": 4,
     "minAperture": 22,
     "af": true,
@@ -427,16 +420,15 @@
     "minFocusDistanceCm": 83,
     "releaseYear": 2021,
     "imageUrl": "/next.svg",
-    "officialUrl": "https://fujifilm-x.com/global/products/lenses/"
+    "officialUrl": "https://fujifilm-x.com/global/products/lenses/",
+    "focalLengthMin": 70,
+    "focalLengthMax": 300
   },
   {
     "id": "xf100-400mm-f45-56-lm-ois-wr",
     "brand": "Fujifilm",
     "series": "XF",
     "model": "XF100-400mmF4.5-5.6 R LM OIS WR",
-    "focalLength": 100,
-    "focalLengthMax": 400,
-    "focalLengthEquiv": 150,
     "maxAperture": 4.5,
     "minAperture": 22,
     "af": true,
@@ -449,16 +441,15 @@
     "minFocusDistanceCm": 175,
     "releaseYear": 2015,
     "imageUrl": "/next.svg",
-    "officialUrl": "https://fujifilm-x.com/global/products/lenses/"
+    "officialUrl": "https://fujifilm-x.com/global/products/lenses/",
+    "focalLengthMin": 100,
+    "focalLengthMax": 400
   },
   {
     "id": "xc15-45mm-f35-56-ois-pz",
     "brand": "Fujifilm",
     "series": "XC",
     "model": "XC15-45mmF3.5-5.6 OIS PZ",
-    "focalLength": 15,
-    "focalLengthMax": 45,
-    "focalLengthEquiv": 23,
     "maxAperture": 3.5,
     "minAperture": 22,
     "af": true,
@@ -471,15 +462,15 @@
     "minFocusDistanceCm": 13,
     "releaseYear": 2018,
     "imageUrl": "/next.svg",
-    "officialUrl": "https://fujifilm-x.com/global/products/lenses/"
+    "officialUrl": "https://fujifilm-x.com/global/products/lenses/",
+    "focalLengthMin": 15,
+    "focalLengthMax": 45
   },
   {
     "id": "xc35mm-f2",
     "brand": "Fujifilm",
     "series": "XC",
     "model": "XC35mmF2",
-    "focalLength": 35,
-    "focalLengthEquiv": 53,
     "maxAperture": 2,
     "minAperture": 16,
     "af": true,
@@ -492,15 +483,15 @@
     "minFocusDistanceCm": 35,
     "releaseYear": 2020,
     "imageUrl": "/next.svg",
-    "officialUrl": "https://fujifilm-x.com/global/products/lenses/xc35mmf2/"
+    "officialUrl": "https://fujifilm-x.com/global/products/lenses/xc35mmf2/",
+    "focalLengthMin": 35,
+    "focalLengthMax": 35
   },
   {
     "id": "viltrox-af-13mm-f14-xf",
     "brand": "Viltrox",
     "series": "",
     "model": "AF 13mm F1.4 XF",
-    "focalLength": 13,
-    "focalLengthEquiv": 20,
     "maxAperture": 1.4,
     "minAperture": 16,
     "af": true,
@@ -513,15 +504,15 @@
     "minFocusDistanceCm": 19,
     "releaseYear": 2023,
     "imageUrl": "/next.svg",
-    "officialUrl": "https://viltrox.com/"
+    "officialUrl": "https://viltrox.com/",
+    "focalLengthMin": 13,
+    "focalLengthMax": 13
   },
   {
     "id": "viltrox-af-23mm-f14-xf",
     "brand": "Viltrox",
     "series": "",
     "model": "AF 23mm F1.4 XF",
-    "focalLength": 23,
-    "focalLengthEquiv": 35,
     "maxAperture": 1.4,
     "minAperture": 16,
     "af": true,
@@ -534,15 +525,15 @@
     "minFocusDistanceCm": 19,
     "releaseYear": 2020,
     "imageUrl": "/next.svg",
-    "officialUrl": "https://viltrox.com/"
+    "officialUrl": "https://viltrox.com/",
+    "focalLengthMin": 23,
+    "focalLengthMax": 23
   },
   {
     "id": "viltrox-af-27mm-f12-xf-pro",
     "brand": "Viltrox",
     "series": "",
     "model": "AF 27mm F1.2 XF Pro",
-    "focalLength": 27,
-    "focalLengthEquiv": 41,
     "maxAperture": 1.2,
     "minAperture": 16,
     "af": true,
@@ -555,15 +546,15 @@
     "minFocusDistanceCm": 35,
     "releaseYear": 2023,
     "imageUrl": "/next.svg",
-    "officialUrl": "https://viltrox.com/"
+    "officialUrl": "https://viltrox.com/",
+    "focalLengthMin": 27,
+    "focalLengthMax": 27
   },
   {
     "id": "viltrox-af-33mm-f14-xf",
     "brand": "Viltrox",
     "series": "",
     "model": "AF 33mm F1.4 XF",
-    "focalLength": 33,
-    "focalLengthEquiv": 50,
     "maxAperture": 1.4,
     "minAperture": 16,
     "af": true,
@@ -576,15 +567,15 @@
     "minFocusDistanceCm": 35,
     "releaseYear": 2021,
     "imageUrl": "/next.svg",
-    "officialUrl": "https://viltrox.com/"
+    "officialUrl": "https://viltrox.com/",
+    "focalLengthMin": 33,
+    "focalLengthMax": 33
   },
   {
     "id": "viltrox-af-56mm-f14-xf",
     "brand": "Viltrox",
     "series": "",
     "model": "AF 56mm F1.4 XF",
-    "focalLength": 56,
-    "focalLengthEquiv": 84,
     "maxAperture": 1.4,
     "minAperture": 16,
     "af": true,
@@ -597,15 +588,15 @@
     "minFocusDistanceCm": 47,
     "releaseYear": 2020,
     "imageUrl": "/next.svg",
-    "officialUrl": "https://viltrox.com/"
+    "officialUrl": "https://viltrox.com/",
+    "focalLengthMin": 56,
+    "focalLengthMax": 56
   },
   {
     "id": "viltrox-af-75mm-f12-xf-pro",
     "brand": "Viltrox",
     "series": "",
     "model": "AF 75mm F1.2 XF Pro",
-    "focalLength": 75,
-    "focalLengthEquiv": 113,
     "maxAperture": 1.2,
     "minAperture": 16,
     "af": true,
@@ -618,15 +609,15 @@
     "minFocusDistanceCm": 55,
     "releaseYear": 2023,
     "imageUrl": "/next.svg",
-    "officialUrl": "https://viltrox.com/"
+    "officialUrl": "https://viltrox.com/",
+    "focalLengthMin": 75,
+    "focalLengthMax": 75
   },
   {
     "id": "viltrox-af-85mm-f18-xf-ii",
     "brand": "Viltrox",
     "series": "",
     "model": "AF 85mm F1.8 XF II",
-    "focalLength": 85,
-    "focalLengthEquiv": 128,
     "maxAperture": 1.8,
     "minAperture": 16,
     "af": true,
@@ -639,16 +630,15 @@
     "minFocusDistanceCm": 90,
     "releaseYear": 2021,
     "imageUrl": "/next.svg",
-    "officialUrl": "https://viltrox.com/"
+    "officialUrl": "https://viltrox.com/",
+    "focalLengthMin": 85,
+    "focalLengthMax": 85
   },
   {
     "id": "sigma-10-18mm-f28-dc-dn-c",
     "brand": "Sigma",
     "series": "",
     "model": "10-18mm F2.8 DC DN | C",
-    "focalLength": 10,
-    "focalLengthMax": 18,
-    "focalLengthEquiv": 15,
     "maxAperture": 2.8,
     "minAperture": 22,
     "af": true,
@@ -661,15 +651,15 @@
     "minFocusDistanceCm": 11.6,
     "releaseYear": 2022,
     "imageUrl": "/next.svg",
-    "officialUrl": "https://www.sigma-global.com/en/lenses/categories/mirrorless/fujifilm-x.html"
+    "officialUrl": "https://www.sigma-global.com/en/lenses/categories/mirrorless/fujifilm-x.html",
+    "focalLengthMin": 10,
+    "focalLengthMax": 18
   },
   {
     "id": "sigma-16mm-f14-dc-dn-c",
     "brand": "Sigma",
     "series": "",
     "model": "16mm F1.4 DC DN | C",
-    "focalLength": 16,
-    "focalLengthEquiv": 24,
     "maxAperture": 1.4,
     "minAperture": 16,
     "af": true,
@@ -682,16 +672,15 @@
     "minFocusDistanceCm": 25,
     "releaseYear": 2018,
     "imageUrl": "/next.svg",
-    "officialUrl": "https://www.sigma-global.com/en/lenses/categories/mirrorless/fujifilm-x.html"
+    "officialUrl": "https://www.sigma-global.com/en/lenses/categories/mirrorless/fujifilm-x.html",
+    "focalLengthMin": 16,
+    "focalLengthMax": 16
   },
   {
     "id": "sigma-18-50mm-f28-dc-dn-c",
     "brand": "Sigma",
     "series": "",
     "model": "18-50mm F2.8 DC DN | C",
-    "focalLength": 18,
-    "focalLengthMax": 50,
-    "focalLengthEquiv": 27,
     "maxAperture": 2.8,
     "minAperture": 22,
     "af": true,
@@ -704,15 +693,15 @@
     "minFocusDistanceCm": 12.1,
     "releaseYear": 2021,
     "imageUrl": "/next.svg",
-    "officialUrl": "https://www.sigma-global.com/en/lenses/categories/mirrorless/fujifilm-x.html"
+    "officialUrl": "https://www.sigma-global.com/en/lenses/categories/mirrorless/fujifilm-x.html",
+    "focalLengthMin": 18,
+    "focalLengthMax": 50
   },
   {
     "id": "sigma-23mm-f14-dc-dn-c",
     "brand": "Sigma",
     "series": "",
     "model": "23mm F1.4 DC DN | C",
-    "focalLength": 23,
-    "focalLengthEquiv": 35,
     "maxAperture": 1.4,
     "minAperture": 16,
     "af": true,
@@ -725,15 +714,15 @@
     "minFocusDistanceCm": 29,
     "releaseYear": 2023,
     "imageUrl": "/next.svg",
-    "officialUrl": "https://www.sigma-global.com/en/lenses/categories/mirrorless/fujifilm-x.html"
+    "officialUrl": "https://www.sigma-global.com/en/lenses/categories/mirrorless/fujifilm-x.html",
+    "focalLengthMin": 23,
+    "focalLengthMax": 23
   },
   {
     "id": "sigma-30mm-f14-dc-dn-c",
     "brand": "Sigma",
     "series": "",
     "model": "30mm F1.4 DC DN | C",
-    "focalLength": 30,
-    "focalLengthEquiv": 45,
     "maxAperture": 1.4,
     "minAperture": 16,
     "af": true,
@@ -746,15 +735,15 @@
     "minFocusDistanceCm": 30,
     "releaseYear": 2018,
     "imageUrl": "/next.svg",
-    "officialUrl": "https://www.sigma-global.com/en/lenses/categories/mirrorless/fujifilm-x.html"
+    "officialUrl": "https://www.sigma-global.com/en/lenses/categories/mirrorless/fujifilm-x.html",
+    "focalLengthMin": 30,
+    "focalLengthMax": 30
   },
   {
     "id": "sigma-56mm-f14-dc-dn-c",
     "brand": "Sigma",
     "series": "",
     "model": "56mm F1.4 DC DN | C",
-    "focalLength": 56,
-    "focalLengthEquiv": 84,
     "maxAperture": 1.4,
     "minAperture": 16,
     "af": true,
@@ -767,16 +756,15 @@
     "minFocusDistanceCm": 50,
     "releaseYear": 2018,
     "imageUrl": "/next.svg",
-    "officialUrl": "https://www.sigma-global.com/en/lenses/categories/mirrorless/fujifilm-x.html"
+    "officialUrl": "https://www.sigma-global.com/en/lenses/categories/mirrorless/fujifilm-x.html",
+    "focalLengthMin": 56,
+    "focalLengthMax": 56
   },
   {
     "id": "tamron-11-20mm-f28-di-iii-a-rxd",
     "brand": "Tamron",
     "series": "",
     "model": "11-20mm F2.8 Di III-A RXD",
-    "focalLength": 11,
-    "focalLengthMax": 20,
-    "focalLengthEquiv": 17,
     "maxAperture": 2.8,
     "minAperture": 22,
     "af": true,
@@ -789,16 +777,15 @@
     "minFocusDistanceCm": 15,
     "releaseYear": 2021,
     "imageUrl": "/next.svg",
-    "officialUrl": "https://www.tamron.com/en/lenses/"
+    "officialUrl": "https://www.tamron.com/en/lenses/",
+    "focalLengthMin": 11,
+    "focalLengthMax": 20
   },
   {
     "id": "tamron-17-70mm-f28-di-iii-a-vc-rxd",
     "brand": "Tamron",
     "series": "",
     "model": "17-70mm F2.8 Di III-A VC RXD",
-    "focalLength": 17,
-    "focalLengthMax": 70,
-    "focalLengthEquiv": 26,
     "maxAperture": 2.8,
     "minAperture": 22,
     "af": true,
@@ -811,16 +798,15 @@
     "minFocusDistanceCm": 19,
     "releaseYear": 2021,
     "imageUrl": "/next.svg",
-    "officialUrl": "https://www.tamron.com/en/lenses/"
+    "officialUrl": "https://www.tamron.com/en/lenses/",
+    "focalLengthMin": 17,
+    "focalLengthMax": 70
   },
   {
     "id": "tamron-18-300mm-f35-63-di-iii-a-vc-vxd",
     "brand": "Tamron",
     "series": "",
     "model": "18-300mm F3.5-6.3 Di III-A VC VXD",
-    "focalLength": 18,
-    "focalLengthMax": 300,
-    "focalLengthEquiv": 27,
     "maxAperture": 3.5,
     "minAperture": 22,
     "af": true,
@@ -833,16 +819,15 @@
     "minFocusDistanceCm": 15,
     "releaseYear": 2022,
     "imageUrl": "/next.svg",
-    "officialUrl": "https://www.tamron.com/en/lenses/"
+    "officialUrl": "https://www.tamron.com/en/lenses/",
+    "focalLengthMin": 18,
+    "focalLengthMax": 300
   },
   {
     "id": "tamron-150-500mm-f5-67-di-iii-vc-vxd",
     "brand": "Tamron",
     "series": "",
     "model": "150-500mm F5-6.7 Di III VC VXD",
-    "focalLength": 150,
-    "focalLengthMax": 500,
-    "focalLengthEquiv": 225,
     "maxAperture": 5,
     "minAperture": 22,
     "af": true,
@@ -855,6 +840,8 @@
     "minFocusDistanceCm": 60,
     "releaseYear": 2022,
     "imageUrl": "/next.svg",
-    "officialUrl": "https://www.tamron.com/en/lenses/"
+    "officialUrl": "https://www.tamron.com/en/lenses/",
+    "focalLengthMin": 150,
+    "focalLengthMax": 500
   }
 ]

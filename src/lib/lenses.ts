@@ -3,6 +3,32 @@ import type { Lens } from './types';
 
 export const allLenses: Lens[] = lensesData as Lens[];
 
+const CROP_FACTOR = 1.5;
+
+export function isZoom(lens: Lens): boolean {
+  return lens.focalLengthMin !== lens.focalLengthMax;
+}
+
+export function focalEquivMin(lens: Lens): number {
+  return Math.round(lens.focalLengthMin * CROP_FACTOR);
+}
+
+export function focalEquivMax(lens: Lens): number {
+  return Math.round(lens.focalLengthMax * CROP_FACTOR);
+}
+
+export function formatFocalDisplay(lens: Lens): string {
+  return isZoom(lens)
+    ? `${lens.focalLengthMin}–${lens.focalLengthMax}mm`
+    : `${lens.focalLengthMin}mm`;
+}
+
+export function formatEquivDisplay(lens: Lens): string {
+  return isZoom(lens)
+    ? `${focalEquivMin(lens)}–${focalEquivMax(lens)}mm`
+    : `${focalEquivMin(lens)}mm`;
+}
+
 export type FocalRange = 'wide' | 'standard' | 'tele';
 export type LensType = 'prime' | 'zoom';
 
@@ -25,10 +51,10 @@ export const defaultFilters: FilterState = {
 export function filterLenses(lenses: Lens[], filters: FilterState): Lens[] {
   return lenses.filter((lens) => {
     if (filters.brand && lens.brand !== filters.brand) return false;
-    if (filters.type === 'prime' && lens.focalLengthMax !== undefined) return false;
-    if (filters.type === 'zoom' && lens.focalLengthMax === undefined) return false;
+    if (filters.type === 'prime' && isZoom(lens)) return false;
+    if (filters.type === 'zoom' && !isZoom(lens)) return false;
     if (filters.focalRange) {
-      const equiv = lens.focalLengthEquiv;
+      const equiv = focalEquivMin(lens);
       if (filters.focalRange === 'wide' && equiv > 35) return false;
       if (filters.focalRange === 'standard' && (equiv <= 35 || equiv > 85)) return false;
       if (filters.focalRange === 'tele' && equiv <= 85) return false;
@@ -55,9 +81,9 @@ export function getLensUrl(lens: Lens): string | undefined {
   return lens.officialUrl ?? BRAND_URLS[lens.brand];
 }
 
-export type SortKey = 'focalLength' | 'maxAperture' | 'weightG' | 'releaseYear';
+export type SortKey = 'focalLengthMin' | 'maxAperture' | 'weightG' | 'releaseYear';
 
-export const defaultSort: SortKey = 'focalLength';
+export const defaultSort: SortKey = 'focalLengthMin';
 
 // releaseYear: newest first; everything else: ascending
 export function sortLenses(lenses: Lens[], key: SortKey): Lens[] {

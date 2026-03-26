@@ -21,53 +21,16 @@
 
 ## 数据结构
 
-```typescript
-interface Lens {
-  id: string                     // "xf35mm-f14-r"
-  brand: string                  // "Fujifilm" | "Viltrox" | "Sigma" ...
-  series: string                 // "XF" | "XC" | ""
-  model: string                  // "XF35mmF1.4 R"
-  generation?: number            // 1 | 2，区分同焦段新老代（如 XF23mm f/1.4 老款 = 1，LM WR = 2）
-  focalLength: number            // 实际焦距（mm）
-  focalLengthEquiv: number       // 等效全画幅（×1.5 自动计算）
-  maxAperture: number            // 1.4
-  minAperture: number
-  af: boolean
-  ois: boolean
-  wr: boolean
-  weightG: number
-  diameterMm: number
-  lengthMm: number
-  filterMm: number
-  minFocusDistanceCm: number
-  priceApproxCNY: number | null
-  releaseYear: number
-  officialUrl?: string
-  mtfImageUrl?: string           // 二期填充，MVP 阶段留空
-}
-```
+类型定义见 `src/lib/types.ts`，业务逻辑（筛选、排序、格式化、等效焦距计算）见 `src/lib/lenses.ts`。
 
-**新老代处理原则**：同焦段多代版本（如 XF23mm f/1.4 老款 vs LM WR 新款）均独立收录，`generation` 字段区分，满足"老款还值不值得买"的高频对比需求。
+**新老代处理原则**：同焦段多代版本均独立收录，用 `generation` 字段区分。
 
-## MVP 功能范围
+## 二期不做
 
-**纳入：**
-- 镜头列表页 + 筛选（品牌 / 焦段 / 光圈 / AF/MF）
-- 2–4 款并排对比
-- 等效焦距自动换算（×1.5）
-- i18n 框架（next-intl），语言内容后续填充
-
-**明确不做（二期）：**
-- MTF 图表对比（`mtfImageUrl` 字段预留）
+- MTF 图表对比（`mtfImageUrl` 字段已预留）
 - 价格实时抓取
 - 镜身尺寸可视化
 - 场景推荐标签
-
-**数据量目标：** 30–50 款
-- 富士原厂主力款（XF 定焦 + 变焦代表款，含新老代各一版）
-- Viltrox（唯卓仕）全系（10+ 款）
-- Sigma X 卡口全系（6 款）
-- Tamron X 卡口全系（4 款：11-20mm / 17-70mm / 18-300mm / 150-500mm）
 
 ## 架构原则
 
@@ -89,8 +52,10 @@ x-glass/
 - **语言优先级**：优先保证英文版本（`en.json`）功能完整正确；开发时同步更新 `zh.json`，但以英文为准，中文翻译可暂时留空或粗译。
 - **代码注释语言**：所有代码注释（inline comments、block comments、JSDoc）统一用英文，禁止出现中文。
 
-## 当前阶段：Phase 1
+## 当前阶段：Phase 2
 
-- [ ] 初始化 Next.js 项目，部署到 Vercel
-- [ ] 完善 TypeScript 类型定义
-- [ ] 整理 30–50 款镜头 JSON 数据
+Phase 1 已完成：项目初始化、部署、类型定义、镜头数据录入、列表/筛选/排序/对比/详情页、i18n 框架。
+
+**进行中：**
+- [ ] 补充缺失的镜头图片（`imageUrl`）
+- [ ] 完善中文翻译（`zh.json`）

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import { getTranslations } from 'next-intl/server';
-import { allLenses, getLensUrl } from '@/lib/lenses';
+import { allLenses, getLensUrl, formatFocalDisplay, formatEquivDisplay } from '@/lib/lenses';
 import { Link } from '@/i18n/navigation';
 import type { Lens } from '@/lib/types';
 
@@ -83,18 +83,12 @@ export default async function ComparePage({
     {
       kind: 'text',
       label: td('focalLength'),
-      getValue: (l) =>
-        l.focalLengthMax !== undefined
-          ? `${l.focalLength}–${l.focalLengthMax}mm`
-          : `${l.focalLength}mm`,
+      getValue: (l) => formatFocalDisplay(l),
     },
     {
       kind: 'text',
       label: td('focalLengthEquiv'),
-      getValue: (l) =>
-        l.focalLengthMax !== undefined
-          ? `${l.focalLengthEquiv}–${Math.round(l.focalLengthMax * 1.5)}mm`
-          : `${l.focalLengthEquiv}mm`,
+      getValue: (l) => formatEquivDisplay(l),
     },
     {
       kind: 'numeric',

@@ -3,6 +3,7 @@
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import type { Lens } from '@/lib/types';
+import { formatFocalDisplay, formatEquivDisplay } from '@/lib/lenses';
 
 interface Props {
   lens: Lens;
@@ -13,15 +14,8 @@ interface Props {
 
 export default function LensCard({ lens, isSelected, selectionDisabled, onToggle }: Props) {
   const t = useTranslations('LensList');
-  const isZoom = lens.focalLengthMax !== undefined;
-
-  const focalDisplay = isZoom
-    ? `${lens.focalLength}–${lens.focalLengthMax}mm`
-    : `${lens.focalLength}mm`;
-
-  const equivDisplay = isZoom
-    ? `${lens.focalLengthEquiv}–${Math.round(lens.focalLengthMax! * 1.5)}mm`
-    : `${lens.focalLengthEquiv}mm`;
+  const focalDisplay = formatFocalDisplay(lens);
+  const equivDisplay = formatEquivDisplay(lens);
 
   return (
     <div
