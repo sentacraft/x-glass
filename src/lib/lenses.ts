@@ -38,6 +38,7 @@ export interface FilterState {
   focalRange: FocalRange | '';
   afOnly: boolean;
   wrOnly: boolean;
+  sort: SortKey;
 }
 
 export const defaultFilters: FilterState = {
@@ -46,6 +47,7 @@ export const defaultFilters: FilterState = {
   focalRange: '',
   afOnly: false,
   wrOnly: false,
+  sort: 'focalLengthMin',
 };
 
 export function filterLenses(lenses: Lens[], filters: FilterState): Lens[] {
@@ -82,8 +84,6 @@ export function getLensUrl(lens: Lens): string | undefined {
 }
 
 export type SortKey = 'focalLengthMin' | 'maxAperture' | 'weightG' | 'releaseYear';
-
-export const defaultSort: SortKey = 'focalLengthMin';
 
 // releaseYear: newest first; everything else: ascending
 export function sortLenses(lenses: Lens[], key: SortKey): Lens[] {

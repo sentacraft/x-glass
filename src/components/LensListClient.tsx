@@ -7,10 +7,8 @@ import {
   filterLenses,
   sortLenses,
   defaultFilters,
-  defaultSort,
   getUniqueBrands,
   type FilterState,
-  type SortKey,
 } from '@/lib/lenses';
 import LensCard from './LensCard';
 import LensFilters from './LensFilters';
@@ -25,14 +23,13 @@ interface Props {
 export default function LensListClient({ lenses }: Props) {
   const t = useTranslations('LensList');
   const [filters, setFilters] = useState<FilterState>(defaultFilters);
-  const [sort, setSort] = useState<SortKey>(defaultSort);
   const [compareIds, setCompareIds] = useState<string[]>([]);
 
   const brands = useMemo(() => getUniqueBrands(lenses), [lenses]);
 
   const displayed = useMemo(
-    () => sortLenses(filterLenses(lenses, filters), sort),
-    [lenses, filters, sort],
+    () => sortLenses(filterLenses(lenses, filters), filters.sort),
+    [lenses, filters],
   );
 
   const selectedLenses = useMemo(
@@ -54,9 +51,7 @@ export default function LensListClient({ lenses }: Props) {
           <LensFilters
             filters={filters}
             brands={brands}
-            sort={sort}
-            onChange={setFilters}
-            onSortChange={setSort}
+            onFiltersChange={setFilters}
           />
           <p className="text-sm text-zinc-500 dark:text-zinc-400">
             {t('resultsCount', { count: displayed.length })}

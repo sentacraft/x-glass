@@ -6,16 +6,14 @@ import type { FilterState, FocalRange, LensType, SortKey } from '@/lib/lenses';
 interface Props {
   filters: FilterState;
   brands: string[];
-  sort: SortKey;
-  onChange: (filters: FilterState) => void;
-  onSortChange: (sort: SortKey) => void;
+  onFiltersChange: (filters: FilterState) => void;
 }
 
-export default function LensFilters({ filters, brands, sort, onChange, onSortChange }: Props) {
+export default function LensFilters({ filters, brands, onFiltersChange }: Props) {
   const t = useTranslations('LensList');
 
-  function set<K extends keyof FilterState>(key: K, value: FilterState[K]) {
-    onChange({ ...filters, [key]: value });
+  function updateFilters<K extends keyof FilterState>(key: K, value: FilterState[K]) {
+    onFiltersChange({ ...filters, [key]: value });
   }
 
   const selectClass =
@@ -30,7 +28,7 @@ export default function LensFilters({ filters, brands, sort, onChange, onSortCha
         </label>
         <select
           value={filters.brand}
-          onChange={(e) => set('brand', e.target.value)}
+          onChange={(e) => updateFilters('brand', e.target.value)}
           className={selectClass}
         >
           <option value="">{t('allBrands')}</option>
@@ -49,7 +47,7 @@ export default function LensFilters({ filters, brands, sort, onChange, onSortCha
         </label>
         <select
           value={filters.type}
-          onChange={(e) => set('type', e.target.value as LensType | '')}
+          onChange={(e) => updateFilters('type', e.target.value as LensType | '')}
           className={selectClass}
         >
           <option value="">{t('allTypes')}</option>
@@ -65,7 +63,7 @@ export default function LensFilters({ filters, brands, sort, onChange, onSortCha
         </label>
         <select
           value={filters.focalRange}
-          onChange={(e) => set('focalRange', e.target.value as FocalRange | '')}
+          onChange={(e) => updateFilters('focalRange', e.target.value as FocalRange | '')}
           className={selectClass}
         >
           <option value="">{t('allRanges')}</option>
@@ -81,8 +79,8 @@ export default function LensFilters({ filters, brands, sort, onChange, onSortCha
           {t('sortBy')}
         </label>
         <select
-          value={sort}
-          onChange={(e) => onSortChange(e.target.value as SortKey)}
+          value={filters.sort}
+          onChange={(e) => updateFilters('sort', e.target.value as SortKey)}
           className={selectClass}
         >
           <option value="focalLengthMin">{t('sortFocalLength')}</option>
@@ -98,7 +96,7 @@ export default function LensFilters({ filters, brands, sort, onChange, onSortCha
           <input
             type="checkbox"
             checked={filters.afOnly}
-            onChange={(e) => set('afOnly', e.target.checked)}
+            onChange={(e) => updateFilters('afOnly', e.target.checked)}
             className="rounded border-zinc-300 dark:border-zinc-600 text-blue-500 focus:ring-blue-500"
           />
           {t('afOnly')}
@@ -107,7 +105,7 @@ export default function LensFilters({ filters, brands, sort, onChange, onSortCha
           <input
             type="checkbox"
             checked={filters.wrOnly}
-            onChange={(e) => set('wrOnly', e.target.checked)}
+            onChange={(e) => updateFilters('wrOnly', e.target.checked)}
             className="rounded border-zinc-300 dark:border-zinc-600 text-blue-500 focus:ring-blue-500"
           />
           {t('wrOnly')}
