@@ -46,6 +46,7 @@
     "removeFromCompare": "移除",
     "compareCount": "已选 {count} 款",
     "goCompare": "开始对比（{count}）",
+    "clearCompare": "清空",
     "resultsCount": "共 {count} 款",
     "noResults": "没有符合条件的镜头。"
   },

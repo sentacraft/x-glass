@@ -3,6 +3,7 @@
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 import type { Lens } from "@/lib/types";
+import { useCompare } from "@/context/CompareContext";
 
 interface Props {
   selectedLenses: Lens[];
@@ -12,6 +13,7 @@ interface Props {
 export default function CompareBar({ selectedLenses, onRemove }: Props) {
   const t = useTranslations("LensList");
   const router = useRouter();
+  const { clearCompare } = useCompare();
 
   if (selectedLenses.length === 0) {
     return null;
@@ -44,6 +46,12 @@ export default function CompareBar({ selectedLenses, onRemove }: Props) {
             </div>
           ))}
         </div>
+        <button
+          onClick={clearCompare}
+          className="shrink-0 text-sm font-medium px-3 py-2 rounded-xl text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-200 transition-colors"
+        >
+          {t("clearCompare")}
+        </button>
         <button
           onClick={handleCompare}
           disabled={selectedLenses.length < 2}

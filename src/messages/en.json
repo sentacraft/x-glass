@@ -46,6 +46,7 @@
     "removeFromCompare": "Remove",
     "compareCount": "{count} selected",
     "goCompare": "Compare ({count})",
+    "clearCompare": "Clear",
     "resultsCount": "{count} lenses",
     "noResults": "No lenses match your filters."
   },
