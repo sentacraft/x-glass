@@ -43,6 +43,10 @@ export default function LensFilters({
         <Select
           value={filters.brand}
           onValueChange={(v) => updateFilters("brand", v ?? "")}
+          items={[
+            { value: "", label: t("allBrands") },
+            ...brands.map((b) => ({ value: b, label: b })),
+          ]}
         >
           <SelectTrigger id="filter-brand">
             <SelectValue placeholder={t("allBrands")} />
@@ -66,6 +70,11 @@ export default function LensFilters({
         <Select
           value={filters.type}
           onValueChange={(v) => updateFilters("type", (v ?? "") as LensType | "")}
+          items={[
+            { value: "", label: t("allTypes") },
+            { value: "prime", label: t("primes") },
+            { value: "zoom", label: t("zooms") },
+          ]}
         >
           <SelectTrigger id="filter-type">
             <SelectValue placeholder={t("allTypes")} />
@@ -88,6 +97,12 @@ export default function LensFilters({
           onValueChange={(v) =>
             updateFilters("focalRange", (v ?? "") as FocalRange | "")
           }
+          items={[
+            { value: "", label: t("allRanges") },
+            { value: "wide", label: t("wide") },
+            { value: "standard", label: t("standard") },
+            { value: "tele", label: t("tele") },
+          ]}
         >
           <SelectTrigger id="filter-focal-range">
             <SelectValue placeholder={t("allRanges")} />
@@ -109,6 +124,12 @@ export default function LensFilters({
         <Select
           value={filters.sort}
           onValueChange={(v) => updateFilters("sort", (v ?? "focalLengthMin") as SortKey)}
+          items={[
+            { value: "focalLengthMin", label: t("sortFocalLength") },
+            { value: "maxAperture", label: t("sortAperture") },
+            { value: "weightG", label: t("sortWeight") },
+            { value: "releaseYear", label: t("sortYear") },
+          ]}
         >
           <SelectTrigger id="filter-sort">
             <SelectValue placeholder={t("sortFocalLength")} />
