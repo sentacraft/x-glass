@@ -51,7 +51,7 @@ export const defaultFilters: FilterState = {
   features: [],
   weightRange: null,
   yearRange: null,
-  sort: "focalLengthMin",
+  sort: "focalLength",
   sortDir: "asc",
 };
 
@@ -99,14 +99,18 @@ export function getLensUrl(lens: Lens): string | undefined {
 }
 
 export type SortKey =
-  | "focalLengthMin"
+  | "focalLength"
   | "maxAperture"
   | "weightG"
   | "releaseYear";
 
 export function sortLenses(lenses: Lens[], key: SortKey, dir: "asc" | "desc"): Lens[] {
   return [...lenses].sort((a, b) => {
-    const delta = a[key] - b[key];
+    const field: keyof Lens =
+      key === "focalLength"
+        ? dir === "asc" ? "focalLengthMin" : "focalLengthMax"
+        : key;
+    const delta = (a[field] as number) - (b[field] as number);
     return dir === "asc" ? delta : -delta;
   });
 }

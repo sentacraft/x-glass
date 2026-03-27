@@ -100,9 +100,9 @@ export default function LensFilters({
         <div className="flex gap-1.5">
           <Select
             value={filters.sort}
-            onValueChange={(v) => updateFilters("sort", (v ?? "focalLengthMin") as SortKey)}
+            onValueChange={(v) => updateFilters("sort", (v ?? "focalLength") as SortKey)}
             items={[
-              { value: "focalLengthMin", label: t("sortFocalLength") },
+              { value: "focalLength", label: t("sortFocalLength") },
               { value: "maxAperture", label: t("sortAperture") },
               { value: "weightG", label: t("sortWeight") },
               { value: "releaseYear", label: t("sortYear") },
@@ -112,7 +112,7 @@ export default function LensFilters({
               <SelectValue placeholder={t("sortFocalLength")} />
             </SelectTrigger>
             <SelectContent align="start">
-              <SelectItem value="focalLengthMin">
+              <SelectItem value="focalLength">
                 {t("sortFocalLength")}
               </SelectItem>
               <SelectItem value="maxAperture">{t("sortAperture")}</SelectItem>
