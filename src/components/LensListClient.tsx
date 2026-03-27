@@ -46,7 +46,7 @@ export default function LensListClient({ lenses }: Props) {
 
   return (
     <>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 flex flex-col gap-6 pb-24">
+      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 py-8 flex flex-col gap-6 pb-24">
         <div className="flex flex-col gap-4">
           <h1 className="text-2xl font-bold text-zinc-900 dark:text-zinc-50">
             {t("title")}
