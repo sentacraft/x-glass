@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
+import { LENS_FEATURES } from "@/lib/lenses";
 import type { FilterState, LensType, SortKey } from "@/lib/lenses";
 import { Button } from "@/components/ui/button";
 import { ArrowUpNarrowWide, ArrowDownNarrowWide, ChevronDown, ChevronUp } from "lucide-react";
@@ -12,7 +13,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Checkbox } from "@/components/ui/checkbox";
 
 interface Props {
   filters: FilterState;
@@ -137,27 +137,6 @@ export default function LensFilters({
         </div>
       </div>
 
-      {/* Checkboxes */}
-      <div className="flex flex-col gap-1">
-        <span className={labelClass}>&nbsp;</span>
-        <div className="flex gap-4 py-1.5">
-          <label className="flex items-center gap-2 text-sm text-zinc-700 dark:text-zinc-300 cursor-pointer select-none">
-            <Checkbox
-              checked={filters.afOnly}
-              onCheckedChange={(v) => updateFilters("afOnly", v as boolean)}
-            />
-            {t("afOnly")}
-          </label>
-          <label className="flex items-center gap-2 text-sm text-zinc-700 dark:text-zinc-300 cursor-pointer select-none">
-            <Checkbox
-              checked={filters.wrOnly}
-              onCheckedChange={(v) => updateFilters("wrOnly", v as boolean)}
-            />
-            {t("wrOnly")}
-          </label>
-        </div>
-      </div>
-
       {/* Advanced filters toggle */}
       <div className="flex flex-col gap-1">
         <span className={labelClass}>&nbsp;</span>
@@ -175,7 +154,32 @@ export default function LensFilters({
     {/* Advanced filters panel */}
     {advancedOpen && (
       <div className="flex flex-wrap gap-4 items-end pt-3 border-t border-zinc-200 dark:border-zinc-800">
-        {/* Advanced filter controls added in subsequent commits */}
+        {/* Feature toggles */}
+        <div className="flex flex-col gap-1">
+          <span className={labelClass}>{t("features")}</span>
+          <div className="flex gap-1.5 py-0.5">
+            {LENS_FEATURES.map((key) => {
+              const active = filters.features.includes(key);
+              return (
+                <Button
+                  key={key}
+                  size="sm"
+                  variant={active ? "default" : "outline"}
+                  onClick={() =>
+                    updateFilters(
+                      "features",
+                      active
+                        ? filters.features.filter((f) => f !== key)
+                        : [...filters.features, key]
+                    )
+                  }
+                >
+                  {t(key)}
+                </Button>
+              );
+            })}
+          </div>
+        </div>
       </div>
     )}
     </div>

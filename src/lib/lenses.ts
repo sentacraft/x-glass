@@ -31,12 +31,14 @@ export function formatEquivDisplay(lens: Lens): string {
 
 export type LensType = "prime" | "zoom";
 
+// Boolean fields on Lens that can be toggled as required features.
+// Each string is simultaneously the FilterState key, the Lens field name, and the i18n key.
+export const LENS_FEATURES = ["af", "ois", "wr"] as const satisfies (keyof Lens)[];
+
 export interface FilterState {
   brands: string[];                     // empty = all brands
   type: LensType | "";
-  afOnly: boolean;
-  oisOnly: boolean;
-  wrOnly: boolean;
+  features: string[];                   // subset of LENS_FEATURES keys; empty = no requirement
   weightRange: [number, number] | null; // null = no filter
   yearRange: [number, number] | null;   // null = no filter
   sort: SortKey;
@@ -46,9 +48,7 @@ export interface FilterState {
 export const defaultFilters: FilterState = {
   brands: [],
   type: "",
-  afOnly: false,
-  oisOnly: false,
-  wrOnly: false,
+  features: [],
   weightRange: null,
   yearRange: null,
   sort: "focalLengthMin",
@@ -66,14 +66,8 @@ export function filterLenses(lenses: Lens[], filters: FilterState): Lens[] {
     if (filters.type === "zoom" && !isZoom(lens)) {
       return false;
     }
-    if (filters.afOnly && !lens.af) {
-      return false;
-    }
-    if (filters.oisOnly && !lens.ois) {
-      return false;
-    }
-    if (filters.wrOnly && !lens.wr) {
-      return false;
+    for (const field of LENS_FEATURES) {
+      if (filters.features.includes(field) && !lens[field]) return false;
     }
     if (filters.weightRange) {
       const [wMin, wMax] = filters.weightRange;

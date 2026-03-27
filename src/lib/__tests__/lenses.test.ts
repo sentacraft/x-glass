@@ -166,14 +166,21 @@ describe("filterLenses", () => {
     );
   });
 
-  it("filters by oisOnly", () => {
+  it("filters by required features (ois)", () => {
     const oisPool = [
       makeLens({ id: "with-ois", focalLengthMin: 18, focalLengthMax: 55, ois: true }),
       makeLens({ id: "no-ois", focalLengthMin: 35, focalLengthMax: 35, ois: false }),
     ];
-    const result = filterLenses(oisPool, { ...defaultFilters, oisOnly: true });
+    const result = filterLenses(oisPool, { ...defaultFilters, features: ["ois"] });
     expect(result).toHaveLength(1);
     expect(result[0].id).toBe("with-ois");
+  });
+
+  it("filters by multiple required features (af + wr)", () => {
+    const result = filterLenses(lensPool, { ...defaultFilters, features: ["af", "wr"] });
+    expect(result.every((l) => l.af && l.wr)).toBe(true);
+    expect(result).toHaveLength(1);
+    expect(result[0].id).toBe("fuji-zoom");
   });
 
   it("filters by weightRange", () => {
@@ -203,14 +210,14 @@ describe("filterLenses", () => {
     expect(result[0].id).toBe("new");
   });
 
-  it("filters by afOnly", () => {
-    const result = filterLenses(lensPool, { ...defaultFilters, afOnly: true });
+  it("filters by required feature: af", () => {
+    const result = filterLenses(lensPool, { ...defaultFilters, features: ["af"] });
     expect(result.every((l) => l.af)).toBe(true);
     expect(result.map((l) => l.id)).not.toContain("mf-prime");
   });
 
-  it("filters by wrOnly", () => {
-    const result = filterLenses(lensPool, { ...defaultFilters, wrOnly: true });
+  it("filters by required feature: wr", () => {
+    const result = filterLenses(lensPool, { ...defaultFilters, features: ["wr"] });
     expect(result.every((l) => l.wr)).toBe(true);
     expect(result).toHaveLength(1);
     expect(result[0].id).toBe("fuji-zoom");
