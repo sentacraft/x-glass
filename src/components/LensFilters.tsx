@@ -2,6 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import type { FilterState, LensType, SortKey } from "@/lib/lenses";
+import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
@@ -35,31 +36,31 @@ export default function LensFilters({
 
   return (
     <div className="flex flex-wrap gap-4 items-end">
-      {/* Brand */}
+      {/* Brand multi-select chips */}
       <div className="flex flex-col gap-1">
-        <label htmlFor="filter-brand" className={labelClass}>
-          {t("brand")}
-        </label>
-        <Select
-          value={filters.brands[0] ?? ""}
-          onValueChange={(v) => updateFilters("brands", v ? [v] : [])}
-          items={[
-            { value: "", label: t("allBrands") },
-            ...brands.map((b) => ({ value: b, label: b })),
-          ]}
-        >
-          <SelectTrigger id="filter-brand">
-            <SelectValue placeholder={t("allBrands")} />
-          </SelectTrigger>
-          <SelectContent align="start">
-            <SelectItem value="">{t("allBrands")}</SelectItem>
-            {brands.map((b) => (
-              <SelectItem key={b} value={b}>
+        <span className={labelClass}>{t("brand")}</span>
+        <div className="flex flex-wrap gap-1.5 py-0.5">
+          {brands.map((b) => {
+            const selected = filters.brands.includes(b);
+            return (
+              <Button
+                key={b}
+                size="sm"
+                variant={selected ? "default" : "outline"}
+                onClick={() =>
+                  updateFilters(
+                    "brands",
+                    selected
+                      ? filters.brands.filter((x) => x !== b)
+                      : [...filters.brands, b]
+                  )
+                }
+              >
                 {b}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+              </Button>
+            );
+          })}
+        </div>
       </div>
 
       {/* Lens type */}
