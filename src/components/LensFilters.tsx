@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import type { FilterState, FocalRange, LensType, SortKey } from "@/lib/lenses";
+import type { FilterState, LensType, SortKey } from "@/lib/lenses";
 import {
   Select,
   SelectContent,
@@ -41,8 +41,8 @@ export default function LensFilters({
           {t("brand")}
         </label>
         <Select
-          value={filters.brand}
-          onValueChange={(v) => updateFilters("brand", v ?? "")}
+          value={filters.brands[0] ?? ""}
+          onValueChange={(v) => updateFilters("brands", v ? [v] : [])}
           items={[
             { value: "", label: t("allBrands") },
             ...brands.map((b) => ({ value: b, label: b })),
@@ -83,35 +83,6 @@ export default function LensFilters({
             <SelectItem value="">{t("allTypes")}</SelectItem>
             <SelectItem value="prime">{t("primes")}</SelectItem>
             <SelectItem value="zoom">{t("zooms")}</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
-
-      {/* Focal range */}
-      <div className="flex flex-col gap-1">
-        <label htmlFor="filter-focal-range" className={labelClass}>
-          {t("focalRange")}
-        </label>
-        <Select
-          value={filters.focalRange}
-          onValueChange={(v) =>
-            updateFilters("focalRange", (v ?? "") as FocalRange | "")
-          }
-          items={[
-            { value: "", label: t("allRanges") },
-            { value: "wide", label: t("wide") },
-            { value: "standard", label: t("standard") },
-            { value: "tele", label: t("tele") },
-          ]}
-        >
-          <SelectTrigger id="filter-focal-range">
-            <SelectValue placeholder={t("allRanges")} />
-          </SelectTrigger>
-          <SelectContent align="start">
-            <SelectItem value="">{t("allRanges")}</SelectItem>
-            <SelectItem value="wide">{t("wide")}</SelectItem>
-            <SelectItem value="standard">{t("standard")}</SelectItem>
-            <SelectItem value="tele">{t("tele")}</SelectItem>
           </SelectContent>
         </Select>
       </div>

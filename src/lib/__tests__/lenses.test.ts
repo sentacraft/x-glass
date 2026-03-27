@@ -22,8 +22,6 @@ function makeLens(
     brand: "Fujifilm",
     series: "XF",
     model: "XF35mmF1.4 R",
-    focalLengthMin: overrides.focalLengthMin,
-    focalLengthMax: overrides.focalLengthMax,
     maxAperture: 1.4,
     minAperture: 16,
     af: true,
@@ -136,13 +134,22 @@ describe("filterLenses", () => {
     expect(filterLenses(lensPool, defaultFilters)).toHaveLength(4);
   });
 
-  it("filters by brand", () => {
+  it("filters by a single brand", () => {
     const result = filterLenses(lensPool, {
       ...defaultFilters,
-      brand: "Fujifilm",
+      brands: ["Fujifilm"],
     });
     expect(result).toHaveLength(2);
     expect(result.every((l) => l.brand === "Fujifilm")).toBe(true);
+  });
+
+  it("filters by multiple brands", () => {
+    const result = filterLenses(lensPool, {
+      ...defaultFilters,
+      brands: ["Fujifilm", "Sigma"],
+    });
+    expect(result).toHaveLength(3);
+    expect(result.map((l) => l.id)).not.toContain("mf-prime");
   });
 
   it("filters by type: prime", () => {
@@ -159,31 +166,41 @@ describe("filterLenses", () => {
     );
   });
 
-  it("filters by focalRange: wide (equiv <= 35)", () => {
-    // fuji-zoom 18-55: equivMin = 27 (wide), fuji-prime 35: equivMin = 53 (not wide)
-    const result = filterLenses(lensPool, {
-      ...defaultFilters,
-      focalRange: "wide",
-    });
-    expect(result.map((l) => l.id)).toContain("fuji-zoom");
-    expect(result.map((l) => l.id)).not.toContain("fuji-prime");
+  it("filters by oisOnly", () => {
+    const oisPool = [
+      makeLens({ id: "with-ois", focalLengthMin: 18, focalLengthMax: 55, ois: true }),
+      makeLens({ id: "no-ois", focalLengthMin: 35, focalLengthMax: 35, ois: false }),
+    ];
+    const result = filterLenses(oisPool, { ...defaultFilters, oisOnly: true });
+    expect(result).toHaveLength(1);
+    expect(result[0].id).toBe("with-ois");
   });
 
-  it("filters by focalRange: standard (35 < equiv <= 85)", () => {
+  it("filters by weightRange", () => {
     const result = filterLenses(lensPool, {
       ...defaultFilters,
-      focalRange: "standard",
+      weightRange: [100, 200],
     });
-    expect(result.map((l) => l.id)).toContain("fuji-prime"); // equivMin=53
-    expect(result.map((l) => l.id)).toContain("sigma-prime"); // equivMin=84
+    // lensPool default weightG is 187, all lenses use the default
+    expect(result).toHaveLength(4);
+    const result2 = filterLenses(lensPool, {
+      ...defaultFilters,
+      weightRange: [200, 500],
+    });
+    expect(result2).toHaveLength(0);
   });
 
-  it("filters by focalRange: tele (equiv > 85)", () => {
-    const result = filterLenses(lensPool, {
+  it("filters by yearRange", () => {
+    const yearPool = [
+      makeLens({ id: "old", focalLengthMin: 35, focalLengthMax: 35, releaseYear: 2012 }),
+      makeLens({ id: "new", focalLengthMin: 35, focalLengthMax: 35, releaseYear: 2023 }),
+    ];
+    const result = filterLenses(yearPool, {
       ...defaultFilters,
-      focalRange: "tele",
+      yearRange: [2020, 2025],
     });
-    expect(result.map((l) => l.id)).toContain("mf-prime"); // equivMin=113
+    expect(result).toHaveLength(1);
+    expect(result[0].id).toBe("new");
   });
 
   it("filters by afOnly", () => {
@@ -202,7 +219,7 @@ describe("filterLenses", () => {
   it("combines multiple filters", () => {
     const result = filterLenses(lensPool, {
       ...defaultFilters,
-      brand: "Fujifilm",
+      brands: ["Fujifilm"],
       type: "zoom",
     });
     expect(result).toHaveLength(1);

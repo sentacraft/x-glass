@@ -29,30 +29,33 @@ export function formatEquivDisplay(lens: Lens): string {
     : `${focalEquivMin(lens)}mm`;
 }
 
-export type FocalRange = "wide" | "standard" | "tele";
 export type LensType = "prime" | "zoom";
 
 export interface FilterState {
-  brand: string;
+  brands: string[];                     // empty = all brands
   type: LensType | "";
-  focalRange: FocalRange | "";
   afOnly: boolean;
+  oisOnly: boolean;
   wrOnly: boolean;
+  weightRange: [number, number] | null; // null = no filter
+  yearRange: [number, number] | null;   // null = no filter
   sort: SortKey;
 }
 
 export const defaultFilters: FilterState = {
-  brand: "",
+  brands: [],
   type: "",
-  focalRange: "",
   afOnly: false,
+  oisOnly: false,
   wrOnly: false,
+  weightRange: null,
+  yearRange: null,
   sort: "focalLengthMin",
 };
 
 export function filterLenses(lenses: Lens[], filters: FilterState): Lens[] {
   return lenses.filter((lens) => {
-    if (filters.brand && lens.brand !== filters.brand) {
+    if (filters.brands.length > 0 && !filters.brands.includes(lens.brand)) {
       return false;
     }
     if (filters.type === "prime" && isZoom(lens)) {
@@ -61,23 +64,22 @@ export function filterLenses(lenses: Lens[], filters: FilterState): Lens[] {
     if (filters.type === "zoom" && !isZoom(lens)) {
       return false;
     }
-    if (filters.focalRange) {
-      const equiv = focalEquivMin(lens);
-      if (filters.focalRange === "wide" && equiv > 35) {
-        return false;
-      }
-      if (filters.focalRange === "standard" && (equiv <= 35 || equiv > 85)) {
-        return false;
-      }
-      if (filters.focalRange === "tele" && equiv <= 85) {
-        return false;
-      }
-    }
     if (filters.afOnly && !lens.af) {
+      return false;
+    }
+    if (filters.oisOnly && !lens.ois) {
       return false;
     }
     if (filters.wrOnly && !lens.wr) {
       return false;
+    }
+    if (filters.weightRange) {
+      const [wMin, wMax] = filters.weightRange;
+      if (lens.weightG < wMin || lens.weightG > wMax) return false;
+    }
+    if (filters.yearRange) {
+      const [yMin, yMax] = filters.yearRange;
+      if (lens.releaseYear < yMin || lens.releaseYear > yMax) return false;
     }
     return true;
   });
