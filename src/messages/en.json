@@ -36,6 +36,8 @@
     "sortAperture": "Max Aperture",
     "sortWeight": "Weight",
     "sortYear": "Newest First",
+    "sortAsc": "Ascending",
+    "sortDesc": "Descending",
     "addToCompare": "Add to Compare",
     "removeFromCompare": "Remove",
     "compareCount": "{count} selected",

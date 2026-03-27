@@ -3,6 +3,7 @@
 import { useTranslations } from "next-intl";
 import type { FilterState, LensType, SortKey } from "@/lib/lenses";
 import { Button } from "@/components/ui/button";
+import { ArrowUpNarrowWide, ArrowDownNarrowWide } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -93,28 +94,44 @@ export default function LensFilters({
         <label htmlFor="filter-sort" className={labelClass}>
           {t("sortBy")}
         </label>
-        <Select
-          value={filters.sort}
-          onValueChange={(v) => updateFilters("sort", (v ?? "focalLengthMin") as SortKey)}
-          items={[
-            { value: "focalLengthMin", label: t("sortFocalLength") },
-            { value: "maxAperture", label: t("sortAperture") },
-            { value: "weightG", label: t("sortWeight") },
-            { value: "releaseYear", label: t("sortYear") },
-          ]}
-        >
-          <SelectTrigger id="filter-sort">
-            <SelectValue placeholder={t("sortFocalLength")} />
-          </SelectTrigger>
-          <SelectContent align="start">
-            <SelectItem value="focalLengthMin">
-              {t("sortFocalLength")}
-            </SelectItem>
-            <SelectItem value="maxAperture">{t("sortAperture")}</SelectItem>
-            <SelectItem value="weightG">{t("sortWeight")}</SelectItem>
-            <SelectItem value="releaseYear">{t("sortYear")}</SelectItem>
-          </SelectContent>
-        </Select>
+        <div className="flex gap-1.5">
+          <Select
+            value={filters.sort}
+            onValueChange={(v) => updateFilters("sort", (v ?? "focalLengthMin") as SortKey)}
+            items={[
+              { value: "focalLengthMin", label: t("sortFocalLength") },
+              { value: "maxAperture", label: t("sortAperture") },
+              { value: "weightG", label: t("sortWeight") },
+              { value: "releaseYear", label: t("sortYear") },
+            ]}
+          >
+            <SelectTrigger id="filter-sort">
+              <SelectValue placeholder={t("sortFocalLength")} />
+            </SelectTrigger>
+            <SelectContent align="start">
+              <SelectItem value="focalLengthMin">
+                {t("sortFocalLength")}
+              </SelectItem>
+              <SelectItem value="maxAperture">{t("sortAperture")}</SelectItem>
+              <SelectItem value="weightG">{t("sortWeight")}</SelectItem>
+              <SelectItem value="releaseYear">{t("sortYear")}</SelectItem>
+            </SelectContent>
+          </Select>
+          <Button
+            size="icon"
+            variant="outline"
+            onClick={() =>
+              updateFilters("sortDir", filters.sortDir === "asc" ? "desc" : "asc")
+            }
+            aria-label={filters.sortDir === "asc" ? t("sortAsc") : t("sortDesc")}
+          >
+            {filters.sortDir === "asc" ? (
+              <ArrowUpNarrowWide />
+            ) : (
+              <ArrowDownNarrowWide />
+            )}
+          </Button>
+        </div>
       </div>
 
       {/* Checkboxes */}
