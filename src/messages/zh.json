@@ -38,6 +38,8 @@
     "sortYear": "年份",
     "sortAsc": "升序",
     "sortDesc": "降序",
+    "moreFilters": "更多筛选",
+    "fewerFilters": "收起筛选",
     "addToCompare": "加入对比",
     "removeFromCompare": "移除",
     "compareCount": "已选 {count} 款",

@@ -38,6 +38,8 @@
     "sortYear": "Year",
     "sortAsc": "Ascending",
     "sortDesc": "Descending",
+    "moreFilters": "More Filters",
+    "fewerFilters": "Fewer Filters",
     "addToCompare": "Add to Compare",
     "removeFromCompare": "Remove",
     "compareCount": "{count} selected",

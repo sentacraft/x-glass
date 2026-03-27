@@ -1,9 +1,10 @@
 "use client";
 
+import { useState } from "react";
 import { useTranslations } from "next-intl";
 import type { FilterState, LensType, SortKey } from "@/lib/lenses";
 import { Button } from "@/components/ui/button";
-import { ArrowUpNarrowWide, ArrowDownNarrowWide } from "lucide-react";
+import { ArrowUpNarrowWide, ArrowDownNarrowWide, ChevronDown, ChevronUp } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -25,6 +26,7 @@ export default function LensFilters({
   onFiltersChange,
 }: Props) {
   const t = useTranslations("LensList");
+  const [advancedOpen, setAdvancedOpen] = useState(false);
 
   function updateFilters<K extends keyof FilterState>(
     key: K,
@@ -36,6 +38,7 @@ export default function LensFilters({
   const labelClass = "text-xs font-medium text-zinc-500 dark:text-zinc-400";
 
   return (
+    <div className="flex flex-col gap-3">
     <div className="flex flex-wrap gap-4 items-end">
       {/* Brand multi-select chips */}
       <div className="flex flex-col gap-1">
@@ -154,6 +157,27 @@ export default function LensFilters({
           </label>
         </div>
       </div>
+
+      {/* Advanced filters toggle */}
+      <div className="flex flex-col gap-1">
+        <span className={labelClass}>&nbsp;</span>
+        <Button
+          size="sm"
+          variant="ghost"
+          onClick={() => setAdvancedOpen((v) => !v)}
+        >
+          {advancedOpen ? t("fewerFilters") : t("moreFilters")}
+          {advancedOpen ? <ChevronUp /> : <ChevronDown />}
+        </Button>
+      </div>
+    </div>
+
+    {/* Advanced filters panel */}
+    {advancedOpen && (
+      <div className="flex flex-wrap gap-4 items-end pt-3 border-t border-zinc-200 dark:border-zinc-800">
+        {/* Advanced filter controls added in subsequent commits */}
+      </div>
+    )}
     </div>
   );
 }
