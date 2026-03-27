@@ -10,11 +10,10 @@ import {
   getUniqueBrands,
   type FilterState,
 } from "@/lib/lenses";
+import { useCompare } from "@/context/CompareContext";
 import LensCard from "./LensCard";
 import LensFilters from "./LensFilters";
 import CompareBar from "./CompareBar";
-
-const MAX_COMPARE = 4;
 
 interface Props {
   lenses: Lens[];
@@ -23,12 +22,13 @@ interface Props {
 export default function LensListClient({ lenses }: Props) {
   const t = useTranslations("LensList");
   const [filters, setFilters] = useState<FilterState>(defaultFilters);
-  const [compareIds, setCompareIds] = useState<string[]>([]);
+  const { compareIds, toggleCompare, canToggle } = useCompare();
 
   const brands = useMemo(() => getUniqueBrands(lenses), [lenses]);
 
   const displayed = useMemo(
-    () => sortLenses(filterLenses(lenses, filters), filters.sort, filters.sortDir),
+    () =>
+      sortLenses(filterLenses(lenses, filters), filters.sort, filters.sortDir),
     [lenses, filters]
   );
 
@@ -37,12 +37,6 @@ export default function LensListClient({ lenses }: Props) {
       compareIds.map((id) => lenses.find((l) => l.id === id)!).filter(Boolean),
     [compareIds, lenses]
   );
-
-  function toggleCompare(id: string) {
-    setCompareIds((prev) =>
-      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
-    );
-  }
 
   return (
     <>
@@ -72,10 +66,7 @@ export default function LensListClient({ lenses }: Props) {
                 key={lens.id}
                 lens={lens}
                 isSelected={compareIds.includes(lens.id)}
-                selectionDisabled={
-                  compareIds.length >= MAX_COMPARE &&
-                  !compareIds.includes(lens.id)
-                }
+                selectionDisabled={!canToggle(lens.id)}
                 onToggle={() => toggleCompare(lens.id)}
               />
             ))}
