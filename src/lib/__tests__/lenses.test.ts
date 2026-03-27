@@ -168,16 +168,32 @@ describe("filterLenses", () => {
 
   it("filters by required features (ois)", () => {
     const oisPool = [
-      makeLens({ id: "with-ois", focalLengthMin: 18, focalLengthMax: 55, ois: true }),
-      makeLens({ id: "no-ois", focalLengthMin: 35, focalLengthMax: 35, ois: false }),
+      makeLens({
+        id: "with-ois",
+        focalLengthMin: 18,
+        focalLengthMax: 55,
+        ois: true,
+      }),
+      makeLens({
+        id: "no-ois",
+        focalLengthMin: 35,
+        focalLengthMax: 35,
+        ois: false,
+      }),
     ];
-    const result = filterLenses(oisPool, { ...defaultFilters, features: ["ois"] });
+    const result = filterLenses(oisPool, {
+      ...defaultFilters,
+      features: ["ois"],
+    });
     expect(result).toHaveLength(1);
     expect(result[0].id).toBe("with-ois");
   });
 
   it("filters by multiple required features (af + wr)", () => {
-    const result = filterLenses(lensPool, { ...defaultFilters, features: ["af", "wr"] });
+    const result = filterLenses(lensPool, {
+      ...defaultFilters,
+      features: ["af", "wr"],
+    });
     expect(result.every((l) => l.af && l.wr)).toBe(true);
     expect(result).toHaveLength(1);
     expect(result[0].id).toBe("fuji-zoom");
@@ -199,8 +215,18 @@ describe("filterLenses", () => {
 
   it("filters by yearRange", () => {
     const yearPool = [
-      makeLens({ id: "old", focalLengthMin: 35, focalLengthMax: 35, releaseYear: 2012 }),
-      makeLens({ id: "new", focalLengthMin: 35, focalLengthMax: 35, releaseYear: 2023 }),
+      makeLens({
+        id: "old",
+        focalLengthMin: 35,
+        focalLengthMax: 35,
+        releaseYear: 2012,
+      }),
+      makeLens({
+        id: "new",
+        focalLengthMin: 35,
+        focalLengthMax: 35,
+        releaseYear: 2023,
+      }),
     ];
     const result = filterLenses(yearPool, {
       ...defaultFilters,
@@ -211,13 +237,19 @@ describe("filterLenses", () => {
   });
 
   it("filters by required feature: af", () => {
-    const result = filterLenses(lensPool, { ...defaultFilters, features: ["af"] });
+    const result = filterLenses(lensPool, {
+      ...defaultFilters,
+      features: ["af"],
+    });
     expect(result.every((l) => l.af)).toBe(true);
     expect(result.map((l) => l.id)).not.toContain("mf-prime");
   });
 
   it("filters by required feature: wr", () => {
-    const result = filterLenses(lensPool, { ...defaultFilters, features: ["wr"] });
+    const result = filterLenses(lensPool, {
+      ...defaultFilters,
+      features: ["wr"],
+    });
     expect(result.every((l) => l.wr)).toBe(true);
     expect(result).toHaveLength(1);
     expect(result[0].id).toBe("fuji-zoom");
@@ -266,12 +298,12 @@ const sortPool: Lens[] = [
 
 describe("sortLenses", () => {
   it("sorts by focalLengthMin ascending", () => {
-    const ids = sortLenses(sortPool, "focalLengthMin", "asc").map((l) => l.id);
+    const ids = sortLenses(sortPool, "focalLength", "asc").map((l) => l.id);
     expect(ids).toEqual(["b", "c", "a"]);
   });
 
   it("sorts by focalLengthMin descending", () => {
-    const ids = sortLenses(sortPool, "focalLengthMin", "desc").map((l) => l.id);
+    const ids = sortLenses(sortPool, "focalLength", "desc").map((l) => l.id);
     expect(ids).toEqual(["a", "c", "b"]);
   });
 
@@ -292,7 +324,7 @@ describe("sortLenses", () => {
 
   it("does not mutate the original array", () => {
     const original = [...sortPool];
-    sortLenses(sortPool, "focalLengthMin", "asc");
+    sortLenses(sortPool, "focalLength", "asc");
     expect(sortPool).toEqual(original);
   });
 });

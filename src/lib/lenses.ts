@@ -33,14 +33,18 @@ export type LensType = "prime" | "zoom";
 
 // Boolean fields on Lens that can be toggled as required features.
 // Each string is simultaneously the FilterState key, the Lens field name, and the i18n key.
-export const LENS_FEATURES = ["af", "ois", "wr"] as const satisfies (keyof Lens)[];
+export const LENS_FEATURES = [
+  "af",
+  "ois",
+  "wr",
+] as const satisfies (keyof Lens)[];
 
 export interface FilterState {
-  brands: string[];                     // empty = all brands
+  brands: string[]; // empty = all brands
   type: LensType | "";
-  features: string[];                   // subset of LENS_FEATURES keys; empty = no requirement
+  features: string[]; // subset of LENS_FEATURES keys; empty = no requirement
   weightRange: [number, number] | null; // null = no filter
-  yearRange: [number, number] | null;   // null = no filter
+  yearRange: [number, number] | null; // null = no filter
   sort: SortKey;
   sortDir: "asc" | "desc";
 }
@@ -67,15 +71,21 @@ export function filterLenses(lenses: Lens[], filters: FilterState): Lens[] {
       return false;
     }
     for (const field of LENS_FEATURES) {
-      if (filters.features.includes(field) && !lens[field]) return false;
+      if (filters.features.includes(field) && !lens[field]) {
+        return false;
+      }
     }
     if (filters.weightRange) {
       const [wMin, wMax] = filters.weightRange;
-      if (lens.weightG < wMin || lens.weightG > wMax) return false;
+      if (lens.weightG < wMin || lens.weightG > wMax) {
+        return false;
+      }
     }
     if (filters.yearRange) {
       const [yMin, yMax] = filters.yearRange;
-      if (lens.releaseYear < yMin || lens.releaseYear > yMax) return false;
+      if (lens.releaseYear < yMin || lens.releaseYear > yMax) {
+        return false;
+      }
     }
     return true;
   });
@@ -98,17 +108,19 @@ export function getLensUrl(lens: Lens): string | undefined {
   return lens.officialUrl ?? BRAND_URLS[lens.brand];
 }
 
-export type SortKey =
-  | "focalLength"
-  | "maxAperture"
-  | "weightG"
-  | "releaseYear";
+export type SortKey = "focalLength" | "maxAperture" | "weightG" | "releaseYear";
 
-export function sortLenses(lenses: Lens[], key: SortKey, dir: "asc" | "desc"): Lens[] {
+export function sortLenses(
+  lenses: Lens[],
+  key: SortKey,
+  dir: "asc" | "desc"
+): Lens[] {
   return [...lenses].sort((a, b) => {
     const field: keyof Lens =
       key === "focalLength"
-        ? dir === "asc" ? "focalLengthMin" : "focalLengthMax"
+        ? dir === "asc"
+          ? "focalLengthMin"
+          : "focalLengthMax"
         : key;
     const delta = (a[field] as number) - (b[field] as number);
     return dir === "asc" ? delta : -delta;
