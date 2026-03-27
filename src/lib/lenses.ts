@@ -40,6 +40,7 @@ export interface FilterState {
   weightRange: [number, number] | null; // null = no filter
   yearRange: [number, number] | null;   // null = no filter
   sort: SortKey;
+  sortDir: "asc" | "desc";
 }
 
 export const defaultFilters: FilterState = {
@@ -51,6 +52,7 @@ export const defaultFilters: FilterState = {
   weightRange: null,
   yearRange: null,
   sort: "focalLengthMin",
+  sortDir: "asc",
 };
 
 export function filterLenses(lenses: Lens[], filters: FilterState): Lens[] {
@@ -108,12 +110,9 @@ export type SortKey =
   | "weightG"
   | "releaseYear";
 
-// releaseYear: newest first; everything else: ascending
-export function sortLenses(lenses: Lens[], key: SortKey): Lens[] {
+export function sortLenses(lenses: Lens[], key: SortKey, dir: "asc" | "desc"): Lens[] {
   return [...lenses].sort((a, b) => {
-    if (key === "releaseYear") {
-      return b.releaseYear - a.releaseYear;
-    }
-    return a[key] - b[key];
+    const delta = a[key] - b[key];
+    return dir === "asc" ? delta : -delta;
   });
 }

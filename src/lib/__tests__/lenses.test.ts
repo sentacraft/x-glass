@@ -259,28 +259,33 @@ const sortPool: Lens[] = [
 
 describe("sortLenses", () => {
   it("sorts by focalLengthMin ascending", () => {
-    const ids = sortLenses(sortPool, "focalLengthMin").map((l) => l.id);
+    const ids = sortLenses(sortPool, "focalLengthMin", "asc").map((l) => l.id);
     expect(ids).toEqual(["b", "c", "a"]);
   });
 
+  it("sorts by focalLengthMin descending", () => {
+    const ids = sortLenses(sortPool, "focalLengthMin", "desc").map((l) => l.id);
+    expect(ids).toEqual(["a", "c", "b"]);
+  });
+
   it("sorts by maxAperture ascending (wider aperture = smaller number = first)", () => {
-    const ids = sortLenses(sortPool, "maxAperture").map((l) => l.id);
+    const ids = sortLenses(sortPool, "maxAperture", "asc").map((l) => l.id);
     expect(ids).toEqual(["a", "c", "b"]);
   });
 
   it("sorts by weightG ascending", () => {
-    const ids = sortLenses(sortPool, "weightG").map((l) => l.id);
+    const ids = sortLenses(sortPool, "weightG", "asc").map((l) => l.id);
     expect(ids).toEqual(["b", "c", "a"]);
   });
 
-  it("sorts by releaseYear descending (newest first)", () => {
-    const ids = sortLenses(sortPool, "releaseYear").map((l) => l.id);
+  it("sorts by releaseYear descending", () => {
+    const ids = sortLenses(sortPool, "releaseYear", "desc").map((l) => l.id);
     expect(ids).toEqual(["a", "c", "b"]);
   });
 
   it("does not mutate the original array", () => {
     const original = [...sortPool];
-    sortLenses(sortPool, "focalLengthMin");
+    sortLenses(sortPool, "focalLengthMin", "asc");
     expect(sortPool).toEqual(original);
   });
 });

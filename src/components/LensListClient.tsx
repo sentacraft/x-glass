@@ -28,7 +28,7 @@ export default function LensListClient({ lenses }: Props) {
   const brands = useMemo(() => getUniqueBrands(lenses), [lenses]);
 
   const displayed = useMemo(
-    () => sortLenses(filterLenses(lenses, filters), filters.sort),
+    () => sortLenses(filterLenses(lenses, filters), filters.sort, filters.sortDir),
     [lenses, filters]
   );
 
