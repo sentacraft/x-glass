@@ -1,15 +1,18 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import {
   DndContext,
+  DragOverlay,
   PointerSensor,
   useSensor,
   useSensors,
   closestCenter,
   type DragEndEvent,
+  type DragStartEvent,
+  type DragOverEvent,
 } from "@dnd-kit/core";
 import {
   SortableContext,
@@ -17,39 +20,37 @@ import {
   useSortable,
   arrayMove,
 } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
+import { GripVertical } from "lucide-react";
 import { useRouter } from "@/i18n/navigation";
 import { getLensUrl, formatFocalDisplay, formatEquivDisplay } from "@/lib/lenses";
 import type { Lens } from "@/lib/types";
 
-// --- SortableLensHeader ---
+// --- Shared row type ---
 
-function SortableLensHeader({
+type Row =
+  | { kind: "text"; label: string; getValue: (l: Lens) => string }
+  | {
+      kind: "numeric";
+      label: string;
+      getValue: (l: Lens) => number;
+      format: (v: number) => string;
+      bestDir: "min" | "max";
+    }
+  | { kind: "bool"; label: string; getValue: (l: Lens) => boolean };
+
+// --- LensHeaderContent: shared between SortableLensHeader and ColumnOverlay ---
+
+function LensHeaderContent({
   lens,
   officialSiteLabel,
 }: {
   lens: Lens;
   officialSiteLabel: string;
 }) {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
-    useSortable({ id: lens.id });
-
   const url = getLensUrl(lens);
 
   return (
-    <th
-      ref={setNodeRef}
-      style={{
-        transform: CSS.Transform.toString(transform),
-        transition,
-        opacity: isDragging ? 0.5 : 1,
-        cursor: isDragging ? "grabbing" : "grab",
-      }}
-      className="px-4 py-4 text-left bg-zinc-50 dark:bg-zinc-900/60 min-w-[180px] select-none"
-      {...attributes}
-      {...listeners}
-    >
-      {/* Product image */}
+    <>
       <div className="mb-3 w-full aspect-square max-w-[140px] rounded-lg overflow-hidden bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center">
         {lens.imageUrl ? (
           <Image
@@ -77,22 +78,16 @@ function SortableLensHeader({
         )}
       </div>
 
-      {/* Brand / series */}
       <p className="text-xs font-normal text-zinc-500 dark:text-zinc-400">
         {lens.brand}
         {lens.series ? ` · ${lens.series}` : ""}
       </p>
-
-      {/* Model name */}
       <p className="font-semibold text-zinc-900 dark:text-zinc-50">{lens.model}</p>
-
       {lens.generation !== undefined && (
         <p className="text-xs font-normal text-zinc-400 dark:text-zinc-500">
           gen{lens.generation}
         </p>
       )}
-
-      {/* Official site link — stop propagation so click doesn't trigger drag */}
       {url && (
         <a
           href={url}
@@ -115,7 +110,104 @@ function SortableLensHeader({
           </svg>
         </a>
       )}
+    </>
+  );
+}
+
+// --- SortableLensHeader ---
+
+function SortableLensHeader({
+  lens,
+  officialSiteLabel,
+}: {
+  lens: Lens;
+  officialSiteLabel: string;
+}) {
+  const { attributes, listeners, setNodeRef, isDragging } = useSortable({
+    id: lens.id,
+  });
+
+  return (
+    <th
+      ref={setNodeRef}
+      style={{ opacity: isDragging ? 0 : 1 }}
+      className="px-4 py-4 text-left bg-zinc-50 dark:bg-zinc-900/60 min-w-[180px] select-none"
+    >
+      <div
+        {...attributes}
+        {...listeners}
+        className="cursor-grab active:cursor-grabbing"
+      >
+        <div className="flex justify-end mb-1">
+          <GripVertical className="w-4 h-4 text-zinc-300 dark:text-zinc-600" />
+        </div>
+        <LensHeaderContent lens={lens} officialSiteLabel={officialSiteLabel} />
+      </div>
     </th>
+  );
+}
+
+// --- ColumnOverlay: full column card shown during drag ---
+
+function ColumnOverlay({
+  lens,
+  rows,
+  officialSiteLabel,
+  yesLabel,
+  noLabel,
+}: {
+  lens: Lens;
+  rows: Row[];
+  officialSiteLabel: string;
+  yesLabel: string;
+  noLabel: string;
+}) {
+  return (
+    <div className="flex flex-col bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-xl shadow-2xl min-w-[180px] overflow-hidden opacity-95 cursor-grabbing">
+      {/* Header */}
+      <div className="px-4 py-4 bg-zinc-50 dark:bg-zinc-900/60 border-b border-zinc-200 dark:border-zinc-800">
+        <div className="flex justify-end mb-1">
+          <GripVertical className="w-4 h-4 text-zinc-400 dark:text-zinc-500" />
+        </div>
+        <LensHeaderContent lens={lens} officialSiteLabel={officialSiteLabel} />
+      </div>
+
+      {/* Spec rows */}
+      {rows.map((row, i) => {
+        let content: React.ReactNode;
+
+        if (row.kind === "bool") {
+          const val = row.getValue(lens);
+          content = (
+            <>
+              <span
+                className={`inline-block w-2 h-2 rounded-full mr-2 align-middle ${
+                  val ? "bg-green-500" : "bg-zinc-300 dark:bg-zinc-600"
+                }`}
+              />
+              {val ? yesLabel : noLabel}
+            </>
+          );
+        } else if (row.kind === "numeric") {
+          content = (
+            <span className="font-medium tabular-nums">
+              {row.format(row.getValue(lens))}
+            </span>
+          );
+        } else {
+          content = row.getValue(lens);
+        }
+
+        return (
+          <div
+            key={i}
+            className="px-4 py-3 text-sm text-zinc-700 dark:text-zinc-300 border-b border-zinc-100 dark:border-zinc-800/60 last:border-0"
+          >
+            {content}
+          </div>
+        );
+      })}
+    </div>
   );
 }
 
@@ -131,10 +223,16 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
   const router = useRouter();
 
   const [orderedIds, setOrderedIds] = useState(initialLenses.map((l) => l.id));
+  const orderedIdsRef = useRef(orderedIds);
+  orderedIdsRef.current = orderedIds;
+
+  const [activeId, setActiveId] = useState<string | null>(null);
 
   const orderedLenses = orderedIds
-    .map((id) => initialLenses.find((l) => l.id === id))
-    .filter((l): l is Lens => l !== undefined);
+    .map((id) => initialLenses.find((l) => l.id === id)!)
+    .filter(Boolean);
+
+  const activeLens = activeId ? orderedLenses.find((l) => l.id === activeId) : null;
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -142,28 +240,26 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
     })
   );
 
-  function handleDragEnd(event: DragEndEvent) {
+  function handleDragStart(event: DragStartEvent) {
+    setActiveId(event.active.id as string);
+  }
+
+  function handleDragOver(event: DragOverEvent) {
     const { active, over } = event;
     if (!over || active.id === over.id) {
       return;
     }
-    const oldIndex = orderedIds.indexOf(active.id as string);
-    const newIndex = orderedIds.indexOf(over.id as string);
-    const newIds = arrayMove(orderedIds, oldIndex, newIndex);
-    setOrderedIds(newIds);
-    router.replace(`/lenses/compare?ids=${newIds.join(",")}`);
+    setOrderedIds((ids) => {
+      const oldIndex = ids.indexOf(active.id as string);
+      const newIndex = ids.indexOf(over.id as string);
+      return arrayMove(ids, oldIndex, newIndex);
+    });
   }
 
-  type Row =
-    | { kind: "text"; label: string; getValue: (l: Lens) => string }
-    | {
-        kind: "numeric";
-        label: string;
-        getValue: (l: Lens) => number;
-        format: (v: number) => string;
-        bestDir: "min" | "max";
-      }
-    | { kind: "bool"; label: string; getValue: (l: Lens) => boolean };
+  function handleDragEnd(_event: DragEndEvent) {
+    setActiveId(null);
+    router.replace(`/lenses/compare?ids=${orderedIdsRef.current.join(",")}`);
+  }
 
   const rows: Row[] = [
     {
@@ -219,7 +315,7 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
       kind: "numeric",
       label: td("releaseYear"),
       getValue: (l) => l.releaseYear,
-      format: (v) => `${v}`,
+      format: (v) => String(v),
       bestDir: "max",
     },
   ];
@@ -230,6 +326,8 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
         id="compare-table-dnd"
         sensors={sensors}
         collisionDetection={closestCenter}
+        onDragStart={handleDragStart}
+        onDragOver={handleDragOver}
         onDragEnd={handleDragEnd}
       >
         <table className="w-full text-sm border-collapse">
@@ -252,9 +350,9 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
           </thead>
 
           <tbody>
-            {rows.map((row) => (
+            {rows.map((row, i) => (
               <tr
-                key={row.label}
+                key={i}
                 className="border-b border-zinc-100 dark:border-zinc-800/60 last:border-0"
               >
                 <td className="px-4 py-3 text-xs font-medium text-zinc-500 dark:text-zinc-400 bg-zinc-50/60 dark:bg-zinc-900/30 whitespace-nowrap">
@@ -262,12 +360,15 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
                 </td>
 
                 {orderedLenses.map((lens) => {
+                  const isActive = lens.id === activeId;
+
                   if (row.kind === "bool") {
                     const val = row.getValue(lens);
                     return (
                       <td
                         key={lens.id}
                         className="px-4 py-3 text-zinc-700 dark:text-zinc-300"
+                        style={{ opacity: isActive ? 0 : 1 }}
                       >
                         <span
                           className={`inline-block w-2 h-2 rounded-full mr-2 align-middle ${
@@ -293,6 +394,7 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
                             ? "text-blue-600 dark:text-blue-400"
                             : "text-zinc-700 dark:text-zinc-300"
                         }`}
+                        style={{ opacity: isActive ? 0 : 1 }}
                       >
                         {row.format(val)}
                         {isBest && (
@@ -308,6 +410,7 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
                     <td
                       key={lens.id}
                       className="px-4 py-3 text-zinc-700 dark:text-zinc-300"
+                      style={{ opacity: isActive ? 0 : 1 }}
                     >
                       {row.getValue(lens)}
                     </td>
@@ -317,6 +420,18 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
             ))}
           </tbody>
         </table>
+
+        <DragOverlay>
+          {activeLens && (
+            <ColumnOverlay
+              lens={activeLens}
+              rows={rows}
+              officialSiteLabel={t("officialSite")}
+              yesLabel={td("yes")}
+              noLabel={td("no")}
+            />
+          )}
+        </DragOverlay>
       </DndContext>
     </div>
   );
