@@ -34,7 +34,9 @@ export default function LensListClient({ lenses }: Props) {
 
   const selectedLenses = useMemo(
     () =>
-      compareIds.map((id) => lenses.find((l) => l.id === id)!).filter(Boolean),
+      compareIds
+        .map((id) => lenses.find((l) => l.id === id))
+        .filter((lens): lens is Lens => lens !== undefined),
     [compareIds, lenses]
   );
 

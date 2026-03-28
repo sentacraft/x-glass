@@ -64,7 +64,7 @@ export default async function LensDetailPage({ params }: { params: Params }) {
     },
     { label: t("filterSize"), value: `${lens.filterMm}mm` },
     { label: t("minFocusDist"), value: `${lens.minFocusDistanceCm}cm` },
-    { label: t("releaseYear"), value: String(lens.releaseYear) },
+    { label: t("releaseYear"), value: `${lens.releaseYear}` },
   ];
 
   return (
@@ -161,9 +161,9 @@ export default async function LensDetailPage({ params }: { params: Params }) {
           <div className="rounded-xl border border-zinc-200 dark:border-zinc-800 overflow-hidden">
             <table className="w-full text-sm">
               <tbody>
-                {specs.map((row, i) => (
+                {specs.map((row) => (
                   <tr
-                    key={i}
+                    key={row.label}
                     className="border-b border-zinc-100 dark:border-zinc-800/60 last:border-0"
                   >
                     <td className="px-4 py-2.5 text-xs font-medium text-zinc-500 dark:text-zinc-400 bg-zinc-50/60 dark:bg-zinc-900/30 w-40 whitespace-nowrap">
