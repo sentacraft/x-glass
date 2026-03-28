@@ -166,36 +166,42 @@ export default function LensFilters({
       </div>
 
       {/* Advanced filters panel */}
-      {advancedOpen && (
-        <div className="flex flex-wrap gap-4 items-end pt-3 border-t border-zinc-200 dark:border-zinc-800">
-          {/* Feature toggles */}
-          <div className="flex flex-col gap-1">
-            <span className={labelClass}>{t("features")}</span>
-            <div className="flex gap-1.5 py-0.5">
-              {LENS_FEATURES.map((key) => {
-                const active = filters.features.includes(key);
-                return (
-                  <Button
-                    key={key}
-                    size="sm"
-                    variant={active ? "default" : "outline"}
-                    onClick={() =>
-                      updateFilters(
-                        "features",
-                        active
-                          ? filters.features.filter((f) => f !== key)
-                          : [...filters.features, key]
-                      )
-                    }
-                  >
-                    {t(key)}
-                  </Button>
-                );
-              })}
+      <div
+        className={`grid transition-all duration-300 ease-in-out ${
+          advancedOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+        }`}
+      >
+        <div className="overflow-hidden">
+          <div className="flex flex-wrap gap-4 items-end pt-3 border-t border-zinc-200 dark:border-zinc-800">
+            {/* Feature toggles */}
+            <div className="flex flex-col gap-1">
+              <span className={labelClass}>{t("features")}</span>
+              <div className="flex gap-1.5 py-0.5">
+                {LENS_FEATURES.map((key) => {
+                  const active = filters.features.includes(key);
+                  return (
+                    <Button
+                      key={key}
+                      size="sm"
+                      variant={active ? "default" : "outline"}
+                      onClick={() =>
+                        updateFilters(
+                          "features",
+                          active
+                            ? filters.features.filter((f) => f !== key)
+                            : [...filters.features, key]
+                        )
+                      }
+                    >
+                      {t(key)}
+                    </Button>
+                  );
+                })}
+              </div>
             </div>
           </div>
         </div>
-      )}
+      </div>
     </div>
   );
 }
