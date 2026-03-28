@@ -2,6 +2,7 @@
 
 import { useState, useRef } from "react";
 import Image from "next/image";
+import { ArrowUpRight } from "lucide-react";
 import { useTranslations } from "next-intl";
 import {
   DndContext,
@@ -98,16 +99,7 @@ function LensHeaderContent({
           className="mt-2 inline-flex items-center gap-1 text-xs text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300 transition-colors"
         >
           {officialSiteLabel}
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 12 12"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            className="w-3 h-3"
-          >
-            <path d="M2 10L10 2M10 2H5M10 2v5" />
-          </svg>
+          <ArrowUpRight size={12} />
         </a>
       )}
     </>

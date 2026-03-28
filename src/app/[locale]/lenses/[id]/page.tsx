@@ -8,6 +8,7 @@ import {
   formatFocalDisplay,
   formatEquivDisplay,
 } from "@/lib/lenses";
+import { ArrowUpRight } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 
 type Params = Promise<{ locale: string; id: string }>;
@@ -143,16 +144,7 @@ export default async function LensDetailPage({ params }: { params: Params }) {
                 className="inline-flex items-center gap-1.5 text-sm font-medium px-4 py-2 rounded-lg border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors"
               >
                 {t("officialSite")}
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 12 12"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  className="w-3 h-3"
-                >
-                  <path d="M2 10L10 2M10 2H5M10 2v5" />
-                </svg>
+                <ArrowUpRight size={12} />
               </a>
             )}
           </div>
