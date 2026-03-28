@@ -1,8 +1,8 @@
-# X Glass — CLAUDE.md
+# X-Glass — CLAUDE.md
 
 ## 项目概述
 
-富士 X 卡口镜头对比工具。用户可浏览、筛选、并排对比富士原厂及第三方全品牌 X 卡口镜头。
+**X-Glass**：富士 X 卡口镜头对比工具。用户可浏览、筛选、并排对比富士原厂及第三方全品牌 X 卡口镜头。
 填补"富士 X 专属 + 全品牌覆盖 + 交互式横向对比 + 中文界面"的市场空白。
 
 ## Next.js 版本注意
@@ -46,6 +46,13 @@ x-glass/
 │   ├── web/           # Next.js
 │   └── miniprogram/   # 原生小程序（届时决定）
 ```
+
+## 关联资源
+
+| 资源 | 路径 | 说明 |
+|------|------|------|
+| Data Pipeline | `../x-glass-pipeline/` | 私有 repo，数据源配置（sources.yaml）、爬虫、校验脚本 |
+| 产品文档 | `/Users/ericzhang/Library/Mobile Documents/iCloud~md~obsidian/Documents/SentaForge/Geek & Creativity/Projects/X-Glass/` | Obsidian vault，产品设计、定义、调研笔记 |
 
 ## 工作流规范
 
