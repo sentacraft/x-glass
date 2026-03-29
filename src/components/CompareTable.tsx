@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useRef, useState } from "react";
 import Image from "next/image";
 import { ExternalLink } from "@/components/ui/external-link";
 import { useTranslations } from "next-intl";
@@ -11,7 +11,6 @@ import {
   useSensor,
   useSensors,
   closestCenter,
-  type DragEndEvent,
   type DragStartEvent,
   type DragOverEvent,
 } from "@dnd-kit/core";
@@ -67,11 +66,13 @@ function LensHeaderContent({
         )}
       </div>
 
-      <p className="text-xs font-normal text-zinc-500 dark:text-zinc-400">
+      <p className="text-xs font-normal text-zinc-500 dark:text-zinc-400 truncate">
         {lens.brand}
         {lens.series ? ` · ${lens.series}` : ""}
       </p>
-      <p className="font-semibold text-zinc-900 dark:text-zinc-50">{lens.model}</p>
+      <p className="font-semibold text-zinc-900 dark:text-zinc-50 truncate">
+        {lens.model}
+      </p>
       {lens.generation !== undefined && (
         <p className="text-xs font-normal text-zinc-400 dark:text-zinc-500">
           gen{lens.generation}
@@ -108,7 +109,7 @@ function SortableLensHeader({
     <th
       ref={setNodeRef}
       style={{ opacity: isDragging ? 0 : 1 }}
-      className="px-4 py-4 text-left bg-zinc-50 dark:bg-zinc-900/60 min-w-[180px] select-none"
+      className="px-4 py-4 text-left bg-zinc-50 dark:bg-zinc-900/60 select-none"
     >
       <div
         {...attributes}
@@ -140,7 +141,7 @@ function ColumnOverlay({
   noLabel: string;
 }) {
   return (
-    <div className="flex flex-col bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-xl shadow-2xl min-w-[180px] overflow-hidden opacity-95 cursor-grabbing">
+    <div className="flex flex-col bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-xl shadow-2xl overflow-hidden opacity-95 cursor-grabbing">
       {/* Header */}
       <div className="px-4 py-4 bg-zinc-50 dark:bg-zinc-900/60 border-b border-zinc-200 dark:border-zinc-800">
         <div className="flex justify-end mb-1">
@@ -178,7 +179,7 @@ function ColumnOverlay({
         return (
           <div
             key={i}
-            className="px-4 py-3 text-sm text-zinc-700 dark:text-zinc-300 border-b border-zinc-100 dark:border-zinc-800/60 last:border-0"
+            className="px-4 py-3 text-sm text-zinc-700 dark:text-zinc-300 truncate border-b border-zinc-100 dark:border-zinc-800/60 last:border-0"
           >
             {content}
           </div>
@@ -193,6 +194,9 @@ function ColumnOverlay({
 interface Props {
   lenses: Lens[];
 }
+
+const LABEL_COLUMN_WIDTH = "14rem";
+const LENS_COLUMN_MIN_WIDTH = "16rem";
 
 export default function CompareTable({ lenses: initialLenses }: Props) {
   const t = useTranslations("Compare");
@@ -233,7 +237,7 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
     });
   }
 
-  function handleDragEnd(_event: DragEndEvent) {
+  function handleDragEnd() {
     setActiveId(null);
     router.replace(`/lenses/compare?ids=${orderedIdsRef.current.join(",")}`);
   }
@@ -307,10 +311,21 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
         onDragOver={handleDragOver}
         onDragEnd={handleDragEnd}
       >
-        <table className="w-full text-sm border-collapse">
+        <table
+          className="w-full min-w-max table-fixed text-sm border-collapse"
+          style={{
+            minWidth: `calc(${LABEL_COLUMN_WIDTH} + ${orderedLenses.length} * ${LENS_COLUMN_MIN_WIDTH})`,
+          }}
+        >
+          <colgroup>
+            <col style={{ width: LABEL_COLUMN_WIDTH }} />
+            {orderedLenses.map((lens) => (
+              <col key={lens.id} style={{ width: LENS_COLUMN_MIN_WIDTH }} />
+            ))}
+          </colgroup>
           <thead>
             <tr className="border-b border-zinc-200 dark:border-zinc-800">
-              <th className="w-36 px-4 py-3 bg-zinc-50 dark:bg-zinc-900/60" />
+              <th className="px-4 py-3 bg-zinc-50 dark:bg-zinc-900/60" />
               <SortableContext
                 items={orderedIds}
                 strategy={horizontalListSortingStrategy}
@@ -351,7 +366,7 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
                       return (
                         <td
                           key={lens.id}
-                          className="px-4 py-3 text-zinc-700 dark:text-zinc-300"
+                          className="px-4 py-3 text-zinc-700 dark:text-zinc-300 truncate"
                           style={{ opacity: isActive ? 0 : 1 }}
                         >
                           <span
@@ -370,7 +385,7 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
                       return (
                         <td
                           key={lens.id}
-                          className={`px-4 py-3 font-medium tabular-nums ${
+                          className={`px-4 py-3 font-medium tabular-nums truncate ${
                             isBest
                               ? "text-blue-600 dark:text-blue-400"
                               : "text-zinc-700 dark:text-zinc-300"
@@ -390,7 +405,7 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
                     return (
                       <td
                         key={lens.id}
-                        className="px-4 py-3 text-zinc-700 dark:text-zinc-300"
+                        className="px-4 py-3 text-zinc-700 dark:text-zinc-300 truncate"
                         style={{ opacity: isActive ? 0 : 1 }}
                       >
                         {row.getValue(lens)}
