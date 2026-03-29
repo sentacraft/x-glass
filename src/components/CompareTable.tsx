@@ -22,6 +22,7 @@ import {
   arrayMove,
 } from "@dnd-kit/sortable";
 import { GripVertical } from "lucide-react";
+import { LensPlaceholderIcon } from "@/components/ui/lens-placeholder-icon";
 import { useRouter } from "@/i18n/navigation";
 import { getLensUrl, formatFocalDisplay, formatEquivDisplay } from "@/lib/lenses";
 import type { Lens } from "@/lib/types";
@@ -62,20 +63,7 @@ function LensHeaderContent({
             className="object-contain w-full h-full"
           />
         ) : (
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.2"
-            className="w-12 h-12 text-zinc-300 dark:text-zinc-600"
-          >
-            <circle cx="12" cy="12" r="4" />
-            <circle cx="12" cy="12" r="8" />
-            <circle cx="12" cy="12" r="10.5" />
-            <line x1="2" y1="12" x2="4" y2="12" />
-            <line x1="20" y1="12" x2="22" y2="12" />
-          </svg>
+          <LensPlaceholderIcon className="w-12 h-12 text-zinc-300 dark:text-zinc-600" />
         )}
       </div>
 
@@ -339,74 +327,79 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
           </thead>
 
           <tbody>
-            {rows.map((row, i) => (
-              <tr
-                key={i}
-                className="border-b border-zinc-100 dark:border-zinc-800/60 last:border-0"
-              >
-                <td className="px-4 py-3 text-xs font-medium text-zinc-500 dark:text-zinc-400 bg-zinc-50/60 dark:bg-zinc-900/30 whitespace-nowrap">
-                  {row.label}
-                </td>
+            {rows.map((row) => {
+              const bestVal =
+                row.kind === "numeric"
+                  ? (row.bestDir === "min" ? Math.min : Math.max)(
+                      ...orderedLenses.map(row.getValue)
+                    )
+                  : null;
+              return (
+                <tr
+                  key={row.label}
+                  className="border-b border-zinc-100 dark:border-zinc-800/60 last:border-0"
+                >
+                  <td className="px-4 py-3 text-xs font-medium text-zinc-500 dark:text-zinc-400 bg-zinc-50/60 dark:bg-zinc-900/30 whitespace-nowrap">
+                    {row.label}
+                  </td>
 
-                {orderedLenses.map((lens) => {
-                  const isActive = lens.id === activeId;
+                  {orderedLenses.map((lens) => {
+                    const isActive = lens.id === activeId;
 
-                  if (row.kind === "bool") {
-                    const val = row.getValue(lens);
+                    if (row.kind === "bool") {
+                      const val = row.getValue(lens);
+                      return (
+                        <td
+                          key={lens.id}
+                          className="px-4 py-3 text-zinc-700 dark:text-zinc-300"
+                          style={{ opacity: isActive ? 0 : 1 }}
+                        >
+                          <span
+                            className={`inline-block w-2 h-2 rounded-full mr-2 align-middle ${
+                              val ? "bg-green-500" : "bg-zinc-300 dark:bg-zinc-600"
+                            }`}
+                          />
+                          {val ? td("yes") : td("no")}
+                        </td>
+                      );
+                    }
+
+                    if (row.kind === "numeric") {
+                      const val = row.getValue(lens);
+                      const isBest = val === bestVal;
+                      return (
+                        <td
+                          key={lens.id}
+                          className={`px-4 py-3 font-medium tabular-nums ${
+                            isBest
+                              ? "text-blue-600 dark:text-blue-400"
+                              : "text-zinc-700 dark:text-zinc-300"
+                          }`}
+                          style={{ opacity: isActive ? 0 : 1 }}
+                        >
+                          {row.format(val)}
+                          {isBest && (
+                            <span className="ml-1.5 text-[10px] font-semibold text-blue-500 dark:text-blue-400 uppercase tracking-wide">
+                              ★
+                            </span>
+                          )}
+                        </td>
+                      );
+                    }
+
                     return (
                       <td
                         key={lens.id}
                         className="px-4 py-3 text-zinc-700 dark:text-zinc-300"
                         style={{ opacity: isActive ? 0 : 1 }}
                       >
-                        <span
-                          className={`inline-block w-2 h-2 rounded-full mr-2 align-middle ${
-                            val ? "bg-green-500" : "bg-zinc-300 dark:bg-zinc-600"
-                          }`}
-                        />
-                        {val ? td("yes") : td("no")}
+                        {row.getValue(lens)}
                       </td>
                     );
-                  }
-
-                  if (row.kind === "numeric") {
-                    const val = row.getValue(lens);
-                    const vals = orderedLenses.map(row.getValue);
-                    const bestVal =
-                      row.bestDir === "min" ? Math.min(...vals) : Math.max(...vals);
-                    const isBest = val === bestVal;
-                    return (
-                      <td
-                        key={lens.id}
-                        className={`px-4 py-3 font-medium tabular-nums ${
-                          isBest
-                            ? "text-blue-600 dark:text-blue-400"
-                            : "text-zinc-700 dark:text-zinc-300"
-                        }`}
-                        style={{ opacity: isActive ? 0 : 1 }}
-                      >
-                        {row.format(val)}
-                        {isBest && (
-                          <span className="ml-1.5 text-[10px] font-semibold text-blue-500 dark:text-blue-400 uppercase tracking-wide">
-                            ★
-                          </span>
-                        )}
-                      </td>
-                    );
-                  }
-
-                  return (
-                    <td
-                      key={lens.id}
-                      className="px-4 py-3 text-zinc-700 dark:text-zinc-300"
-                      style={{ opacity: isActive ? 0 : 1 }}
-                    >
-                      {row.getValue(lens)}
-                    </td>
-                  );
-                })}
-              </tr>
-            ))}
+                  })}
+                </tr>
+              );
+            })}
           </tbody>
         </table>
 

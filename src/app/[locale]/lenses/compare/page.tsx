@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
-import { allLenses } from "@/lib/lenses";
+import { parseLensIds } from "@/lib/lenses";
 import { Link } from "@/i18n/navigation";
-import type { Lens } from "@/lib/types";
 import CompareTable from "@/components/CompareTable";
 
 export async function generateMetadata({
@@ -11,10 +10,7 @@ export async function generateMetadata({
   searchParams: Promise<{ ids?: string }>;
 }): Promise<Metadata> {
   const { ids } = await searchParams;
-  const idList = (ids ?? "").split(",").filter(Boolean).slice(0, 4);
-  const lenses = idList
-    .map((id) => allLenses.find((l) => l.id === id))
-    .filter((l): l is Lens => l !== undefined);
+  const lenses = parseLensIds(ids);
 
   if (lenses.length < 2) {
     return { title: "Compare" };
@@ -35,10 +31,7 @@ export default async function ComparePage({
   const { ids } = await searchParams;
   const t = await getTranslations("Compare");
 
-  const idList = (ids ?? "").split(",").filter(Boolean).slice(0, 4);
-  const lenses = idList
-    .map((id) => allLenses.find((l) => l.id === id))
-    .filter((l): l is Lens => l !== undefined);
+  const lenses = parseLensIds(ids);
 
   if (lenses.length === 0) {
     return (

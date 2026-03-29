@@ -31,18 +31,20 @@ export function formatEquivDisplay(lens: Lens): string {
 
 export type LensType = "prime" | "zoom";
 
-// Boolean fields on Lens that can be toggled as required features.
-// Each string is simultaneously the FilterState key, the Lens field name, and the i18n key.
-export const LENS_FEATURES = [
+// Boolean Lens fields that can be used as filter conditions.
+// satisfies (keyof Lens)[] enforces at compile time that each key exists on Lens.
+export const FILTER_FEATURE_KEYS = [
   "af",
   "ois",
   "wr",
-] as const satisfies (keyof Lens)[];
+] as const satisfies readonly (keyof Lens)[];
+
+export type FilterFeatureKey = (typeof FILTER_FEATURE_KEYS)[number];
 
 export interface FilterState {
   brands: string[]; // empty = all brands
   type: LensType | "";
-  features: string[]; // subset of LENS_FEATURES keys; empty = no requirement
+  features: FilterFeatureKey[]; // empty = no requirement
   weightRange: [number, number] | null; // null = no filter
   yearRange: [number, number] | null; // null = no filter
   sort: SortKey;
@@ -70,7 +72,7 @@ export function filterLenses(lenses: Lens[], filters: FilterState): Lens[] {
     if (filters.type === "zoom" && !isZoom(lens)) {
       return false;
     }
-    for (const field of LENS_FEATURES) {
+    for (const field of FILTER_FEATURE_KEYS) {
       if (filters.features.includes(field) && !lens[field]) {
         return false;
       }
@@ -106,6 +108,17 @@ const BRAND_URLS: Record<string, string> = {
 
 export function getLensUrl(lens: Lens): string | undefined {
   return lens.officialUrl ?? BRAND_URLS[lens.brand];
+}
+
+const MAX_COMPARE = 4;
+
+export function parseLensIds(ids: string | undefined): Lens[] {
+  return (ids ?? "")
+    .split(",")
+    .filter(Boolean)
+    .slice(0, MAX_COMPARE)
+    .map((id) => allLenses.find((l) => l.id === id))
+    .filter((l): l is Lens => l !== undefined);
 }
 
 export type SortKey = "focalLength" | "maxAperture" | "weightG" | "releaseYear";

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { LENS_FEATURES } from "@/lib/lenses";
+import { FILTER_FEATURE_KEYS } from "@/lib/lenses";
 import type { FilterState, LensType, SortKey } from "@/lib/lenses";
 import { Button } from "@/components/ui/button";
 import {
@@ -177,7 +177,7 @@ export default function LensFilters({
             <div className="flex flex-col gap-1">
               <span className={labelClass}>{t("features")}</span>
               <div className="flex gap-1.5 py-0.5">
-                {LENS_FEATURES.map((key) => {
+                {FILTER_FEATURE_KEYS.map((key) => {
                   const active = filters.features.includes(key);
                   return (
                     <Button

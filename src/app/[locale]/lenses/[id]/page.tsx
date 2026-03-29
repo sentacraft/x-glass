@@ -9,6 +9,7 @@ import {
   formatEquivDisplay,
 } from "@/lib/lenses";
 import { ExternalLink } from "@/components/ui/external-link";
+import { LensPlaceholderIcon } from "@/components/ui/lens-placeholder-icon";
 import { Link } from "@/i18n/navigation";
 
 type Params = Promise<{ locale: string; id: string }>;
@@ -92,20 +93,7 @@ export default async function LensDetailPage({ params }: { params: Params }) {
                 className="object-contain w-full h-full"
               />
             ) : (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.2"
-                className="w-20 h-20 text-zinc-300 dark:text-zinc-600"
-              >
-                <circle cx="12" cy="12" r="4" />
-                <circle cx="12" cy="12" r="8" />
-                <circle cx="12" cy="12" r="10.5" />
-                <line x1="2" y1="12" x2="4" y2="12" />
-                <line x1="20" y1="12" x2="22" y2="12" />
-              </svg>
+              <LensPlaceholderIcon className="w-20 h-20 text-zinc-300 dark:text-zinc-600" />
             )}
           </div>
         </div>
