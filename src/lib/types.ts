@@ -1,4 +1,21 @@
 /**
+ * Source verification status for the current ingestion workflow.
+ */
+export interface LensSourceStatus {
+  /**
+   * Whether this lens was included in the Wikipedia index used for discovery.
+   * @example true
+   */
+  wikipediaIndexed: boolean;
+
+  /**
+   * Whether a matching Fujifilm CN official detail page has been found and verified.
+   * @example true
+   */
+  officialCnVerified: boolean;
+}
+
+/**
  * Canonical lens record used by the X-Glass app.
  */
 export interface Lens {
@@ -161,6 +178,12 @@ export interface Lens {
    * @example "https://www.fujifilm-x.com/global/products/lenses/xf35mmf14-r/"
    */
   officialUrl?: string;
+
+  /**
+   * Source verification flags for this record.
+   * @example { wikipediaIndexed: true, officialCnVerified: true }
+   */
+  sourceStatus?: LensSourceStatus;
 
   /**
    * Main product image URL, ideally a clean front or three-quarter product shot.
