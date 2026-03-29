@@ -14,7 +14,6 @@ import { useCompare } from "@/context/CompareContext";
 import { ChevronUp } from "lucide-react";
 import LensCard from "./LensCard";
 import LensFilters from "./LensFilters";
-import CompareBar from "./CompareBar";
 
 interface Props {
   lenses: Lens[];
@@ -38,14 +37,6 @@ export default function LensListClient({ lenses }: Props) {
     () =>
       sortLenses(filterLenses(lenses, filters), filters.sort, filters.sortDir),
     [lenses, filters]
-  );
-
-  const selectedLenses = useMemo(
-    () =>
-      compareIds
-        .map((id) => lenses.find((l) => l.id === id))
-        .filter((lens): lens is Lens => lens !== undefined),
-    [compareIds, lenses]
   );
 
   return (
@@ -83,8 +74,6 @@ export default function LensListClient({ lenses }: Props) {
           </div>
         )}
       </div>
-
-      <CompareBar selectedLenses={selectedLenses} onRemove={toggleCompare} />
 
       {showScrollTop && (
         <button

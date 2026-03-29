@@ -1,19 +1,23 @@
 "use client";
 
+import { useMemo } from "react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
-import type { Lens } from "@/lib/types";
+import { allLenses } from "@/lib/lenses";
 import { useCompare } from "@/context/CompareContext";
 
-interface Props {
-  selectedLenses: Lens[];
-  onRemove: (id: string) => void;
-}
-
-export default function CompareBar({ selectedLenses, onRemove }: Props) {
+export default function CompareBar() {
   const t = useTranslations("LensList");
   const router = useRouter();
-  const { clearCompare } = useCompare();
+  const { compareIds, toggleCompare, clearCompare } = useCompare();
+
+  const selectedLenses = useMemo(
+    () =>
+      compareIds
+        .map((id) => allLenses.find((l) => l.id === id))
+        .filter((lens) => lens !== undefined),
+    [compareIds]
+  );
 
   if (selectedLenses.length === 0) {
     return null;
@@ -37,7 +41,7 @@ export default function CompareBar({ selectedLenses, onRemove }: Props) {
                 {lens.model}
               </span>
               <button
-                onClick={() => onRemove(lens.id)}
+                onClick={() => toggleCompare(lens.id)}
                 className="text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200 text-base leading-none"
                 aria-label={`Remove ${lens.model}`}
               >
