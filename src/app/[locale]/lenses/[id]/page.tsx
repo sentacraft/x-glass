@@ -11,6 +11,7 @@ import {
 import { ExternalLink } from "@/components/ui/external-link";
 import { LensPlaceholderIcon } from "@/components/ui/lens-placeholder-icon";
 import { Link } from "@/i18n/navigation";
+import AddToCompareButton from "@/components/AddToCompareButton";
 
 type Params = Promise<{ locale: string; id: string }>;
 
@@ -118,12 +119,7 @@ export default async function LensDetailPage({ params }: { params: Params }) {
 
           {/* Actions */}
           <div className="flex flex-wrap gap-3">
-            <Link
-              href={`/lenses/compare?ids=${lens.id}`}
-              className="inline-flex items-center gap-1.5 text-sm font-medium px-4 py-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600 transition-colors"
-            >
-              {t("addToCompare")}
-            </Link>
+            <AddToCompareButton lensId={lens.id} />
             {url && (
               <ExternalLink
                 href={url}
