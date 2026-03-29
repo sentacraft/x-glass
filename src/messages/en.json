@@ -48,7 +48,8 @@
     "goCompare": "Compare ({count})",
     "clearCompare": "Clear",
     "resultsCount": "{count} lenses",
-    "noResults": "No lenses match your filters."
+    "noResults": "No lenses match your filters.",
+    "equivSuffix": "eq."
   },
   "LensDetail": {
     "brand": "Brand",

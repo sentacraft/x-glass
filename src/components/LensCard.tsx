@@ -36,23 +36,24 @@ export default function LensCard({
         className="flex-1 p-4 flex flex-col gap-3 hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors rounded-t-xl"
       >
         {/* Header */}
-        <div className="flex items-start justify-between gap-2">
-          <div className="min-w-0">
-            <p className="text-xs text-zinc-500 dark:text-zinc-400 truncate">
-              {lens.brand}
-              {lens.series ? ` · ${lens.series}` : ""}
-            </p>
-            <h3 className="font-semibold text-sm text-zinc-900 dark:text-zinc-50 leading-snug mt-0.5">
-              {lens.model}
-              {lens.generation !== undefined && (
-                <span className="font-normal text-zinc-400 dark:text-zinc-500">
-                  {" "}
-                  gen{lens.generation}
-                </span>
-              )}
-            </h3>
-          </div>
-          <div className="flex gap-1 shrink-0 flex-wrap justify-end max-w-[80px]">
+        <div className="flex flex-col gap-1.5">
+          <p className="text-xs text-zinc-500 dark:text-zinc-400 truncate">
+            {lens.brand}
+            {lens.series ? ` · ${lens.series}` : ""}
+          </p>
+          <h3
+            className="font-semibold text-sm text-zinc-900 dark:text-zinc-50 leading-snug truncate"
+            title={`${lens.model}${lens.generation !== undefined ? ` gen${lens.generation}` : ""}`}
+          >
+            {lens.model}
+            {lens.generation !== undefined && (
+              <span className="font-normal text-zinc-400 dark:text-zinc-500">
+                {" "}
+                gen{lens.generation}
+              </span>
+            )}
+          </h3>
+          <div className="flex gap-1 flex-wrap min-h-[20px]">
             {lens.af && <Badge>AF</Badge>}
             {lens.ois && <Badge>OIS</Badge>}
             {lens.wr && <Badge>WR</Badge>}
@@ -61,13 +62,7 @@ export default function LensCard({
 
         {/* Specs */}
         <dl className="text-xs text-zinc-600 dark:text-zinc-400 grid grid-cols-2 gap-y-1">
-          <div>
-            <span>{focalDisplay}</span>
-            <span className="text-zinc-400 dark:text-zinc-500">
-              {" "}
-              ({equivDisplay})
-            </span>
-          </div>
+          <div>{equivDisplay} {t("equivSuffix")}</div>
           <div className="text-right">f/{lens.maxAperture}</div>
           <div>{lens.weightG}g</div>
           <div className="text-right">{lens.releaseYear}</div>

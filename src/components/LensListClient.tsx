@@ -70,7 +70,7 @@ export default function LensListClient({ lenses }: Props) {
             {t("noResults")}
           </p>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 auto-rows-[200px]">
             {displayed.map((lens) => (
               <LensCard
                 key={lens.id}

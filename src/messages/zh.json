@@ -48,7 +48,8 @@
     "goCompare": "开始对比（{count}）",
     "clearCompare": "清空",
     "resultsCount": "共 {count} 款",
-    "noResults": "没有符合条件的镜头。"
+    "noResults": "没有符合条件的镜头。",
+    "equivSuffix": "等效"
   },
   "LensDetail": {
     "brand": "品牌",
