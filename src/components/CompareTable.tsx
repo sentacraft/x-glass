@@ -2,7 +2,7 @@
 
 import { useState, useRef } from "react";
 import Image from "next/image";
-import { ArrowUpRight } from "lucide-react";
+import { ExternalLink } from "@/components/ui/external-link";
 import { useTranslations } from "next-intl";
 import {
   DndContext,
@@ -90,17 +90,14 @@ function LensHeaderContent({
         </p>
       )}
       {url && (
-        <a
+        <ExternalLink
           href={url}
-          target="_blank"
-          rel="noopener noreferrer"
           onClick={(e) => e.stopPropagation()}
           onPointerDown={(e) => e.stopPropagation()}
           className="mt-2 inline-flex items-center gap-1 text-xs text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300 transition-colors"
         >
           {officialSiteLabel}
-          <ArrowUpRight size={12} />
-        </a>
+        </ExternalLink>
       )}
     </>
   );

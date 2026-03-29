@@ -8,7 +8,7 @@ import {
   formatFocalDisplay,
   formatEquivDisplay,
 } from "@/lib/lenses";
-import { ArrowUpRight } from "lucide-react";
+import { ExternalLink } from "@/components/ui/external-link";
 import { Link } from "@/i18n/navigation";
 
 type Params = Promise<{ locale: string; id: string }>;
@@ -137,15 +137,12 @@ export default async function LensDetailPage({ params }: { params: Params }) {
               {t("addToCompare")}
             </Link>
             {url && (
-              <a
+              <ExternalLink
                 href={url}
-                target="_blank"
-                rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 text-sm font-medium px-4 py-2 rounded-lg border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors"
               >
                 {t("officialSite")}
-                <ArrowUpRight size={12} />
-              </a>
+              </ExternalLink>
             )}
           </div>
 
