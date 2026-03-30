@@ -411,5 +411,174 @@
       },
       "sourceSpecsRaw": "Type XF33mmF1.4 R LM WR\nLens configuration 15 elements in 10 groups (includes 2 aspherical and 3 ED elements)\nFocal length f=33mm (50mm)\nAngle of view 46.6°\nMax. aperture F1.4\nMin. aperture F16\nAperture control Number of blades 9 (rounded diaphragm opening)\nStep size 1/3EV (22 steps)\nFocus range 30cm - ∞\nMax. magnification 0.15x\nExternal dimensions: Diameter x Length (approx.) Ø67mm x 73.5mm\nWeight (approx.) 360g\nFilter size Ø58mm"
     }
+  },
+  {
+    "id": "viltrox-af15mmf17-air-xf",
+    "brand": "Viltrox",
+    "series": "Air",
+    "model": "AF 15mm F1.7 Air XF",
+    "focalLengthMin": 15,
+    "focalLengthMax": 15,
+    "maxAperture": 1.7,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": false,
+    "weightG": 180,
+    "diameterMm": 65,
+    "lengthMm": 56.7,
+    "filterMm": 58,
+    "minFocusDistanceCm": 23,
+    "maxMagnification": 0.1,
+    "apertureBladeCount": 9,
+    "lensConfiguration": {
+      "groups": 10,
+      "elements": 12,
+      "aspherical": 2,
+      "ed": 3,
+      "otherNotes": "Includes 3 HR elements.",
+      "sourceText": "12 elements in 10 groups (includes 3 ED elements, 3 HR elements, and 2 aspherical elements)"
+    },
+    "officialLinks": {
+      "cn": "https://www.viltrox.com.cn/productinfo/6118527.html"
+    },
+    "imageUrl": "/images/lenses/viltrox/viltrox-af15mmf17-air-xf.jpg",
+    "ingestion": {
+      "source": {
+        "type": "official",
+        "channel": "cn",
+        "url": "https://www.viltrox.com.cn/productinfo/6118527.html"
+      },
+      "sourceSpecsRaw": "名称 AF 15/1.7 Air E/Z/XF\n画幅 半画幅\n卡口类型 E/Z/X-Mount\n镜头配置 10组12片\n焦距 f=15mm (22.5mm)\n视角 84.9°\n最大光圈 F1.7\n最小光圈 F16\n光圈叶片数 9\n对焦范围 0.23m-∞\n对焦系统 内部对焦系统\n对焦马达 STM\n对焦 手动, 自动\n最大放大率 0.1x\n外径尺寸 E: Ø65x56.4mm, Z: Ø68x58.4mm, XF: Ø65x56.7mm\n重量 E: 约180g, Z: 约195g, XF: 约180g\n滤镜口径 Ø58mm",
+      "reviewNotes": {
+        "releaseYear": "Official CN product page does not show a publication date; 2025 is inferred from current official Viltrox product materials."
+      }
+    }
+  },
+  {
+    "id": "viltrox-af56mmf12-pro-xf",
+    "brand": "Viltrox",
+    "series": "Pro",
+    "model": "AF 56mm F1.2 Pro XF",
+    "focalLengthMin": 56,
+    "focalLengthMax": 56,
+    "maxAperture": 1.2,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": true,
+    "apertureRing": true,
+    "weightG": 575,
+    "diameterMm": 78.1,
+    "lengthMm": 92,
+    "filterMm": 67,
+    "minFocusDistanceCm": 50,
+    "maxMagnification": 0.13,
+    "lensConfiguration": {
+      "groups": 8,
+      "elements": 13,
+      "sourceText": "13 elements in 8 groups"
+    },
+    "officialLinks": {
+      "cn": "https://www.viltrox.com.cn/productinfo/5934940.html"
+    },
+    "imageUrl": "/images/lenses/viltrox/viltrox-af56mmf12-pro-xf.jpg",
+    "ingestion": {
+      "source": {
+        "type": "official",
+        "channel": "cn",
+        "url": "https://www.viltrox.com.cn/productinfo/5934940.html"
+      },
+      "sourceSpecsRaw": "名称 AF 56/1.2 Pro XF/E\n卡口类型 X卡口/E卡口\n画幅 APS-C\n镜头配置 8组13片\n焦距 f=56mm\n视角 28°\n最大光圈 F1.2\n最小光圈 F16\n光圈叶片数 11\n对焦范围 0.5m-∞\n对焦系统 内部对焦系统\n对焦马达 HyperVCM\n对焦 手动, 自动\n最大放大率 0.13倍\n外径尺寸 约Φ78.1mm×92mm/Φ78.1mm×87.4mm\n重量 约575g/约570g\n滤镜口径 Φ67mm",
+      "reviewNotes": {
+        "releaseYear": "Official CN product page does not show a publication date; 2025 is inferred from current official Viltrox product materials."
+        ,
+        "dimensions": "The official CN spec image merges X/E mount values with slash-separated measurements. Top-level size and weight use the first XF-specific values."
+      }
+    }
+  },
+  {
+    "id": "7artisans-af35mmf18-lite-xf",
+    "brand": "7Artisans",
+    "series": "LITE",
+    "model": "AF 35mm F1.8",
+    "focalLengthMin": 35,
+    "focalLengthMax": 35,
+    "maxAperture": 1.8,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": false,
+    "weightG": 181,
+    "diameterMm": 67,
+    "lengthMm": 51.9,
+    "filterMm": 52,
+    "minFocusDistanceCm": 35,
+    "angleOfView": "44°",
+    "apertureBladeCount": 9,
+    "lensConfiguration": {
+      "groups": 6,
+      "elements": 7,
+      "sourceText": "7 elements in 6 groups"
+    },
+    "officialLinks": {
+      "cn": "https://www.7artisans.com/prod_view.aspx?id=518&nid=3&typeid=126"
+    },
+    "imageUrl": "/images/lenses/7artisans/7artisans-af35mmf18-lite-xf.jpg",
+    "ingestion": {
+      "source": {
+        "type": "official",
+        "channel": "cn",
+        "url": "https://www.7artisans.com/prod_view.aspx?id=518&nid=3&typeid=126"
+      },
+      "sourceSpecsRaw": "AF 35mm F1.8 / LITE series / APS-C\nBayonet type: E/X/Z\nOptical structure: 7 elements in 6 groups\nFocal length: 35mm\nAngle of view: 44°\nNumber of aperture blades: 9\nFocus range: 0.35m-∞\nAperture range: F1.8-F16\nFocusing method: Automatic/Manual\nExternal dimensions: Ø67mm x 51.9mm\nWeight: ≈181g\nFilter size: Ø52mm",
+      "reviewNotes": {
+        "releaseYear": "Inferred from current official 7Artisans materials; the CN product page does not show a publication date.",
+        "apertureRing": "The official CN materials do not list an aperture ring for this AF lens, so it is intentionally left blank.",
+        "maxMagnification": "Not listed in the official CN materials; left blank."
+      }
+    }
+  },
+  {
+    "id": "7artisans-25mmf18-mf-xf",
+    "brand": "7Artisans",
+    "series": "Manual",
+    "model": "25mm F1.8",
+    "focalLengthMin": 25,
+    "focalLengthMax": 25,
+    "maxAperture": 1.8,
+    "minAperture": 16,
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "weightG": 143,
+    "diameterMm": 51,
+    "lengthMm": 32,
+    "filterMm": 46,
+    "minFocusDistanceCm": 18,
+    "angleOfView": "68°",
+    "apertureBladeCount": 12,
+    "lensConfiguration": {
+      "groups": 5,
+      "elements": 7,
+      "sourceText": "7 elements in 5 groups"
+    },
+    "officialLinks": {
+      "cn": "https://www.7artisans.com/prod_view.aspx?id=402&nid=3&typeid=104"
+    },
+    "imageUrl": "/images/lenses/7artisans/7artisans-25mmf18-mf-xf.jpg",
+    "ingestion": {
+      "source": {
+        "type": "official",
+        "channel": "cn",
+        "url": "https://www.7artisans.com/prod_view.aspx?id=402&nid=3&typeid=104"
+      },
+      "sourceSpecsRaw": "25mm F1.8 lens parameters\nFrame type: APS-C\nLens material: metal\nWeight: 143g\nAperture ring: De-clicked\nNumber of aperture blades: 12\nOptical structure: 7 elements in 5 groups\nAngle of view: 68°\nMaximum aperture: F1.8\nMinimum aperture: F16\nClosest focus: 0.18m\nFocusing method: Manual focusing\nFilter size: Ø46mm\nApplicable models include Fujifilm FX series",
+      "reviewNotes": {
+        "releaseYear": "Inferred from 7Artisans' 2017 manual/review materials; the CN product page itself does not show a publication date.",
+        "maxMagnification": "Not listed in the official CN materials; left blank."
+      }
+    }
   }
 ]
