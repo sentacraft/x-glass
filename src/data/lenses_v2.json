@@ -580,5 +580,177 @@
         "maxMagnification": "Not listed in the official CN materials; left blank."
       }
     }
+  },
+  {
+    "id": "ttartisan-af23mmf18-af-xf",
+    "brand": "TTArtisan",
+    "series": "AF",
+    "model": "AF 23mm F1.8 自动镜头",
+    "focalLengthMin": 23,
+    "focalLengthMax": 23,
+    "maxAperture": 1.8,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": false,
+    "weightG": 210,
+    "filterMm": 52,
+    "minFocusDistanceCm": 30,
+    "angleOfView": "62°",
+    "apertureBladeCount": 9,
+    "lensConfiguration": {
+      "groups": 9,
+      "elements": 11,
+      "sourceText": "9组11片"
+    },
+    "officialLinks": {
+      "cn": "https://cn.ttartisan.com/?AFlens/AF23-19.html"
+    },
+    "imageUrl": "/images/lenses/ttartisan/ttartisan-af23mmf18-af-xf.webp",
+    "ingestion": {
+      "source": {
+        "type": "official",
+        "channel": "cn",
+        "url": "https://cn.ttartisan.com/?AFlens/AF23-19.html"
+      },
+      "sourceSpecsRaw": "TTArtisan AF 23mm F1.8 自动镜头\nAPS-C 画幅\n轻量化设计，约210克\n5052航空铝镜身\n0.3m最近对焦距离\nF1.8 大光圈\nSTM 步进对焦马达\nType-C 固件升级后盖\nE/X/Z卡口\n附赠遮光罩\n焦段 23mm\n滤镜尺寸 52mm\n最大光圈 F1.8\n最近对焦距离 0.3m\n最小光圈 F16\n光圈叶片 9pcs\n画幅 APS-C\n对焦模式 AF\n视角 62°\n重量 210g（约）\n光学结构 9组11片\n卡口 E/X/Z",
+      "reviewNotes": {
+        "releaseYear": "Official CN page does not show a publication date; left blank.",
+        "diameterMm": "The official CN page does not expose an exact outer diameter in text.",
+        "lengthMm": "The official CN page does not expose an exact length in text.",
+        "apertureRing": "The official CN materials do not explicitly list an aperture ring; left blank.",
+        "maxMagnification": "Not listed in the official CN materials; left blank."
+      }
+    }
+  },
+  {
+    "id": "ttartisan-aps-c23mmf14-xf",
+    "brand": "TTArtisan",
+    "series": "APS-C",
+    "model": "APS-C 23mm F1.4 人文之眼",
+    "focalLengthMin": 23,
+    "focalLengthMax": 23,
+    "maxAperture": 1.4,
+    "minAperture": 16,
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "filterMm": 43,
+    "minFocusDistanceCm": 20,
+    "angleOfView": "62°",
+    "apertureBladeCount": 10,
+    "lensConfiguration": {
+      "groups": 6,
+      "elements": 8,
+      "ed": 1,
+      "otherNotes": "Includes 3 high-refractive elements.",
+      "sourceText": "6组8片，加入了一片低色散镜片和3片高折射镜片"
+    },
+    "officialLinks": {
+      "cn": "https://cn.ttartisan.com/?list-10/APS-C23.html"
+    },
+    "imageUrl": "/images/lenses/ttartisan/ttartisan-aps-c23mmf14-xf.webp",
+    "ingestion": {
+      "source": {
+        "type": "official",
+        "channel": "cn",
+        "url": "https://cn.ttartisan.com/?list-10/APS-C23.html"
+      },
+      "sourceSpecsRaw": "APS-C 23mm F1.4 人文之眼\nAPS-C画幅\nF1.4大光圈\n小巧精致，复古造型\n等效全画幅约35mm人文焦段\n0.2m最近对焦距离\n有级光圈\n全金属打造\n卡口E/X/Z/L/RF/M43\n焦段 23mm\n最大光圈 F1.4\n最近对焦距离 0.2m\n最小光圈 F16\n画幅 APS-C/M43\n光圈叶片 10片\n滤镜尺寸 43mm\n光学结构 6组8片\n视角 62°\n对焦方式 手动\n重量 222~250g（约）\n镜头类别 微单镜头\n富士X口兼容机型：X-A1、X-A10、X-A2、X-A3、X-A5、X-A7、X-M1、X-H1、X-H2、X-H2S、X-T1、X-T10、X-T2、X-T20、X-T30、X-T3、X-T4、X-T5、X-T100、X-T200、X-T30 II、X-E1、X-E2、X-E2S、X-E3、X-E4、XS10、XS20",
+      "reviewNotes": {
+        "releaseYear": "Official CN page does not show a publication date; left blank.",
+        "weightG": "The official CN page only shows a 222~250g range across mounts, not an X-specific weight; left blank.",
+        "diameterMm": "The official CN page does not expose an exact outer diameter in text.",
+        "lengthMm": "The official CN page does not expose an exact length in text.",
+        "apertureRing": "The official CN page says 有级光圈, but does not explicitly name an aperture ring; left blank.",
+        "maxMagnification": "Not listed in the official CN materials; left blank."
+      }
+    }
+  },
+  {
+    "id": "tamron-11-20mmf28-di-iii-a-rxd-b060-x",
+    "brand": "Tamron",
+    "series": "Di III-A",
+    "model": "11-20mm F/2.8 Di III-A RXD",
+    "focalLengthMin": 11,
+    "focalLengthMax": 20,
+    "maxAperture": 2.8,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": false,
+    "weightG": 335,
+    "filterMm": 67,
+    "diameterMm": 73,
+    "lengthMm": 86.5,
+    "minFocusDistanceCm": 15,
+    "maxMagnification": 0.25,
+    "releaseYear": 2023,
+    "lensConfiguration": {
+      "groups": 10,
+      "elements": 12,
+      "aspherical": 2,
+      "otherNotes": "Includes 2 LD and 1 XLD elements.",
+      "sourceText": "12 elements in 10 groups"
+    },
+    "apertureBladeCount": 7,
+    "officialLinks": {
+      "global": "https://www.tamron.com/global/consumer/lenses/b060/"
+    },
+    "imageUrl": "/images/lenses/tamron/tamron-11-20mmf28-di-iii-a-rxd-b060-x.jpg",
+    "ingestion": {
+      "source": {
+        "type": "official",
+        "channel": "global",
+        "url": "https://www.tamron.com/global/consumer/lenses/b060/spec.html"
+      },
+      "sourceSpecsRaw": "11-20mm F/2.8 Di III-A RXD (Model B060)\nThe page is Tamron's lens product [11-20mm F/2.8 Di III-A RXD (Model B060)]. Product Page | 11-20mm F/2.8 Di III-A RXD (Model B060) is the world's first compact, lightweight F2.8 ultra wide-angle zoom lens for Sony E-mount APS-C mirrorless cameras. Can be a great choice for video shooting.\nCovering focal lengths from 11-20mm, this ultra wide-angle lens for APS-C mirrorless cameras features a maximum aperture of F2.8 and allows users to fully enjoy the distinctive depth-of-field and unique perspective provided by an ultra wide-angle lens.\nThe lens was designed to be exceptionally compact and lightweight.\nSpecifications:\nAngle of View (diagonal) 105°20'-71°35' (for Sony E-mount and FUJIFILM X mount)\nOptical Construction 12 elements in 10 groups\nMinimum Object Distance 0.15m (5.9 in) (WIDE) / 0.24m (9.4 in) (TELE)\nMaximum Magnification Ratio 1:4 (WIDE) / 1:7.6 (TELE)\nFilter Size Φ67mm\nMaximum Diameter Φ73mm\nLength 86.5mm / 3.4 in (for FUJIFILM X mount)\nWeight 335g / 11.8oz (for Sony E-mount and FUJIFILM X mount)\nAperture Blades 7 (circular diaphragm)\nMinimum Aperture F16\nMount SONY E Mount / FUJIFILM X Mount / CANON RF Mount\nRelease Date July 8, 2022 (FUJIFILM X Mount)",
+      "reviewNotes": {
+        "apertureRing": "The official global materials do not explicitly mention a physical aperture ring; left blank."
+      }
+    }
+  },
+  {
+    "id": "tamron-17-70mmf28-di-iii-a-vc-rxd-b070-x",
+    "brand": "Tamron",
+    "series": "Di III-A",
+    "model": "17-70mm F/2.8 Di III-A VC RXD",
+    "focalLengthMin": 17,
+    "focalLengthMax": 70,
+    "maxAperture": 2.8,
+    "minAperture": 22,
+    "af": true,
+    "ois": true,
+    "wr": true,
+    "weightG": 530,
+    "filterMm": 67,
+    "diameterMm": 74.6,
+    "lengthMm": 119.6,
+    "minFocusDistanceCm": 19,
+    "maxMagnification": 0.21,
+    "releaseYear": 2022,
+    "lensConfiguration": {
+      "groups": 12,
+      "elements": 16,
+      "aspherical": 3,
+      "otherNotes": "Includes 2 GM aspherical elements and 1 aspherical hybrid lens element.",
+      "sourceText": "16 elements in 12 groups"
+    },
+    "apertureBladeCount": 9,
+    "officialLinks": {
+      "global": "https://www.tamron.com/global/consumer/lenses/b070/"
+    },
+    "imageUrl": "/images/lenses/tamron/tamron-17-70mmf28-di-iii-a-vc-rxd-b070-x.jpg",
+    "ingestion": {
+      "source": {
+        "type": "official",
+        "channel": "global",
+        "url": "https://www.tamron.com/global/consumer/lenses/b070/spec.html"
+      },
+      "sourceSpecsRaw": "17-70mm F/2.8 Di III-A VC RXD (Model B070)\nThe page is Tamron's lens product [17-70mm F/2.8 Di III-A VC RXD (Model B070)]. The 17-70mm F/2.8 Di III-A VC RXD (Model B070) is a large-aperture standard zoom lens for APS-C format mirrorless cameras. With a focal length range of 17mm to 70mm (a full-frame equivalent of 25.5-105mm) for daily use, this achieves a 4.1x zoom.\nThe lens is equipped with TAMRON's proprietary VC (Vibration Compensation) and RXD (Rapid eXtra-silent stepping Drive) AF drive system.\nIt also incorporates Moisture-Resistant Construction and Fluorine Coating.\nSpecifications:\nAngle of View (diagonal) 79°55'-23°00' (for APS-C frame mirrorless format)\nOptical Construction 16 elements in 12 groups\nMinimum Object Distance 0.19m (7.5 in) (WIDE) / 0.39m (15.4 in) (TELE)\nMaximum Magnification Ratio 1:4.8 (WIDE) / 1:5.2 (TELE)\nVC (Vibration Compensation) 〇\nFilter Size Φ67mm\nMaximum Diameter Φ74.6mm\nLength 119.6mm / 4.7 in (FUJIFILM)\nWeight 530g / 18.7 oz (FUJIFILM)\nAperture Blades 9 (circular diaphragm)\nMinimum Aperture F22\nMount SONY E Mount / FUJIFILM X Mount\nRelease Date July 8, 2022 (FUJIFILM X Mount)",
+      "reviewNotes": {
+        "apertureRing": "The official global materials do not explicitly mention a physical aperture ring; left blank."
+      }
+    }
   }
 ]
