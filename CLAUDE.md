@@ -58,6 +58,11 @@ x-glass/
 
 每完成一个 commit 的代码改动后，自动调用 `/commit-msg` skill 生成 commit message，无需用户手动触发。
 
+## 数据采集约定
+
+与 Data Pipeline 相关的采集规则统一维护在 `../x-glass-pipeline/docs/data-collection-rules.md`。
+如需进行镜头数据抓取、来源选择、网页解析或浏览器自动化，请优先读取该文档，再执行采集任务。
+
 ## 开发规范
 
 - **语言优先级**：优先保证英文版本（`en.json`）功能完整正确；开发时同步更新 `zh.json`，但以英文为准，中文翻译可暂时留空或粗译。

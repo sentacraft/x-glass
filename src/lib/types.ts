@@ -1,18 +1,99 @@
+export type LensSourceType = "official" | "external_web";
+export type LensSourceChannel = "cn" | "global";
+
 /**
- * Source verification status for the current ingestion workflow.
+ * Primary source used to populate a lens record.
+ * Each lens currently keeps exactly one source to avoid multi-source merge complexity.
  */
-export interface LensSourceStatus {
+export interface LensSource {
   /**
-   * Whether this lens was included in the Wikipedia index used for discovery.
-   * @example true
+   * Source category.
+   * @example "official"
    */
-  wikipediaIndexed: boolean;
+  type: LensSourceType;
 
   /**
-   * Whether a matching Fujifilm CN official detail page has been found and verified.
-   * @example true
+   * Source channel when the source is an official brand site.
+   * Omit for non-official sources.
+   * @example "cn"
    */
-  officialCnVerified: boolean;
+  channel?: LensSourceChannel;
+
+  /**
+   * Exact page URL used to collect or review the record.
+   * @example "https://www.fujifilm-x.com/zh-cn/products/lenses/xf16-50mmf28-48-r-lm-wr/"
+   */
+  url: string;
+}
+
+/**
+ * Optional length variants for lenses whose physical length changes by state or zoom position.
+ */
+export interface LensLengthVariants {
+  /**
+   * Retracted or collapsed length in millimeters.
+   * @example 37.5
+   */
+  retracted?: number;
+
+  /**
+   * Physical length at the wide end in millimeters.
+   * @example 55.6
+   */
+  wide?: number;
+
+  /**
+   * Physical length at the tele end in millimeters.
+   * @example 57.2
+   */
+  tele?: number;
+}
+
+/**
+ * Structured optical formula parsed from a source page.
+ */
+export interface LensConfiguration {
+  /**
+   * Number of optical groups.
+   * @example 10
+   */
+  groups: number;
+
+  /**
+   * Number of optical elements.
+   * @example 14
+   */
+  elements: number;
+
+  /**
+   * Number of aspherical elements when explicitly stated.
+   * @example 4
+   */
+  aspherical?: number;
+
+  /**
+   * Number of ED elements when explicitly stated.
+   * @example 4
+   */
+  ed?: number;
+
+  /**
+   * Number of Super ED elements when explicitly stated.
+   * @example 3
+   */
+  superEd?: number;
+
+  /**
+   * Optional free-form note for special optics not covered by the structured fields.
+   * @example "Includes 1 XA element"
+   */
+  otherNotes?: string;
+
+  /**
+   * Raw source wording kept for traceability and future parser refinement.
+   * @example "10组14片(包括4片非球面镜片和4片ED镜片)"
+   */
+  sourceText?: string;
 }
 
 /**
@@ -121,6 +202,13 @@ export interface Lens {
   lengthMm: number;
 
   /**
+   * Optional length variants when the source distinguishes multiple physical states.
+   * Keep lengthMm as the main display value for the current phase.
+   * @example { retracted: 37.5, wide: 55.6, tele: 57.2 }
+   */
+  lengthVariantsMm?: LensLengthVariants;
+
+  /**
    * Filter thread diameter in millimeters.
    * @example 52
    */
@@ -155,11 +243,18 @@ export interface Lens {
   angleOfView?: string;
 
   /**
-   * Optical construction text from the source spec.
-   * Keep the original wording in MVP to avoid lossy parsing across brands.
-   * @example "8 elements in 6 groups (2 aspherical elements)"
+   * Raw specification text copied from the source page.
+   * Keep this as a re-parseable snapshot when extraction logic or schema evolves.
+   * @example "Lens configuration: 10 groups, 14 elements. Angle of view: 110°-61.2°. Minimum focus distance: 24cm."
    */
-  lensConfiguration?: string;
+  sourceSpecsRaw?: string;
+
+  /**
+   * Structured optical construction data parsed from the source spec.
+   * Store sourceText when you need to preserve the original wording.
+   * @example { groups: 10, elements: 14, aspherical: 4, ed: 4, sourceText: "10组14片(包括4片非球面镜片和4片ED镜片)" }
+   */
+  lensConfiguration?: LensConfiguration;
 
   /**
    * Number of aperture blades.
@@ -174,16 +269,19 @@ export interface Lens {
   releaseYear: number;
 
   /**
-   * Official product page URL.
-   * @example "https://www.fujifilm-x.com/global/products/lenses/xf35mmf14-r/"
+   * Primary source used to populate this record.
+   * In the current phase, this is usually the mainland China official site when available.
+   * @example { type: "official", channel: "cn", url: "https://www.fujifilm-x.com/zh-cn/products/lenses/xf35mmf14-r/" }
    */
-  officialUrl?: string;
+  source?: LensSource;
 
   /**
-   * Source verification flags for this record.
-   * @example { wikipediaIndexed: true, officialCnVerified: true }
+   * User-facing official product page URL for the current phase.
+   * If absent, the lens is likely no longer listed on the official site and should be double-checked.
+   * Future global-user support may add locale-specific official links alongside this field.
+   * @example "https://www.fujifilm-x.com/zh-cn/products/lenses/xf35mmf14-r/"
    */
-  sourceStatus?: LensSourceStatus;
+  officialUrl?: string;
 
   /**
    * Main product image URL, ideally a clean front or three-quarter product shot.
