@@ -15,6 +15,7 @@ export const FILTER_FEATURE_KEYS = [
   "af",
   "ois",
   "wr",
+  "apertureRing",
 ] as const satisfies readonly (keyof Lens)[];
 
 export type FilterFeatureKey = (typeof FILTER_FEATURE_KEYS)[number];

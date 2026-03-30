@@ -57,6 +57,7 @@ export default function LensCard({
             {lens.af && <Badge>AF</Badge>}
             {lens.ois && <Badge>OIS</Badge>}
             {lens.wr && <Badge>WR</Badge>}
+            {lens.apertureRing && <Badge>AR</Badge>}
           </div>
         </div>
 

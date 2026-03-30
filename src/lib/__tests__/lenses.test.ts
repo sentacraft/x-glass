@@ -257,6 +257,32 @@ describe("filterLenses", () => {
     expect(result[0].id).toBe("fuji-zoom");
   });
 
+  it("filters by required feature: apertureRing", () => {
+    const result = filterLenses(
+      [
+        makeLens({
+          id: "with-ring",
+          focalLengthMin: 35,
+          focalLengthMax: 35,
+          apertureRing: true,
+        }),
+        makeLens({
+          id: "without-ring",
+          focalLengthMin: 33,
+          focalLengthMax: 33,
+          apertureRing: false,
+        }),
+      ],
+      {
+        ...defaultFilters,
+        features: ["apertureRing"],
+      }
+    );
+
+    expect(result).toHaveLength(1);
+    expect(result[0].id).toBe("with-ring");
+  });
+
   it("combines multiple filters", () => {
     const result = filterLenses(lensPool, {
       ...defaultFilters,
