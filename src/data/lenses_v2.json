@@ -274,6 +274,7 @@
     "officialLinks": {
       "global": "https://www.fujifilm-x.com/global/products/lenses/xf23mmf2-r-wr/"
     },
+    "imageUrl": "/images/lenses/fujifilm/xf23mmf2-r-wr.jpg",
     "ingestion": {
       "source": {
         "type": "official",
@@ -353,6 +354,7 @@
     "officialLinks": {
       "global": "https://www.fujifilm-x.com/global/products/lenses/xf30mmf28-r-lm-wr-macro/"
     },
+    "imageUrl": "/images/lenses/fujifilm/xf30mmf28-r-lm-wr-macro.jpg",
     "ingestion": {
       "source": {
         "type": "official",
