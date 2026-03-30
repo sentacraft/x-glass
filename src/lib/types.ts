@@ -1,4 +1,4 @@
-export type LensSourceType = "official" | "external_web";
+export type LensSourceType = "official" | "external_web" | "indexed_only";
 export type LensSourceChannel = "cn" | "global";
 
 /**
@@ -14,16 +14,17 @@ export interface LensSource {
 
   /**
    * Source channel when the source is an official brand site.
-   * Omit for non-official sources.
+   * Omit for non-official or index-only records.
    * @example "cn"
    */
   channel?: LensSourceChannel;
 
   /**
    * Exact page URL used to collect or review the record.
+   * Omit when the lens is indexed but no detail source has been confirmed yet.
    * @example "https://www.fujifilm-x.com/zh-cn/products/lenses/xf16-50mmf28-48-r-lm-wr/"
    */
-  url: string;
+  url?: string;
 }
 
 /**
@@ -245,6 +246,8 @@ export interface Lens {
   /**
    * Raw specification text copied from the source page.
    * Keep this as a re-parseable snapshot when extraction logic or schema evolves.
+   * In the current ingestion workflow, populate this for every lens that enters
+   * the active collection scope, even when structured parsing is incomplete.
    * @example "Lens configuration: 10 groups, 14 elements. Angle of view: 110°-61.2°. Minimum focus distance: 24cm."
    */
   sourceSpecsRaw?: string;
