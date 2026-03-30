@@ -3,7 +3,7 @@
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import type { Lens } from "@/lib/types";
-import { formatFocalDisplay, formatEquivDisplay } from "@/lib/lenses";
+import * as fmt from "@/lib/lens-format";
 
 interface Props {
   lens: Lens;
@@ -19,8 +19,8 @@ export default function LensCard({
   onToggle,
 }: Props) {
   const t = useTranslations("LensList");
-  const focalDisplay = formatFocalDisplay(lens);
-  const equivDisplay = formatEquivDisplay(lens);
+  const focalDisplay = fmt.focalDisplay(lens);
+  const equivDisplay = fmt.equivDisplay(lens);
 
   return (
     <div

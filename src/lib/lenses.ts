@@ -1,35 +1,13 @@
-import lensesData from "../data/lenses.json";
+import lensesData from "../data/lenses_v2.json";
 import type { Lens } from "./types";
 
 export const allLenses: Lens[] = lensesData as Lens[];
 
-const CROP_FACTOR = 1.5;
+export type LensType = "prime" | "zoom";
 
 export function isZoom(lens: Lens): boolean {
   return lens.focalLengthMin !== lens.focalLengthMax;
 }
-
-export function focalEquivMin(lens: Lens): number {
-  return Math.round(lens.focalLengthMin * CROP_FACTOR);
-}
-
-export function focalEquivMax(lens: Lens): number {
-  return Math.round(lens.focalLengthMax * CROP_FACTOR);
-}
-
-export function formatFocalDisplay(lens: Lens): string {
-  return isZoom(lens)
-    ? `${lens.focalLengthMin}–${lens.focalLengthMax}mm`
-    : `${lens.focalLengthMin}mm`;
-}
-
-export function formatEquivDisplay(lens: Lens): string {
-  return isZoom(lens)
-    ? `${focalEquivMin(lens)}–${focalEquivMax(lens)}mm`
-    : `${focalEquivMin(lens)}mm`;
-}
-
-export type LensType = "prime" | "zoom";
 
 // Boolean Lens fields that can be used as filter conditions.
 // satisfies (keyof Lens)[] enforces at compile time that each key exists on Lens.
@@ -106,6 +84,7 @@ const BRAND_URLS: Record<string, string> = {
   Tamron: "https://www.tamron.com/en/lenses/",
 };
 
+// Prioritize global official links for now. Can adjust logic later if we want to show region-specific links based on user locale or other signals.
 export function getLensUrl(lens: Lens): string | undefined {
   return lens.officialLinks?.global ?? lens.officialLinks?.cn ?? BRAND_URLS[lens.brand];
 }

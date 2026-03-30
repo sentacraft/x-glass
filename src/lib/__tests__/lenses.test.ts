@@ -2,16 +2,18 @@ import { describe, it, expect } from "vitest";
 import type { Lens } from "../types";
 import {
   isZoom,
-  focalEquivMin,
-  focalEquivMax,
-  formatFocalDisplay,
-  formatEquivDisplay,
   filterLenses,
   sortLenses,
   getUniqueBrands,
   getLensUrl,
   defaultFilters,
 } from "../lenses";
+import {
+  focalEquivMin,
+  focalEquivMax,
+  focalDisplay,
+  equivDisplay,
+} from "../lens-format";
 
 // Minimal Lens factory — only fill in fields relevant to each test
 function makeLens(
@@ -73,21 +75,21 @@ describe("focalEquivMin / focalEquivMax", () => {
 // ---------------------------------------------------------------------------
 describe("formatFocalDisplay", () => {
   it("shows single value for prime", () => {
-    expect(formatFocalDisplay(prime35)).toBe("35mm");
+    expect(focalDisplay(prime35)).toBe("35mm");
   });
 
   it("shows range for zoom", () => {
-    expect(formatFocalDisplay(zoom1835)).toBe("18–55mm");
+    expect(focalDisplay(zoom1835)).toBe("18–55mm");
   });
 });
 
 describe("formatEquivDisplay", () => {
   it("shows single equiv for prime", () => {
-    expect(formatEquivDisplay(prime35)).toBe("53mm");
+    expect(equivDisplay(prime35)).toBe("53mm");
   });
 
   it("shows equiv range for zoom", () => {
-    expect(formatEquivDisplay(zoom1835)).toBe("27–83mm");
+    expect(equivDisplay(zoom1835)).toBe("27–83mm");
   });
 });
 

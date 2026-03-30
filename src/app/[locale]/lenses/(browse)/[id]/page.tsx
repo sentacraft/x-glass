@@ -2,12 +2,8 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
-import {
-  allLenses,
-  getLensUrl,
-  formatFocalDisplay,
-  formatEquivDisplay,
-} from "@/lib/lenses";
+import { allLenses, getLensUrl } from "@/lib/lenses";
+import * as fmt from "@/lib/lens-format";
 import { ExternalLink } from "@/components/ui/external-link";
 import { LensPlaceholderIcon } from "@/components/ui/lens-placeholder-icon";
 import { Link } from "@/i18n/navigation";
@@ -41,32 +37,60 @@ export default async function LensDetailPage({ params }: { params: Params }) {
 
   const t = await getTranslations("LensDetail");
   const url = getLensUrl(lens);
-  const focalDisplay = formatFocalDisplay(lens);
-  const equivDisplay = formatEquivDisplay(lens);
+  const unknown = t("unknown");
 
   type SpecRow =
     | { label: string; value: string }
-    | { label: string; bool: boolean };
+    | { label: string; bool: boolean | undefined };
 
   const specs: SpecRow[] = [
     {
       label: t("brand"),
       value: `${lens.brand}${lens.series ? ` ${lens.series}` : ""}`,
     },
-    { label: t("focalLength"), value: focalDisplay },
-    { label: t("focalLengthEquiv"), value: equivDisplay },
+    {
+      label: t("generation"),
+      value: fmt.optionalNumber(lens.generation, "", unknown),
+    },
+    { label: t("focalLength"), value: fmt.focalDisplay(lens) },
+    { label: t("focalLengthEquiv"), value: fmt.equivDisplay(lens) },
     { label: t("maxAperture"), value: `f/${lens.maxAperture}` },
     { label: t("minAperture"), value: `f/${lens.minAperture}` },
     { label: t("af"), bool: lens.af },
     { label: t("ois"), bool: lens.ois },
     { label: t("wr"), bool: lens.wr },
-    { label: t("weight"), value: `${lens.weightG}g` },
+    { label: t("apertureRing"), bool: lens.apertureRing },
     {
-      label: t("dimensions"),
-      value: `⌀${lens.diameterMm} × ${lens.lengthMm}mm`,
+      label: t("apertureBladeCount"),
+      value: fmt.optionalNumber(lens.apertureBladeCount, "", unknown),
     },
-    { label: t("filterSize"), value: `${lens.filterMm}mm` },
+    { label: t("weight"), value: `${lens.weightG}g` },
+    { label: t("dimensions"), value: fmt.dimensionsDisplay(lens) },
+    {
+      label: t("lengthVariants"),
+      value: fmt.lengthVariantsDisplay(lens, unknown, {
+        retracted: t("lengthRetracted"),
+        wide: t("lengthWide"),
+        tele: t("lengthTele"),
+      }),
+    },
+    {
+      label: t("filterSize"),
+      value: fmt.optionalNumber(lens.filterMm, "mm", unknown),
+    },
     { label: t("minFocusDist"), value: `${lens.minFocusDistanceCm}cm` },
+    {
+      label: t("minFocusDistMacro"),
+      value: fmt.optionalNumber(lens.minFocusDistanceMacroCm, "cm", unknown),
+    },
+    {
+      label: t("maxMagnification"),
+      value: fmt.optionalNumber(lens.maxMagnification, "x", unknown),
+    },
+    {
+      label: t("lensConfiguration"),
+      value: fmt.lensConfigurationDisplay(lens, unknown),
+    },
     { label: t("releaseYear"), value: `${lens.releaseYear}` },
   ];
 
@@ -144,16 +168,20 @@ export default async function LensDetailPage({ params }: { params: Params }) {
                     </td>
                     <td className="px-4 py-2.5 text-zinc-700 dark:text-zinc-300">
                       {"bool" in row ? (
-                        <span className="inline-flex items-center gap-1.5">
-                          <span
-                            className={`inline-block w-2 h-2 rounded-full ${
-                              row.bool
-                                ? "bg-green-500"
-                                : "bg-zinc-300 dark:bg-zinc-600"
-                            }`}
-                          />
-                          {row.bool ? t("yes") : t("no")}
-                        </span>
+                        row.bool === undefined ? (
+                          unknown
+                        ) : (
+                          <span className="inline-flex items-center gap-1.5">
+                            <span
+                              className={`inline-block w-2 h-2 rounded-full ${
+                                row.bool
+                                  ? "bg-green-500"
+                                  : "bg-zinc-300 dark:bg-zinc-600"
+                              }`}
+                            />
+                            {row.bool ? t("yes") : t("no")}
+                          </span>
+                        )
                       ) : (
                         row.value
                       )}
