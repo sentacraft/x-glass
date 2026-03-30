@@ -38,7 +38,8 @@ type Row =
       format: (v: number) => string;
       bestDir?: "min" | "max";
     }
-  | { kind: "bool"; label: string; getValue: (l: Lens) => boolean | undefined };
+  | { kind: "bool"; label: string; getValue: (l: Lens) => boolean | undefined }
+  | { kind: "section"; label: string; description: string };
 
 // --- LensHeaderContent: shared between SortableLensHeader and ColumnOverlay ---
 
@@ -152,6 +153,24 @@ function ColumnOverlay({
       {rows.map((row, i) => {
         let content: React.ReactNode;
 
+        if (row.kind === "section") {
+          return (
+            <div
+              key={i}
+              className="px-4 py-3 bg-amber-50/70 dark:bg-amber-950/20 border-b border-zinc-100 dark:border-zinc-800/60 last:border-0"
+            >
+              <div className="flex flex-col gap-1">
+                <span className="text-xs font-semibold uppercase tracking-wide text-amber-800 dark:text-amber-300">
+                  {row.label}
+                </span>
+                <span className="text-xs text-amber-700 dark:text-amber-200/80">
+                  {row.description}
+                </span>
+              </div>
+            </div>
+          );
+        }
+
         if (row.kind === "bool") {
           const val = row.getValue(lens);
           content =
@@ -182,7 +201,7 @@ function ColumnOverlay({
         return (
           <div
             key={i}
-            className="px-4 py-3 text-sm text-zinc-700 dark:text-zinc-300 truncate border-b border-zinc-100 dark:border-zinc-800/60 last:border-0"
+            className="px-4 py-3 text-sm text-zinc-700 dark:text-zinc-300 whitespace-pre-line border-b border-zinc-100 dark:border-zinc-800/60 last:border-0"
           >
             {content}
           </div>
@@ -247,17 +266,6 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
   const rows: Row[] = [
     {
       kind: "text",
-      label: td("brand"),
-      getValue: (l) => `${l.brand}${l.series ? ` ${l.series}` : ""}`,
-    },
-    {
-      kind: "numeric",
-      label: td("generation"),
-      getValue: (l) => l.generation,
-      format: String,
-    },
-    {
-      kind: "text",
       label: td("focalLength"),
       getValue: (l) => fmt.focalDisplay(l),
     },
@@ -296,16 +304,6 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
       getValue: (l) => fmt.dimensionsDisplay(l),
     },
     {
-      kind: "text",
-      label: td("lengthVariants"),
-      getValue: (l) =>
-        fmt.lengthVariantsDisplay(l, td("unknown"), {
-          retracted: td("lengthRetracted"),
-          wide: td("lengthWide"),
-          tele: td("lengthTele"),
-        }),
-    },
-    {
       kind: "numeric",
       label: td("filterSize"),
       getValue: (l) => l.filterMm,
@@ -320,17 +318,38 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
     },
     {
       kind: "numeric",
-      label: td("minFocusDistMacro"),
-      getValue: (l) => l.minFocusDistanceMacroCm,
-      format: (v) => `${v}cm`,
-      bestDir: "min",
-    },
-    {
-      kind: "numeric",
       label: td("maxMagnification"),
       getValue: (l) => l.maxMagnification,
       format: (v) => `${v}x`,
       bestDir: "max",
+    },
+    {
+      kind: "section",
+      label: td("advancedSpecs"),
+      description: td("advancedSpecsNote"),
+    },
+    {
+      kind: "numeric",
+      label: td("generation"),
+      getValue: (l) => l.generation,
+      format: String,
+    },
+    {
+      kind: "text",
+      label: td("lengthVariants"),
+      getValue: (l) =>
+        fmt.lengthVariantsDisplay(l, td("unknown"), {
+          retracted: td("lengthRetracted"),
+          wide: td("lengthWide"),
+          tele: td("lengthTele"),
+        }),
+    },
+    {
+      kind: "numeric",
+      label: td("minFocusDistMacro"),
+      getValue: (l) => l.minFocusDistanceMacroCm,
+      format: (v) => `${v}cm`,
+      bestDir: "min",
     },
     {
       kind: "text",
@@ -403,78 +422,96 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
                   key={row.label}
                   className="border-b border-zinc-100 dark:border-zinc-800/60 last:border-0"
                 >
-                  <td className="px-4 py-3 text-xs font-medium text-zinc-500 dark:text-zinc-400 bg-zinc-50/60 dark:bg-zinc-900/30 whitespace-nowrap">
-                    {row.label}
-                  </td>
-
-                  {orderedLenses.map((lens) => {
-                    const isActive = lens.id === activeId;
-
-                    if (row.kind === "bool") {
-                      const val = row.getValue(lens);
-                      return (
-                        <td
-                          key={lens.id}
-                          className="px-4 py-3 text-zinc-700 dark:text-zinc-300 truncate"
-                          style={{ opacity: isActive ? 0 : 1 }}
-                        >
-                          {val === undefined ? (
-                            td("unknown")
-                          ) : (
-                            <>
-                              <span
-                                className={`inline-block w-2 h-2 rounded-full mr-2 align-middle ${
-                                  val
-                                    ? "bg-green-500"
-                                    : "bg-zinc-300 dark:bg-zinc-600"
-                                }`}
-                              />
-                              {val ? td("yes") : td("no")}
-                            </>
-                          )}
-                        </td>
-                      );
-                    }
-
-                    if (row.kind === "numeric") {
-                      const val = row.getValue(lens);
-                      const isBest = bestVal !== null && val === bestVal;
-                      return (
-                        <td
-                          key={lens.id}
-                          className={`px-4 py-3 font-medium tabular-nums truncate ${
-                            isBest
-                              ? "text-blue-600 dark:text-blue-400"
-                              : "text-zinc-700 dark:text-zinc-300"
-                          }`}
-                          style={{ opacity: isActive ? 0 : 1 }}
-                        >
-                          {val === undefined ? (
-                            td("unknown")
-                          ) : (
-                            <>
-                              {row.format(val)}
-                              {isBest && (
-                                <span className="ml-1.5 text-[10px] font-semibold text-blue-500 dark:text-blue-400 uppercase tracking-wide">
-                                  ★
-                                </span>
-                              )}
-                            </>
-                          )}
-                        </td>
-                      );
-                    }
-
-                    return (
-                      <td
-                        key={lens.id}
-                        className="px-4 py-3 text-zinc-700 dark:text-zinc-300 truncate"
-                        style={{ opacity: isActive ? 0 : 1 }}
-                      >
-                        {row.getValue(lens)}
+                  {row.kind === "section" ? (
+                    <td
+                      colSpan={orderedLenses.length + 1}
+                      className="px-4 py-3 bg-amber-50/70 dark:bg-amber-950/20"
+                    >
+                      <div className="flex flex-col gap-1">
+                        <span className="text-xs font-semibold uppercase tracking-wide text-amber-800 dark:text-amber-300">
+                          {row.label}
+                        </span>
+                        <span className="text-xs text-amber-700 dark:text-amber-200/80">
+                          {row.description}
+                        </span>
+                      </div>
+                    </td>
+                  ) : (
+                    <>
+                      <td className="px-4 py-3 text-xs font-medium text-zinc-500 dark:text-zinc-400 bg-zinc-50/60 dark:bg-zinc-900/30 whitespace-nowrap">
+                        {row.label}
                       </td>
-                    );
-                  })}
+
+                      {orderedLenses.map((lens) => {
+                        const isActive = lens.id === activeId;
+
+                        if (row.kind === "bool") {
+                          const val = row.getValue(lens);
+                          return (
+                            <td
+                              key={lens.id}
+                              className="px-4 py-3 text-zinc-700 dark:text-zinc-300 truncate"
+                              style={{ opacity: isActive ? 0 : 1 }}
+                            >
+                              {val === undefined ? (
+                                td("unknown")
+                              ) : (
+                                <>
+                                  <span
+                                    className={`inline-block w-2 h-2 rounded-full mr-2 align-middle ${
+                                      val
+                                        ? "bg-green-500"
+                                        : "bg-zinc-300 dark:bg-zinc-600"
+                                    }`}
+                                  />
+                                  {val ? td("yes") : td("no")}
+                                </>
+                              )}
+                            </td>
+                          );
+                        }
+
+                        if (row.kind === "numeric") {
+                          const val = row.getValue(lens);
+                          const isBest = bestVal !== null && val === bestVal;
+                          return (
+                            <td
+                              key={lens.id}
+                              className={`px-4 py-3 font-medium tabular-nums truncate ${
+                                isBest
+                                  ? "text-blue-600 dark:text-blue-400"
+                                  : "text-zinc-700 dark:text-zinc-300"
+                              }`}
+                              style={{ opacity: isActive ? 0 : 1 }}
+                            >
+                              {val === undefined ? (
+                                td("unknown")
+                              ) : (
+                                <>
+                                  {row.format(val)}
+                                  {isBest && (
+                                    <span className="ml-1.5 text-[10px] font-semibold text-blue-500 dark:text-blue-400 uppercase tracking-wide">
+                                      ★
+                                    </span>
+                                  )}
+                                </>
+                              )}
+                            </td>
+                          );
+                        }
+
+                        return (
+                          <td
+                            key={lens.id}
+                            className="px-4 py-3 text-zinc-700 dark:text-zinc-300 whitespace-pre-line"
+                            style={{ opacity: isActive ? 0 : 1 }}
+                          >
+                            {row.getValue(lens)}
+                          </td>
+                        );
+                      })}
+                    </>
+                  )}
                 </tr>
               );
             })}

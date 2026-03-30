@@ -74,6 +74,8 @@
     "minFocusDistMacro": "最近对焦距离（微距）",
     "maxMagnification": "最大放大倍率",
     "lensConfiguration": "镜头结构",
+    "advancedSpecs": "高级规格",
+    "advancedSpecsNote": "以下字段仍在测试中，目前仅经过有限校验。",
     "releaseYear": "发布年份",
     "yes": "有",
     "no": "无",

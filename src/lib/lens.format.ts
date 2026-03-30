@@ -66,7 +66,7 @@ export function lengthVariantsDisplay(
     variants.tele !== undefined ? `${labels.tele} ${variants.tele}mm` : null,
   ].filter((value): value is string => value !== null);
 
-  return parts.length > 0 ? parts.join(" · ") : unknownLabel;
+  return parts.length > 0 ? parts.join("\n") : unknownLabel;
 }
 
 export function lensConfigurationDisplay(
@@ -91,5 +91,5 @@ export function lensConfigurationDisplay(
     configuration.otherNotes ?? null,
   ].filter((value): value is string => value !== null);
 
-  return parts.join(" · ");
+  return parts.join("\n");
 }

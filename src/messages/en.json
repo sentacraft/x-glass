@@ -74,6 +74,8 @@
     "minFocusDistMacro": "Min Focus Distance (Macro)",
     "maxMagnification": "Max Magnification",
     "lensConfiguration": "Lens Configuration",
+    "advancedSpecs": "Advanced Specifications",
+    "advancedSpecsNote": "The fields below are still being tested and have received limited validation.",
     "releaseYear": "Release Year",
     "yes": "Yes",
     "no": "No",
