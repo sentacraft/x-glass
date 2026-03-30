@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
+import { Aperture, Droplet, Focus, Waves } from "lucide-react";
 import { FILTER_FEATURE_KEYS } from "@/lib/lens";
 import type { FilterState, LensType, SortKey } from "@/lib/lens";
 import { Button } from "@/components/ui/button";
@@ -32,6 +33,24 @@ export default function LensFilters({
 }: Props) {
   const t = useTranslations("LensList");
   const [advancedOpen, setAdvancedOpen] = useState(false);
+  const featureMeta = {
+    af: {
+      label: t("featureAutofocus"),
+      icon: Focus,
+    },
+    ois: {
+      label: t("featureOis"),
+      icon: Waves,
+    },
+    wr: {
+      label: t("featureWr"),
+      icon: Droplet,
+    },
+    apertureRing: {
+      label: t("featureApertureRing"),
+      icon: Aperture,
+    },
+  } as const;
 
   function updateFilters<K extends keyof FilterState>(
     key: K,
@@ -179,6 +198,7 @@ export default function LensFilters({
               <div className="flex gap-1.5 py-0.5">
                 {FILTER_FEATURE_KEYS.map((key) => {
                   const active = filters.features.includes(key);
+                  const Icon = featureMeta[key].icon;
                   return (
                     <Button
                       key={key}
@@ -193,7 +213,8 @@ export default function LensFilters({
                         )
                       }
                     >
-                      {t(key)}
+                      <Icon className="h-3.5 w-3.5" />
+                      {featureMeta[key].label}
                     </Button>
                   );
                 })}

@@ -1,6 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
+import { Aperture, Droplet, Focus, Waves } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import type { Lens } from "@/lib/types";
 import * as fmt from "@/lib/lens.format";
@@ -21,6 +22,36 @@ export default function LensCard({
   const t = useTranslations("LensList");
   const focalDisplay = fmt.focalDisplay(lens);
   const equivDisplay = fmt.equivDisplay(lens);
+  const badges = [
+    lens.af
+      ? {
+          label: "AF",
+          description: t("featureAutofocusDesc"),
+          icon: Focus,
+        }
+      : null,
+    lens.ois
+      ? {
+          label: "OIS",
+          description: t("featureOisDesc"),
+          icon: Waves,
+        }
+      : null,
+    lens.wr
+      ? {
+          label: "WR",
+          description: t("featureWrDesc"),
+          icon: Droplet,
+        }
+      : null,
+    lens.apertureRing
+      ? {
+          label: t("badgeRing"),
+          description: t("featureApertureRingDesc"),
+          icon: Aperture,
+        }
+      : null,
+  ].filter((badge) => badge !== null);
 
   return (
     <div
@@ -54,10 +85,14 @@ export default function LensCard({
             )}
           </h3>
           <div className="flex gap-1 flex-wrap min-h-[20px]">
-            {lens.af && <Badge>AF</Badge>}
-            {lens.ois && <Badge>OIS</Badge>}
-            {lens.wr && <Badge>WR</Badge>}
-            {lens.apertureRing && <Badge>AR</Badge>}
+            {badges.map((badge) => (
+              <Badge
+                key={badge.label}
+                label={badge.label}
+                description={badge.description}
+                icon={<badge.icon className="h-3 w-3" />}
+              />
+            ))}
           </div>
         </div>
 
@@ -90,10 +125,23 @@ export default function LensCard({
   );
 }
 
-function Badge({ children }: { children: React.ReactNode }) {
+function Badge({
+  label,
+  description,
+  icon,
+}: {
+  label: string;
+  description: string;
+  icon: React.ReactNode;
+}) {
   return (
-    <span className="text-[10px] font-medium px-1.5 py-0.5 rounded-md bg-zinc-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400">
-      {children}
+    <span
+      title={description}
+      aria-label={description}
+      className="inline-flex items-center gap-1 text-[10px] font-medium px-1.5 py-0.5 rounded-md bg-zinc-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400"
+    >
+      {icon}
+      {label}
     </span>
   );
 }
