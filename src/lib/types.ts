@@ -28,6 +28,24 @@ export interface LensSource {
 }
 
 /**
+ * User-facing official product links grouped by market channel.
+ * A lens may expose different official URLs for mainland China and global users.
+ */
+export interface LensOfficialLinks {
+  /**
+   * Mainland China official product page.
+   * @example "https://www.fujifilm-x.com/zh-cn/products/lenses/xf35mmf14-r/"
+   */
+  cn?: string;
+
+  /**
+   * Global or English official product page.
+   * @example "https://www.fujifilm-x.com/en-us/products/lenses/xf35mmf14-r/"
+   */
+  global?: string;
+}
+
+/**
  * Optional length variants for lenses whose physical length changes by state or zoom position.
  */
 export interface LensLengthVariants {
@@ -95,6 +113,38 @@ export interface LensConfiguration {
    * @example "10组14片(包括4片非球面镜片和4片ED镜片)"
    */
   sourceText?: string;
+}
+
+/**
+ * Ingestion-only metadata kept for traceability and review.
+ * These fields support collection, re-parsing, and manual QA workflows.
+ */
+export interface LensIngestionMeta {
+  /**
+   * Primary source used to populate or review this record in the current pipeline run.
+   * Keep exactly one source here to avoid multi-source merge complexity.
+   * @example { type: "official", channel: "global", url: "https://www.fujifilm-x.com/en-us/products/lenses/xf35mmf14-r/" }
+   */
+  source?: LensSource;
+
+  /**
+   * Raw specification text copied from the source page.
+   * Keep this as a re-parseable snapshot when extraction logic or schema evolves.
+   * In the current ingestion workflow, populate this for every lens that enters
+   * the active collection scope, even when structured parsing is incomplete.
+   * @example "Lens configuration: 10 groups, 14 elements. Angle of view: 110°-61.2°. Minimum focus distance: 24cm."
+   */
+  sourceSpecsRaw?: string;
+
+  /**
+   * Field-level review notes for values that were intentionally omitted,
+   * need manual confirmation, or require extra context from the source page.
+   * Keys should match lens field names whenever possible.
+   * @example { apertureBladeCount: "Official CN page leaves this field blank, so it is intentionally omitted." }
+   */
+  reviewNotes?: {
+    [fieldName: string]: string;
+  };
 }
 
 /**
@@ -244,13 +294,9 @@ export interface Lens {
   angleOfView?: string;
 
   /**
-   * Raw specification text copied from the source page.
-   * Keep this as a re-parseable snapshot when extraction logic or schema evolves.
-   * In the current ingestion workflow, populate this for every lens that enters
-   * the active collection scope, even when structured parsing is incomplete.
-   * @example "Lens configuration: 10 groups, 14 elements. Angle of view: 110°-61.2°. Minimum focus distance: 24cm."
+   * Ingestion-only metadata kept for traceability and review workflows.
    */
-  sourceSpecsRaw?: string;
+  ingestion?: LensIngestionMeta;
 
   /**
    * Structured optical construction data parsed from the source spec.
@@ -272,19 +318,11 @@ export interface Lens {
   releaseYear: number;
 
   /**
-   * Primary source used to populate this record.
-   * In the current phase, this is usually the mainland China official site when available.
-   * @example { type: "official", channel: "cn", url: "https://www.fujifilm-x.com/zh-cn/products/lenses/xf35mmf14-r/" }
-   */
-  source?: LensSource;
-
-  /**
-   * User-facing official product page URL for the current phase.
+   * User-facing official product links by market channel.
    * If absent, the lens is likely no longer listed on the official site and should be double-checked.
-   * Future global-user support may add locale-specific official links alongside this field.
-   * @example "https://www.fujifilm-x.com/zh-cn/products/lenses/xf35mmf14-r/"
+   * @example { cn: "https://www.fujifilm-x.com/zh-cn/products/lenses/xf35mmf14-r/", global: "https://www.fujifilm-x.com/en-us/products/lenses/xf35mmf14-r/" }
    */
-  officialUrl?: string;
+  officialLinks?: LensOfficialLinks;
 
   /**
    * Main product image URL, ideally a clean front or three-quarter product shot.

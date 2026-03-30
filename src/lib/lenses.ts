@@ -97,7 +97,7 @@ export function getUniqueBrands(lenses: Lens[]): string[] {
   return [...new Set(lenses.map((l) => l.brand))].sort();
 }
 
-// Brand-level catalog URLs (English/global). Used as fallback when officialUrl is absent.
+// Brand-level catalog URLs (English/global). Used as fallback when official links are absent.
 const BRAND_URLS: Record<string, string> = {
   Fujifilm: "https://fujifilm-x.com/global/products/lenses/",
   Viltrox: "https://viltrox.com/",
@@ -107,7 +107,7 @@ const BRAND_URLS: Record<string, string> = {
 };
 
 export function getLensUrl(lens: Lens): string | undefined {
-  return lens.officialUrl ?? BRAND_URLS[lens.brand];
+  return lens.officialLinks?.global ?? lens.officialLinks?.cn ?? BRAND_URLS[lens.brand];
 }
 
 const MAX_COMPARE = 4;

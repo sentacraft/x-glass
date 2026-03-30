@@ -346,13 +346,22 @@ describe("getUniqueBrands", () => {
 // getLensUrl
 // ---------------------------------------------------------------------------
 describe("getLensUrl", () => {
-  it("returns officialUrl when present", () => {
+  it("returns global official link when present", () => {
     const lens = makeLens({
       focalLengthMin: 35,
       focalLengthMax: 35,
-      officialUrl: "https://example.com/lens",
+      officialLinks: { global: "https://example.com/lens" },
     });
     expect(getLensUrl(lens)).toBe("https://example.com/lens");
+  });
+
+  it("falls back to cn official link when global link is absent", () => {
+    const lens = makeLens({
+      focalLengthMin: 35,
+      focalLengthMax: 35,
+      officialLinks: { cn: "https://example.com/cn-lens" },
+    });
+    expect(getLensUrl(lens)).toBe("https://example.com/cn-lens");
   });
 
   it("falls back to brand URL for Fujifilm", () => {
@@ -366,7 +375,7 @@ describe("getLensUrl", () => {
     );
   });
 
-  it("returns undefined for unknown brand without officialUrl", () => {
+  it("returns undefined for unknown brand without official links", () => {
     const lens = makeLens({
       focalLengthMin: 35,
       focalLengthMax: 35,
