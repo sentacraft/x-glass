@@ -263,7 +263,7 @@ export interface Lens {
    * Filter thread diameter in millimeters.
    * @example 52
    */
-  filterMm: number;
+  filterMm?: number;
 
   /**
    * Minimum focus distance in normal shooting mode, in centimeters.

@@ -1,1 +1,405 @@
-[]
+[
+  {
+    "id": "xf8-16mmf28-r-lm-wr",
+    "brand": "Fujifilm",
+    "series": "XF",
+    "model": "XF8-16mm F2.8 R LM WR",
+    "focalLengthMin": 8,
+    "focalLengthMax": 16,
+    "maxAperture": 2.8,
+    "minAperture": 22,
+    "af": true,
+    "ois": false,
+    "wr": true,
+    "apertureRing": true,
+    "weightG": 805,
+    "diameterMm": 88,
+    "lengthMm": 121.5,
+    "minFocusDistanceCm": 25,
+    "maxMagnification": 0.1,
+    "releaseYear": 2018,
+    "lensConfiguration": {
+      "groups": 13,
+      "elements": 20,
+      "aspherical": 4,
+      "ed": 3,
+      "superEd": 3,
+      "sourceText": "20 elements in 13 groups (includes 4 aspherical, 3 ED, 3 super ED elements)"
+    },
+    "officialLinks": {
+      "global": "https://www.fujifilm-x.com/global/products/lenses/xf8-16mmf28-r-lm-wr/"
+    },
+    "ingestion": {
+      "source": {
+        "type": "official",
+        "channel": "global",
+        "url": "https://www.fujifilm-x.com/global/products/lenses/xf8-16mmf28-r-lm-wr/specifications/"
+      },
+      "sourceSpecsRaw": "Type FUJINON XF8-16mmF2.8 R LM WR\nLens configuration 20 elements in 13 groups (includes 4 aspherical, 3 ED, 3 super ED elements)\nFocal length f=8-16mm (12-24mm in 35mm format equivalent)\nAngle of view 121° - 83.2°\nMax. aperture F2.8\nMin. aperture F22\nAperture control Number of blades 9 (rounded diaphragm opening)\nStep size 1/3EV (19 steps)\nFocus range 25cm - ∞\nMax. magnification 0.1x (telephoto)\nExternal dimensions: Diameter x Length (approx.) Ø88mm x 121.5mm\nWeight (approx.) 805g\nFilter size -",
+      "reviewNotes": {
+        "filterMm": "Official global page shows no filter size, so this field is intentionally omitted."
+      }
+    }
+  },
+  {
+    "id": "xf10-24mmf4-r-ois-wr",
+    "brand": "Fujifilm",
+    "series": "XF",
+    "model": "XF10-24mm F4 R OIS WR",
+    "focalLengthMin": 10,
+    "focalLengthMax": 24,
+    "maxAperture": 4,
+    "minAperture": 22,
+    "af": true,
+    "ois": true,
+    "wr": true,
+    "apertureRing": true,
+    "apertureBladeCount": 7,
+    "weightG": 385,
+    "filterMm": 72,
+    "diameterMm": 77.6,
+    "lengthMm": 87,
+    "minFocusDistanceCm": 24,
+    "maxMagnification": 0.16,
+    "releaseYear": 2020,
+    "lensConfiguration": {
+      "groups": 10,
+      "elements": 14,
+      "aspherical": 4,
+      "ed": 4,
+      "sourceText": "14 elements in 10 groups (includes 4 aspherical, 4 ED elements)"
+    },
+    "officialLinks": {
+      "global": "https://www.fujifilm-x.com/global/products/lenses/xf10-24mmf4-r-ois-wr/"
+    },
+    "ingestion": {
+      "source": {
+        "type": "official",
+        "channel": "global",
+        "url": "https://www.fujifilm-x.com/global/products/lenses/xf10-24mmf4-r-ois-wr/specifications/"
+      },
+      "sourceSpecsRaw": "Type XF10-24mmF4 R OIS WR\nLens configuration 14 elements in 10 groups (includes 4 aspherical, 4 ED elements)\nFocal length f=10-24mm (15-36mm)\nAngle of view 110°-61.2°\nMax. aperture F4.0\nMin. aperture F22\nAperture control Number of blades 7 (rounded diaphragm opening)\nStep size 1/3EV (16 steps)\nFocus range 24cm - ∞\nMax. magnification 0.16x (Telephoto)\nExternal dimensions: Diameter x Length (approx.) Ø77.6mm x 87mm\nWeight (approx.) 385g\nFilter size Ø72mm"
+    }
+  },
+  {
+    "id": "xf16-50mmf28-48-r-lm-wr",
+    "brand": "Fujifilm",
+    "series": "XF",
+    "model": "XF16-50mm F2.8-4.8 R LM WR",
+    "focalLengthMin": 16,
+    "focalLengthMax": 50,
+    "maxAperture": 2.8,
+    "minAperture": 22,
+    "af": true,
+    "ois": false,
+    "wr": true,
+    "apertureRing": true,
+    "weightG": 240,
+    "filterMm": 58,
+    "diameterMm": 65,
+    "lengthMm": 71.4,
+    "minFocusDistanceCm": 24,
+    "maxMagnification": 0.3,
+    "releaseYear": 2024,
+    "lensConfiguration": {
+      "groups": 9,
+      "elements": 11,
+      "aspherical": 3,
+      "ed": 3,
+      "sourceText": "11 elements in 9 groups (includes 3 aspherical and 3 ED elements)"
+    },
+    "officialLinks": {
+      "global": "https://www.fujifilm-x.com/global/products/lenses/xf16-50mmf28-48-r-lm-wr/"
+    },
+    "ingestion": {
+      "source": {
+        "type": "official",
+        "channel": "global",
+        "url": "https://www.fujifilm-x.com/global/products/lenses/xf16-50mmf28-48-r-lm-wr/specifications/"
+      },
+      "sourceSpecsRaw": "Type XF16-50mmF2.8-4.8 R LM WR\nLens configuration 11 elements in 9 groups (includes 3 aspherical and 3 ED elements)\nFocal length (35mm format equivalent) f=16-50mm (24-76mm)\nAngle of view 83.2°-31.7°\nMax. aperture F2.8-F4.8\nMin. aperture F22\nAperture control Number of blades 11\nStep size 1/3EV (19 steps)\nMinimum focus distance (measured from focal plane) 0.24m\nMax. magnification T:0.3x\nExternal dimensions: Diameter x Length (approx.) Ø65mm x 71.4mm\nWeight (approx.) 240g\nFilter size Ø58mm"
+      ,
+      "reviewNotes": {
+        "apertureBladeCount": "Official global table appears misaligned in the Aperture control section. Number of blades is not reliably stated, so this field is intentionally omitted."
+      }
+    }
+  },
+  {
+    "id": "xf8mmf35-r-wr",
+    "brand": "Fujifilm",
+    "series": "XF",
+    "model": "XF8mmF3.5 R WR",
+    "focalLengthMin": 8,
+    "focalLengthMax": 8,
+    "maxAperture": 3.5,
+    "minAperture": 22,
+    "af": true,
+    "ois": false,
+    "wr": true,
+    "apertureRing": true,
+    "apertureBladeCount": 9,
+    "weightG": 215,
+    "diameterMm": 68,
+    "lengthMm": 52.8,
+    "minFocusDistanceCm": 18,
+    "maxMagnification": 0.07,
+    "releaseYear": 2023,
+    "filterMm": 62,
+    "lensConfiguration": {
+      "groups": 9,
+      "elements": 12,
+      "aspherical": 3,
+      "ed": 2,
+      "sourceText": "12 elements in 9 groups (includes 3 aspherical and 2 ED elements)"
+    },
+    "officialLinks": {
+      "global": "https://www.fujifilm-x.com/global/products/lenses/xf8mmf35-r-wr/"
+    },
+    "ingestion": {
+      "source": {
+        "type": "official",
+        "channel": "global",
+        "url": "https://www.fujifilm-x.com/global/products/lenses/xf8mmf35-r-wr/specifications/"
+      },
+      "sourceSpecsRaw": "Type FUJINON XF8mmF3.5 R WR\nLens configuration 12 elements in 9 groups (includes 3 aspherical and 2 ED elements)\nFocal length f=8mm (12mm)\nAngle of view 121°\nMax. aperture F3.5\nMin. aperture F22\nAperture control Number of blades 9 (rounded diaphragm opening)\nStep size 1/3EV (17 steps)\nMinimum focus distance (mesured from focal plane) 0.18m\nMax. magnification 0.07x\nExternal dimensions: Diameter x Length (approx.) Ø68mm x 52.8mm\nWeight (approx.) 215g\nFilter size Ø62mm"
+    }
+  },
+  {
+    "id": "xf18mmf14-r-lm-wr",
+    "brand": "Fujifilm",
+    "series": "XF",
+    "model": "XF18mm F1.4 R LM WR",
+    "focalLengthMin": 18,
+    "focalLengthMax": 18,
+    "maxAperture": 1.4,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": true,
+    "apertureRing": true,
+    "apertureBladeCount": 9,
+    "weightG": 370,
+    "diameterMm": 68.8,
+    "lengthMm": 75.6,
+    "filterMm": 62,
+    "minFocusDistanceCm": 20,
+    "maxMagnification": 0.15,
+    "releaseYear": 2021,
+    "lensConfiguration": {
+      "groups": 9,
+      "elements": 15,
+      "aspherical": 3,
+      "ed": 1,
+      "sourceText": "15 elements in 9 groups (includes 3 aspherical and 1 ED elements)"
+    },
+    "officialLinks": {
+      "global": "https://www.fujifilm-x.com/global/products/lenses/xf18mmf14-r-lm-wr/"
+    },
+    "ingestion": {
+      "source": {
+        "type": "official",
+        "channel": "global",
+        "url": "https://www.fujifilm-x.com/global/products/lenses/xf18mmf14-r-lm-wr/specifications/"
+      },
+      "sourceSpecsRaw": "Type XF18mmF1.4 R LM WR\nLens configuration 15 elements in 9 groups (includes 3 aspherical and 1 ED elements)\nFocal length f=18mm (27mm)\nAngle of view 76.5°\nMax. aperture F1.4\nMin. aperture F16\nAperture control Number of blades 9 (rounded diaphragm opening)\nStep size 1/3EV (22 steps)\nFocus range 20cm - ∞\nMax. magnification 0.15x\nExternal dimensions: Diameter x Length (approx.) Ø68.8mm x 75.6mm\nWeight (approx.) 370g\nFilter size Ø62mm"
+    }
+  },
+  {
+    "id": "xf23mmf14-r-lm-wr",
+    "brand": "Fujifilm",
+    "series": "XF",
+    "model": "XF23mm F1.4 R LM WR",
+    "focalLengthMin": 23,
+    "focalLengthMax": 23,
+    "maxAperture": 1.4,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": true,
+    "apertureRing": true,
+    "apertureBladeCount": 9,
+    "weightG": 375,
+    "diameterMm": 67,
+    "lengthMm": 77.8,
+    "filterMm": 58,
+    "minFocusDistanceCm": 19,
+    "maxMagnification": 0.2,
+    "releaseYear": 2021,
+    "lensConfiguration": {
+      "groups": 10,
+      "elements": 15,
+      "aspherical": 2,
+      "ed": 3,
+      "sourceText": "15 elements in 10 groups (includes 2 aspherical and 3 ED elements)"
+    },
+    "officialLinks": {
+      "global": "https://www.fujifilm-x.com/global/products/lenses/xf23mmf14-r-lm-wr/"
+    },
+    "ingestion": {
+      "source": {
+        "type": "official",
+        "channel": "global",
+        "url": "https://www.fujifilm-x.com/global/products/lenses/xf23mmf14-r-lm-wr/specifications/"
+      },
+      "sourceSpecsRaw": "Type XF23mmF1.4 R LM WR\nLens configuration 15 elements in 10 groups (includes 2 aspherical and 3 ED elements)\nFocal length f=23mm (35mm)\nAngle of view 63.4°\nMax. aperture F1.4\nMin. aperture F16\nAperture control Number of blades 9 (rounded diaphragm opening)\nStep size 1/3EV (22 steps)\nFocus range 19cm - ∞\nMax. magnification 0.2x\nExternal dimensions: Diameter x Length (approx.) Ø67mm x 77.8mm\nWeight (approx.) 375g\nFilter size Ø58mm"
+    }
+  },
+  {
+    "id": "xf23mmf2-r-wr",
+    "brand": "Fujifilm",
+    "series": "XF",
+    "model": "XF23mm F2 R WR",
+    "focalLengthMin": 23,
+    "focalLengthMax": 23,
+    "maxAperture": 2,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": true,
+    "apertureRing": true,
+    "apertureBladeCount": 9,
+    "weightG": 180,
+    "diameterMm": 60,
+    "lengthMm": 51.9,
+    "filterMm": 43,
+    "minFocusDistanceCm": 22,
+    "maxMagnification": 0.13,
+    "releaseYear": 2016,
+    "lensConfiguration": {
+      "groups": 6,
+      "elements": 10,
+      "aspherical": 2,
+      "sourceText": "10 elements 6 groups (includes 2 aspherical elements)"
+    },
+    "officialLinks": {
+      "global": "https://www.fujifilm-x.com/global/products/lenses/xf23mmf2-r-wr/"
+    },
+    "ingestion": {
+      "source": {
+        "type": "official",
+        "channel": "global",
+        "url": "https://www.fujifilm-x.com/global/products/lenses/xf23mmf2-r-wr/specifications/"
+      },
+      "sourceSpecsRaw": "Type FUJINON XF23mmF2 R WR\nLens configuration 10 elements 6 groups (includes 2 aspherical elements)\nFocal length f=23mm (35mm in 35mm format equivalent)\nAngle of view 63.4°\nMax. aperture F2\nMin. aperture F16\nAperture control Number of blades 9 (rounded diaphragm opening)\nStep size 1/3EV (19 steps)\nFocus range 22cm - ∞\nMax. magnification 0.13x\nExternal dimensions: Diameter x Length (approx.) Ø60.0mm x 51.9mm\nWeight (approx.) 180g\nFilter size Ø43mm"
+    }
+  },
+  {
+    "id": "xf27mmf28-r-wr",
+    "brand": "Fujifilm",
+    "series": "XF",
+    "model": "XF27mm F2.8 R WR",
+    "focalLengthMin": 27,
+    "focalLengthMax": 27,
+    "maxAperture": 2.8,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": true,
+    "apertureRing": true,
+    "apertureBladeCount": 7,
+    "weightG": 84,
+    "diameterMm": 62,
+    "lengthMm": 23,
+    "filterMm": 39,
+    "minFocusDistanceCm": 34,
+    "maxMagnification": 0.1,
+    "releaseYear": 2021,
+    "lensConfiguration": {
+      "groups": 5,
+      "elements": 7,
+      "aspherical": 1,
+      "sourceText": "7 elements in 5 groups (includes 1 aspherical element)"
+    },
+    "officialLinks": {
+      "global": "https://www.fujifilm-x.com/global/products/lenses/xf27mmf28-r-wr/"
+    },
+    "ingestion": {
+      "source": {
+        "type": "official",
+        "channel": "global",
+        "url": "https://www.fujifilm-x.com/global/products/lenses/xf27mmf28-r-wr/specifications/"
+      },
+      "sourceSpecsRaw": "Type XF27mmF2.8 R WR\nLens configuration 7 elements in 5 groups (includes 1 aspherical element)\nFocal length f=27mm (41mm in 35mm format equivalent)\nAngle of view 55.5°\nMax. aperture F2.8\nMin. aperture F16\nAperture control Number of blades 7 (rounded diaphragm opening)\nStep size 1/3EV (16 steps)\nFocus range 34cm - ∞\nMax. magnification 0.1x\nExternal dimensions: Diameter x Length (approx.) Ø62mm x 23mm\nWeight (approx.) 84g\nFilter size Ø39mm"
+    }
+  },
+  {
+    "id": "xf30mmf28-r-lm-wr-macro",
+    "brand": "Fujifilm",
+    "series": "XF",
+    "model": "XF30mm F2.8 R LM WR Macro",
+    "focalLengthMin": 30,
+    "focalLengthMax": 30,
+    "maxAperture": 2.8,
+    "minAperture": 22,
+    "af": true,
+    "ois": false,
+    "wr": true,
+    "apertureRing": true,
+    "apertureBladeCount": 9,
+    "weightG": 195,
+    "diameterMm": 60,
+    "lengthMm": 69.5,
+    "filterMm": 43,
+    "minFocusDistanceCm": 10,
+    "maxMagnification": 1,
+    "releaseYear": 2022,
+    "lensConfiguration": {
+      "groups": 9,
+      "elements": 11,
+      "aspherical": 3,
+      "ed": 2,
+      "sourceText": "11 elements in 9 groups (includes 3 aspherical and 2 ED elements)"
+    },
+    "officialLinks": {
+      "global": "https://www.fujifilm-x.com/global/products/lenses/xf30mmf28-r-lm-wr-macro/"
+    },
+    "ingestion": {
+      "source": {
+        "type": "official",
+        "channel": "global",
+        "url": "https://www.fujifilm-x.com/global/products/lenses/xf30mmf28-r-lm-wr-macro/specifications/"
+      },
+      "sourceSpecsRaw": "Type FUJINON XF30mmF2.8 R LM WR Macro\nLens configuration 11 elements in 9 groups (includes 3 aspherical and 2 ED elements)\nFocal length f=30mm (46mm)\nAngle of view 50.7°\nMax. aperture F2.8\nMin. aperture F22\nAperture control Number of blades 9 (rounded diaphragm opening)\nStep size 1/3EV (19 steps)\nMinimum focus distance (measured from focal plane) 0.1m\nMax. magnification 1x\nExternal dimensions: Diameter x Length (approx.) Ø60mm x 69.5mm\nWeight (approx.) 195g\nFilter size Ø43mm"
+    }
+  },
+  {
+    "id": "xf33mmf14-r-lm-wr",
+    "brand": "Fujifilm",
+    "series": "XF",
+    "model": "XF33mm F1.4 R LM WR",
+    "focalLengthMin": 33,
+    "focalLengthMax": 33,
+    "maxAperture": 1.4,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": true,
+    "apertureRing": true,
+    "apertureBladeCount": 9,
+    "weightG": 360,
+    "diameterMm": 67,
+    "lengthMm": 73.5,
+    "filterMm": 58,
+    "minFocusDistanceCm": 30,
+    "maxMagnification": 0.15,
+    "releaseYear": 2021,
+    "lensConfiguration": {
+      "groups": 10,
+      "elements": 15,
+      "aspherical": 2,
+      "ed": 3,
+      "sourceText": "15 elements in 10 groups (includes 2 aspherical and 3 ED elements)"
+    },
+    "officialLinks": {
+      "global": "https://www.fujifilm-x.com/global/products/lenses/xf33mmf14-r-lm-wr/"
+    },
+    "ingestion": {
+      "source": {
+        "type": "official",
+        "channel": "global",
+        "url": "https://www.fujifilm-x.com/global/products/lenses/xf33mmf14-r-lm-wr/specifications/"
+      },
+      "sourceSpecsRaw": "Type XF33mmF1.4 R LM WR\nLens configuration 15 elements in 10 groups (includes 2 aspherical and 3 ED elements)\nFocal length f=33mm (50mm)\nAngle of view 46.6°\nMax. aperture F1.4\nMin. aperture F16\nAperture control Number of blades 9 (rounded diaphragm opening)\nStep size 1/3EV (22 steps)\nFocus range 30cm - ∞\nMax. magnification 0.15x\nExternal dimensions: Diameter x Length (approx.) Ø67mm x 73.5mm\nWeight (approx.) 360g\nFilter size Ø58mm"
+    }
+  }
+]
