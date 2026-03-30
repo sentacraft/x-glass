@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { FILTER_FEATURE_KEYS } from "@/lib/lenses";
-import type { FilterState, LensType, SortKey } from "@/lib/lenses";
+import { FILTER_FEATURE_KEYS } from "@/lib/lens";
+import type { FilterState, LensType, SortKey } from "@/lib/lens";
 import { Button } from "@/components/ui/button";
 import {
   ArrowUpNarrowWide,

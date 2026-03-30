@@ -23,8 +23,8 @@ import {
 import { GripVertical } from "lucide-react";
 import { LensPlaceholderIcon } from "@/components/ui/lens-placeholder-icon";
 import { useRouter } from "@/i18n/navigation";
-import { getLensUrl } from "@/lib/lenses";
-import * as fmt from "@/lib/lens-format";
+import { getLensUrl } from "@/lib/lens";
+import * as fmt from "@/lib/lens.format";
 import type { Lens } from "@/lib/types";
 
 // --- Shared row type ---

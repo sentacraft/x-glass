@@ -7,13 +7,13 @@ import {
   getUniqueBrands,
   getLensUrl,
   defaultFilters,
-} from "../lenses";
+} from "../lens";
 import {
   focalEquivMin,
   focalEquivMax,
   focalDisplay,
   equivDisplay,
-} from "../lens-format";
+} from "../lens.format";
 
 // Minimal Lens factory — only fill in fields relevant to each test
 function makeLens(

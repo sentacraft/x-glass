@@ -3,7 +3,7 @@
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import type { Lens } from "@/lib/types";
-import * as fmt from "@/lib/lens-format";
+import * as fmt from "@/lib/lens.format";
 
 interface Props {
   lens: Lens;

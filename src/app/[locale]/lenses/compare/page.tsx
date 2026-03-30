@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
-import { parseLensIds } from "@/lib/lenses";
+import { parseLensIds } from "@/lib/lens";
 import { Link } from "@/i18n/navigation";
 import CompareTable from "@/components/CompareTable";
 

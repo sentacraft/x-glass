@@ -1,5 +1,5 @@
 import type { Lens } from "./types";
-import { isZoom } from "./lenses";
+import { isZoom } from "./lens";
 
 const CROP_FACTOR = 1.5;
 

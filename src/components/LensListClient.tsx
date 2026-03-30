@@ -9,7 +9,7 @@ import {
   defaultFilters,
   getUniqueBrands,
   type FilterState,
-} from "@/lib/lenses";
+} from "@/lib/lens";
 import { useCompare } from "@/context/CompareContext";
 import { ChevronUp } from "lucide-react";
 import LensCard from "./LensCard";

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
-import { allLenses } from "@/lib/lenses";
+import { allLenses } from "@/lib/lens";
 import LensListClient from "@/components/LensListClient";
 
 export async function generateMetadata({
