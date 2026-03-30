@@ -3,6 +3,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { allLenses, getLensUrl } from "@/lib/lens";
+import { lensImageStyle } from "@/lib/lens-image";
 import * as fmt from "@/lib/lens.format";
 import { ExternalLink } from "@/components/ui/external-link";
 import { LensPlaceholderIcon } from "@/components/ui/lens-placeholder-icon";
@@ -107,15 +108,18 @@ export default async function LensDetailPage({ params }: { params: Params }) {
       <div className="flex flex-col sm:flex-row gap-8">
         {/* Image */}
         <div className="w-full sm:w-56 shrink-0">
-          <div className="aspect-square rounded-2xl overflow-hidden bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center">
+          <div className="aspect-square overflow-hidden flex items-center justify-center">
             {lens.imageUrl ? (
-              <Image
-                src={lens.imageUrl}
-                alt={lens.model}
-                width={224}
-                height={224}
-                className="object-contain w-full h-full"
-              />
+              <div className="relative h-full w-full overflow-hidden">
+                <Image
+                  src={lens.imageUrl}
+                  alt={lens.model}
+                  fill
+                  sizes="224px"
+                  style={lensImageStyle}
+                  className="object-contain"
+                />
+              </div>
             ) : (
               <LensPlaceholderIcon className="w-20 h-20 text-zinc-300 dark:text-zinc-600" />
             )}

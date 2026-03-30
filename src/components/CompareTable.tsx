@@ -24,6 +24,7 @@ import { GripVertical } from "lucide-react";
 import { LensPlaceholderIcon } from "@/components/ui/lens-placeholder-icon";
 import { useRouter } from "@/i18n/navigation";
 import { getLensUrl } from "@/lib/lens";
+import { lensImageStyle } from "@/lib/lens-image";
 import * as fmt from "@/lib/lens.format";
 import type { Lens } from "@/lib/types";
 
@@ -54,15 +55,18 @@ function LensHeaderContent({
 
   return (
     <>
-      <div className="mb-3 w-full aspect-square max-w-[140px] rounded-lg overflow-hidden bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center">
+      <div className="mb-3 w-full aspect-square max-w-[140px] overflow-hidden flex items-center justify-center">
         {lens.imageUrl ? (
-          <Image
-            src={lens.imageUrl}
-            alt={lens.model}
-            width={140}
-            height={140}
-            className="object-contain w-full h-full"
-          />
+          <div className="relative h-full w-full overflow-hidden">
+            <Image
+              src={lens.imageUrl}
+              alt={lens.model}
+              fill
+              sizes="140px"
+              style={lensImageStyle}
+              className="object-contain"
+            />
+          </div>
         ) : (
           <LensPlaceholderIcon className="w-12 h-12 text-zinc-300 dark:text-zinc-600" />
         )}
