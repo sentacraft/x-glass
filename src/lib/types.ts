@@ -253,16 +253,16 @@ export interface Lens {
 
   /**
    * User-facing official product links by market channel.
-   * If absent, the lens is likely no longer listed on the official site and should be double-checked.
+   * Both at least one (cn or global) must be present.
    * @example { cn: "https://www.fujifilm-x.com/zh-cn/products/lenses/xf35mmf14-r/", global: "https://www.fujifilm-x.com/en-us/products/lenses/xf35mmf14-r/" }
    */
-  officialLinks?: LensOfficialLinks;
+  officialLinks: LensOfficialLinks;
 
   /**
    * Main product image URL, ideally a clean front or three-quarter product shot.
    * @example "https://example.com/images/xf35mm-f14-r.png"
    */
-  imageUrl?: string;
+  imageUrl: string;
 
   /**
    * Optional MTF chart image URL reserved for later phases.
