@@ -1,32 +1,3 @@
-export type LensSourceType = "official" | "external_web" | "indexed_only";
-export type LensSourceChannel = "cn" | "global";
-
-/**
- * Primary source used to populate a lens record.
- * Each lens currently keeps exactly one source to avoid multi-source merge complexity.
- */
-export interface LensSource {
-  /**
-   * Source category.
-   * @example "official"
-   */
-  type: LensSourceType;
-
-  /**
-   * Source channel when the source is an official brand site.
-   * Omit for non-official or index-only records.
-   * @example "cn"
-   */
-  channel?: LensSourceChannel;
-
-  /**
-   * Exact page URL used to collect or review the record.
-   * Omit when the lens is indexed but no detail source has been confirmed yet.
-   * @example "https://www.fujifilm-x.com/zh-cn/products/lenses/xf16-50mmf28-48-r-lm-wr/"
-   */
-  url?: string;
-}
-
 /**
  * User-facing official product links grouped by market channel.
  * A lens may expose different official URLs for mainland China and global users.
@@ -113,38 +84,6 @@ export interface LensConfiguration {
    * @example "10组14片(包括4片非球面镜片和4片ED镜片)"
    */
   sourceText?: string;
-}
-
-/**
- * Ingestion-only metadata kept for traceability and review.
- * These fields support collection, re-parsing, and manual QA workflows.
- */
-export interface LensIngestionMeta {
-  /**
-   * Primary source used to populate or review this record in the current pipeline run.
-   * Keep exactly one source here to avoid multi-source merge complexity.
-   * @example { type: "official", channel: "global", url: "https://www.fujifilm-x.com/en-us/products/lenses/xf35mmf14-r/" }
-   */
-  source?: LensSource;
-
-  /**
-   * Raw specification text copied from the source page.
-   * Keep this as a re-parseable snapshot when extraction logic or schema evolves.
-   * In the current ingestion workflow, populate this for every lens that enters
-   * the active collection scope, even when structured parsing is incomplete.
-   * @example "Lens configuration: 10 groups, 14 elements. Angle of view: 110°-61.2°. Minimum focus distance: 24cm."
-   */
-  sourceSpecsRaw?: string;
-
-  /**
-   * Field-level review notes for values that were intentionally omitted,
-   * need manual confirmation, or require extra context from the source page.
-   * Keys should match lens field names whenever possible.
-   * @example { apertureBladeCount: "Official CN page leaves this field blank, so it is intentionally omitted." }
-   */
-  reviewNotes?: {
-    [fieldName: string]: string;
-  };
 }
 
 /**
@@ -292,11 +231,6 @@ export interface Lens {
    * @example "44.2 degrees"
    */
   angleOfView?: string;
-
-  /**
-   * Ingestion-only metadata kept for traceability and review workflows.
-   */
-  ingestion?: LensIngestionMeta;
 
   /**
    * Structured optical construction data parsed from the source spec.

@@ -29,17 +29,6 @@
     "imageUrl": "/images/lenses/fujifilm/xf8-16mmf28-r-lm-wr.jpg",
     "officialLinks": {
       "global": "https://www.fujifilm-x.com/global/products/lenses/xf8-16mmf28-r-lm-wr/"
-    },
-    "ingestion": {
-      "source": {
-        "type": "official",
-        "channel": "global",
-        "url": "https://www.fujifilm-x.com/global/products/lenses/xf8-16mmf28-r-lm-wr/specifications/"
-      },
-      "sourceSpecsRaw": "Type FUJINON XF8-16mmF2.8 R LM WR\nLens configuration 20 elements in 13 groups (includes 4 aspherical, 3 ED, 3 super ED elements)\nFocal length f=8-16mm (12-24mm in 35mm format equivalent)\nAngle of view 121° - 83.2°\nMax. aperture F2.8\nMin. aperture F22\nAperture control Number of blades 9 (rounded diaphragm opening)\nStep size 1/3EV (19 steps)\nFocus range 25cm - ∞\nMax. magnification 0.1x (telephoto)\nExternal dimensions: Diameter x Length (approx.) Ø88mm x 121.5mm\nWeight (approx.) 805g\nFilter size -",
-      "reviewNotes": {
-        "filterMm": "Official global page shows no filter size, so this field is intentionally omitted."
-      }
     }
   },
   {
@@ -73,14 +62,6 @@
     "imageUrl": "/images/lenses/fujifilm/xf10-24mmf4-r-ois-wr.jpg",
     "officialLinks": {
       "global": "https://www.fujifilm-x.com/global/products/lenses/xf10-24mmf4-r-ois-wr/"
-    },
-    "ingestion": {
-      "source": {
-        "type": "official",
-        "channel": "global",
-        "url": "https://www.fujifilm-x.com/global/products/lenses/xf10-24mmf4-r-ois-wr/specifications/"
-      },
-      "sourceSpecsRaw": "Type XF10-24mmF4 R OIS WR\nLens configuration 14 elements in 10 groups (includes 4 aspherical, 4 ED elements)\nFocal length f=10-24mm (15-36mm)\nAngle of view 110°-61.2°\nMax. aperture F4.0\nMin. aperture F22\nAperture control Number of blades 7 (rounded diaphragm opening)\nStep size 1/3EV (16 steps)\nFocus range 24cm - ∞\nMax. magnification 0.16x (Telephoto)\nExternal dimensions: Diameter x Length (approx.) Ø77.6mm x 87mm\nWeight (approx.) 385g\nFilter size Ø72mm"
     }
   },
   {
@@ -113,18 +94,6 @@
     "imageUrl": "/images/lenses/fujifilm/xf16-50mmf28-48-r-lm-wr.jpg",
     "officialLinks": {
       "global": "https://www.fujifilm-x.com/global/products/lenses/xf16-50mmf28-48-r-lm-wr/"
-    },
-    "ingestion": {
-      "source": {
-        "type": "official",
-        "channel": "global",
-        "url": "https://www.fujifilm-x.com/global/products/lenses/xf16-50mmf28-48-r-lm-wr/specifications/"
-      },
-      "sourceSpecsRaw": "Type XF16-50mmF2.8-4.8 R LM WR\nLens configuration 11 elements in 9 groups (includes 3 aspherical and 3 ED elements)\nFocal length (35mm format equivalent) f=16-50mm (24-76mm)\nAngle of view 83.2°-31.7°\nMax. aperture F2.8-F4.8\nMin. aperture F22\nAperture control Number of blades 11\nStep size 1/3EV (19 steps)\nMinimum focus distance (measured from focal plane) 0.24m\nMax. magnification T:0.3x\nExternal dimensions: Diameter x Length (approx.) Ø65mm x 71.4mm\nWeight (approx.) 240g\nFilter size Ø58mm"
-      ,
-      "reviewNotes": {
-        "apertureBladeCount": "Official global table appears misaligned in the Aperture control section. Number of blades is not reliably stated, so this field is intentionally omitted."
-      }
     }
   },
   {
@@ -158,14 +127,6 @@
     "imageUrl": "/images/lenses/fujifilm/xf8mmf35-r-wr.jpg",
     "officialLinks": {
       "global": "https://www.fujifilm-x.com/global/products/lenses/xf8mmf35-r-wr/"
-    },
-    "ingestion": {
-      "source": {
-        "type": "official",
-        "channel": "global",
-        "url": "https://www.fujifilm-x.com/global/products/lenses/xf8mmf35-r-wr/specifications/"
-      },
-      "sourceSpecsRaw": "Type FUJINON XF8mmF3.5 R WR\nLens configuration 12 elements in 9 groups (includes 3 aspherical and 2 ED elements)\nFocal length f=8mm (12mm)\nAngle of view 121°\nMax. aperture F3.5\nMin. aperture F22\nAperture control Number of blades 9 (rounded diaphragm opening)\nStep size 1/3EV (17 steps)\nMinimum focus distance (mesured from focal plane) 0.18m\nMax. magnification 0.07x\nExternal dimensions: Diameter x Length (approx.) Ø68mm x 52.8mm\nWeight (approx.) 215g\nFilter size Ø62mm"
     }
   },
   {
@@ -199,14 +160,6 @@
     "imageUrl": "/images/lenses/fujifilm/xf18mmf14-r-lm-wr.jpg",
     "officialLinks": {
       "global": "https://www.fujifilm-x.com/global/products/lenses/xf18mmf14-r-lm-wr/"
-    },
-    "ingestion": {
-      "source": {
-        "type": "official",
-        "channel": "global",
-        "url": "https://www.fujifilm-x.com/global/products/lenses/xf18mmf14-r-lm-wr/specifications/"
-      },
-      "sourceSpecsRaw": "Type XF18mmF1.4 R LM WR\nLens configuration 15 elements in 9 groups (includes 3 aspherical and 1 ED elements)\nFocal length f=18mm (27mm)\nAngle of view 76.5°\nMax. aperture F1.4\nMin. aperture F16\nAperture control Number of blades 9 (rounded diaphragm opening)\nStep size 1/3EV (22 steps)\nFocus range 20cm - ∞\nMax. magnification 0.15x\nExternal dimensions: Diameter x Length (approx.) Ø68.8mm x 75.6mm\nWeight (approx.) 370g\nFilter size Ø62mm"
     }
   },
   {
@@ -240,14 +193,6 @@
     "imageUrl": "/images/lenses/fujifilm/xf23mmf14-r-lm-wr.jpg",
     "officialLinks": {
       "global": "https://www.fujifilm-x.com/global/products/lenses/xf23mmf14-r-lm-wr/"
-    },
-    "ingestion": {
-      "source": {
-        "type": "official",
-        "channel": "global",
-        "url": "https://www.fujifilm-x.com/global/products/lenses/xf23mmf14-r-lm-wr/specifications/"
-      },
-      "sourceSpecsRaw": "Type XF23mmF1.4 R LM WR\nLens configuration 15 elements in 10 groups (includes 2 aspherical and 3 ED elements)\nFocal length f=23mm (35mm)\nAngle of view 63.4°\nMax. aperture F1.4\nMin. aperture F16\nAperture control Number of blades 9 (rounded diaphragm opening)\nStep size 1/3EV (22 steps)\nFocus range 19cm - ∞\nMax. magnification 0.2x\nExternal dimensions: Diameter x Length (approx.) Ø67mm x 77.8mm\nWeight (approx.) 375g\nFilter size Ø58mm"
     }
   },
   {
@@ -280,15 +225,7 @@
     "officialLinks": {
       "global": "https://www.fujifilm-x.com/global/products/lenses/xf23mmf2-r-wr/"
     },
-    "imageUrl": "/images/lenses/fujifilm/xf23mmf2-r-wr.jpg",
-    "ingestion": {
-      "source": {
-        "type": "official",
-        "channel": "global",
-        "url": "https://www.fujifilm-x.com/global/products/lenses/xf23mmf2-r-wr/specifications/"
-      },
-      "sourceSpecsRaw": "Type FUJINON XF23mmF2 R WR\nLens configuration 10 elements 6 groups (includes 2 aspherical elements)\nFocal length f=23mm (35mm in 35mm format equivalent)\nAngle of view 63.4°\nMax. aperture F2\nMin. aperture F16\nAperture control Number of blades 9 (rounded diaphragm opening)\nStep size 1/3EV (19 steps)\nFocus range 22cm - ∞\nMax. magnification 0.13x\nExternal dimensions: Diameter x Length (approx.) Ø60.0mm x 51.9mm\nWeight (approx.) 180g\nFilter size Ø43mm"
-    }
+    "imageUrl": "/images/lenses/fujifilm/xf23mmf2-r-wr.jpg"
   },
   {
     "id": "xf27mmf28-r-wr",
@@ -320,15 +257,7 @@
     "officialLinks": {
       "global": "https://www.fujifilm-x.com/global/products/lenses/xf27mmf28-r-wr/"
     },
-    "imageUrl": "/images/lenses/fujifilm/xf27mmf28-r-wr.jpg",
-    "ingestion": {
-      "source": {
-        "type": "official",
-        "channel": "global",
-        "url": "https://www.fujifilm-x.com/global/products/lenses/xf27mmf28-r-wr/specifications/"
-      },
-      "sourceSpecsRaw": "Type XF27mmF2.8 R WR\nLens configuration 7 elements in 5 groups (includes 1 aspherical element)\nFocal length f=27mm (41mm in 35mm format equivalent)\nAngle of view 55.5°\nMax. aperture F2.8\nMin. aperture F16\nAperture control Number of blades 7 (rounded diaphragm opening)\nStep size 1/3EV (16 steps)\nFocus range 34cm - ∞\nMax. magnification 0.1x\nExternal dimensions: Diameter x Length (approx.) Ø62mm x 23mm\nWeight (approx.) 84g\nFilter size Ø39mm"
-    }
+    "imageUrl": "/images/lenses/fujifilm/xf27mmf28-r-wr.jpg"
   },
   {
     "id": "xf30mmf28-r-lm-wr-macro",
@@ -361,14 +290,6 @@
     "imageUrl": "/images/lenses/fujifilm/xf30mmf28-r-lm-wr-macro.jpg",
     "officialLinks": {
       "global": "https://www.fujifilm-x.com/global/products/lenses/xf30mmf28-r-lm-wr-macro/"
-    },
-    "ingestion": {
-      "source": {
-        "type": "official",
-        "channel": "global",
-        "url": "https://www.fujifilm-x.com/global/products/lenses/xf30mmf28-r-lm-wr-macro/specifications/"
-      },
-      "sourceSpecsRaw": "Type FUJINON XF30mmF2.8 R LM WR Macro\nLens configuration 11 elements in 9 groups (includes 3 aspherical and 2 ED elements)\nFocal length f=30mm (46mm)\nAngle of view 50.7°\nMax. aperture F2.8\nMin. aperture F22\nAperture control Number of blades 9 (rounded diaphragm opening)\nStep size 1/3EV (19 steps)\nMinimum focus distance (measured from focal plane) 0.1m\nMax. magnification 1x\nExternal dimensions: Diameter x Length (approx.) Ø60mm x 69.5mm\nWeight (approx.) 195g\nFilter size Ø43mm"
     }
   },
   {
@@ -402,14 +323,6 @@
     "imageUrl": "/images/lenses/fujifilm/xf33mmf14-r-lm-wr.jpg",
     "officialLinks": {
       "global": "https://www.fujifilm-x.com/global/products/lenses/xf33mmf14-r-lm-wr/"
-    },
-    "ingestion": {
-      "source": {
-        "type": "official",
-        "channel": "global",
-        "url": "https://www.fujifilm-x.com/global/products/lenses/xf33mmf14-r-lm-wr/specifications/"
-      },
-      "sourceSpecsRaw": "Type XF33mmF1.4 R LM WR\nLens configuration 15 elements in 10 groups (includes 2 aspherical and 3 ED elements)\nFocal length f=33mm (50mm)\nAngle of view 46.6°\nMax. aperture F1.4\nMin. aperture F16\nAperture control Number of blades 9 (rounded diaphragm opening)\nStep size 1/3EV (22 steps)\nFocus range 30cm - ∞\nMax. magnification 0.15x\nExternal dimensions: Diameter x Length (approx.) Ø67mm x 73.5mm\nWeight (approx.) 360g\nFilter size Ø58mm"
     }
   },
   {
@@ -442,18 +355,7 @@
     "officialLinks": {
       "cn": "https://www.viltrox.com.cn/productinfo/6118527.html"
     },
-    "imageUrl": "/images/lenses/viltrox/viltrox-af15mmf17-air-xf.jpg",
-    "ingestion": {
-      "source": {
-        "type": "official",
-        "channel": "cn",
-        "url": "https://www.viltrox.com.cn/productinfo/6118527.html"
-      },
-      "sourceSpecsRaw": "名称 AF 15/1.7 Air E/Z/XF\n画幅 半画幅\n卡口类型 E/Z/X-Mount\n镜头配置 10组12片\n焦距 f=15mm (22.5mm)\n视角 84.9°\n最大光圈 F1.7\n最小光圈 F16\n光圈叶片数 9\n对焦范围 0.23m-∞\n对焦系统 内部对焦系统\n对焦马达 STM\n对焦 手动, 自动\n最大放大率 0.1x\n外径尺寸 E: Ø65x56.4mm, Z: Ø68x58.4mm, XF: Ø65x56.7mm\n重量 E: 约180g, Z: 约195g, XF: 约180g\n滤镜口径 Ø58mm",
-      "reviewNotes": {
-        "releaseYear": "Official CN product page does not show a publication date; 2025 is inferred from current official Viltrox product materials."
-      }
-    }
+    "imageUrl": "/images/lenses/viltrox/viltrox-af15mmf17-air-xf.jpg"
   },
   {
     "id": "viltrox-af56mmf12-pro-xf",
@@ -482,20 +384,7 @@
     "officialLinks": {
       "cn": "https://www.viltrox.com.cn/productinfo/5934940.html"
     },
-    "imageUrl": "/images/lenses/viltrox/viltrox-af56mmf12-pro-xf.jpg",
-    "ingestion": {
-      "source": {
-        "type": "official",
-        "channel": "cn",
-        "url": "https://www.viltrox.com.cn/productinfo/5934940.html"
-      },
-      "sourceSpecsRaw": "名称 AF 56/1.2 Pro XF/E\n卡口类型 X卡口/E卡口\n画幅 APS-C\n镜头配置 8组13片\n焦距 f=56mm\n视角 28°\n最大光圈 F1.2\n最小光圈 F16\n光圈叶片数 11\n对焦范围 0.5m-∞\n对焦系统 内部对焦系统\n对焦马达 HyperVCM\n对焦 手动, 自动\n最大放大率 0.13倍\n外径尺寸 约Φ78.1mm×92mm/Φ78.1mm×87.4mm\n重量 约575g/约570g\n滤镜口径 Φ67mm",
-      "reviewNotes": {
-        "releaseYear": "Official CN product page does not show a publication date; 2025 is inferred from current official Viltrox product materials."
-        ,
-        "dimensions": "The official CN spec image merges X/E mount values with slash-separated measurements. Top-level size and weight use the first XF-specific values."
-      }
-    }
+    "imageUrl": "/images/lenses/viltrox/viltrox-af56mmf12-pro-xf.jpg"
   },
   {
     "id": "7artisans-af35mmf18-lite-xf",
@@ -524,20 +413,7 @@
     "officialLinks": {
       "cn": "https://www.7artisans.com/prod_view.aspx?id=518&nid=3&typeid=126"
     },
-    "imageUrl": "/images/lenses/7artisans/7artisans-af35mmf18-lite-xf.jpg",
-    "ingestion": {
-      "source": {
-        "type": "official",
-        "channel": "cn",
-        "url": "https://www.7artisans.com/prod_view.aspx?id=518&nid=3&typeid=126"
-      },
-      "sourceSpecsRaw": "AF 35mm F1.8 / LITE series / APS-C\nBayonet type: E/X/Z\nOptical structure: 7 elements in 6 groups\nFocal length: 35mm\nAngle of view: 44°\nNumber of aperture blades: 9\nFocus range: 0.35m-∞\nAperture range: F1.8-F16\nFocusing method: Automatic/Manual\nExternal dimensions: Ø67mm x 51.9mm\nWeight: ≈181g\nFilter size: Ø52mm",
-      "reviewNotes": {
-        "releaseYear": "Inferred from current official 7Artisans materials; the CN product page does not show a publication date.",
-        "apertureRing": "The official CN materials do not list an aperture ring for this AF lens, so it is intentionally left blank.",
-        "maxMagnification": "Not listed in the official CN materials; left blank."
-      }
-    }
+    "imageUrl": "/images/lenses/7artisans/7artisans-af35mmf18-lite-xf.jpg"
   },
   {
     "id": "7artisans-25mmf18-mf-xf",
@@ -567,19 +443,7 @@
     "officialLinks": {
       "cn": "https://www.7artisans.com/prod_view.aspx?id=402&nid=3&typeid=104"
     },
-    "imageUrl": "/images/lenses/7artisans/7artisans-25mmf18-mf-xf.jpg",
-    "ingestion": {
-      "source": {
-        "type": "official",
-        "channel": "cn",
-        "url": "https://www.7artisans.com/prod_view.aspx?id=402&nid=3&typeid=104"
-      },
-      "sourceSpecsRaw": "25mm F1.8 lens parameters\nFrame type: APS-C\nLens material: metal\nWeight: 143g\nAperture ring: De-clicked\nNumber of aperture blades: 12\nOptical structure: 7 elements in 5 groups\nAngle of view: 68°\nMaximum aperture: F1.8\nMinimum aperture: F16\nClosest focus: 0.18m\nFocusing method: Manual focusing\nFilter size: Ø46mm\nApplicable models include Fujifilm FX series",
-      "reviewNotes": {
-        "releaseYear": "Inferred from 7Artisans' 2017 manual/review materials; the CN product page itself does not show a publication date.",
-        "maxMagnification": "Not listed in the official CN materials; left blank."
-      }
-    }
+    "imageUrl": "/images/lenses/7artisans/7artisans-25mmf18-mf-xf.jpg"
   },
   {
     "id": "ttartisan-af23mmf18-af-xf",
@@ -606,22 +470,7 @@
     "officialLinks": {
       "cn": "https://cn.ttartisan.com/?AFlens/AF23-19.html"
     },
-    "imageUrl": "/images/lenses/ttartisan/ttartisan-af23mmf18-af-xf.webp",
-    "ingestion": {
-      "source": {
-        "type": "official",
-        "channel": "cn",
-        "url": "https://cn.ttartisan.com/?AFlens/AF23-19.html"
-      },
-      "sourceSpecsRaw": "TTArtisan AF 23mm F1.8 自动镜头\nAPS-C 画幅\n轻量化设计，约210克\n5052航空铝镜身\n0.3m最近对焦距离\nF1.8 大光圈\nSTM 步进对焦马达\nType-C 固件升级后盖\nE/X/Z卡口\n附赠遮光罩\n焦段 23mm\n滤镜尺寸 52mm\n最大光圈 F1.8\n最近对焦距离 0.3m\n最小光圈 F16\n光圈叶片 9pcs\n画幅 APS-C\n对焦模式 AF\n视角 62°\n重量 210g（约）\n光学结构 9组11片\n卡口 E/X/Z",
-      "reviewNotes": {
-        "releaseYear": "Official CN page does not show a publication date; left blank.",
-        "diameterMm": "The official CN page does not expose an exact outer diameter in text.",
-        "lengthMm": "The official CN page does not expose an exact length in text.",
-        "apertureRing": "The official CN materials do not explicitly list an aperture ring; left blank.",
-        "maxMagnification": "Not listed in the official CN materials; left blank."
-      }
-    }
+    "imageUrl": "/images/lenses/ttartisan/ttartisan-af23mmf18-af-xf.webp"
   },
   {
     "id": "ttartisan-aps-c23mmf14-xf",
@@ -649,23 +498,7 @@
     "officialLinks": {
       "cn": "https://cn.ttartisan.com/?list-10/APS-C23.html"
     },
-    "imageUrl": "/images/lenses/ttartisan/ttartisan-aps-c23mmf14-xf.webp",
-    "ingestion": {
-      "source": {
-        "type": "official",
-        "channel": "cn",
-        "url": "https://cn.ttartisan.com/?list-10/APS-C23.html"
-      },
-      "sourceSpecsRaw": "APS-C 23mm F1.4 人文之眼\nAPS-C画幅\nF1.4大光圈\n小巧精致，复古造型\n等效全画幅约35mm人文焦段\n0.2m最近对焦距离\n有级光圈\n全金属打造\n卡口E/X/Z/L/RF/M43\n焦段 23mm\n最大光圈 F1.4\n最近对焦距离 0.2m\n最小光圈 F16\n画幅 APS-C/M43\n光圈叶片 10片\n滤镜尺寸 43mm\n光学结构 6组8片\n视角 62°\n对焦方式 手动\n重量 222~250g（约）\n镜头类别 微单镜头\n富士X口兼容机型：X-A1、X-A10、X-A2、X-A3、X-A5、X-A7、X-M1、X-H1、X-H2、X-H2S、X-T1、X-T10、X-T2、X-T20、X-T30、X-T3、X-T4、X-T5、X-T100、X-T200、X-T30 II、X-E1、X-E2、X-E2S、X-E3、X-E4、XS10、XS20",
-      "reviewNotes": {
-        "releaseYear": "Official CN page does not show a publication date; left blank.",
-        "weightG": "The official CN page only shows a 222~250g range across mounts, not an X-specific weight; left blank.",
-        "diameterMm": "The official CN page does not expose an exact outer diameter in text.",
-        "lengthMm": "The official CN page does not expose an exact length in text.",
-        "apertureRing": "The official CN page says 有级光圈, but does not explicitly name an aperture ring; left blank.",
-        "maxMagnification": "Not listed in the official CN materials; left blank."
-      }
-    }
+    "imageUrl": "/images/lenses/ttartisan/ttartisan-aps-c23mmf14-xf.webp"
   },
   {
     "id": "tamron-11-20mmf28-di-iii-a-rxd-b060-x",
@@ -697,18 +530,7 @@
     "officialLinks": {
       "global": "https://www.tamron.com/global/consumer/lenses/b060/"
     },
-    "imageUrl": "/images/lenses/tamron/tamron-11-20mmf28-di-iii-a-rxd-b060-x.jpg",
-    "ingestion": {
-      "source": {
-        "type": "official",
-        "channel": "global",
-        "url": "https://www.tamron.com/global/consumer/lenses/b060/spec.html"
-      },
-      "sourceSpecsRaw": "11-20mm F/2.8 Di III-A RXD (Model B060)\nThe page is Tamron's lens product [11-20mm F/2.8 Di III-A RXD (Model B060)]. Product Page | 11-20mm F/2.8 Di III-A RXD (Model B060) is the world's first compact, lightweight F2.8 ultra wide-angle zoom lens for Sony E-mount APS-C mirrorless cameras. Can be a great choice for video shooting.\nCovering focal lengths from 11-20mm, this ultra wide-angle lens for APS-C mirrorless cameras features a maximum aperture of F2.8 and allows users to fully enjoy the distinctive depth-of-field and unique perspective provided by an ultra wide-angle lens.\nThe lens was designed to be exceptionally compact and lightweight.\nSpecifications:\nAngle of View (diagonal) 105°20'-71°35' (for Sony E-mount and FUJIFILM X mount)\nOptical Construction 12 elements in 10 groups\nMinimum Object Distance 0.15m (5.9 in) (WIDE) / 0.24m (9.4 in) (TELE)\nMaximum Magnification Ratio 1:4 (WIDE) / 1:7.6 (TELE)\nFilter Size Φ67mm\nMaximum Diameter Φ73mm\nLength 86.5mm / 3.4 in (for FUJIFILM X mount)\nWeight 335g / 11.8oz (for Sony E-mount and FUJIFILM X mount)\nAperture Blades 7 (circular diaphragm)\nMinimum Aperture F16\nMount SONY E Mount / FUJIFILM X Mount / CANON RF Mount\nRelease Date July 8, 2022 (FUJIFILM X Mount)",
-      "reviewNotes": {
-        "apertureRing": "The official global materials do not explicitly mention a physical aperture ring; left blank."
-      }
-    }
+    "imageUrl": "/images/lenses/tamron/tamron-11-20mmf28-di-iii-a-rxd-b060-x.jpg"
   },
   {
     "id": "tamron-17-70mmf28-di-iii-a-vc-rxd-b070-x",
@@ -740,17 +562,6 @@
     "officialLinks": {
       "global": "https://www.tamron.com/global/consumer/lenses/b070/"
     },
-    "imageUrl": "/images/lenses/tamron/tamron-17-70mmf28-di-iii-a-vc-rxd-b070-x.jpg",
-    "ingestion": {
-      "source": {
-        "type": "official",
-        "channel": "global",
-        "url": "https://www.tamron.com/global/consumer/lenses/b070/spec.html"
-      },
-      "sourceSpecsRaw": "17-70mm F/2.8 Di III-A VC RXD (Model B070)\nThe page is Tamron's lens product [17-70mm F/2.8 Di III-A VC RXD (Model B070)]. The 17-70mm F/2.8 Di III-A VC RXD (Model B070) is a large-aperture standard zoom lens for APS-C format mirrorless cameras. With a focal length range of 17mm to 70mm (a full-frame equivalent of 25.5-105mm) for daily use, this achieves a 4.1x zoom.\nThe lens is equipped with TAMRON's proprietary VC (Vibration Compensation) and RXD (Rapid eXtra-silent stepping Drive) AF drive system.\nIt also incorporates Moisture-Resistant Construction and Fluorine Coating.\nSpecifications:\nAngle of View (diagonal) 79°55'-23°00' (for APS-C frame mirrorless format)\nOptical Construction 16 elements in 12 groups\nMinimum Object Distance 0.19m (7.5 in) (WIDE) / 0.39m (15.4 in) (TELE)\nMaximum Magnification Ratio 1:4.8 (WIDE) / 1:5.2 (TELE)\nVC (Vibration Compensation) 〇\nFilter Size Φ67mm\nMaximum Diameter Φ74.6mm\nLength 119.6mm / 4.7 in (FUJIFILM)\nWeight 530g / 18.7 oz (FUJIFILM)\nAperture Blades 9 (circular diaphragm)\nMinimum Aperture F22\nMount SONY E Mount / FUJIFILM X Mount\nRelease Date July 8, 2022 (FUJIFILM X Mount)",
-      "reviewNotes": {
-        "apertureRing": "The official global materials do not explicitly mention a physical aperture ring; left blank."
-      }
-    }
+    "imageUrl": "/images/lenses/tamron/tamron-17-70mmf28-di-iii-a-vc-rxd-b070-x.jpg"
   }
 ]
