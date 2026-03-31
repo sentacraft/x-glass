@@ -270,3 +270,8 @@ export interface Lens {
    */
   mtfImageUrl?: string;
 }
+
+/**
+ * Brand-grouped lens catalog stored in src/data/lenses.json.
+ */
+export type LensCatalog = Record<string, Lens[]>;

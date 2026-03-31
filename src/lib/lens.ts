@@ -1,7 +1,9 @@
 import lensesData from "../data/lenses.json";
-import type { Lens } from "./types";
+import type { Lens, LensCatalog } from "./types";
 
-export const allLenses: Lens[] = lensesData as Lens[];
+const lensCatalog = lensesData as unknown as LensCatalog;
+
+export const allLenses: Lens[] = Object.values(lensCatalog).flat();
 
 export type LensType = "prime" | "zoom";
 
