@@ -23,7 +23,6 @@ export default function LensCard({
   onToggle,
 }: Props) {
   const t = useTranslations("LensList");
-  const focalDisplay = fmt.focalDisplay(lens);
   const equivDisplay = fmt.equivDisplay(lens);
   const badges = [
     lens.af

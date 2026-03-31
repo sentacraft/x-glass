@@ -35,6 +35,8 @@ function makeLens(
     filterMm: 52,
     minFocusDistanceCm: 28,
     releaseYear: 2012,
+    officialLinks: { global: "https://example.com/lens" },
+    imageUrl: "/images/test-lens.jpg",
     ...overrides,
   };
 }
@@ -397,6 +399,8 @@ describe("getLensUrl", () => {
       focalLengthMin: 35,
       focalLengthMax: 35,
       brand: "Fujifilm",
+      officialLinks: undefined as unknown as { global: string },
+      imageUrl: "/images/test.jpg",
     });
     expect(getLensUrl(lens)).toBe(
       "https://fujifilm-x.com/global/products/lenses/"
@@ -408,6 +412,8 @@ describe("getLensUrl", () => {
       focalLengthMin: 35,
       focalLengthMax: 35,
       brand: "UnknownBrand",
+      officialLinks: undefined as unknown as { global: string },
+      imageUrl: "/images/test.jpg",
     });
     expect(getLensUrl(lens)).toBeUndefined();
   });

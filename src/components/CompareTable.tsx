@@ -230,7 +230,6 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
   const router = useRouter();
   const [orderedIds, setOrderedIds] = useState(initialLenses.map((l) => l.id));
   const orderedIdsRef = useRef(orderedIds);
-  orderedIdsRef.current = orderedIds;
 
   const [activeId, setActiveId] = useState<string | null>(null);
 
@@ -258,7 +257,9 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
     setOrderedIds((ids) => {
       const oldIndex = ids.indexOf(active.id as string);
       const newIndex = ids.indexOf(over.id as string);
-      return arrayMove(ids, oldIndex, newIndex);
+      const nextIds = arrayMove(ids, oldIndex, newIndex);
+      orderedIdsRef.current = nextIds;
+      return nextIds;
     });
   }
 
