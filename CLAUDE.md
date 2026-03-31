@@ -16,7 +16,7 @@
 | 框架 | Next.js（App Router）+ TypeScript |
 | 样式 | Tailwind CSS |
 | 部署 | Vercel |
-| 数据 | JSON 文件，与代码同仓库（`src/data/lenses.json`） |
+| 数据 | JSON 文件，与代码同仓库（`src/data/lenses_v2.json`） |
 | i18n | next-intl，从第一行代码接入 |
 
 ## 数据结构
@@ -51,17 +51,12 @@ x-glass/
 
 | 资源 | 路径 | 说明 |
 |------|------|------|
-| Data Pipeline | `../x-glass-pipeline/` | 私有 repo，数据源配置（sources.yaml）、爬虫、校验脚本 |
+| Data Pipeline | `../x-glass-pipeline/` | 私有 repo。Stage 1（Agent 采集规格）+ Stage 2（图像处理脚本）。架构见该 repo 的 `CLAUDE.md`。 |
 | 产品文档 | `/Users/ericzhang/Library/Mobile Documents/iCloud~md~obsidian/Documents/SentaForge/Geek & Creativity/Projects/X-Glass/` | Obsidian vault，产品设计、定义、调研笔记 |
 
 ## 工作流规范
 
 每完成一个 commit 的代码改动后，自动调用 `/commit-msg` skill 生成 commit message，无需用户手动触发。
-
-## 数据采集约定
-
-与 Data Pipeline 相关的采集规则统一维护在 `../x-glass-pipeline/docs/data-collection-rules.md`。
-如需进行镜头数据抓取、来源选择、网页解析或浏览器自动化，请优先读取该文档，再执行采集任务。
 
 ## 开发规范
 
