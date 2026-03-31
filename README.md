@@ -7,7 +7,7 @@ Fujifilm X-mount lens comparison tool. Browse, filter, and compare all X-mount l
 - **Framework**: Next.js (App Router) + TypeScript
 - **Styling**: Tailwind CSS
 - **Deployment**: Vercel
-- **Data**: `src/data/lenses_v2.json` (co-located with source)
+- **Data**: `src/data/lenses.json` (co-located with source)
 - **i18n**: next-intl (English + Chinese)
 
 ## Development

@@ -16,7 +16,7 @@
 | 框架 | Next.js（App Router）+ TypeScript |
 | 样式 | Tailwind CSS |
 | 部署 | Vercel |
-| 数据 | JSON 文件，与代码同仓库（`src/data/lenses_v2.json`） |
+| 数据 | JSON 文件，与代码同仓库（`src/data/lenses.json`） |
 | i18n | next-intl，从第一行代码接入 |
 
 ## 数据结构

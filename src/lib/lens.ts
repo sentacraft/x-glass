@@ -1,4 +1,4 @@
-import lensesData from "../data/lenses_v2.json";
+import lensesData from "../data/lenses.json";
 import type { Lens } from "./types";
 
 export const allLenses: Lens[] = lensesData as Lens[];
