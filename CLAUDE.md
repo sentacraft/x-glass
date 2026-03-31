@@ -21,7 +21,7 @@
 
 ## 数据结构
 
-类型定义见 `src/lib/types.ts`，业务逻辑（筛选、排序、格式化、等效焦距计算）见 `src/lib/lenses.ts`。
+类型定义见 `src/lib/types.ts`，业务逻辑（筛选、排序、格式化、等效焦距计算）见 `src/lib/lens.ts`。
 
 **新老代处理原则**：同焦段多代版本均独立收录，用 `generation` 字段区分。
 
