@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "prepare": "git config core.hooksPath hooks",
     "dev": "next dev",
     "nukedev": "rm -rf .next && next dev",
     "build": "next build",
