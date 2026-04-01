@@ -29,6 +29,7 @@ function makeLens(
     af: true,
     ois: false,
     wr: false,
+    apertureRing: false,
     weightG: 187,
     diameterMm: 65,
     lengthMm: 45,

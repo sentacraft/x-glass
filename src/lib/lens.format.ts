@@ -1,4 +1,5 @@
 import type { Lens } from "./types";
+import { SPEC_NA } from "./types";
 import { isZoom } from "./lens";
 
 const CROP_FACTOR = 1.5;
@@ -43,8 +44,21 @@ export function optionalBoolean(
   return value ? yesLabel : noLabel;
 }
 
-export function dimensionsDisplay(lens: Lens): string {
+export function dimensionsDisplay(lens: Lens, unknownLabel = "—"): string {
+  if (lens.diameterMm === undefined || lens.lengthMm === undefined) {
+    return unknownLabel;
+  }
   return `⌀${lens.diameterMm} × ${lens.lengthMm}mm`;
+}
+
+export function filterSizeDisplay(
+  lens: Lens,
+  unknownLabel: string,
+  naLabel: string
+): string {
+  if (lens.filterMm === undefined) return unknownLabel;
+  if (lens.filterMm === SPEC_NA) return naLabel;
+  return `${lens.filterMm}mm`;
 }
 
 export function lengthVariantsDisplay(

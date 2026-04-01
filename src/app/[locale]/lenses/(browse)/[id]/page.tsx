@@ -57,18 +57,18 @@ export default async function LensDetailPage({ params }: { params: Params }) {
       label: t("apertureBladeCount"),
       value: fmt.optionalNumber(lens.apertureBladeCount, "", unknown),
     },
-    { label: t("weight"), value: `${lens.weightG}g` },
-    { label: t("dimensions"), value: fmt.dimensionsDisplay(lens) },
+    { label: t("weight"), value: fmt.optionalNumber(lens.weightG, "g", unknown) },
+    { label: t("dimensions"), value: fmt.dimensionsDisplay(lens, unknown) },
     {
       label: t("filterSize"),
-      value: fmt.optionalNumber(lens.filterMm, "mm", unknown),
+      value: fmt.filterSizeDisplay(lens, unknown, "N/A"),
     },
-    { label: t("minFocusDist"), value: `${lens.minFocusDistanceCm}cm` },
+    { label: t("minFocusDist"), value: fmt.optionalNumber(lens.minFocusDistanceCm, "cm", unknown) },
     {
       label: t("maxMagnification"),
       value: fmt.optionalNumber(lens.maxMagnification, "x", unknown),
     },
-    { label: t("releaseYear"), value: `${lens.releaseYear}` },
+    { label: t("releaseYear"), value: fmt.optionalNumber(lens.releaseYear, "", unknown) },
   ];
 
   const advancedSpecs: SpecRow[] = [

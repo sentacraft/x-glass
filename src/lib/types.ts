@@ -1,4 +1,10 @@
 /**
+ * Sentinel value for a field where the concept does not apply to this lens.
+ * For example, filterMm is N/A on fisheye lenses that have no front filter thread.
+ */
+export const SPEC_NA = "N/A" as const;
+
+/**
  * User-facing official product links grouped by market channel.
  * A lens may expose different official URLs for mainland China and global users.
  */
@@ -107,7 +113,7 @@ export interface Lens {
    * Use an empty string when the brand does not expose a formal series.
    * @example "XF"
    */
-  series: string;
+  series?: string;
 
   /**
    * Official marketing model name.
@@ -171,25 +177,25 @@ export interface Lens {
    * This is intentionally separate from autofocus and motor metadata.
    * @example true
    */
-  apertureRing?: boolean;
+  apertureRing: boolean;
 
   /**
    * Total weight in grams.
    * @example 187
    */
-  weightG: number;
+  weightG?: number;
 
   /**
    * Maximum outer diameter in millimeters.
    * @example 65
    */
-  diameterMm: number;
+  diameterMm?: number;
 
   /**
    * Physical length in millimeters based on the source's stated measurement method.
    * @example 50.4
    */
-  lengthMm: number;
+  lengthMm?: number;
 
   /**
    * Optional length variants when the source distinguishes multiple physical states.
@@ -200,16 +206,18 @@ export interface Lens {
 
   /**
    * Filter thread diameter in millimeters.
+   * Use SPEC_NA for lenses with no front filter thread (e.g. fisheye, rear-filter designs).
+   * Use null when the value could not be found.
    * @example 52
    */
-  filterMm?: number;
+  filterMm?: number | typeof SPEC_NA;
 
   /**
    * Minimum focus distance in normal shooting mode, in centimeters.
    * This field is kept to preserve compatibility with the previous schema and existing UI logic.
    * @example 15
    */
-  minFocusDistanceCm: number;
+  minFocusDistanceCm?: number;
 
   /**
    * Minimum focus distance in macro mode, in centimeters.
@@ -249,7 +257,7 @@ export interface Lens {
    * Release year used by the MVP app for sorting and rough chronology.
    * @example 2012
    */
-  releaseYear: number;
+  releaseYear?: number;
 
   /**
    * User-facing official product links by market channel.
@@ -262,13 +270,7 @@ export interface Lens {
    * Main product image URL, ideally a clean front or three-quarter product shot.
    * @example "https://example.com/images/xf35mm-f14-r.png"
    */
-  imageUrl: string;
-
-  /**
-   * Optional MTF chart image URL reserved for later phases.
-   * @example "https://example.com/images/xf35mm-f14-r-mtf.png"
-   */
-  mtfImageUrl?: string;
+  imageUrl?: string;
 }
 
 /**

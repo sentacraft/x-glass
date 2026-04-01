@@ -309,10 +309,9 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
       getValue: (l) => fmt.dimensionsDisplay(l),
     },
     {
-      kind: "numeric",
+      kind: "text",
       label: td("filterSize"),
-      getValue: (l) => l.filterMm,
-      format: (v) => `${v}mm`,
+      getValue: (l) => fmt.filterSizeDisplay(l, td("unknown"), "N/A"),
     },
     {
       kind: "numeric",

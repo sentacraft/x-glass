@@ -58,13 +58,13 @@ export function filterLenses(lenses: Lens[], filters: FilterState): Lens[] {
         return false;
       }
     }
-    if (filters.weightRange) {
+    if (filters.weightRange && lens.weightG !== undefined) {
       const [wMin, wMax] = filters.weightRange;
       if (lens.weightG < wMin || lens.weightG > wMax) {
         return false;
       }
     }
-    if (filters.yearRange) {
+    if (filters.yearRange && lens.releaseYear !== undefined) {
       const [yMin, yMax] = filters.yearRange;
       if (lens.releaseYear < yMin || lens.releaseYear > yMax) {
         return false;
