@@ -76,18 +76,9 @@ export function getUniqueBrands(lenses: Lens[]): string[] {
   return [...new Set(lenses.map((l) => l.brand))].sort();
 }
 
-// Brand-level catalog URLs (English/global). Used as fallback when official links are absent.
-const BRAND_URLS: Record<string, string> = {
-  fujifilm: "https://fujifilm-x.com/global/products/lenses/",
-  viltrox: "https://viltrox.com/",
-  sigma:
-    "https://www.sigma-global.com/en/lenses/categories/mirrorless/fujifilm-x.html",
-  tamron: "https://www.tamron.com/en/lenses/",
-};
-
 // Prioritize global official links for now. Can adjust logic later if we want to show region-specific links based on user locale or other signals.
 export function getLensUrl(lens: Lens): string | undefined {
-  return lens.officialLinks?.global ?? lens.officialLinks?.cn ?? BRAND_URLS[lens.brand];
+  return lens.officialLinks?.global ?? lens.officialLinks?.cn;
 }
 
 const MAX_COMPARE = 4;

@@ -395,7 +395,7 @@ describe("getLensUrl", () => {
     expect(getLensUrl(lens)).toBe("https://example.com/cn-lens");
   });
 
-  it("falls back to brand URL for Fujifilm", () => {
+  it("returns undefined for Fujifilm without official links", () => {
     const lens = makeLens({
       focalLengthMin: 35,
       focalLengthMax: 35,
@@ -403,9 +403,7 @@ describe("getLensUrl", () => {
       officialLinks: undefined as unknown as { global: string },
       imageUrl: "/images/test.jpg",
     });
-    expect(getLensUrl(lens)).toBe(
-      "https://fujifilm-x.com/global/products/lenses/"
-    );
+    expect(getLensUrl(lens)).toBeUndefined();
   });
 
   it("returns undefined for unknown brand without official links", () => {
