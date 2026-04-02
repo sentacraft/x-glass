@@ -1,1 +1,1686 @@
-[]
+[
+  {
+    "id": "7artisans-12mm-f28-ii-xf",
+    "brand": "7artisans",
+    "model": "12mm F2.8 II",
+    "generation": 2,
+    "focalLengthMin": 12,
+    "focalLengthMax": 12,
+    "maxAperture": 2.8,
+    "minAperture": 16,
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "weightG": 300,
+    "diameterMm": 70,
+    "lengthMm": 66,
+    "minFocusDistanceCm": 15,
+    "angleOfView": "100°",
+    "apertureBladeCount": 5,
+    "imageUrl": "/lenses/7artisans-12mm-f28-ii-xf.webp",
+    "filterMm": 67,
+    "lensConfiguration": {
+      "groups": 10,
+      "elements": 12,
+      "sourceText": "10组12片"
+    },
+    "officialLinks": {
+      "cn": "https://www.7artisans.com/prod_view.aspx?nid=3&typeid=104&id=400"
+    }
+  },
+  {
+    "id": "7artisans-18mm-f63-ii-xf",
+    "brand": "7artisans",
+    "model": "18mm F6.3 II",
+    "generation": 2,
+    "focalLengthMin": 18,
+    "focalLengthMax": 18,
+    "maxAperture": 6.3,
+    "minAperture": 6.3,
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": false,
+    "weightG": 58,
+    "diameterMm": 56,
+    "lengthMm": 15,
+    "minFocusDistanceCm": 50,
+    "angleOfView": "76°",
+    "imageUrl": "/lenses/7artisans-18mm-f63-ii-xf.webp",
+    "filterMm": "N/A",
+    "lensConfiguration": {
+      "groups": 5,
+      "elements": 6,
+      "sourceText": "5组6片"
+    },
+    "officialLinks": {
+      "cn": "https://www.7artisans.com/prod_view.aspx?nid=3&typeid=104&id=444"
+    }
+  },
+  {
+    "id": "7artisans-25mm-f18-xf",
+    "brand": "7artisans",
+    "model": "25mm F1.8",
+    "focalLengthMin": 25,
+    "focalLengthMax": 25,
+    "maxAperture": 1.8,
+    "minAperture": 16,
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "weightG": 143,
+    "diameterMm": 59,
+    "lengthMm": 38,
+    "minFocusDistanceCm": 18,
+    "angleOfView": "68°",
+    "apertureBladeCount": 12,
+    "imageUrl": "/lenses/7artisans-25mm-f18-xf.webp",
+    "filterMm": 46,
+    "lensConfiguration": {
+      "groups": 5,
+      "elements": 7,
+      "sourceText": "5组7片"
+    },
+    "officialLinks": {
+      "cn": "https://www.7artisans.com/prod_view.aspx?nid=3&typeid=104&id=402"
+    }
+  },
+  {
+    "id": "7artisans-35mm-f12-ii-xf",
+    "brand": "7artisans",
+    "model": "35mm F1.2 II",
+    "generation": 2,
+    "focalLengthMin": 35,
+    "focalLengthMax": 35,
+    "maxAperture": 1.2,
+    "minAperture": 22,
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "weightG": 218,
+    "diameterMm": 62,
+    "lengthMm": 44,
+    "minFocusDistanceCm": 28,
+    "angleOfView": "68°",
+    "apertureBladeCount": 10,
+    "imageUrl": "/lenses/7artisans-35mm-f12-ii-xf.webp",
+    "filterMm": 46,
+    "lensConfiguration": {
+      "groups": 5,
+      "elements": 6,
+      "sourceText": "5组6片"
+    },
+    "officialLinks": {
+      "cn": "https://www.7artisans.com/prod_view.aspx?nid=3&typeid=104&id=403"
+    }
+  },
+  {
+    "id": "7artisans-35mm-f14-xf",
+    "brand": "7artisans",
+    "model": "35mm F1.4",
+    "focalLengthMin": 35,
+    "focalLengthMax": 35,
+    "maxAperture": 1.4,
+    "minAperture": 16,
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "weightG": 228,
+    "diameterMm": 60,
+    "lengthMm": 42.2,
+    "minFocusDistanceCm": 35,
+    "angleOfView": "43°",
+    "apertureBladeCount": 9,
+    "imageUrl": "/lenses/7artisans-35mm-f14-xf.webp",
+    "filterMm": 49,
+    "lensConfiguration": {
+      "groups": 5,
+      "elements": 8,
+      "sourceText": "5组8片"
+    },
+    "officialLinks": {
+      "cn": "https://www.7artisans.com/prod_view.aspx?nid=3&typeid=104&id=404"
+    }
+  },
+  {
+    "id": "7artisans-50mm-f18-xf",
+    "brand": "7artisans",
+    "model": "50mm F1.8",
+    "focalLengthMin": 50,
+    "focalLengthMax": 50,
+    "maxAperture": 1.8,
+    "minAperture": 16,
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "weightG": 167,
+    "diameterMm": 55,
+    "lengthMm": 40,
+    "minFocusDistanceCm": 50,
+    "angleOfView": "32°",
+    "apertureBladeCount": 12,
+    "imageUrl": "/lenses/7artisans-50mm-f18-xf.webp",
+    "filterMm": 52,
+    "lensConfiguration": {
+      "groups": 5,
+      "elements": 6,
+      "sourceText": "5组6片"
+    },
+    "officialLinks": {
+      "cn": "https://www.7artisans.com/prod_view.aspx?nid=3&typeid=104&id=405"
+    }
+  },
+  {
+    "id": "7artisans-af-27mm-f28-xf",
+    "brand": "7artisans",
+    "series": "AF",
+    "model": "AF 27mm F2.8",
+    "focalLengthMin": 27,
+    "focalLengthMax": 27,
+    "maxAperture": 2.8,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": false,
+    "apertureRing": false,
+    "weightG": 144,
+    "diameterMm": 61,
+    "lengthMm": 42,
+    "imageUrl": "/lenses/7artisans-af-27mm-f28-xf.webp",
+    "filterMm": 39,
+    "lensConfiguration": {
+      "groups": 5,
+      "elements": 6,
+      "sourceText": "5组6片"
+    },
+    "officialLinks": {
+      "cn": "https://www.7artisans.com/prod_view.aspx?nid=3&typeid=126&id=482"
+    }
+  },
+  {
+    "id": "fujifilm-xc-13-33mm-f35-63-ois-xf",
+    "brand": "fujifilm",
+    "series": "XC",
+    "model": "XC13-33mmF3.5-6.3 OIS",
+    "focalLengthMin": 13,
+    "focalLengthMax": 33,
+    "maxAperture": 3.5,
+    "minAperture": 22,
+    "af": true,
+    "ois": true,
+    "wr": false,
+    "apertureRing": false,
+    "weightG": 125,
+    "diameterMm": 61.9,
+    "lengthMm": 37.5,
+    "minFocusDistanceCm": 20,
+    "maxMagnification": 0.25,
+    "angleOfView": "95.1°-46.6°",
+    "apertureBladeCount": 9,
+    "imageUrl": "/lenses/fujifilm-xc-13-33mm-f35-63-ois-xf.webp",
+    "lengthVariantsMm": {
+      "retracted": 37.5,
+      "wide": 55.6,
+      "tele": 57.2
+    },
+    "filterMm": 49,
+    "lensConfiguration": {
+      "groups": 9,
+      "elements": 10,
+      "aspherical": 4,
+      "ed": 3,
+      "sourceText": "10 elements in 9 groups (includes 4 aspherical and 3 ED elements)"
+    },
+    "officialLinks": {
+      "global": "https://www.fujifilm-x.com/global/products/lenses/xc13-33mmf35-63-ois/"
+    }
+  },
+  {
+    "id": "fujifilm-xc-15-45mm-f35-56-ois-pz-xf",
+    "brand": "fujifilm",
+    "series": "XC",
+    "model": "XC15-45mmF3.5-5.6 OIS PZ",
+    "focalLengthMin": 15,
+    "focalLengthMax": 45,
+    "maxAperture": 3.5,
+    "minAperture": 22,
+    "af": true,
+    "ois": true,
+    "wr": false,
+    "apertureRing": false,
+    "weightG": 135,
+    "diameterMm": 62.6,
+    "lengthMm": 44.2,
+    "maxMagnification": 0.24,
+    "angleOfView": "86.9° – 35.0°",
+    "apertureBladeCount": 7,
+    "imageUrl": "/lenses/fujifilm-xc-15-45mm-f35-56-ois-pz-xf.webp",
+    "filterMm": 52,
+    "lensConfiguration": {
+      "groups": 9,
+      "elements": 10,
+      "aspherical": 3,
+      "ed": 2,
+      "sourceText": "10 elements 9 groups (includes 3 aspherical, 2ED elements)"
+    },
+    "officialLinks": {
+      "global": "https://www.fujifilm-x.com/global/products/lenses/xc15-45mmf35-56-ois-pz/"
+    }
+  },
+  {
+    "id": "fujifilm-xc-16-50mm-f35-56-ois-ii-xf",
+    "brand": "fujifilm",
+    "series": "XC",
+    "model": "XC16-50mmF3.5-5.6 OIS II",
+    "generation": 2,
+    "focalLengthMin": 16,
+    "focalLengthMax": 50,
+    "maxAperture": 3.5,
+    "minAperture": 22,
+    "af": true,
+    "ois": true,
+    "wr": false,
+    "apertureRing": false,
+    "weightG": 195,
+    "diameterMm": 62.6,
+    "lengthMm": 65.2,
+    "maxMagnification": 0.2,
+    "angleOfView": "83.2°-31.7°",
+    "apertureBladeCount": 7,
+    "imageUrl": "/lenses/fujifilm-xc-16-50mm-f35-56-ois-ii-xf.webp",
+    "lengthVariantsMm": {
+      "wide": 65.2,
+      "tele": 98.3
+    },
+    "filterMm": 58,
+    "lensConfiguration": {
+      "groups": 10,
+      "elements": 12,
+      "sourceText": "12 elements in 10 groups"
+    },
+    "officialLinks": {
+      "global": "https://www.fujifilm-x.com/global/products/lenses/xc16-50mmf35-56-ois-2/"
+    }
+  },
+  {
+    "id": "fujifilm-xc-35mm-f2-xf",
+    "brand": "fujifilm",
+    "series": "XC",
+    "model": "XC35mmF2",
+    "focalLengthMin": 35,
+    "focalLengthMax": 35,
+    "maxAperture": 2,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": false,
+    "apertureRing": false,
+    "weightG": 130,
+    "diameterMm": 58.4,
+    "lengthMm": 46.5,
+    "maxMagnification": 0.14,
+    "angleOfView": "44.2°",
+    "imageUrl": "/lenses/fujifilm-xc-35mm-f2-xf.webp",
+    "filterMm": 43,
+    "lensConfiguration": {
+      "groups": 6,
+      "elements": 9,
+      "aspherical": 2,
+      "sourceText": "9 elements 6 groups (includes two aspherical elements)"
+    },
+    "officialLinks": {
+      "global": "https://www.fujifilm-x.com/global/products/lenses/xc35mmf2/"
+    }
+  },
+  {
+    "id": "fujifilm-xf-8-16mm-f28-r-lm-wr-xf",
+    "brand": "fujifilm",
+    "series": "XF",
+    "model": "XF8-16mmF2.8 R LM WR",
+    "focalLengthMin": 8,
+    "focalLengthMax": 16,
+    "maxAperture": 2.8,
+    "minAperture": 22,
+    "af": true,
+    "ois": false,
+    "wr": true,
+    "apertureRing": true,
+    "weightG": 805,
+    "diameterMm": 88,
+    "lengthMm": 121.5,
+    "maxMagnification": 0.1,
+    "angleOfView": "121° – 83.2°",
+    "imageUrl": "/lenses/fujifilm-xf-8-16mm-f28-r-lm-wr-xf.webp",
+    "filterMm": "N/A",
+    "lensConfiguration": {
+      "groups": 13,
+      "elements": 20,
+      "aspherical": 4,
+      "ed": 3,
+      "superEd": 3,
+      "sourceText": "20 elements 13 groups (includes 4 aspherical, 3 ED, 3 super ED elements)"
+    },
+    "officialLinks": {
+      "global": "https://www.fujifilm-x.com/global/products/lenses/xf8-16mmf28-r-lm-wr/"
+    }
+  },
+  {
+    "id": "fujifilm-xf-10-24mm-f4-r-ois-xf",
+    "brand": "fujifilm",
+    "series": "XF",
+    "model": "XF10-24mmF4 R OIS",
+    "focalLengthMin": 10,
+    "focalLengthMax": 24,
+    "maxAperture": 4,
+    "minAperture": 22,
+    "af": true,
+    "ois": true,
+    "wr": false,
+    "apertureRing": true,
+    "weightG": 410,
+    "diameterMm": 78,
+    "lengthMm": 87,
+    "maxMagnification": 0.16,
+    "angleOfView": "110° - 61.2°",
+    "apertureBladeCount": 7,
+    "imageUrl": "/lenses/fujifilm-xf-10-24mm-f4-r-ois-xf.webp",
+    "filterMm": 72,
+    "lensConfiguration": {
+      "groups": 10,
+      "elements": 14,
+      "sourceText": "14 elements in 10 groups"
+    },
+    "officialLinks": {
+      "global": "https://www.fujifilm-x.com/global/products/lenses/xf10-24mmf4-r-ois/"
+    }
+  },
+  {
+    "id": "fujifilm-xf-10-24mm-f4-r-ois-wr-xf",
+    "brand": "fujifilm",
+    "series": "XF",
+    "model": "XF10-24mmF4 R OIS WR",
+    "focalLengthMin": 10,
+    "focalLengthMax": 24,
+    "maxAperture": 4,
+    "minAperture": 22,
+    "af": true,
+    "ois": true,
+    "wr": true,
+    "apertureRing": true,
+    "weightG": 385,
+    "diameterMm": 77.6,
+    "lengthMm": 87,
+    "maxMagnification": 0.16,
+    "angleOfView": "110°-61.2°",
+    "apertureBladeCount": 7,
+    "imageUrl": "/lenses/fujifilm-xf-10-24mm-f4-r-ois-wr-xf.webp",
+    "filterMm": 72,
+    "lensConfiguration": {
+      "groups": 10,
+      "elements": 14,
+      "sourceText": "14 elements in 10 groups"
+    },
+    "officialLinks": {
+      "global": "https://www.fujifilm-x.com/global/products/lenses/xf10-24mmf4-r-ois-wr/"
+    }
+  },
+  {
+    "id": "fujifilm-xf-16-50mm-f28-48-r-lm-wr-xf",
+    "brand": "fujifilm",
+    "series": "XF",
+    "model": "XF16-50mmF2.8-4.8 R LM WR",
+    "focalLengthMin": 16,
+    "focalLengthMax": 50,
+    "maxAperture": 2.8,
+    "minAperture": 22,
+    "af": true,
+    "ois": false,
+    "wr": true,
+    "apertureRing": true,
+    "weightG": 240,
+    "diameterMm": 65,
+    "lengthMm": 71.4,
+    "minFocusDistanceCm": 24,
+    "maxMagnification": 0.3,
+    "angleOfView": "83.2°-31.7°",
+    "apertureBladeCount": 11,
+    "imageUrl": "/lenses/fujifilm-xf-16-50mm-f28-48-r-lm-wr-xf.webp",
+    "filterMm": 58,
+    "lensConfiguration": {
+      "groups": 9,
+      "elements": 11,
+      "aspherical": 3,
+      "ed": 3,
+      "sourceText": "11 elements in 9 groups (includes 3 aspherical and 3 ED elements)"
+    },
+    "officialLinks": {
+      "global": "https://www.fujifilm-x.com/global/products/lenses/xf16-50mmf28-48-r-lm-wr/"
+    }
+  },
+  {
+    "id": "fujifilm-xf-16-55mm-f28-r-lm-wr-xf",
+    "brand": "fujifilm",
+    "series": "XF",
+    "model": "XF16-55mmF2.8 R LM WR",
+    "focalLengthMin": 16,
+    "focalLengthMax": 55,
+    "maxAperture": 2.8,
+    "minAperture": 22,
+    "af": true,
+    "ois": false,
+    "wr": true,
+    "apertureRing": true,
+    "weightG": 655,
+    "diameterMm": 83.3,
+    "lengthMm": 106,
+    "maxMagnification": 0.16,
+    "angleOfView": "83.2°-29°",
+    "apertureBladeCount": 9,
+    "imageUrl": "/lenses/fujifilm-xf-16-55mm-f28-r-lm-wr-xf.webp",
+    "lengthVariantsMm": {
+      "wide": 106,
+      "tele": 129.5
+    },
+    "filterMm": 77,
+    "lensConfiguration": {
+      "groups": 12,
+      "elements": 17,
+      "sourceText": "17 elements 12 groups"
+    },
+    "officialLinks": {
+      "global": "https://www.fujifilm-x.com/global/products/lenses/xf16-55mmf28-r-lm-wr/"
+    }
+  },
+  {
+    "id": "fujifilm-xf-16-55mm-f28-r-lm-wr-ii-xf",
+    "brand": "fujifilm",
+    "series": "XF",
+    "model": "XF16-55mmF2.8 R LM WR II",
+    "generation": 2,
+    "focalLengthMin": 16,
+    "focalLengthMax": 55,
+    "maxAperture": 2.8,
+    "minAperture": 22,
+    "af": true,
+    "ois": false,
+    "wr": true,
+    "apertureRing": true,
+    "weightG": 410,
+    "diameterMm": 78.3,
+    "lengthMm": 95,
+    "minFocusDistanceCm": 30,
+    "maxMagnification": 0.21,
+    "angleOfView": "83.2°-29°",
+    "apertureBladeCount": 11,
+    "imageUrl": "/lenses/fujifilm-xf-16-55mm-f28-r-lm-wr-ii-xf.webp",
+    "lengthVariantsMm": {
+      "wide": 95,
+      "tele": 122
+    },
+    "filterMm": 72,
+    "lensConfiguration": {
+      "groups": 11,
+      "elements": 16,
+      "aspherical": 4,
+      "ed": 3,
+      "superEd": 1,
+      "sourceText": "16 elements in 11 groups (includes 4 aspherical, 3 ED elements, 1 super ED element)"
+    },
+    "officialLinks": {
+      "global": "https://www.fujifilm-x.com/global/products/lenses/xf16-55mmf28-r-lm-wr-ii/"
+    }
+  },
+  {
+    "id": "fujifilm-xf-16-80mm-f4-r-ois-wr-xf",
+    "brand": "fujifilm",
+    "series": "XF",
+    "model": "XF16-80mmF4 R OIS WR",
+    "focalLengthMin": 16,
+    "focalLengthMax": 80,
+    "maxAperture": 4,
+    "minAperture": 22,
+    "af": true,
+    "ois": true,
+    "wr": true,
+    "apertureRing": true,
+    "weightG": 440,
+    "diameterMm": 78.3,
+    "lengthMm": 88.9,
+    "maxMagnification": 0.25,
+    "angleOfView": "83.2°-20.1°",
+    "apertureBladeCount": 9,
+    "imageUrl": "/lenses/fujifilm-xf-16-80mm-f4-r-ois-wr-xf.webp",
+    "lengthVariantsMm": {
+      "wide": 88.9,
+      "tele": 131.5
+    },
+    "filterMm": 72,
+    "lensConfiguration": {
+      "groups": 12,
+      "elements": 16,
+      "sourceText": "16 elements 12 groups"
+    },
+    "officialLinks": {
+      "global": "https://www.fujifilm-x.com/global/products/lenses/xf16-80mmf4-r-ois-wr/"
+    }
+  },
+  {
+    "id": "fujifilm-xf-16mm-f14-r-wr-xf",
+    "brand": "fujifilm",
+    "series": "XF",
+    "model": "XF16mmF1.4 R WR",
+    "focalLengthMin": 16,
+    "focalLengthMax": 16,
+    "maxAperture": 1.4,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": true,
+    "apertureRing": true,
+    "weightG": 375,
+    "diameterMm": 73.4,
+    "lengthMm": 73,
+    "maxMagnification": 0.21,
+    "angleOfView": "83.2°",
+    "apertureBladeCount": 9,
+    "imageUrl": "/lenses/fujifilm-xf-16mm-f14-r-wr-xf.webp",
+    "filterMm": 67,
+    "lensConfiguration": {
+      "groups": 11,
+      "elements": 13,
+      "aspherical": 2,
+      "ed": 2,
+      "sourceText": "13 elements 11 groups (includes 2 aspherical and 2 extra low dispersion elements)"
+    },
+    "officialLinks": {
+      "global": "https://www.fujifilm-x.com/global/products/lenses/xf16mmf14-r-wr/"
+    }
+  },
+  {
+    "id": "fujifilm-xf-16mm-f28-r-wr-xf",
+    "brand": "fujifilm",
+    "series": "XF",
+    "model": "XF16mmF2.8 R WR",
+    "focalLengthMin": 16,
+    "focalLengthMax": 16,
+    "maxAperture": 2.8,
+    "minAperture": 22,
+    "af": true,
+    "ois": false,
+    "wr": true,
+    "apertureRing": true,
+    "weightG": 155,
+    "diameterMm": 60,
+    "lengthMm": 45.4,
+    "maxMagnification": 0.13,
+    "angleOfView": "83.2°",
+    "apertureBladeCount": 9,
+    "imageUrl": "/lenses/fujifilm-xf-16mm-f28-r-wr-xf.webp",
+    "filterMm": 49,
+    "lensConfiguration": {
+      "groups": 8,
+      "elements": 10,
+      "aspherical": 2,
+      "sourceText": "10 elements 8 groups (includes 2 aspherical elements)"
+    },
+    "officialLinks": {
+      "global": "https://www.fujifilm-x.com/global/products/lenses/xf16mmf28-r-wr/"
+    }
+  },
+  {
+    "id": "fujifilm-xf-18-120mm-f4-lm-pz-wr-xf",
+    "brand": "fujifilm",
+    "series": "XF",
+    "model": "XF18-120mmF4 LM PZ WR",
+    "focalLengthMin": 18,
+    "focalLengthMax": 120,
+    "maxAperture": 4,
+    "minAperture": 22,
+    "af": true,
+    "ois": false,
+    "wr": true,
+    "apertureRing": true,
+    "weightG": 460,
+    "diameterMm": 77.3,
+    "lengthMm": 123.5,
+    "minFocusDistanceCm": 60,
+    "maxMagnification": 0.2,
+    "angleOfView": "76.5°-13.5°",
+    "apertureBladeCount": 7,
+    "imageUrl": "/lenses/fujifilm-xf-18-120mm-f4-lm-pz-wr-xf.webp",
+    "filterMm": 72,
+    "lensConfiguration": {
+      "groups": 12,
+      "elements": 15,
+      "sourceText": "15 elements in 12 groups"
+    },
+    "officialLinks": {
+      "global": "https://www.fujifilm-x.com/global/products/lenses/xf18-120mmf4-lm-pz-wr/"
+    }
+  },
+  {
+    "id": "fujifilm-xf-18-135mm-f35-56-r-lm-ois-wr-xf",
+    "brand": "fujifilm",
+    "series": "XF",
+    "model": "XF18-135mmF3.5-5.6 R LM OIS WR",
+    "focalLengthMin": 18,
+    "focalLengthMax": 135,
+    "maxAperture": 3.5,
+    "minAperture": 22,
+    "af": true,
+    "ois": true,
+    "wr": true,
+    "apertureRing": true,
+    "weightG": 490,
+    "diameterMm": 75.7,
+    "lengthMm": 97.8,
+    "maxMagnification": 0.27,
+    "angleOfView": "76.5°-12°",
+    "apertureBladeCount": 7,
+    "imageUrl": "/lenses/fujifilm-xf-18-135mm-f35-56-r-lm-ois-wr-xf.webp",
+    "lengthVariantsMm": {
+      "wide": 97.8,
+      "tele": 158
+    },
+    "filterMm": 67,
+    "lensConfiguration": {
+      "groups": 12,
+      "elements": 16,
+      "aspherical": 4,
+      "sourceText": "16 elements in 12 groups (4 aspherical elements and 2 anomalous dispersion lenses)"
+    },
+    "officialLinks": {
+      "global": "https://www.fujifilm-x.com/global/products/lenses/xf18-135mmf35-56-r-lm-ois-wr/"
+    }
+  },
+  {
+    "id": "fujifilm-xf-18mm-f14-r-lm-wr-xf",
+    "brand": "fujifilm",
+    "series": "XF",
+    "model": "XF18mmF1.4 R LM WR",
+    "focalLengthMin": 18,
+    "focalLengthMax": 18,
+    "maxAperture": 1.4,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": true,
+    "apertureRing": true,
+    "weightG": 370,
+    "diameterMm": 68.8,
+    "lengthMm": 75.6,
+    "maxMagnification": 0.15,
+    "angleOfView": "76.5°",
+    "apertureBladeCount": 9,
+    "imageUrl": "/lenses/fujifilm-xf-18mm-f14-r-lm-wr-xf.webp",
+    "filterMm": 62,
+    "lensConfiguration": {
+      "groups": 9,
+      "elements": 15,
+      "sourceText": "15 elements in 9 groups"
+    },
+    "officialLinks": {
+      "global": "https://www.fujifilm-x.com/global/products/lenses/xf18mmf14-r-lm-wr/"
+    }
+  },
+  {
+    "id": "fujifilm-xf-18mm-f2-r-xf",
+    "brand": "fujifilm",
+    "series": "XF",
+    "model": "XF18mmF2 R",
+    "focalLengthMin": 18,
+    "focalLengthMax": 18,
+    "maxAperture": 2,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "weightG": 116,
+    "diameterMm": 64.5,
+    "lengthMm": 33.7,
+    "maxMagnification": 0.14,
+    "angleOfView": "76.5°",
+    "apertureBladeCount": 7,
+    "imageUrl": "/lenses/fujifilm-xf-18mm-f2-r-xf.webp",
+    "filterMm": 52,
+    "officialLinks": {
+      "global": "https://www.fujifilm-x.com/global/products/lenses/xf18mmf2-r/"
+    }
+  },
+  {
+    "id": "fujifilm-xf-23mm-f2-r-wr-xf",
+    "brand": "fujifilm",
+    "series": "XF",
+    "model": "XF23mmF2 R WR",
+    "focalLengthMin": 23,
+    "focalLengthMax": 23,
+    "maxAperture": 2,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": true,
+    "apertureRing": true,
+    "weightG": 180,
+    "diameterMm": 60,
+    "lengthMm": 51.9,
+    "maxMagnification": 0.13,
+    "angleOfView": "63.4°",
+    "apertureBladeCount": 9,
+    "imageUrl": "/lenses/fujifilm-xf-23mm-f2-r-wr-xf.webp",
+    "filterMm": 43,
+    "lensConfiguration": {
+      "groups": 6,
+      "elements": 10,
+      "aspherical": 2,
+      "sourceText": "10 elements 6 groups (includes 2 aspherical elements)"
+    },
+    "officialLinks": {
+      "global": "https://www.fujifilm-x.com/global/products/lenses/xf23mmf2-r-wr/"
+    }
+  },
+  {
+    "id": "fujifilm-xf-23mm-f28-r-wr-xf",
+    "brand": "fujifilm",
+    "series": "XF",
+    "model": "XF23mmF2.8 R WR",
+    "focalLengthMin": 23,
+    "focalLengthMax": 23,
+    "maxAperture": 2.8,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": true,
+    "apertureRing": true,
+    "weightG": 90,
+    "diameterMm": 61.8,
+    "lengthMm": 23,
+    "minFocusDistanceCm": 20,
+    "maxMagnification": 0.15,
+    "angleOfView": "63.4°",
+    "apertureBladeCount": 11,
+    "imageUrl": "/lenses/fujifilm-xf-23mm-f28-r-wr-xf.webp",
+    "filterMm": 39,
+    "lensConfiguration": {
+      "groups": 6,
+      "elements": 8,
+      "aspherical": 2,
+      "sourceText": "8 elements in 6 groups (includes 2 aspherical elements)"
+    },
+    "officialLinks": {
+      "global": "https://www.fujifilm-x.com/global/products/lenses/xf23mmf28-r-wr/"
+    }
+  },
+  {
+    "id": "fujifilm-xf-27mm-f28-r-wr-xf",
+    "brand": "fujifilm",
+    "series": "XF",
+    "model": "XF27mmF2.8 R WR",
+    "focalLengthMin": 27,
+    "focalLengthMax": 27,
+    "maxAperture": 2.8,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": true,
+    "apertureRing": true,
+    "weightG": 84,
+    "diameterMm": 62,
+    "lengthMm": 23,
+    "maxMagnification": 0.1,
+    "angleOfView": "55.5°",
+    "apertureBladeCount": 7,
+    "imageUrl": "/lenses/fujifilm-xf-27mm-f28-r-wr-xf.webp",
+    "filterMm": 39,
+    "lensConfiguration": {
+      "groups": 5,
+      "elements": 7,
+      "sourceText": "7 elements in 5 groups"
+    },
+    "officialLinks": {
+      "global": "https://www.fujifilm-x.com/global/products/lenses/xf27mmf28-r-wr/"
+    }
+  },
+  {
+    "id": "fujifilm-xf-30mm-f28-r-lm-wr-macro-xf",
+    "brand": "fujifilm",
+    "series": "XF",
+    "model": "XF30mmF2.8 R LM WR Macro",
+    "focalLengthMin": 30,
+    "focalLengthMax": 30,
+    "maxAperture": 2.8,
+    "minAperture": 22,
+    "af": true,
+    "ois": false,
+    "wr": true,
+    "apertureRing": true,
+    "weightG": 195,
+    "diameterMm": 60,
+    "lengthMm": 69.5,
+    "minFocusDistanceCm": 10,
+    "maxMagnification": 1,
+    "angleOfView": "50.7°",
+    "apertureBladeCount": 9,
+    "imageUrl": "/lenses/fujifilm-xf-30mm-f28-r-lm-wr-macro-xf.webp",
+    "filterMm": 43,
+    "lensConfiguration": {
+      "groups": 9,
+      "elements": 11,
+      "sourceText": "11 elements in 9 groups"
+    },
+    "officialLinks": {
+      "global": "https://www.fujifilm-x.com/global/products/lenses/xf30mmf28-r-lm-wr-macro/"
+    }
+  },
+  {
+    "id": "fujifilm-xf-33mm-f14-r-lm-wr-xf",
+    "brand": "fujifilm",
+    "series": "XF",
+    "model": "XF33mmF1.4 R LM WR",
+    "focalLengthMin": 33,
+    "focalLengthMax": 33,
+    "maxAperture": 1.4,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": true,
+    "apertureRing": true,
+    "weightG": 360,
+    "diameterMm": 67,
+    "lengthMm": 73.5,
+    "maxMagnification": 0.15,
+    "angleOfView": "46.6°",
+    "imageUrl": "/lenses/fujifilm-xf-33mm-f14-r-lm-wr-xf.webp",
+    "filterMm": 58,
+    "lensConfiguration": {
+      "groups": 10,
+      "elements": 15,
+      "sourceText": "15 elements in 10 groups"
+    },
+    "officialLinks": {
+      "global": "https://www.fujifilm-x.com/global/products/lenses/xf33mmf14-r-lm-wr/"
+    }
+  },
+  {
+    "id": "fujifilm-xf-35mm-f14-r-xf",
+    "brand": "fujifilm",
+    "series": "XF",
+    "model": "XF35mmF1.4 R",
+    "focalLengthMin": 35,
+    "focalLengthMax": 35,
+    "maxAperture": 1.4,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "weightG": 187,
+    "diameterMm": 65,
+    "lengthMm": 50.4,
+    "maxMagnification": 0.17,
+    "angleOfView": "44.2°",
+    "apertureBladeCount": 7,
+    "imageUrl": "/lenses/fujifilm-xf-35mm-f14-r-xf.webp",
+    "filterMm": 52,
+    "officialLinks": {
+      "global": "https://www.fujifilm-x.com/global/products/lenses/xf35mmf14-r/"
+    }
+  },
+  {
+    "id": "fujifilm-xf-35mm-f2-r-wr-xf",
+    "brand": "fujifilm",
+    "series": "XF",
+    "model": "XF35mmF2 R WR",
+    "focalLengthMin": 35,
+    "focalLengthMax": 35,
+    "maxAperture": 2,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": true,
+    "apertureRing": true,
+    "weightG": 170,
+    "diameterMm": 60,
+    "lengthMm": 45.9,
+    "maxMagnification": 0.135,
+    "angleOfView": "44.2°",
+    "apertureBladeCount": 9,
+    "imageUrl": "/lenses/fujifilm-xf-35mm-f2-r-wr-xf.webp",
+    "filterMm": 43,
+    "lensConfiguration": {
+      "groups": 6,
+      "elements": 9,
+      "aspherical": 2,
+      "sourceText": "9 elements 6 groups (includes two aspherical elements)"
+    },
+    "officialLinks": {
+      "global": "https://www.fujifilm-x.com/global/products/lenses/xf35mmf2-r-wr/"
+    }
+  },
+  {
+    "id": "fujifilm-xf-50-140mm-f28-r-lm-ois-wr-xf",
+    "brand": "fujifilm",
+    "series": "XF",
+    "model": "XF50-140mmF2.8 R LM OIS WR",
+    "focalLengthMin": 50,
+    "focalLengthMax": 140,
+    "maxAperture": 2.8,
+    "minAperture": 22,
+    "af": true,
+    "ois": true,
+    "wr": true,
+    "apertureRing": true,
+    "weightG": 995,
+    "diameterMm": 82.9,
+    "lengthMm": 175.9,
+    "maxMagnification": 0.12,
+    "angleOfView": "31.7° – 11.6°",
+    "apertureBladeCount": 7,
+    "imageUrl": "/lenses/fujifilm-xf-50-140mm-f28-r-lm-ois-wr-xf.webp",
+    "filterMm": 72,
+    "lensConfiguration": {
+      "groups": 16,
+      "elements": 23,
+      "ed": 5,
+      "superEd": 1,
+      "sourceText": "23 elements in 16 groups (includes 5 extra low dispersion elements and 1 super extra low dispersion element)"
+    },
+    "officialLinks": {
+      "global": "https://www.fujifilm-x.com/global/products/lenses/xf50-140mmf28-r-lm-ois-wr/"
+    }
+  },
+  {
+    "id": "fujifilm-xf-50mm-f10-r-wr-xf",
+    "brand": "fujifilm",
+    "series": "XF",
+    "model": "XF50mmF1.0 R WR",
+    "focalLengthMin": 50,
+    "focalLengthMax": 50,
+    "maxAperture": 1,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": true,
+    "apertureRing": true,
+    "weightG": 845,
+    "diameterMm": 87,
+    "lengthMm": 103.5,
+    "maxMagnification": 0.08,
+    "angleOfView": "31.7°",
+    "imageUrl": "/lenses/fujifilm-xf-50mm-f10-r-wr-xf.webp",
+    "filterMm": 77,
+    "lensConfiguration": {
+      "groups": 9,
+      "elements": 12,
+      "sourceText": "12 elements in 9 groups"
+    },
+    "officialLinks": {
+      "global": "https://www.fujifilm-x.com/global/products/lenses/xf50mmf1-r-wr/"
+    }
+  },
+  {
+    "id": "fujifilm-xf-50mm-f2-r-wr-xf",
+    "brand": "fujifilm",
+    "series": "XF",
+    "model": "XF50mmF2 R WR",
+    "focalLengthMin": 50,
+    "focalLengthMax": 50,
+    "maxAperture": 2,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": true,
+    "apertureRing": true,
+    "weightG": 200,
+    "diameterMm": 60,
+    "lengthMm": 59.4,
+    "maxMagnification": 0.15,
+    "angleOfView": "31.7°",
+    "apertureBladeCount": 9,
+    "imageUrl": "/lenses/fujifilm-xf-50mm-f2-r-wr-xf.webp",
+    "filterMm": 46,
+    "lensConfiguration": {
+      "groups": 7,
+      "elements": 9,
+      "aspherical": 1,
+      "ed": 1,
+      "sourceText": "9 elements 7 groups (includes 1 aspherical ED element)"
+    },
+    "officialLinks": {
+      "global": "https://www.fujifilm-x.com/global/products/lenses/xf50mmf2-r-wr/"
+    }
+  },
+  {
+    "id": "fujifilm-xf-55-200mm-f35-48-r-lm-ois-xf",
+    "brand": "fujifilm",
+    "series": "XF",
+    "model": "XF55-200mmF3.5-4.8 R LM OIS",
+    "focalLengthMin": 55,
+    "focalLengthMax": 200,
+    "maxAperture": 3.5,
+    "minAperture": 22,
+    "af": true,
+    "ois": true,
+    "wr": false,
+    "apertureRing": true,
+    "weightG": 580,
+    "diameterMm": 75,
+    "lengthMm": 118,
+    "maxMagnification": 0.18,
+    "angleOfView": "29.0° – 8.1°",
+    "apertureBladeCount": 7,
+    "imageUrl": "/lenses/fujifilm-xf-55-200mm-f35-48-r-lm-ois-xf.webp",
+    "lengthVariantsMm": {
+      "wide": 118,
+      "tele": 177
+    },
+    "filterMm": 62,
+    "lensConfiguration": {
+      "groups": 10,
+      "elements": 14,
+      "sourceText": "14 elements in 10 groups"
+    },
+    "officialLinks": {
+      "global": "https://www.fujifilm-x.com/global/products/lenses/xf55-200mmf35-48-r-lm-ois/"
+    }
+  },
+  {
+    "id": "fujifilm-xf-56mm-f12-r-xf",
+    "brand": "fujifilm",
+    "series": "XF",
+    "model": "XF56mmF1.2 R",
+    "focalLengthMin": 56,
+    "focalLengthMax": 56,
+    "maxAperture": 1.2,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "weightG": 405,
+    "diameterMm": 73.2,
+    "lengthMm": 69.7,
+    "maxMagnification": 0.09,
+    "angleOfView": "28.5°",
+    "apertureBladeCount": 7,
+    "imageUrl": "/lenses/fujifilm-xf-56mm-f12-r-xf.webp",
+    "filterMm": 62,
+    "lensConfiguration": {
+      "groups": 8,
+      "elements": 11,
+      "sourceText": "11 elements in 8 groups"
+    },
+    "officialLinks": {
+      "global": "https://www.fujifilm-x.com/global/products/lenses/xf56mmf12-r/"
+    }
+  },
+  {
+    "id": "fujifilm-xf-70-300mm-f4-56-r-lm-ois-wr-xf",
+    "brand": "fujifilm",
+    "series": "XF",
+    "model": "XF70-300mmF4-5.6 R LM OIS WR",
+    "focalLengthMin": 70,
+    "focalLengthMax": 300,
+    "maxAperture": 4,
+    "minAperture": 22,
+    "af": true,
+    "ois": true,
+    "wr": true,
+    "apertureRing": true,
+    "weightG": 580,
+    "diameterMm": 75,
+    "lengthMm": 132.5,
+    "maxMagnification": 0.33,
+    "angleOfView": "22.9°-5.4°",
+    "imageUrl": "/lenses/fujifilm-xf-70-300mm-f4-56-r-lm-ois-wr-xf.webp",
+    "filterMm": 67,
+    "lensConfiguration": {
+      "groups": 12,
+      "elements": 17,
+      "sourceText": "17 elements in 12 groups"
+    },
+    "officialLinks": {
+      "global": "https://www.fujifilm-x.com/global/products/lenses/xf70-300mmf4-56-r-lm-ois-wr/"
+    }
+  },
+  {
+    "id": "fujifilm-xf-80mm-f28-r-lm-ois-wr-macro-xf",
+    "brand": "fujifilm",
+    "series": "XF",
+    "model": "XF80mmF2.8 R LM OIS WR Macro",
+    "focalLengthMin": 80,
+    "focalLengthMax": 80,
+    "maxAperture": 2.8,
+    "minAperture": 22,
+    "af": true,
+    "ois": true,
+    "wr": true,
+    "apertureRing": true,
+    "weightG": 750,
+    "diameterMm": 80,
+    "lengthMm": 130,
+    "maxMagnification": 1,
+    "angleOfView": "20.1°",
+    "apertureBladeCount": 9,
+    "imageUrl": "/lenses/fujifilm-xf-80mm-f28-r-lm-ois-wr-macro-xf.webp",
+    "filterMm": 62,
+    "lensConfiguration": {
+      "groups": 12,
+      "elements": 16,
+      "aspherical": 1,
+      "ed": 3,
+      "superEd": 1,
+      "sourceText": "16 elements 12 groups (includes 1 aspherical, 3 ED elements, 1 Super ED element)"
+    },
+    "officialLinks": {
+      "global": "https://www.fujifilm-x.com/global/products/lenses/xf80mmf28-r-lm-ois-wr-macro/"
+    }
+  },
+  {
+    "id": "fujifilm-xf-90mm-f2-r-lm-wr-xf",
+    "brand": "fujifilm",
+    "series": "XF",
+    "model": "XF90mmF2 R LM WR",
+    "focalLengthMin": 90,
+    "focalLengthMax": 90,
+    "maxAperture": 2,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": true,
+    "apertureRing": true,
+    "weightG": 540,
+    "diameterMm": 75,
+    "lengthMm": 105,
+    "maxMagnification": 0.2,
+    "angleOfView": "17.9°",
+    "apertureBladeCount": 7,
+    "imageUrl": "/lenses/fujifilm-xf-90mm-f2-r-lm-wr-xf.webp",
+    "filterMm": 62,
+    "lensConfiguration": {
+      "groups": 8,
+      "elements": 11,
+      "ed": 3,
+      "sourceText": "11 elements 8 groups (includes 3 extra low dispersion elements)"
+    },
+    "officialLinks": {
+      "global": "https://www.fujifilm-x.com/global/products/lenses/xf90mmf2-r-lm-wr/"
+    }
+  },
+  {
+    "id": "fujifilm-xf-100-400mm-f45-56-r-lm-ois-wr-xf",
+    "brand": "fujifilm",
+    "series": "XF",
+    "model": "XF100-400mmF4.5-5.6 R LM OIS WR",
+    "focalLengthMin": 100,
+    "focalLengthMax": 400,
+    "maxAperture": 4.5,
+    "minAperture": 22,
+    "af": true,
+    "ois": true,
+    "wr": true,
+    "apertureRing": true,
+    "weightG": 1375,
+    "diameterMm": 94.8,
+    "lengthMm": 210.5,
+    "maxMagnification": 0.19,
+    "angleOfView": "16.2°- 4.1°",
+    "apertureBladeCount": 9,
+    "imageUrl": "/lenses/fujifilm-xf-100-400mm-f45-56-r-lm-ois-wr-xf.webp",
+    "lengthVariantsMm": {
+      "wide": 210.5,
+      "tele": 270
+    },
+    "filterMm": 77,
+    "lensConfiguration": {
+      "groups": 14,
+      "elements": 21,
+      "sourceText": "21 elements 14 groups"
+    },
+    "officialLinks": {
+      "global": "https://www.fujifilm-x.com/global/products/lenses/xf100-400mmf45-56-r-lm-ois-wr/"
+    }
+  },
+  {
+    "id": "fujifilm-xf-150-600-f56-80-r-lm-ois-wr-xf",
+    "brand": "fujifilm",
+    "series": "XF",
+    "model": "XF150-600mmF5.6-8 R LM OIS WR",
+    "focalLengthMin": 150,
+    "focalLengthMax": 600,
+    "maxAperture": 5.6,
+    "minAperture": 22,
+    "af": true,
+    "ois": true,
+    "wr": true,
+    "apertureRing": true,
+    "weightG": 1605,
+    "diameterMm": 99,
+    "lengthMm": 314.5,
+    "minFocusDistanceCm": 240,
+    "maxMagnification": 0.24,
+    "angleOfView": "10.8°-2.7°",
+    "imageUrl": "/lenses/fujifilm-xf-150-600-f56-80-r-lm-ois-wr-xf.webp",
+    "filterMm": 82,
+    "lensConfiguration": {
+      "groups": 17,
+      "elements": 24,
+      "sourceText": "24 elements in 17 groups"
+    },
+    "officialLinks": {
+      "global": "https://www.fujifilm-x.com/global/products/lenses/xf150-600mmf56-8-r-lm-ois-wr/"
+    }
+  },
+  {
+    "id": "fujifilm-xf-200mm-f2-r-lm-ois-wr-xf",
+    "brand": "fujifilm",
+    "series": "XF",
+    "model": "XF200mmF2 R LM OIS WR",
+    "focalLengthMin": 200,
+    "focalLengthMax": 200,
+    "maxAperture": 2,
+    "minAperture": 22,
+    "af": true,
+    "ois": true,
+    "wr": true,
+    "apertureRing": true,
+    "weightG": 2265,
+    "diameterMm": 122,
+    "lengthMm": 205.5,
+    "maxMagnification": 0.12,
+    "angleOfView": "8.1°",
+    "imageUrl": "/lenses/fujifilm-xf-200mm-f2-r-lm-ois-wr-xf.webp",
+    "filterMm": 105,
+    "lensConfiguration": {
+      "groups": 14,
+      "elements": 19,
+      "ed": 2,
+      "superEd": 1,
+      "sourceText": "19 elements 14 groups (includes 2 ED elements, 1 Super ED element)"
+    },
+    "officialLinks": {
+      "global": "https://www.fujifilm-x.com/global/products/lenses/xf200mmf2-r-lm-ois-wr/"
+    }
+  },
+  {
+    "id": "fujifilm-xf-500mm-f56-r-lm-ois-wr-xf",
+    "brand": "fujifilm",
+    "series": "XF",
+    "model": "XF500mmF5.6 R LM OIS WR",
+    "focalLengthMin": 500,
+    "focalLengthMax": 500,
+    "maxAperture": 5.6,
+    "minAperture": 22,
+    "af": true,
+    "ois": true,
+    "wr": true,
+    "apertureRing": true,
+    "weightG": 1335,
+    "diameterMm": 104.5,
+    "lengthMm": 255.5,
+    "minFocusDistanceCm": 275,
+    "maxMagnification": 0.2,
+    "angleOfView": "3.3°",
+    "apertureBladeCount": 9,
+    "imageUrl": "/lenses/fujifilm-xf-500mm-f56-r-lm-ois-wr-xf.webp",
+    "filterMm": 95,
+    "lensConfiguration": {
+      "groups": 14,
+      "elements": 21,
+      "ed": 5,
+      "superEd": 2,
+      "sourceText": "21 elements in 14 groups (includes 2 super ED and 5 ED elements)"
+    },
+    "officialLinks": {
+      "global": "https://www.fujifilm-x.com/global/products/lenses/xf500mmf56-r-lm-ois-wr/"
+    }
+  },
+  {
+    "id": "sigma-10-18mm-f28-dc-dn-contemporary-xf",
+    "brand": "sigma",
+    "series": "Contemporary",
+    "model": "10-18mm F2.8 DC DN | Contemporary",
+    "focalLengthMin": 10,
+    "focalLengthMax": 18,
+    "maxAperture": 2.8,
+    "minAperture": 22,
+    "af": true,
+    "ois": false,
+    "wr": false,
+    "apertureRing": false,
+    "weightG": 250,
+    "diameterMm": 72.2,
+    "lengthMm": 64.3,
+    "minFocusDistanceCm": 11.6,
+    "maxMagnification": 0.25,
+    "angleOfView": "FUJIFILM X Mount: 109.7°-76.5°",
+    "apertureBladeCount": 7,
+    "imageUrl": "/lenses/sigma-10-18mm-f28-dc-dn-contemporary-xf.webp",
+    "filterMm": 67,
+    "lensConfiguration": {
+      "groups": 10,
+      "elements": 13,
+      "aspherical": 4,
+      "otherNotes": "3 FLD, 1 SLD",
+      "sourceText": "13 elements in 10 groups (3 FLD, 1 SLD, and 4 aspherical elements)"
+    },
+    "officialLinks": {
+      "global": "https://www.sigma-global.com/en/lenses/c023_10_18_28/"
+    }
+  },
+  {
+    "id": "sigma-12mm-f14-dc-dn-contemporary-xf",
+    "brand": "sigma",
+    "series": "Contemporary",
+    "model": "12mm F1.4 DC | Contemporary",
+    "focalLengthMin": 12,
+    "focalLengthMax": 12,
+    "maxAperture": 1.4,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": true,
+    "apertureRing": true,
+    "weightG": 235,
+    "diameterMm": 68,
+    "lengthMm": 69.7,
+    "minFocusDistanceCm": 17.2,
+    "maxMagnification": 0.119,
+    "angleOfView": "FUJIFILM X Mount: 99.6°",
+    "apertureBladeCount": 9,
+    "releaseYear": 2025,
+    "imageUrl": "/lenses/sigma-12mm-f14-dc-dn-contemporary-xf.webp",
+    "filterMm": 62,
+    "lensConfiguration": {
+      "groups": 12,
+      "elements": 14,
+      "aspherical": 3,
+      "otherNotes": "2 SLD elements",
+      "sourceText": "14 elements in 12 groups (2 SLD, 3 aspherical elements)"
+    },
+    "officialLinks": {
+      "global": "https://www.sigma-global.com/en/lenses/c025_12_14/"
+    }
+  },
+  {
+    "id": "sigma-16-300mm-f35-67-dc-os-contemporary-xf",
+    "brand": "sigma",
+    "series": "Contemporary",
+    "model": "16-300mm F3.5-6.7 DC OS | Contemporary",
+    "focalLengthMin": 16,
+    "focalLengthMax": 300,
+    "maxAperture": 3.5,
+    "minAperture": 22,
+    "af": true,
+    "ois": true,
+    "wr": true,
+    "apertureRing": false,
+    "weightG": 615,
+    "diameterMm": 73.8,
+    "lengthMm": 123.7,
+    "minFocusDistanceCm": 17,
+    "maxMagnification": 0.5,
+    "angleOfView": "FUJIFILM X Mount: 83.2-5.4°",
+    "apertureBladeCount": 9,
+    "releaseYear": 2025,
+    "imageUrl": "/lenses/sigma-16-300mm-f35-67-dc-os-contemporary-xf.webp",
+    "filterMm": 67,
+    "officialLinks": {
+      "global": "https://www.sigma-global.com/en/lenses/c025_16_300_35_67/"
+    }
+  },
+  {
+    "id": "sigma-16mm-f14-dc-dn-contemporary-xf",
+    "brand": "sigma",
+    "series": "Contemporary",
+    "model": "16mm F1.4 DC DN | Contemporary",
+    "focalLengthMin": 16,
+    "focalLengthMax": 16,
+    "maxAperture": 1.4,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": false,
+    "apertureRing": false,
+    "weightG": 405,
+    "diameterMm": 72.2,
+    "lengthMm": 92.6,
+    "minFocusDistanceCm": 25,
+    "maxMagnification": 0.101,
+    "angleOfView": "FUJIFILM X Mount: 83.2°",
+    "apertureBladeCount": 9,
+    "imageUrl": "/lenses/sigma-16mm-f14-dc-dn-contemporary-xf.webp",
+    "filterMm": 67,
+    "lensConfiguration": {
+      "groups": 13,
+      "elements": 16,
+      "sourceText": "16 elements in 13 groups"
+    },
+    "officialLinks": {
+      "global": "https://www.sigma-global.com/en/lenses/c017_16_14/"
+    }
+  },
+  {
+    "id": "sigma-17-40mm-f18-dc-art-xf",
+    "brand": "sigma",
+    "series": "Art",
+    "model": "17-40mm F1.8 DC | Art",
+    "focalLengthMin": 17,
+    "focalLengthMax": 40,
+    "maxAperture": 1.8,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": true,
+    "apertureRing": true,
+    "weightG": 530,
+    "diameterMm": 72.9,
+    "lengthMm": 118.2,
+    "minFocusDistanceCm": 28,
+    "maxMagnification": 0.221,
+    "angleOfView": "FUJIFILM X Mount: 79.7-39.1°",
+    "apertureBladeCount": 9,
+    "imageUrl": "/lenses/sigma-17-40mm-f18-dc-art-xf.webp",
+    "filterMm": 67,
+    "officialLinks": {
+      "global": "https://www.sigma-global.com/en/lenses/a025_17_40_18/"
+    }
+  },
+  {
+    "id": "sigma-18-50mm-f28-dc-dn-contemporary-xf",
+    "brand": "sigma",
+    "series": "Contemporary",
+    "model": "18-50mm F2.8 DC DN | Contemporary",
+    "focalLengthMin": 18,
+    "focalLengthMax": 50,
+    "maxAperture": 2.8,
+    "minAperture": 22,
+    "af": true,
+    "ois": false,
+    "wr": false,
+    "apertureRing": false,
+    "weightG": 285,
+    "diameterMm": 61.6,
+    "lengthMm": 76.8,
+    "minFocusDistanceCm": 12.1,
+    "maxMagnification": 0.357,
+    "angleOfView": "FUJIFILM X Mount: 76.5° (W) - 31.7° (T)",
+    "apertureBladeCount": 7,
+    "imageUrl": "/lenses/sigma-18-50mm-f28-dc-dn-contemporary-xf.webp",
+    "filterMm": 55,
+    "lensConfiguration": {
+      "groups": 10,
+      "elements": 13,
+      "aspherical": 3,
+      "otherNotes": "1 SLD",
+      "sourceText": "10 groups, 13 elements (1 SLD and 3 aspherical lenses)"
+    },
+    "officialLinks": {
+      "global": "https://www.sigma-global.com/en/lenses/c021_18_50_28/"
+    }
+  },
+  {
+    "id": "sigma-23mm-f14-dc-dn-contemporary-xf",
+    "brand": "sigma",
+    "series": "Contemporary",
+    "model": "23mm F1.4 DC DN | Contemporary",
+    "focalLengthMin": 23,
+    "focalLengthMax": 23,
+    "maxAperture": 1.4,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": false,
+    "apertureRing": false,
+    "weightG": 335,
+    "diameterMm": 65.8,
+    "lengthMm": 79.2,
+    "minFocusDistanceCm": 25,
+    "maxMagnification": 0.137,
+    "angleOfView": "63.4°",
+    "apertureBladeCount": 9,
+    "imageUrl": "/lenses/sigma-23mm-f14-dc-dn-contemporary-xf.webp",
+    "filterMm": 52,
+    "lensConfiguration": {
+      "groups": 10,
+      "elements": 13,
+      "aspherical": 2,
+      "otherNotes": "3 SLD",
+      "sourceText": "13 elements in 10 groups (3 SLD and 2 aspherical elements)"
+    },
+    "officialLinks": {
+      "global": "https://www.sigma-global.com/en/lenses/c023_23_14/"
+    }
+  },
+  {
+    "id": "sigma-30mm-f14-dc-dn-contemporary-xf",
+    "brand": "sigma",
+    "series": "Contemporary",
+    "model": "30mm F1.4 DC DN | Contemporary",
+    "focalLengthMin": 30,
+    "focalLengthMax": 30,
+    "maxAperture": 1.4,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": false,
+    "apertureRing": false,
+    "weightG": 275,
+    "diameterMm": 64.8,
+    "lengthMm": 73.6,
+    "minFocusDistanceCm": 30,
+    "maxMagnification": 0.143,
+    "angleOfView": "FUJIFILM X Mount: 50.7°",
+    "apertureBladeCount": 9,
+    "imageUrl": "/lenses/sigma-30mm-f14-dc-dn-contemporary-xf.webp",
+    "filterMm": 52,
+    "lensConfiguration": {
+      "groups": 7,
+      "elements": 9,
+      "sourceText": "9 elements in 7 groups"
+    },
+    "officialLinks": {
+      "global": "https://www.sigma-global.com/en/lenses/c016_30_14/"
+    }
+  },
+  {
+    "id": "sigma-56mm-f14-dc-dn-contemporary-xf",
+    "brand": "sigma",
+    "series": "Contemporary",
+    "model": "56mm F1.4 DC DN | Contemporary",
+    "focalLengthMin": 56,
+    "focalLengthMax": 56,
+    "maxAperture": 1.4,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": false,
+    "apertureRing": false,
+    "weightG": 280,
+    "diameterMm": 66.5,
+    "lengthMm": 59.8,
+    "minFocusDistanceCm": 50,
+    "maxMagnification": 0.135,
+    "angleOfView": "FUJIFILM X Mount: 28.5°",
+    "apertureBladeCount": 9,
+    "imageUrl": "/lenses/sigma-56mm-f14-dc-dn-contemporary-xf.webp",
+    "filterMm": 55,
+    "lensConfiguration": {
+      "groups": 6,
+      "elements": 10,
+      "sourceText": "10 elements in 6 groups"
+    },
+    "officialLinks": {
+      "global": "https://www.sigma-global.com/en/lenses/c018_56_14/"
+    }
+  },
+  {
+    "id": "sigma-100-400mm-f5-63dg-dn-os-contemporary-xf",
+    "brand": "sigma",
+    "series": "Contemporary",
+    "model": "100-400mm F5-6.3 DG DN OS | Contemporary",
+    "focalLengthMin": 100,
+    "focalLengthMax": 400,
+    "maxAperture": 5,
+    "minAperture": 22,
+    "af": true,
+    "ois": true,
+    "wr": false,
+    "apertureRing": false,
+    "weightG": 1135,
+    "diameterMm": 86,
+    "lengthMm": 199.5,
+    "minFocusDistanceCm": 112,
+    "maxMagnification": 0.24,
+    "angleOfView": "APS-C: 16.2°(W)-4.1°(T)",
+    "apertureBladeCount": 9,
+    "imageUrl": "/lenses/sigma-100-400mm-f5-63dg-dn-os-contemporary-xf.webp",
+    "filterMm": 67,
+    "lensConfiguration": {
+      "groups": 16,
+      "elements": 22,
+      "sourceText": "22 elements in 16 groups"
+    },
+    "officialLinks": {
+      "global": "https://www.sigma-global.com/en/lenses/c020_100_400_5_63/"
+    }
+  },
+  {
+    "id": "tamron-150-500mm-f5-67-di-iii-vc-vxd-xf",
+    "brand": "tamron",
+    "series": "Di III",
+    "model": "150-500mm F/5-6.7 Di III VC VXD X",
+    "focalLengthMin": 150,
+    "focalLengthMax": 500,
+    "maxAperture": 5,
+    "minAperture": 22,
+    "af": true,
+    "ois": true,
+    "wr": false,
+    "apertureRing": false,
+    "weightG": 1710,
+    "diameterMm": 93,
+    "lengthMm": 209.9,
+    "minFocusDistanceCm": 60,
+    "maxMagnification": 0.32,
+    "angleOfView": "10°59′- 3°18′ (for APS-C)",
+    "apertureBladeCount": 7,
+    "releaseYear": 2022,
+    "imageUrl": "/lenses/tamron-150-500mm-f5-67-di-iii-vc-vxd-xf.webp",
+    "filterMm": 82,
+    "lensConfiguration": {
+      "groups": 16,
+      "elements": 25,
+      "otherNotes": "1 XLD, 5 LD, 2 hybrid aspherical",
+      "sourceText": "25 elements in 16 groups"
+    },
+    "officialLinks": {
+      "global": "https://www.tamron.com/global/consumer/lenses/a057x/spec.html"
+    }
+  }
+]
