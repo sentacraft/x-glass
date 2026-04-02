@@ -51,7 +51,7 @@ x-glass/
 
 | 资源 | 路径 | 说明 |
 |------|------|------|
-| Data Pipeline | `../x-glass-pipeline/` | 私有 repo。Stage 1（Agent 采集规格）+ Stage 2（图像处理脚本）。架构见该 repo 的 `CLAUDE.md`。 |
+| Data Pipeline | `../x-glass-pipeline/` | 私有 repo。Stage 0（脚本发现镜头）+ Stage 1（Agent 采集规格与主图）+ Stage 2（Agent 推导结构化字段 + 图像处理）+ Review（人工审阅与发布）。架构见该 repo 的 `CLAUDE.md`。 |
 | 产品文档 | `/Users/ericzhang/Library/Mobile Documents/iCloud~md~obsidian/Documents/SentaForge/Geek & Creativity/Projects/X-Glass/` | Obsidian vault，产品设计、定义、调研笔记 |
 
 ## 工作流规范
