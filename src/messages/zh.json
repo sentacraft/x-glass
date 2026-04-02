@@ -95,6 +95,16 @@
     "officialSite": "官网",
     "notFound": "未找到该镜头。"
   },
+  "Brands": {
+    "7artisans": "七工匠",
+    "brightin_star": "星耀光学",
+    "fujifilm": "富士",
+    "sgimage": "深光影像",
+    "sigma": "适马",
+    "tamron": "腾龙",
+    "ttartisan": "铭匠光学",
+    "viltrox": "唯卓仕"
+  },
   "Compare": {
     "title": "对比",
     "backToLenses": "返回列表",

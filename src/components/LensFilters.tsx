@@ -32,6 +32,7 @@ export default function LensFilters({
   onFiltersChange,
 }: Props) {
   const t = useTranslations("LensList");
+  const tBrand = useTranslations("Brands");
   const [advancedOpen, setAdvancedOpen] = useState(false);
   const featureMeta = {
     af: {
@@ -84,7 +85,7 @@ export default function LensFilters({
                     )
                   }
                 >
-                  {b}
+                  {tBrand(b)}
                 </Button>
               );
             })}

@@ -37,6 +37,7 @@ export default async function LensDetailPage({ params }: { params: Params }) {
   }
 
   const t = await getTranslations("LensDetail");
+  const tBrand = await getTranslations("Brands");
   const url = getLensUrl(lens);
   const unknown = t("unknown");
 
@@ -131,7 +132,7 @@ export default async function LensDetailPage({ params }: { params: Params }) {
           {/* Title */}
           <div>
             <p className="text-sm text-zinc-500 dark:text-zinc-400">
-              {lens.brand}
+              {tBrand(lens.brand)}
               {lens.series ? ` · ${lens.series}` : ""}
             </p>
             <h1 className="text-2xl font-bold text-zinc-900 dark:text-zinc-50 mt-1">

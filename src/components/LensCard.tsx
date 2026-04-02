@@ -23,6 +23,7 @@ export default function LensCard({
   onToggle,
 }: Props) {
   const t = useTranslations("LensList");
+  const tBrand = useTranslations("Brands");
   const equivDisplay = fmt.equivDisplay(lens);
   const badges = [
     lens.af
@@ -93,7 +94,7 @@ export default function LensCard({
           <div className="flex flex-col gap-1">
             <div className="flex items-center justify-between gap-3 text-[11px] uppercase tracking-[0.14em] text-zinc-500 dark:text-zinc-400">
               <p className="truncate">
-                {lens.brand}
+                {tBrand(lens.brand)}
                 {lens.series ? ` · ${lens.series}` : ""}
               </p>
               <span className="shrink-0">{lens.releaseYear}</span>

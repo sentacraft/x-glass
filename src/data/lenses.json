@@ -1,7 +1,7 @@
 [
   {
     "id": "7artisans-25mmf18-mf-xf",
-    "brand": "7Artisans",
+    "brand": "7artisans",
     "series": "Manual",
     "model": "25mm F1.8",
     "focalLengthMin": 25,
@@ -31,7 +31,7 @@
   },
   {
     "id": "7artisans-af35mmf18-lite-xf",
-    "brand": "7Artisans",
+    "brand": "7artisans",
     "series": "LITE",
     "model": "AF 35mm F1.8",
     "focalLengthMin": 35,
@@ -60,7 +60,7 @@
   },
   {
     "id": "xf8-16mmf28-r-lm-wr",
-    "brand": "Fujifilm",
+    "brand": "fujifilm",
     "series": "XF",
     "model": "XF8-16mm F2.8 R LM WR",
     "focalLengthMin": 8,
@@ -92,7 +92,7 @@
   },
   {
     "id": "xf8mmf35-r-wr",
-    "brand": "Fujifilm",
+    "brand": "fujifilm",
     "series": "XF",
     "model": "XF8mmF3.5 R WR",
     "focalLengthMin": 8,
@@ -125,7 +125,7 @@
   },
   {
     "id": "xf10-24mmf4-r-ois-wr",
-    "brand": "Fujifilm",
+    "brand": "fujifilm",
     "series": "XF",
     "model": "XF10-24mm F4 R OIS WR",
     "focalLengthMin": 10,
@@ -158,7 +158,7 @@
   },
   {
     "id": "xf16-50mmf28-48-r-lm-wr",
-    "brand": "Fujifilm",
+    "brand": "fujifilm",
     "series": "XF",
     "model": "XF16-50mm F2.8-4.8 R LM WR",
     "focalLengthMin": 16,
@@ -190,7 +190,7 @@
   },
   {
     "id": "xf18mmf14-r-lm-wr",
-    "brand": "Fujifilm",
+    "brand": "fujifilm",
     "series": "XF",
     "model": "XF18mm F1.4 R LM WR",
     "focalLengthMin": 18,
@@ -223,7 +223,7 @@
   },
   {
     "id": "xf23mmf14-r-lm-wr",
-    "brand": "Fujifilm",
+    "brand": "fujifilm",
     "series": "XF",
     "model": "XF23mm F1.4 R LM WR",
     "focalLengthMin": 23,
@@ -256,7 +256,7 @@
   },
   {
     "id": "xf23mmf2-r-wr",
-    "brand": "Fujifilm",
+    "brand": "fujifilm",
     "series": "XF",
     "model": "XF23mm F2 R WR",
     "focalLengthMin": 23,
@@ -288,7 +288,7 @@
   },
   {
     "id": "xf27mmf28-r-wr",
-    "brand": "Fujifilm",
+    "brand": "fujifilm",
     "series": "XF",
     "model": "XF27mm F2.8 R WR",
     "focalLengthMin": 27,
@@ -320,7 +320,7 @@
   },
   {
     "id": "xf30mmf28-r-lm-wr-macro",
-    "brand": "Fujifilm",
+    "brand": "fujifilm",
     "series": "XF",
     "model": "XF30mm F2.8 R LM WR Macro",
     "focalLengthMin": 30,
@@ -353,7 +353,7 @@
   },
   {
     "id": "xf33mmf14-r-lm-wr",
-    "brand": "Fujifilm",
+    "brand": "fujifilm",
     "series": "XF",
     "model": "XF33mm F1.4 R LM WR",
     "focalLengthMin": 33,
@@ -386,7 +386,7 @@
   },
   {
     "id": "tamron-11-20mmf28-di-iii-a-rxd-b060-x",
-    "brand": "Tamron",
+    "brand": "tamron",
     "series": "Di III-A",
     "model": "11-20mm F/2.8 Di III-A RXD",
     "focalLengthMin": 11,
@@ -418,7 +418,7 @@
   },
   {
     "id": "tamron-17-70mmf28-di-iii-a-vc-rxd-b070-x",
-    "brand": "Tamron",
+    "brand": "tamron",
     "series": "Di III-A",
     "model": "17-70mm F/2.8 Di III-A VC RXD",
     "focalLengthMin": 17,
@@ -450,7 +450,7 @@
   },
   {
     "id": "ttartisan-af23mmf18-af-xf",
-    "brand": "TTArtisan",
+    "brand": "ttartisan",
     "series": "AF",
     "model": "AF 23mm F1.8 自动镜头",
     "focalLengthMin": 23,
@@ -477,7 +477,7 @@
   },
   {
     "id": "ttartisan-aps-c23mmf14-xf",
-    "brand": "TTArtisan",
+    "brand": "ttartisan",
     "series": "APS-C",
     "model": "APS-C 23mm F1.4 人文之眼",
     "focalLengthMin": 23,
@@ -505,7 +505,7 @@
   },
   {
     "id": "viltrox-af15mmf17-air-xf",
-    "brand": "Viltrox",
+    "brand": "viltrox",
     "series": "Air",
     "model": "AF 15mm F1.7 Air XF",
     "focalLengthMin": 15,
@@ -537,7 +537,7 @@
   },
   {
     "id": "viltrox-af56mmf12-pro-xf",
-    "brand": "Viltrox",
+    "brand": "viltrox",
     "series": "Pro",
     "model": "AF 56mm F1.2 Pro XF",
     "focalLengthMin": 56,

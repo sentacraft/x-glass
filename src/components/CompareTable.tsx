@@ -51,6 +51,7 @@ function LensHeaderContent({
   lens: Lens;
   officialSiteLabel: string;
 }) {
+  const tBrand = useTranslations("Brands");
   const url = getLensUrl(lens);
 
   return (
@@ -73,7 +74,7 @@ function LensHeaderContent({
       </div>
 
       <p className="text-xs font-normal text-zinc-500 dark:text-zinc-400 truncate">
-        {lens.brand}
+        {tBrand(lens.brand)}
         {lens.series ? ` · ${lens.series}` : ""}
       </p>
       <p className="font-semibold text-zinc-900 dark:text-zinc-50 truncate">
