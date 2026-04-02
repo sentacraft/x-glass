@@ -274,6 +274,6 @@ export interface Lens {
 }
 
 /**
- * Brand-grouped lens catalog stored in src/data/lenses.json.
+ * Flat lens catalog stored in src/data/lenses.json.
  */
-export type LensCatalog = Record<string, Lens[]>;
+export type LensCatalog = Lens[];

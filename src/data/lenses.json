@@ -1,577 +1,567 @@
-{
-  "7Artisans": [
-    {
-      "id": "7artisans-25mmf18-mf-xf",
-      "brand": "7Artisans",
-      "series": "Manual",
-      "model": "25mm F1.8",
-      "focalLengthMin": 25,
-      "focalLengthMax": 25,
-      "maxAperture": 1.8,
-      "minAperture": 16,
-      "af": false,
-      "ois": false,
-      "wr": false,
-      "apertureRing": true,
-      "weightG": 143,
-      "diameterMm": 51,
-      "lengthMm": 32,
-      "filterMm": 46,
-      "minFocusDistanceCm": 18,
-      "angleOfView": "68°",
-      "apertureBladeCount": 12,
-      "lensConfiguration": {
-        "groups": 5,
-        "elements": 7,
-        "sourceText": "7 elements in 5 groups"
-      },
-      "officialLinks": {
-        "cn": "https://www.7artisans.com/prod_view.aspx?id=402&nid=3&typeid=104"
-      },
-      "imageUrl": "/images/lenses/7artisans/7artisans-25mmf18-mf-xf.jpg"
+[
+  {
+    "id": "7artisans-25mmf18-mf-xf",
+    "brand": "7Artisans",
+    "series": "Manual",
+    "model": "25mm F1.8",
+    "focalLengthMin": 25,
+    "focalLengthMax": 25,
+    "maxAperture": 1.8,
+    "minAperture": 16,
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "weightG": 143,
+    "diameterMm": 51,
+    "lengthMm": 32,
+    "filterMm": 46,
+    "minFocusDistanceCm": 18,
+    "angleOfView": "68°",
+    "apertureBladeCount": 12,
+    "lensConfiguration": {
+      "groups": 5,
+      "elements": 7,
+      "sourceText": "7 elements in 5 groups"
     },
-    {
-      "id": "7artisans-af35mmf18-lite-xf",
-      "brand": "7Artisans",
-      "series": "LITE",
-      "model": "AF 35mm F1.8",
-      "focalLengthMin": 35,
-      "focalLengthMax": 35,
-      "maxAperture": 1.8,
-      "minAperture": 16,
-      "af": true,
-      "ois": false,
-      "wr": false,
-      "weightG": 181,
-      "diameterMm": 67,
-      "lengthMm": 51.9,
-      "filterMm": 52,
-      "minFocusDistanceCm": 35,
-      "angleOfView": "44°",
-      "apertureBladeCount": 9,
-      "lensConfiguration": {
-        "groups": 6,
-        "elements": 7,
-        "sourceText": "7 elements in 6 groups"
-      },
-      "officialLinks": {
-        "cn": "https://www.7artisans.com/prod_view.aspx?id=518&nid=3&typeid=126"
-      },
-      "imageUrl": "/images/lenses/7artisans/7artisans-af35mmf18-lite-xf.jpg"
+    "officialLinks": {
+      "cn": "https://www.7artisans.com/prod_view.aspx?id=402&nid=3&typeid=104"
+    },
+    "imageUrl": "/images/lenses/7artisans/7artisans-25mmf18-mf-xf.jpg"
+  },
+  {
+    "id": "7artisans-af35mmf18-lite-xf",
+    "brand": "7Artisans",
+    "series": "LITE",
+    "model": "AF 35mm F1.8",
+    "focalLengthMin": 35,
+    "focalLengthMax": 35,
+    "maxAperture": 1.8,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": false,
+    "weightG": 181,
+    "diameterMm": 67,
+    "lengthMm": 51.9,
+    "filterMm": 52,
+    "minFocusDistanceCm": 35,
+    "angleOfView": "44°",
+    "apertureBladeCount": 9,
+    "lensConfiguration": {
+      "groups": 6,
+      "elements": 7,
+      "sourceText": "7 elements in 6 groups"
+    },
+    "officialLinks": {
+      "cn": "https://www.7artisans.com/prod_view.aspx?id=518&nid=3&typeid=126"
+    },
+    "imageUrl": "/images/lenses/7artisans/7artisans-af35mmf18-lite-xf.jpg"
+  },
+  {
+    "id": "xf8-16mmf28-r-lm-wr",
+    "brand": "Fujifilm",
+    "series": "XF",
+    "model": "XF8-16mm F2.8 R LM WR",
+    "focalLengthMin": 8,
+    "focalLengthMax": 16,
+    "maxAperture": 2.8,
+    "minAperture": 22,
+    "af": true,
+    "ois": false,
+    "wr": true,
+    "apertureRing": true,
+    "weightG": 805,
+    "diameterMm": 88,
+    "lengthMm": 121.5,
+    "minFocusDistanceCm": 25,
+    "maxMagnification": 0.1,
+    "releaseYear": 2018,
+    "lensConfiguration": {
+      "groups": 13,
+      "elements": 20,
+      "aspherical": 4,
+      "ed": 3,
+      "superEd": 3,
+      "sourceText": "20 elements in 13 groups (includes 4 aspherical, 3 ED, 3 super ED elements)"
+    },
+    "imageUrl": "/images/lenses/fujifilm/xf8-16mmf28-r-lm-wr.jpg",
+    "officialLinks": {
+      "global": "https://www.fujifilm-x.com/global/products/lenses/xf8-16mmf28-r-lm-wr/"
     }
-  ],
-  "Fujifilm": [
-    {
-      "id": "xf8-16mmf28-r-lm-wr",
-      "brand": "Fujifilm",
-      "series": "XF",
-      "model": "XF8-16mm F2.8 R LM WR",
-      "focalLengthMin": 8,
-      "focalLengthMax": 16,
-      "maxAperture": 2.8,
-      "minAperture": 22,
-      "af": true,
-      "ois": false,
-      "wr": true,
-      "apertureRing": true,
-      "weightG": 805,
-      "diameterMm": 88,
-      "lengthMm": 121.5,
-      "minFocusDistanceCm": 25,
-      "maxMagnification": 0.1,
-      "releaseYear": 2018,
-      "lensConfiguration": {
-        "groups": 13,
-        "elements": 20,
-        "aspherical": 4,
-        "ed": 3,
-        "superEd": 3,
-        "sourceText": "20 elements in 13 groups (includes 4 aspherical, 3 ED, 3 super ED elements)"
-      },
-      "imageUrl": "/images/lenses/fujifilm/xf8-16mmf28-r-lm-wr.jpg",
-      "officialLinks": {
-        "global": "https://www.fujifilm-x.com/global/products/lenses/xf8-16mmf28-r-lm-wr/"
-      }
+  },
+  {
+    "id": "xf8mmf35-r-wr",
+    "brand": "Fujifilm",
+    "series": "XF",
+    "model": "XF8mmF3.5 R WR",
+    "focalLengthMin": 8,
+    "focalLengthMax": 8,
+    "maxAperture": 3.5,
+    "minAperture": 22,
+    "af": true,
+    "ois": false,
+    "wr": true,
+    "apertureRing": true,
+    "apertureBladeCount": 9,
+    "weightG": 215,
+    "diameterMm": 68,
+    "lengthMm": 52.8,
+    "minFocusDistanceCm": 18,
+    "maxMagnification": 0.07,
+    "releaseYear": 2023,
+    "filterMm": 62,
+    "lensConfiguration": {
+      "groups": 9,
+      "elements": 12,
+      "aspherical": 3,
+      "ed": 2,
+      "sourceText": "12 elements in 9 groups (includes 3 aspherical and 2 ED elements)"
     },
-    {
-      "id": "xf8mmf35-r-wr",
-      "brand": "Fujifilm",
-      "series": "XF",
-      "model": "XF8mmF3.5 R WR",
-      "focalLengthMin": 8,
-      "focalLengthMax": 8,
-      "maxAperture": 3.5,
-      "minAperture": 22,
-      "af": true,
-      "ois": false,
-      "wr": true,
-      "apertureRing": true,
-      "apertureBladeCount": 9,
-      "weightG": 215,
-      "diameterMm": 68,
-      "lengthMm": 52.8,
-      "minFocusDistanceCm": 18,
-      "maxMagnification": 0.07,
-      "releaseYear": 2023,
-      "filterMm": 62,
-      "lensConfiguration": {
-        "groups": 9,
-        "elements": 12,
-        "aspherical": 3,
-        "ed": 2,
-        "sourceText": "12 elements in 9 groups (includes 3 aspherical and 2 ED elements)"
-      },
-      "imageUrl": "/images/lenses/fujifilm/xf8mmf35-r-wr.jpg",
-      "officialLinks": {
-        "global": "https://www.fujifilm-x.com/global/products/lenses/xf8mmf35-r-wr/"
-      }
-    },
-    {
-      "id": "xf10-24mmf4-r-ois-wr",
-      "brand": "Fujifilm",
-      "series": "XF",
-      "model": "XF10-24mm F4 R OIS WR",
-      "focalLengthMin": 10,
-      "focalLengthMax": 24,
-      "maxAperture": 4,
-      "minAperture": 22,
-      "af": true,
-      "ois": true,
-      "wr": true,
-      "apertureRing": true,
-      "apertureBladeCount": 7,
-      "weightG": 385,
-      "filterMm": 72,
-      "diameterMm": 77.6,
-      "lengthMm": 87,
-      "minFocusDistanceCm": 24,
-      "maxMagnification": 0.16,
-      "releaseYear": 2020,
-      "lensConfiguration": {
-        "groups": 10,
-        "elements": 14,
-        "aspherical": 4,
-        "ed": 4,
-        "sourceText": "14 elements in 10 groups (includes 4 aspherical, 4 ED elements)"
-      },
-      "imageUrl": "/images/lenses/fujifilm/xf10-24mmf4-r-ois-wr.jpg",
-      "officialLinks": {
-        "global": "https://www.fujifilm-x.com/global/products/lenses/xf10-24mmf4-r-ois-wr/"
-      }
-    },
-    {
-      "id": "xf16-50mmf28-48-r-lm-wr",
-      "brand": "Fujifilm",
-      "series": "XF",
-      "model": "XF16-50mm F2.8-4.8 R LM WR",
-      "focalLengthMin": 16,
-      "focalLengthMax": 50,
-      "maxAperture": 2.8,
-      "minAperture": 22,
-      "af": true,
-      "ois": false,
-      "wr": true,
-      "apertureRing": true,
-      "weightG": 240,
-      "filterMm": 58,
-      "diameterMm": 65,
-      "lengthMm": 71.4,
-      "minFocusDistanceCm": 24,
-      "maxMagnification": 0.3,
-      "releaseYear": 2024,
-      "lensConfiguration": {
-        "groups": 9,
-        "elements": 11,
-        "aspherical": 3,
-        "ed": 3,
-        "sourceText": "11 elements in 9 groups (includes 3 aspherical and 3 ED elements)"
-      },
-      "imageUrl": "/images/lenses/fujifilm/xf16-50mmf28-48-r-lm-wr.jpg",
-      "officialLinks": {
-        "global": "https://www.fujifilm-x.com/global/products/lenses/xf16-50mmf28-48-r-lm-wr/"
-      }
-    },
-    {
-      "id": "xf18mmf14-r-lm-wr",
-      "brand": "Fujifilm",
-      "series": "XF",
-      "model": "XF18mm F1.4 R LM WR",
-      "focalLengthMin": 18,
-      "focalLengthMax": 18,
-      "maxAperture": 1.4,
-      "minAperture": 16,
-      "af": true,
-      "ois": false,
-      "wr": true,
-      "apertureRing": true,
-      "apertureBladeCount": 9,
-      "weightG": 370,
-      "diameterMm": 68.8,
-      "lengthMm": 75.6,
-      "filterMm": 62,
-      "minFocusDistanceCm": 20,
-      "maxMagnification": 0.15,
-      "releaseYear": 2021,
-      "lensConfiguration": {
-        "groups": 9,
-        "elements": 15,
-        "aspherical": 3,
-        "ed": 1,
-        "sourceText": "15 elements in 9 groups (includes 3 aspherical and 1 ED elements)"
-      },
-      "imageUrl": "/images/lenses/fujifilm/xf18mmf14-r-lm-wr.jpg",
-      "officialLinks": {
-        "global": "https://www.fujifilm-x.com/global/products/lenses/xf18mmf14-r-lm-wr/"
-      }
-    },
-    {
-      "id": "xf23mmf14-r-lm-wr",
-      "brand": "Fujifilm",
-      "series": "XF",
-      "model": "XF23mm F1.4 R LM WR",
-      "focalLengthMin": 23,
-      "focalLengthMax": 23,
-      "maxAperture": 1.4,
-      "minAperture": 16,
-      "af": true,
-      "ois": false,
-      "wr": true,
-      "apertureRing": true,
-      "apertureBladeCount": 9,
-      "weightG": 375,
-      "diameterMm": 67,
-      "lengthMm": 77.8,
-      "filterMm": 58,
-      "minFocusDistanceCm": 19,
-      "maxMagnification": 0.2,
-      "releaseYear": 2021,
-      "lensConfiguration": {
-        "groups": 10,
-        "elements": 15,
-        "aspherical": 2,
-        "ed": 3,
-        "sourceText": "15 elements in 10 groups (includes 2 aspherical and 3 ED elements)"
-      },
-      "imageUrl": "/images/lenses/fujifilm/xf23mmf14-r-lm-wr.jpg",
-      "officialLinks": {
-        "global": "https://www.fujifilm-x.com/global/products/lenses/xf23mmf14-r-lm-wr/"
-      }
-    },
-    {
-      "id": "xf23mmf2-r-wr",
-      "brand": "Fujifilm",
-      "series": "XF",
-      "model": "XF23mm F2 R WR",
-      "focalLengthMin": 23,
-      "focalLengthMax": 23,
-      "maxAperture": 2,
-      "minAperture": 16,
-      "af": true,
-      "ois": false,
-      "wr": true,
-      "apertureRing": true,
-      "apertureBladeCount": 9,
-      "weightG": 180,
-      "diameterMm": 60,
-      "lengthMm": 51.9,
-      "filterMm": 43,
-      "minFocusDistanceCm": 22,
-      "maxMagnification": 0.13,
-      "releaseYear": 2016,
-      "lensConfiguration": {
-        "groups": 6,
-        "elements": 10,
-        "aspherical": 2,
-        "sourceText": "10 elements 6 groups (includes 2 aspherical elements)"
-      },
-      "officialLinks": {
-        "global": "https://www.fujifilm-x.com/global/products/lenses/xf23mmf2-r-wr/"
-      },
-      "imageUrl": "/images/lenses/fujifilm/xf23mmf2-r-wr.jpg"
-    },
-    {
-      "id": "xf27mmf28-r-wr",
-      "brand": "Fujifilm",
-      "series": "XF",
-      "model": "XF27mm F2.8 R WR",
-      "focalLengthMin": 27,
-      "focalLengthMax": 27,
-      "maxAperture": 2.8,
-      "minAperture": 16,
-      "af": true,
-      "ois": false,
-      "wr": true,
-      "apertureRing": true,
-      "apertureBladeCount": 7,
-      "weightG": 84,
-      "diameterMm": 62,
-      "lengthMm": 23,
-      "filterMm": 39,
-      "minFocusDistanceCm": 34,
-      "maxMagnification": 0.1,
-      "releaseYear": 2021,
-      "lensConfiguration": {
-        "groups": 5,
-        "elements": 7,
-        "aspherical": 1,
-        "sourceText": "7 elements in 5 groups (includes 1 aspherical element)"
-      },
-      "officialLinks": {
-        "global": "https://www.fujifilm-x.com/global/products/lenses/xf27mmf28-r-wr/"
-      },
-      "imageUrl": "/images/lenses/fujifilm/xf27mmf28-r-wr.jpg"
-    },
-    {
-      "id": "xf30mmf28-r-lm-wr-macro",
-      "brand": "Fujifilm",
-      "series": "XF",
-      "model": "XF30mm F2.8 R LM WR Macro",
-      "focalLengthMin": 30,
-      "focalLengthMax": 30,
-      "maxAperture": 2.8,
-      "minAperture": 22,
-      "af": true,
-      "ois": false,
-      "wr": true,
-      "apertureRing": true,
-      "apertureBladeCount": 9,
-      "weightG": 195,
-      "diameterMm": 60,
-      "lengthMm": 69.5,
-      "filterMm": 43,
-      "minFocusDistanceCm": 10,
-      "maxMagnification": 1,
-      "releaseYear": 2022,
-      "lensConfiguration": {
-        "groups": 9,
-        "elements": 11,
-        "aspherical": 3,
-        "ed": 2,
-        "sourceText": "11 elements in 9 groups (includes 3 aspherical and 2 ED elements)"
-      },
-      "imageUrl": "/images/lenses/fujifilm/xf30mmf28-r-lm-wr-macro.jpg",
-      "officialLinks": {
-        "global": "https://www.fujifilm-x.com/global/products/lenses/xf30mmf28-r-lm-wr-macro/"
-      }
-    },
-    {
-      "id": "xf33mmf14-r-lm-wr",
-      "brand": "Fujifilm",
-      "series": "XF",
-      "model": "XF33mm F1.4 R LM WR",
-      "focalLengthMin": 33,
-      "focalLengthMax": 33,
-      "maxAperture": 1.4,
-      "minAperture": 16,
-      "af": true,
-      "ois": false,
-      "wr": true,
-      "apertureRing": true,
-      "apertureBladeCount": 9,
-      "weightG": 360,
-      "diameterMm": 67,
-      "lengthMm": 73.5,
-      "filterMm": 58,
-      "minFocusDistanceCm": 30,
-      "maxMagnification": 0.15,
-      "releaseYear": 2021,
-      "lensConfiguration": {
-        "groups": 10,
-        "elements": 15,
-        "aspherical": 2,
-        "ed": 3,
-        "sourceText": "15 elements in 10 groups (includes 2 aspherical and 3 ED elements)"
-      },
-      "imageUrl": "/images/lenses/fujifilm/xf33mmf14-r-lm-wr.jpg",
-      "officialLinks": {
-        "global": "https://www.fujifilm-x.com/global/products/lenses/xf33mmf14-r-lm-wr/"
-      }
+    "imageUrl": "/images/lenses/fujifilm/xf8mmf35-r-wr.jpg",
+    "officialLinks": {
+      "global": "https://www.fujifilm-x.com/global/products/lenses/xf8mmf35-r-wr/"
     }
-  ],
-  "Tamron": [
-    {
-      "id": "tamron-11-20mmf28-di-iii-a-rxd-b060-x",
-      "brand": "Tamron",
-      "series": "Di III-A",
-      "model": "11-20mm F/2.8 Di III-A RXD",
-      "focalLengthMin": 11,
-      "focalLengthMax": 20,
-      "maxAperture": 2.8,
-      "minAperture": 16,
-      "af": true,
-      "ois": false,
-      "wr": false,
-      "weightG": 335,
-      "filterMm": 67,
-      "diameterMm": 73,
-      "lengthMm": 86.5,
-      "minFocusDistanceCm": 15,
-      "maxMagnification": 0.25,
-      "releaseYear": 2023,
-      "lensConfiguration": {
-        "groups": 10,
-        "elements": 12,
-        "aspherical": 2,
-        "otherNotes": "Includes 2 LD and 1 XLD elements.",
-        "sourceText": "12 elements in 10 groups"
-      },
-      "apertureBladeCount": 7,
-      "officialLinks": {
-        "global": "https://www.tamron.com/global/consumer/lenses/b060/"
-      },
-      "imageUrl": "/images/lenses/tamron/tamron-11-20mmf28-di-iii-a-rxd-b060-x.jpg"
+  },
+  {
+    "id": "xf10-24mmf4-r-ois-wr",
+    "brand": "Fujifilm",
+    "series": "XF",
+    "model": "XF10-24mm F4 R OIS WR",
+    "focalLengthMin": 10,
+    "focalLengthMax": 24,
+    "maxAperture": 4,
+    "minAperture": 22,
+    "af": true,
+    "ois": true,
+    "wr": true,
+    "apertureRing": true,
+    "apertureBladeCount": 7,
+    "weightG": 385,
+    "filterMm": 72,
+    "diameterMm": 77.6,
+    "lengthMm": 87,
+    "minFocusDistanceCm": 24,
+    "maxMagnification": 0.16,
+    "releaseYear": 2020,
+    "lensConfiguration": {
+      "groups": 10,
+      "elements": 14,
+      "aspherical": 4,
+      "ed": 4,
+      "sourceText": "14 elements in 10 groups (includes 4 aspherical, 4 ED elements)"
     },
-    {
-      "id": "tamron-17-70mmf28-di-iii-a-vc-rxd-b070-x",
-      "brand": "Tamron",
-      "series": "Di III-A",
-      "model": "17-70mm F/2.8 Di III-A VC RXD",
-      "focalLengthMin": 17,
-      "focalLengthMax": 70,
-      "maxAperture": 2.8,
-      "minAperture": 22,
-      "af": true,
-      "ois": true,
-      "wr": true,
-      "weightG": 530,
-      "filterMm": 67,
-      "diameterMm": 74.6,
-      "lengthMm": 119.6,
-      "minFocusDistanceCm": 19,
-      "maxMagnification": 0.21,
-      "releaseYear": 2022,
-      "lensConfiguration": {
-        "groups": 12,
-        "elements": 16,
-        "aspherical": 3,
-        "otherNotes": "Includes 2 GM aspherical elements and 1 aspherical hybrid lens element.",
-        "sourceText": "16 elements in 12 groups"
-      },
-      "apertureBladeCount": 9,
-      "officialLinks": {
-        "global": "https://www.tamron.com/global/consumer/lenses/b070/"
-      },
-      "imageUrl": "/images/lenses/tamron/tamron-17-70mmf28-di-iii-a-vc-rxd-b070-x.jpg"
+    "imageUrl": "/images/lenses/fujifilm/xf10-24mmf4-r-ois-wr.jpg",
+    "officialLinks": {
+      "global": "https://www.fujifilm-x.com/global/products/lenses/xf10-24mmf4-r-ois-wr/"
     }
-  ],
-  "TTArtisan": [
-    {
-      "id": "ttartisan-af23mmf18-af-xf",
-      "brand": "TTArtisan",
-      "series": "AF",
-      "model": "AF 23mm F1.8 自动镜头",
-      "focalLengthMin": 23,
-      "focalLengthMax": 23,
-      "maxAperture": 1.8,
-      "minAperture": 16,
-      "af": true,
-      "ois": false,
-      "wr": false,
-      "weightG": 210,
-      "filterMm": 52,
-      "minFocusDistanceCm": 30,
-      "angleOfView": "62°",
-      "apertureBladeCount": 9,
-      "lensConfiguration": {
-        "groups": 9,
-        "elements": 11,
-        "sourceText": "9组11片"
-      },
-      "officialLinks": {
-        "cn": "https://cn.ttartisan.com/?AFlens/AF23-19.html"
-      },
-      "imageUrl": "/images/lenses/ttartisan/ttartisan-af23mmf18-af-xf.webp"
+  },
+  {
+    "id": "xf16-50mmf28-48-r-lm-wr",
+    "brand": "Fujifilm",
+    "series": "XF",
+    "model": "XF16-50mm F2.8-4.8 R LM WR",
+    "focalLengthMin": 16,
+    "focalLengthMax": 50,
+    "maxAperture": 2.8,
+    "minAperture": 22,
+    "af": true,
+    "ois": false,
+    "wr": true,
+    "apertureRing": true,
+    "weightG": 240,
+    "filterMm": 58,
+    "diameterMm": 65,
+    "lengthMm": 71.4,
+    "minFocusDistanceCm": 24,
+    "maxMagnification": 0.3,
+    "releaseYear": 2024,
+    "lensConfiguration": {
+      "groups": 9,
+      "elements": 11,
+      "aspherical": 3,
+      "ed": 3,
+      "sourceText": "11 elements in 9 groups (includes 3 aspherical and 3 ED elements)"
     },
-    {
-      "id": "ttartisan-aps-c23mmf14-xf",
-      "brand": "TTArtisan",
-      "series": "APS-C",
-      "model": "APS-C 23mm F1.4 人文之眼",
-      "focalLengthMin": 23,
-      "focalLengthMax": 23,
-      "maxAperture": 1.4,
-      "minAperture": 16,
-      "af": false,
-      "ois": false,
-      "wr": false,
-      "filterMm": 43,
-      "minFocusDistanceCm": 20,
-      "angleOfView": "62°",
-      "apertureBladeCount": 10,
-      "lensConfiguration": {
-        "groups": 6,
-        "elements": 8,
-        "ed": 1,
-        "otherNotes": "Includes 3 high-refractive elements.",
-        "sourceText": "6组8片，加入了一片低色散镜片和3片高折射镜片"
-      },
-      "officialLinks": {
-        "cn": "https://cn.ttartisan.com/?list-10/APS-C23.html"
-      },
-      "imageUrl": "/images/lenses/ttartisan/ttartisan-aps-c23mmf14-xf.webp"
+    "imageUrl": "/images/lenses/fujifilm/xf16-50mmf28-48-r-lm-wr.jpg",
+    "officialLinks": {
+      "global": "https://www.fujifilm-x.com/global/products/lenses/xf16-50mmf28-48-r-lm-wr/"
     }
-  ],
-  "Viltrox": [
-    {
-      "id": "viltrox-af15mmf17-air-xf",
-      "brand": "Viltrox",
-      "series": "Air",
-      "model": "AF 15mm F1.7 Air XF",
-      "focalLengthMin": 15,
-      "focalLengthMax": 15,
-      "maxAperture": 1.7,
-      "minAperture": 16,
-      "af": true,
-      "ois": false,
-      "wr": false,
-      "weightG": 180,
-      "diameterMm": 65,
-      "lengthMm": 56.7,
-      "filterMm": 58,
-      "minFocusDistanceCm": 23,
-      "maxMagnification": 0.1,
-      "apertureBladeCount": 9,
-      "lensConfiguration": {
-        "groups": 10,
-        "elements": 12,
-        "aspherical": 2,
-        "ed": 3,
-        "otherNotes": "Includes 3 HR elements.",
-        "sourceText": "12 elements in 10 groups (includes 3 ED elements, 3 HR elements, and 2 aspherical elements)"
-      },
-      "officialLinks": {
-        "cn": "https://www.viltrox.com.cn/productinfo/6118527.html"
-      },
-      "imageUrl": "/images/lenses/viltrox/viltrox-af15mmf17-air-xf.jpg"
+  },
+  {
+    "id": "xf18mmf14-r-lm-wr",
+    "brand": "Fujifilm",
+    "series": "XF",
+    "model": "XF18mm F1.4 R LM WR",
+    "focalLengthMin": 18,
+    "focalLengthMax": 18,
+    "maxAperture": 1.4,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": true,
+    "apertureRing": true,
+    "apertureBladeCount": 9,
+    "weightG": 370,
+    "diameterMm": 68.8,
+    "lengthMm": 75.6,
+    "filterMm": 62,
+    "minFocusDistanceCm": 20,
+    "maxMagnification": 0.15,
+    "releaseYear": 2021,
+    "lensConfiguration": {
+      "groups": 9,
+      "elements": 15,
+      "aspherical": 3,
+      "ed": 1,
+      "sourceText": "15 elements in 9 groups (includes 3 aspherical and 1 ED elements)"
     },
-    {
-      "id": "viltrox-af56mmf12-pro-xf",
-      "brand": "Viltrox",
-      "series": "Pro",
-      "model": "AF 56mm F1.2 Pro XF",
-      "focalLengthMin": 56,
-      "focalLengthMax": 56,
-      "maxAperture": 1.2,
-      "minAperture": 16,
-      "af": true,
-      "ois": false,
-      "wr": true,
-      "apertureRing": true,
-      "weightG": 575,
-      "diameterMm": 78.1,
-      "lengthMm": 92,
-      "filterMm": 67,
-      "minFocusDistanceCm": 50,
-      "maxMagnification": 0.13,
-      "lensConfiguration": {
-        "groups": 8,
-        "elements": 13,
-        "sourceText": "13 elements in 8 groups"
-      },
-      "officialLinks": {
-        "cn": "https://www.viltrox.com.cn/productinfo/5934940.html"
-      },
-      "imageUrl": "/images/lenses/viltrox/viltrox-af56mmf12-pro-xf.jpg"
+    "imageUrl": "/images/lenses/fujifilm/xf18mmf14-r-lm-wr.jpg",
+    "officialLinks": {
+      "global": "https://www.fujifilm-x.com/global/products/lenses/xf18mmf14-r-lm-wr/"
     }
-  ]
-}
+  },
+  {
+    "id": "xf23mmf14-r-lm-wr",
+    "brand": "Fujifilm",
+    "series": "XF",
+    "model": "XF23mm F1.4 R LM WR",
+    "focalLengthMin": 23,
+    "focalLengthMax": 23,
+    "maxAperture": 1.4,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": true,
+    "apertureRing": true,
+    "apertureBladeCount": 9,
+    "weightG": 375,
+    "diameterMm": 67,
+    "lengthMm": 77.8,
+    "filterMm": 58,
+    "minFocusDistanceCm": 19,
+    "maxMagnification": 0.2,
+    "releaseYear": 2021,
+    "lensConfiguration": {
+      "groups": 10,
+      "elements": 15,
+      "aspherical": 2,
+      "ed": 3,
+      "sourceText": "15 elements in 10 groups (includes 2 aspherical and 3 ED elements)"
+    },
+    "imageUrl": "/images/lenses/fujifilm/xf23mmf14-r-lm-wr.jpg",
+    "officialLinks": {
+      "global": "https://www.fujifilm-x.com/global/products/lenses/xf23mmf14-r-lm-wr/"
+    }
+  },
+  {
+    "id": "xf23mmf2-r-wr",
+    "brand": "Fujifilm",
+    "series": "XF",
+    "model": "XF23mm F2 R WR",
+    "focalLengthMin": 23,
+    "focalLengthMax": 23,
+    "maxAperture": 2,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": true,
+    "apertureRing": true,
+    "apertureBladeCount": 9,
+    "weightG": 180,
+    "diameterMm": 60,
+    "lengthMm": 51.9,
+    "filterMm": 43,
+    "minFocusDistanceCm": 22,
+    "maxMagnification": 0.13,
+    "releaseYear": 2016,
+    "lensConfiguration": {
+      "groups": 6,
+      "elements": 10,
+      "aspherical": 2,
+      "sourceText": "10 elements 6 groups (includes 2 aspherical elements)"
+    },
+    "officialLinks": {
+      "global": "https://www.fujifilm-x.com/global/products/lenses/xf23mmf2-r-wr/"
+    },
+    "imageUrl": "/images/lenses/fujifilm/xf23mmf2-r-wr.jpg"
+  },
+  {
+    "id": "xf27mmf28-r-wr",
+    "brand": "Fujifilm",
+    "series": "XF",
+    "model": "XF27mm F2.8 R WR",
+    "focalLengthMin": 27,
+    "focalLengthMax": 27,
+    "maxAperture": 2.8,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": true,
+    "apertureRing": true,
+    "apertureBladeCount": 7,
+    "weightG": 84,
+    "diameterMm": 62,
+    "lengthMm": 23,
+    "filterMm": 39,
+    "minFocusDistanceCm": 34,
+    "maxMagnification": 0.1,
+    "releaseYear": 2021,
+    "lensConfiguration": {
+      "groups": 5,
+      "elements": 7,
+      "aspherical": 1,
+      "sourceText": "7 elements in 5 groups (includes 1 aspherical element)"
+    },
+    "officialLinks": {
+      "global": "https://www.fujifilm-x.com/global/products/lenses/xf27mmf28-r-wr/"
+    },
+    "imageUrl": "/images/lenses/fujifilm/xf27mmf28-r-wr.jpg"
+  },
+  {
+    "id": "xf30mmf28-r-lm-wr-macro",
+    "brand": "Fujifilm",
+    "series": "XF",
+    "model": "XF30mm F2.8 R LM WR Macro",
+    "focalLengthMin": 30,
+    "focalLengthMax": 30,
+    "maxAperture": 2.8,
+    "minAperture": 22,
+    "af": true,
+    "ois": false,
+    "wr": true,
+    "apertureRing": true,
+    "apertureBladeCount": 9,
+    "weightG": 195,
+    "diameterMm": 60,
+    "lengthMm": 69.5,
+    "filterMm": 43,
+    "minFocusDistanceCm": 10,
+    "maxMagnification": 1,
+    "releaseYear": 2022,
+    "lensConfiguration": {
+      "groups": 9,
+      "elements": 11,
+      "aspherical": 3,
+      "ed": 2,
+      "sourceText": "11 elements in 9 groups (includes 3 aspherical and 2 ED elements)"
+    },
+    "imageUrl": "/images/lenses/fujifilm/xf30mmf28-r-lm-wr-macro.jpg",
+    "officialLinks": {
+      "global": "https://www.fujifilm-x.com/global/products/lenses/xf30mmf28-r-lm-wr-macro/"
+    }
+  },
+  {
+    "id": "xf33mmf14-r-lm-wr",
+    "brand": "Fujifilm",
+    "series": "XF",
+    "model": "XF33mm F1.4 R LM WR",
+    "focalLengthMin": 33,
+    "focalLengthMax": 33,
+    "maxAperture": 1.4,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": true,
+    "apertureRing": true,
+    "apertureBladeCount": 9,
+    "weightG": 360,
+    "diameterMm": 67,
+    "lengthMm": 73.5,
+    "filterMm": 58,
+    "minFocusDistanceCm": 30,
+    "maxMagnification": 0.15,
+    "releaseYear": 2021,
+    "lensConfiguration": {
+      "groups": 10,
+      "elements": 15,
+      "aspherical": 2,
+      "ed": 3,
+      "sourceText": "15 elements in 10 groups (includes 2 aspherical and 3 ED elements)"
+    },
+    "imageUrl": "/images/lenses/fujifilm/xf33mmf14-r-lm-wr.jpg",
+    "officialLinks": {
+      "global": "https://www.fujifilm-x.com/global/products/lenses/xf33mmf14-r-lm-wr/"
+    }
+  },
+  {
+    "id": "tamron-11-20mmf28-di-iii-a-rxd-b060-x",
+    "brand": "Tamron",
+    "series": "Di III-A",
+    "model": "11-20mm F/2.8 Di III-A RXD",
+    "focalLengthMin": 11,
+    "focalLengthMax": 20,
+    "maxAperture": 2.8,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": false,
+    "weightG": 335,
+    "filterMm": 67,
+    "diameterMm": 73,
+    "lengthMm": 86.5,
+    "minFocusDistanceCm": 15,
+    "maxMagnification": 0.25,
+    "releaseYear": 2023,
+    "lensConfiguration": {
+      "groups": 10,
+      "elements": 12,
+      "aspherical": 2,
+      "otherNotes": "Includes 2 LD and 1 XLD elements.",
+      "sourceText": "12 elements in 10 groups"
+    },
+    "apertureBladeCount": 7,
+    "officialLinks": {
+      "global": "https://www.tamron.com/global/consumer/lenses/b060/"
+    },
+    "imageUrl": "/images/lenses/tamron/tamron-11-20mmf28-di-iii-a-rxd-b060-x.jpg"
+  },
+  {
+    "id": "tamron-17-70mmf28-di-iii-a-vc-rxd-b070-x",
+    "brand": "Tamron",
+    "series": "Di III-A",
+    "model": "17-70mm F/2.8 Di III-A VC RXD",
+    "focalLengthMin": 17,
+    "focalLengthMax": 70,
+    "maxAperture": 2.8,
+    "minAperture": 22,
+    "af": true,
+    "ois": true,
+    "wr": true,
+    "weightG": 530,
+    "filterMm": 67,
+    "diameterMm": 74.6,
+    "lengthMm": 119.6,
+    "minFocusDistanceCm": 19,
+    "maxMagnification": 0.21,
+    "releaseYear": 2022,
+    "lensConfiguration": {
+      "groups": 12,
+      "elements": 16,
+      "aspherical": 3,
+      "otherNotes": "Includes 2 GM aspherical elements and 1 aspherical hybrid lens element.",
+      "sourceText": "16 elements in 12 groups"
+    },
+    "apertureBladeCount": 9,
+    "officialLinks": {
+      "global": "https://www.tamron.com/global/consumer/lenses/b070/"
+    },
+    "imageUrl": "/images/lenses/tamron/tamron-17-70mmf28-di-iii-a-vc-rxd-b070-x.jpg"
+  },
+  {
+    "id": "ttartisan-af23mmf18-af-xf",
+    "brand": "TTArtisan",
+    "series": "AF",
+    "model": "AF 23mm F1.8 自动镜头",
+    "focalLengthMin": 23,
+    "focalLengthMax": 23,
+    "maxAperture": 1.8,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": false,
+    "weightG": 210,
+    "filterMm": 52,
+    "minFocusDistanceCm": 30,
+    "angleOfView": "62°",
+    "apertureBladeCount": 9,
+    "lensConfiguration": {
+      "groups": 9,
+      "elements": 11,
+      "sourceText": "9组11片"
+    },
+    "officialLinks": {
+      "cn": "https://cn.ttartisan.com/?AFlens/AF23-19.html"
+    },
+    "imageUrl": "/images/lenses/ttartisan/ttartisan-af23mmf18-af-xf.webp"
+  },
+  {
+    "id": "ttartisan-aps-c23mmf14-xf",
+    "brand": "TTArtisan",
+    "series": "APS-C",
+    "model": "APS-C 23mm F1.4 人文之眼",
+    "focalLengthMin": 23,
+    "focalLengthMax": 23,
+    "maxAperture": 1.4,
+    "minAperture": 16,
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "filterMm": 43,
+    "minFocusDistanceCm": 20,
+    "angleOfView": "62°",
+    "apertureBladeCount": 10,
+    "lensConfiguration": {
+      "groups": 6,
+      "elements": 8,
+      "ed": 1,
+      "otherNotes": "Includes 3 high-refractive elements.",
+      "sourceText": "6组8片，加入了一片低色散镜片和3片高折射镜片"
+    },
+    "officialLinks": {
+      "cn": "https://cn.ttartisan.com/?list-10/APS-C23.html"
+    },
+    "imageUrl": "/images/lenses/ttartisan/ttartisan-aps-c23mmf14-xf.webp"
+  },
+  {
+    "id": "viltrox-af15mmf17-air-xf",
+    "brand": "Viltrox",
+    "series": "Air",
+    "model": "AF 15mm F1.7 Air XF",
+    "focalLengthMin": 15,
+    "focalLengthMax": 15,
+    "maxAperture": 1.7,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": false,
+    "weightG": 180,
+    "diameterMm": 65,
+    "lengthMm": 56.7,
+    "filterMm": 58,
+    "minFocusDistanceCm": 23,
+    "maxMagnification": 0.1,
+    "apertureBladeCount": 9,
+    "lensConfiguration": {
+      "groups": 10,
+      "elements": 12,
+      "aspherical": 2,
+      "ed": 3,
+      "otherNotes": "Includes 3 HR elements.",
+      "sourceText": "12 elements in 10 groups (includes 3 ED elements, 3 HR elements, and 2 aspherical elements)"
+    },
+    "officialLinks": {
+      "cn": "https://www.viltrox.com.cn/productinfo/6118527.html"
+    },
+    "imageUrl": "/images/lenses/viltrox/viltrox-af15mmf17-air-xf.jpg"
+  },
+  {
+    "id": "viltrox-af56mmf12-pro-xf",
+    "brand": "Viltrox",
+    "series": "Pro",
+    "model": "AF 56mm F1.2 Pro XF",
+    "focalLengthMin": 56,
+    "focalLengthMax": 56,
+    "maxAperture": 1.2,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": true,
+    "apertureRing": true,
+    "weightG": 575,
+    "diameterMm": 78.1,
+    "lengthMm": 92,
+    "filterMm": 67,
+    "minFocusDistanceCm": 50,
+    "maxMagnification": 0.13,
+    "lensConfiguration": {
+      "groups": 8,
+      "elements": 13,
+      "sourceText": "13 elements in 8 groups"
+    },
+    "officialLinks": {
+      "cn": "https://www.viltrox.com.cn/productinfo/5934940.html"
+    },
+    "imageUrl": "/images/lenses/viltrox/viltrox-af56mmf12-pro-xf.jpg"
+  }
+]
