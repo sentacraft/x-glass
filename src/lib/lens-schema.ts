@@ -207,16 +207,21 @@ export const lensCatalogSchema = z.array(lensSchema).superRefine((lenses, ctx) =
 
     const specTupleKey = [
       lens.brand,
+      lens.series ?? "<none>",
       lens.focalLengthMin,
       lens.focalLengthMax,
       lens.maxAperture,
+      lens.af ? "af" : "no-af",
+      lens.ois ? "ois" : "no-ois",
+      lens.wr ? "wr" : "no-wr",
+      lens.apertureRing ? "aperture-ring" : "no-aperture-ring",
       lens.generation ?? "<none>",
     ].join("|");
     const previousSpecTupleIndex = seenSpecTuples.get(specTupleKey);
     if (previousSpecTupleIndex !== undefined) {
       ctx.addIssue({
         code: "custom",
-        message: `Duplicate brand/spec/generation combination also appears at index ${previousSpecTupleIndex}`,
+        message: `Duplicate brand/spec/features/generation combination also appears at index ${previousSpecTupleIndex}`,
         path: [index, "focalLengthMin"],
       });
     } else {
