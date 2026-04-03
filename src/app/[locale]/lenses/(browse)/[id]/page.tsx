@@ -74,10 +74,6 @@ export default async function LensDetailPage({ params }: { params: Params }) {
 
   const advancedSpecs: SpecRow[] = [
     {
-      label: t("generation"),
-      value: fmt.optionalNumber(lens.generation, "", unknown),
-    },
-    {
       label: t("lengthVariants"),
       value: fmt.lengthVariantsDisplay(lens, unknown, {
         retracted: t("lengthRetracted"),
@@ -108,10 +104,10 @@ export default async function LensDetailPage({ params }: { params: Params }) {
       {/* Main content */}
       <div className="flex flex-col sm:flex-row gap-8">
         {/* Image */}
-        <div className="w-full sm:w-56 shrink-0">
-          <div className="aspect-square overflow-hidden flex items-center justify-center">
+        <div className="w-full shrink-0 sm:w-56">
+          <div className="flex aspect-square items-center justify-center overflow-hidden rounded-2xl border border-zinc-100 bg-zinc-50/70 p-5 dark:border-zinc-800 dark:bg-zinc-900/50">
             {lens.imageUrl ? (
-              <div className="relative h-full w-full overflow-hidden">
+              <div className="relative aspect-square w-full overflow-hidden">
                 <Image
                   src={lens.imageUrl}
                   alt={lens.model}
@@ -122,7 +118,7 @@ export default async function LensDetailPage({ params }: { params: Params }) {
                 />
               </div>
             ) : (
-              <LensPlaceholderIcon className="w-20 h-20 text-zinc-300 dark:text-zinc-600" />
+              <LensPlaceholderIcon className="h-20 w-20 text-zinc-300 dark:text-zinc-600" />
             )}
           </div>
         </div>
@@ -137,11 +133,6 @@ export default async function LensDetailPage({ params }: { params: Params }) {
             </p>
             <h1 className="text-2xl font-bold text-zinc-900 dark:text-zinc-50 mt-1">
               {lens.model}
-              {lens.generation !== undefined && (
-                <span className="ml-2 text-base font-normal text-zinc-400 dark:text-zinc-500">
-                  gen{lens.generation}
-                </span>
-              )}
             </h1>
           </div>
 

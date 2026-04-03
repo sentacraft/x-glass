@@ -63,7 +63,6 @@
   },
   "LensDetail": {
     "brand": "品牌",
-    "generation": "代数",
     "focalLength": "焦距",
     "focalLengthEquiv": "等效焦距",
     "maxAperture": "最大光圈",

@@ -69,9 +69,9 @@ export default function LensCard({
         href={`/lenses/${lens.id}`}
         className="flex-1 flex flex-col hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors"
       >
-        <div className="relative aspect-[5/4] overflow-hidden">
-          <div className="absolute inset-0 p-6">
-            <div className="relative h-full w-full overflow-hidden">
+        <div className="relative aspect-[5/4] overflow-hidden border-b border-zinc-100/80 bg-zinc-50/40 dark:border-zinc-800 dark:bg-zinc-900/40">
+          <div className="absolute inset-0 p-7 sm:p-8">
+            <div className="relative h-full w-full overflow-hidden rounded-xl">
               {lens.imageUrl ? (
                 <Image
                   src={lens.imageUrl}
@@ -82,7 +82,7 @@ export default function LensCard({
                   className="object-contain"
                 />
               ) : (
-                <div className="flex h-full items-center justify-center overflow-hidden">
+                <div className="flex h-full items-center justify-center overflow-hidden rounded-xl bg-white/80 dark:bg-zinc-950/70">
                   <LensPlaceholderIcon className="h-16 w-16 text-zinc-300 dark:text-zinc-600" />
                 </div>
               )}
@@ -101,15 +101,9 @@ export default function LensCard({
             </div>
             <h3
               className="font-semibold text-sm text-zinc-900 dark:text-zinc-50 leading-snug line-clamp-2 min-h-[2.5rem]"
-              title={`${lens.model}${lens.generation !== undefined ? ` gen${lens.generation}` : ""}`}
+              title={lens.model}
             >
               {lens.model}
-              {lens.generation !== undefined && (
-                <span className="font-normal text-zinc-400 dark:text-zinc-500">
-                  {" "}
-                  gen{lens.generation}
-                </span>
-              )}
             </h3>
           </div>
 

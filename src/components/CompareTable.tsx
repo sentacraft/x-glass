@@ -56,9 +56,9 @@ function LensHeaderContent({
 
   return (
     <>
-      <div className="mb-3 w-full aspect-square max-w-[140px] overflow-hidden flex items-center justify-center">
+      <div className="mb-3 flex w-full max-w-[140px] items-center justify-center overflow-hidden rounded-xl bg-zinc-50/70 p-4 dark:bg-zinc-900/50">
         {lens.imageUrl ? (
-          <div className="relative h-full w-full overflow-hidden">
+          <div className="relative aspect-square w-full overflow-hidden">
             <Image
               src={lens.imageUrl}
               alt={lens.model}
@@ -69,7 +69,7 @@ function LensHeaderContent({
             />
           </div>
         ) : (
-          <LensPlaceholderIcon className="w-12 h-12 text-zinc-300 dark:text-zinc-600" />
+          <LensPlaceholderIcon className="h-12 w-12 text-zinc-300 dark:text-zinc-600" />
         )}
       </div>
 
@@ -80,11 +80,6 @@ function LensHeaderContent({
       <p className="font-semibold text-zinc-900 dark:text-zinc-50 truncate">
         {lens.model}
       </p>
-      {lens.generation !== undefined && (
-        <p className="text-xs font-normal text-zinc-400 dark:text-zinc-500">
-          gen{lens.generation}
-        </p>
-      )}
       {url && (
         <ExternalLink
           href={url}
@@ -332,12 +327,6 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
       kind: "section",
       label: td("advancedSpecs"),
       description: td("advancedSpecsNote"),
-    },
-    {
-      kind: "numeric",
-      label: td("generation"),
-      getValue: (l) => l.generation,
-      format: String,
     },
     {
       kind: "text",
