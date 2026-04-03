@@ -1682,5 +1682,34 @@
     "officialLinks": {
       "global": "https://www.tamron.com/global/consumer/lenses/a057x/spec.html"
     }
+  },
+  {
+    "id": "ttartisan-35mm-t21-dual-bokeh-xf",
+    "brand": "ttartisan",
+    "model": "35mm T2.1 Dual Bokeh",
+    "focalLengthMin": 35,
+    "focalLengthMax": 35,
+    "maxAperture": 2.1,
+    "minAperture": 22,
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "weightG": 669,
+    "diameterMm": 58,
+    "lengthMm": 81,
+    "minFocusDistanceCm": 28,
+    "angleOfView": "63°",
+    "apertureBladeCount": 11,
+    "imageUrl": "/lenses/ttartisan-35mm-t21-dual-bokeh-xf.webp",
+    "filterMm": 82,
+    "lensConfiguration": {
+      "groups": 7,
+      "elements": 10,
+      "sourceText": "7组10片"
+    },
+    "officialLinks": {
+      "cn": "https://cn.ttartisan.com/?Cine-Lens/35T21-6.html"
+    }
   }
 ]
