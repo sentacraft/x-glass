@@ -33,13 +33,9 @@ export function TestHookProvider({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();
-  // Always start with defaults so SSR and initial client render match.
-  // The effect below syncs from the URL after hydration.
-  const [state, setState] = useState<TestHookState>(getDefaultTestHookState);
-
-  useEffect(() => {
-    setState(parseTestHookState(new URLSearchParams(window.location.search)));
-  }, []);
+  const [state, setState] = useState<TestHookState>(() =>
+    parseTestHookState(searchParams)
+  );
 
   const pathnameRef = useRef(pathname);
   pathnameRef.current = pathname;
