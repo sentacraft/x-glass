@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import Image from "next/image";
 import { ExternalLink } from "@/components/ui/external-link";
 import { useTranslations } from "next-intl";
@@ -27,20 +27,20 @@ import { getLensUrl } from "@/lib/lens";
 import { lensImageStyle } from "@/lib/lens-image";
 import * as fmt from "@/lib/lens.format";
 import type { Lens } from "@/lib/types";
+import { BoolCell } from "@/components/ui/bool-cell";
 
 // --- Shared row type ---
 
 type Row =
-  | { kind: "text"; label: string; getValue: (l: Lens) => string }
+  | { kind: "text"; label: string; getDisplayValue: (l: Lens) => string | undefined }
   | {
       kind: "numeric";
       label: string;
-      getValue: (l: Lens) => number | undefined;
-      format: (v: number) => string;
+      getDisplayValue: (l: Lens) => string | undefined;
+      toComparable: (l: Lens) => number | undefined;
       bestDir?: "min" | "max";
     }
-  | { kind: "bool"; label: string; getValue: (l: Lens) => boolean | undefined }
-  | { kind: "section"; label: string; description: string };
+  | { kind: "bool"; label: string; getValue: (l: Lens) => boolean | undefined };
 
 // --- LensHeaderContent: shared between SortableLensHeader and ColumnOverlay ---
 
@@ -131,14 +131,51 @@ function SortableLensHeader({
 
 function ColumnOverlay({
   lens,
-  rows,
+  primaryRows,
+  advancedRows,
   officialSiteLabel,
 }: {
   lens: Lens;
-  rows: Row[];
+  primaryRows: Row[];
+  advancedRows: Row[];
   officialSiteLabel: string;
 }) {
   const td = useTranslations("LensDetail");
+
+  function renderRow(row: Row, i: number) {
+    let content: React.ReactNode;
+
+    if (row.kind === "bool") {
+      content = (
+        <BoolCell
+          value={row.getValue(lens)}
+          yes={td("yes")}
+          no={td("no")}
+          unknown={td("unknown")}
+        />
+      );
+    } else if (row.kind === "numeric") {
+      const val = row.getDisplayValue(lens);
+      content =
+        val === undefined ? (
+          td("unknown")
+        ) : (
+          <span className="font-medium tabular-nums">{val}</span>
+        );
+    } else {
+      content = row.getDisplayValue(lens) ?? td("unknown");
+    }
+
+    return (
+      <div
+        key={i}
+        className="px-4 py-3 text-sm text-zinc-700 dark:text-zinc-300 whitespace-pre-line border-b border-zinc-100 dark:border-zinc-800/60 last:border-0"
+      >
+        {content}
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-xl shadow-2xl overflow-hidden opacity-95 cursor-grabbing">
       {/* Header */}
@@ -149,64 +186,20 @@ function ColumnOverlay({
         <LensHeaderContent lens={lens} officialSiteLabel={officialSiteLabel} />
       </div>
 
-      {/* Spec rows */}
-      {rows.map((row, i) => {
-        let content: React.ReactNode;
+      {primaryRows.map(renderRow)}
 
-        if (row.kind === "section") {
-          return (
-            <div
-              key={i}
-              className="px-4 py-3 bg-amber-50/70 dark:bg-amber-950/20 border-b border-zinc-100 dark:border-zinc-800/60 last:border-0"
-            >
-              <div className="flex flex-col gap-1">
-                <span className="text-xs font-semibold uppercase tracking-wide text-amber-800 dark:text-amber-300">
-                  {row.label}
-                </span>
-                <span className="text-xs text-amber-700 dark:text-amber-200/80">
-                  {row.description}
-                </span>
-              </div>
-            </div>
-          );
-        }
+      <div className="px-4 py-3 bg-amber-50/70 dark:bg-amber-950/20 border-b border-zinc-100 dark:border-zinc-800/60">
+        <div className="flex flex-col gap-1">
+          <span className="text-xs font-semibold uppercase tracking-wide text-amber-800 dark:text-amber-300">
+            {td("advancedSpecs")}
+          </span>
+          <span className="text-xs text-amber-700 dark:text-amber-200/80">
+            {td("advancedSpecsNote")}
+          </span>
+        </div>
+      </div>
 
-        if (row.kind === "bool") {
-          const val = row.getValue(lens);
-          content =
-            val === undefined ? (
-              td("unknown")
-            ) : (
-              <>
-                <span
-                  className={`inline-block w-2 h-2 rounded-full mr-2 align-middle ${
-                    val ? "bg-green-500" : "bg-zinc-300 dark:bg-zinc-600"
-                  }`}
-                />
-                {val ? td("yes") : td("no")}
-              </>
-            );
-        } else if (row.kind === "numeric") {
-          const val = row.getValue(lens);
-          content =
-            val === undefined ? (
-              td("unknown")
-            ) : (
-              <span className="font-medium tabular-nums">{row.format(val)}</span>
-            );
-        } else {
-          content = row.getValue(lens);
-        }
-
-        return (
-          <div
-            key={i}
-            className="px-4 py-3 text-sm text-zinc-700 dark:text-zinc-300 whitespace-pre-line border-b border-zinc-100 dark:border-zinc-800/60 last:border-0"
-          >
-            {content}
-          </div>
-        );
-      })}
+      {advancedRows.map(renderRow)}
     </div>
   );
 }
@@ -264,22 +257,22 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
     router.replace(`/lenses/compare?ids=${orderedIdsRef.current.join(",")}`);
   }
 
-  const rows: Row[] = [
+  const primaryRows: Row[] = [
     {
       kind: "text",
       label: td("focalLength"),
-      getValue: (l) => fmt.focalDisplay(l),
+      getDisplayValue: (l) => fmt.focalRangeDisplay(l.focalLengthMin, l.focalLengthMax),
     },
     {
       kind: "text",
       label: td("focalLengthEquiv"),
-      getValue: (l) => fmt.equivDisplay(l),
+      getDisplayValue: (l) => fmt.focalRangeDisplay(fmt.focalEquiv(l.focalLengthMin), fmt.focalEquiv(l.focalLengthMax)),
     },
     {
       kind: "numeric",
       label: td("maxAperture"),
-      getValue: (l) => l.maxAperture,
-      format: (v) => `f/${v}`,
+      getDisplayValue: (l) => fmt.apertureDisplay(l.maxAperture),
+      toComparable: (l) => Array.isArray(l.maxAperture) ? l.maxAperture[0] : l.maxAperture,
       bestDir: "min",
     },
     { kind: "bool", label: td("af"), getValue: (l) => l.af },
@@ -289,50 +282,48 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
     {
       kind: "numeric",
       label: td("apertureBladeCount"),
-      getValue: (l) => l.apertureBladeCount,
-      format: String,
+      getDisplayValue: (l) => fmt.optionalNumber(l.apertureBladeCount, ""),
+      toComparable: (l) => l.apertureBladeCount,
     },
     {
       kind: "numeric",
       label: td("weight"),
-      getValue: (l) => l.weightG,
-      format: (v) => `${v}g`,
+      getDisplayValue: (l) => fmt.optionalNumber(l.weightG, "g"),
+      toComparable: (l) => l.weightG,
       bestDir: "min",
     },
     {
       kind: "text",
       label: td("dimensions"),
-      getValue: (l) => fmt.dimensionsDisplay(l),
+      getDisplayValue: (l) => fmt.dimensionsDisplay(l.diameterMm, l.lengthMm),
     },
     {
       kind: "text",
       label: td("filterSize"),
-      getValue: (l) => fmt.filterSizeDisplay(l, td("unknown"), "N/A"),
+      getDisplayValue: (l) => fmt.filterSizeDisplay(l.filterMm),
     },
     {
       kind: "numeric",
       label: td("minFocusDist"),
-      getValue: (l) => l.minFocusDistanceCm,
-      format: (v) => `${v}cm`,
+      getDisplayValue: (l) => fmt.optionalNumber(l.minFocusDistanceCm, "cm"),
+      toComparable: (l) => l.minFocusDistanceCm,
       bestDir: "min",
     },
     {
       kind: "numeric",
       label: td("maxMagnification"),
-      getValue: (l) => l.maxMagnification,
-      format: (v) => `${v}x`,
+      getDisplayValue: (l) => fmt.optionalNumber(l.maxMagnification, "x"),
+      toComparable: (l) => l.maxMagnification,
       bestDir: "max",
     },
-    {
-      kind: "section",
-      label: td("advancedSpecs"),
-      description: td("advancedSpecsNote"),
-    },
+  ];
+
+  const advancedRows: Row[] = [
     {
       kind: "text",
       label: td("lengthVariants"),
-      getValue: (l) =>
-        fmt.lengthVariantsDisplay(l, td("unknown"), {
+      getDisplayValue: (l) =>
+        fmt.lengthVariantsDisplay(l.lengthVariantsMm, {
           retracted: td("lengthRetracted"),
           wide: td("lengthWide"),
           tele: td("lengthTele"),
@@ -341,20 +332,20 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
     {
       kind: "numeric",
       label: td("minFocusDistMacro"),
-      getValue: (l) => l.minFocusDistanceMacroCm,
-      format: (v) => `${v}cm`,
+      getDisplayValue: (l) => fmt.optionalNumber(l.minFocusDistanceMacroCm, "cm"),
+      toComparable: (l) => l.minFocusDistanceMacroCm,
       bestDir: "min",
     },
     {
       kind: "text",
       label: td("lensConfiguration"),
-      getValue: (l) => fmt.lensConfigurationDisplay(l, td("unknown")),
+      getDisplayValue: (l) => fmt.lensConfigurationDisplay(l.lensConfiguration),
     },
     {
       kind: "numeric",
       label: td("releaseYear"),
-      getValue: (l) => l.releaseYear,
-      format: (v) => String(v),
+      getDisplayValue: (l) => fmt.optionalNumber(l.releaseYear, ""),
+      toComparable: (l) => l.releaseYear,
       bestDir: "max",
     },
   ];
@@ -400,11 +391,12 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
           </thead>
 
           <tbody>
-            {rows.map((row) => {
+            {[...primaryRows, ...advancedRows].map((row, groupOffset) => {
+              const isSectionBoundary = groupOffset === primaryRows.length;
               let bestVal: number | null = null;
               if (row.kind === "numeric" && row.bestDir) {
                 const vals = orderedLenses
-                  .map(row.getValue)
+                  .map(row.toComparable)
                   .filter((v): v is number => v !== undefined);
                 if (vals.length > 0) {
                   bestVal =
@@ -412,101 +404,91 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
                 }
               }
               return (
-                <tr
-                  key={row.label}
-                  className="border-b border-zinc-100 dark:border-zinc-800/60 last:border-0"
-                >
-                  {row.kind === "section" ? (
-                    <td
-                      colSpan={orderedLenses.length + 1}
-                      className="px-4 py-3 bg-amber-50/70 dark:bg-amber-950/20"
-                    >
-                      <div className="flex flex-col gap-1">
-                        <span className="text-xs font-semibold uppercase tracking-wide text-amber-800 dark:text-amber-300">
-                          {row.label}
-                        </span>
-                        <span className="text-xs text-amber-700 dark:text-amber-200/80">
-                          {row.description}
-                        </span>
-                      </div>
-                    </td>
-                  ) : (
-                    <>
-                      <td className="px-4 py-3 text-xs font-medium text-zinc-500 dark:text-zinc-400 bg-zinc-50/60 dark:bg-zinc-900/30 whitespace-nowrap">
-                        {row.label}
+                <React.Fragment key={row.label}>
+                  {isSectionBoundary && (
+                    <tr className="border-b border-zinc-100 dark:border-zinc-800/60">
+                      <td
+                        colSpan={orderedLenses.length + 1}
+                        className="px-4 py-3 bg-amber-50/70 dark:bg-amber-950/20"
+                      >
+                        <div className="flex flex-col gap-1">
+                          <span className="text-xs font-semibold uppercase tracking-wide text-amber-800 dark:text-amber-300">
+                            {td("advancedSpecs")}
+                          </span>
+                          <span className="text-xs text-amber-700 dark:text-amber-200/80">
+                            {td("advancedSpecsNote")}
+                          </span>
+                        </div>
                       </td>
+                    </tr>
+                  )}
+                  <tr className="border-b border-zinc-100 dark:border-zinc-800/60 last:border-0">
+                    <td className="px-4 py-3 text-xs font-medium text-zinc-500 dark:text-zinc-400 bg-zinc-50/60 dark:bg-zinc-900/30 whitespace-nowrap">
+                      {row.label}
+                    </td>
 
-                      {orderedLenses.map((lens) => {
-                        const isActive = lens.id === activeId;
+                    {orderedLenses.map((lens) => {
+                      const isActive = lens.id === activeId;
 
-                        if (row.kind === "bool") {
-                          const val = row.getValue(lens);
-                          return (
-                            <td
-                              key={lens.id}
-                              className="px-4 py-3 text-zinc-700 dark:text-zinc-300 truncate"
-                              style={{ opacity: isActive ? 0 : 1 }}
-                            >
-                              {val === undefined ? (
-                                td("unknown")
-                              ) : (
-                                <>
-                                  <span
-                                    className={`inline-block w-2 h-2 rounded-full mr-2 align-middle ${
-                                      val
-                                        ? "bg-green-500"
-                                        : "bg-zinc-300 dark:bg-zinc-600"
-                                    }`}
-                                  />
-                                  {val ? td("yes") : td("no")}
-                                </>
-                              )}
-                            </td>
-                          );
-                        }
-
-                        if (row.kind === "numeric") {
-                          const val = row.getValue(lens);
-                          const isBest = bestVal !== null && val === bestVal;
-                          return (
-                            <td
-                              key={lens.id}
-                              className={`px-4 py-3 font-medium tabular-nums truncate ${
-                                isBest
-                                  ? "text-blue-600 dark:text-blue-400"
-                                  : "text-zinc-700 dark:text-zinc-300"
-                              }`}
-                              style={{ opacity: isActive ? 0 : 1 }}
-                            >
-                              {val === undefined ? (
-                                td("unknown")
-                              ) : (
-                                <>
-                                  {row.format(val)}
-                                  {isBest && (
-                                    <span className="ml-1.5 text-[10px] font-semibold text-blue-500 dark:text-blue-400 uppercase tracking-wide">
-                                      ★
-                                    </span>
-                                  )}
-                                </>
-                              )}
-                            </td>
-                          );
-                        }
-
+                      if (row.kind === "bool") {
                         return (
                           <td
                             key={lens.id}
-                            className="px-4 py-3 text-zinc-700 dark:text-zinc-300 whitespace-pre-line"
+                            className="px-4 py-3 text-zinc-700 dark:text-zinc-300 truncate"
                             style={{ opacity: isActive ? 0 : 1 }}
                           >
-                            {row.getValue(lens)}
+                            <BoolCell
+                              value={row.getValue(lens)}
+                              yes={td("yes")}
+                              no={td("no")}
+                              unknown={td("unknown")}
+                            />
                           </td>
                         );
-                      })}
-                    </>
-                  )}
-                </tr>
+                      }
+
+                      if (row.kind === "numeric") {
+                        const displayVal = row.getDisplayValue(lens);
+                        const comparable = row.toComparable(lens);
+                        const isBest = bestVal !== null && comparable === bestVal;
+                        return (
+                          <td
+                            key={lens.id}
+                            className={`px-4 py-3 font-medium tabular-nums truncate ${
+                              isBest
+                                ? "text-blue-600 dark:text-blue-400"
+                                : "text-zinc-700 dark:text-zinc-300"
+                            }`}
+                            style={{ opacity: isActive ? 0 : 1 }}
+                          >
+                            {displayVal === undefined ? (
+                              td("unknown")
+                            ) : (
+                              <>
+                                {displayVal}
+                                {isBest && (
+                                  <span className="ml-1.5 text-[10px] font-semibold text-blue-500 dark:text-blue-400 uppercase tracking-wide">
+                                    ★
+                                  </span>
+                                )}
+                              </>
+                            )}
+                          </td>
+                        );
+                      }
+
+                      return (
+                        <td
+                          key={lens.id}
+                          className="px-4 py-3 text-zinc-700 dark:text-zinc-300 whitespace-pre-line"
+                          style={{ opacity: isActive ? 0 : 1 }}
+                        >
+                          {row.getDisplayValue(lens) ?? td("unknown")}
+                        </td>
+                      );
+                    })}
+                  </tr>
+                </React.Fragment>
               );
             })}
           </tbody>
@@ -516,7 +498,8 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
           {activeLens && (
             <ColumnOverlay
               lens={activeLens}
-              rows={rows}
+              primaryRows={primaryRows}
+              advancedRows={advancedRows}
               officialSiteLabel={t("officialSite")}
             />
           )}

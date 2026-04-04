@@ -9,10 +9,8 @@ import {
   defaultFilters,
 } from "../lens";
 import {
-  focalEquivMin,
-  focalEquivMax,
-  focalDisplay,
-  equivDisplay,
+  focalEquiv,
+  focalRangeDisplay,
   apertureDisplay,
 } from "../lens.format";
 
@@ -60,40 +58,30 @@ describe("isZoom", () => {
 });
 
 // ---------------------------------------------------------------------------
-// focalEquivMin / focalEquivMax (crop factor 1.5)
+// focalEquiv (crop factor 1.5)
 // ---------------------------------------------------------------------------
-describe("focalEquivMin / focalEquivMax", () => {
-  it("calculates equiv for a prime", () => {
-    expect(focalEquivMin(prime35)).toBe(53); // 35 * 1.5 = 52.5 → 53
-    expect(focalEquivMax(prime35)).toBe(53);
-  });
-
-  it("calculates wide and tele ends for a zoom", () => {
-    expect(focalEquivMin(zoom1835)).toBe(27); // 18 * 1.5 = 27
-    expect(focalEquivMax(zoom1835)).toBe(83); // 55 * 1.5 = 82.5 → 83
+describe("focalEquiv", () => {
+  it("rounds correctly", () => {
+    expect(focalEquiv(35)).toBe(53); // 35 * 1.5 = 52.5 → 53
+    expect(focalEquiv(18)).toBe(27); // 18 * 1.5 = 27
+    expect(focalEquiv(55)).toBe(83); // 55 * 1.5 = 82.5 → 83
   });
 });
 
 // ---------------------------------------------------------------------------
-// formatFocalDisplay / formatEquivDisplay
+// focalRangeDisplay
 // ---------------------------------------------------------------------------
-describe("formatFocalDisplay", () => {
+describe("focalRangeDisplay", () => {
   it("shows single value for prime", () => {
-    expect(focalDisplay(prime35)).toBe("35mm");
+    expect(focalRangeDisplay(35, 35)).toBe("35mm");
   });
 
   it("shows range for zoom", () => {
-    expect(focalDisplay(zoom1835)).toBe("18–55mm");
-  });
-});
-
-describe("formatEquivDisplay", () => {
-  it("shows single equiv for prime", () => {
-    expect(equivDisplay(prime35)).toBe("53mm");
+    expect(focalRangeDisplay(18, 55)).toBe("18–55mm");
   });
 
   it("shows equiv range for zoom", () => {
-    expect(equivDisplay(zoom1835)).toBe("27–83mm");
+    expect(focalRangeDisplay(focalEquiv(18), focalEquiv(55))).toBe("27–83mm");
   });
 });
 

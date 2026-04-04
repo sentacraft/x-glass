@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
@@ -9,6 +10,7 @@ import { ExternalLink } from "@/components/ui/external-link";
 import { LensPlaceholderIcon } from "@/components/ui/lens-placeholder-icon";
 import { Link } from "@/i18n/navigation";
 import AddToCompareButton from "@/components/AddToCompareButton";
+import { BoolCell } from "@/components/ui/bool-cell";
 
 type Params = Promise<{ locale: string; id: string }>;
 
@@ -42,13 +44,13 @@ export default async function LensDetailPage({ params }: { params: Params }) {
   const unknown = t("unknown");
 
   type SpecRow =
-    | { label: string; value: string }
+    | { label: string; value: string | undefined }
     | { label: string; bool: boolean | undefined };
 
   const primarySpecs: SpecRow[] = [
-    { label: t("focalLength"), value: fmt.focalDisplay(lens) },
-    { label: t("focalLengthEquiv"), value: fmt.equivDisplay(lens) },
-    { label: t("maxAperture"), value: `f/${lens.maxAperture}` },
+    { label: t("focalLength"), value: fmt.focalRangeDisplay(lens.focalLengthMin, lens.focalLengthMax) },
+    { label: t("focalLengthEquiv"), value: fmt.focalRangeDisplay(fmt.focalEquiv(lens.focalLengthMin), fmt.focalEquiv(lens.focalLengthMax)) },
+    { label: t("maxAperture"), value: fmt.apertureDisplay(lens.maxAperture) },
     { label: t("minAperture"), value: `f/${lens.minAperture}` },
     { label: t("af"), bool: lens.af },
     { label: t("ois"), bool: lens.ois },
@@ -56,26 +58,26 @@ export default async function LensDetailPage({ params }: { params: Params }) {
     { label: t("apertureRing"), bool: lens.apertureRing },
     {
       label: t("apertureBladeCount"),
-      value: fmt.optionalNumber(lens.apertureBladeCount, "", unknown),
+      value: fmt.optionalNumber(lens.apertureBladeCount, ""),
     },
-    { label: t("weight"), value: fmt.optionalNumber(lens.weightG, "g", unknown) },
-    { label: t("dimensions"), value: fmt.dimensionsDisplay(lens, unknown) },
+    { label: t("weight"), value: fmt.optionalNumber(lens.weightG, "g") },
+    { label: t("dimensions"), value: fmt.dimensionsDisplay(lens.diameterMm, lens.lengthMm) },
     {
       label: t("filterSize"),
-      value: fmt.filterSizeDisplay(lens, unknown, "N/A"),
+      value: fmt.filterSizeDisplay(lens.filterMm),
     },
-    { label: t("minFocusDist"), value: fmt.optionalNumber(lens.minFocusDistanceCm, "cm", unknown) },
+    { label: t("minFocusDist"), value: fmt.optionalNumber(lens.minFocusDistanceCm, "cm") },
     {
       label: t("maxMagnification"),
-      value: fmt.optionalNumber(lens.maxMagnification, "x", unknown),
+      value: fmt.optionalNumber(lens.maxMagnification, "x"),
     },
-    { label: t("releaseYear"), value: fmt.optionalNumber(lens.releaseYear, "", unknown) },
+    { label: t("releaseYear"), value: fmt.optionalNumber(lens.releaseYear, "") },
   ];
 
   const advancedSpecs: SpecRow[] = [
     {
       label: t("lengthVariants"),
-      value: fmt.lengthVariantsDisplay(lens, unknown, {
+      value: fmt.lengthVariantsDisplay(lens.lengthVariantsMm, {
         retracted: t("lengthRetracted"),
         wide: t("lengthWide"),
         tele: t("lengthTele"),
@@ -83,11 +85,11 @@ export default async function LensDetailPage({ params }: { params: Params }) {
     },
     {
       label: t("minFocusDistMacro"),
-      value: fmt.optionalNumber(lens.minFocusDistanceMacroCm, "cm", unknown),
+      value: fmt.optionalNumber(lens.minFocusDistanceMacroCm, "cm"),
     },
     {
       label: t("lensConfiguration"),
-      value: fmt.lensConfigurationDisplay(lens, unknown),
+      value: fmt.lensConfigurationDisplay(lens.lensConfiguration),
     },
   ];
 
@@ -153,82 +155,43 @@ export default async function LensDetailPage({ params }: { params: Params }) {
           <div className="rounded-xl border border-zinc-200 dark:border-zinc-800 overflow-hidden">
             <table className="w-full text-sm">
               <tbody>
-                {primarySpecs.map((row) => (
-                  <tr
-                    key={row.label}
-                    className="border-b border-zinc-100 dark:border-zinc-800/60"
-                  >
-                    <td className="px-4 py-2.5 text-xs font-medium text-zinc-500 dark:text-zinc-400 bg-zinc-50/60 dark:bg-zinc-900/30 w-40 whitespace-nowrap">
-                      {row.label}
-                    </td>
-                    <td className="px-4 py-2.5 text-zinc-700 dark:text-zinc-300 whitespace-pre-line">
-                      {"bool" in row ? (
-                        row.bool === undefined ? (
-                          unknown
+                {[...primarySpecs, ...advancedSpecs].map((row, i) => (
+                  <Fragment key={row.label}>
+                    {i === primarySpecs.length && (
+                      <tr className="border-b border-zinc-100 dark:border-zinc-800/60">
+                        <td
+                          colSpan={2}
+                          className="px-4 py-3 bg-amber-50/70 dark:bg-amber-950/20"
+                        >
+                          <div className="flex flex-col gap-1">
+                            <span className="text-xs font-semibold uppercase tracking-wide text-amber-800 dark:text-amber-300">
+                              {t("advancedSpecs")}
+                            </span>
+                            <span className="text-xs text-amber-700 dark:text-amber-200/80">
+                              {t("advancedSpecsNote")}
+                            </span>
+                          </div>
+                        </td>
+                      </tr>
+                    )}
+                    <tr className="border-b border-zinc-100 dark:border-zinc-800/60 last:border-0">
+                      <td className="px-4 py-2.5 text-xs font-medium text-zinc-500 dark:text-zinc-400 bg-zinc-50/60 dark:bg-zinc-900/30 w-40 whitespace-nowrap">
+                        {row.label}
+                      </td>
+                      <td className="px-4 py-2.5 text-zinc-700 dark:text-zinc-300 whitespace-pre-line">
+                        {"bool" in row ? (
+                          <BoolCell
+                            value={row.bool}
+                            yes={t("yes")}
+                            no={t("no")}
+                            unknown={unknown}
+                          />
                         ) : (
-                          <span className="inline-flex items-center gap-1.5">
-                            <span
-                              className={`inline-block w-2 h-2 rounded-full ${
-                                row.bool
-                                  ? "bg-green-500"
-                                  : "bg-zinc-300 dark:bg-zinc-600"
-                              }`}
-                            />
-                            {row.bool ? t("yes") : t("no")}
-                          </span>
-                        )
-                      ) : (
-                        row.value
-                      )}
-                    </td>
-                  </tr>
-                ))}
-                <tr className="border-b border-zinc-100 dark:border-zinc-800/60">
-                  <td
-                    colSpan={2}
-                    className="px-4 py-3 bg-amber-50/70 dark:bg-amber-950/20"
-                  >
-                    <div className="flex flex-col gap-1">
-                      <span className="text-xs font-semibold uppercase tracking-wide text-amber-800 dark:text-amber-300">
-                        {t("advancedSpecs")}
-                      </span>
-                      <span className="text-xs text-amber-700 dark:text-amber-200/80">
-                        {t("advancedSpecsNote")}
-                      </span>
-                    </div>
-                  </td>
-                </tr>
-                {advancedSpecs.map((row, index) => (
-                  <tr
-                    key={row.label}
-                    className={`border-b border-zinc-100 dark:border-zinc-800/60 ${
-                      index === advancedSpecs.length - 1 ? "last:border-0" : ""
-                    }`}
-                  >
-                    <td className="px-4 py-2.5 text-xs font-medium text-zinc-500 dark:text-zinc-400 bg-zinc-50/60 dark:bg-zinc-900/30 w-40 whitespace-nowrap">
-                      {row.label}
-                    </td>
-                    <td className="px-4 py-2.5 text-zinc-700 dark:text-zinc-300 whitespace-pre-line">
-                      {"bool" in row ? (
-                        row.bool === undefined ? (
-                          unknown
-                        ) : (
-                          <span className="inline-flex items-center gap-1.5">
-                            <span
-                              className={`inline-block w-2 h-2 rounded-full ${
-                                row.bool
-                                  ? "bg-green-500"
-                                  : "bg-zinc-300 dark:bg-zinc-600"
-                              }`}
-                            />
-                            {row.bool ? t("yes") : t("no")}
-                          </span>
-                        )
-                      ) : (
-                        row.value
-                      )}
-                    </td>
-                  </tr>
+                          row.value ?? unknown
+                        )}
+                      </td>
+                    </tr>
+                  </Fragment>
                 ))}
               </tbody>
             </table>

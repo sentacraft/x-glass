@@ -26,7 +26,7 @@ export default function LensCard({
   const t = useTranslations("LensList");
   const tBrand = useTranslations("Brands");
   const hookAttr = useUiHookAttr();
-  const equivDisplay = fmt.equivDisplay(lens);
+  const equivDisplay = fmt.focalRangeDisplay(fmt.focalEquiv(lens.focalLengthMin), fmt.focalEquiv(lens.focalLengthMax));
   const badges = [
     lens.af
       ? {
