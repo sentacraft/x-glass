@@ -2,7 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
-import { useCompare } from "@/context/CompareContext";
+import { useCompare } from "@/context/CompareProvider";
 
 interface Props {
   lensId: string;

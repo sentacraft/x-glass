@@ -4,7 +4,7 @@ import { useMemo } from "react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 import { allLenses } from "@/lib/lens";
-import { useCompare } from "@/context/CompareContext";
+import { useCompare } from "@/context/CompareProvider";
 
 export default function CompareBar() {
   const t = useTranslations("LensList");

@@ -10,7 +10,7 @@ import {
   getUniqueBrands,
   type FilterState,
 } from "@/lib/lens";
-import { useCompare } from "@/context/CompareContext";
+import { useCompare } from "@/context/CompareProvider";
 import { useUiHookAttr } from "@/context/TestHookProvider";
 import { ChevronUp } from "lucide-react";
 import LensCard from "./LensCard";

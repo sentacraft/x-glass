@@ -29,16 +29,17 @@ interface TestHookContextValue {
 
 export const TestHookContext = createContext<TestHookContextValue | null>(null);
 
-function getInitialState(): TestHookState {
-  if (typeof window === "undefined") return getDefaultTestHookState();
-  return parseTestHookState(new URLSearchParams(window.location.search));
-}
-
 export function TestHookProvider({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [state, setState] = useState<TestHookState>(getInitialState);
+  // Always start with defaults so SSR and initial client render match.
+  // The effect below syncs from the URL after hydration.
+  const [state, setState] = useState<TestHookState>(getDefaultTestHookState);
+
+  useEffect(() => {
+    setState(parseTestHookState(new URLSearchParams(window.location.search)));
+  }, []);
 
   const pathnameRef = useRef(pathname);
   pathnameRef.current = pathname;

@@ -5,7 +5,7 @@ import { getMessages } from "next-intl/server";
 import { routing } from "@/i18n/routing";
 import Nav from "@/components/Nav";
 import TestHookPanel from "@/components/TestHookPanel";
-import { CompareProvider } from "@/context/CompareContext";
+import { CompareProvider } from "@/context/CompareProvider";
 import { TestHookProvider } from "@/context/TestHookProvider";
 import { TESTHOOK_ALLOWED } from "@/lib/testhook";
 import "../globals.css";
