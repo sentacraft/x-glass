@@ -32,12 +32,12 @@ import { BoolCell } from "@/components/ui/bool-cell";
 // --- Shared row type ---
 
 type Row =
-  | { kind: "text"; label: string; getValue: (l: Lens) => string | undefined }
+  | { kind: "text"; label: string; getDisplayValue: (l: Lens) => string | undefined }
   | {
       kind: "numeric";
       label: string;
-      getValue: (l: Lens) => number | undefined;
-      format: (v: number) => string;
+      getDisplayValue: (l: Lens) => string | undefined;
+      toComparable: (l: Lens) => number | undefined;
       bestDir?: "min" | "max";
     }
   | { kind: "bool"; label: string; getValue: (l: Lens) => boolean | undefined };
@@ -155,15 +155,15 @@ function ColumnOverlay({
         />
       );
     } else if (row.kind === "numeric") {
-      const val = row.getValue(lens);
+      const val = row.getDisplayValue(lens);
       content =
         val === undefined ? (
           td("unknown")
         ) : (
-          <span className="font-medium tabular-nums">{row.format(val)}</span>
+          <span className="font-medium tabular-nums">{val}</span>
         );
     } else {
-      content = row.getValue(lens) ?? td("unknown");
+      content = row.getDisplayValue(lens) ?? td("unknown");
     }
 
     return (
@@ -261,18 +261,18 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
     {
       kind: "text",
       label: td("focalLength"),
-      getValue: (l) => fmt.focalRangeDisplay(l.focalLengthMin, l.focalLengthMax),
+      getDisplayValue: (l) => fmt.focalRangeDisplay(l.focalLengthMin, l.focalLengthMax),
     },
     {
       kind: "text",
       label: td("focalLengthEquiv"),
-      getValue: (l) => fmt.focalRangeDisplay(fmt.focalEquiv(l.focalLengthMin), fmt.focalEquiv(l.focalLengthMax)),
+      getDisplayValue: (l) => fmt.focalRangeDisplay(fmt.focalEquiv(l.focalLengthMin), fmt.focalEquiv(l.focalLengthMax)),
     },
     {
       kind: "numeric",
       label: td("maxAperture"),
-      getValue: (l) => l.maxAperture,
-      format: (v) => `f/${v}`,
+      getDisplayValue: (l) => fmt.apertureDisplay(l.maxAperture),
+      toComparable: (l) => Array.isArray(l.maxAperture) ? l.maxAperture[0] : l.maxAperture,
       bestDir: "min",
     },
     { kind: "bool", label: td("af"), getValue: (l) => l.af },
@@ -282,38 +282,38 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
     {
       kind: "numeric",
       label: td("apertureBladeCount"),
-      getValue: (l) => l.apertureBladeCount,
-      format: String,
+      getDisplayValue: (l) => fmt.optionalNumber(l.apertureBladeCount, ""),
+      toComparable: (l) => l.apertureBladeCount,
     },
     {
       kind: "numeric",
       label: td("weight"),
-      getValue: (l) => l.weightG,
-      format: (v) => `${v}g`,
+      getDisplayValue: (l) => fmt.optionalNumber(l.weightG, "g"),
+      toComparable: (l) => l.weightG,
       bestDir: "min",
     },
     {
       kind: "text",
       label: td("dimensions"),
-      getValue: (l) => fmt.dimensionsDisplay(l.diameterMm, l.lengthMm),
+      getDisplayValue: (l) => fmt.dimensionsDisplay(l.diameterMm, l.lengthMm),
     },
     {
       kind: "text",
       label: td("filterSize"),
-      getValue: (l) => fmt.filterSizeDisplay(l.filterMm),
+      getDisplayValue: (l) => fmt.filterSizeDisplay(l.filterMm),
     },
     {
       kind: "numeric",
       label: td("minFocusDist"),
-      getValue: (l) => l.minFocusDistanceCm,
-      format: (v) => `${v}cm`,
+      getDisplayValue: (l) => fmt.optionalNumber(l.minFocusDistanceCm, "cm"),
+      toComparable: (l) => l.minFocusDistanceCm,
       bestDir: "min",
     },
     {
       kind: "numeric",
       label: td("maxMagnification"),
-      getValue: (l) => l.maxMagnification,
-      format: (v) => `${v}x`,
+      getDisplayValue: (l) => fmt.optionalNumber(l.maxMagnification, "x"),
+      toComparable: (l) => l.maxMagnification,
       bestDir: "max",
     },
   ];
@@ -322,7 +322,7 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
     {
       kind: "text",
       label: td("lengthVariants"),
-      getValue: (l) =>
+      getDisplayValue: (l) =>
         fmt.lengthVariantsDisplay(l.lengthVariantsMm, {
           retracted: td("lengthRetracted"),
           wide: td("lengthWide"),
@@ -332,20 +332,20 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
     {
       kind: "numeric",
       label: td("minFocusDistMacro"),
-      getValue: (l) => l.minFocusDistanceMacroCm,
-      format: (v) => `${v}cm`,
+      getDisplayValue: (l) => fmt.optionalNumber(l.minFocusDistanceMacroCm, "cm"),
+      toComparable: (l) => l.minFocusDistanceMacroCm,
       bestDir: "min",
     },
     {
       kind: "text",
       label: td("lensConfiguration"),
-      getValue: (l) => fmt.lensConfigurationDisplay(l.lensConfiguration),
+      getDisplayValue: (l) => fmt.lensConfigurationDisplay(l.lensConfiguration),
     },
     {
       kind: "numeric",
       label: td("releaseYear"),
-      getValue: (l) => l.releaseYear,
-      format: (v) => String(v),
+      getDisplayValue: (l) => fmt.optionalNumber(l.releaseYear, ""),
+      toComparable: (l) => l.releaseYear,
       bestDir: "max",
     },
   ];
@@ -396,7 +396,7 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
               let bestVal: number | null = null;
               if (row.kind === "numeric" && row.bestDir) {
                 const vals = orderedLenses
-                  .map(row.getValue)
+                  .map(row.toComparable)
                   .filter((v): v is number => v !== undefined);
                 if (vals.length > 0) {
                   bestVal =
@@ -448,8 +448,9 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
                       }
 
                       if (row.kind === "numeric") {
-                        const val = row.getValue(lens);
-                        const isBest = bestVal !== null && val === bestVal;
+                        const displayVal = row.getDisplayValue(lens);
+                        const comparable = row.toComparable(lens);
+                        const isBest = bestVal !== null && comparable === bestVal;
                         return (
                           <td
                             key={lens.id}
@@ -460,11 +461,11 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
                             }`}
                             style={{ opacity: isActive ? 0 : 1 }}
                           >
-                            {val === undefined ? (
+                            {displayVal === undefined ? (
                               td("unknown")
                             ) : (
                               <>
-                                {row.format(val)}
+                                {displayVal}
                                 {isBest && (
                                   <span className="ml-1.5 text-[10px] font-semibold text-blue-500 dark:text-blue-400 uppercase tracking-wide">
                                     ★
@@ -482,7 +483,7 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
                           className="px-4 py-3 text-zinc-700 dark:text-zinc-300 whitespace-pre-line"
                           style={{ opacity: isActive ? 0 : 1 }}
                         >
-                          {row.getValue(lens) ?? td("unknown")}
+                          {row.getDisplayValue(lens) ?? td("unknown")}
                         </td>
                       );
                     })}
