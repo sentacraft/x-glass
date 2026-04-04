@@ -4,7 +4,10 @@ import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { routing } from "@/i18n/routing";
 import Nav from "@/components/Nav";
+import TestHookPanel from "@/components/TestHookPanel";
 import { CompareProvider } from "@/context/CompareContext";
+import { TestHookProvider } from "@/context/TestHookProvider";
+import { TESTHOOK_ALLOWED } from "@/lib/testhook";
 import "../globals.css";
 
 const geistSans = Geist({
@@ -56,7 +59,14 @@ export default async function LocaleLayout({
         <NextIntlClientProvider messages={messages}>
           <CompareProvider>
             <Nav />
-            {children}
+            {TESTHOOK_ALLOWED ? (
+              <TestHookProvider>
+                {children}
+                <TestHookPanel />
+              </TestHookProvider>
+            ) : (
+              children
+            )}
           </CompareProvider>
         </NextIntlClientProvider>
       </body>

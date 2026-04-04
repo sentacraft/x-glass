@@ -7,6 +7,7 @@ import { Link } from "@/i18n/navigation";
 import { LensPlaceholderIcon } from "@/components/ui/lens-placeholder-icon";
 import type { Lens } from "@/lib/types";
 import { lensImageStyle } from "@/lib/lens-image";
+import { useUiHookAttr } from "@/context/TestHookProvider";
 import * as fmt from "@/lib/lens.format";
 
 interface Props {
@@ -24,6 +25,7 @@ export default function LensCard({
 }: Props) {
   const t = useTranslations("LensList");
   const tBrand = useTranslations("Brands");
+  const hookAttr = useUiHookAttr();
   const equivDisplay = fmt.equivDisplay(lens);
   const badges = [
     lens.af
@@ -58,6 +60,7 @@ export default function LensCard({
 
   return (
     <div
+      {...hookAttr("card")}
       className={`rounded-2xl border bg-white dark:bg-zinc-900 flex flex-col overflow-hidden transition-all ${
         isSelected
           ? "border-blue-500 ring-1 ring-blue-500 shadow-lg shadow-blue-500/10"
@@ -69,8 +72,14 @@ export default function LensCard({
         href={`/lenses/${lens.id}`}
         className="flex-1 flex flex-col hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors"
       >
-        <div className="relative aspect-[5/4] overflow-hidden border-b border-zinc-100/80 bg-zinc-50/40 dark:border-zinc-800 dark:bg-zinc-900/40">
-          <div className="absolute inset-0 p-7 sm:p-8">
+        <div
+          {...hookAttr("cardMedia")}
+          className="relative aspect-[5/4] overflow-hidden border-b border-zinc-100/80 bg-zinc-50/40 dark:border-zinc-800 dark:bg-zinc-900/40"
+        >
+          <div
+            {...hookAttr("cardMediaInner")}
+            className="absolute inset-0 p-7 sm:p-8"
+          >
             <div className="relative h-full w-full overflow-hidden rounded-xl">
               {lens.imageUrl ? (
                 <Image
@@ -90,7 +99,10 @@ export default function LensCard({
           </div>
         </div>
 
-        <div className="flex flex-col gap-2.5 p-4">
+        <div
+          {...hookAttr("cardBody")}
+          className="flex flex-col gap-2.5 p-4"
+        >
           <div className="flex flex-col gap-1">
             <div className="flex items-center justify-between gap-3 text-[11px] uppercase tracking-[0.14em] text-zinc-500 dark:text-zinc-400">
               <p className="truncate">
@@ -128,7 +140,10 @@ export default function LensCard({
       </Link>
 
       {/* Compare toggle */}
-      <div className="mt-auto px-4 pb-4">
+      <div
+        {...hookAttr("cardFooter")}
+        className="mt-auto px-4 pb-4"
+      >
         <button
           onClick={onToggle}
           disabled={selectionDisabled}

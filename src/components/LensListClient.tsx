@@ -11,6 +11,7 @@ import {
   type FilterState,
 } from "@/lib/lens";
 import { useCompare } from "@/context/CompareContext";
+import { useUiHookAttr } from "@/context/TestHookProvider";
 import { ChevronUp } from "lucide-react";
 import LensCard from "./LensCard";
 import LensFilters from "./LensFilters";
@@ -21,6 +22,7 @@ interface Props {
 
 export default function LensListClient({ lenses }: Props) {
   const t = useTranslations("LensList");
+  const hookAttr = useUiHookAttr();
   const [filters, setFilters] = useState<FilterState>(defaultFilters);
   const { compareIds, toggleCompare, canToggle } = useCompare();
   const [showScrollTop, setShowScrollTop] = useState(false);
@@ -61,7 +63,10 @@ export default function LensListClient({ lenses }: Props) {
             {t("noResults")}
           </p>
         ) : (
-          <div className="grid grid-cols-1 items-start gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <div
+            {...hookAttr("grid")}
+            className="grid grid-cols-1 items-start gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+          >
             {displayed.map((lens) => (
               <LensCard
                 key={lens.id}
