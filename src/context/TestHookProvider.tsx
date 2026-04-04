@@ -2,16 +2,15 @@
 
 import {
   createContext,
-  useCallback,
   useContext,
   useEffect,
   useMemo,
-  useRef,
   useState,
   type ReactNode,
 } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import {
+  TESTHOOK_OPTION_DEFINITIONS,
   TESTHOOK_QUERY_KEYS,
   buildTestHookSearchParams,
   getDefaultTestHookState,
@@ -25,6 +24,7 @@ interface TestHookContextValue {
   setTestHook: (enabled: boolean) => void;
   setOption: (key: string, value: string) => void;
   reset: () => void;
+  buildShareableLink: () => string;
 }
 
 export const TestHookContext = createContext<TestHookContextValue | null>(null);
@@ -37,10 +37,17 @@ export function TestHookProvider({ children }: { children: ReactNode }) {
     parseTestHookState(searchParams)
   );
 
-  const pathnameRef = useRef(pathname);
-  pathnameRef.current = pathname;
-  const searchParamsRef = useRef(searchParams);
-  searchParamsRef.current = searchParams;
+  // Strip testhook params from URL after cold-start init
+  useEffect(() => {
+    if (!state.testHook) return;
+    const clean = new URLSearchParams(searchParams.toString());
+    clean.delete(TESTHOOK_QUERY_KEYS.testHook);
+    for (const option of TESTHOOK_OPTION_DEFINITIONS) {
+      clean.delete(option.key);
+    }
+    const query = clean.toString();
+    router.replace(`${pathname}${query ? `?${query}` : ""}`, { scroll: false });
+  }, []);
 
   // Sync state → CSS injection
   useEffect(() => {
@@ -53,39 +60,27 @@ export function TestHookProvider({ children }: { children: ReactNode }) {
     styleElement.textContent = resolveTestHookCss(state);
   }, [state]);
 
-  // Re-inject testhook params after page navigation
-  useEffect(() => {
-    if (!state.testHook) return;
-    const current = new URLSearchParams(searchParams.toString());
-    if (!current.has(TESTHOOK_QUERY_KEYS.testHook)) {
-      const next = buildTestHookSearchParams(current, state);
-      router.replace(`${pathname}?${next.toString()}`, { scroll: false });
-    }
-  }, [pathname]);
-
-  const update = useCallback((nextState: TestHookState) => {
-    setState(nextState);
-    const next = buildTestHookSearchParams(
-      new URLSearchParams(searchParamsRef.current.toString()),
-      nextState
-    );
-    const query = next.toString();
-    const p = pathnameRef.current;
-    router.replace(`${p}${query ? `?${query}` : ""}`, { scroll: false });
-  }, [router]);
-
   const value: TestHookContextValue = useMemo(
     () => ({
       state,
-      setTestHook: (enabled) => update({ ...state, testHook: enabled }),
-      setOption: (key, value) =>
-        update({
-          ...state,
-          options: { ...state.options, [key]: value },
-        }),
-      reset: () => update({ ...getDefaultTestHookState(), testHook: state.testHook }),
+      setTestHook: (enabled) =>
+        setState((prev) => ({ ...prev, testHook: enabled })),
+      setOption: (key, val) =>
+        setState((prev) => ({
+          ...prev,
+          options: { ...prev.options, [key]: val },
+        })),
+      reset: () =>
+        setState((prev) => ({
+          ...getDefaultTestHookState(),
+          testHook: prev.testHook,
+        })),
+      buildShareableLink: () => {
+        const params = buildTestHookSearchParams(new URLSearchParams(), state);
+        return `${window.location.origin}${pathname}?${params.toString()}`;
+      },
     }),
-    [state, update]
+    [state, pathname]
   );
 
   return <TestHookContext value={value}>{children}</TestHookContext>;

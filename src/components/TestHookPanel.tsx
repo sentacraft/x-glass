@@ -1,6 +1,6 @@
 "use client";
 
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { TestHookContext } from "@/context/TestHookProvider";
 import { TESTHOOK_OPTION_DEFINITIONS } from "@/lib/testhook";
@@ -12,7 +12,8 @@ export default function TestHookPanel() {
     return null;
   }
 
-  const { state, setOption, setTestHook, reset } = context;
+  const { state, setOption, setTestHook, reset, buildShareableLink } = context;
+  const [copied, setCopied] = useState(false);
 
   return (
     <aside className="fixed bottom-4 right-4 z-50 w-[min(24rem,calc(100vw-2rem))] rounded-2xl border border-zinc-200/80 bg-white/95 p-4 shadow-xl backdrop-blur dark:border-zinc-800 dark:bg-zinc-950/90">
@@ -54,7 +55,18 @@ export default function TestHookPanel() {
         ))}
       </div>
 
-      <div className="mt-4 flex justify-end">
+      <div className="mt-4 flex justify-end gap-2">
+        <Button
+          size="sm"
+          variant="outline"
+          onClick={() => {
+            navigator.clipboard.writeText(buildShareableLink());
+            setCopied(true);
+            setTimeout(() => setCopied(false), 2000);
+          }}
+        >
+          {copied ? "Copied!" : "Copy link"}
+        </Button>
         <Button size="sm" variant="outline" onClick={reset}>
           Reset
         </Button>
