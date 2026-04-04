@@ -48,9 +48,9 @@ export default async function LensDetailPage({ params }: { params: Params }) {
     | { label: string; bool: boolean | undefined };
 
   const primarySpecs: SpecRow[] = [
-    { label: t("focalLength"), value: fmt.focalDisplay(lens) },
-    { label: t("focalLengthEquiv"), value: fmt.equivDisplay(lens) },
-    { label: t("maxAperture"), value: `f/${lens.maxAperture}` },
+    { label: t("focalLength"), value: fmt.focalRangeDisplay(lens.focalLengthMin, lens.focalLengthMax) },
+    { label: t("focalLengthEquiv"), value: fmt.focalRangeDisplay(fmt.focalEquiv(lens.focalLengthMin), fmt.focalEquiv(lens.focalLengthMax)) },
+    { label: t("maxAperture"), value: fmt.apertureDisplay(lens.maxAperture) },
     { label: t("minAperture"), value: `f/${lens.minAperture}` },
     { label: t("af"), bool: lens.af },
     { label: t("ois"), bool: lens.ois },

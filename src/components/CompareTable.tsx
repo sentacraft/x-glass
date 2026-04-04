@@ -261,12 +261,12 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
     {
       kind: "text",
       label: td("focalLength"),
-      getValue: (l) => fmt.focalDisplay(l),
+      getValue: (l) => fmt.focalRangeDisplay(l.focalLengthMin, l.focalLengthMax),
     },
     {
       kind: "text",
       label: td("focalLengthEquiv"),
-      getValue: (l) => fmt.equivDisplay(l),
+      getValue: (l) => fmt.focalRangeDisplay(fmt.focalEquiv(l.focalLengthMin), fmt.focalEquiv(l.focalLengthMax)),
     },
     {
       kind: "numeric",

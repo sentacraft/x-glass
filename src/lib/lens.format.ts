@@ -1,27 +1,14 @@
 import type { Lens, LensConfiguration, LensLengthVariants } from "./types";
 import { SPEC_NA } from "./types";
-import { isZoom } from "./lens";
 
 const CROP_FACTOR = 1.5;
 
-export function focalEquivMin(lens: Lens): number {
-  return Math.round(lens.focalLengthMin * CROP_FACTOR);
+export function focalEquiv(n: number): number {
+  return Math.round(n * CROP_FACTOR);
 }
 
-export function focalEquivMax(lens: Lens): number {
-  return Math.round(lens.focalLengthMax * CROP_FACTOR);
-}
-
-export function focalDisplay(lens: Lens): string {
-  return isZoom(lens)
-    ? `${lens.focalLengthMin}–${lens.focalLengthMax}mm`
-    : `${lens.focalLengthMin}mm`;
-}
-
-export function equivDisplay(lens: Lens): string {
-  return isZoom(lens)
-    ? `${focalEquivMin(lens)}–${focalEquivMax(lens)}mm`
-    : `${focalEquivMin(lens)}mm`;
+export function focalRangeDisplay(min: number, max: number): string {
+  return min === max ? `${min}mm` : `${min}–${max}mm`;
 }
 
 export function apertureDisplay(aperture: Lens["maxAperture"]): string {
