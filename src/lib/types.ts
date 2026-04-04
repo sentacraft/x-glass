@@ -143,10 +143,11 @@ export interface Lens {
 
   /**
    * Largest available aperture expressed as an f-number.
-   * For variable-aperture zooms, store the wide-end value.
-   * @example 1.4
+   * For prime lenses or constant-aperture zooms: store a single number.
+   * For variable-aperture zooms: store [wideEnd, teleEnd] as a tuple.
+   * @example 1.4 or [3.5, 6.3]
    */
-  maxAperture: number;
+  maxAperture: number | [number, number];
 
   /**
    * Smallest available aperture expressed as an f-number.

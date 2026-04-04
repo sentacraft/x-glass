@@ -24,6 +24,12 @@ export function equivDisplay(lens: Lens): string {
     : `${focalEquivMin(lens)}mm`;
 }
 
+export function apertureDisplay(aperture: Lens["maxAperture"]): string {
+  return Array.isArray(aperture)
+    ? `f/${aperture[0]}–${aperture[1]}`
+    : `f/${aperture}`;
+}
+
 export function optionalNumber(
   value: number | undefined,
   unit: string,
@@ -56,8 +62,12 @@ export function filterSizeDisplay(
   unknownLabel: string,
   naLabel: string
 ): string {
-  if (lens.filterMm === undefined) return unknownLabel;
-  if (lens.filterMm === SPEC_NA) return naLabel;
+  if (lens.filterMm === undefined) {
+    return unknownLabel;
+  }
+  if (lens.filterMm === SPEC_NA) {
+    return naLabel;
+  }
   return `${lens.filterMm}mm`;
 }
 

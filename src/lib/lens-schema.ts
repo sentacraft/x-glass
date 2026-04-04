@@ -9,6 +9,17 @@ const lensImagePathSchema = z
   .string()
   .regex(/^\/lenses\/[a-z0-9]+(?:-[a-z0-9]+)*\.webp$/);
 
+// maxAperture can be a single positive number or a tuple of two positive numbers [wide, tele]
+const maxApertureSchema = z.union([
+  positiveNumberSchema,
+  z.tuple([positiveNumberSchema, positiveNumberSchema]).refine(
+    (arr) => arr[0] < arr[1],
+    {
+      message: "When maxAperture is an array, the first value (wide) must be less than the second (tele)",
+    }
+  ),
+]);
+
 const lensBaseShape = {
   id: z.string().min(1).regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
   brand: nonEmptyStringSchema,
@@ -17,7 +28,7 @@ const lensBaseShape = {
   generation: z.number().int().positive().optional(),
   focalLengthMin: positiveNumberSchema,
   focalLengthMax: positiveNumberSchema,
-  maxAperture: positiveNumberSchema,
+  maxAperture: maxApertureSchema,
   minAperture: positiveNumberSchema,
   af: z.boolean(),
   ois: z.boolean(),
@@ -91,7 +102,7 @@ function applyLensBusinessRules(
   value: {
     focalLengthMin?: number;
     focalLengthMax?: number;
-    maxAperture?: number;
+    maxAperture?: number | [number, number];
     minAperture?: number;
     imageUrl?: string;
   },
@@ -109,18 +120,29 @@ function applyLensBusinessRules(
     });
   }
 
-  if (
-    value.maxAperture !== undefined &&
-    value.minAperture !== undefined &&
-    value.maxAperture > value.minAperture
-  ) {
-    ctx.addIssue({
-      code: "custom",
-      message: "maxAperture cannot be greater than minAperture",
-      path: ["maxAperture"],
-    });
+  // Validate maxAperture relative to minAperture
+  if (value.maxAperture !== undefined && value.minAperture !== undefined) {
+    if (Array.isArray(value.maxAperture)) {
+      // For variable-aperture zooms: check the wide-end value (index 0)
+      const [wideAperture] = value.maxAperture;
+      if (wideAperture > value.minAperture) {
+        ctx.addIssue({
+          code: "custom",
+          message: "maxAperture[0] (wide-end) cannot be greater than minAperture",
+          path: ["maxAperture", 0],
+        });
+      }
+    } else {
+      // For constant-aperture lenses: simple check
+      if (value.maxAperture > value.minAperture) {
+        ctx.addIssue({
+          code: "custom",
+          message: "maxAperture cannot be greater than minAperture",
+          path: ["maxAperture"],
+        });
+      }
+    }
   }
-
 }
 
 export const lensSchema = lensObjectSchema.superRefine((value, ctx) => {

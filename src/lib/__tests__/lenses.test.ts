@@ -13,6 +13,7 @@ import {
   focalEquivMax,
   focalDisplay,
   equivDisplay,
+  apertureDisplay,
 } from "../lens.format";
 
 // Minimal Lens factory — only fill in fields relevant to each test
@@ -93,6 +94,16 @@ describe("formatEquivDisplay", () => {
 
   it("shows equiv range for zoom", () => {
     expect(equivDisplay(zoom1835)).toBe("27–83mm");
+  });
+});
+
+describe("apertureDisplay", () => {
+  it("shows a single aperture for primes and constant-aperture zooms", () => {
+    expect(apertureDisplay(1.4)).toBe("f/1.4");
+  });
+
+  it("shows an aperture range for variable-aperture zooms", () => {
+    expect(apertureDisplay([3.5, 6.3])).toBe("f/3.5–6.3");
   });
 });
 

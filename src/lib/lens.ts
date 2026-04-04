@@ -95,12 +95,21 @@ export function parseLensIds(ids: string | undefined): Lens[] {
 
 export type SortKey = "focalLength" | "maxAperture" | "weightG" | "releaseYear";
 
+function getSortableMaxAperture(lens: Lens): number {
+  return Array.isArray(lens.maxAperture) ? lens.maxAperture[0] : lens.maxAperture;
+}
+
 export function sortLenses(
   lenses: Lens[],
   key: SortKey,
   dir: "asc" | "desc"
 ): Lens[] {
   return [...lenses].sort((a, b) => {
+    if (key === "maxAperture") {
+      const delta = getSortableMaxAperture(a) - getSortableMaxAperture(b);
+      return dir === "asc" ? delta : -delta;
+    }
+
     const field: keyof Lens =
       key === "focalLength"
         ? dir === "asc"
