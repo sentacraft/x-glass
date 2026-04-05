@@ -66,7 +66,7 @@ export default function LensFilters({
     <div className="flex flex-col gap-3">
       <div className="flex flex-wrap gap-4 items-end">
         {/* Brand multi-select chips */}
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-1 min-h-[4.5rem]">
           <span className={labelClass}>{t("brand")}</span>
           <div className="flex flex-wrap gap-1.5 py-0.5">
             {brands.map((b) => {
@@ -124,7 +124,7 @@ export default function LensFilters({
         </div>
 
         {/* Lens type */}
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-1 min-h-[4.5rem]">
           <label htmlFor="filter-type" className={labelClass}>
             {t("lensType")}
           </label>
@@ -151,7 +151,7 @@ export default function LensFilters({
         </div>
 
         {/* Sort */}
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-1 min-h-[4.5rem]">
           <label htmlFor="filter-sort" className={labelClass}>
             {t("sortBy")}
           </label>
@@ -203,7 +203,7 @@ export default function LensFilters({
         </div>
 
         {/* Advanced filters toggle */}
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-1 min-h-[4.5rem]">
           <span className={labelClass}>&nbsp;</span>
           <Button
             size="sm"
