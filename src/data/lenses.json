@@ -59,6 +59,35 @@
     }
   },
   {
+    "id": "7artisans-photoelectric-25mm-f095-xf",
+    "brand": "7artisans",
+    "model": "25mm F0.95",
+    "focalLengthMin": 25,
+    "focalLengthMax": 25,
+    "maxAperture": 0.95,
+    "minAperture": 16,
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "weightG": 589,
+    "diameterMm": 63,
+    "lengthMm": 99.7,
+    "minFocusDistanceCm": 25,
+    "angleOfView": "58.6°",
+    "apertureBladeCount": 13,
+    "imageUrl": "/lenses/7artisans-photoelectric-25mm-f095-xf.webp",
+    "filterMm": 52,
+    "lensConfiguration": {
+      "groups": 9,
+      "elements": 11,
+      "sourceText": "9组11片"
+    },
+    "officialLinks": {
+      "cn": "https://www.7artisans.com/prod_view.aspx?nid=3&typeid=102&id=386"
+    }
+  },
+  {
     "id": "7artisans-25mm-f18-xf",
     "brand": "7artisans",
     "model": "25mm F1.8",
@@ -85,6 +114,36 @@
     },
     "officialLinks": {
       "cn": "https://www.7artisans.com/prod_view.aspx?nid=3&typeid=104&id=402"
+    }
+  },
+  {
+    "id": "7artisans-photoelectric-35mm-f095-xf",
+    "brand": "7artisans",
+    "model": "35mm F0.95",
+    "focalLengthMin": 35,
+    "focalLengthMax": 35,
+    "maxAperture": 0.95,
+    "minAperture": 16,
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "weightG": 369,
+    "diameterMm": 56,
+    "lengthMm": 63,
+    "minFocusDistanceCm": 37,
+    "angleOfView": "43.9°",
+    "apertureBladeCount": 12,
+    "imageUrl": "/lenses/7artisans-photoelectric-35mm-f095-xf.webp",
+    "filterMm": 52,
+    "lensConfiguration": {
+      "groups": 8,
+      "elements": 11,
+      "ed": 2,
+      "sourceText": "8组11片"
+    },
+    "officialLinks": {
+      "cn": "https://www.7artisans.com/prod_view.aspx?nid=3&typeid=102&id=388"
     }
   },
   {
@@ -147,6 +206,56 @@
     }
   },
   {
+    "id": "7artisans-photoelectric-50mm-f095-xf",
+    "brand": "7artisans",
+    "model": "50mm F0.95",
+    "focalLengthMin": 50,
+    "focalLengthMax": 50,
+    "maxAperture": 0.95,
+    "minAperture": 16,
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "weightG": 420,
+    "diameterMm": 56,
+    "lengthMm": 63,
+    "minFocusDistanceCm": 45,
+    "angleOfView": "31.8°",
+    "apertureBladeCount": 13,
+    "imageUrl": "/lenses/7artisans-photoelectric-50mm-f095-xf.webp",
+    "filterMm": 52,
+    "lensConfiguration": {
+      "groups": 5,
+      "elements": 7,
+      "sourceText": "5组7片"
+    },
+    "officialLinks": {
+      "cn": "https://www.7artisans.com/prod_view.aspx?nid=3&typeid=102&id=389"
+    }
+  },
+  {
+    "id": "7artisans-photoelectric-50mm-f14-tilt-shift-xf",
+    "brand": "7artisans",
+    "model": "50mm F1.4 T/S",
+    "focalLengthMin": 50,
+    "focalLengthMax": 50,
+    "maxAperture": 1.4,
+    "minAperture": 16,
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "weightG": 364,
+    "diameterMm": 75,
+    "lengthMm": 73,
+    "imageUrl": "/lenses/7artisans-photoelectric-50mm-f14-tilt-shift-xf.webp",
+    "filterMm": 46,
+    "officialLinks": {
+      "cn": "https://www.7artisans.com/prod_view.aspx?nid=3&typeid=104&id=496"
+    }
+  },
+  {
     "id": "7artisans-50mm-f18-xf",
     "brand": "7artisans",
     "model": "50mm F1.8",
@@ -176,6 +285,65 @@
     }
   },
   {
+    "id": "7artisans-55mm-f14-ii-xf",
+    "brand": "7artisans",
+    "model": "55mm F1.4 II",
+    "generation": 2,
+    "focalLengthMin": 55,
+    "focalLengthMax": 55,
+    "maxAperture": 1.4,
+    "minAperture": 16,
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "weightG": 365,
+    "diameterMm": 60,
+    "lengthMm": 57.2,
+    "minFocusDistanceCm": 42,
+    "angleOfView": "29.5°",
+    "apertureBladeCount": 9,
+    "imageUrl": "/lenses/7artisans-55mm-f14-ii-xf.webp",
+    "filterMm": 52,
+    "lensConfiguration": {
+      "groups": 5,
+      "elements": 6,
+      "sourceText": "5组6片"
+    },
+    "officialLinks": {
+      "cn": "https://www.7artisans.com/prod_view.aspx?nid=3&typeid=104&id=407"
+    }
+  },
+  {
+    "id": "7artisans-af-10mm-f28-xf",
+    "brand": "7artisans",
+    "model": "AF 10mm F2.8",
+    "focalLengthMin": 10,
+    "focalLengthMax": 10,
+    "maxAperture": 2.8,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": false,
+    "apertureRing": false,
+    "weightG": 230,
+    "diameterMm": 69,
+    "lengthMm": 72,
+    "angleOfView": "105.3°",
+    "imageUrl": "/lenses/7artisans-af-10mm-f28-xf.webp",
+    "filterMm": 62,
+    "lensConfiguration": {
+      "groups": 10,
+      "elements": 11,
+      "aspherical": 2,
+      "ed": 3,
+      "sourceText": "10组11片"
+    },
+    "officialLinks": {
+      "cn": "https://www.7artisans.com/prod_view.aspx?nid=3&typeid=126&id=505"
+    }
+  },
+  {
     "id": "7artisans-af-27mm-f28-xf",
     "brand": "7artisans",
     "model": "AF 27mm F2.8",
@@ -199,6 +367,271 @@
     },
     "officialLinks": {
       "cn": "https://www.7artisans.com/prod_view.aspx?nid=3&typeid=126&id=482"
+    }
+  },
+  {
+    "id": "7artisans-af-35mm-f14-xf",
+    "brand": "7artisans",
+    "model": "AF 35mm F1.4",
+    "focalLengthMin": 35,
+    "focalLengthMax": 35,
+    "maxAperture": 1.4,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": false,
+    "apertureRing": false,
+    "weightG": 228,
+    "diameterMm": 68,
+    "lengthMm": 49,
+    "minFocusDistanceCm": 35,
+    "angleOfView": "43°",
+    "apertureBladeCount": 9,
+    "imageUrl": "/lenses/7artisans-af-35mm-f14-xf.webp",
+    "filterMm": 62,
+    "lensConfiguration": {
+      "groups": 5,
+      "elements": 8,
+      "sourceText": "5组8片"
+    },
+    "officialLinks": {
+      "cn": "https://www.7artisans.com/prod_view.aspx?nid=3&typeid=126&id=485"
+    }
+  },
+  {
+    "id": "brightinstar-10mm-f56-fisheye-xf",
+    "brand": "brightinstar",
+    "model": "MF 10mm F5.6 Pro",
+    "focalLengthMin": 10,
+    "focalLengthMax": 10,
+    "maxAperture": 5.6,
+    "minAperture": 5.6,
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": false,
+    "weightG": 120,
+    "diameterMm": 53,
+    "lengthMm": 20,
+    "minFocusDistanceCm": 20,
+    "angleOfView": "对角 172°",
+    "apertureBladeCount": 5,
+    "imageUrl": "/lenses/brightinstar-10mm-f56-fisheye-xf.webp",
+    "filterMm": "N/A",
+    "lensConfiguration": {
+      "groups": 5,
+      "elements": 6,
+      "sourceText": "5组6片"
+    },
+    "officialLinks": {
+      "cn": "https://brightinstar.com.cn/products/mf-10mm-f5-6-%E5%8D%8A%E7%94%BB%E5%B9%85"
+    }
+  },
+  {
+    "id": "brightinstar-12mm-f20-iii-xf",
+    "brand": "brightinstar",
+    "model": "MF 12mm F2.0 Ⅲ",
+    "focalLengthMin": 12,
+    "focalLengthMax": 12,
+    "maxAperture": 2,
+    "minAperture": 22,
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "weightG": 268,
+    "diameterMm": 69.5,
+    "lengthMm": 53,
+    "minFocusDistanceCm": 18,
+    "angleOfView": "对角 97° 水平 86.7° 垂直 63.9°",
+    "apertureBladeCount": 10,
+    "imageUrl": "/lenses/brightinstar-12mm-f20-iii-xf.webp",
+    "filterMm": 62,
+    "lensConfiguration": {
+      "groups": 9,
+      "elements": 12,
+      "aspherical": 2,
+      "ed": 2,
+      "sourceText": "9组12片 (含2枚ED镜片+2枚非球面镜片)"
+    },
+    "officialLinks": {
+      "cn": "https://brightinstar.com.cn/products/mf-12mm-f2-0-%E2%85%B2-%E5%8D%8A%E7%94%BB%E5%B9%85"
+    }
+  },
+  {
+    "id": "brightinstar-35mm-f095-xf",
+    "brand": "brightinstar",
+    "model": "MF 35mm F0.95",
+    "focalLengthMin": 35,
+    "focalLengthMax": 35,
+    "maxAperture": 0.95,
+    "minAperture": 16,
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "weightG": 370,
+    "diameterMm": 62,
+    "lengthMm": 62,
+    "minFocusDistanceCm": 37,
+    "angleOfView": "对角 44° 水平 37.5° 垂直 25.3°",
+    "apertureBladeCount": 12,
+    "imageUrl": "/lenses/brightinstar-35mm-f095-xf.webp",
+    "filterMm": 52,
+    "lensConfiguration": {
+      "groups": 8,
+      "elements": 11,
+      "ed": 2,
+      "sourceText": "8组11片 (含2枚ED低色散镜片)"
+    },
+    "officialLinks": {
+      "cn": "https://brightinstar.com.cn/products/mf-35mm-f0-95-%E5%8D%8A%E7%94%BB%E5%B9%85"
+    }
+  },
+  {
+    "id": "brightinstar-35mm-f17-xf",
+    "brand": "brightinstar",
+    "model": "MF 35mm F1.7",
+    "focalLengthMin": 35,
+    "focalLengthMax": 35,
+    "maxAperture": 1.7,
+    "minAperture": 16,
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "weightG": 171,
+    "diameterMm": 57,
+    "lengthMm": 40,
+    "minFocusDistanceCm": 28,
+    "angleOfView": "42°",
+    "apertureBladeCount": 10,
+    "imageUrl": "/lenses/brightinstar-35mm-f17-xf.webp",
+    "filterMm": 43,
+    "lensConfiguration": {
+      "groups": 4,
+      "elements": 6,
+      "sourceText": "4组6片"
+    },
+    "officialLinks": {
+      "cn": "https://brightinstar.com.cn/products/mf-35mm-f1-7-%E5%8D%8A%E7%94%BB%E5%B9%85"
+    }
+  },
+  {
+    "id": "brightinstar-50mm-f095-xf",
+    "brand": "brightinstar",
+    "model": "MF 50mm F0.95",
+    "focalLengthMin": 50,
+    "focalLengthMax": 50,
+    "maxAperture": 0.95,
+    "minAperture": 16,
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "weightG": 443,
+    "diameterMm": 68.45,
+    "lengthMm": 66.62,
+    "minFocusDistanceCm": 50,
+    "angleOfView": "对角 32° 水平 26.7° 垂直 18°",
+    "apertureBladeCount": 13,
+    "imageUrl": "/lenses/brightinstar-50mm-f095-xf.webp",
+    "filterMm": 62,
+    "lensConfiguration": {
+      "groups": 5,
+      "elements": 7,
+      "ed": 2,
+      "sourceText": "5组7片 (含4枚高折射镜片+2枚ED低色散镜片)"
+    },
+    "officialLinks": {
+      "cn": "https://brightinstar.com.cn/products/mf-50mm-f0-95-%E5%8D%8A%E7%94%BB%E5%B9%85"
+    }
+  },
+  {
+    "id": "brightinstar-50mm-f14-xf",
+    "brand": "brightinstar",
+    "model": "MF 50mm F1.4 Ⅲ",
+    "focalLengthMin": 50,
+    "focalLengthMax": 50,
+    "maxAperture": 1.4,
+    "minAperture": 16,
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "weightG": 595,
+    "diameterMm": 63,
+    "lengthMm": 64,
+    "minFocusDistanceCm": 42,
+    "angleOfView": "29.5°",
+    "apertureBladeCount": 9,
+    "imageUrl": "/lenses/brightinstar-50mm-f14-xf.webp",
+    "filterMm": 55,
+    "lensConfiguration": {
+      "groups": 5,
+      "elements": 6,
+      "sourceText": "5组6片 (含ED镜片+高折射率镜片)"
+    },
+    "officialLinks": {
+      "cn": "https://brightinstar.com.cn/products/mf-50mm-f1-4-%E2%85%B2-%E5%8D%8A%E7%94%BB%E5%B9%85"
+    }
+  },
+  {
+    "id": "brightinstar-50mm-f18-xf",
+    "brand": "brightinstar",
+    "model": "MF 50mm F1.8",
+    "focalLengthMin": 50,
+    "focalLengthMax": 50,
+    "maxAperture": 1.8,
+    "minAperture": 16,
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "weightG": 227,
+    "diameterMm": 54,
+    "lengthMm": 40,
+    "minFocusDistanceCm": 38,
+    "angleOfView": "对角 32°",
+    "apertureBladeCount": 10,
+    "imageUrl": "/lenses/brightinstar-50mm-f18-xf.webp",
+    "filterMm": 43,
+    "lensConfiguration": {
+      "groups": 4,
+      "elements": 6,
+      "sourceText": "4组6片"
+    },
+    "officialLinks": {
+      "cn": "https://brightinstar.com.cn/products/mf-50mm-f1-8-%E5%8D%8A%E7%94%BB%E5%B9%85"
+    }
+  },
+  {
+    "id": "brightinstar-60mm-f28-2x-macro-xf",
+    "brand": "brightinstar",
+    "model": "MF 60mm F2.8 2:1 Macro",
+    "focalLengthMin": 60,
+    "focalLengthMax": 60,
+    "maxAperture": 2.8,
+    "minAperture": 16,
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "weightG": 698,
+    "diameterMm": 73,
+    "lengthMm": 112,
+    "minFocusDistanceCm": 18,
+    "angleOfView": "26.5°",
+    "apertureBladeCount": 9,
+    "imageUrl": "/lenses/brightinstar-60mm-f28-2x-macro-xf.webp",
+    "filterMm": 67,
+    "lensConfiguration": {
+      "groups": 7,
+      "elements": 10,
+      "sourceText": "7组10片"
+    },
+    "officialLinks": {
+      "cn": "https://brightinstar.com.cn/products/mf-60mm-f2-8-%E5%8D%8A%E7%94%BB%E5%B9%85"
     }
   },
   {
