@@ -109,5 +109,8 @@
     "backToLenses": "返回列表",
     "noLenses": "未选择镜头，请返回列表选择要对比的镜头。",
     "officialSite": "官网"
+  },
+  "Footer": {
+    "dataInfo": "数据 v{version} · {lensCount} 款镜头 · 更新于 {date}"
   }
 }

@@ -109,5 +109,8 @@
     "backToLenses": "Back to Lenses",
     "noLenses": "No lenses selected. Go back and pick some to compare.",
     "officialSite": "Official site"
+  },
+  "Footer": {
+    "dataInfo": "Data v{version} · {lensCount} lenses · Updated {date}"
   }
 }

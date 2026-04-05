@@ -1,8 +1,10 @@
 import lensesData from "../data/lenses.json";
+import metaData from "../data/meta.json";
 import { lensCatalogSchema } from "./lens-schema";
 import type { Lens, LensCatalog } from "./types";
 
 export const allLenses: Lens[] = lensCatalogSchema.parse(lensesData) as LensCatalog;
+export const meta = metaData;
 
 export type LensType = "prime" | "zoom";
 

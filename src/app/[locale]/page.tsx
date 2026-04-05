@@ -1,5 +1,6 @@
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
+import DataInfo from "@/components/DataFooter";
 
 export default function Home() {
   const t = useTranslations("Common");
@@ -21,12 +22,15 @@ export default function Home() {
         <p className="mt-4 text-lg text-zinc-500 dark:text-zinc-400 max-w-sm">
           {t("appDesc")}
         </p>
-        <Link
-          href="/lenses"
-          className="mt-8 inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-zinc-900 dark:bg-zinc-50 text-zinc-50 dark:text-zinc-900 font-medium text-sm hover:opacity-90 transition-opacity"
-        >
-          {h("cta")} →
-        </Link>
+        <div className="mt-8 flex flex-col items-center gap-0">
+          <Link
+            href="/lenses"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-zinc-900 dark:bg-zinc-50 text-zinc-50 dark:text-zinc-900 font-medium text-sm hover:opacity-90 transition-opacity"
+          >
+            {h("cta")} →
+          </Link>
+          <DataInfo />
+        </div>
       </section>
 
       {/* Features */}
