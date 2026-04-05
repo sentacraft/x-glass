@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { Aperture, Droplet, Focus, Waves } from "lucide-react";
-import { FILTER_FEATURE_KEYS } from "@/lib/lens";
-import type { FilterState, LensType, SortKey } from "@/lib/lens";
+import { FILTER_FEATURE_KEYS, FOCAL_CATEGORIES } from "@/lib/lens";
+import type { FilterState, LensType, SortKey, FocalCategory } from "@/lib/lens";
 import { Button } from "@/components/ui/button";
 import {
   ArrowUpNarrowWide,
@@ -86,6 +86,37 @@ export default function LensFilters({
                   }
                 >
                   {tBrand(b)}
+                </Button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Focal category multi-select chips */}
+        <div className="flex flex-col gap-1">
+          <span className={labelClass}>{t("focalRange")}</span>
+          <div className="flex flex-wrap gap-1.5 py-0.5">
+            {FOCAL_CATEGORIES.map((cat) => {
+              const selected = filters.focalCategories.includes(cat.key as FocalCategory);
+              return (
+                <Button
+                  key={cat.key}
+                  size="sm"
+                  variant={selected ? "default" : "outline"}
+                  className="flex flex-col items-center h-auto py-1.5 px-3 leading-none"
+                  onClick={() =>
+                    updateFilters(
+                      "focalCategories",
+                      selected
+                        ? filters.focalCategories.filter((x) => x !== cat.key)
+                        : [...filters.focalCategories, cat.key]
+                    )
+                  }
+                >
+                  <span>{t(`category-${cat.key}`)}</span>
+                  <span className="text-[10px] text-zinc-400 dark:text-zinc-500 leading-tight mt-0.5">
+                    {t(`category-${cat.key}Hint`)}
+                  </span>
                 </Button>
               );
             })}

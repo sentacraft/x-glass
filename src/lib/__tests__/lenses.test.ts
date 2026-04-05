@@ -6,6 +6,7 @@ import {
   sortLenses,
   getUniqueBrands,
   getLensUrl,
+  getFocalCategoriesOf,
   defaultFilters,
 } from "../lens";
 import {
@@ -293,6 +294,119 @@ describe("filterLenses", () => {
     });
     expect(result).toHaveLength(1);
     expect(result[0].id).toBe("fuji-zoom");
+  });
+
+  it("returns all lenses with empty focalCategories", () => {
+    expect(filterLenses(lensPool, defaultFilters)).toHaveLength(4);
+  });
+
+  it("filters by focalCategory: wide", () => {
+    const result = filterLenses(lensPool, {
+      ...defaultFilters,
+      focalCategories: ["wide"],
+    });
+    // fuji-prime: 35mm -> 52.5mm equiv, does NOT overlap [24, 35)
+    // fuji-zoom: 18-55mm -> 27-82.5mm equiv, DOES overlap [24, 35)
+    expect(result).toHaveLength(1);
+    expect(result.map((l) => l.id)).toContain("fuji-zoom");
+  });
+
+  it("filters by focalCategory: mediumTele", () => {
+    const result = filterLenses(lensPool, {
+      ...defaultFilters,
+      focalCategories: ["mediumTele"],
+    });
+    // fuji-zoom: 27-82.5 overlaps [70, 150) -> yes
+    // sigma-prime: 75mm -> 112.5mm in [70, 150) -> yes
+    // mf-prime: 75mm -> 112.5mm in [70, 150) -> yes
+    expect(result).toHaveLength(3);
+    expect(result.map((l) => l.id)).toContain("fuji-zoom");
+    expect(result.map((l) => l.id)).toContain("sigma-prime");
+    expect(result.map((l) => l.id)).toContain("mf-prime");
+  });
+
+  it("filters by multiple focalCategories (OR)", () => {
+    const result = filterLenses(lensPool, {
+      ...defaultFilters,
+      focalCategories: ["wide", "standard"],
+    });
+    // fuji-prime: standard -> matches
+    // fuji-zoom: wide+standard+mediumTele -> matches
+    // sigma-prime: mediumTele -> does NOT match
+    // mf-prime: mediumTele -> does NOT match
+    expect(result).toHaveLength(2);
+    expect(result.map((l) => l.id)).toContain("fuji-prime");
+    expect(result.map((l) => l.id)).toContain("fuji-zoom");
+  });
+});
+
+// ---------------------------------------------------------------------------
+// getFocalCategoriesOf
+// ---------------------------------------------------------------------------
+function newPrime(fl: number) {
+  return { focalLengthMin: fl, focalLengthMax: fl };
+}
+
+describe("getFocalCategoriesOf", () => {
+  it("classifies a 35mm prime as standard (52.5mm equiv)", () => {
+    const cats = getFocalCategoriesOf(newPrime(35));
+    expect(cats).toEqual(["standard"]);
+  });
+
+  it("classifies an 8mm prime as ultrawide (12mm equiv)", () => {
+    const cats = getFocalCategoriesOf(newPrime(8));
+    expect(cats).toEqual(["ultrawide"]);
+  });
+
+  it("classifies a 75mm prime as mediumTele (112.5mm equiv)", () => {
+    const cats = getFocalCategoriesOf(newPrime(75));
+    expect(cats).toEqual(["mediumTele"]);
+  });
+
+  it("classifies a 200mm prime as superTele (300mm equiv)", () => {
+    const cats = getFocalCategoriesOf(newPrime(200));
+    expect(cats).toEqual(["superTele"]);
+  });
+
+  it("classifies an 18-55mm zoom as wide+standard+mediumTele", () => {
+    // 27-82.5mm equiv
+    const cats = getFocalCategoriesOf({
+      focalLengthMin: 18,
+      focalLengthMax: 55,
+    });
+    expect(cats).toEqual(["wide", "standard", "mediumTele"]);
+  });
+
+  it("classifies a 16-300mm zoom as wide+standard+mediumTele+superTele", () => {
+    // 24-450mm equiv (16mm is exactly 24mm equiv, boundary with wide)
+    const cats = getFocalCategoriesOf({
+      focalLengthMin: 16,
+      focalLengthMax: 300,
+    });
+    expect(cats).toEqual([
+      "wide",
+      "standard",
+      "mediumTele",
+      "superTele",
+    ]);
+  });
+
+  it("classifies an 8-16mm zoom as ultrawide+wide", () => {
+    // 12-24mm equiv
+    const cats = getFocalCategoriesOf({
+      focalLengthMin: 8,
+      focalLengthMax: 16,
+    });
+    expect(cats).toEqual(["ultrawide", "wide"]);
+  });
+
+  it("classifies a 50-140mm zoom as mediumTele+superTele", () => {
+    // 75-210mm equiv, does not reach standard [35, 70)
+    const cats = getFocalCategoriesOf({
+      focalLengthMin: 50,
+      focalLengthMax: 140,
+    });
+    expect(cats).toEqual(["mediumTele", "superTele"]);
   });
 });
 
