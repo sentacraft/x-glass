@@ -59,6 +59,7 @@
     "sortDesc": "Descending",
     "moreFilters": "More Filters",
     "fewerFilters": "Fewer Filters",
+    "clearFilters": "Clear Filters",
     "addToCompare": "Add to Compare",
     "removeFromCompare": "Remove",
     "compareCount": "{count} selected",
