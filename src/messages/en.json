@@ -89,6 +89,7 @@
     "yes": "Yes",
     "no": "No",
     "unknown": "N/A",
+    "missing": "-",
     "backToLenses": "Back to Lenses",
     "addToCompare": "Add to Compare",
     "officialSite": "Official site",

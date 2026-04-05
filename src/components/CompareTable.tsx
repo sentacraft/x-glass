@@ -158,7 +158,7 @@ function ColumnOverlay({
       const val = row.getDisplayValue(lens);
       content =
         val === undefined ? (
-          td("unknown")
+          td("missing")
         ) : (
           <span className="font-medium tabular-nums">{val}</span>
         );
@@ -483,7 +483,7 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
                           className="px-4 py-3 text-zinc-700 dark:text-zinc-300 whitespace-pre-line"
                           style={{ opacity: isActive ? 0 : 1 }}
                         >
-                          {row.getDisplayValue(lens) ?? td("unknown")}
+                          {row.getDisplayValue(lens) ?? td("missing")}
                         </td>
                       );
                     })}

@@ -187,7 +187,7 @@ export default async function LensDetailPage({ params }: { params: Params }) {
                             unknown={unknown}
                           />
                         ) : (
-                          row.value ?? unknown
+                          row.value ?? t("missing")
                         )}
                       </td>
                     </tr>
