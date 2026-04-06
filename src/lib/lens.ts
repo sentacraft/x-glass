@@ -85,7 +85,7 @@ export function getFocalCategoriesOf(lens: {
 
 export interface FilterState {
   brands: string[]; // empty = all brands
-  types: LensType[]; // empty = all types
+  typeFilter: LensType | null; // null = all types
   features: FilterFeatureKey[]; // empty = no requirement
   focalCategories: FocalCategory[]; // empty = all categories
   weightRange: [number, number] | null; // null = no filter
@@ -96,7 +96,7 @@ export interface FilterState {
 
 export const defaultFilters: FilterState = {
   brands: [],
-  types: [],
+  typeFilter: null,
   features: [],
   focalCategories: [],
   weightRange: null,
@@ -111,14 +111,9 @@ export function filterLenses(lenses: Lens[], filters: FilterState): Lens[] {
       return false;
     }
 
-    const hasTypeFilter =
-      filters.types.length > 0 && filters.types.length < LENS_TYPES.length;
-    if (hasTypeFilter) {
-      const lensType: LensType = isZoom(lens) ? "zoom" : "prime";
-      if (!filters.types.includes(lensType)) {
+    if (filters.typeFilter && filters.typeFilter !== (isZoom(lens) ? "zoom" : "prime")) {
         return false;
       }
-    }
 
     for (const field of FILTER_FEATURE_KEYS) {
       if (filters.features.includes(field) && !lens[field]) {
