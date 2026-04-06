@@ -9,10 +9,19 @@ import {
   defaultFilters,
   getUniqueBrands,
   type FilterState,
+  type SortKey,
 } from "@/lib/lens";
 import { useCompare } from "@/context/CompareProvider";
 import { useUiHookAttr } from "@/context/TestHookProvider";
-import { ChevronUp } from "lucide-react";
+import { ArrowDownNarrowWide, ArrowUpNarrowWide, ChevronUp } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import LensCard from "./LensCard";
 import LensFilters from "./LensFilters";
 
@@ -41,6 +50,23 @@ export default function LensListClient({ lenses }: Props) {
     [lenses, filters]
   );
 
+  const hasActiveFilters =
+    filters.brands.length > 0 ||
+    filters.typeFilter !== null ||
+    filters.focalCategories.length > 0 ||
+    filters.features.length > 0;
+    
+  const sortOptions = [
+    { value: "focalLength", label: t("sortFocalLength") },
+    { value: "maxAperture", label: t("sortAperture") },
+    { value: "weightG", label: t("sortWeight") },
+    { value: "releaseYear", label: t("sortYear") },
+  ] as const satisfies readonly { value: SortKey; label: string }[];
+
+  function clearAllFilters() {
+    setFilters(defaultFilters);
+  }
+
   return (
     <>
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 py-8 flex flex-col gap-6 pb-24">
@@ -53,9 +79,76 @@ export default function LensListClient({ lenses }: Props) {
             brands={brands}
             onFiltersChange={setFilters}
           />
-          <p className="text-sm text-zinc-500 dark:text-zinc-400">
-            {t("resultsCount", { count: displayed.length })}
-          </p>
+          <div>
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <div className="flex items-center gap-3 text-sm text-zinc-500 dark:text-zinc-400">
+                <p>{t("resultsCount", { count: displayed.length })}</p>
+                {hasActiveFilters ? (
+                  <button
+                    type="button"
+                    className="text-[11px] font-medium uppercase tracking-[0.08em] text-zinc-700 underline decoration-zinc-300 underline-offset-4 transition-colors hover:text-zinc-900 hover:decoration-zinc-500 dark:text-zinc-300 dark:decoration-zinc-600 dark:hover:text-zinc-100 dark:hover:decoration-zinc-400"
+                    onClick={clearAllFilters}
+                  >
+                    {t("clearFilters")}
+                  </button>
+                ) : null}
+              </div>
+
+              <div className="inline-flex items-center gap-0.5 self-start rounded-full border border-zinc-200/70 bg-white/80 p-0.75 shadow-sm shadow-zinc-950/[0.02] dark:border-zinc-800 dark:bg-zinc-900/30 sm:self-auto">
+                <label
+                  htmlFor="results-sort"
+                  className="pl-2.5 text-[10px] font-medium uppercase tracking-[0.08em] text-zinc-500 dark:text-zinc-400"
+                >
+                  {t("sortBy")}
+                </label>
+                <Select
+                  value={filters.sort}
+                  onValueChange={(value) =>
+                    setFilters((current) => ({
+                      ...current,
+                      sort: (value ?? "focalLength") as SortKey,
+                    }))
+                  }
+                  items={sortOptions.map((option) => ({ ...option }))}
+                >
+                  <SelectTrigger
+                    id="results-sort"
+                    size="sm"
+                    className="min-w-[7.75rem] rounded-full border-transparent bg-transparent px-2.5 text-[12px] shadow-none dark:bg-transparent"
+                  >
+                    <SelectValue placeholder={t("sortFocalLength")} />
+                  </SelectTrigger>
+                  <SelectContent align="end" alignItemWithTrigger={false}>
+                    {sortOptions.map((option) => (
+                      <SelectItem key={option.value} value={option.value}>
+                        {option.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="h-7 rounded-full border-zinc-200/80 bg-zinc-50/80 px-2 dark:border-zinc-700 dark:bg-zinc-800/70"
+                  onClick={() =>
+                    setFilters((current) => ({
+                      ...current,
+                      sortDir: current.sortDir === "asc" ? "desc" : "asc",
+                    }))
+                  }
+                  aria-label={
+                    filters.sortDir === "asc" ? t("sortAsc") : t("sortDesc")
+                  }
+                >
+                  {filters.sortDir === "asc" ? (
+                    <ArrowUpNarrowWide />
+                  ) : (
+                    <ArrowDownNarrowWide />
+                  )}
+                </Button>
+              </div>
+            </div>
+          </div>
         </div>
 
         {displayed.length === 0 ? (
