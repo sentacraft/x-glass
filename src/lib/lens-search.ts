@@ -26,6 +26,8 @@ interface SearchableLensEntry {
   aggregate: string;
 }
 
+export type LensSearchIndex = SearchableLensEntry[];
+
 function scoreField(field: string, query: string, weights: ScoredField): number {
   if (!field || !query) {
     return 0;
@@ -65,6 +67,10 @@ function createSearchableLensEntry(lens: Lens): SearchableLensEntry {
   };
 }
 
+export function buildLensSearchIndex(lenses: Lens[]): LensSearchIndex {
+  return lenses.map(createSearchableLensEntry);
+}
+
 function scoreLens(entry: SearchableLensEntry, query: string): number {
   const modelScore = scoreField(entry.model, query, {
     text: entry.model,
@@ -101,8 +107,8 @@ function scoreLens(entry: SearchableLensEntry, query: string): number {
   return modelScore + brandScore + seriesScore + aggregateScore;
 }
 
-export function searchLenses(
-  lenses: Lens[],
+export function searchLensIndex(
+  index: LensSearchIndex,
   query: string,
   limit = 8
 ): Lens[] {
@@ -112,8 +118,7 @@ export function searchLenses(
     return [];
   }
 
-  return lenses
-    .map(createSearchableLensEntry)
+  return index
     .map((entry) => ({
       entry,
       score: scoreLens(entry, normalizedQuery),
@@ -132,4 +137,12 @@ export function searchLenses(
     })
     .slice(0, limit)
     .map((entry) => entry.entry.lens);
+}
+
+export function searchLenses(
+  lenses: Lens[],
+  query: string,
+  limit = 8
+): Lens[] {
+  return searchLensIndex(buildLensSearchIndex(lenses), query, limit);
 }

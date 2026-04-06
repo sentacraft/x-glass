@@ -13,7 +13,7 @@ import { Search, X } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 import { allLenses } from "@/lib/lens";
-import { searchLenses } from "@/lib/lens-search";
+import { buildLensSearchIndex, searchLensIndex } from "@/lib/lens-search";
 import type { Lens } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
@@ -21,6 +21,8 @@ interface LensSearchResultState {
   actionLabel?: string;
   disabled?: boolean;
 }
+
+const lensSearchIndex = buildLensSearchIndex(allLenses);
 
 interface LensSearchDialogProps {
   onSelectLens?: (lens: Lens) => void;
@@ -51,7 +53,7 @@ export default function LensSearchDialog({
   const deferredQuery = useDeferredValue(query);
 
   const results = useMemo(
-    () => searchLenses(allLenses, deferredQuery),
+    () => searchLensIndex(lensSearchIndex, deferredQuery),
     [deferredQuery]
   );
 
