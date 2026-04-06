@@ -50,4 +50,3 @@ next-env.d.ts
 .claude/
 skills-lock.json
 src/app/[[]locale[]]/design-lab/
-src/components/FilterBarPreview.tsx

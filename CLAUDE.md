@@ -65,6 +65,9 @@ x-glass/
 
 - **语言优先级**：优先保证英文版本（`en.json`）功能完整正确；开发时同步更新 `zh.json`，但以英文为准，中文翻译可暂时留空或粗译。
 - **代码注释语言**：所有代码注释（inline comments、block comments、JSDoc）统一用英文，禁止出现中文。
+- **Design Lab 约定**：所有用于 demo、design exploration、UX 研究的页面与实验组件都必须放在 `src/app/[locale]/design-lab/` 下，避免污染生产代码。
+- **Design Lab 约定**：`src/app/[locale]/design-lab/` 下的所有页面与实验组件一律直接写死英文文案，不接入 `next-intl`，也不要把实验文案写入 `en.json` / `zh.json`。
+- **Design Lab 约定**：`.gitignore` 必须保持对 `src/app/[locale]/design-lab/` 及其子目录的忽略，确保这类实验文件默认不进入版本控制。
 
 ## 当前阶段：Phase 2
 
