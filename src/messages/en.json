@@ -153,6 +153,10 @@
     "add": "Add",
     "added": "Added",
     "full": "Full",
+    "addToCompareAction": "Add to compare",
+    "alreadyAdded": "Already added",
+    "compareFull": "Compare full",
+    "needOneMoreLens": "You only have one lens here right now. Add one more lens to unlock a proper side-by-side comparison.",
     "removeLens": "Remove {model}"
   },
   "Footer": {

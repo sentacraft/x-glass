@@ -172,9 +172,17 @@ export default function LensSearchDialog({
             className="w-full max-w-2xl overflow-hidden rounded-[28px] border border-zinc-200 bg-white shadow-2xl shadow-zinc-950/20 dark:border-zinc-800 dark:bg-zinc-950"
             onClick={(event) => event.stopPropagation()}
           >
-            <div className="border-b border-zinc-100 px-5 py-4 dark:border-zinc-800">
-              <div className="flex items-start justify-between gap-4">
-                <div className="space-y-1">
+            <div className="relative border-b border-zinc-100 px-5 py-4 dark:border-zinc-800">
+              <button
+                type="button"
+                onClick={closeDialog}
+                aria-label={t("close")}
+                className="absolute right-5 top-4 inline-flex h-9 w-9 items-center justify-center rounded-full text-zinc-400 transition-colors hover:bg-zinc-100 hover:text-zinc-700 dark:hover:bg-zinc-900 dark:hover:text-zinc-200"
+              >
+                <X className="h-4 w-4" />
+              </button>
+
+              <div className="space-y-1 pr-12">
                   <h2
                     id={titleId}
                     className="text-lg font-semibold tracking-tight text-zinc-950 dark:text-zinc-50"
@@ -187,15 +195,6 @@ export default function LensSearchDialog({
                   >
                     {t("description")}
                   </p>
-                </div>
-                <button
-                  type="button"
-                  onClick={closeDialog}
-                  aria-label={t("close")}
-                  className="inline-flex h-9 w-9 items-center justify-center rounded-full text-zinc-400 transition-colors hover:bg-zinc-100 hover:text-zinc-700 dark:hover:bg-zinc-900 dark:hover:text-zinc-200"
-                >
-                  <X className="h-4 w-4" />
-                </button>
               </div>
 
               <div className="mt-4 flex items-center gap-3 rounded-2xl border border-zinc-200 bg-zinc-50 px-4 py-3 shadow-inner shadow-zinc-200/30 dark:border-zinc-800 dark:bg-zinc-900 dark:shadow-black/20">

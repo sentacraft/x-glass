@@ -152,6 +152,10 @@
     "add": "添加",
     "added": "已添加",
     "full": "已满",
+    "addToCompareAction": "加入对比",
+    "alreadyAdded": "已在对比中",
+    "compareFull": "对比已满",
+    "needOneMoreLens": "当前这里只有 1 支镜头，再添加 1 支镜头，就可以开始真正的并排对比。",
     "removeLens": "移除 {model}"
   },
   "Footer": {

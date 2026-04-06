@@ -1,6 +1,6 @@
 "use client";
 
-import React, { startTransition, useRef, useState } from "react";
+import React, { startTransition, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { ExternalLink } from "@/components/ui/external-link";
 import { useTranslations } from "next-intl";
@@ -24,6 +24,7 @@ import { GripVertical, X } from "lucide-react";
 import { LensPlaceholderIcon } from "@/components/ui/lens-placeholder-icon";
 import { useRouter } from "@/i18n/navigation";
 import LensSearchDialog from "@/components/LensSearchDialog";
+import { useCompare } from "@/context/CompareProvider";
 import { MAX_COMPARE, allLenses, getLensUrl } from "@/lib/lens";
 import { lensImageStyle } from "@/lib/lens-image";
 import * as fmt from "@/lib/lens.format";
@@ -123,9 +124,9 @@ function SortableLensHeader({
           type="button"
           onClick={onRemove}
           aria-label={removeLabel}
-          className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-zinc-400 transition-colors hover:bg-zinc-100 hover:text-zinc-700 dark:hover:bg-zinc-800 dark:hover:text-zinc-200"
+          className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-zinc-300 transition-colors hover:bg-zinc-100 hover:text-zinc-600 dark:text-zinc-600 dark:hover:bg-zinc-800 dark:hover:text-zinc-300"
         >
-          <X className="h-4 w-4" />
+          <X className="h-3.5 w-3.5" />
         </button>
         <div
           {...attributes}
@@ -156,13 +157,13 @@ function AddLensHeader({
 
   return (
     <th className="bg-zinc-50 px-3 py-4 text-left dark:bg-zinc-900/60">
-      <div className="flex min-h-[15rem] flex-col items-center justify-center gap-4 px-2 py-6 text-center">
+      <div className="flex min-h-[15rem] flex-col items-center justify-center gap-2.5 px-2 py-5 text-center">
         <LensSearchDialog
           onSelectLens={onSelectLens}
           getResultState={getResultState}
           triggerVariant="button"
           triggerLabel={t("addLens")}
-          triggerClassName="h-10 rounded-full border-zinc-300 bg-white px-4 text-zinc-700 hover:bg-zinc-100 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-200 dark:hover:bg-zinc-900"
+          triggerClassName="h-9 rounded-full border-zinc-300 bg-white px-3.5 text-zinc-700 hover:bg-zinc-100 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-200 dark:hover:bg-zinc-900"
         />
         <div className="space-y-1">
           <p className="text-xs text-zinc-500 dark:text-zinc-400">
@@ -264,10 +265,17 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
   const t = useTranslations("Compare");
   const td = useTranslations("LensDetail");
   const router = useRouter();
+  const { replaceCompare } = useCompare();
   const initialLensIds = initialLenses.map((lens) => lens.id);
+  const initialLensIdsKey = initialLensIds.join(",");
   const [orderedIds, setOrderedIds] = useState(initialLensIds);
   const orderedIdsRef = useRef(orderedIds);
   const [activeId, setActiveId] = useState<string | null>(null);
+
+  useEffect(() => {
+    replaceCompare(initialLensIds);
+    orderedIdsRef.current = initialLensIds;
+  }, [initialLensIdsKey, replaceCompare]);
 
   const orderedLenses = orderedIds
     .map((id) => allLenses.find((lens) => lens.id === id))
@@ -302,10 +310,12 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
 
   function handleDragEnd() {
     setActiveId(null);
+    replaceCompare(orderedIdsRef.current);
     router.replace(`/lenses/compare?ids=${orderedIdsRef.current.join(",")}`);
   }
 
   function updateCompare(nextIds: string[]) {
+    replaceCompare(nextIds);
     setOrderedIds(nextIds);
     orderedIdsRef.current = nextIds;
     startTransition(() => {
@@ -463,10 +473,10 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
                   onSelectLens={handleAddLens}
                   getResultState={(candidate) => ({
                     actionLabel: orderedIds.includes(candidate.id)
-                      ? t("added")
+                      ? t("alreadyAdded")
                       : orderedLenses.length >= MAX_COMPARE
-                        ? t("full")
-                        : t("add"),
+                        ? t("compareFull")
+                        : t("addToCompareAction"),
                     disabled:
                       orderedIds.includes(candidate.id) ||
                       orderedLenses.length >= MAX_COMPARE,

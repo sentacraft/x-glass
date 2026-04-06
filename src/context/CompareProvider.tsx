@@ -33,7 +33,18 @@ export function CompareProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const replaceCompare = useCallback((ids: string[]) => {
-    setCompareIds(Array.from(new Set(ids)).slice(0, MAX_COMPARE));
+    const nextIds = Array.from(new Set(ids)).slice(0, MAX_COMPARE);
+
+    setCompareIds((prev) => {
+      if (
+        prev.length === nextIds.length &&
+        prev.every((id, index) => id === nextIds[index])
+      ) {
+        return prev;
+      }
+
+      return nextIds;
+    });
   }, []);
 
   const clearCompare = useCallback(() => {

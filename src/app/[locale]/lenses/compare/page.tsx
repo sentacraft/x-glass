@@ -58,6 +58,13 @@ export default async function ComparePage({
           {t("title")}
         </h1>
       </div>
+
+      {lenses.length < 2 ? (
+        <div className="rounded-2xl border border-amber-200 bg-amber-50/80 px-4 py-3 text-sm text-amber-900 dark:border-amber-900/60 dark:bg-amber-950/20 dark:text-amber-200">
+          {t("needOneMoreLens")}
+        </div>
+      ) : null}
+
       <CompareTable key={lenses.map((lens) => lens.id).join(",")} lenses={lenses} />
 
       {/* Back link */}
