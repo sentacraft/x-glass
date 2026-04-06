@@ -56,7 +56,10 @@ x-glass/
 
 ## 工作流规范
 
-每完成一个 commit 的代码改动后，自动调用 `/commit-msg` skill 生成 commit message，无需用户手动触发。
+代码改动完成后，依次执行：
+1. `git stage` 相关改动
+2. 调用 `/commit-msg` skill 生成 commit message
+3. **不要 commit，也不要 push**——仅将生成的 message 展示给用户确认
 
 ## 开发规范
 
