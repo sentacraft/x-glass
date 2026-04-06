@@ -1,6 +1,7 @@
 "use client";
 
 import React, {
+  useCallback,
   startTransition,
   useEffect,
   useMemo,
@@ -71,7 +72,7 @@ function LensHeaderContent({
               src={lens.imageUrl}
               alt={lens.model}
               fill
-              sizes="140px"
+              sizes="112px"
               style={lensImageStyle}
               className="object-contain"
             />
@@ -282,6 +283,7 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
 
   useEffect(() => {
     replaceCompare(initialLensIds);
+    setOrderedIds(initialLensIds);
     orderedIdsRef.current = initialLensIds;
   }, [initialLensIds, replaceCompare]);
 
@@ -479,16 +481,19 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
               {canAddMore ? (
                 <AddLensHeader
                   onSelectLens={handleAddLens}
-                  getResultState={(candidate) => ({
-                    actionLabel: orderedIds.includes(candidate.id)
-                      ? t("alreadyAdded")
-                      : orderedLenses.length >= MAX_COMPARE
-                        ? t("compareFull")
-                        : t("addToCompareAction"),
-                    disabled:
-                      orderedIds.includes(candidate.id) ||
-                      orderedLenses.length >= MAX_COMPARE,
-                  })}
+                  getResultState={useCallback(
+                    (candidate: Lens) => ({
+                      actionLabel: orderedIds.includes(candidate.id)
+                        ? t("alreadyAdded")
+                        : orderedLenses.length >= MAX_COMPARE
+                          ? t("compareFull")
+                          : t("addToCompareAction"),
+                      disabled:
+                        orderedIds.includes(candidate.id) ||
+                        orderedLenses.length >= MAX_COMPARE,
+                    }),
+                    [orderedIds, orderedLenses.length, t]
+                  )}
                 />
               ) : null}
             </tr>
@@ -512,7 +517,7 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
                   {isSectionBoundary && (
                     <tr className="border-b border-zinc-100 dark:border-zinc-800/60">
                       <td
-                        colSpan={orderedLenses.length + 1}
+                        colSpan={orderedLenses.length + 1 + (canAddMore ? 1 : 0)}
                         className="px-4 py-3 bg-amber-50/70 dark:bg-amber-950/20"
                       >
                         <div className="flex flex-col gap-1">

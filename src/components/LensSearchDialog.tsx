@@ -45,6 +45,7 @@ export default function LensSearchDialog({
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
+  const triggerRef = useRef<HTMLButtonElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const inputId = useId();
   const titleId = useId();
@@ -85,6 +86,11 @@ export default function LensSearchDialog({
     setIsOpen(false);
     setQuery("");
     setActiveIndex(0);
+
+    // Restore focus to the trigger button after the close transition
+    requestAnimationFrame(() => {
+      triggerRef.current?.focus();
+    });
   }
 
   function handleSelect(lens: Lens) {
@@ -132,6 +138,7 @@ export default function LensSearchDialog({
   return (
     <>
       <button
+        ref={triggerRef}
         type="button"
         onClick={openDialog}
         aria-label={triggerLabel ?? t("open")}

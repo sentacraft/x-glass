@@ -67,9 +67,7 @@ export default function LensFilters({
     value: T,
     allValues: readonly T[],
   ) {
-    const nextValues = currentValues.includes(value)
-      ? currentValues.filter((item) => item !== value)
-      : [...currentValues, value];
+    const nextValues = toggleValue(currentValues, value);
 
     if (nextValues.length === 0 || nextValues.length === allValues.length) {
       return [];

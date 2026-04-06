@@ -65,7 +65,7 @@ export default async function ComparePage({
         </div>
       ) : null}
 
-      <CompareTable key={lenses.map((lens) => lens.id).join(",")} lenses={lenses} />
+      <CompareTable lenses={lenses} />
 
       {/* Back link */}
       <Link
