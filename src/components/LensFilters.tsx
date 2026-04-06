@@ -122,7 +122,7 @@ export default function LensFilters({
 
   return (
     <div>
-      <div className="flex min-w-0 flex-1 flex-col gap-1.5">
+      <div className="flex min-w-0 flex-1 flex-col gap-2.5">
         <FilterRow label={t("brand")}>
           <MultiSelectChipGroup
             allLabel={allOptionLabel}
@@ -138,8 +138,6 @@ export default function LensFilters({
             allSelected={filters.focalCategories.length === 0}
             onSelectAll={() => updateFilters("focalCategories", [])}
             options={focalOptions}
-            nowrap
-            scrollable
           />
         </FilterRow>
 
@@ -153,19 +151,13 @@ export default function LensFilters({
         </FilterRow>
       </div>
 
-      <div
-        className={`grid transition-all duration-300 ease-in-out ${
-          advancedOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
-        }`}
-      >
-        <div className="overflow-hidden">
-          <div className="py-3">
-            <FilterRow label={t("features")}>
-              <FeatureToggleGroup options={featureOptions} />
-            </FilterRow>
-          </div>
+      {advancedOpen ? (
+        <div className="py-3">
+          <FilterRow label={t("features")}>
+            <FeatureToggleGroup options={featureOptions} />
+          </FilterRow>
         </div>
-      </div>
+      ) : null}
 
       <div className="mt-3 flex items-center gap-3">
         <button

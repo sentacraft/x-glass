@@ -30,13 +30,28 @@ export default function FeatureToggleGroup({
             variant={option.selected ? "default" : "outline"}
             className={cn(
               option.selected ? filterPillActiveClass : featurePillClass,
-              "gap-1.5",
+              "relative whitespace-nowrap",
             )}
             onClick={option.onClick}
+            aria-pressed={option.selected}
           >
-            {option.selected ? <Check className="h-3.5 w-3.5" /> : null}
-            <Icon className="h-3.5 w-3.5" />
-            {option.label}
+            <Check
+              className={cn(
+                "pointer-events-none absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 transition-all duration-200",
+                option.selected
+                  ? "scale-100 opacity-100"
+                  : "scale-75 opacity-0",
+              )}
+            />
+            <span
+              className={cn(
+                "inline-flex items-center gap-1.5 transition-transform duration-200",
+                option.selected && "translate-x-2",
+              )}
+            >
+              <Icon className="h-3.5 w-3.5" />
+              {option.label}
+            </span>
           </Button>
         );
       })}
