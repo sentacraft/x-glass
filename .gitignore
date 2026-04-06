@@ -49,3 +49,5 @@ next-env.d.ts
 .agents/
 .claude/
 skills-lock.json
+src/app/[[]locale[]]/design-lab/
+src/components/FilterBarPreview.tsx

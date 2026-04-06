@@ -158,17 +158,31 @@ describe("filterLenses", () => {
   });
 
   it("filters by type: prime", () => {
-    const result = filterLenses(lensPool, { ...defaultFilters, type: "prime" });
+    const result = filterLenses(lensPool, {
+      ...defaultFilters,
+      types: ["prime"],
+    });
     expect(result.every((l) => l.focalLengthMin === l.focalLengthMax)).toBe(
       true
     );
   });
 
   it("filters by type: zoom", () => {
-    const result = filterLenses(lensPool, { ...defaultFilters, type: "zoom" });
+    const result = filterLenses(lensPool, {
+      ...defaultFilters,
+      types: ["zoom"],
+    });
     expect(result.every((l) => l.focalLengthMin !== l.focalLengthMax)).toBe(
       true
     );
+  });
+
+  it("treats both types selected as no type filter", () => {
+    const result = filterLenses(lensPool, {
+      ...defaultFilters,
+      types: ["prime", "zoom"],
+    });
+    expect(result).toHaveLength(4);
   });
 
   it("filters by required features (ois)", () => {
@@ -290,7 +304,7 @@ describe("filterLenses", () => {
     const result = filterLenses(lensPool, {
       ...defaultFilters,
       brands: ["Fujifilm"],
-      type: "zoom",
+      types: ["zoom"],
     });
     expect(result).toHaveLength(1);
     expect(result[0].id).toBe("fuji-zoom");

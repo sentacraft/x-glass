@@ -7,6 +7,7 @@ export const allLenses: Lens[] = lensCatalogSchema.parse(lensesData) as LensCata
 export const meta = metaData;
 
 export type LensType = "prime" | "zoom";
+export const LENS_TYPES = ["prime", "zoom"] as const satisfies readonly LensType[];
 
 export function isZoom(lens: Lens): boolean {
   return lens.focalLengthMin !== lens.focalLengthMax;
@@ -84,7 +85,7 @@ export function getFocalCategoriesOf(lens: {
 
 export interface FilterState {
   brands: string[]; // empty = all brands
-  type: LensType | "";
+  types: LensType[]; // empty = all types
   features: FilterFeatureKey[]; // empty = no requirement
   focalCategories: FocalCategory[]; // empty = all categories
   weightRange: [number, number] | null; // null = no filter
@@ -95,7 +96,7 @@ export interface FilterState {
 
 export const defaultFilters: FilterState = {
   brands: [],
-  type: "",
+  types: [],
   features: [],
   focalCategories: [],
   weightRange: null,
@@ -109,12 +110,16 @@ export function filterLenses(lenses: Lens[], filters: FilterState): Lens[] {
     if (filters.brands.length > 0 && !filters.brands.includes(lens.brand)) {
       return false;
     }
-    if (filters.type === "prime" && isZoom(lens)) {
-      return false;
+
+    const hasTypeFilter =
+      filters.types.length > 0 && filters.types.length < LENS_TYPES.length;
+    if (hasTypeFilter) {
+      const lensType: LensType = isZoom(lens) ? "zoom" : "prime";
+      if (!filters.types.includes(lensType)) {
+        return false;
+      }
     }
-    if (filters.type === "zoom" && !isZoom(lens)) {
-      return false;
-    }
+
     for (const field of FILTER_FEATURE_KEYS) {
       if (filters.features.includes(field) && !lens[field]) {
         return false;
