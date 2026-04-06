@@ -5,7 +5,21 @@
   },
   "Nav": {
     "lenses": "Lenses",
-    "compare": "Compare"
+    "compare": "Compare",
+    "search": "Search"
+  },
+  "Search": {
+    "open": "Open lens search",
+    "close": "Close search",
+    "title": "Search Lenses",
+    "description": "Start with a model name to quickly jump to a lens page.",
+    "placeholder": "Search by model name, for example XF35mm or 18-50",
+    "emptyTitle": "Type a lens model to begin",
+    "emptyDescription": "Auto-suggest will appear as soon as you enter a few characters.",
+    "noResults": "No matching lenses found",
+    "noResultsHint": "Try a shorter model fragment or a different focal length.",
+    "results": "Lens search results",
+    "view": "Open"
   },
   "Home": {
     "cta": "Browse Lenses",
