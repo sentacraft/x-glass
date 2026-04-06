@@ -9,16 +9,20 @@ const lensImagePathSchema = z
   .string()
   .regex(/^\/lenses\/[a-z0-9]+(?:-[a-z0-9]+)*\.webp$/);
 
-// maxAperture can be a single positive number or a tuple of two positive numbers [wide, tele]
-const maxApertureSchema = z.union([
-  positiveNumberSchema,
-  z.tuple([positiveNumberSchema, positiveNumberSchema]).refine(
-    (arr) => arr[0] < arr[1],
-    {
-      message: "When maxAperture is an array, the first value (wide) must be less than the second (tele)",
-    }
-  ),
-]);
+function createApertureSchema(fieldName: "maxAperture" | "minAperture") {
+  return z.union([
+    positiveNumberSchema,
+    z.tuple([positiveNumberSchema, positiveNumberSchema]).refine(
+      (arr) => arr[0] < arr[1],
+      {
+        message: `When ${fieldName} is an array, the first value (wide) must be less than the second (tele)`,
+      }
+    ),
+  ]);
+}
+
+const maxApertureSchema = createApertureSchema("maxAperture");
+const minApertureSchema = createApertureSchema("minAperture");
 
 const lensBaseShape = {
   id: z.string().min(1).regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
@@ -29,7 +33,7 @@ const lensBaseShape = {
   focalLengthMin: positiveNumberSchema,
   focalLengthMax: positiveNumberSchema,
   maxAperture: maxApertureSchema,
-  minAperture: positiveNumberSchema,
+  minAperture: minApertureSchema,
   af: z.boolean(),
   ois: z.boolean(),
   wr: z.boolean(),
@@ -98,12 +102,23 @@ const lensObjectSchema = z.strictObject({
   officialLinks: officialLinksSchema,
 });
 
+type ApertureValue = number | [number, number];
+
+function getApertureEndpoints(aperture: ApertureValue): {
+  wide: number;
+  tele: number | undefined;
+} {
+  return Array.isArray(aperture)
+    ? { wide: aperture[0], tele: aperture[1] }
+    : { wide: aperture, tele: undefined };
+}
+
 function applyLensBusinessRules(
   value: {
     focalLengthMin?: number;
     focalLengthMax?: number;
-    maxAperture?: number | [number, number];
-    minAperture?: number;
+    maxAperture?: ApertureValue;
+    minAperture?: ApertureValue;
     imageUrl?: string;
   },
   ctx: z.RefinementCtx
@@ -122,25 +137,41 @@ function applyLensBusinessRules(
 
   // Validate maxAperture relative to minAperture
   if (value.maxAperture !== undefined && value.minAperture !== undefined) {
-    if (Array.isArray(value.maxAperture)) {
-      // For variable-aperture zooms: check the wide-end value (index 0)
-      const [wideAperture] = value.maxAperture;
-      if (wideAperture > value.minAperture) {
-        ctx.addIssue({
-          code: "custom",
-          message: "maxAperture[0] (wide-end) cannot be greater than minAperture",
-          path: ["maxAperture", 0],
-        });
-      }
-    } else {
-      // For constant-aperture lenses: simple check
-      if (value.maxAperture > value.minAperture) {
-        ctx.addIssue({
-          code: "custom",
-          message: "maxAperture cannot be greater than minAperture",
-          path: ["maxAperture"],
-        });
-      }
+    const maxEndpoints = getApertureEndpoints(value.maxAperture);
+    const minEndpoints = getApertureEndpoints(value.minAperture);
+    const maxWidePath = Array.isArray(value.maxAperture) ? ["maxAperture", 0] : ["maxAperture"];
+    const maxTelePath = Array.isArray(value.maxAperture) ? ["maxAperture", 1] : ["maxAperture"];
+
+    if (maxEndpoints.wide > minEndpoints.wide) {
+      ctx.addIssue({
+        code: "custom",
+        message: "maxAperture wide-end cannot be greater than minAperture wide-end",
+        path: maxWidePath,
+      });
+    }
+
+    if (
+      minEndpoints.tele !== undefined &&
+      maxEndpoints.wide > minEndpoints.tele
+    ) {
+      ctx.addIssue({
+        code: "custom",
+        message: "maxAperture cannot be greater than minAperture tele-end",
+        path: maxWidePath,
+      });
+    }
+
+    if (
+      maxEndpoints.tele !== undefined &&
+      maxEndpoints.tele > (minEndpoints.tele ?? minEndpoints.wide)
+    ) {
+      ctx.addIssue({
+        code: "custom",
+        message: minEndpoints.tele !== undefined
+          ? "maxAperture tele-end cannot be greater than minAperture tele-end"
+          : "maxAperture tele-end cannot be greater than minAperture",
+        path: maxTelePath,
+      });
     }
   }
 }

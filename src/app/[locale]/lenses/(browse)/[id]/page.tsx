@@ -51,7 +51,7 @@ export default async function LensDetailPage({ params }: { params: Params }) {
     { label: t("focalLength"), value: fmt.focalRangeDisplay(lens.focalLengthMin, lens.focalLengthMax) },
     { label: t("focalLengthEquiv"), value: fmt.focalRangeDisplay(fmt.focalEquiv(lens.focalLengthMin), fmt.focalEquiv(lens.focalLengthMax)) },
     { label: t("maxAperture"), value: fmt.apertureDisplay(lens.maxAperture) },
-    { label: t("minAperture"), value: `f/${lens.minAperture}` },
+    { label: t("minAperture"), value: fmt.apertureDisplay(lens.minAperture) },
     { label: t("af"), bool: lens.af },
     { label: t("ois"), bool: lens.ois },
     { label: t("wr"), bool: lens.wr },

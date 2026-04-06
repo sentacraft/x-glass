@@ -92,6 +92,8 @@ export interface LensConfiguration {
   sourceText?: string;
 }
 
+export type ApertureValue = number | [number, number];
+
 /**
  * Canonical lens record used by the X-Glass app.
  */
@@ -147,13 +149,15 @@ export interface Lens {
    * For variable-aperture zooms: store [wideEnd, teleEnd] as a tuple.
    * @example 1.4 or [3.5, 6.3]
    */
-  maxAperture: number | [number, number];
+  maxAperture: ApertureValue;
 
   /**
    * Smallest available aperture expressed as an f-number.
-   * @example 16
+   * For prime lenses or constant-aperture zooms: store a single number.
+   * For variable-aperture zooms: store [wideEnd, teleEnd] as a tuple.
+   * @example 16 or [16, 22]
    */
-  minAperture: number;
+  minAperture: ApertureValue;
 
   /**
    * Whether the lens supports autofocus.

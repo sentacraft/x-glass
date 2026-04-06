@@ -14,6 +14,7 @@ import {
   focalRangeDisplay,
   apertureDisplay,
 } from "../lens.format";
+import { lensSchema } from "../lens-schema";
 
 // Minimal Lens factory — only fill in fields relevant to each test
 function makeLens(
@@ -37,7 +38,7 @@ function makeLens(
     minFocusDistanceCm: 28,
     releaseYear: 2012,
     officialLinks: { global: "https://example.com/lens" },
-    imageUrl: "/images/test-lens.jpg",
+    imageUrl: "/lenses/test-lens.webp",
     ...overrides,
   };
 }
@@ -93,6 +94,67 @@ describe("apertureDisplay", () => {
 
   it("shows an aperture range for variable-aperture zooms", () => {
     expect(apertureDisplay([3.5, 6.3])).toBe("f/3.5–6.3");
+  });
+
+  it("shows a minimum aperture range when the zoom closes down differently", () => {
+    expect(apertureDisplay([16, 22])).toBe("f/16–22");
+  });
+});
+
+describe("lensSchema aperture business rules", () => {
+  it("accepts matching wide and tele aperture comparisons", () => {
+    const result = lensSchema.safeParse(
+      makeLens({
+        focalLengthMin: 18,
+        focalLengthMax: 55,
+        maxAperture: [2.8, 4],
+        minAperture: [16, 22],
+      })
+    );
+
+    expect(result.success).toBe(true);
+  });
+
+  it("rejects a wide-end maxAperture that is greater than the wide-end minAperture", () => {
+    const result = lensSchema.safeParse(
+      makeLens({
+        focalLengthMin: 18,
+        focalLengthMax: 55,
+        maxAperture: [22, 32],
+        minAperture: [16, 22],
+      })
+    );
+
+    expect(result.success).toBe(false);
+    expect(result.error?.issues.some((issue) => issue.path.join(".") === "maxAperture.0")).toBe(true);
+  });
+
+  it("rejects both maxAperture values when minAperture is a single value they must not exceed", () => {
+    const result = lensSchema.safeParse(
+      makeLens({
+        focalLengthMin: 18,
+        focalLengthMax: 55,
+        maxAperture: [2.8, 22],
+        minAperture: 16,
+      })
+    );
+
+    expect(result.success).toBe(false);
+    expect(result.error?.issues.some((issue) => issue.path.join(".") === "maxAperture.1")).toBe(true);
+  });
+
+  it("rejects a single maxAperture when minAperture has a tighter tele-end value", () => {
+    const result = lensSchema.safeParse(
+      makeLens({
+        focalLengthMin: 18,
+        focalLengthMax: 55,
+        maxAperture: 18,
+        minAperture: [16, 17],
+      })
+    );
+
+    expect(result.success).toBe(false);
+    expect(result.error?.issues.some((issue) => issue.path.join(".") === "maxAperture")).toBe(true);
   });
 });
 
