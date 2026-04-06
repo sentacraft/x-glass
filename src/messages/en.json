@@ -13,6 +13,11 @@
     "close": "Close search",
     "title": "Search Lenses",
     "description": "Start with a model name to quickly jump to a lens page.",
+    "addLens": "Add lens",
+    "add": "Add",
+    "added": "Added",
+    "full": "Full",
+    "cardHint": "Search by model name and add another lens to the current comparison.",
     "placeholder": "Search by model name, for example XF35mm or 18-50",
     "emptyTitle": "Type a lens model to begin",
     "emptyDescription": "Auto-suggest will appear as soon as you enter a few characters.",
@@ -138,7 +143,17 @@
     "title": "Compare",
     "backToLenses": "Back to Lenses",
     "noLenses": "No lenses selected. Go back and pick some to compare.",
-    "officialSite": "Official site"
+    "officialSite": "Official site",
+    "buildCompare": "Build Your Compare Set",
+    "buildCompareHint": "{count} of {max} slots filled. Add or remove lenses here before reviewing the full table.",
+    "slotLabel": "Slot {index}",
+    "selected": "Selected",
+    "addLens": "Add lens",
+    "addLensHint": "Search and append one more lens as a new comparison column.",
+    "add": "Add",
+    "added": "Added",
+    "full": "Full",
+    "removeLens": "Remove {model}"
   },
   "Footer": {
     "dataInfo": "Data v{version} · {lensCount} lenses · Updated {date}"

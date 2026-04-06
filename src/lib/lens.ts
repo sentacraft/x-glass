@@ -5,6 +5,7 @@ import type { Lens, LensCatalog } from "./types";
 
 export const allLenses: Lens[] = lensCatalogSchema.parse(lensesData) as LensCatalog;
 export const meta = metaData;
+export const MAX_COMPARE = 4;
 
 export type LensType = "prime" | "zoom";
 export const LENS_TYPES = ["prime", "zoom"] as const satisfies readonly LensType[];
@@ -153,8 +154,6 @@ export function getUniqueBrands(lenses: Lens[]): string[] {
 export function getLensUrl(lens: Lens): string | undefined {
   return lens.officialLinks?.global ?? lens.officialLinks?.cn;
 }
-
-const MAX_COMPARE = 4;
 
 export function parseLensIds(ids: string | undefined): Lens[] {
   return (ids ?? "")

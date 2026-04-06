@@ -13,6 +13,11 @@
     "close": "关闭搜索",
     "title": "搜索镜头",
     "description": "先按型号名称搜索，快速进入目标镜头页面。",
+    "addLens": "添加镜头",
+    "add": "添加",
+    "added": "已添加",
+    "full": "已满",
+    "cardHint": "按型号搜索，把新镜头加入当前对比列表。",
     "placeholder": "按型号搜索，例如 XF35mm 或 18-50",
     "emptyTitle": "输入镜头型号开始搜索",
     "emptyDescription": "输入几个字符后，就会自动出现建议结果。",
@@ -137,7 +142,17 @@
     "title": "对比",
     "backToLenses": "返回列表",
     "noLenses": "未选择镜头，请返回列表选择要对比的镜头。",
-    "officialSite": "官网"
+    "officialSite": "官网",
+    "buildCompare": "组合你的对比列表",
+    "buildCompareHint": "当前已填充 {count} / {max} 个槽位。你可以先在这里添加或移除镜头，再查看下方完整对比表。",
+    "slotLabel": "槽位 {index}",
+    "selected": "已选择",
+    "addLens": "添加镜头",
+    "addLensHint": "搜索并把另一支镜头追加为新的对比列。",
+    "add": "添加",
+    "added": "已添加",
+    "full": "已满",
+    "removeLens": "移除 {model}"
   },
   "Footer": {
     "dataInfo": "数据 v{version} · {lensCount} 款镜头 · 更新于 {date}"

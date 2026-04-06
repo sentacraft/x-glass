@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { startTransition, useRef, useState } from "react";
 import Image from "next/image";
 import { ExternalLink } from "@/components/ui/external-link";
 import { useTranslations } from "next-intl";
@@ -20,10 +20,11 @@ import {
   useSortable,
   arrayMove,
 } from "@dnd-kit/sortable";
-import { GripVertical } from "lucide-react";
+import { GripVertical, X } from "lucide-react";
 import { LensPlaceholderIcon } from "@/components/ui/lens-placeholder-icon";
 import { useRouter } from "@/i18n/navigation";
-import { getLensUrl } from "@/lib/lens";
+import LensSearchDialog from "@/components/LensSearchDialog";
+import { MAX_COMPARE, allLenses, getLensUrl } from "@/lib/lens";
 import { lensImageStyle } from "@/lib/lens-image";
 import * as fmt from "@/lib/lens.format";
 import type { Lens } from "@/lib/types";
@@ -56,7 +57,7 @@ function LensHeaderContent({
 
   return (
     <>
-      <div className="mb-3 flex w-full max-w-[140px] items-center justify-center overflow-hidden rounded-xl bg-zinc-50/70 p-4 dark:bg-zinc-900/50">
+      <div className="mb-3 flex w-full max-w-[112px] items-center justify-center overflow-hidden rounded-xl bg-zinc-50/70 p-3 dark:bg-zinc-900/50">
         {lens.imageUrl ? (
           <div className="relative aspect-square w-full overflow-hidden">
             <Image
@@ -73,11 +74,11 @@ function LensHeaderContent({
         )}
       </div>
 
-      <p className="text-xs font-normal text-zinc-500 dark:text-zinc-400 truncate">
+      <p className="text-center text-xs font-normal text-zinc-500 dark:text-zinc-400">
         {tBrand(lens.brand)}
         {lens.series ? ` · ${lens.series}` : ""}
       </p>
-      <p className="font-semibold text-zinc-900 dark:text-zinc-50 truncate">
+      <p className="text-center font-semibold leading-snug text-zinc-900 dark:text-zinc-50">
         {lens.model}
       </p>
       {url && (
@@ -85,7 +86,7 @@ function LensHeaderContent({
           href={url}
           onClick={(e) => e.stopPropagation()}
           onPointerDown={(e) => e.stopPropagation()}
-          className="mt-2 inline-flex items-center gap-1 text-xs text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300 transition-colors"
+          className="mt-2 inline-flex items-center gap-1 self-center text-xs text-blue-500 transition-colors hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300"
         >
           {officialSiteLabel}
         </ExternalLink>
@@ -99,9 +100,13 @@ function LensHeaderContent({
 function SortableLensHeader({
   lens,
   officialSiteLabel,
+  removeLabel,
+  onRemove,
 }: {
   lens: Lens;
   officialSiteLabel: string;
+  removeLabel: string;
+  onRemove: () => void;
 }) {
   const { attributes, listeners, setNodeRef, isDragging } = useSortable({
     id: lens.id,
@@ -111,17 +116,59 @@ function SortableLensHeader({
     <th
       ref={setNodeRef}
       style={{ opacity: isDragging ? 0 : 1 }}
-      className="px-4 py-4 text-left bg-zinc-50 dark:bg-zinc-900/60 select-none"
+      className="bg-zinc-50 px-3 py-4 text-left select-none dark:bg-zinc-900/60"
     >
-      <div
-        {...attributes}
-        {...listeners}
-        className="cursor-grab active:cursor-grabbing"
-      >
-        <div className="flex justify-end mb-1">
-          <GripVertical className="w-4 h-4 text-zinc-300 dark:text-zinc-600" />
+      <div className="flex items-start justify-between gap-2">
+        <button
+          type="button"
+          onClick={onRemove}
+          aria-label={removeLabel}
+          className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-zinc-400 transition-colors hover:bg-zinc-100 hover:text-zinc-700 dark:hover:bg-zinc-800 dark:hover:text-zinc-200"
+        >
+          <X className="h-4 w-4" />
+        </button>
+        <div
+          {...attributes}
+          {...listeners}
+          className="ml-auto cursor-grab active:cursor-grabbing"
+        >
+          <GripVertical className="h-4 w-4 text-zinc-300 dark:text-zinc-600" />
         </div>
+      </div>
+      <div className="mt-1 flex flex-col items-center text-center">
         <LensHeaderContent lens={lens} officialSiteLabel={officialSiteLabel} />
+      </div>
+    </th>
+  );
+}
+
+function AddLensHeader({
+  onSelectLens,
+  getResultState,
+}: {
+  onSelectLens: (lens: Lens) => void;
+  getResultState: (lens: Lens) => {
+    actionLabel?: string;
+    disabled?: boolean;
+  };
+}) {
+  const t = useTranslations("Compare");
+
+  return (
+    <th className="bg-zinc-50 px-3 py-4 text-left dark:bg-zinc-900/60">
+      <div className="flex min-h-[15rem] flex-col items-center justify-center gap-4 px-2 py-6 text-center">
+        <LensSearchDialog
+          onSelectLens={onSelectLens}
+          getResultState={getResultState}
+          triggerVariant="button"
+          triggerLabel={t("addLens")}
+          triggerClassName="h-10 rounded-full border-zinc-300 bg-white px-4 text-zinc-700 hover:bg-zinc-100 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-200 dark:hover:bg-zinc-900"
+        />
+        <div className="space-y-1">
+          <p className="text-xs text-zinc-500 dark:text-zinc-400">
+            {t("addLensHint")}
+          </p>
+        </div>
       </div>
     </th>
   );
@@ -211,22 +258,23 @@ interface Props {
 }
 
 const LABEL_COLUMN_WIDTH = "14rem";
-const LENS_COLUMN_MIN_WIDTH = "16rem";
+const LENS_COLUMN_MIN_WIDTH = "12rem";
 
 export default function CompareTable({ lenses: initialLenses }: Props) {
   const t = useTranslations("Compare");
   const td = useTranslations("LensDetail");
   const router = useRouter();
-  const [orderedIds, setOrderedIds] = useState(initialLenses.map((l) => l.id));
+  const initialLensIds = initialLenses.map((lens) => lens.id);
+  const [orderedIds, setOrderedIds] = useState(initialLensIds);
   const orderedIdsRef = useRef(orderedIds);
-
   const [activeId, setActiveId] = useState<string | null>(null);
 
   const orderedLenses = orderedIds
-    .map((id) => initialLenses.find((l) => l.id === id)!)
-    .filter(Boolean);
+    .map((id) => allLenses.find((lens) => lens.id === id))
+    .filter((lens): lens is Lens => lens !== undefined);
 
   const activeLens = activeId ? orderedLenses.find((l) => l.id === activeId) : null;
+  const canAddMore = orderedLenses.length < MAX_COMPARE;
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -255,6 +303,26 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
   function handleDragEnd() {
     setActiveId(null);
     router.replace(`/lenses/compare?ids=${orderedIdsRef.current.join(",")}`);
+  }
+
+  function updateCompare(nextIds: string[]) {
+    setOrderedIds(nextIds);
+    orderedIdsRef.current = nextIds;
+    startTransition(() => {
+      router.replace(`/lenses/compare?ids=${nextIds.join(",")}`);
+    });
+  }
+
+  function handleAddLens(lens: Lens) {
+    if (orderedIds.includes(lens.id) || orderedIds.length >= MAX_COMPARE) {
+      return;
+    }
+
+    updateCompare([...orderedIds, lens.id]);
+  }
+
+  function handleRemoveLens(lensId: string) {
+    updateCompare(orderedIds.filter((id) => id !== lensId));
   }
 
   const primaryRows: Row[] = [
@@ -363,7 +431,7 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
         <table
           className="w-full min-w-max table-fixed text-sm border-collapse"
           style={{
-            minWidth: `calc(${LABEL_COLUMN_WIDTH} + ${orderedLenses.length} * ${LENS_COLUMN_MIN_WIDTH})`,
+            minWidth: `calc(${LABEL_COLUMN_WIDTH} + ${(orderedLenses.length + (canAddMore ? 1 : 0))} * ${LENS_COLUMN_MIN_WIDTH})`,
           }}
         >
           <colgroup>
@@ -371,10 +439,11 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
             {orderedLenses.map((lens) => (
               <col key={lens.id} style={{ width: LENS_COLUMN_MIN_WIDTH }} />
             ))}
+            {canAddMore ? <col style={{ width: LENS_COLUMN_MIN_WIDTH }} /> : null}
           </colgroup>
           <thead>
             <tr className="border-b border-zinc-200 dark:border-zinc-800">
-              <th className="px-4 py-3 bg-zinc-50 dark:bg-zinc-900/60" />
+              <th className="bg-zinc-50 px-4 py-3 dark:bg-zinc-900/60" />
               <SortableContext
                 items={orderedIds}
                 strategy={horizontalListSortingStrategy}
@@ -384,9 +453,26 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
                     key={lens.id}
                     lens={lens}
                     officialSiteLabel={t("officialSite")}
+                    removeLabel={t("removeLens", { model: lens.model })}
+                    onRemove={() => handleRemoveLens(lens.id)}
                   />
                 ))}
               </SortableContext>
+              {canAddMore ? (
+                <AddLensHeader
+                  onSelectLens={handleAddLens}
+                  getResultState={(candidate) => ({
+                    actionLabel: orderedIds.includes(candidate.id)
+                      ? t("added")
+                      : orderedLenses.length >= MAX_COMPARE
+                        ? t("full")
+                        : t("add"),
+                    disabled:
+                      orderedIds.includes(candidate.id) ||
+                      orderedLenses.length >= MAX_COMPARE,
+                  })}
+                />
+              ) : null}
             </tr>
           </thead>
 
@@ -434,7 +520,7 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
                         return (
                           <td
                             key={lens.id}
-                            className="px-4 py-3 text-zinc-700 dark:text-zinc-300 truncate"
+                            className="px-3 py-3 text-center text-zinc-700 dark:text-zinc-300 whitespace-normal break-words"
                             style={{ opacity: isActive ? 0 : 1 }}
                           >
                             <BoolCell
@@ -454,7 +540,7 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
                         return (
                           <td
                             key={lens.id}
-                            className={`px-4 py-3 font-medium tabular-nums truncate ${
+                            className={`px-3 py-3 text-center font-medium tabular-nums whitespace-normal break-words ${
                               isBest
                                 ? "text-blue-600 dark:text-blue-400"
                                 : "text-zinc-700 dark:text-zinc-300"
@@ -480,13 +566,17 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
                       return (
                         <td
                           key={lens.id}
-                          className="px-4 py-3 text-zinc-700 dark:text-zinc-300 whitespace-pre-line"
+                          className="px-3 py-3 text-center text-zinc-700 dark:text-zinc-300 whitespace-pre-line break-words"
                           style={{ opacity: isActive ? 0 : 1 }}
                         >
                           {row.getDisplayValue(lens) ?? td("missing")}
                         </td>
                       );
                     })}
+
+                    {canAddMore ? (
+                      <td className="bg-zinc-50/40 dark:bg-zinc-900/20" />
+                    ) : null}
                   </tr>
                 </React.Fragment>
               );

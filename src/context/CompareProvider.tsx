@@ -1,12 +1,18 @@
 "use client";
 
-import { createContext, useContext, useState, useMemo } from "react";
-
-const MAX_COMPARE = 4;
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useMemo,
+  useState,
+} from "react";
+import { MAX_COMPARE } from "@/lib/lens";
 
 interface CompareContextValue {
   compareIds: string[];
   toggleCompare: (id: string) => void;
+  replaceCompare: (ids: string[]) => void;
   clearCompare: () => void;
   canToggle: (id: string) => boolean;
 }
@@ -16,25 +22,34 @@ const CompareContext = createContext<CompareContextValue | null>(null);
 export function CompareProvider({ children }: { children: React.ReactNode }) {
   const [compareIds, setCompareIds] = useState<string[]>([]);
 
-  function toggleCompare(id: string) {
+  const toggleCompare = useCallback((id: string) => {
     setCompareIds((prev) =>
-      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
+      prev.includes(id)
+        ? prev.filter((x) => x !== id)
+        : prev.length < MAX_COMPARE
+          ? [...prev, id]
+          : prev
     );
-  }
+  }, []);
 
-  function clearCompare() {
+  const replaceCompare = useCallback((ids: string[]) => {
+    setCompareIds(Array.from(new Set(ids)).slice(0, MAX_COMPARE));
+  }, []);
+
+  const clearCompare = useCallback(() => {
     setCompareIds([]);
-  }
+  }, []);
 
   const value = useMemo(
     () => ({
       compareIds,
       toggleCompare,
+      replaceCompare,
       clearCompare,
       canToggle: (id: string) =>
         compareIds.includes(id) || compareIds.length < MAX_COMPARE,
     }),
-    [compareIds]
+    [clearCompare, compareIds, replaceCompare, toggleCompare]
   );
 
   return <CompareContext value={value}>{children}</CompareContext>;

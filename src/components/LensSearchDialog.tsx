@@ -17,14 +17,25 @@ import { searchLensesByModel } from "@/lib/lens-search";
 import type { Lens } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
+interface LensSearchResultState {
+  actionLabel?: string;
+  disabled?: boolean;
+}
+
 interface LensSearchDialogProps {
   onSelectLens?: (lens: Lens) => void;
+  getResultState?: (lens: Lens) => LensSearchResultState | undefined;
   triggerClassName?: string;
+  triggerLabel?: string;
+  triggerVariant?: "icon" | "button" | "card";
 }
 
 export default function LensSearchDialog({
   onSelectLens,
+  getResultState,
   triggerClassName,
+  triggerLabel,
+  triggerVariant = "icon",
 }: LensSearchDialogProps) {
   const t = useTranslations("Search");
   const tBrand = useTranslations("Brands");
@@ -63,12 +74,9 @@ export default function LensSearchDialog({
     };
   }, [isOpen]);
 
-  useEffect(() => {
-    setActiveIndex(0);
-  }, [deferredQuery, isOpen]);
-
   function openDialog() {
     setIsOpen(true);
+    setActiveIndex(0);
   }
 
   function closeDialog() {
@@ -124,13 +132,30 @@ export default function LensSearchDialog({
       <button
         type="button"
         onClick={openDialog}
-        aria-label={t("open")}
+        aria-label={triggerLabel ?? t("open")}
         className={cn(
-          "inline-flex h-10 w-10 items-center justify-center rounded-xl border border-zinc-200 bg-white text-zinc-600 transition-colors hover:border-zinc-300 hover:text-zinc-900 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-300 dark:hover:border-zinc-700 dark:hover:text-zinc-50",
+          triggerVariant === "icon"
+            ? "inline-flex h-10 w-10 items-center justify-center rounded-xl border border-zinc-200 bg-white text-zinc-600 transition-colors hover:border-zinc-300 hover:text-zinc-900 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-300 dark:hover:border-zinc-700 dark:hover:text-zinc-50"
+            : triggerVariant === "button"
+              ? "inline-flex h-11 items-center justify-center gap-2 rounded-2xl border border-zinc-200 bg-white px-4 text-sm font-medium text-zinc-700 transition-colors hover:border-zinc-300 hover:text-zinc-950 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-200 dark:hover:border-zinc-700 dark:hover:text-zinc-50"
+              : "flex min-h-[220px] w-full flex-col items-center justify-center gap-3 rounded-[28px] border border-dashed border-zinc-300 bg-zinc-50/60 px-6 py-8 text-center text-zinc-500 transition-colors hover:border-zinc-400 hover:bg-zinc-100/70 hover:text-zinc-900 dark:border-zinc-800 dark:bg-zinc-950/60 dark:text-zinc-400 dark:hover:border-zinc-700 dark:hover:bg-zinc-900 dark:hover:text-zinc-50",
           triggerClassName
         )}
       >
-        <Search className="h-4 w-4" />
+        <Search className={triggerVariant === "card" ? "h-7 w-7" : "h-4 w-4"} />
+        {triggerVariant === "button" ? (
+          <span>{triggerLabel ?? t("add")}</span>
+        ) : null}
+        {triggerVariant === "card" ? (
+          <>
+            <span className="text-lg font-medium text-zinc-800 dark:text-zinc-100">
+              {triggerLabel ?? t("addLens")}
+            </span>
+            <span className="max-w-[18rem] text-sm text-zinc-500 dark:text-zinc-400">
+              {t("cardHint")}
+            </span>
+          </>
+        ) : null}
       </button>
 
       {isOpen ? (
@@ -183,11 +208,13 @@ export default function LensSearchDialog({
                   ref={inputRef}
                   type="text"
                   value={query}
-                  onChange={(event) => setQuery(event.target.value)}
+                  onChange={(event) => {
+                    setQuery(event.target.value);
+                    setActiveIndex(0);
+                  }}
                   onKeyDown={handleInputKeyDown}
                   placeholder={t("placeholder")}
                   aria-controls={resultsId}
-                  aria-expanded={results.length > 0}
                   aria-autocomplete="list"
                   className="w-full border-0 bg-transparent text-sm text-zinc-950 outline-none placeholder:text-zinc-400 dark:text-zinc-50"
                 />
@@ -222,6 +249,9 @@ export default function LensSearchDialog({
                 >
                   {results.map((lens, index) => {
                     const isActive = index === activeIndex;
+                    const resultState = getResultState?.(lens);
+                    const actionLabel = resultState?.actionLabel ?? t("view");
+                    const isDisabled = resultState?.disabled ?? false;
 
                     return (
                       <button
@@ -229,11 +259,14 @@ export default function LensSearchDialog({
                         type="button"
                         role="option"
                         aria-selected={isActive}
+                        disabled={isDisabled}
                         onMouseEnter={() => setActiveIndex(index)}
                         onClick={() => handleSelect(lens)}
                         className={cn(
                           "flex w-full items-center justify-between gap-4 rounded-2xl border px-4 py-3 text-left transition-colors",
-                          isActive
+                          isDisabled
+                            ? "cursor-not-allowed border-transparent bg-zinc-50/80 opacity-60 dark:bg-zinc-900/60"
+                            : isActive
                             ? "border-blue-200 bg-blue-50/80 dark:border-blue-900/70 dark:bg-blue-950/30"
                             : "border-transparent bg-white hover:bg-zinc-50 dark:bg-zinc-950 dark:hover:bg-zinc-900"
                         )}
@@ -248,7 +281,7 @@ export default function LensSearchDialog({
                           </p>
                         </div>
                         <span className="shrink-0 text-xs font-medium text-zinc-400 dark:text-zinc-500">
-                          {t("view")}
+                          {actionLabel}
                         </span>
                       </button>
                     );
