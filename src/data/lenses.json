@@ -242,6 +242,10 @@
     "focalLengthMax": 50,
     "maxAperture": 1.4,
     "minAperture": 16,
+    "specialtyTags": [
+      "tilt",
+      "shift"
+    ],
     "af": false,
     "ois": false,
     "wr": false,
@@ -252,7 +256,7 @@
     "imageUrl": "/lenses/7artisans-photoelectric-50mm-f14-tilt-shift-xf.webp",
     "filterMm": 46,
     "officialLinks": {
-      "cn": "https://www.7artisans.com/prod_view.aspx?nid=3&typeid=104&id=496"
+      "cn": "https://www.7artisans.com/prod_view.aspx?id=496&nid=3&typeid=104"
     }
   },
   {
@@ -340,7 +344,7 @@
       "sourceText": "10组11片"
     },
     "officialLinks": {
-      "cn": "https://www.7artisans.com/prod_view.aspx?nid=3&typeid=126&id=505"
+      "cn": "https://www.7artisans.com/prod_view.aspx?id=505&nid=3&typeid=126"
     }
   },
   {
@@ -366,7 +370,7 @@
       "sourceText": "5组6片"
     },
     "officialLinks": {
-      "cn": "https://www.7artisans.com/prod_view.aspx?nid=3&typeid=126&id=482"
+      "cn": "https://www.7artisans.com/prod_view.aspx?id=482&nid=3&typeid=126"
     }
   },
   {
@@ -395,7 +399,7 @@
       "sourceText": "5组8片"
     },
     "officialLinks": {
-      "cn": "https://www.7artisans.com/prod_view.aspx?nid=3&typeid=126&id=485"
+      "cn": "https://www.7artisans.com/prod_view.aspx?id=404&nid=3&typeid=104"
     }
   },
   {
@@ -613,6 +617,9 @@
     "focalLengthMax": 60,
     "maxAperture": 2.8,
     "minAperture": 16,
+    "specialtyTags": [
+      "macro"
+    ],
     "af": false,
     "ois": false,
     "wr": false,
@@ -632,6 +639,72 @@
     },
     "officialLinks": {
       "cn": "https://brightinstar.com.cn/products/mf-60mm-f2-8-%E5%8D%8A%E7%94%BB%E5%B9%85"
+    }
+  },
+  {
+    "id": "fujifilm-mkx-18-55mm-t29-xf",
+    "brand": "fujifilm",
+    "series": "MKX",
+    "model": "MKX18-55mmT2.9",
+    "focalLengthMin": 18,
+    "focalLengthMax": 55,
+    "maxAperture": 2.8,
+    "minAperture": 22,
+    "maxTStop": 2.9,
+    "specialtyTags": [
+      "cine"
+    ],
+    "af": true,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "weightG": 1100,
+    "diameterMm": 87,
+    "lengthMm": 206.6,
+    "angleOfView": "76.5° – 29.0°",
+    "apertureBladeCount": 9,
+    "imageUrl": "/lenses/fujifilm-mkx-18-55mm-t29-xf.webp",
+    "filterMm": 82,
+    "lensConfiguration": {
+      "groups": 17,
+      "elements": 22,
+      "sourceText": "22 elements 17 groups"
+    },
+    "officialLinks": {
+      "global": "https://www.fujifilm-x.com/global/products/lenses/mkx18-55mmt29/"
+    }
+  },
+  {
+    "id": "fujifilm-mkx-50-135mm-t29-xf",
+    "brand": "fujifilm",
+    "series": "MKX",
+    "model": "MKX50-135mmT2.9",
+    "focalLengthMin": 50,
+    "focalLengthMax": 135,
+    "maxAperture": 2.8,
+    "minAperture": 22,
+    "maxTStop": 2.9,
+    "specialtyTags": [
+      "cine"
+    ],
+    "af": true,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "weightG": 1100,
+    "diameterMm": 87,
+    "lengthMm": 206.6,
+    "angleOfView": "31.7° – 12.0°",
+    "apertureBladeCount": 9,
+    "imageUrl": "/lenses/fujifilm-mkx-50-135mm-t29-xf.webp",
+    "filterMm": 82,
+    "lensConfiguration": {
+      "groups": 17,
+      "elements": 22,
+      "sourceText": "22 elements 17 groups"
+    },
+    "officialLinks": {
+      "global": "https://www.fujifilm-x.com/global/products/lenses/mkx50-135mmt29/"
     }
   },
   {
@@ -776,6 +849,46 @@
     },
     "officialLinks": {
       "global": "https://www.fujifilm-x.com/global/products/lenses/xc35mmf2/"
+    }
+  },
+  {
+    "id": "fujifilm-xc-50-230mm-f45-67-ois-ii-xf",
+    "brand": "fujifilm",
+    "series": "XC",
+    "model": "XC 50-230mm F4.5-6.7 OIS II",
+    "generation": 2,
+    "focalLengthMin": 50,
+    "focalLengthMax": 230,
+    "maxAperture": [
+      4.5,
+      6.7
+    ],
+    "minAperture": 22,
+    "af": true,
+    "ois": true,
+    "wr": false,
+    "apertureRing": false,
+    "weightG": 375,
+    "diameterMm": 69.5,
+    "lengthMm": 111,
+    "minFocusDistanceCm": 110,
+    "maxMagnification": 0.2,
+    "angleOfView": "31.7-7.1",
+    "apertureBladeCount": 7,
+    "imageUrl": "/lenses/fujifilm-xc-50-230mm-f45-67-ois-ii-xf.webp",
+    "lengthVariantsMm": {
+      "tele": 177
+    },
+    "filterMm": 58,
+    "lensConfiguration": {
+      "groups": 10,
+      "elements": 13,
+      "aspherical": 1,
+      "ed": 1,
+      "sourceText": "13 elements in 10 groups (includes 1 aspherical and 1 ED elements)"
+    },
+    "officialLinks": {
+      "global": "https://www.fujifilm-x.com/global/products/lenses/xc50-230mmf45-67-ois-ii/"
     }
   },
   {
@@ -1302,6 +1415,9 @@
     "focalLengthMax": 30,
     "maxAperture": 2.8,
     "minAperture": 22,
+    "specialtyTags": [
+      "macro"
+    ],
     "af": true,
     "ois": false,
     "wr": true,
@@ -1610,6 +1726,9 @@
     "focalLengthMax": 80,
     "maxAperture": 2.8,
     "minAperture": 22,
+    "specialtyTags": [
+      "macro"
+    ],
     "af": true,
     "ois": true,
     "wr": true,
@@ -1877,7 +1996,10 @@
       3.5,
       6.7
     ],
-    "minAperture": 22,
+    "minAperture": [
+      22,
+      45
+    ],
     "af": true,
     "ois": true,
     "wr": true,
@@ -2116,6 +2238,76 @@
     }
   },
   {
+    "id": "tamron-17-70mm-f28-di-iii-a-vc-rxd-xf",
+    "brand": "tamron",
+    "model": "17-70mm F/2.8 Di III-A VC RXD",
+    "generation": 3,
+    "focalLengthMin": 17,
+    "focalLengthMax": 70,
+    "maxAperture": 2.8,
+    "minAperture": 22,
+    "af": true,
+    "ois": true,
+    "wr": false,
+    "apertureRing": false,
+    "weightG": 530,
+    "diameterMm": 74.6,
+    "lengthMm": 119.6,
+    "minFocusDistanceCm": 19,
+    "maxMagnification": 0.208,
+    "angleOfView": "79°55'-23°00'",
+    "apertureBladeCount": 9,
+    "releaseYear": 2022,
+    "imageUrl": "/lenses/tamron-17-70mm-f28-di-iii-a-vc-rxd-xf.webp",
+    "filterMm": 67,
+    "lensConfiguration": {
+      "groups": 12,
+      "elements": 16,
+      "sourceText": "16 elements in 12 groups"
+    },
+    "officialLinks": {
+      "global": "https://www.tamron.com/global/consumer/lenses/b070/spec.html"
+    }
+  },
+  {
+    "id": "tamron-18-300-mm-f35-63-di-iii-a-vc-vxd-xf",
+    "brand": "tamron",
+    "model": "18-300mm F/3.5-6.3 Di III-A VC VXD",
+    "generation": 3,
+    "focalLengthMin": 18,
+    "focalLengthMax": 300,
+    "maxAperture": [
+      3.5,
+      6.3
+    ],
+    "minAperture": [
+      22,
+      40
+    ],
+    "af": true,
+    "ois": true,
+    "wr": false,
+    "apertureRing": false,
+    "weightG": 620,
+    "diameterMm": 75.5,
+    "lengthMm": 125.8,
+    "minFocusDistanceCm": 15,
+    "maxMagnification": 0.5,
+    "angleOfView": "77°24'-5°30'",
+    "apertureBladeCount": 7,
+    "releaseYear": 2021,
+    "imageUrl": "/lenses/tamron-18-300-mm-f35-63-di-iii-a-vc-vxd-xf.webp",
+    "filterMm": 67,
+    "lensConfiguration": {
+      "groups": 15,
+      "elements": 19,
+      "sourceText": "19 elements in 15 groups"
+    },
+    "officialLinks": {
+      "global": "https://www.tamron.com/global/consumer/lenses/b061/spec.html"
+    }
+  },
+  {
     "id": "tamron-150-500mm-f5-67-di-iii-vc-vxd-xf",
     "brand": "tamron",
     "model": "150-500mm F/5-6.7 Di III VC VXD X",
@@ -2126,7 +2318,10 @@
       5,
       6.7
     ],
-    "minAperture": 22,
+    "minAperture": [
+      22,
+      32
+    ],
     "af": true,
     "ois": true,
     "wr": false,
@@ -2159,6 +2354,11 @@
     "focalLengthMax": 35,
     "maxAperture": 2.1,
     "minAperture": 22,
+    "maxTStop": 2.1,
+    "minTStop": 22,
+    "specialtyTags": [
+      "cine"
+    ],
     "af": false,
     "ois": false,
     "wr": false,
