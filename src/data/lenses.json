@@ -399,7 +399,7 @@
       "sourceText": "5组8片"
     },
     "officialLinks": {
-      "cn": "https://www.7artisans.com/prod_view.aspx?id=485&nid=3&typeid=126"
+      "cn": "https://www.7artisans.com/prod_view.aspx?id=404&nid=3&typeid=104"
     }
   },
   {
@@ -984,6 +984,28 @@
     }
   },
   {
+    "id": "fujifilm-xf-14mm-f28-r-xf",
+    "brand": "fujifilm",
+    "series": "XF",
+    "model": "XF 14mm F2.8 R",
+    "focalLengthMin": 14,
+    "focalLengthMax": 14,
+    "maxAperture": 2.8,
+    "minAperture": 22,
+    "af": true,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "weightG": 235,
+    "diameterMm": 65,
+    "lengthMm": 58.4,
+    "imageUrl": "/lenses/fujifilm-xf-14mm-f28-r-xf.webp",
+    "filterMm": 58,
+    "officialLinks": {
+      "global": "https://www.fujifilm-x.com/global/products/lenses/xf14mmf28-r/"
+    }
+  },
+  {
     "id": "fujifilm-xf-16-50mm-f28-48-r-lm-wr-xf",
     "brand": "fujifilm",
     "series": "XF",
@@ -1190,6 +1212,31 @@
     }
   },
   {
+    "id": "fujifilm-xf-18-55mm-f28-4-r-lm-ois-xf",
+    "brand": "fujifilm",
+    "series": "XF",
+    "model": "XF 18-55mm F2.8-4 R LM OIS",
+    "focalLengthMin": 18,
+    "focalLengthMax": 55,
+    "maxAperture": [
+      2.8,
+      4
+    ],
+    "minAperture": 22,
+    "af": true,
+    "ois": true,
+    "wr": false,
+    "apertureRing": true,
+    "weightG": 310,
+    "diameterMm": 65,
+    "lengthMm": 70,
+    "imageUrl": "/lenses/fujifilm-xf-18-55mm-f28-4-r-lm-ois-xf.webp",
+    "filterMm": 58,
+    "officialLinks": {
+      "global": "https://www.fujifilm-x.com/global/products/lenses/xf18-55mmf28-4-r-lm-ois/"
+    }
+  },
+  {
     "id": "fujifilm-xf-18-120mm-f4-lm-pz-wr-xf",
     "brand": "fujifilm",
     "series": "XF",
@@ -1201,7 +1248,7 @@
     "af": true,
     "ois": false,
     "wr": true,
-    "apertureRing": true,
+    "apertureRing": false,
     "weightG": 460,
     "diameterMm": 77.3,
     "lengthMm": 123.5,
@@ -1683,6 +1730,73 @@
     },
     "officialLinks": {
       "global": "https://www.fujifilm-x.com/global/products/lenses/xf56mmf12-r/"
+    }
+  },
+  {
+    "id": "fujifilm-xf-56mm-f12-r-apd-xf",
+    "brand": "fujifilm",
+    "series": "XF",
+    "model": "XF 56mm F1.2 R APD",
+    "focalLengthMin": 56,
+    "focalLengthMax": 56,
+    "maxAperture": 1.2,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "weightG": 405,
+    "diameterMm": 73.2,
+    "lengthMm": 69.7,
+    "minFocusDistanceCm": 70,
+    "maxMagnification": 0.09,
+    "angleOfView": "28.5°",
+    "apertureBladeCount": 7,
+    "imageUrl": "/lenses/fujifilm-xf-56mm-f12-r-apd-xf.webp",
+    "filterMm": 62,
+    "lensConfiguration": {
+      "groups": 8,
+      "elements": 11,
+      "aspherical": 1,
+      "ed": 2,
+      "otherNotes": "Excluding apodization filter; includes apodization filter",
+      "sourceText": "11 elements in 8 groups (excluding apodization filter; includes one aspherical lens, two extra-low dispersion lens, apodization filter)"
+    },
+    "officialLinks": {
+      "global": "https://www.fujifilm-x.com/global/products/discontinued-lenses/xf56mmf12-r-apd/"
+    }
+  },
+  {
+    "id": "fujifilm-xf-60mm-f24-r-macro-xf",
+    "brand": "fujifilm",
+    "series": "XF",
+    "model": "XF 60mm F2.4 R Macro",
+    "focalLengthMin": 60,
+    "focalLengthMax": 60,
+    "maxAperture": 2.4,
+    "minAperture": 22,
+    "specialtyTags": [
+      "macro"
+    ],
+    "af": true,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "weightG": 215,
+    "diameterMm": 64.1,
+    "lengthMm": 63.6,
+    "maxMagnification": 0.5,
+    "angleOfView": "26.6°",
+    "apertureBladeCount": 9,
+    "imageUrl": "/lenses/fujifilm-xf-60mm-f24-r-macro-xf.webp",
+    "filterMm": 39,
+    "lensConfiguration": {
+      "groups": 8,
+      "elements": 10,
+      "sourceText": "10 elements in 8 groups"
+    },
+    "officialLinks": {
+      "global": "https://www.fujifilm-x.com/global/products/lenses/xf60mmf24-r-macro/"
     }
   },
   {
