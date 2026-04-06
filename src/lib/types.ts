@@ -93,6 +93,15 @@ export interface LensConfiguration {
 }
 
 export type ApertureValue = number | [number, number];
+export type SpecialtyTag =
+  | "cine"
+  | "anamorphic"
+  | "tilt"
+  | "shift"
+  | "macro"
+  | "ultra_macro"
+  | "fisheye"
+  | "probe";
 
 /**
  * Canonical lens record used by the X-Glass app.
@@ -158,6 +167,28 @@ export interface Lens {
    * @example 16 or [16, 22]
    */
   minAperture: ApertureValue;
+
+  /**
+   * Largest available transmission stop expressed as a T-number.
+   * Use this for cine lenses or any lens whose source explicitly publishes T-stop data.
+   * For variable-transmission zooms: store [wideEnd, teleEnd] as a tuple.
+   * @example 2.9 or [2.9, 4]
+   */
+  maxTStop?: ApertureValue;
+
+  /**
+   * Smallest available transmission stop expressed as a T-number.
+   * For variable-transmission zooms: store [wideEnd, teleEnd] as a tuple.
+   * @example 22 or [22, 32]
+   */
+  minTStop?: ApertureValue;
+
+  /**
+   * Optional special-purpose capability tags used for filtering and UX badges.
+   * Tags are additive rather than mutually exclusive.
+   * @example ["macro", "ultra_macro"]
+   */
+  specialtyTags?: SpecialtyTag[];
 
   /**
    * Whether the lens supports autofocus.

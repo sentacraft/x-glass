@@ -9,7 +9,7 @@ const lensImagePathSchema = z
   .string()
   .regex(/^\/lenses\/[a-z0-9]+(?:-[a-z0-9]+)*\.webp$/);
 
-function createApertureSchema(fieldName: "maxAperture" | "minAperture") {
+function createApertureSchema(fieldName: "maxAperture" | "minAperture" | "maxTStop" | "minTStop") {
   return z.union([
     positiveNumberSchema,
     z.tuple([positiveNumberSchema, positiveNumberSchema]).refine(
@@ -23,6 +23,18 @@ function createApertureSchema(fieldName: "maxAperture" | "minAperture") {
 
 const maxApertureSchema = createApertureSchema("maxAperture");
 const minApertureSchema = createApertureSchema("minAperture");
+const maxTStopSchema = createApertureSchema("maxTStop");
+const minTStopSchema = createApertureSchema("minTStop");
+const specialtyTagSchema = z.enum([
+  "cine",
+  "anamorphic",
+  "tilt",
+  "shift",
+  "macro",
+  "ultra_macro",
+  "fisheye",
+  "probe",
+]);
 
 const lensBaseShape = {
   id: z.string().min(1).regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
@@ -34,6 +46,9 @@ const lensBaseShape = {
   focalLengthMax: positiveNumberSchema,
   maxAperture: maxApertureSchema,
   minAperture: minApertureSchema,
+  maxTStop: maxTStopSchema.optional(),
+  minTStop: minTStopSchema.optional(),
+  specialtyTags: z.array(specialtyTagSchema).min(1).optional(),
   af: z.boolean(),
   ois: z.boolean(),
   wr: z.boolean(),
@@ -113,12 +128,65 @@ function getApertureEndpoints(aperture: ApertureValue): {
     : { wide: aperture, tele: undefined };
 }
 
+function validateAperturePair(
+  maxValue: ApertureValue | undefined,
+  minValue: ApertureValue | undefined,
+  ctx: z.RefinementCtx,
+  labels: {
+    maxField: "maxAperture" | "maxTStop";
+    minField: "minAperture" | "minTStop";
+  },
+): void {
+  if (maxValue === undefined || minValue === undefined) {
+    return;
+  }
+
+  const maxEndpoints = getApertureEndpoints(maxValue);
+  const minEndpoints = getApertureEndpoints(minValue);
+  const maxWidePath = Array.isArray(maxValue) ? [labels.maxField, 0] : [labels.maxField];
+  const maxTelePath = Array.isArray(maxValue) ? [labels.maxField, 1] : [labels.maxField];
+
+  if (maxEndpoints.wide > minEndpoints.wide) {
+    ctx.addIssue({
+      code: "custom",
+      message: `${labels.maxField} wide-end cannot be greater than ${labels.minField} wide-end`,
+      path: maxWidePath,
+    });
+  }
+
+  if (
+    minEndpoints.tele !== undefined &&
+    maxEndpoints.wide > minEndpoints.tele
+  ) {
+    ctx.addIssue({
+      code: "custom",
+      message: `${labels.maxField} cannot be greater than ${labels.minField} tele-end`,
+      path: maxWidePath,
+    });
+  }
+
+  if (
+    maxEndpoints.tele !== undefined &&
+    maxEndpoints.tele > (minEndpoints.tele ?? minEndpoints.wide)
+  ) {
+    ctx.addIssue({
+      code: "custom",
+      message: minEndpoints.tele !== undefined
+        ? `${labels.maxField} tele-end cannot be greater than ${labels.minField} tele-end`
+        : `${labels.maxField} tele-end cannot be greater than ${labels.minField}`,
+      path: maxTelePath,
+    });
+  }
+}
+
 function applyLensBusinessRules(
   value: {
     focalLengthMin?: number;
     focalLengthMax?: number;
     maxAperture?: ApertureValue;
     minAperture?: ApertureValue;
+    maxTStop?: ApertureValue;
+    minTStop?: ApertureValue;
     imageUrl?: string;
   },
   ctx: z.RefinementCtx
@@ -135,45 +203,15 @@ function applyLensBusinessRules(
     });
   }
 
-  // Validate maxAperture relative to minAperture
-  if (value.maxAperture !== undefined && value.minAperture !== undefined) {
-    const maxEndpoints = getApertureEndpoints(value.maxAperture);
-    const minEndpoints = getApertureEndpoints(value.minAperture);
-    const maxWidePath = Array.isArray(value.maxAperture) ? ["maxAperture", 0] : ["maxAperture"];
-    const maxTelePath = Array.isArray(value.maxAperture) ? ["maxAperture", 1] : ["maxAperture"];
+  validateAperturePair(value.maxAperture, value.minAperture, ctx, {
+    maxField: "maxAperture",
+    minField: "minAperture",
+  });
 
-    if (maxEndpoints.wide > minEndpoints.wide) {
-      ctx.addIssue({
-        code: "custom",
-        message: "maxAperture wide-end cannot be greater than minAperture wide-end",
-        path: maxWidePath,
-      });
-    }
-
-    if (
-      minEndpoints.tele !== undefined &&
-      maxEndpoints.wide > minEndpoints.tele
-    ) {
-      ctx.addIssue({
-        code: "custom",
-        message: "maxAperture cannot be greater than minAperture tele-end",
-        path: maxWidePath,
-      });
-    }
-
-    if (
-      maxEndpoints.tele !== undefined &&
-      maxEndpoints.tele > (minEndpoints.tele ?? minEndpoints.wide)
-    ) {
-      ctx.addIssue({
-        code: "custom",
-        message: minEndpoints.tele !== undefined
-          ? "maxAperture tele-end cannot be greater than minAperture tele-end"
-          : "maxAperture tele-end cannot be greater than minAperture",
-        path: maxTelePath,
-      });
-    }
-  }
+  validateAperturePair(value.maxTStop, value.minTStop, ctx, {
+    maxField: "maxTStop",
+    minField: "minTStop",
+  });
 }
 
 export const lensSchema = lensObjectSchema.superRefine((value, ctx) => {
