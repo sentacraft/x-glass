@@ -222,6 +222,17 @@ export const lensPatchSchema = lensObjectSchema.partial().superRefine((value, ct
   applyLensBusinessRules(value, ctx);
 });
 
+// Pairs of lens IDs that share identical spec tuples but are confirmed distinct.
+// Format: "idA|idB" with IDs sorted alphabetically.
+function makeAllowlistKey(a: string, b: string): string {
+  return a < b ? `${a}|${b}` : `${b}|${a}`;
+}
+const KNOWN_DISTINCT_SPEC_PAIRS = new Set([
+  makeAllowlistKey(
+    "fujifilm-xf-56mm-f12-r-xf", 
+    "fujifilm-xf-56mm-f12-r-apd-xf"),
+]);
+
 export const lensCatalogSchema = z.array(lensSchema).superRefine((lenses, ctx) => {
   const seenIds = new Map<string, number>();
   const seenImageUrls = new Map<string, number>();
@@ -310,11 +321,15 @@ export const lensCatalogSchema = z.array(lensSchema).superRefine((lenses, ctx) =
     ].join("|");
     const previousSpecTupleIndex = seenSpecTuples.get(specTupleKey);
     if (previousSpecTupleIndex !== undefined) {
-      ctx.addIssue({
-        code: "custom",
-        message: `Duplicate brand/spec/features/generation combination also appears at index ${previousSpecTupleIndex}`,
-        path: [index, "focalLengthMin"],
-      });
+      const prevId = lenses[previousSpecTupleIndex].id;
+      const pairKey = makeAllowlistKey(prevId, lens.id);
+      if (!KNOWN_DISTINCT_SPEC_PAIRS.has(pairKey)) {
+        ctx.addIssue({
+          code: "custom",
+          message: `Duplicate brand/spec/features/generation combination also appears at index ${previousSpecTupleIndex}`,
+          path: [index, "focalLengthMin"],
+        });
+      }
     } else {
       seenSpecTuples.set(specTupleKey, index);
     }
