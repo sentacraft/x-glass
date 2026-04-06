@@ -51,25 +51,23 @@ export default async function LocaleLayout({
   const messages = await getMessages();
 
   return (
-    <html
+    <div
       lang={locale}
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} min-h-full font-sans antialiased`}
     >
-      <body className="min-h-full flex flex-col">
-        <NextIntlClientProvider messages={messages}>
-          <CompareProvider>
-            <Nav />
-            {TESTHOOK_ALLOWED ? (
-              <TestHookProvider>
-                {children}
-                <TestHookPanel />
-              </TestHookProvider>
-            ) : (
-              children
-            )}
-          </CompareProvider>
-        </NextIntlClientProvider>
-      </body>
-    </html>
+      <NextIntlClientProvider messages={messages}>
+        <CompareProvider>
+          <Nav />
+          {TESTHOOK_ALLOWED ? (
+            <TestHookProvider>
+              {children}
+              <TestHookPanel />
+            </TestHookProvider>
+          ) : (
+            children
+          )}
+        </CompareProvider>
+      </NextIntlClientProvider>
+    </div>
   );
 }
