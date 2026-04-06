@@ -2,6 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
+import LensSearchDialog from "@/components/LensSearchDialog";
 
 export default function Nav() {
   const t = useTranslations("Nav");
@@ -16,7 +17,7 @@ export default function Nav() {
         >
           X Glass
         </Link>
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-3">
           <Link
             href="/lenses"
             className={`text-sm transition-colors ${
@@ -27,6 +28,7 @@ export default function Nav() {
           >
             {t("lenses")}
           </Link>
+          <LensSearchDialog />
         </div>
       </nav>
     </header>
