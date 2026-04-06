@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { GeistSans } from "geist/font/sans";
+import { GeistMono } from "geist/font/mono";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { routing } from "@/i18n/routing";
@@ -9,16 +10,6 @@ import { CompareProvider } from "@/context/CompareProvider";
 import { TestHookProvider } from "@/context/TestHookProvider";
 import { TESTHOOK_ALLOWED } from "@/lib/testhook";
 import "../globals.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
   title: {
@@ -53,7 +44,7 @@ export default async function LocaleLayout({
   return (
     <div
       lang={locale}
-      className={`${geistSans.variable} ${geistMono.variable} min-h-full font-sans antialiased`}
+      className={`${GeistSans.variable} ${GeistMono.variable} min-h-full font-sans antialiased`}
     >
       <NextIntlClientProvider messages={messages}>
         <CompareProvider>
