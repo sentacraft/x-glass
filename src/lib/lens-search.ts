@@ -10,32 +10,102 @@ export function normalizeLensSearchText(value: string): string {
     .replace(/\s+/g, " ");
 }
 
-function getModelSearchScore(model: string, query: string): number {
-  if (!query) {
+interface ScoredField {
+  text: string;
+  exact: number;
+  prefix: number;
+  wordPrefix: number;
+  includes: number;
+}
+
+interface SearchableLensEntry {
+  lens: Lens;
+  model: string;
+  brand: string;
+  series: string;
+  aggregate: string;
+}
+
+function scoreField(field: string, query: string, weights: ScoredField): number {
+  if (!field || !query) {
     return 0;
   }
 
-  if (model === query) {
-    return 400;
+  if (field === query) {
+    return weights.exact;
   }
 
-  if (model.startsWith(query)) {
-    return 300;
+  if (field.startsWith(query)) {
+    return weights.prefix;
   }
 
-  const words = model.split(" ");
+  const words = field.split(" ");
   if (words.some((word) => word.startsWith(query))) {
-    return 200;
+    return weights.wordPrefix;
   }
 
-  if (model.includes(query)) {
-    return 100;
+  if (field.includes(query)) {
+    return weights.includes;
   }
 
   return 0;
 }
 
-export function searchLensesByModel(lenses: Lens[], query: string, limit = 8): Lens[] {
+function createSearchableLensEntry(lens: Lens): SearchableLensEntry {
+  const brand = normalizeLensSearchText(lens.brand);
+  const series = normalizeLensSearchText(lens.series ?? "");
+  const model = normalizeLensSearchText(lens.model);
+
+  return {
+    lens,
+    model,
+    brand,
+    series,
+    aggregate: [brand, series, model].filter(Boolean).join(" "),
+  };
+}
+
+function scoreLens(entry: SearchableLensEntry, query: string): number {
+  const modelScore = scoreField(entry.model, query, {
+    text: entry.model,
+    exact: 600,
+    prefix: 500,
+    wordPrefix: 400,
+    includes: 280,
+  });
+
+  const brandScore = scoreField(entry.brand, query, {
+    text: entry.brand,
+    exact: 260,
+    prefix: 220,
+    wordPrefix: 180,
+    includes: 120,
+  });
+
+  const seriesScore = scoreField(entry.series, query, {
+    text: entry.series,
+    exact: 210,
+    prefix: 180,
+    wordPrefix: 160,
+    includes: 110,
+  });
+
+  const aggregateScore = scoreField(entry.aggregate, query, {
+    text: entry.aggregate,
+    exact: 90,
+    prefix: 70,
+    wordPrefix: 55,
+    includes: 40,
+  });
+
+  return modelScore + brandScore + seriesScore + aggregateScore;
+}
+
+export function searchLenses(
+  lenses: Lens[],
+  query: string,
+  limit = 8
+): Lens[] {
   const normalizedQuery = normalizeLensSearchText(query);
 
   if (!normalizedQuery) {
@@ -43,26 +113,23 @@ export function searchLensesByModel(lenses: Lens[], query: string, limit = 8): L
   }
 
   return lenses
-    .map((lens) => {
-      const normalizedModel = normalizeLensSearchText(lens.model);
-      return {
-        lens,
-        score: getModelSearchScore(normalizedModel, normalizedQuery),
-        normalizedModel,
-      };
-    })
+    .map(createSearchableLensEntry)
+    .map((entry) => ({
+      entry,
+      score: scoreLens(entry, normalizedQuery),
+    }))
     .filter((entry) => entry.score > 0)
     .sort((a, b) => {
       if (b.score !== a.score) {
         return b.score - a.score;
       }
 
-      if (a.normalizedModel.length !== b.normalizedModel.length) {
-        return a.normalizedModel.length - b.normalizedModel.length;
+      if (a.entry.model.length !== b.entry.model.length) {
+        return a.entry.model.length - b.entry.model.length;
       }
 
-      return a.normalizedModel.localeCompare(b.normalizedModel);
+      return a.entry.model.localeCompare(b.entry.model);
     })
     .slice(0, limit)
-    .map((entry) => entry.lens);
+    .map((entry) => entry.entry.lens);
 }

@@ -1,6 +1,12 @@
 "use client";
 
-import React, { startTransition, useEffect, useRef, useState } from "react";
+import React, {
+  startTransition,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import Image from "next/image";
 import { ExternalLink } from "@/components/ui/external-link";
 import { useTranslations } from "next-intl";
@@ -266,8 +272,10 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
   const td = useTranslations("LensDetail");
   const router = useRouter();
   const { replaceCompare } = useCompare();
-  const initialLensIds = initialLenses.map((lens) => lens.id);
-  const initialLensIdsKey = initialLensIds.join(",");
+  const initialLensIds = useMemo(
+    () => initialLenses.map((lens) => lens.id),
+    [initialLenses]
+  );
   const [orderedIds, setOrderedIds] = useState(initialLensIds);
   const orderedIdsRef = useRef(orderedIds);
   const [activeId, setActiveId] = useState<string | null>(null);
@@ -275,7 +283,7 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
   useEffect(() => {
     replaceCompare(initialLensIds);
     orderedIdsRef.current = initialLensIds;
-  }, [initialLensIdsKey, replaceCompare]);
+  }, [initialLensIds, replaceCompare]);
 
   const orderedLenses = orderedIds
     .map((id) => allLenses.find((lens) => lens.id === id))

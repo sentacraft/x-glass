@@ -13,7 +13,7 @@ import { Search, X } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 import { allLenses } from "@/lib/lens";
-import { searchLensesByModel } from "@/lib/lens-search";
+import { searchLenses } from "@/lib/lens-search";
 import type { Lens } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
@@ -51,7 +51,7 @@ export default function LensSearchDialog({
   const deferredQuery = useDeferredValue(query);
 
   const results = useMemo(
-    () => searchLensesByModel(allLenses, deferredQuery),
+    () => searchLenses(allLenses, deferredQuery),
     [deferredQuery]
   );
 
@@ -277,6 +277,7 @@ export default function LensSearchDialog({
                           <p className="mt-1 truncate text-xs uppercase tracking-[0.14em] text-zinc-500 dark:text-zinc-400">
                             {tBrand(lens.brand)}
                             {lens.series ? ` · ${lens.series}` : ""}
+                            {lens.generation ? ` · ${t("generation", { value: lens.generation })}` : ""}
                           </p>
                         </div>
                         <span className="shrink-0 text-xs font-medium text-zinc-400 dark:text-zinc-500">
