@@ -160,6 +160,16 @@
     "needOneMoreLens": "You only have one lens here right now. Add one more lens to unlock a proper side-by-side comparison.",
     "removeLens": "Remove {model}"
   },
+  "Share": {
+    "button": "Share",
+    "title": "Share this comparison",
+    "description": "This link preserves the current lens selection and column order.",
+    "summary": "{count, plural, one {# lens} other {# lenses}}",
+    "linkLabel": "Link",
+    "copyLink": "Copy Link",
+    "copied": "Copied!",
+    "nativeShare": "Share"
+  },
   "Footer": {
     "dataInfo": "Data v{version} · {lensCount} lenses · Updated {date}"
   }

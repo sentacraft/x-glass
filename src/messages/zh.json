@@ -159,6 +159,16 @@
     "needOneMoreLens": "当前这里只有 1 支镜头，再添加 1 支镜头，就可以开始真正的并排对比。",
     "removeLens": "移除 {model}"
   },
+  "Share": {
+    "button": "分享",
+    "title": "分享当前对比",
+    "description": "此链接会保留当前选择的镜头和列顺序。",
+    "summary": "{count} 支镜头",
+    "linkLabel": "链接",
+    "copyLink": "复制链接",
+    "copied": "已复制！",
+    "nativeShare": "系统分享"
+  },
   "Footer": {
     "dataInfo": "数据 v{version} · {lensCount} 款镜头 · 更新于 {date}"
   }

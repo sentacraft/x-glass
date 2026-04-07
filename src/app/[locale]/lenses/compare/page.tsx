@@ -3,6 +3,7 @@ import { getTranslations } from "next-intl/server";
 import { parseLensIds } from "@/lib/lens";
 import { Link } from "@/i18n/navigation";
 import CompareTable from "@/components/CompareTable";
+import { ShareButton } from "@/components/ShareButton";
 
 export async function generateMetadata({
   searchParams,
@@ -57,6 +58,9 @@ export default async function ComparePage({
         <h1 className="text-2xl font-bold text-zinc-900 dark:text-zinc-50">
           {t("title")}
         </h1>
+        <div className="ml-auto">
+          <ShareButton lenses={lenses} />
+        </div>
       </div>
 
       {lenses.length < 2 ? (
