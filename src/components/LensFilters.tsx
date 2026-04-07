@@ -120,7 +120,7 @@ export default function LensFilters({
 
   return (
     <div>
-      <div className="flex min-w-0 flex-1 flex-col gap-2.5">
+      <div className="flex min-w-0 flex-1 flex-col gap-3">
         <FilterRow label={t("brand")}>
           <MultiSelectChipGroup
             allLabel={allOptionLabel}
@@ -139,40 +139,47 @@ export default function LensFilters({
           />
         </FilterRow>
 
-        <FilterRow label={t("lensType")}>
-          <TypeSegmentedControl
-            ariaLabel={t("lensType")}
-            options={typeOptions}
-            value={filters.typeFilter}
-            onChange={setTypeFilter}
-          />
-        </FilterRow>
-      </div>
-
-      {advancedOpen ? (
-        <div className="py-3">
-          <FilterRow label={t("features")}>
-            <FeatureToggleGroup options={featureOptions} />
+        <div className="flex items-center gap-12">
+          <FilterRow label={t("lensType")}>
+            <TypeSegmentedControl
+              ariaLabel={t("lensType")}
+              options={typeOptions}
+              value={filters.typeFilter}
+              onChange={setTypeFilter}
+            />
           </FilterRow>
+          <div className="flex h-8 shrink-0 items-center gap-1 border-l border-zinc-200/80 pl-4 dark:border-zinc-800/80">
+            <button
+              type="button"
+              className="flex h-8 items-center gap-1 text-[10px] font-medium uppercase tracking-[0.1em] text-zinc-500 transition-colors hover:text-zinc-800 dark:text-zinc-400 dark:hover:text-zinc-200"
+              onClick={() => setAdvancedOpen((value) => !value)}
+              aria-expanded={advancedOpen}
+            >
+              <span>{advancedOpen ? t("fewerFilters") : t("moreFilters")}</span>
+              <ChevronDown
+                className={cn(
+                  "size-3.5 transition-transform duration-200",
+                  advancedOpen && "rotate-180",
+                )}
+              />
+            </button>
+          </div>
         </div>
-      ) : null}
 
-      <div className="mt-3 flex items-center gap-3">
-        <button
-          type="button"
-          className="group inline-flex h-8 items-center gap-1 text-[10px] font-medium uppercase tracking-[0.1em] text-zinc-500 transition-colors hover:text-zinc-800 dark:text-zinc-400 dark:hover:text-zinc-200"
-          onClick={() => setAdvancedOpen((value) => !value)}
-          aria-expanded={advancedOpen}
+        <div
+          style={{
+            gridTemplateRows: advancedOpen ? "1fr" : "0fr",
+          }}
+          className="grid overflow-hidden transition-[grid-template-rows] duration-500 ease-in-out"
         >
-          <span>{advancedOpen ? t("fewerFilters") : t("moreFilters")}</span>
-          <ChevronDown
-            className={cn(
-              "size-3.5 transition-transform duration-200",
-              advancedOpen && "rotate-180",
-            )}
-          />
-        </button>
-        <div className="h-px flex-1 bg-zinc-200/80 dark:bg-zinc-800/80" />
+          <div className="min-h-0 overflow-hidden">
+            <div className="pt-3 pb-1">
+              <FilterRow label={t("features")}>
+                <FeatureToggleGroup options={featureOptions} />
+              </FilterRow>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
