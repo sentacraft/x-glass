@@ -168,7 +168,25 @@
     "linkLabel": "Link",
     "copyLink": "Copy Link",
     "copied": "Copied!",
-    "nativeShare": "Share"
+    "nativeShare": "Share",
+    "generateImage": "Generate Share Image",
+    "generateImageHint": "Export a poster for Xiaohongshu or WeChat"
+  },
+  "ShareImage": {
+    "title": "Share Image Preview",
+    "comparison": "Lens Comparison",
+    "focalLength": "Focal Length",
+    "maxAperture": "Max Aperture",
+    "weight": "Weight",
+    "ois": "OIS",
+    "wr": "Weather Resistant",
+    "minFocusDist": "Min Focus",
+    "na": "N/A",
+    "previewNote": "Preview — click Download to save as PNG.",
+    "cancel": "Cancel",
+    "download": "Download PNG",
+    "exporting": "Exporting…",
+    "close": "Close"
   },
   "Footer": {
     "dataInfo": "Data v{version} · {lensCount} lenses · Updated {date}"

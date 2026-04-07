@@ -4,9 +4,10 @@ import { useEffect, useState, useCallback } from "react";
 import { Popover } from "@base-ui/react/popover";
 import { Drawer } from "@base-ui/react/drawer";
 import { useTranslations } from "next-intl";
-import { Share2, Copy, Check } from "lucide-react";
+import { Share2, Copy, Check, ImageDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { Lens } from "@/lib/types";
+import { ShareImageDialog } from "./ShareImageDialog";
 
 interface ShareButtonProps {
   lenses: Lens[];
@@ -15,6 +16,7 @@ interface ShareButtonProps {
 export function ShareButton({ lenses }: ShareButtonProps) {
   const t = useTranslations("Share");
   const [open, setOpen] = useState(false);
+  const [imageDialogOpen, setImageDialogOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const [isDesktop, setIsDesktop] = useState(true);
   const [mounted, setMounted] = useState(false);
@@ -135,46 +137,56 @@ export function ShareButton({ lenses }: ShareButtonProps) {
           </button>
         )}
       </div>
+
+      {/* Divider */}
+      <div className="border-t border-zinc-100 dark:border-zinc-800" />
+
+      {/* Share image */}
+      <button
+        onClick={() => {
+          setOpen(false);
+          setImageDialogOpen(true);
+        }}
+        className="flex w-full items-center gap-3 rounded-lg px-1 py-1 text-sm text-zinc-600 transition-colors hover:bg-zinc-50 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-50"
+      >
+        <span className="flex size-8 shrink-0 items-center justify-center rounded-md bg-zinc-100 dark:bg-zinc-800">
+          <ImageDown className="size-4" />
+        </span>
+        <div className="flex flex-col items-start gap-0.5">
+          <span className="font-medium leading-none">{t("generateImage")}</span>
+          <span className="text-xs text-zinc-400 dark:text-zinc-500 leading-none">
+            {t("generateImageHint")}
+          </span>
+        </div>
+      </button>
     </div>
   );
 
-  // Before mount: render a placeholder with the same dimensions to avoid layout shift.
-  // After mount: render Popover (desktop) or Drawer (mobile).
-  if (!mounted) {
-    return (
-      <button
-        disabled
-        className="flex cursor-default items-center gap-1.5 text-sm text-zinc-500 dark:text-zinc-400"
-        aria-hidden
-      >
-        <Share2 className="size-4" />
-        {t("button")}
-      </button>
-    );
-  }
-
-  if (isDesktop) {
-    return (
-      <Popover.Root
-        open={open}
-        onOpenChange={(nextOpen) => setOpen(nextOpen)}
-      >
-        <Popover.Trigger className="flex cursor-pointer items-center gap-1.5 rounded-md text-sm text-zinc-500 outline-none transition-colors hover:text-zinc-900 focus-visible:ring-2 focus-visible:ring-zinc-400 dark:text-zinc-400 dark:hover:text-zinc-50">
-          {triggerLabel}
-        </Popover.Trigger>
-        <Popover.Portal>
-          <Popover.Positioner side="bottom" align="end" sideOffset={8}>
-            <Popover.Popup className="w-80 origin-(--transform-origin) rounded-xl bg-white shadow-lg ring-1 ring-zinc-200 duration-100 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95 dark:bg-zinc-900 dark:ring-zinc-800">
-              {panelContent}
-            </Popover.Popup>
-          </Popover.Positioner>
-        </Popover.Portal>
-      </Popover.Root>
-    );
-  }
-
-  // Mobile: bottom sheet via Drawer
-  return (
+  // Before mount: static placeholder to avoid layout shift.
+  const shareControl = !mounted ? (
+    <button
+      disabled
+      className="flex cursor-default items-center gap-1.5 text-sm text-zinc-500 dark:text-zinc-400"
+      aria-hidden
+    >
+      <Share2 className="size-4" />
+      {t("button")}
+    </button>
+  ) : isDesktop ? (
+    <Popover.Root open={open} onOpenChange={(nextOpen) => setOpen(nextOpen)}>
+      <Popover.Trigger className="flex cursor-pointer items-center gap-1.5 rounded-md text-sm text-zinc-500 outline-none transition-colors hover:text-zinc-900 focus-visible:ring-2 focus-visible:ring-zinc-400 dark:text-zinc-400 dark:hover:text-zinc-50">
+        {triggerLabel}
+      </Popover.Trigger>
+      <Popover.Portal>
+        <Popover.Positioner side="bottom" align="end" sideOffset={8}>
+          <Popover.Popup className="w-80 origin-(--transform-origin) rounded-xl bg-white shadow-lg ring-1 ring-zinc-200 duration-100 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95 dark:bg-zinc-900 dark:ring-zinc-800">
+            {panelContent}
+          </Popover.Popup>
+        </Popover.Positioner>
+      </Popover.Portal>
+    </Popover.Root>
+  ) : (
+    // Mobile: bottom sheet via Drawer
     <Drawer.Root
       open={open}
       onOpenChange={(nextOpen) => setOpen(nextOpen)}
@@ -194,5 +206,16 @@ export function ShareButton({ lenses }: ShareButtonProps) {
         </Drawer.Popup>
       </Drawer.Portal>
     </Drawer.Root>
+  );
+
+  return (
+    <>
+      {shareControl}
+      <ShareImageDialog
+        lenses={lenses}
+        open={imageDialogOpen}
+        onClose={() => setImageDialogOpen(false)}
+      />
+    </>
   );
 }
