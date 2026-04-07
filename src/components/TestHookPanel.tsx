@@ -2,6 +2,13 @@
 
 import { useContext, useState } from "react";
 import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { TestHookContext } from "@/context/TestHookProvider";
 import { TESTHOOK_OPTION_DEFINITIONS } from "@/lib/testhook";
 
@@ -37,17 +44,21 @@ export default function TestHookPanel() {
             <span className="text-[11px] font-medium uppercase tracking-[0.14em] text-zinc-500 dark:text-zinc-400">
               {option.label}
             </span>
-            <select
+            <Select
               value={state.options[option.key] ?? option.defaultValue ?? ""}
-              onChange={(event) => setOption(option.key, event.target.value)}
-              className="h-10 rounded-lg border border-zinc-200 bg-white px-3 text-sm text-zinc-900 outline-none transition focus:border-zinc-400 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-50 dark:focus:border-zinc-600"
+              onValueChange={(value) => setOption(option.key, value ?? "")}
             >
-              {option.values.map((value) => (
-                <option key={value.id} value={value.id}>
-                  {value.label}
-                </option>
-              ))}
-            </select>
+              <SelectTrigger className="h-10">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {option.values.map((value) => (
+                  <SelectItem key={value.id} value={value.id}>
+                    {value.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
             <span className="text-xs leading-5 text-zinc-500 dark:text-zinc-400">
               {option.description}
             </span>

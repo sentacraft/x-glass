@@ -9,6 +9,7 @@ import type { Lens } from "@/lib/types";
 import { lensImageStyle } from "@/lib/lens-image";
 import { useUiHookAttr } from "@/context/TestHookProvider";
 import * as fmt from "@/lib/lens.format";
+import { Button } from "@/components/ui/button";
 
 interface Props {
   lens: Lens;
@@ -144,10 +145,11 @@ export default function LensCard({
         {...hookAttr("cardFooter")}
         className="mt-auto px-4 pb-4"
       >
-        <button
+        <Button
+          size="sm"
           onClick={onToggle}
           disabled={selectionDisabled}
-          className={`text-xs font-medium px-3 py-1.5 rounded-lg w-full transition-colors ${
+          className={`w-full h-9 text-xs font-medium ${
             isSelected
               ? "bg-blue-500 text-white hover:bg-blue-600"
               : selectionDisabled
@@ -156,7 +158,7 @@ export default function LensCard({
           }`}
         >
           {isSelected ? t("removeFromCompare") : t("addToCompare")}
-        </button>
+        </Button>
       </div>
     </div>
   );
