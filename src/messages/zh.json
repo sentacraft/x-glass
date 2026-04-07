@@ -159,6 +159,35 @@
     "needOneMoreLens": "当前这里只有 1 支镜头，再添加 1 支镜头，就可以开始真正的并排对比。",
     "removeLens": "移除 {model}"
   },
+  "Share": {
+    "button": "分享",
+    "title": "分享当前对比",
+    "description": "此链接会保留当前选择的镜头和列顺序。",
+    "summary": "{count} 支镜头",
+    "linkLabel": "链接",
+    "copyLink": "复制链接",
+    "copied": "已复制！",
+    "nativeShare": "系统分享",
+    "generateImage": "生成分享图",
+    "generateImageHint": "导出适合小红书或微信的对比海报"
+  },
+  "ShareImage": {
+    "title": "分享图预览",
+    "comparison": "镜头横向对比",
+    "focalLength": "焦段",
+    "maxAperture": "最大光圈",
+    "weight": "重量",
+    "ois": "防抖",
+    "wr": "防尘防滴",
+    "minFocusDist": "最近对焦",
+    "na": "N/A",
+    "generating": "正在生成图片…",
+    "previewNote": "预览效果 — 下载内容与此图完全一致。",
+    "previewAlt": "分享图预览",
+    "cancel": "取消",
+    "download": "下载 PNG",
+    "close": "关闭"
+  },
   "Footer": {
     "dataInfo": "数据 v{version} · {lensCount} 款镜头 · 更新于 {date}"
   }

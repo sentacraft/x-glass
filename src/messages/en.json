@@ -160,6 +160,35 @@
     "needOneMoreLens": "You only have one lens here right now. Add one more lens to unlock a proper side-by-side comparison.",
     "removeLens": "Remove {model}"
   },
+  "Share": {
+    "button": "Share",
+    "title": "Share this comparison",
+    "description": "This link preserves the current lens selection and column order.",
+    "summary": "{count, plural, one {# lens} other {# lenses}}",
+    "linkLabel": "Link",
+    "copyLink": "Copy Link",
+    "copied": "Copied!",
+    "nativeShare": "Share",
+    "generateImage": "Generate Share Image",
+    "generateImageHint": "Export a poster for Xiaohongshu or WeChat"
+  },
+  "ShareImage": {
+    "title": "Share Image Preview",
+    "comparison": "Lens Comparison",
+    "focalLength": "Focal Length",
+    "maxAperture": "Max Aperture",
+    "weight": "Weight",
+    "ois": "OIS",
+    "wr": "Weather Resistant",
+    "minFocusDist": "Min Focus",
+    "na": "N/A",
+    "generating": "Generating image…",
+    "previewNote": "Preview — this is the exact image that will be downloaded.",
+    "previewAlt": "Share image preview",
+    "cancel": "Cancel",
+    "download": "Download PNG",
+    "close": "Close"
+  },
   "Footer": {
     "dataInfo": "Data v{version} · {lensCount} lenses · Updated {date}"
   }
