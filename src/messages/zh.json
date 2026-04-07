@@ -181,10 +181,11 @@
     "wr": "防尘防滴",
     "minFocusDist": "最近对焦",
     "na": "N/A",
-    "previewNote": "预览效果 — 点击下载按钮保存为 PNG。",
+    "generating": "正在生成图片…",
+    "previewNote": "预览效果 — 下载内容与此图完全一致。",
+    "previewAlt": "分享图预览",
     "cancel": "取消",
     "download": "下载 PNG",
-    "exporting": "导出中…",
     "close": "关闭"
   },
   "Footer": {

@@ -182,10 +182,11 @@
     "wr": "Weather Resistant",
     "minFocusDist": "Min Focus",
     "na": "N/A",
-    "previewNote": "Preview — click Download to save as PNG.",
+    "generating": "Generating image…",
+    "previewNote": "Preview — this is the exact image that will be downloaded.",
+    "previewAlt": "Share image preview",
     "cancel": "Cancel",
     "download": "Download PNG",
-    "exporting": "Exporting…",
     "close": "Close"
   },
   "Footer": {

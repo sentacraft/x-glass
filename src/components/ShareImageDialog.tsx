@@ -1,14 +1,9 @@
 "use client";
 
-import {
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { X, Download, Loader2 } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { ShareImageCard, type ShareImageLabels } from "./ShareImageCard";
+import { drawSharePoster, type ShareImageLabels } from "@/lib/share-image";
 import type { Lens } from "@/lib/types";
 
 interface ShareImageDialogProps {
@@ -23,8 +18,9 @@ export function ShareImageDialog({
   onClose,
 }: ShareImageDialogProps) {
   const t = useTranslations("ShareImage");
-  const cardRef = useRef<HTMLDivElement>(null);
-  const [exporting, setExporting] = useState(false);
+  const [dataUrl, setDataUrl] = useState<string | null>(null);
+  const [generating, setGenerating] = useState(false);
+  const slugRef = useRef("");
 
   const labels: ShareImageLabels = {
     appName: "X Glass",
@@ -38,6 +34,25 @@ export function ShareImageDialog({
     na: t("na"),
     siteUrl: "x-glass.app",
   };
+
+  // Generate the poster whenever the dialog opens
+  useEffect(() => {
+    if (!open) return;
+    setDataUrl(null);
+    setGenerating(true);
+
+    slugRef.current = lenses
+      .map((l) => l.model.replace(/\s+/g, "-").toLowerCase())
+      .join("_vs_")
+      .slice(0, 60);
+
+    drawSharePoster(lenses, labels)
+      .then((url) => setDataUrl(url))
+      .catch(console.error)
+      .finally(() => setGenerating(false));
+    // labels are stable translations — intentionally not listed as deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open, lenses]);
 
   // Close on Escape
   useEffect(() => {
@@ -61,37 +76,13 @@ export function ShareImageDialog({
     };
   }, [open]);
 
-  const handleDownload = useCallback(async () => {
-    if (!cardRef.current || exporting) return;
-    setExporting(true);
-    try {
-      const html2canvas = (await import("html2canvas")).default;
-      const canvas = await html2canvas(cardRef.current, {
-        scale: 2,
-        useCORS: true,
-        backgroundColor: "#ffffff",
-        logging: false,
-        // Tailwind v4 uses oklch/lab color functions which html2canvas
-        // can't parse. Strip all stylesheets from the clone so only
-        // inline styles (which ShareImageCard uses exclusively) remain.
-        onclone: (clonedDoc) => {
-          clonedDoc
-            .querySelectorAll('style, link[rel="stylesheet"]')
-            .forEach((el) => el.remove());
-        },
-      });
-      const link = document.createElement("a");
-      const slug = lenses
-        .map((l) => l.model.replace(/\s+/g, "-").toLowerCase())
-        .join("_vs_")
-        .slice(0, 60);
-      link.download = `x-glass_${slug}.png`;
-      link.href = canvas.toDataURL("image/png");
-      link.click();
-    } finally {
-      setExporting(false);
-    }
-  }, [lenses, exporting]);
+  const handleDownload = useCallback(() => {
+    if (!dataUrl) return;
+    const link = document.createElement("a");
+    link.download = `x-glass_${slugRef.current}.png`;
+    link.href = dataUrl;
+    link.click();
+  }, [dataUrl]);
 
   if (!open) return null;
 
@@ -108,7 +99,7 @@ export function ShareImageDialog({
         className="flex flex-col w-full max-w-3xl max-h-[90vh] bg-white dark:bg-zinc-900 rounded-2xl shadow-2xl shadow-zinc-950/20 overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Dialog header */}
+        {/* Header */}
         <div className="flex items-center justify-between px-5 py-4 border-b border-zinc-200 dark:border-zinc-800 shrink-0">
           <h2 className="text-base font-semibold text-zinc-900 dark:text-zinc-50">
             {t("title")}
@@ -123,25 +114,27 @@ export function ShareImageDialog({
         </div>
 
         {/* Preview area */}
-        <div className="flex-1 overflow-auto bg-zinc-100 dark:bg-zinc-950 p-6">
-          <p className="text-xs text-zinc-400 dark:text-zinc-500 mb-4">
-            {t("previewNote")}
-          </p>
-          {/* The card is fixed at 750px — scales naturally on wide screens,
-              scrolls horizontally on narrow ones */}
-          {/* No Tailwind classes here — html2canvas can't parse oklch/lab
-              color functions that Tailwind v4 injects into computed styles. */}
-          <div
-            ref={cardRef}
-            style={{
-              display: "inline-block",
-              boxShadow:
-                "0 4px 6px -1px rgba(0,0,0,0.10), 0 2px 4px -2px rgba(0,0,0,0.08)",
-              borderRadius: 2,
-            }}
-          >
-            <ShareImageCard lenses={lenses} labels={labels} />
-          </div>
+        <div className="flex-1 overflow-auto bg-zinc-100 dark:bg-zinc-950 p-6 flex flex-col items-center">
+          {generating ? (
+            <div className="flex flex-col items-center justify-center gap-3 py-20 text-zinc-400">
+              <Loader2 className="size-6 animate-spin" />
+              <span className="text-sm">{t("generating")}</span>
+            </div>
+          ) : dataUrl ? (
+            <>
+              <p className="self-start text-xs text-zinc-400 dark:text-zinc-500 mb-4">
+                {t("previewNote")}
+              </p>
+              {/* Display the canvas output at logical (1×) size */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={dataUrl}
+                alt={t("previewAlt")}
+                style={{ width: 750, height: "auto", display: "block" }}
+                className="rounded-sm shadow-md"
+              />
+            </>
+          ) : null}
         </div>
 
         {/* Footer actions */}
@@ -154,15 +147,11 @@ export function ShareImageDialog({
           </button>
           <button
             onClick={handleDownload}
-            disabled={exporting}
-            className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium bg-zinc-900 text-zinc-50 hover:bg-zinc-700 dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-200 transition-colors disabled:opacity-60 outline-none focus-visible:ring-2 focus-visible:ring-zinc-400"
+            disabled={!dataUrl}
+            className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium bg-zinc-900 text-zinc-50 hover:bg-zinc-700 dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-200 transition-colors disabled:opacity-40 outline-none focus-visible:ring-2 focus-visible:ring-zinc-400"
           >
-            {exporting ? (
-              <Loader2 className="size-4 animate-spin" />
-            ) : (
-              <Download className="size-4" />
-            )}
-            {exporting ? t("exporting") : t("download")}
+            <Download className="size-4" />
+            {t("download")}
           </button>
         </div>
       </div>
