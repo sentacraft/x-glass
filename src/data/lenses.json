@@ -403,6 +403,35 @@
     }
   },
   {
+    "id": "brightinstar-af-50mm-f14-xf",
+    "brand": "brightinstar",
+    "model": "AF 50mm F1.4",
+    "focalLengthMin": 50,
+    "focalLengthMax": 50,
+    "maxAperture": 1.4,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": false,
+    "apertureRing": false,
+    "weightG": 449,
+    "diameterMm": 71.9,
+    "lengthMm": 78.8,
+    "minFocusDistanceCm": 50,
+    "apertureBladeCount": 9,
+    "imageUrl": "/lenses/brightinstar-af-50mm-f14-xf.webp",
+    "filterMm": 58,
+    "lensConfiguration": {
+      "groups": 8,
+      "elements": 12,
+      "ed": 2,
+      "sourceText": "8组12片 (含2枚ED镜片+2枚高折射镜片)"
+    },
+    "officialLinks": {
+      "cn": "https://brightinstar.com.cn/products/af-50mm-f1-4-%E5%8D%8A%E7%94%BB%E5%B9%85"
+    }
+  },
+  {
     "id": "brightinstar-10mm-f56-fisheye-xf",
     "brand": "brightinstar",
     "model": "MF 10mm F5.6 Pro",
@@ -924,6 +953,39 @@
     }
   },
   {
+    "id": "fujifilm-xf-8mm-f35-r-wr-xf",
+    "brand": "fujifilm",
+    "series": "XF",
+    "model": "XF 8mm F3.5 R WR",
+    "focalLengthMin": 8,
+    "focalLengthMax": 8,
+    "maxAperture": 3.5,
+    "minAperture": 22,
+    "af": true,
+    "ois": false,
+    "wr": true,
+    "apertureRing": true,
+    "weightG": 215,
+    "diameterMm": 68,
+    "lengthMm": 52.8,
+    "minFocusDistanceCm": 18,
+    "maxMagnification": 0.07,
+    "angleOfView": "121°",
+    "apertureBladeCount": 9,
+    "imageUrl": "/lenses/fujifilm-xf-8mm-f35-r-wr-xf.webp",
+    "filterMm": 62,
+    "lensConfiguration": {
+      "groups": 9,
+      "elements": 12,
+      "aspherical": 3,
+      "ed": 2,
+      "sourceText": "12 elements in 9 groups (includes 3 aspherical and 2 ED elements)"
+    },
+    "officialLinks": {
+      "global": "https://www.fujifilm-x.com/global/products/lenses/xf8mmf35-r-wr/"
+    }
+  },
+  {
     "id": "fujifilm-xf-10-24mm-f4-r-ois-xf",
     "brand": "fujifilm",
     "series": "XF",
@@ -1361,6 +1423,69 @@
     }
   },
   {
+    "id": "fujifilm-xf-23mm-f14-r-xf",
+    "brand": "fujifilm",
+    "series": "XF",
+    "model": "XF 23mm F1.4 R",
+    "focalLengthMin": 23,
+    "focalLengthMax": 23,
+    "maxAperture": 1.4,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "weightG": 300,
+    "diameterMm": 72,
+    "lengthMm": 63,
+    "maxMagnification": 0.1,
+    "angleOfView": "63.4°",
+    "apertureBladeCount": 7,
+    "imageUrl": "/lenses/fujifilm-xf-23mm-f14-r-xf.webp",
+    "filterMm": 62,
+    "lensConfiguration": {
+      "groups": 8,
+      "elements": 11,
+      "sourceText": "11 elements in 8 groups"
+    },
+    "officialLinks": {
+      "global": "https://www.fujifilm-x.com/global/products/lenses/xf23mmf14-r/"
+    }
+  },
+  {
+    "id": "fujifilm-xf-23mm-f14-r-lm-wr-xf",
+    "brand": "fujifilm",
+    "series": "XF",
+    "model": "XF 23mm F1.4 R LM WR",
+    "focalLengthMin": 23,
+    "focalLengthMax": 23,
+    "maxAperture": 1.4,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": true,
+    "apertureRing": true,
+    "weightG": 375,
+    "diameterMm": 67,
+    "lengthMm": 77.8,
+    "minFocusDistanceCm": 19,
+    "maxMagnification": 0.2,
+    "angleOfView": "63.4°",
+    "apertureBladeCount": 9,
+    "imageUrl": "/lenses/fujifilm-xf-23mm-f14-r-lm-wr-xf.webp",
+    "filterMm": 58,
+    "lensConfiguration": {
+      "groups": 10,
+      "elements": 15,
+      "aspherical": 2,
+      "ed": 3,
+      "sourceText": "15 elements in 10 groups (includes 2 aspherical and 3 ED elements)"
+    },
+    "officialLinks": {
+      "global": "https://www.fujifilm-x.com/global/products/lenses/xf23mmf14-r-lm-wr/"
+    }
+  },
+  {
     "id": "fujifilm-xf-23mm-f2-r-wr-xf",
     "brand": "fujifilm",
     "series": "XF",
@@ -1421,6 +1546,36 @@
     },
     "officialLinks": {
       "global": "https://www.fujifilm-x.com/global/products/lenses/xf23mmf28-r-wr/"
+    }
+  },
+  {
+    "id": "fujifilm-xf-27mm-f28-xf",
+    "brand": "fujifilm",
+    "series": "XF",
+    "model": "XF 27mm F2.8",
+    "focalLengthMin": 27,
+    "focalLengthMax": 27,
+    "maxAperture": 2.8,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": false,
+    "apertureRing": false,
+    "weightG": 78,
+    "diameterMm": 61.2,
+    "lengthMm": 23,
+    "maxMagnification": 0.1,
+    "angleOfView": "55.5°",
+    "apertureBladeCount": 7,
+    "imageUrl": "/lenses/fujifilm-xf-27mm-f28-xf.webp",
+    "filterMm": 39,
+    "lensConfiguration": {
+      "groups": 5,
+      "elements": 7,
+      "sourceText": "7 elements in 5 groups"
+    },
+    "officialLinks": {
+      "global": "https://www.fujifilm-x.com/global/products/lenses/xf27mmf28/"
     }
   },
   {
@@ -1764,6 +1919,37 @@
     },
     "officialLinks": {
       "global": "https://www.fujifilm-x.com/global/products/discontinued-lenses/xf56mmf12-r-apd/"
+    }
+  },
+  {
+    "id": "fujifilm-xf-56mm-f12-r-wr-xf",
+    "brand": "fujifilm",
+    "series": "XF",
+    "model": "XF 56mm F1.2 R WR",
+    "focalLengthMin": 56,
+    "focalLengthMax": 56,
+    "maxAperture": 1.2,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": true,
+    "apertureRing": true,
+    "weightG": 445,
+    "diameterMm": 79.4,
+    "lengthMm": 76,
+    "minFocusDistanceCm": 50,
+    "maxMagnification": 0.14,
+    "angleOfView": "28.5°",
+    "apertureBladeCount": 11,
+    "imageUrl": "/lenses/fujifilm-xf-56mm-f12-r-wr-xf.webp",
+    "filterMm": 67,
+    "lensConfiguration": {
+      "groups": 8,
+      "elements": 13,
+      "sourceText": "13 elements in 8 groups"
+    },
+    "officialLinks": {
+      "global": "https://www.fujifilm-x.com/global/products/lenses/xf56mmf12-r-wr/"
     }
   },
   {
@@ -2349,6 +2535,39 @@
     },
     "officialLinks": {
       "global": "https://www.sigma-global.com/en/lenses/c020_100_400_5_63/"
+    }
+  },
+  {
+    "id": "tamron-11-20mm-f28-di-iii-a-rxd-xf",
+    "brand": "tamron",
+    "model": "11-20mm F/2.8 Di III-A RXD",
+    "generation": 3,
+    "focalLengthMin": 11,
+    "focalLengthMax": 20,
+    "maxAperture": 2.8,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": false,
+    "apertureRing": false,
+    "weightG": 335,
+    "diameterMm": 73,
+    "lengthMm": 86.5,
+    "minFocusDistanceCm": 15,
+    "minFocusDistanceMacroCm": 24,
+    "maxMagnification": 0.25,
+    "angleOfView": "105°20'-71°35' (for FUJIFILM X mount)",
+    "apertureBladeCount": 7,
+    "imageUrl": "/lenses/tamron-11-20mm-f28-di-iii-a-rxd-xf.webp",
+    "filterMm": 67,
+    "lensConfiguration": {
+      "groups": 10,
+      "elements": 12,
+      "ed": 3,
+      "sourceText": "12 elements in 10 groups (includes 2 GM aspherical, 2 LD and 1 XLD element)"
+    },
+    "officialLinks": {
+      "global": "https://www.tamron.com/global/consumer/lenses/b060/spec.html"
     }
   },
   {
