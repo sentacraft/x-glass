@@ -1142,7 +1142,8 @@
   {
     "id": "sigma-contemporary-12mm-f14-dc-xf",
     "brand": "sigma",
-    "model": "Sigma 12mm F1.4 DC | Contemporary",
+    "series": "Contemporary",
+    "model": "Sigma 12mm F1.4 DC",
     "focalLengthMin": 12,
     "focalLengthMax": 12,
     "maxAperture": 1.4,
@@ -1175,7 +1176,8 @@
   {
     "id": "sigma-contemporary-15mm-f14-dc-xf",
     "brand": "sigma",
-    "model": "Sigma 15mm F1.4 DC | Contemporary",
+    "series": "Contemporary",
+    "model": "Sigma 15mm F1.4 DC",
     "focalLengthMin": 15,
     "focalLengthMax": 15,
     "maxAperture": 1.4,
@@ -1208,7 +1210,8 @@
   {
     "id": "sigma-contemporary-16-300mm-f35-67-dc-os-xf",
     "brand": "sigma",
-    "model": "Sigma 16-300mm F3.5-6.7 DC OS | Contemporary",
+    "series": "Contemporary",
+    "model": "Sigma 16-300mm F3.5-6.7 DC OS",
     "focalLengthMin": 16,
     "focalLengthMax": 300,
     "maxAperture": [
@@ -1247,7 +1250,8 @@
   {
     "id": "sigma-art-17-40mm-f18-dc-xf",
     "brand": "sigma",
-    "model": "Sigma 17-40mm F1.8 DC | Art",
+    "series": "Art",
+    "model": "Sigma 17-40mm F1.8 DC",
     "focalLengthMin": 17,
     "focalLengthMax": 40,
     "maxAperture": 1.8,
