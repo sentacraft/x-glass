@@ -75,6 +75,14 @@ export function magnificationDisplay(
   return `${maxMagnification.value}x`;
 }
 
+export function angleOfViewDisplay(
+  angleOfView: number | [number, number] | undefined,
+): string | undefined {
+  if (angleOfView === undefined) return undefined;
+  if (Array.isArray(angleOfView)) return `${angleOfView[0]}°–${angleOfView[1]}°`;
+  return `${angleOfView}°`;
+}
+
 export function filterSizeDisplay(
   filterMm: Lens["filterMm"]
 ): string | undefined {

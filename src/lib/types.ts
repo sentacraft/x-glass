@@ -538,11 +538,29 @@ export interface Lens {
   maxMagnification?: MaxMagnification;
 
   /**
-   * Angle-of-view text from the source spec.
-   * Keep the original wording in MVP to avoid premature parsing.
-   * @example "44.2 degrees"
+   * Diagonal angle of view in degrees as reported by the manufacturer.
+   * - Prime: single number (e.g. 44.2).
+   * - Zoom: [wideEnd, teleEnd] tuple, wide first (e.g. [86.9, 35.0]).
+   *
+   * Convert DMS notation (e.g. "79°55'") to decimal degrees.
+   * Round to one decimal place.
+   *
+   * @example 44.2
+   * @example [86.9, 35.0]
    */
-  angleOfView?: string;
+  angleOfView?: number | [number, number];
+
+  /**
+   * Diagonal angle of view in degrees, computed from focal length via
+   * 2 × arctan(sensorDiagonal / 2f) using APS-C sensor diagonal (28.3 mm).
+   * Always present when focal length is known. May differ from the
+   * manufacturer-reported {@link angleOfView} due to measurement methodology.
+   * - Prime: single number. Zoom: [wideEnd, teleEnd] tuple.
+   *
+   * @example 44.2
+   * @example [86.9, 35.0]
+   */
+  angleOfViewCalc?: number | [number, number];
 
   /**
    * Structured optical construction data parsed from the source spec.

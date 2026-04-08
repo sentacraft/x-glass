@@ -84,7 +84,20 @@ const lensBaseShape = {
     value: positiveNumberSchema,
     variants: magnificationVariantsSchema.optional(),
   }).optional(),
-  angleOfView: optionalNonEmptyStringSchema,
+  angleOfView: z.union([
+    positiveNumberSchema,
+    z.tuple([positiveNumberSchema, positiveNumberSchema]).refine(
+      (arr) => arr[0] > arr[1],
+      { message: "angleOfView tuple must be [wideEnd, teleEnd] with wide > tele" }
+    ),
+  ]).optional(),
+  angleOfViewCalc: z.union([
+    positiveNumberSchema,
+    z.tuple([positiveNumberSchema, positiveNumberSchema]).refine(
+      (arr) => arr[0] > arr[1],
+      { message: "angleOfViewCalc tuple must be [wideEnd, teleEnd] with wide > tele" }
+    ),
+  ]).optional(),
   apertureBladeCount: z.number().int().positive().optional(),
   releaseYear: z.number().int().min(1900).max(2100).optional(),
   compatibleMounts: z.array(nonEmptyStringSchema).min(1).optional(),
