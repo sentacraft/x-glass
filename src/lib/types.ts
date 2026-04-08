@@ -257,6 +257,12 @@ export interface Lens {
   ois: boolean;
 
   /**
+   * OIS effectiveness in stops, when the source explicitly states it.
+   * @example 6
+   */
+  oisStops?: number;
+
+  /**
    * Whether the lens is weather-resistant.
    * @example true
    */
@@ -268,6 +274,13 @@ export interface Lens {
    * @example true
    */
   apertureRing: boolean;
+
+  /**
+   * Whether the lens uses a power zoom (motorized zoom) mechanism.
+   * Optional until pipeline backfills this field for all lenses.
+   * @example true
+   */
+  powerZoom?: boolean;
 
   /**
    * Total weight in grams.
@@ -362,6 +375,24 @@ export interface Lens {
    * @example 2012
    */
   releaseYear?: number;
+
+  /**
+   * Mount systems this lens is available for, as stated by the manufacturer.
+   * @example ["Fujifilm X", "Sony E", "Nikon Z"]
+   */
+  compatibleMounts?: string[];
+
+  /**
+   * Accessories included with the lens as listed by the manufacturer.
+   * @example ["Lens cap", "Lens hood", "Wrapping cloth"]
+   */
+  accessories?: string[];
+
+  /**
+   * Lens body material as described by the manufacturer.
+   * @example "Aluminum alloy"
+   */
+  lensMaterial?: string;
 
   /**
    * User-facing official product links by market channel.

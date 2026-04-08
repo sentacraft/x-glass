@@ -61,8 +61,10 @@ const lensBaseShape = {
   specialtyTags: z.array(specialtyTagSchema).min(1).optional(),
   af: z.boolean(),
   ois: z.boolean(),
+  oisStops: positiveNumberSchema.optional(),
   wr: z.boolean(),
   apertureRing: z.boolean(),
+  powerZoom: z.boolean().optional(),
   weightG: positiveNumberSchema.optional(),
   diameterMm: positiveNumberSchema.optional(),
   lengthMm: positiveNumberSchema.optional(),
@@ -74,6 +76,9 @@ const lensBaseShape = {
   angleOfView: optionalNonEmptyStringSchema,
   apertureBladeCount: z.number().int().positive().optional(),
   releaseYear: z.number().int().min(1900).max(2100).optional(),
+  compatibleMounts: z.array(nonEmptyStringSchema).min(1).optional(),
+  accessories: z.array(nonEmptyStringSchema).min(1).optional(),
+  lensMaterial: optionalNonEmptyStringSchema,
   imageUrl: lensImagePathSchema,
 } as const;
 

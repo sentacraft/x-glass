@@ -364,9 +364,14 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
       bestDir: "min",
     },
     { kind: "bool", label: td("af"), getValue: (l) => l.af },
-    { kind: "bool", label: td("ois"), getValue: (l) => l.ois },
+    {
+      kind: "text",
+      label: td("ois"),
+      getDisplayValue: (l) => fmt.oisDisplay(l.ois, l.oisStops, { yes: td("yes"), no: td("no") }),
+    },
     { kind: "bool", label: td("wr"), getValue: (l) => l.wr },
     { kind: "bool", label: td("apertureRing"), getValue: (l) => l.apertureRing },
+    { kind: "bool", label: td("powerZoom"), getValue: (l) => l.powerZoom },
     {
       kind: "numeric",
       label: td("apertureBladeCount"),

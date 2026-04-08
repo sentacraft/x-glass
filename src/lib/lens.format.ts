@@ -9,6 +9,15 @@ import { SPEC_NA } from "./types";
 
 const CROP_FACTOR = 1.5;
 
+export function oisDisplay(
+  ois: boolean,
+  oisStops: number | undefined,
+  labels: { yes: string; no: string }
+): string {
+  if (!ois) return labels.no;
+  return oisStops !== undefined ? `${labels.yes} (${oisStops}-stop)` : labels.yes;
+}
+
 export function focalEquiv(n: number): number {
   return Math.round(n * CROP_FACTOR);
 }
