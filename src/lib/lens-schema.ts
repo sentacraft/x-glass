@@ -67,12 +67,23 @@ const lensBaseShape = {
     ),
   ]).optional(),
   diameterMm: positiveNumberSchema.optional(),
-  lengthMm: positiveNumberSchema.optional(),
-  minFocusDistanceCm: positiveNumberSchema.optional(),
-  minFocusDistanceMacroCm: positiveNumberSchema.optional(),
-  minFocusDistanceVariantsCm: focusDistanceVariantsSchema.optional(),
-  maxMagnification: positiveNumberSchema.optional(),
-  maxMagnificationVariants: magnificationVariantsSchema.optional(),
+  length: z.strictObject({
+    mm: positiveNumberSchema,
+    variants: z.strictObject({
+      retracted: positiveNumberSchema.optional(),
+      wide: positiveNumberSchema.optional(),
+      tele: positiveNumberSchema.optional(),
+    }).optional(),
+  }).optional(),
+  minFocusDistance: z.strictObject({
+    cm: positiveNumberSchema,
+    macroCm: positiveNumberSchema.optional(),
+    variants: focusDistanceVariantsSchema.optional(),
+  }).optional(),
+  maxMagnification: z.strictObject({
+    value: positiveNumberSchema,
+    variants: magnificationVariantsSchema.optional(),
+  }).optional(),
   angleOfView: optionalNonEmptyStringSchema,
   apertureBladeCount: z.number().int().positive().optional(),
   releaseYear: z.number().int().min(1900).max(2100).optional(),
@@ -97,13 +108,6 @@ export const officialLinksSchema = z
         path: [],
       });
     }
-  });
-
-export const lengthVariantsSchema = z
-  .strictObject({
-    retracted: positiveNumberSchema.optional(),
-    wide: positiveNumberSchema.optional(),
-    tele: positiveNumberSchema.optional(),
   });
 
 export const lensConfigurationSchema = z
@@ -134,7 +138,6 @@ const fieldNotesSchema = z.record(fieldNoteKeySchema, nonEmptyStringSchema);
 
 const lensObjectSchema = z.strictObject({
   ...lensBaseShape,
-  lengthVariantsMm: lengthVariantsSchema.optional(),
   filterMm: z.union([positiveNumberSchema, specNaSchema]).optional(),
   lensConfiguration: lensConfigurationSchema.optional(),
   fieldNotes: fieldNotesSchema.optional(),

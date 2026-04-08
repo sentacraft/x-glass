@@ -4,6 +4,7 @@ import type {
   LensLengthVariants,
   FocusDistanceVariants,
   MagnificationVariants,
+  MaxMagnification,
 } from "./types";
 import { SPEC_NA } from "./types";
 
@@ -59,12 +60,19 @@ export function wrDisplay(
 
 export function dimensionsDisplay(
   diameterMm: number | undefined,
-  lengthMm: number | undefined
+  lengthMm: number | undefined,
 ): string | undefined {
   if (diameterMm === undefined || lengthMm === undefined) {
     return undefined;
   }
   return `⌀${diameterMm} × ${lengthMm}mm`;
+}
+
+export function magnificationDisplay(
+  maxMagnification: MaxMagnification | undefined,
+): string | undefined {
+  if (maxMagnification === undefined) return undefined;
+  return `${maxMagnification.value}x`;
 }
 
 export function filterSizeDisplay(

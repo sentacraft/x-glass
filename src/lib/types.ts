@@ -46,6 +46,23 @@ export interface LensLengthVariants {
 }
 
 /**
+ * Physical length of the lens body, with optional per-state variants.
+ */
+export interface LensLength {
+  /**
+   * Primary physical length in millimeters (standard / extended-ready position).
+   * @example 50.4
+   */
+  mm: number;
+
+  /**
+   * Optional breakdown by physical state (retracted, wide, tele).
+   * @example { retracted: 37.5, tele: 57.2 }
+   */
+  variants?: LensLengthVariants;
+}
+
+/**
  * Wide/Tele breakdown of minimum focus distance for zoom lenses.
  */
 export interface FocusDistanceVariants {
@@ -63,6 +80,31 @@ export interface FocusDistanceVariants {
 }
 
 /**
+ * Minimum focus distance, with optional macro-mode and per-focal-length breakdown.
+ */
+export interface MinFocusDistance {
+  /**
+   * Shortest minimum focus distance in centimeters (best value across all focal lengths).
+   * Used for sorting and filtering.
+   * @example 15
+   */
+  cm: number;
+
+  /**
+   * Minimum focus distance in a dedicated macro mode, in centimeters.
+   * Only populate when the source explicitly distinguishes a separate macro range.
+   * @example 30
+   */
+  macroCm?: number;
+
+  /**
+   * Wide/Tele breakdown for zoom lenses.
+   * @example { wide: 15, tele: 24 }
+   */
+  variants?: FocusDistanceVariants;
+}
+
+/**
  * Wide/Tele breakdown of maximum magnification for zoom lenses.
  */
 export interface MagnificationVariants {
@@ -77,6 +119,24 @@ export interface MagnificationVariants {
    * @example 0.13
    */
   tele?: number;
+}
+
+/**
+ * Maximum magnification, with optional per-focal-length breakdown for zoom lenses.
+ */
+export interface MaxMagnification {
+  /**
+   * Highest magnification value across all focal lengths. Used for sorting and filtering.
+   * @example 0.15
+   * @example 1.0
+   */
+  value: number;
+
+  /**
+   * Wide/Tele breakdown for zoom lenses.
+   * @example { wide: 0.25, tele: 0.13 }
+   */
+  variants?: MagnificationVariants;
 }
 
 /**
@@ -170,8 +230,7 @@ export const FIELD_NOTE_KEYS = [
   "wr",
   "weightG",
   "filterMm",
-  "minFocusDistanceCm",
-  "minFocusDistanceMacroCm",
+  "minFocusDistance",
   "maxMagnification",
   "lensConfiguration",
   "ois",
@@ -427,22 +486,14 @@ export interface Lens {
   diameterMm?: number;
 
   /**
-   * Physical length of the lens body in millimeters, measured from the lens
-   * mount flange to the front of the barrel (excluding hood and caps).
-   * For zoom or collapsible lenses that list multiple values, store the
-   * "standard" or "extended-ready" length here, and put retracted / wide /
-   * tele variants in {@link lengthVariantsMm}.
+   * Physical length of the lens body, measured from the mount flange to the
+   * front of the barrel (excluding hood and caps). `mm` is the primary display
+   * value; use `variants` when the source lists multiple physical states.
    *
-   * @example 50.4
+   * @example { mm: 50.4 }
+   * @example { mm: 57.2, variants: { retracted: 37.5, wide: 55.6, tele: 57.2 } }
    */
-  lengthMm?: number;
-
-  /**
-   * Optional length variants when the source distinguishes multiple physical states.
-   * Keep lengthMm as the main display value for the current phase.
-   * @example { retracted: 37.5, wide: 55.6, tele: 57.2 }
-   */
-  lengthVariantsMm?: LensLengthVariants;
+  length?: LensLength;
 
   /**
    * Filter thread diameter in millimeters.
@@ -457,57 +508,34 @@ export interface Lens {
   filterMm?: number | typeof SPEC_NA;
 
   /**
-   * Minimum focus distance in normal shooting mode, in centimeters.
+   * Minimum focus distance in normal shooting mode. `cm` is the shortest value
+   * across all focal lengths (used for sorting/filtering). Use `macroCm` when
+   * the source distinguishes a dedicated macro mode, and `variants` for the
+   * per-focal-length breakdown of zoom lenses.
+   *
    * Convert from other units: 1 m = 100 cm, 1 ft ≈ 30.48 cm.
-   * For zoom lenses, store the shortest (best) value across all focal lengths;
-   * use {@link minFocusDistanceVariantsCm} for the per-focal-length breakdown.
    *
-   * When the source lists both a normal and a macro focus distance, store the
-   * normal-mode value here and the macro-mode value in
-   * {@link minFocusDistanceMacroCm}.
-   *
-   * @example 15
+   * @example { cm: 15 }
+   * @example { cm: 15, variants: { wide: 15, tele: 24 } }
+   * @example { cm: 35, macroCm: 14 }
    */
-  minFocusDistanceCm?: number;
+  minFocusDistance?: MinFocusDistance;
 
   /**
-   * Minimum focus distance when the lens is switched to a dedicated macro mode,
-   * in centimeters. Only populate when the source explicitly distinguishes a
-   * separate macro focusing range from the normal range.
+   * Maximum magnification ratio. `value` is the highest across all focal
+   * lengths (used for sorting/filtering). Use `variants` for the per-focal-length
+   * breakdown of zoom lenses.
    *
-   * @example 30
-   */
-  minFocusDistanceMacroCm?: number;
-
-  /**
-   * Optional Wide/Tele breakdown of minimum focus distance for zoom lenses.
-   * The top-level minFocusDistanceCm remains the "best" (shortest) value for sorting/filtering.
-   * @example { wide: 15, tele: 24 }
-   */
-  minFocusDistanceVariantsCm?: FocusDistanceVariants;
-
-  /**
-   * Maximum magnification ratio stored as a positive decimal.
    * Convert from common source notations:
    * - "0.15x" or "0.15倍" → 0.15
    * - "1:6.7" → 1 / 6.7 ≈ 0.149 (round to reasonable precision)
    * - "1:1" → 1.0
    * - "2:1" or "2x" → 2.0
    *
-   * For zoom lenses, store the highest (best) value across all focal lengths;
-   * use {@link maxMagnificationVariants} for the per-focal-length breakdown.
-   *
-   * @example 0.15
-   * @example 1.0
+   * @example { value: 0.15 }
+   * @example { value: 0.25, variants: { wide: 0.25, tele: 0.13 } }
    */
-  maxMagnification?: number;
-
-  /**
-   * Optional Wide/Tele breakdown of maximum magnification for zoom lenses.
-   * The top-level maxMagnification remains the "best" (highest) value for sorting/filtering.
-   * @example { wide: 0.25, tele: 0.13 }
-   */
-  maxMagnificationVariants?: MagnificationVariants;
+  maxMagnification?: MaxMagnification;
 
   /**
    * Angle-of-view text from the source spec.
@@ -577,8 +605,6 @@ export interface Lens {
    * - `"weightG"` when `weightG` is a range — explain what drives the variance.
    * - `"filterMm"` when a non-standard filter attachment is required (e.g.
    *   external holder, rear gel slot).
-   * - `"minFocusDistanceCm"` when the value applies only at a specific focal
-   *   length of a zoom lens.
    *
    * @example { wr: "Dust and splash resistant only; not fully sealed.", filterMm: "Requires external 72mm filter holder; no front thread." }
    */

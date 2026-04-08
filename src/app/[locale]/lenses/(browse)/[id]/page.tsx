@@ -62,15 +62,15 @@ export default async function LensDetailPage({ params }: { params: Params }) {
       value: fmt.optionalNumber(lens.apertureBladeCount, ""),
     },
     { label: t("weight"), value: fmt.weightDisplay(lens.weightG, "g") },
-    { label: t("dimensions"), value: fmt.dimensionsDisplay(lens.diameterMm, lens.lengthMm) },
+    { label: t("dimensions"), value: fmt.dimensionsDisplay(lens.diameterMm, lens.length?.mm) },
     {
       label: t("filterSize"),
       value: fmt.filterSizeDisplay(lens.filterMm),
     },
-    { label: t("minFocusDist"), value: fmt.optionalNumber(lens.minFocusDistanceCm, "cm") },
+    { label: t("minFocusDist"), value: fmt.optionalNumber(lens.minFocusDistance?.cm, "cm") },
     {
       label: t("maxMagnification"),
-      value: fmt.optionalNumber(lens.maxMagnification, "x"),
+      value: fmt.magnificationDisplay(lens.maxMagnification),
     },
     { label: t("releaseYear"), value: fmt.optionalNumber(lens.releaseYear, "") },
   ];
@@ -78,7 +78,7 @@ export default async function LensDetailPage({ params }: { params: Params }) {
   const advancedSpecs: SpecRow[] = [
     {
       label: t("lengthVariants"),
-      value: fmt.lengthVariantsDisplay(lens.lengthVariantsMm, {
+      value: fmt.lengthVariantsDisplay(lens.length?.variants, {
         retracted: t("lengthRetracted"),
         wide: t("lengthWide"),
         tele: t("lengthTele"),
@@ -86,19 +86,19 @@ export default async function LensDetailPage({ params }: { params: Params }) {
     },
     {
       label: t("minFocusDistMacro"),
-      value: fmt.optionalNumber(lens.minFocusDistanceMacroCm, "cm"),
+      value: fmt.optionalNumber(lens.minFocusDistance?.macroCm, "cm"),
     },
     {
       label: t("minFocusDistVariants"),
       value: fmt.focusDistanceVariantsDisplay(
-        lens.minFocusDistanceVariantsCm,
+        lens.minFocusDistance?.variants,
         { wide: t("lengthWide"), tele: t("lengthTele") }
       ),
     },
     {
       label: t("maxMagnificationVariants"),
       value: fmt.magnificationVariantsDisplay(
-        lens.maxMagnificationVariants,
+        lens.maxMagnification?.variants,
         { wide: t("lengthWide"), tele: t("lengthTele") }
       ),
     },

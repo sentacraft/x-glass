@@ -207,7 +207,7 @@ export async function drawSharePoster(
     },
     {
       label: labels.minFocusDist,
-      values: lenses.map((l) => optionalNumber(l.minFocusDistanceCm, " cm") ?? labels.na),
+      values: lenses.map((l) => optionalNumber(l.minFocusDistance?.cm, " cm") ?? labels.na),
     },
   ];
 
