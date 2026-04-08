@@ -80,6 +80,26 @@ export interface LensConfiguration {
   superEd?: number;
 
   /**
+   * Number of Sigma SLD (Special Low Dispersion) elements.
+   * Optically equivalent to ED; kept separate to preserve manufacturer naming.
+   * @example 2
+   */
+  sld?: number;
+
+  /**
+   * Number of Sigma FLD (F Low Dispersion / fluorite-grade) elements.
+   * Optically equivalent to Super ED; kept separate to preserve manufacturer naming.
+   * @example 1
+   */
+  fld?: number;
+
+  /**
+   * Number of high-refractive-index elements (Tamron HR, Sigma HRI, generic high-index).
+   * @example 2
+   */
+  highRefractive?: number;
+
+  /**
    * Optional free-form note for special optics not covered by the structured fields.
    * @example "Includes 1 XA element"
    */

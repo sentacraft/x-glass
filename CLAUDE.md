@@ -61,6 +61,10 @@ x-glass/
 2. 调用 `/commit-msg` skill 生成 commit message
 3. **不要 commit，也不要 push**——仅将生成的 message 展示给用户确认
 
+## 数据规范
+
+- **禁止直接修改 `src/data/lenses.json`**：该文件由 `x-glass-pipeline` repo 的 data pipeline 生成并写入，本 repo 内不允许手动编辑。数据变更必须通过 pipeline 流程完成。
+
 ## 开发规范
 
 - **语言优先级**：优先保证英文版本（`en.json`）功能完整正确；开发时同步更新 `zh.json`，但以英文为准，中文翻译可暂时留空或粗译。

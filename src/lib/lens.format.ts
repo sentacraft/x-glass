@@ -65,6 +65,26 @@ export function lengthVariantsDisplay(
   return parts.length > 0 ? parts.join("\n") : undefined;
 }
 
+/**
+ * Merge manufacturer-specific low-dispersion counts into a unified display line.
+ * e.g. ed=3 + sld=2 → "5 ED (incl. 2 SLD)"
+ */
+function mergedElementLine(
+  base: number | undefined,
+  baseLabel: string,
+  vendor: number | undefined,
+  vendorLabel: string
+): string | null {
+  if (base === undefined && vendor === undefined) return null;
+  const baseCount = base ?? 0;
+  const vendorCount = vendor ?? 0;
+  const total = baseCount + vendorCount;
+  if (total === 0) return null;
+  if (vendorCount === 0) return `${total} ${baseLabel}`;
+  if (baseCount === 0) return `${total} ${baseLabel} (${vendorCount} ${vendorLabel})`;
+  return `${total} ${baseLabel} (incl. ${vendorCount} ${vendorLabel})`;
+}
+
 export function lensConfigurationDisplay(
   configuration: LensConfiguration | undefined
 ): string | undefined {
@@ -77,9 +97,15 @@ export function lensConfigurationDisplay(
     configuration.aspherical !== undefined
       ? `${configuration.aspherical} aspherical`
       : null,
-    configuration.ed !== undefined ? `${configuration.ed} ED` : null,
-    configuration.superEd !== undefined
-      ? `${configuration.superEd} Super ED`
+    mergedElementLine(configuration.ed, "ED", configuration.sld, "SLD"),
+    mergedElementLine(
+      configuration.superEd,
+      "Super ED",
+      configuration.fld,
+      "FLD"
+    ),
+    configuration.highRefractive !== undefined
+      ? `${configuration.highRefractive} high refractive`
       : null,
     configuration.otherNotes ?? null,
   ].filter((value): value is string => value !== null);

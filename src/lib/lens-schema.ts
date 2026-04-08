@@ -96,6 +96,9 @@ export const lensConfigurationSchema = z
     aspherical: z.number().int().nonnegative().optional(),
     ed: z.number().int().nonnegative().optional(),
     superEd: z.number().int().nonnegative().optional(),
+    sld: z.number().int().nonnegative().optional(),
+    fld: z.number().int().nonnegative().optional(),
+    highRefractive: z.number().int().nonnegative().optional(),
     otherNotes: optionalNonEmptyStringSchema,
     sourceText: optionalNonEmptyStringSchema,
   })
