@@ -46,6 +46,40 @@ export interface LensLengthVariants {
 }
 
 /**
+ * Wide/Tele breakdown of minimum focus distance for zoom lenses.
+ */
+export interface FocusDistanceVariants {
+  /**
+   * Minimum focus distance at the wide end in centimeters.
+   * @example 15
+   */
+  wide?: number;
+
+  /**
+   * Minimum focus distance at the tele end in centimeters.
+   * @example 24
+   */
+  tele?: number;
+}
+
+/**
+ * Wide/Tele breakdown of maximum magnification for zoom lenses.
+ */
+export interface MagnificationVariants {
+  /**
+   * Maximum magnification at the wide end.
+   * @example 0.25
+   */
+  wide?: number;
+
+  /**
+   * Maximum magnification at the tele end.
+   * @example 0.13
+   */
+  tele?: number;
+}
+
+/**
  * Structured optical formula parsed from a source page.
  */
 export interface LensConfiguration {
@@ -283,11 +317,25 @@ export interface Lens {
   minFocusDistanceMacroCm?: number;
 
   /**
+   * Optional Wide/Tele breakdown of minimum focus distance for zoom lenses.
+   * The top-level minFocusDistanceCm remains the "best" (shortest) value for sorting/filtering.
+   * @example { wide: 15, tele: 24 }
+   */
+  minFocusDistanceVariantsCm?: FocusDistanceVariants;
+
+  /**
    * Maximum magnification ratio stored as a decimal value.
    * For example, 0.15 means 0.15x magnification.
    * @example 0.15
    */
   maxMagnification?: number;
+
+  /**
+   * Optional Wide/Tele breakdown of maximum magnification for zoom lenses.
+   * The top-level maxMagnification remains the "best" (highest) value for sorting/filtering.
+   * @example { wide: 0.25, tele: 0.13 }
+   */
+  maxMagnificationVariants?: MagnificationVariants;
 
   /**
    * Angle-of-view text from the source spec.

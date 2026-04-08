@@ -426,6 +426,24 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
     },
     {
       kind: "text",
+      label: td("minFocusDistVariants"),
+      getDisplayValue: (l) =>
+        fmt.focusDistanceVariantsDisplay(l.minFocusDistanceVariantsCm, {
+          wide: td("lengthWide"),
+          tele: td("lengthTele"),
+        }),
+    },
+    {
+      kind: "text",
+      label: td("maxMagnificationVariants"),
+      getDisplayValue: (l) =>
+        fmt.magnificationVariantsDisplay(l.maxMagnificationVariants, {
+          wide: td("lengthWide"),
+          tele: td("lengthTele"),
+        }),
+    },
+    {
+      kind: "text",
       label: td("lensConfiguration"),
       getDisplayValue: (l) => fmt.lensConfigurationDisplay(l.lensConfiguration),
     },

@@ -1,4 +1,10 @@
-import type { Lens, LensConfiguration, LensLengthVariants } from "./types";
+import type {
+  Lens,
+  LensConfiguration,
+  LensLengthVariants,
+  FocusDistanceVariants,
+  MagnificationVariants,
+} from "./types";
 import { SPEC_NA } from "./types";
 
 const CROP_FACTOR = 1.5;
@@ -111,4 +117,32 @@ export function lensConfigurationDisplay(
   ].filter((value): value is string => value !== null);
 
   return parts.join("\n");
+}
+
+export function focusDistanceVariantsDisplay(
+  variants: FocusDistanceVariants | undefined,
+  labels: { wide: string; tele: string }
+): string | undefined {
+  if (!variants) return undefined;
+
+  const parts = [
+    variants.wide !== undefined ? `${labels.wide} ${variants.wide}cm` : null,
+    variants.tele !== undefined ? `${labels.tele} ${variants.tele}cm` : null,
+  ].filter((value): value is string => value !== null);
+
+  return parts.length > 0 ? parts.join("\n") : undefined;
+}
+
+export function magnificationVariantsDisplay(
+  variants: MagnificationVariants | undefined,
+  labels: { wide: string; tele: string }
+): string | undefined {
+  if (!variants) return undefined;
+
+  const parts = [
+    variants.wide !== undefined ? `${labels.wide} ${variants.wide}x` : null,
+    variants.tele !== undefined ? `${labels.tele} ${variants.tele}x` : null,
+  ].filter((value): value is string => value !== null);
+
+  return parts.length > 0 ? parts.join("\n") : undefined;
 }

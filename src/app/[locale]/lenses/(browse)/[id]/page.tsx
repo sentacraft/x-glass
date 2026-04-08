@@ -88,6 +88,20 @@ export default async function LensDetailPage({ params }: { params: Params }) {
       value: fmt.optionalNumber(lens.minFocusDistanceMacroCm, "cm"),
     },
     {
+      label: t("minFocusDistVariants"),
+      value: fmt.focusDistanceVariantsDisplay(
+        lens.minFocusDistanceVariantsCm,
+        { wide: t("lengthWide"), tele: t("lengthTele") }
+      ),
+    },
+    {
+      label: t("maxMagnificationVariants"),
+      value: fmt.magnificationVariantsDisplay(
+        lens.maxMagnificationVariants,
+        { wide: t("lengthWide"), tele: t("lengthTele") }
+      ),
+    },
+    {
       label: t("lensConfiguration"),
       value: fmt.lensConfigurationDisplay(lens.lensConfiguration),
     },

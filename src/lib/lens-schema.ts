@@ -36,6 +36,16 @@ const specialtyTagSchema = z.enum([
   "probe",
 ]);
 
+export const focusDistanceVariantsSchema = z.strictObject({
+  wide: positiveNumberSchema.optional(),
+  tele: positiveNumberSchema.optional(),
+});
+
+export const magnificationVariantsSchema = z.strictObject({
+  wide: positiveNumberSchema.optional(),
+  tele: positiveNumberSchema.optional(),
+});
+
 const lensBaseShape = {
   id: z.string().min(1).regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
   brand: nonEmptyStringSchema,
@@ -58,7 +68,9 @@ const lensBaseShape = {
   lengthMm: positiveNumberSchema.optional(),
   minFocusDistanceCm: positiveNumberSchema.optional(),
   minFocusDistanceMacroCm: positiveNumberSchema.optional(),
+  minFocusDistanceVariantsCm: focusDistanceVariantsSchema.optional(),
   maxMagnification: positiveNumberSchema.optional(),
+  maxMagnificationVariants: magnificationVariantsSchema.optional(),
   angleOfView: optionalNonEmptyStringSchema,
   apertureBladeCount: z.number().int().positive().optional(),
   releaseYear: z.number().int().min(1900).max(2100).optional(),
