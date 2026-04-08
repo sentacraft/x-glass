@@ -369,7 +369,7 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
       label: td("ois"),
       getDisplayValue: (l) => fmt.oisDisplay(l.ois, l.oisStops, { yes: td("yes"), no: td("no") }),
     },
-    { kind: "bool", label: td("wr"), getValue: (l) => l.wr },
+    { kind: "text", label: td("wr"), getDisplayValue: (l) => fmt.wrDisplay(l.wr, { yes: td("yes"), no: td("no"), partial: td("partial") }) },
     { kind: "bool", label: td("apertureRing"), getValue: (l) => l.apertureRing },
     { kind: "bool", label: td("powerZoom"), getValue: (l) => l.powerZoom },
     {
@@ -381,8 +381,8 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
     {
       kind: "numeric",
       label: td("weight"),
-      getDisplayValue: (l) => fmt.optionalNumber(l.weightG, "g"),
-      toComparable: (l) => l.weightG,
+      getDisplayValue: (l) => fmt.weightDisplay(l.weightG, "g"),
+      toComparable: (l) => Array.isArray(l.weightG) ? l.weightG[0] : l.weightG,
       bestDir: "min",
     },
     {

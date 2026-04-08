@@ -134,12 +134,6 @@ export interface LensConfiguration {
   highRefractive?: number;
 
   /**
-   * Optional free-form note for special optics not covered by the structured fields.
-   * @example "Includes 1 XA element"
-   */
-  otherNotes?: string;
-
-  /**
    * Raw source wording kept for traceability and future parser refinement.
    * @example "10组14片(包括4片非球面镜片和4片ED镜片)"
    */
@@ -147,15 +141,43 @@ export interface LensConfiguration {
 }
 
 export type ApertureValue = number | [number, number];
-export type SpecialtyTag =
-  | "cine"
-  | "anamorphic"
-  | "tilt"
-  | "shift"
-  | "macro"
-  | "ultra_macro"
-  | "fisheye"
-  | "probe";
+
+/**
+ * All valid specialty tag values. Defined as a const tuple so that
+ * lens-schema.ts can derive its Zod enum without duplicating the list.
+ */
+export const SPECIALTY_TAGS = [
+  "cine",
+  "anamorphic",
+  "tilt",
+  "shift",
+  "macro",
+  "ultra_macro",
+  "fisheye",
+  "probe",
+] as const;
+export type SpecialtyTag = (typeof SPECIALTY_TAGS)[number];
+
+/**
+ * All valid keys for {@link Lens.fieldNotes}. Defined as a const tuple so that
+ * lens-schema.ts can derive its Zod enum without duplicating the list.
+ *
+ * Only structured fields where the typed value cannot fully express the source
+ * information are eligible. Free-form string fields (e.g. angleOfView, lensMaterial)
+ * are excluded because they carry their own context directly.
+ */
+export const FIELD_NOTE_KEYS = [
+  "wr",
+  "weightG",
+  "filterMm",
+  "minFocusDistanceCm",
+  "minFocusDistanceMacroCm",
+  "maxMagnification",
+  "lensConfiguration",
+  "ois",
+  "focusMotor",
+] as const;
+export type FieldNoteKey = (typeof FIELD_NOTE_KEYS)[number];
 
 /**
  * Canonical lens record used by the X-Glass app.
@@ -311,13 +333,18 @@ export interface Lens {
 
   /**
    * Whether the lens is weather-resistant / weather-sealed.
-   * Set to true when the source mentions WR, "Weather Resistant",
-   * "Weather Sealed", "dust and moisture resistant", "防滴防尘",
-   * or equivalent terminology.
+   * - `true`     — full weather sealing; source uses WR, "Weather Resistant",
+   *                "Weather Sealed", "防滴防尘", or equivalent.
+   * - `"partial"` — some environmental protection but not full sealing (e.g.
+   *                dust-resistant only, splash-resistant, a subset of seals).
+   *                Always add a {@link fieldNotes} entry for "wr" explaining
+   *                the specific protection level in the source's own terms.
+   * - `false`    — no weather protection stated.
    *
    * @example true
+   * @example "partial"
    */
-  wr: boolean;
+  wr: boolean | "partial";
 
   /**
    * Whether the lens has a physical aperture ring.
@@ -382,9 +409,16 @@ export interface Lens {
    *
    * Convert from other units if needed: 1 oz ≈ 28.35 g.
    *
+   * - Single `number`: the common case.
+   * - `[min, max]` tuple: use when the source gives a weight range (e.g.
+   *   weight differs across mount variants or optional accessories). Always
+   *   add a {@link fieldNotes} entry for "weightG" explaining what drives
+   *   the range.
+   *
    * @example 187
+   * @example [340, 395]
    */
-  weightG?: number;
+  weightG?: number | [number, number];
 
   /**
    * Maximum outer diameter in millimeters.
@@ -528,6 +562,27 @@ export interface Lens {
    * @example "Aluminum alloy"
    */
   lensMaterial?: string;
+
+  /**
+   * Per-field supplementary notes for cases where the structured field value
+   * does not fully capture what the source says. Keys must match field names
+   * in this interface. Values are concise English sentences describing the
+   * caveat, special condition, or extra context.
+   *
+   * Only populate when the note carries information that the field value
+   * itself cannot express — not as a restatement of the value.
+   *
+   * Fields that commonly need a note:
+   * - `"wr"` when `wr` is `"partial"` — describe the specific protection level.
+   * - `"weightG"` when `weightG` is a range — explain what drives the variance.
+   * - `"filterMm"` when a non-standard filter attachment is required (e.g.
+   *   external holder, rear gel slot).
+   * - `"minFocusDistanceCm"` when the value applies only at a specific focal
+   *   length of a zoom lens.
+   *
+   * @example { wr: "Dust and splash resistant only; not fully sealed.", filterMm: "Requires external 72mm filter holder; no front thread." }
+   */
+  fieldNotes?: Partial<Record<FieldNoteKey, string>>;
 
   /**
    * User-facing official product links by market channel.

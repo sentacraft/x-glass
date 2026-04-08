@@ -132,7 +132,8 @@ export function filterLenses(lenses: Lens[], filters: FilterState): Lens[] {
     }
     if (filters.weightRange && lens.weightG !== undefined) {
       const [wMin, wMax] = filters.weightRange;
-      if (lens.weightG < wMin || lens.weightG > wMax) {
+      const w = Array.isArray(lens.weightG) ? lens.weightG[0] : lens.weightG;
+      if (w < wMin || w > wMax) {
         return false;
       }
     }

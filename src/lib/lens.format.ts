@@ -39,6 +39,24 @@ export function optionalNumber(
   return value === undefined ? undefined : `${value}${unit}`;
 }
 
+export function weightDisplay(
+  weightG: number | [number, number] | undefined,
+  unit: string
+): string | undefined {
+  if (weightG === undefined) return undefined;
+  if (Array.isArray(weightG)) return `${weightG[0]}–${weightG[1]}${unit}`;
+  return `${weightG}${unit}`;
+}
+
+export function wrDisplay(
+  wr: boolean | "partial",
+  labels: { yes: string; no: string; partial: string }
+): string {
+  if (wr === true) return labels.yes;
+  if (wr === "partial") return labels.partial;
+  return labels.no;
+}
+
 export function dimensionsDisplay(
   diameterMm: number | undefined,
   lengthMm: number | undefined
@@ -122,7 +140,6 @@ export function lensConfigurationDisplay(
     configuration.highRefractive !== undefined
       ? `${configuration.highRefractive} high refractive`
       : null,
-    configuration.otherNotes ?? null,
   ].filter((value): value is string => value !== null);
 
   return parts.join("\n");

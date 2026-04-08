@@ -1,6 +1,7 @@
 import { z } from "zod";
 
-import { SPEC_NA } from "./types.ts";
+import { SPEC_NA, SPECIALTY_TAGS, FIELD_NOTE_KEYS } from "./types.ts";
+import type { ApertureValue } from "./types.ts";
 
 const positiveNumberSchema = z.number().positive();
 const nonEmptyStringSchema = z.string().trim().min(1);
@@ -25,16 +26,7 @@ const maxApertureSchema = createApertureSchema("maxAperture");
 const minApertureSchema = createApertureSchema("minAperture");
 const maxTStopSchema = createApertureSchema("maxTStop");
 const minTStopSchema = createApertureSchema("minTStop");
-const specialtyTagSchema = z.enum([
-  "cine",
-  "anamorphic",
-  "tilt",
-  "shift",
-  "macro",
-  "ultra_macro",
-  "fisheye",
-  "probe",
-]);
+const specialtyTagSchema = z.enum(SPECIALTY_TAGS);
 
 export const focusDistanceVariantsSchema = z.strictObject({
   wide: positiveNumberSchema.optional(),
@@ -62,12 +54,18 @@ const lensBaseShape = {
   af: z.boolean(),
   ois: z.boolean(),
   oisStops: positiveNumberSchema.optional(),
-  wr: z.boolean(),
+  wr: z.union([z.boolean(), z.literal("partial")]),
   apertureRing: z.boolean(),
   powerZoom: z.boolean().optional(),
   focusMotor: optionalNonEmptyStringSchema,
   internalFocusing: z.boolean().optional(),
-  weightG: positiveNumberSchema.optional(),
+  weightG: z.union([
+    positiveNumberSchema,
+    z.tuple([positiveNumberSchema, positiveNumberSchema]).refine(
+      (arr) => arr[0] < arr[1],
+      { message: "weightG range: first value (min) must be less than second (max)" }
+    ),
+  ]).optional(),
   diameterMm: positiveNumberSchema.optional(),
   lengthMm: positiveNumberSchema.optional(),
   minFocusDistanceCm: positiveNumberSchema.optional(),
@@ -118,7 +116,6 @@ export const lensConfigurationSchema = z
     sld: z.number().int().nonnegative().optional(),
     fld: z.number().int().nonnegative().optional(),
     highRefractive: z.number().int().nonnegative().optional(),
-    otherNotes: optionalNonEmptyStringSchema,
     sourceText: optionalNonEmptyStringSchema,
   })
   .superRefine((value, ctx) => {
@@ -131,15 +128,18 @@ export const lensConfigurationSchema = z
     }
   });
 
+const fieldNoteKeySchema = z.enum(FIELD_NOTE_KEYS);
+
+const fieldNotesSchema = z.record(fieldNoteKeySchema, nonEmptyStringSchema);
+
 const lensObjectSchema = z.strictObject({
   ...lensBaseShape,
   lengthVariantsMm: lengthVariantsSchema.optional(),
   filterMm: z.union([positiveNumberSchema, specNaSchema]).optional(),
   lensConfiguration: lensConfigurationSchema.optional(),
+  fieldNotes: fieldNotesSchema.optional(),
   officialLinks: officialLinksSchema,
 });
-
-type ApertureValue = number | [number, number];
 
 function getApertureEndpoints(aperture: ApertureValue): {
   wide: number;

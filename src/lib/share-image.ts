@@ -1,5 +1,5 @@
 import type { Lens } from "./types";
-import { focalRangeDisplay, apertureDisplay, optionalNumber } from "./lens.format";
+import { focalRangeDisplay, apertureDisplay, optionalNumber, weightDisplay } from "./lens.format";
 
 export interface ShareImageLabels {
   appName: string;
@@ -195,7 +195,7 @@ export async function drawSharePoster(
     },
     {
       label: labels.weight,
-      values: lenses.map((l) => optionalNumber(l.weightG, "g") ?? labels.na),
+      values: lenses.map((l) => weightDisplay(l.weightG, "g") ?? labels.na),
     },
     {
       label: labels.ois,

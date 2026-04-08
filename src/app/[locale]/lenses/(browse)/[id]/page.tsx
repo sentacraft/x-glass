@@ -54,14 +54,14 @@ export default async function LensDetailPage({ params }: { params: Params }) {
     { label: t("minAperture"), value: fmt.apertureDisplay(lens.minAperture) },
     { label: t("af"), bool: lens.af },
     { label: t("ois"), value: fmt.oisDisplay(lens.ois, lens.oisStops, { yes: t("yes"), no: t("no") }) },
-    { label: t("wr"), bool: lens.wr },
+    { label: t("wr"), value: fmt.wrDisplay(lens.wr, { yes: t("yes"), no: t("no"), partial: t("partial") }) },
     { label: t("apertureRing"), bool: lens.apertureRing },
     { label: t("powerZoom"), bool: lens.powerZoom },
     {
       label: t("apertureBladeCount"),
       value: fmt.optionalNumber(lens.apertureBladeCount, ""),
     },
-    { label: t("weight"), value: fmt.optionalNumber(lens.weightG, "g") },
+    { label: t("weight"), value: fmt.weightDisplay(lens.weightG, "g") },
     { label: t("dimensions"), value: fmt.dimensionsDisplay(lens.diameterMm, lens.lengthMm) },
     {
       label: t("filterSize"),
