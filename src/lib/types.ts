@@ -283,6 +283,48 @@ export interface Lens {
   powerZoom?: boolean;
 
   /**
+   * Brand's official AF motor or actuator name, normalized to a short canonical
+   * label during pipeline parsing. Store the brand-specific marketing name so
+   * the display layer can show it verbatim while also mapping to broader
+   * categories (e.g. linear motor, stepping motor) when needed.
+   *
+   * Common canonical values by brand:
+   * - Fujifilm: "LM" (linear motor), "STM" (stepping motor),
+   *   "High-Precision Motor"
+   * - Sigma: "HLA" (High-response Linear Actuator)
+   * - Tamron: "RXD" (stepping drive), "VXD" (linear drive)
+   * - Viltrox: "STM", "VCM" (voice coil motor)
+   * - TTArtisan: "STM"
+   * - 7Artisans: "STM"
+   *
+   * For lenses whose source only mentions a generic drive mechanism without a
+   * brand-specific name, use the most descriptive term available:
+   * "Lead Screw", "DC Motor", "Focus Motor", etc.
+   *
+   * Manual-focus-only lenses should omit this field entirely (undefined).
+   *
+   * @example "LM"
+   * @example "HLA"
+   * @example "STM"
+   * @example "VXD"
+   * @example "Lead Screw"
+   */
+  focusMotor?: string;
+
+  /**
+   * Whether the lens uses internal focusing — the overall barrel length does
+   * not change and the front element does not rotate during focus.
+   * This matters for video shooters (no focus breathing artifacts from length
+   * change) and macro/filter users (polarizer orientation stays fixed).
+   *
+   * Set to true only when the source explicitly states "internal focusing" or
+   * equivalent wording. Omit (undefined) when the information is not available.
+   *
+   * @example true
+   */
+  internalFocusing?: boolean;
+
+  /**
    * Total weight in grams.
    * @example 187
    */

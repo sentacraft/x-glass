@@ -65,6 +65,8 @@ const lensBaseShape = {
   wr: z.boolean(),
   apertureRing: z.boolean(),
   powerZoom: z.boolean().optional(),
+  focusMotor: optionalNonEmptyStringSchema,
+  internalFocusing: z.boolean().optional(),
   weightG: positiveNumberSchema.optional(),
   diameterMm: positiveNumberSchema.optional(),
   lengthMm: positiveNumberSchema.optional(),
