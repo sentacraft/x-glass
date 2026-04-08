@@ -170,13 +170,18 @@ export interface Lens {
   /**
    * Manufacturer brand shown to users.
    * @example "Fujifilm"
+   * @example "Sigma"
    */
   brand: string;
 
   /**
-   * Product line or series name.
-   * Use an empty string when the brand does not expose a formal series.
-   * @example "XF"
+   * Product line or series name as used by the manufacturer.
+   * Omit (undefined or empty string) when the brand does not expose a formal series name.
+   *
+   * @example "XF"       // Fujifilm XF prime/zoom
+   * @example "XC"       // Fujifilm XC budget line
+   * @example "Art"      // Sigma Art line
+   * @example "Contemporary" // Sigma Contemporary line
    */
   series?: string;
 
@@ -187,7 +192,12 @@ export interface Lens {
   model: string;
 
   /**
-   * Numeric generation marker when multiple versions share the same focal range.
+   * Numeric generation marker for lenses that supersede an earlier version
+   * under the same brand and model line. Set this when the manufacturer uses
+   * "II", "Mark II", "2nd generation", or a clearly updated model name for
+   * the same focal-length / aperture combination.
+   * Omit for first-generation or single-generation lenses. 
+   *
    * @example 2
    */
   generation?: number;
@@ -207,40 +217,71 @@ export interface Lens {
   focalLengthMax: number;
 
   /**
-   * Largest available aperture expressed as an f-number.
-   * For prime lenses or constant-aperture zooms: store a single number.
-   * For variable-aperture zooms: store [wideEnd, teleEnd] as a tuple.
-   * @example 1.4 or [3.5, 6.3]
+   * Largest available aperture as a bare f-number (numeric value only, no
+   * "f/" prefix). A smaller number means a wider aperture.
+   * - Prime or constant-aperture zoom: single number (e.g. 1.4).
+   * - Variable-aperture zoom: [wideEnd, teleEnd] tuple (e.g. [3.5, 6.3]).
+   *
+   * Source text like "F1.4", "f/1.4", "1:1.4" should all be stored as 1.4.
+   *
+   * @example 1.4
+   * @example [3.5, 6.3]
    */
   maxAperture: ApertureValue;
 
   /**
-   * Smallest available aperture expressed as an f-number.
-   * For prime lenses or constant-aperture zooms: store a single number.
-   * For variable-aperture zooms: store [wideEnd, teleEnd] as a tuple.
-   * @example 16 or [16, 22]
+   * Smallest available aperture as a bare f-number (numeric value only, no
+   * "f/" prefix). A larger number means a narrower aperture.
+   * - Prime or constant-aperture zoom: single number (e.g. 16).
+   * - Variable-aperture zoom: [wideEnd, teleEnd] tuple (e.g. [16, 22]).
+   *
+   * @example 16
+   * @example [16, 22]
    */
   minAperture: ApertureValue;
 
   /**
-   * Largest available transmission stop expressed as a T-number.
-   * Use this for cine lenses or any lens whose source explicitly publishes T-stop data.
-   * For variable-transmission zooms: store [wideEnd, teleEnd] as a tuple.
-   * @example 2.9 or [2.9, 4]
+   * Largest available transmission stop as a bare T-number (numeric only).
+   * Only populate when the source explicitly publishes T-stop data (common
+   * for cine lenses). Omit for stills-only lenses that only list f-numbers.
+   * - Constant T-stop: single number. Variable: [wideEnd, teleEnd] tuple.
+   *
+   * @example 2.9
+   * @example [2.9, 4]
    */
   maxTStop?: ApertureValue;
 
   /**
-   * Smallest available transmission stop expressed as a T-number.
-   * For variable-transmission zooms: store [wideEnd, teleEnd] as a tuple.
-   * @example 22 or [22, 32]
+   * Smallest available transmission stop as a bare T-number (numeric only).
+   * Same population rules as maxTStop.
+   * - Constant T-stop: single number. Variable: [wideEnd, teleEnd] tuple.
+   *
+   * @example 22
+   * @example [22, 32]
    */
   minTStop?: ApertureValue;
 
   /**
    * Optional special-purpose capability tags used for filtering and UX badges.
-   * Tags are additive rather than mutually exclusive.
+   * Tags are additive — a lens can carry more than one.
+   *
+   * Tag definitions (apply when the source or model name explicitly indicates):
+   * - "macro"       — marketed as a macro lens, typically ≥0.5x magnification.
+   * - "ultra_macro" — exceeds 1:1 (>1.0x) magnification at closest focus.
+   *                   Always pair with "macro" (i.e. ["macro", "ultra_macro"]).
+   * - "cine"        — marketed as a cinema / video lens (T-stop rated, geared
+   *                   rings, standardized front diameter, etc.).
+   * - "anamorphic"  — uses anamorphic optics for cinematic squeeze.
+   * - "tilt"        — supports tilt movements (tilt-shift or Lensbaby-style).
+   * - "shift"       — supports shift movements.
+   * - "fisheye"     — fisheye projection (≥180° diagonal or circular).
+   * - "probe"       — probe / periscope macro lens (e.g. Laowa Probe).
+   *
+   * Omit the field entirely when no tags apply (do not store an empty array).
+   *
+   * @example ["macro"]
    * @example ["macro", "ultra_macro"]
+   * @example ["cine", "anamorphic"]
    */
   specialtyTags?: SpecialtyTag[];
 
@@ -252,18 +293,28 @@ export interface Lens {
 
   /**
    * Whether the lens includes optical image stabilization.
-   * @example false
+   * Set to true when the source mentions OIS, IS, VC, OS, VR, 光学防抖,
+   * "Image Stabilization", or equivalent terminology.
+   *
+   * @example true
    */
   ois: boolean;
 
   /**
-   * OIS effectiveness in stops, when the source explicitly states it.
+   * OIS effectiveness in stops of compensation, when the source explicitly
+   * states a numeric value (e.g. "6.0-stop", "5.5档"). Store the number only.
+   * Omit when the source says OIS is present but does not quantify stops.
+   *
    * @example 6
    */
   oisStops?: number;
 
   /**
-   * Whether the lens is weather-resistant.
+   * Whether the lens is weather-resistant / weather-sealed.
+   * Set to true when the source mentions WR, "Weather Resistant",
+   * "Weather Sealed", "dust and moisture resistant", "防滴防尘",
+   * or equivalent terminology.
+   *
    * @example true
    */
   wr: boolean;
@@ -325,7 +376,12 @@ export interface Lens {
   internalFocusing?: boolean;
 
   /**
-   * Total weight in grams.
+   * Total weight of the lens body only, in grams. Exclude lens hood, caps,
+   * and other detachable accessories. When the source lists multiple weights,
+   * use the "body only" or "without hood" figure.
+   *
+   * Convert from other units if needed: 1 oz ≈ 28.35 g.
+   *
    * @example 187
    */
   weightG?: number;
@@ -337,7 +393,12 @@ export interface Lens {
   diameterMm?: number;
 
   /**
-   * Physical length in millimeters based on the source's stated measurement method.
+   * Physical length of the lens body in millimeters, measured from the lens
+   * mount flange to the front of the barrel (excluding hood and caps).
+   * For zoom or collapsible lenses that list multiple values, store the
+   * "standard" or "extended-ready" length here, and put retracted / wide /
+   * tele variants in {@link lengthVariantsMm}.
+   *
    * @example 50.4
    */
   lengthMm?: number;
@@ -351,22 +412,35 @@ export interface Lens {
 
   /**
    * Filter thread diameter in millimeters.
-   * Use SPEC_NA for lenses with no front filter thread (e.g. fisheye, rear-filter designs).
-   * Use null when the value could not be found.
+   * - Use the numeric diameter when the source lists a standard filter size.
+   * - Use "N/A" (SPEC_NA) when the lens explicitly has no front filter thread
+   *   (e.g. bulbous fisheye, rear-filter-only designs).
+   * - Omit (undefined) when the information is not available in the source.
+   *
    * @example 52
+   * @example "N/A"
    */
   filterMm?: number | typeof SPEC_NA;
 
   /**
    * Minimum focus distance in normal shooting mode, in centimeters.
-   * This field is kept to preserve compatibility with the previous schema and existing UI logic.
+   * Convert from other units: 1 m = 100 cm, 1 ft ≈ 30.48 cm.
+   * For zoom lenses, store the shortest (best) value across all focal lengths;
+   * use {@link minFocusDistanceVariantsCm} for the per-focal-length breakdown.
+   *
+   * When the source lists both a normal and a macro focus distance, store the
+   * normal-mode value here and the macro-mode value in
+   * {@link minFocusDistanceMacroCm}.
+   *
    * @example 15
    */
   minFocusDistanceCm?: number;
 
   /**
-   * Minimum focus distance in macro mode, in centimeters.
-   * Use this when the source provides a separate macro focusing distance.
+   * Minimum focus distance when the lens is switched to a dedicated macro mode,
+   * in centimeters. Only populate when the source explicitly distinguishes a
+   * separate macro focusing range from the normal range.
+   *
    * @example 30
    */
   minFocusDistanceMacroCm?: number;
@@ -379,9 +453,18 @@ export interface Lens {
   minFocusDistanceVariantsCm?: FocusDistanceVariants;
 
   /**
-   * Maximum magnification ratio stored as a decimal value.
-   * For example, 0.15 means 0.15x magnification.
+   * Maximum magnification ratio stored as a positive decimal.
+   * Convert from common source notations:
+   * - "0.15x" or "0.15倍" → 0.15
+   * - "1:6.7" → 1 / 6.7 ≈ 0.149 (round to reasonable precision)
+   * - "1:1" → 1.0
+   * - "2:1" or "2x" → 2.0
+   *
+   * For zoom lenses, store the highest (best) value across all focal lengths;
+   * use {@link maxMagnificationVariants} for the per-focal-length breakdown.
+   *
    * @example 0.15
+   * @example 1.0
    */
   maxMagnification?: number;
 
@@ -413,13 +496,23 @@ export interface Lens {
   apertureBladeCount?: number;
 
   /**
-   * Release year used by the MVP app for sorting and rough chronology.
+   * Year the lens was first officially announced or released by the
+   * manufacturer. When announcement and shipping years differ, prefer the
+   * announcement year. Omit when the year cannot be determined.
+   *
    * @example 2012
    */
   releaseYear?: number;
 
   /**
    * Mount systems this lens is available for, as stated by the manufacturer.
+   * Use short canonical names to ensure consistency across all lenses:
+   * "Fujifilm X", "Sony E", "Nikon Z", "Nikon F", "Canon RF", "Canon EF",
+   * "Canon EF-M", "Leica L", "Micro Four Thirds".
+   *
+   * Omit when only a single mount is available and it is Fujifilm X (implied
+   * by this being an X-mount lens database).
+   *
    * @example ["Fujifilm X", "Sony E", "Nikon Z"]
    */
   compatibleMounts?: string[];
