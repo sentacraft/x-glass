@@ -1,5 +1,73 @@
 [
   {
+    "id": "fujifilm-mkx-18-55mmt29-xf",
+    "brand": "fujifilm",
+    "series": "MKX",
+    "model": "MKX 18-55mmT2.9",
+    "focalLengthMin": 18,
+    "focalLengthMax": 55,
+    "maxAperture": 2.8,
+    "minAperture": 22,
+    "maxTStop": 2.9,
+    "specialtyTags": [
+      "cine"
+    ],
+    "af": true,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "weightG": 1100,
+    "diameterMm": 87,
+    "lengthMm": 206.6,
+    "angleOfView": "76.5° – 29.0°",
+    "apertureBladeCount": 9,
+    "imageUrl": "/lenses/fujifilm-mkx-18-55mmt29-xf.webp",
+    "filterMm": 82,
+    "lensConfiguration": {
+      "groups": 17,
+      "elements": 22,
+      "sourceText": "22 elements 17 groups"
+    },
+    "officialLinks": {
+      "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/mkx18-55mmt29/",
+      "global": "https://www.fujifilm-x.com/global/products/lenses/mkx18-55mmt29/"
+    }
+  },
+  {
+    "id": "fujifilm-mkx-50-135mmt29-xf",
+    "brand": "fujifilm",
+    "series": "MKX",
+    "model": "MKX 50-135mmT2.9",
+    "focalLengthMin": 50,
+    "focalLengthMax": 135,
+    "maxAperture": 2.8,
+    "minAperture": 22,
+    "maxTStop": 2.9,
+    "specialtyTags": [
+      "cine"
+    ],
+    "af": true,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "weightG": 1100,
+    "diameterMm": 87,
+    "lengthMm": 206.6,
+    "angleOfView": "31.7° – 12.0°",
+    "apertureBladeCount": 9,
+    "imageUrl": "/lenses/fujifilm-mkx-50-135mmt29-xf.webp",
+    "filterMm": 82,
+    "lensConfiguration": {
+      "groups": 17,
+      "elements": 22,
+      "sourceText": "22 elements 17 groups"
+    },
+    "officialLinks": {
+      "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/mkx50-135mmt29/",
+      "global": "https://www.fujifilm-x.com/global/products/lenses/mkx50-135mmt29/"
+    }
+  },
+  {
     "id": "fujifilm-xc-15-45mmf35-56-ois-pz-xf",
     "brand": "fujifilm",
     "series": "XC",
@@ -64,6 +132,41 @@
     "officialLinks": {
       "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/xc35mmf2/",
       "global": "https://www.fujifilm-x.com/global/products/lenses/xc35mmf2/"
+    }
+  },
+  {
+    "id": "fujifilm-xc-50-230mmf45-67-ois-ii-xf",
+    "brand": "fujifilm",
+    "series": "XC",
+    "model": "XC 50-230mm F4.5-6.7 OIS II",
+    "generation": 2,
+    "focalLengthMin": 50,
+    "focalLengthMax": 230,
+    "maxAperture": [
+      4.5,
+      6.7
+    ],
+    "minAperture": 22,
+    "af": true,
+    "ois": true,
+    "wr": false,
+    "apertureRing": false,
+    "weightG": 375,
+    "diameterMm": 69.5,
+    "lengthMm": 111,
+    "maxMagnification": 0.2,
+    "angleOfView": "31.7°-7.1°",
+    "apertureBladeCount": 7,
+    "imageUrl": "/lenses/fujifilm-xc-50-230mmf45-67-ois-ii-xf.webp",
+    "filterMm": 58,
+    "lensConfiguration": {
+      "groups": 10,
+      "elements": 13,
+      "sourceText": "13 elements in 10 groups"
+    },
+    "officialLinks": {
+      "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/xc50-230mmf45-67-ois-ii/",
+      "global": "https://www.fujifilm-x.com/global/products/lenses/xc50-230mmf45-67-ois-ii/"
     }
   },
   {
@@ -1106,6 +1209,37 @@
     }
   },
   {
+    "id": "fujifilm-xf-200mmf2-r-lm-ois-wr-xf",
+    "brand": "fujifilm",
+    "series": "XF",
+    "model": "XF 200mm F2 R LM OIS WR",
+    "focalLengthMin": 200,
+    "focalLengthMax": 200,
+    "maxAperture": 2,
+    "minAperture": 22,
+    "af": true,
+    "ois": true,
+    "wr": true,
+    "apertureRing": true,
+    "weightG": 2265,
+    "diameterMm": 122,
+    "lengthMm": 205.5,
+    "maxMagnification": 0.12,
+    "angleOfView": "8.1°",
+    "apertureBladeCount": 9,
+    "imageUrl": "/lenses/fujifilm-xf-200mmf2-r-lm-ois-wr-xf.webp",
+    "filterMm": 105,
+    "lensConfiguration": {
+      "groups": 14,
+      "elements": 19,
+      "sourceText": "19 elements 14 groups"
+    },
+    "officialLinks": {
+      "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/xf200mmf2-r-lm-ois-wr/",
+      "global": "https://www.fujifilm-x.com/global/products/lenses/xf200mmf2-r-lm-ois-wr/"
+    }
+  },
+  {
     "id": "fujifilm-xf-500mmf56-r-lm-ois-wr-xf",
     "brand": "fujifilm",
     "series": "XF",
@@ -1137,6 +1271,31 @@
     "officialLinks": {
       "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/xf500mmf56-r-lm-ois-wr/",
       "global": "https://www.fujifilm-x.com/global/products/lenses/xf500mmf56-r-lm-ois-wr/"
+    }
+  },
+  {
+    "id": "sigma-contemporary-10-18mm-f28-dc-dn-xf",
+    "brand": "sigma",
+    "series": "Contemporary",
+    "model": "Sigma 10-18mm F2.8 DC DN",
+    "focalLengthMin": 10,
+    "focalLengthMax": 18,
+    "maxAperture": 2.8,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": false,
+    "apertureRing": false,
+    "weightG": 260,
+    "diameterMm": 72,
+    "lengthMm": 62,
+    "minFocusDistanceCm": 11.6,
+    "maxMagnification": 0.25,
+    "imageUrl": "/lenses/sigma-contemporary-10-18mm-f28-dc-dn-xf.webp",
+    "filterMm": 67,
+    "officialLinks": {
+      "cn": "http://www.sigma-photo.com.cn/product/detail?id=343",
+      "global": "https://www.sigma-global.com/en/lenses/c023_10_18_28/"
     }
   },
   {
@@ -1248,6 +1407,35 @@
     }
   },
   {
+    "id": "sigma-contemporary-16mm-f14-dc-dn-xf",
+    "brand": "sigma",
+    "series": "Contemporary",
+    "model": "Sigma 16mm F1.4 DC DN",
+    "focalLengthMin": 16,
+    "focalLengthMax": 16,
+    "maxAperture": 1.4,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": true,
+    "apertureRing": false,
+    "weightG": 405,
+    "diameterMm": 72,
+    "lengthMm": 92,
+    "releaseYear": 2016,
+    "imageUrl": "/lenses/sigma-contemporary-16mm-f14-dc-dn-xf.webp",
+    "filterMm": 67,
+    "lensConfiguration": {
+      "groups": 13,
+      "elements": 16,
+      "sourceText": "16 elements in 13 groups"
+    },
+    "officialLinks": {
+      "cn": "http://www.sigma-photo.com.cn/product/detail?id=322",
+      "global": "https://www.sigma-global.com/en/lenses/c017_16_14/"
+    }
+  },
+  {
     "id": "sigma-art-17-40mm-f18-dc-xf",
     "brand": "sigma",
     "series": "Art",
@@ -1277,6 +1465,279 @@
     "officialLinks": {
       "cn": "http://www.sigma-photo.com.cn/product/detail?id=642",
       "global": "https://www.sigma-global.com/en/lenses/a025_17_40_18/"
+    }
+  },
+  {
+    "id": "sigma-contemporary-18-50mm-f28-dc-dn-xf",
+    "brand": "sigma",
+    "series": "Contemporary",
+    "model": "Sigma 18-50mm F2.8 DC DN",
+    "focalLengthMin": 18,
+    "focalLengthMax": 50,
+    "maxAperture": 2.8,
+    "minAperture": 22,
+    "af": true,
+    "ois": false,
+    "wr": false,
+    "apertureRing": false,
+    "weightG": 285,
+    "diameterMm": 62,
+    "lengthMm": 77,
+    "minFocusDistanceCm": 12.1,
+    "maxMagnification": 0.357,
+    "imageUrl": "/lenses/sigma-contemporary-18-50mm-f28-dc-dn-xf.webp",
+    "filterMm": 55,
+    "officialLinks": {
+      "cn": "http://www.sigma-photo.com.cn/product/detail?id=345",
+      "global": "https://www.sigma-global.com/en/lenses/c021_18_50_28/"
+    }
+  },
+  {
+    "id": "sigma-contemporary-23mm-f14-dc-dn-xf",
+    "brand": "sigma",
+    "series": "Contemporary",
+    "model": "Sigma 23mm F1.4 DC DN",
+    "focalLengthMin": 23,
+    "focalLengthMax": 23,
+    "maxAperture": 1.4,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": false,
+    "apertureRing": false,
+    "weightG": 340,
+    "diameterMm": 66,
+    "lengthMm": 77,
+    "imageUrl": "/lenses/sigma-contemporary-23mm-f14-dc-dn-xf.webp",
+    "filterMm": 52,
+    "officialLinks": {
+      "cn": "http://www.sigma-photo.com.cn/product/detail?id=324",
+      "global": "https://www.sigma-global.com/en/lenses/c023_23_14/"
+    }
+  },
+  {
+    "id": "sigma-contemporary-30mm-f14-dc-dn-xf",
+    "brand": "sigma",
+    "series": "Contemporary",
+    "model": "Sigma 30mm F1.4 DC DN",
+    "focalLengthMin": 30,
+    "focalLengthMax": 30,
+    "maxAperture": 1.4,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": false,
+    "apertureRing": false,
+    "weightG": 275,
+    "diameterMm": 65,
+    "lengthMm": 74,
+    "imageUrl": "/lenses/sigma-contemporary-30mm-f14-dc-dn-xf.webp",
+    "filterMm": 52,
+    "officialLinks": {
+      "cn": "http://www.sigma-photo.com.cn/product/detail?id=327",
+      "global": "https://www.sigma-global.com/en/lenses/c016_30_14/"
+    }
+  },
+  {
+    "id": "sigma-contemporary-56mm-f14-dc-dn-xf",
+    "brand": "sigma",
+    "series": "Contemporary",
+    "model": "Sigma 56mm F1.4 DC DN",
+    "focalLengthMin": 56,
+    "focalLengthMax": 56,
+    "maxAperture": 1.4,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": false,
+    "apertureRing": false,
+    "weightG": 280,
+    "diameterMm": 67,
+    "lengthMm": 60,
+    "imageUrl": "/lenses/sigma-contemporary-56mm-f14-dc-dn-xf.webp",
+    "filterMm": 55,
+    "officialLinks": {
+      "cn": "http://www.sigma-photo.com.cn/product/detail?id=329",
+      "global": "https://www.sigma-global.com/en/lenses/c018_56_14/"
+    }
+  },
+  {
+    "id": "sigma-contemporary-100-400mm-f5-63-dg-dn-os-xf",
+    "brand": "sigma",
+    "series": "Contemporary",
+    "model": "Sigma 100-400mm F5-6.3 DG DN OS",
+    "focalLengthMin": 100,
+    "focalLengthMax": 400,
+    "maxAperture": [
+      5,
+      6.3
+    ],
+    "minAperture": [
+      22,
+      29
+    ],
+    "af": true,
+    "ois": true,
+    "wr": true,
+    "apertureRing": false,
+    "weightG": 1135,
+    "diameterMm": 86,
+    "lengthMm": 197,
+    "releaseYear": 2020,
+    "imageUrl": "/lenses/sigma-contemporary-100-400mm-f5-63-dg-dn-os-xf.webp",
+    "filterMm": 67,
+    "officialLinks": {
+      "cn": "http://www.sigma-photo.com.cn/product/detail?id=339",
+      "global": "https://www.sigma-global.com/en/lenses/c020_100_400_5_63/"
+    }
+  },
+  {
+    "id": "tamron-11-20mm-f28-di-iii-a-rxd-xf",
+    "brand": "tamron",
+    "model": "11-20mm F/2.8 Di III-A RXD",
+    "generation": 3,
+    "focalLengthMin": 11,
+    "focalLengthMax": 20,
+    "maxAperture": 2.8,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": true,
+    "apertureRing": false,
+    "weightG": 335,
+    "diameterMm": 73,
+    "lengthMm": 86.5,
+    "minFocusDistanceCm": 15,
+    "maxMagnification": 0.25,
+    "angleOfView": "105°20'-71°35'",
+    "apertureBladeCount": 7,
+    "releaseYear": 2023,
+    "imageUrl": "/lenses/tamron-11-20mm-f28-di-iii-a-rxd-xf.webp",
+    "lengthVariantsMm": {},
+    "filterMm": 67,
+    "lensConfiguration": {
+      "groups": 10,
+      "elements": 12,
+      "sourceText": "12 elements in 10 groups"
+    },
+    "officialLinks": {
+      "cn": "https://www.tamron.com.cn/cameralens/products/b060/index.shtml",
+      "global": "https://www.tamron.com/global/consumer/lenses/b060/spec.html"
+    }
+  },
+  {
+    "id": "tamron-17-70mm-f28-di-iii-a-vc-rxd-xf",
+    "brand": "tamron",
+    "model": "17-70mm F/2.8 Di III-A VC RXD",
+    "generation": 3,
+    "focalLengthMin": 17,
+    "focalLengthMax": 70,
+    "maxAperture": 2.8,
+    "minAperture": 22,
+    "af": true,
+    "ois": true,
+    "wr": true,
+    "apertureRing": false,
+    "weightG": 530,
+    "diameterMm": 74.6,
+    "lengthMm": 119.6,
+    "minFocusDistanceCm": 19,
+    "maxMagnification": 0.2083,
+    "angleOfView": "79°55'-23°00'",
+    "apertureBladeCount": 9,
+    "releaseYear": 2022,
+    "imageUrl": "/lenses/tamron-17-70mm-f28-di-iii-a-vc-rxd-xf.webp",
+    "lengthVariantsMm": {},
+    "filterMm": 67,
+    "lensConfiguration": {
+      "groups": 12,
+      "elements": 16,
+      "sourceText": "16 elements in 12 groups"
+    },
+    "officialLinks": {
+      "cn": "https://www.tamron.com.cn/cameralens/products/b070/index.shtml",
+      "global": "https://www.tamron.com/global/consumer/lenses/b070/spec.html"
+    }
+  },
+  {
+    "id": "tamron-18-300mm-f35-63-di-iii-a-vc-vxd-xf",
+    "brand": "tamron",
+    "model": "18-300mm F/3.5-6.3 Di III-A VC VXD",
+    "generation": 3,
+    "focalLengthMin": 18,
+    "focalLengthMax": 300,
+    "maxAperture": [
+      3.5,
+      6.3
+    ],
+    "minAperture": [
+      22,
+      40
+    ],
+    "af": true,
+    "ois": true,
+    "wr": true,
+    "apertureRing": false,
+    "weightG": 620,
+    "diameterMm": 75.5,
+    "lengthMm": 125.8,
+    "minFocusDistanceCm": 15,
+    "minFocusDistanceMacroCm": 15,
+    "maxMagnification": 0.5,
+    "angleOfView": "77°24'-5°30'",
+    "apertureBladeCount": 7,
+    "releaseYear": 2021,
+    "imageUrl": "/lenses/tamron-18-300mm-f35-63-di-iii-a-vc-vxd-xf.webp",
+    "lengthVariantsMm": {},
+    "filterMm": 67,
+    "lensConfiguration": {
+      "groups": 15,
+      "elements": 19,
+      "sourceText": "19 elements in 15 groups"
+    },
+    "officialLinks": {
+      "cn": "https://www.tamron.com.cn/cameralens/products/b061/index.shtml",
+      "global": "https://www.tamron.com/global/consumer/lenses/b061/spec.html"
+    }
+  },
+  {
+    "id": "tamron-150-500mm-f5-67-di-iii-vc-vxd-x-xf",
+    "brand": "tamron",
+    "model": "150-500mm F/5-6.7 Di III VC VXD X",
+    "generation": 3,
+    "focalLengthMin": 150,
+    "focalLengthMax": 500,
+    "maxAperture": [
+      5,
+      6.7
+    ],
+    "minAperture": [
+      22,
+      32
+    ],
+    "af": true,
+    "ois": true,
+    "wr": true,
+    "apertureRing": false,
+    "weightG": 1710,
+    "diameterMm": 93,
+    "lengthMm": 209.9,
+    "minFocusDistanceCm": 60,
+    "maxMagnification": 0.3226,
+    "angleOfView": "16°25'-4°57'",
+    "apertureBladeCount": 7,
+    "releaseYear": 2022,
+    "imageUrl": "/lenses/tamron-150-500mm-f5-67-di-iii-vc-vxd-x-xf.webp",
+    "lengthVariantsMm": {},
+    "filterMm": 82,
+    "lensConfiguration": {
+      "groups": 16,
+      "elements": 25,
+      "sourceText": "25 elements in 16 groups"
+    },
+    "officialLinks": {
+      "cn": "https://www.tamron.com.cn/cameralens/products/a057/index.shtml",
+      "global": "https://www.tamron.com/global/consumer/lenses/a057x/spec.html"
     }
   }
 ]
