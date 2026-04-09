@@ -625,6 +625,12 @@ export interface Lens {
    * in this interface. Values are concise English sentences describing the
    * caveat, special condition, or extra context.
    *
+   * **These notes are user-facing and will be displayed in the UI.**
+   * Write only information that is meaningful and relevant to the end user.
+   * Do not document internal pipeline details here — data source conflicts,
+   * schema limitations, or derive-stage decisions belong in `derive.notes`,
+   * not here.
+   *
    * Only populate when the note carries information that the field value
    * itself cannot express — not as a restatement of the value.
    *
