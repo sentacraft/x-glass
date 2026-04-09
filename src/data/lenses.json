@@ -3489,19 +3489,19 @@
     "af": true,
     "ois": false,
     "wr": false,
-    "apertureRing": true,
+    "apertureRing": false,
     "powerZoom": false,
-    "weightG": 186,
-    "diameterMm": 55,
+    "weightG": 145,
+    "diameterMm": 67,
     "length": {
-      "mm": 30.5
+      "mm": 32
     },
     "minFocusDistance": {
-      "cm": 25
+      "cm": 30
     },
     "angleOfView": 58,
     "angleOfViewCalc": 59,
-    "apertureBladeCount": 7,
+    "apertureBladeCount": 9,
     "compatibleMounts": [
       "Sony E",
       "Micro Four Thirds",
@@ -3513,14 +3513,15 @@
     ],
     "lensMaterial": "Metal",
     "imageUrl": "/lenses/sgimage-sg-image-af-25mm-f18-aps-c-mirrorless-lens-xf.webp",
-    "filterMm": 43,
+    "filterMm": 52,
     "lensConfiguration": {
       "groups": 5,
-      "elements": 7
+      "elements": 7,
+      "highRefractive": 3,
+      "sourceText": "5组7片"
     },
     "fieldNotes": {},
     "officialLinks": {
-      "cn": "https://www.sg-image.cn/pd.jsp?id=4",
       "global": "https://www.sg-image.com/products/aps-c-25mm-f1-8-%E8%87%AA%E5%8A%A8%E5%AF%B9%E7%84%A6%E9%95%9C%E5%A4%B4"
     }
   },
@@ -5296,7 +5297,7 @@
     },
     "officialLinks": {
       "cn": "https://cn.ttartisan.com/?list-10/257.html",
-      "global": "https://www.ttartisan.com/?aps-c-lenses/71.html"
+      "global": "https://www.ttartisan.com/?aps-c-lenses/70.html"
     }
   },
   {
