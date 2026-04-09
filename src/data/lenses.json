@@ -83,12 +83,45 @@
     "ois": true,
     "wr": false,
     "apertureRing": false,
+    "powerZoom": true,
+    "focusMotor": "STM",
+    "internalFocusing": true,
     "weightG": 135,
     "diameterMm": 62.6,
-    "lengthMm": 44.2,
-    "maxMagnification": 0.24,
-    "angleOfView": "86.9° – 35.0°",
+    "length": {
+      "mm": 44.2,
+      "variants": {
+        "retracted": 44.2,
+        "wide": 65.2,
+        "tele": 62.1
+      }
+    },
+    "minFocusDistance": {
+      "cm": 13,
+      "variants": {
+        "wide": 13,
+        "tele": 35
+      }
+    },
+    "maxMagnification": {
+      "value": 0.24,
+      "variants": {
+        "wide": 0.24
+      }
+    },
+    "angleOfView": [
+      86.9,
+      35
+    ],
+    "angleOfViewCalc": [
+      86.7,
+      34.9
+    ],
     "apertureBladeCount": 7,
+    "accessories": [
+      "Lens cap FLCP-52II",
+      "Lens rear cap"
+    ],
     "imageUrl": "/lenses/fujifilm-xc-15-45mmf35-56-ois-pz-xf.webp",
     "filterMm": 52,
     "lensConfiguration": {
@@ -116,17 +149,32 @@
     "ois": false,
     "wr": false,
     "apertureRing": false,
+    "powerZoom": false,
+    "focusMotor": "STM",
+    "internalFocusing": true,
     "weightG": 130,
     "diameterMm": 58.4,
-    "lengthMm": 46.5,
-    "maxMagnification": 0.14,
-    "angleOfView": "44.2°",
+    "length": {
+      "mm": 46.5
+    },
+    "minFocusDistance": {
+      "cm": 35
+    },
+    "maxMagnification": {
+      "value": 0.14
+    },
+    "angleOfView": 44.2,
+    "angleOfViewCalc": 44,
     "apertureBladeCount": 9,
+    "accessories": [
+      "Lens cap FLCP-43"
+    ],
     "imageUrl": "/lenses/fujifilm-xc-35mmf2-xf.webp",
     "filterMm": 43,
     "lensConfiguration": {
       "groups": 6,
       "elements": 9,
+      "aspherical": 2,
       "sourceText": "9 elements 6 groups (includes two aspherical elements)"
     },
     "officialLinks": {
@@ -182,12 +230,36 @@
     "ois": false,
     "wr": true,
     "apertureRing": true,
+    "powerZoom": false,
+    "focusMotor": "LM",
     "weightG": 805,
     "diameterMm": 88,
-    "lengthMm": 121.5,
-    "maxMagnification": 0.1,
-    "angleOfView": "121° – 83.2°",
+    "length": {
+      "mm": 121.5
+    },
+    "minFocusDistance": {
+      "cm": 25
+    },
+    "maxMagnification": {
+      "value": 0.1,
+      "variants": {
+        "tele": 0.1
+      }
+    },
+    "angleOfView": [
+      121,
+      83.2
+    ],
+    "angleOfViewCalc": [
+      121,
+      83
+    ],
     "apertureBladeCount": 9,
+    "accessories": [
+      "Lens cap FLCP-8-16",
+      "Lens rear cap RLCP-001",
+      "Wrapping cloth"
+    ],
     "imageUrl": "/lenses/fujifilm-xf-8-16mmf28-r-lm-wr-xf.webp",
     "filterMm": "N/A",
     "lensConfiguration": {
@@ -197,6 +269,9 @@
       "ed": 3,
       "superEd": 3,
       "sourceText": "20 elements 13 groups (includes 4 aspherical, 3 ED, 3 super ED elements)"
+    },
+    "fieldNotes": {
+      "filterMm": "Bulbous front element; no front filter thread."
     },
     "officialLinks": {
       "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/xf8-16mmf28-r-lm-wr/",
@@ -216,18 +291,35 @@
     "ois": false,
     "wr": true,
     "apertureRing": true,
+    "powerZoom": false,
     "weightG": 215,
     "diameterMm": 68,
-    "lengthMm": 52.8,
-    "maxMagnification": 0.07,
-    "angleOfView": "121°",
+    "length": {
+      "mm": 52.8
+    },
+    "minFocusDistance": {
+      "cm": 18
+    },
+    "maxMagnification": {
+      "value": 0.07
+    },
+    "angleOfView": 121,
+    "angleOfViewCalc": 121,
     "apertureBladeCount": 9,
+    "accessories": [
+      "Front lens cap FLCP-62 II",
+      "Rear lens cap RLCP-001",
+      "Lens hood",
+      "Lens wrapping cloth"
+    ],
     "imageUrl": "/lenses/fujifilm-xf-8mmf35-r-wr-xf.webp",
     "filterMm": 62,
     "lensConfiguration": {
       "groups": 9,
       "elements": 12,
-      "sourceText": "12 elements in 9 groups"
+      "aspherical": 3,
+      "ed": 2,
+      "sourceText": "12 elements in 9 groups (includes 3 aspherical and 2 ED elements)"
     },
     "officialLinks": {
       "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/xf8mmf35-r-wr/",
@@ -247,18 +339,40 @@
     "ois": true,
     "wr": true,
     "apertureRing": true,
+    "powerZoom": false,
+    "focusMotor": "High-Precision Motor",
+    "internalFocusing": true,
     "weightG": 385,
     "diameterMm": 77.6,
-    "lengthMm": 87,
-    "maxMagnification": 0.16,
-    "angleOfView": "110°-61.2°",
+    "length": {
+      "mm": 87
+    },
+    "minFocusDistance": {
+      "cm": 24
+    },
+    "maxMagnification": {
+      "value": 0.16,
+      "variants": {
+        "tele": 0.16
+      }
+    },
+    "angleOfView": [
+      110,
+      61.2
+    ],
+    "angleOfViewCalc": [
+      109.5,
+      61
+    ],
     "apertureBladeCount": 7,
     "imageUrl": "/lenses/fujifilm-xf-10-24mmf4-r-ois-wr-xf.webp",
     "filterMm": 72,
     "lensConfiguration": {
       "groups": 10,
       "elements": 14,
-      "sourceText": "14 elements in 10 groups"
+      "aspherical": 4,
+      "ed": 4,
+      "sourceText": "14 elements in 10 groups (includes 4 aspherical, 4 ED elements)"
     },
     "officialLinks": {
       "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/xf10-24mmf4-r-ois-wr/",
@@ -278,18 +392,30 @@
     "ois": false,
     "wr": false,
     "apertureRing": true,
+    "powerZoom": false,
     "weightG": 235,
     "diameterMm": 65,
-    "lengthMm": 58.4,
-    "maxMagnification": 0.12,
-    "angleOfView": "90.8°",
+    "length": {
+      "mm": 58.4
+    },
+    "minFocusDistance": {
+      "cm": 18,
+      "macroCm": 18
+    },
+    "maxMagnification": {
+      "value": 0.12
+    },
+    "angleOfView": 90.8,
+    "angleOfViewCalc": 90.6,
     "apertureBladeCount": 7,
     "imageUrl": "/lenses/fujifilm-xf-14mmf28-r-xf.webp",
     "filterMm": 58,
     "lensConfiguration": {
       "groups": 7,
       "elements": 10,
-      "sourceText": "10 elements in 7 groups"
+      "aspherical": 2,
+      "ed": 3,
+      "sourceText": "10 elements in 7 groups (includes 2 aspherical and 3 extra low dispersion elements)"
     },
     "officialLinks": {
       "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/xf14mmf28-r/",
@@ -312,13 +438,34 @@
     "ois": false,
     "wr": true,
     "apertureRing": true,
+    "powerZoom": false,
+    "focusMotor": "LM",
+    "internalFocusing": true,
     "weightG": 240,
     "diameterMm": 65,
-    "lengthMm": 71.4,
-    "minFocusDistanceCm": 24,
-    "maxMagnification": 0.3,
-    "angleOfView": "83.2°-31.7°",
-    "apertureBladeCount": 11,
+    "length": {
+      "mm": 71.4
+    },
+    "minFocusDistance": {
+      "cm": 24
+    },
+    "maxMagnification": {
+      "value": 0.3
+    },
+    "angleOfView": [
+      83.2,
+      31.7
+    ],
+    "angleOfViewCalc": [
+      83,
+      31.6
+    ],
+    "accessories": [
+      "Front lens cap FLCP-58 II",
+      "Rear lens cap RLCP-001",
+      "Lens hood",
+      "Lens wrapping cloth"
+    ],
     "imageUrl": "/lenses/fujifilm-xf-16-50mmf28-48-r-lm-wr-xf.webp",
     "filterMm": 58,
     "lensConfiguration": {
@@ -346,18 +493,48 @@
     "ois": false,
     "wr": true,
     "apertureRing": true,
+    "powerZoom": false,
+    "focusMotor": "LM",
+    "internalFocusing": true,
     "weightG": 655,
     "diameterMm": 83.3,
-    "lengthMm": 106,
-    "maxMagnification": 0.16,
-    "angleOfView": "83.2°- 29°",
+    "length": {
+      "mm": 106,
+      "variants": {
+        "wide": 106,
+        "tele": 129.5
+      }
+    },
+    "minFocusDistance": {
+      "cm": 60,
+      "variants": {
+        "wide": 60,
+        "tele": 40
+      }
+    },
+    "maxMagnification": {
+      "value": 0.16,
+      "variants": {
+        "tele": 0.16
+      }
+    },
+    "angleOfView": [
+      83.2,
+      29
+    ],
+    "angleOfViewCalc": [
+      83,
+      28.9
+    ],
     "apertureBladeCount": 9,
     "imageUrl": "/lenses/fujifilm-xf-16-55mmf28-r-lm-wr-xf.webp",
     "filterMm": 77,
     "lensConfiguration": {
       "groups": 12,
       "elements": 17,
-      "sourceText": "17 elements 12 groups"
+      "aspherical": 3,
+      "ed": 3,
+      "sourceText": "17 elements 12 groups (includes 3 aspherical and 3 extra low dispersion elements)"
     },
     "officialLinks": {
       "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/xf16-55mmf28-r-lm-wr/",
@@ -378,18 +555,40 @@
     "ois": false,
     "wr": true,
     "apertureRing": true,
+    "powerZoom": false,
+    "focusMotor": "LM",
+    "internalFocusing": true,
     "weightG": 410,
     "diameterMm": 78.3,
-    "lengthMm": 95,
-    "minFocusDistanceCm": 30,
-    "maxMagnification": 0.21,
-    "angleOfView": "83.2°-29°",
-    "apertureBladeCount": 11,
-    "imageUrl": "/lenses/fujifilm-xf-16-55mmf28-r-lm-wr-ii-xf.webp",
-    "lengthVariantsMm": {
-      "wide": 95,
-      "tele": 122
+    "length": {
+      "mm": 95,
+      "variants": {
+        "wide": 95,
+        "tele": 122
+      }
     },
+    "minFocusDistance": {
+      "cm": 30
+    },
+    "maxMagnification": {
+      "value": 0.21
+    },
+    "angleOfView": [
+      83.2,
+      29
+    ],
+    "angleOfViewCalc": [
+      83,
+      28.9
+    ],
+    "apertureBladeCount": 11,
+    "accessories": [
+      "Front lens cap FLCP-72 II",
+      "Rear lens cap RLCP-001",
+      "Lens hood",
+      "Lens wrapping cloth"
+    ],
+    "imageUrl": "/lenses/fujifilm-xf-16-55mmf28-r-lm-wr-ii-xf.webp",
     "filterMm": 72,
     "lensConfiguration": {
       "groups": 11,
@@ -415,20 +614,53 @@
     "minAperture": 22,
     "af": true,
     "ois": true,
+    "oisStops": 6,
     "wr": true,
     "apertureRing": true,
+    "powerZoom": false,
+    "focusMotor": "STM",
+    "internalFocusing": true,
     "weightG": 440,
     "diameterMm": 78.3,
-    "lengthMm": 88.9,
-    "maxMagnification": 0.25,
-    "angleOfView": "83.2°-20.1°",
+    "length": {
+      "mm": 88.9,
+      "variants": {
+        "wide": 88.9,
+        "tele": 131.5
+      }
+    },
+    "minFocusDistance": {
+      "cm": 35
+    },
+    "maxMagnification": {
+      "value": 0.25,
+      "variants": {
+        "tele": 0.25
+      }
+    },
+    "angleOfView": [
+      83.2,
+      20.1
+    ],
+    "angleOfViewCalc": [
+      83,
+      20.1
+    ],
     "apertureBladeCount": 9,
+    "accessories": [
+      "Front lens cap FLCP-72II",
+      "Rear lens cap RLCP-001",
+      "Lens hood",
+      "Wrapping cloth"
+    ],
     "imageUrl": "/lenses/fujifilm-xf-16-80mmf4-r-ois-wr-xf.webp",
     "filterMm": 72,
     "lensConfiguration": {
       "groups": 12,
       "elements": 16,
-      "sourceText": "16 elements 12 groups"
+      "aspherical": 3,
+      "ed": 1,
+      "sourceText": "16 elements 12 groups (includes 3 aspherical elements and 1 ED aspherical element)"
     },
     "officialLinks": {
       "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/xf16-80mmf4-r-ois-wr/",
@@ -480,22 +712,106 @@
     "ois": false,
     "wr": true,
     "apertureRing": true,
+    "powerZoom": false,
+    "focusMotor": "STM",
+    "internalFocusing": true,
     "weightG": 155,
     "diameterMm": 60,
-    "lengthMm": 45.4,
-    "maxMagnification": 0.13,
-    "angleOfView": "83.2°",
+    "length": {
+      "mm": 45.4
+    },
+    "minFocusDistance": {
+      "cm": 17
+    },
+    "maxMagnification": {
+      "value": 0.13
+    },
+    "angleOfView": 83.2,
+    "angleOfViewCalc": 83,
     "apertureBladeCount": 9,
+    "accessories": [
+      "Lens cap FLCP-49",
+      "Lens rear cap RLCP-001",
+      "Lens hood",
+      "Wrapping cloth",
+      "PRF-49"
+    ],
     "imageUrl": "/lenses/fujifilm-xf-16mmf28-r-wr-xf.webp",
     "filterMm": 49,
     "lensConfiguration": {
       "groups": 8,
       "elements": 10,
-      "sourceText": "10 elements 8 groups"
+      "aspherical": 2,
+      "sourceText": "10 elements 8 groups (includes 2 aspherical elements)"
     },
     "officialLinks": {
       "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/xf16mmf28-r-wr/",
       "global": "https://www.fujifilm-x.com/global/products/lenses/xf16mmf28-r-wr/"
+    }
+  },
+  {
+    "id": "fujifilm-xf-18-55mmf28-4-r-lm-ois-xf",
+    "brand": "fujifilm",
+    "series": "XF",
+    "model": "XF 18-55mm F2.8-4 R LM OIS",
+    "focalLengthMin": 18,
+    "focalLengthMax": 55,
+    "maxAperture": [
+      2.8,
+      4
+    ],
+    "minAperture": 22,
+    "af": true,
+    "ois": true,
+    "wr": false,
+    "apertureRing": true,
+    "powerZoom": false,
+    "focusMotor": "LM",
+    "internalFocusing": true,
+    "weightG": 310,
+    "diameterMm": 65,
+    "length": {
+      "mm": 70.4,
+      "variants": {
+        "wide": 70.4,
+        "tele": 97.9
+      }
+    },
+    "minFocusDistance": {
+      "cm": 60,
+      "macroCm": 30,
+      "macroVariants": {
+        "wide": 30,
+        "tele": 40
+      }
+    },
+    "maxMagnification": {
+      "value": 0.15,
+      "variants": {
+        "tele": 0.15
+      }
+    },
+    "angleOfView": [
+      79.1,
+      28.4
+    ],
+    "angleOfViewCalc": [
+      76.3,
+      28.9
+    ],
+    "apertureBladeCount": 7,
+    "imageUrl": "/lenses/fujifilm-xf-18-55mmf28-4-r-lm-ois-xf.webp",
+    "filterMm": 58,
+    "lensConfiguration": {
+      "groups": 10,
+      "elements": 14,
+      "aspherical": 3,
+      "ed": 1,
+      "sourceText": "10 groups 14 elements (including 3 aspherical lens elements and 1 ED lens element)"
+    },
+    "officialLinks": {
+      "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/xf18-55mmf28-4-r-lm-ois/",
+      "global": "https://www.fujifilm-x.com/global/products/lenses/xf18-55mmf28-4-r-lm-ois/"
     }
   },
   {
@@ -511,18 +827,40 @@
     "ois": false,
     "wr": true,
     "apertureRing": false,
+    "powerZoom": true,
+    "focusMotor": "LM",
+    "internalFocusing": true,
     "weightG": 460,
     "diameterMm": 77.3,
-    "lengthMm": 123.5,
-    "maxMagnification": 0.2,
-    "angleOfView": "76.5°-13.5°",
+    "length": {
+      "mm": 123.5
+    },
+    "minFocusDistance": {
+      "cm": 60
+    },
+    "maxMagnification": {
+      "value": 0.2,
+      "variants": {
+        "tele": 0.2
+      }
+    },
+    "angleOfView": [
+      76.5,
+      13.5
+    ],
+    "angleOfViewCalc": [
+      76.3,
+      13.5
+    ],
     "apertureBladeCount": 7,
     "imageUrl": "/lenses/fujifilm-xf-18-120mmf4-lm-pz-wr-xf.webp",
     "filterMm": 72,
     "lensConfiguration": {
       "groups": 12,
       "elements": 15,
-      "sourceText": "15 elements in 12 groups"
+      "aspherical": 3,
+      "ed": 3,
+      "sourceText": "15 elements in 12 groups (includes 3 aspherical and 3 ED elements)"
     },
     "officialLinks": {
       "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/xf18-120mmf4-lm-pz-wr/",
@@ -545,11 +883,36 @@
     "ois": true,
     "wr": true,
     "apertureRing": true,
+    "powerZoom": false,
+    "focusMotor": "LM",
+    "internalFocusing": true,
     "weightG": 490,
     "diameterMm": 75.7,
-    "lengthMm": 97.8,
-    "maxMagnification": 0.27,
-    "angleOfView": "76.5° – 12°",
+    "length": {
+      "mm": 97.8,
+      "variants": {
+        "wide": 97.8,
+        "tele": 158
+      }
+    },
+    "minFocusDistance": {
+      "cm": 60,
+      "macroCm": 45
+    },
+    "maxMagnification": {
+      "value": 0.27,
+      "variants": {
+        "tele": 0.27
+      }
+    },
+    "angleOfView": [
+      76.5,
+      12
+    ],
+    "angleOfViewCalc": [
+      76.3,
+      12
+    ],
     "apertureBladeCount": 7,
     "imageUrl": "/lenses/fujifilm-xf-18-135mmf35-56-r-lm-ois-wr-xf.webp",
     "filterMm": 67,
@@ -557,6 +920,7 @@
       "groups": 12,
       "elements": 16,
       "aspherical": 4,
+      "ed": 2,
       "sourceText": "16 elements in 12 groups (4 aspherical elements and 2 anomalous dispersion lenses)"
     },
     "officialLinks": {
@@ -577,18 +941,34 @@
     "ois": false,
     "wr": true,
     "apertureRing": true,
+    "powerZoom": false,
+    "focusMotor": "LM",
+    "internalFocusing": true,
     "weightG": 370,
     "diameterMm": 68.8,
-    "lengthMm": 75.6,
-    "maxMagnification": 0.15,
-    "angleOfView": "76.5°",
+    "length": {
+      "mm": 75.6
+    },
+    "minFocusDistance": {
+      "cm": 20
+    },
+    "maxMagnification": {
+      "value": 0.15
+    },
+    "angleOfView": 76.5,
+    "angleOfViewCalc": 76.3,
     "apertureBladeCount": 9,
+    "accessories": [
+      "Lens hood LH-XF18"
+    ],
     "imageUrl": "/lenses/fujifilm-xf-18mmf14-r-lm-wr-xf.webp",
     "filterMm": 62,
     "lensConfiguration": {
       "groups": 9,
       "elements": 15,
-      "sourceText": "15 elements in 9 groups"
+      "aspherical": 3,
+      "ed": 1,
+      "sourceText": "15 elements in 9 groups (includes 3 aspherical and 1 ED elements)"
     },
     "officialLinks": {
       "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/xf18mmf14-r-lm-wr/",
@@ -608,18 +988,29 @@
     "ois": false,
     "wr": false,
     "apertureRing": true,
+    "powerZoom": false,
     "weightG": 116,
     "diameterMm": 64.5,
-    "lengthMm": 33.7,
-    "maxMagnification": 0.14,
-    "angleOfView": "76.5°",
+    "length": {
+      "mm": 33.7
+    },
+    "minFocusDistance": {
+      "cm": 18,
+      "macroCm": 18
+    },
+    "maxMagnification": {
+      "value": 0.14
+    },
+    "angleOfView": 76.5,
+    "angleOfViewCalc": 76.3,
     "apertureBladeCount": 7,
     "imageUrl": "/lenses/fujifilm-xf-18mmf2-r-xf.webp",
     "filterMm": 52,
     "lensConfiguration": {
       "groups": 7,
       "elements": 8,
-      "sourceText": "8 elements in 7 groups"
+      "aspherical": 2,
+      "sourceText": "8 elements in 7 groups (includes 2 aspherical elements)"
     },
     "officialLinks": {
       "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/xf18mmf2-r/",
@@ -639,18 +1030,31 @@
     "ois": false,
     "wr": true,
     "apertureRing": true,
+    "powerZoom": false,
+    "focusMotor": "LM",
+    "internalFocusing": true,
     "weightG": 375,
     "diameterMm": 67,
-    "lengthMm": 77.8,
-    "maxMagnification": 0.2,
-    "angleOfView": "63.4°",
+    "length": {
+      "mm": 77.8
+    },
+    "minFocusDistance": {
+      "cm": 19
+    },
+    "maxMagnification": {
+      "value": 0.2
+    },
+    "angleOfView": 63.4,
+    "angleOfViewCalc": 63.2,
     "apertureBladeCount": 9,
     "imageUrl": "/lenses/fujifilm-xf-23mmf14-r-lm-wr-xf.webp",
     "filterMm": 58,
     "lensConfiguration": {
       "groups": 10,
       "elements": 15,
-      "sourceText": "15 elements in 10 groups"
+      "aspherical": 2,
+      "ed": 3,
+      "sourceText": "15 elements in 10 groups (includes 2 aspherical and 3 ED elements)"
     },
     "officialLinks": {
       "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/xf23mmf14-r-lm-wr/",
@@ -670,18 +1074,36 @@
     "ois": false,
     "wr": true,
     "apertureRing": true,
+    "powerZoom": false,
+    "focusMotor": "STM",
+    "internalFocusing": true,
     "weightG": 180,
     "diameterMm": 60,
-    "lengthMm": 51.9,
-    "maxMagnification": 0.13,
-    "angleOfView": "63.4°",
+    "length": {
+      "mm": 51.9
+    },
+    "minFocusDistance": {
+      "cm": 22
+    },
+    "maxMagnification": {
+      "value": 0.13
+    },
+    "angleOfView": 63.4,
+    "angleOfViewCalc": 63.2,
     "apertureBladeCount": 9,
+    "accessories": [
+      "Lens cap FLCP-43",
+      "Lens rear cap RLCP-001",
+      "Lens hood",
+      "Wrapping cloth"
+    ],
     "imageUrl": "/lenses/fujifilm-xf-23mmf2-r-wr-xf.webp",
     "filterMm": 43,
     "lensConfiguration": {
       "groups": 6,
       "elements": 10,
-      "sourceText": "10 elements 6 groups"
+      "aspherical": 2,
+      "sourceText": "10 elements 6 groups (includes 2 aspherical elements)"
     },
     "officialLinks": {
       "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/xf23mmf2-r-wr/",
@@ -701,18 +1123,28 @@
     "ois": false,
     "wr": true,
     "apertureRing": true,
+    "powerZoom": false,
     "weightG": 84,
     "diameterMm": 62,
-    "lengthMm": 23,
-    "maxMagnification": 0.1,
-    "angleOfView": "55.5°",
+    "length": {
+      "mm": 23
+    },
+    "minFocusDistance": {
+      "cm": 34
+    },
+    "maxMagnification": {
+      "value": 0.1
+    },
+    "angleOfView": 55.5,
+    "angleOfViewCalc": 55.3,
     "apertureBladeCount": 7,
     "imageUrl": "/lenses/fujifilm-xf-27mmf28-r-wr-xf.webp",
     "filterMm": 39,
     "lensConfiguration": {
       "groups": 5,
       "elements": 7,
-      "sourceText": "7 elements in 5 groups"
+      "aspherical": 1,
+      "sourceText": "7 elements in 5 groups (includes 1 aspherical element)"
     },
     "officialLinks": {
       "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/xf27mmf28-r-wr/",
@@ -735,18 +1167,31 @@
     "ois": false,
     "wr": true,
     "apertureRing": true,
+    "powerZoom": false,
+    "focusMotor": "LM",
+    "internalFocusing": true,
     "weightG": 195,
     "diameterMm": 60,
-    "lengthMm": 69.5,
-    "maxMagnification": 1,
-    "angleOfView": "50.7°",
+    "length": {
+      "mm": 69.5
+    },
+    "minFocusDistance": {
+      "cm": 10
+    },
+    "maxMagnification": {
+      "value": 1
+    },
+    "angleOfView": 50.7,
+    "angleOfViewCalc": 50.5,
     "apertureBladeCount": 9,
     "imageUrl": "/lenses/fujifilm-xf-30mmf28-r-lm-wr-macro-xf.webp",
     "filterMm": 43,
     "lensConfiguration": {
       "groups": 9,
       "elements": 11,
-      "sourceText": "11 elements in 9 groups"
+      "aspherical": 3,
+      "ed": 2,
+      "sourceText": "11 elements in 9 groups (includes 3 aspherical and 2 ED elements)"
     },
     "officialLinks": {
       "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/xf30mmf28-r-lm-wr-macro/",
@@ -766,18 +1211,31 @@
     "ois": false,
     "wr": true,
     "apertureRing": true,
+    "powerZoom": false,
+    "focusMotor": "LM",
+    "internalFocusing": true,
     "weightG": 360,
     "diameterMm": 67,
-    "lengthMm": 73.5,
-    "maxMagnification": 0.15,
-    "angleOfView": "46.6°",
+    "length": {
+      "mm": 73.5
+    },
+    "minFocusDistance": {
+      "cm": 30
+    },
+    "maxMagnification": {
+      "value": 0.15
+    },
+    "angleOfView": 46.6,
+    "angleOfViewCalc": 46.4,
     "apertureBladeCount": 9,
     "imageUrl": "/lenses/fujifilm-xf-33mmf14-r-lm-wr-xf.webp",
     "filterMm": 58,
     "lensConfiguration": {
       "groups": 10,
       "elements": 15,
-      "sourceText": "15 elements in 10 groups"
+      "aspherical": 2,
+      "ed": 3,
+      "sourceText": "15 elements in 10 groups (includes 2 aspherical and 3 ED elements)"
     },
     "officialLinks": {
       "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/xf33mmf14-r-lm-wr/",
@@ -797,18 +1255,38 @@
     "ois": false,
     "wr": false,
     "apertureRing": true,
+    "powerZoom": false,
     "weightG": 187,
     "diameterMm": 65,
-    "lengthMm": 50.4,
-    "maxMagnification": 0.17,
-    "angleOfView": "44.2°",
+    "length": {
+      "mm": 50.4
+    },
+    "minFocusDistance": {
+      "cm": 80,
+      "macroCm": 28
+    },
+    "maxMagnification": {
+      "value": 0.17
+    },
+    "angleOfView": 44.2,
+    "angleOfViewCalc": 44,
     "apertureBladeCount": 7,
+    "accessories": [
+      "Lens cap",
+      "Rear cap",
+      "Lens hood",
+      "Lens hood cap"
+    ],
     "imageUrl": "/lenses/fujifilm-xf-35mmf14-r-xf.webp",
     "filterMm": 52,
     "lensConfiguration": {
       "groups": 6,
       "elements": 8,
-      "sourceText": "8 elements in 6 groups"
+      "aspherical": 1,
+      "sourceText": "8 elements in 6 groups (includes 1 aspherical element)"
+    },
+    "fieldNotes": {
+      "minFocusDistance": "The source also lists a separate close-focus mode that reaches 2.0m."
     },
     "officialLinks": {
       "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/xf35mmf14-r/",
@@ -828,18 +1306,36 @@
     "ois": false,
     "wr": true,
     "apertureRing": true,
+    "powerZoom": false,
+    "focusMotor": "STM",
+    "internalFocusing": true,
     "weightG": 170,
     "diameterMm": 60,
-    "lengthMm": 45.9,
-    "maxMagnification": 0.135,
-    "angleOfView": "44.2°",
+    "length": {
+      "mm": 45.9
+    },
+    "minFocusDistance": {
+      "cm": 35
+    },
+    "maxMagnification": {
+      "value": 0.135
+    },
+    "angleOfView": 44.2,
+    "angleOfViewCalc": 44,
     "apertureBladeCount": 9,
+    "accessories": [
+      "Lens cap FLCP-43",
+      "Lens rear cap RLCP-001",
+      "Lens hood",
+      "Wrapping cloth"
+    ],
     "imageUrl": "/lenses/fujifilm-xf-35mmf2-r-wr-xf.webp",
     "filterMm": 43,
     "lensConfiguration": {
       "groups": 6,
       "elements": 9,
-      "sourceText": "9 elements 6 groups (includes two aspherical elements)"
+      "aspherical": 2,
+      "sourceText": "9 elements in 6 groups (includes two aspherical elements)"
     },
     "officialLinks": {
       "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/xf35mmf2-r-wr/",
@@ -857,21 +1353,54 @@
     "minAperture": 22,
     "af": true,
     "ois": true,
+    "oisStops": 5,
     "wr": true,
     "apertureRing": true,
+    "powerZoom": false,
+    "focusMotor": "Triple Linear Motor",
     "weightG": 995,
     "diameterMm": 82.9,
-    "lengthMm": 175.9,
-    "maxMagnification": 0.12,
-    "angleOfView": "31.7° – 11.6°",
+    "length": {
+      "mm": 175.9
+    },
+    "minFocusDistance": {
+      "cm": 100,
+      "macroCm": 100
+    },
+    "maxMagnification": {
+      "value": 0.12,
+      "variants": {
+        "tele": 0.12
+      }
+    },
+    "angleOfView": [
+      31.7,
+      11.6
+    ],
+    "angleOfViewCalc": [
+      31.6,
+      11.5
+    ],
     "apertureBladeCount": 7,
+    "accessories": [
+      "Lens cap",
+      "Lens rear cap",
+      "Lens hood",
+      "Tripod collar foot",
+      "Shoulder strap",
+      "Wrapping cloth"
+    ],
     "imageUrl": "/lenses/fujifilm-xf-50-140mmf28-r-lm-ois-wr-xf.webp",
     "filterMm": 72,
     "lensConfiguration": {
       "groups": 16,
       "elements": 23,
+      "ed": 5,
       "superEd": 1,
       "sourceText": "23 elements in 16 groups (includes 5 extra low dispersion elements and 1 super extra low dispersion element)"
+    },
+    "fieldNotes": {
+      "minFocusDistance": "The source also lists a separate close-focus mode that extends to 3m."
     },
     "officialLinks": {
       "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/xf50-140mmf28-r-lm-ois-wr/",
@@ -891,18 +1420,29 @@
     "ois": false,
     "wr": true,
     "apertureRing": true,
+    "powerZoom": false,
     "weightG": 845,
     "diameterMm": 87,
-    "lengthMm": 103.5,
-    "maxMagnification": 0.08,
-    "angleOfView": "31.7°",
+    "length": {
+      "mm": 103.5
+    },
+    "minFocusDistance": {
+      "cm": 70
+    },
+    "maxMagnification": {
+      "value": 0.08
+    },
+    "angleOfView": 31.7,
+    "angleOfViewCalc": 31.6,
     "apertureBladeCount": 9,
     "imageUrl": "/lenses/fujifilm-xf-50mmf10-r-wr-xf.webp",
     "filterMm": 77,
     "lensConfiguration": {
       "groups": 9,
       "elements": 12,
-      "sourceText": "12 elements in 9 groups"
+      "aspherical": 1,
+      "ed": 2,
+      "sourceText": "12 elements in 9 groups (includes 1 aspherical, 2 ED elements)"
     },
     "officialLinks": {
       "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/xf50mmf1-r-wr/",
@@ -922,18 +1462,36 @@
     "ois": false,
     "wr": true,
     "apertureRing": true,
+    "powerZoom": false,
+    "focusMotor": "STM",
+    "internalFocusing": true,
     "weightG": 200,
     "diameterMm": 60,
-    "lengthMm": 59.4,
-    "maxMagnification": 0.15,
-    "angleOfView": "31.7°",
+    "length": {
+      "mm": 59.4
+    },
+    "minFocusDistance": {
+      "cm": 39
+    },
+    "maxMagnification": {
+      "value": 0.15
+    },
+    "angleOfView": 31.7,
+    "angleOfViewCalc": 31.6,
     "apertureBladeCount": 9,
+    "accessories": [
+      "Lens cap FLCP-46",
+      "Lens rear cap RLCP-001",
+      "Lens hood",
+      "Wrapping cloth"
+    ],
     "imageUrl": "/lenses/fujifilm-xf-50mmf2-r-wr-xf.webp",
     "filterMm": 46,
     "lensConfiguration": {
       "groups": 7,
       "elements": 9,
       "aspherical": 1,
+      "ed": 1,
       "sourceText": "9 elements 7 groups (includes 1 aspherical ED element)"
     },
     "officialLinks": {
@@ -955,20 +1513,51 @@
     "minAperture": 22,
     "af": true,
     "ois": true,
+    "oisStops": 5,
     "wr": false,
     "apertureRing": true,
+    "powerZoom": false,
+    "focusMotor": "LM",
     "weightG": 580,
     "diameterMm": 75,
-    "lengthMm": 118,
-    "maxMagnification": 0.18,
-    "angleOfView": "29.0° – 8.1°",
+    "length": {
+      "mm": 118,
+      "variants": {
+        "wide": 118,
+        "tele": 177
+      }
+    },
+    "minFocusDistance": {
+      "cm": 110,
+      "macroCm": 110
+    },
+    "maxMagnification": {
+      "value": 0.18,
+      "variants": {
+        "tele": 0.18
+      }
+    },
+    "angleOfView": [
+      29,
+      8.1
+    ],
+    "angleOfViewCalc": [
+      28.9,
+      8.1
+    ],
     "apertureBladeCount": 7,
     "imageUrl": "/lenses/fujifilm-xf-55-200mmf35-48-r-lm-ois-xf.webp",
     "filterMm": 62,
     "lensConfiguration": {
       "groups": 10,
       "elements": 14,
-      "sourceText": "14 elements in 10 groups"
+      "aspherical": 1,
+      "ed": 1,
+      "superEd": 1,
+      "sourceText": "14 elements in 10 groups (includes 1 aspherical, 1 ED and 1 super ED elements)"
+    },
+    "fieldNotes": {
+      "minFocusDistance": "The source also lists a separate close-focus range that extends to 3m."
     },
     "officialLinks": {
       "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/xf55-200mmf35-48-r-lm-ois/",
@@ -988,18 +1577,35 @@
     "ois": false,
     "wr": true,
     "apertureRing": true,
+    "powerZoom": false,
     "weightG": 445,
     "diameterMm": 79.4,
-    "lengthMm": 76,
-    "maxMagnification": 0.14,
-    "angleOfView": "28.5°",
+    "length": {
+      "mm": 76
+    },
+    "minFocusDistance": {
+      "cm": 50
+    },
+    "maxMagnification": {
+      "value": 0.14
+    },
+    "angleOfView": 28.5,
+    "angleOfViewCalc": 28.4,
     "apertureBladeCount": 11,
+    "accessories": [
+      "Front lens cap FLCP-67 II",
+      "Rear lens cap RLCP-001",
+      "Lens hood",
+      "Lens wrapping cloth"
+    ],
     "imageUrl": "/lenses/fujifilm-xf-56mmf12-r-wr-xf.webp",
     "filterMm": 67,
     "lensConfiguration": {
       "groups": 8,
       "elements": 13,
-      "sourceText": "13 elements in 8 groups"
+      "aspherical": 2,
+      "ed": 1,
+      "sourceText": "13 elements in 8 groups (includes 2 aspherical and 1 ED elements)"
     },
     "officialLinks": {
       "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/xf56mmf12-r-wr/",
@@ -1022,19 +1628,33 @@
     "ois": false,
     "wr": false,
     "apertureRing": true,
+    "powerZoom": false,
     "weightG": 215,
     "diameterMm": 64.1,
-    "lengthMm": 63.6,
-    "minFocusDistanceCm": 60,
-    "maxMagnification": 0.5,
-    "angleOfView": "26.6°",
+    "length": {
+      "mm": 63.6
+    },
+    "minFocusDistance": {
+      "cm": 60,
+      "macroCm": 26.7
+    },
+    "maxMagnification": {
+      "value": 0.5
+    },
+    "angleOfView": 26.6,
+    "angleOfViewCalc": 26.5,
     "apertureBladeCount": 9,
     "imageUrl": "/lenses/fujifilm-xf-60mmf24-r-macro-xf.webp",
     "filterMm": 39,
     "lensConfiguration": {
       "groups": 8,
       "elements": 10,
-      "sourceText": "10 elements in 8 groups"
+      "aspherical": 1,
+      "ed": 1,
+      "sourceText": "10 elements in 8 groups (includes 1 aspherical and 1 extra low dispersion element)"
+    },
+    "fieldNotes": {
+      "minFocusDistance": "The source also lists a separate close-focus mode that reaches 2.0m."
     },
     "officialLinks": {
       "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/xf60mmf24-r-macro/",
@@ -1055,20 +1675,46 @@
     "minAperture": 22,
     "af": true,
     "ois": true,
+    "oisStops": 5.5,
     "wr": true,
     "apertureRing": true,
+    "powerZoom": false,
+    "focusMotor": "LM",
     "weightG": 580,
     "diameterMm": 75,
-    "lengthMm": 132.5,
-    "maxMagnification": 0.33,
-    "angleOfView": "22.9°-5.4°",
+    "length": {
+      "mm": 132.5,
+      "variants": {
+        "wide": 132.5,
+        "tele": 205.5
+      }
+    },
+    "minFocusDistance": {
+      "cm": 83
+    },
+    "maxMagnification": {
+      "value": 0.33,
+      "variants": {
+        "tele": 0.33
+      }
+    },
+    "angleOfView": [
+      22.9,
+      5.4
+    ],
+    "angleOfViewCalc": [
+      22.9,
+      5.4
+    ],
     "apertureBladeCount": 9,
     "imageUrl": "/lenses/fujifilm-xf-70-300mmf4-56-r-lm-ois-wr-xf.webp",
     "filterMm": 67,
     "lensConfiguration": {
       "groups": 12,
       "elements": 17,
-      "sourceText": "17 elements in 12 groups"
+      "aspherical": 1,
+      "ed": 2,
+      "sourceText": "17 elements in 12 groups (includes 1 aspherical and 2 ED elements)"
     },
     "officialLinks": {
       "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/xf70-300mmf4-56-r-lm-ois-wr/",
@@ -1089,20 +1735,42 @@
     ],
     "af": true,
     "ois": true,
+    "oisStops": 5,
     "wr": true,
     "apertureRing": true,
+    "powerZoom": false,
+    "focusMotor": "LM",
+    "internalFocusing": true,
     "weightG": 750,
     "diameterMm": 80,
-    "lengthMm": 130,
-    "maxMagnification": 1,
-    "angleOfView": "20.1°",
+    "length": {
+      "mm": 130
+    },
+    "minFocusDistance": {
+      "cm": 25
+    },
+    "maxMagnification": {
+      "value": 1
+    },
+    "angleOfView": 20.1,
+    "angleOfViewCalc": 20.1,
     "apertureBladeCount": 9,
+    "accessories": [
+      "Lens cap FLCP-62II",
+      "Lens rear cap RLCP-002",
+      "Lens hood",
+      "Lens pouch",
+      "Wrapping cloth"
+    ],
     "imageUrl": "/lenses/fujifilm-xf-80mmf28-r-lm-ois-wr-macro-xf.webp",
     "filterMm": 62,
     "lensConfiguration": {
       "groups": 12,
       "elements": 16,
-      "sourceText": "16 elements 12 groups"
+      "aspherical": 1,
+      "ed": 3,
+      "superEd": 1,
+      "sourceText": "16 elements 12 groups (includes 1 aspherical, 3 ED elements, 1 Super ED element)"
     },
     "officialLinks": {
       "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/xf80mmf28-r-lm-ois-wr-macro/",
@@ -1122,17 +1790,28 @@
     "ois": false,
     "wr": true,
     "apertureRing": true,
+    "powerZoom": false,
+    "focusMotor": "Quad Linear Motor",
     "weightG": 540,
     "diameterMm": 75,
-    "lengthMm": 105,
-    "maxMagnification": 0.2,
-    "angleOfView": "17.9°",
+    "length": {
+      "mm": 105
+    },
+    "minFocusDistance": {
+      "cm": 60
+    },
+    "maxMagnification": {
+      "value": 0.2
+    },
+    "angleOfView": 17.9,
+    "angleOfViewCalc": 17.9,
     "apertureBladeCount": 7,
     "imageUrl": "/lenses/fujifilm-xf-90mmf2-r-lm-wr-xf.webp",
     "filterMm": 62,
     "lensConfiguration": {
       "groups": 8,
       "elements": 11,
+      "ed": 3,
       "sourceText": "11 elements 8 groups (includes 3 extra low dispersion elements)"
     },
     "officialLinks": {
@@ -1156,18 +1835,44 @@
     "ois": true,
     "wr": true,
     "apertureRing": true,
+    "powerZoom": false,
+    "focusMotor": "LM",
+    "internalFocusing": true,
     "weightG": 1375,
     "diameterMm": 94.8,
-    "lengthMm": 210.5,
-    "maxMagnification": 0.19,
-    "angleOfView": "16.2°- 4.1°",
+    "length": {
+      "mm": 210.5,
+      "variants": {
+        "wide": 210.5,
+        "tele": 270
+      }
+    },
+    "minFocusDistance": {
+      "cm": 175
+    },
+    "maxMagnification": {
+      "value": 0.19,
+      "variants": {
+        "tele": 0.19
+      }
+    },
+    "angleOfView": [
+      16.2,
+      4.1
+    ],
+    "angleOfViewCalc": [
+      16.1,
+      4.1
+    ],
     "apertureBladeCount": 9,
     "imageUrl": "/lenses/fujifilm-xf-100-400mmf45-56-r-lm-ois-wr-xf.webp",
     "filterMm": 77,
     "lensConfiguration": {
       "groups": 14,
       "elements": 21,
-      "sourceText": "21 elements 14 groups"
+      "ed": 5,
+      "superEd": 1,
+      "sourceText": "21 elements 14 groups (includes 5 extra low dispersion elements and 1 super extra low dispersion element)"
     },
     "officialLinks": {
       "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/xf100-400mmf45-56-r-lm-ois-wr/",
@@ -1219,20 +1924,41 @@
     "minAperture": 22,
     "af": true,
     "ois": true,
+    "oisStops": 5,
     "wr": true,
     "apertureRing": true,
+    "powerZoom": false,
+    "focusMotor": "LM",
+    "internalFocusing": true,
     "weightG": 2265,
     "diameterMm": 122,
-    "lengthMm": 205.5,
-    "maxMagnification": 0.12,
-    "angleOfView": "8.1°",
+    "length": {
+      "mm": 205.5
+    },
+    "minFocusDistance": {
+      "cm": 180
+    },
+    "maxMagnification": {
+      "value": 0.12
+    },
+    "angleOfView": 8.1,
+    "angleOfViewCalc": 8.1,
     "apertureBladeCount": 9,
+    "accessories": [
+      "Lens cap FLCP-105",
+      "Lens rear cap RLCP-001",
+      "Lens hood",
+      "Shoulder strap",
+      "Lens case"
+    ],
     "imageUrl": "/lenses/fujifilm-xf-200mmf2-r-lm-ois-wr-xf.webp",
     "filterMm": 105,
     "lensConfiguration": {
       "groups": 14,
       "elements": 19,
-      "sourceText": "19 elements 14 groups"
+      "ed": 1,
+      "superEd": 1,
+      "sourceText": "19 elements 14 groups (includes 2 ED elements, 1 Super ED element)"
     },
     "officialLinks": {
       "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/xf200mmf2-r-lm-ois-wr/",
@@ -1250,15 +1976,33 @@
     "minAperture": 22,
     "af": true,
     "ois": true,
+    "oisStops": 5.5,
     "wr": true,
     "apertureRing": true,
+    "powerZoom": false,
+    "focusMotor": "LM",
     "weightG": 1335,
     "diameterMm": 104.5,
-    "lengthMm": 255.5,
-    "minFocusDistanceCm": 275,
-    "maxMagnification": 0.2,
-    "angleOfView": "3.3°",
+    "length": {
+      "mm": 255.5
+    },
+    "minFocusDistance": {
+      "cm": 275
+    },
+    "maxMagnification": {
+      "value": 0.2
+    },
+    "angleOfView": 3.3,
+    "angleOfViewCalc": 3.2,
     "apertureBladeCount": 9,
+    "accessories": [
+      "Front lens cap FLCP-95",
+      "Rear lens cap RLCP-001",
+      "Lens hood",
+      "Tripod collar foot",
+      "Lens pouch",
+      "Shoulder strap"
+    ],
     "imageUrl": "/lenses/fujifilm-xf-500mmf56-r-lm-ois-wr-xf.webp",
     "filterMm": 95,
     "lensConfiguration": {
@@ -1271,6 +2015,66 @@
     "officialLinks": {
       "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/xf500mmf56-r-lm-ois-wr/",
       "global": "https://www.fujifilm-x.com/global/products/lenses/xf500mmf56-r-lm-ois-wr/"
+    }
+  },
+  {
+    "id": "sigma-art-17-40mm-f18-dc-xf",
+    "brand": "sigma",
+    "series": "Art",
+    "model": "17-40mm F1.8 DC",
+    "focalLengthMin": 17,
+    "focalLengthMax": 40,
+    "maxAperture": 1.8,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": true,
+    "apertureRing": true,
+    "powerZoom": false,
+    "focusMotor": "HLA",
+    "weightG": 530,
+    "diameterMm": 72.9,
+    "length": {
+      "mm": 118.2
+    },
+    "minFocusDistance": {
+      "cm": 28
+    },
+    "maxMagnification": {
+      "value": 0.21
+    },
+    "angleOfView": [
+      79.7,
+      39.1
+    ],
+    "angleOfViewCalc": [
+      79.5,
+      39
+    ],
+    "apertureBladeCount": 11,
+    "compatibleMounts": [
+      "Leica L",
+      "Canon RF",
+      "Fujifilm X",
+      "Sony E"
+    ],
+    "accessories": [
+      "Lens hood",
+      "Front cap",
+      "Rear cap",
+      "Pouch"
+    ],
+    "imageUrl": "/lenses/sigma-art-17-40mm-f18-dc-xf.webp",
+    "filterMm": 67,
+    "lensConfiguration": {
+      "groups": 11,
+      "elements": 17,
+      "aspherical": 4,
+      "sld": 4
+    },
+    "officialLinks": {
+      "cn": "http://www.sigma-photo.com.cn/product/detail?id=642",
+      "global": "https://www.sigma-global.com/en/lenses/a025_17_40_18/"
     }
   },
   {
@@ -1433,38 +2237,6 @@
     "officialLinks": {
       "cn": "http://www.sigma-photo.com.cn/product/detail?id=322",
       "global": "https://www.sigma-global.com/en/lenses/c017_16_14/"
-    }
-  },
-  {
-    "id": "sigma-art-17-40mm-f18-dc-xf",
-    "brand": "sigma",
-    "series": "Art",
-    "model": "Sigma 17-40mm F1.8 DC",
-    "focalLengthMin": 17,
-    "focalLengthMax": 40,
-    "maxAperture": 1.8,
-    "minAperture": 16,
-    "af": true,
-    "ois": false,
-    "wr": true,
-    "apertureRing": true,
-    "weightG": 530,
-    "diameterMm": 72.9,
-    "lengthMm": 118.2,
-    "angleOfView": "79.7-39.1°",
-    "apertureBladeCount": 11,
-    "imageUrl": "/lenses/sigma-art-17-40mm-f18-dc-xf.webp",
-    "filterMm": 67,
-    "lensConfiguration": {
-      "groups": 11,
-      "elements": 17,
-      "aspherical": 4,
-      "otherNotes": "4 SLD, 4 aspherical elements",
-      "sourceText": "17 elements in 11 groups (4 SLD, 4 aspherical elements)"
-    },
-    "officialLinks": {
-      "cn": "http://www.sigma-photo.com.cn/product/detail?id=642",
-      "global": "https://www.sigma-global.com/en/lenses/a025_17_40_18/"
     }
   },
   {
