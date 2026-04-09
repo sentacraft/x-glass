@@ -1,5 +1,1420 @@
 [
   {
+    "id": "7artisans-af-10mm-f28-xf",
+    "brand": "7artisans",
+    "model": "AF 10mm F2.8",
+    "focalLengthMin": 10,
+    "focalLengthMax": 10,
+    "maxAperture": 2.8,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": "partial",
+    "apertureRing": false,
+    "powerZoom": false,
+    "focusMotor": "STM",
+    "weightG": 232,
+    "diameterMm": 69,
+    "length": {
+      "mm": 72
+    },
+    "minFocusDistance": {
+      "cm": 30
+    },
+    "angleOfView": 105,
+    "angleOfViewCalc": 109.5,
+    "apertureBladeCount": 7,
+    "compatibleMounts": [
+      "Sony E",
+      "Fujifilm X",
+      "Nikon Z"
+    ],
+    "lensMaterial": "Metal",
+    "imageUrl": "/lenses/7artisans-af-10mm-f28-xf.webp",
+    "filterMm": 62,
+    "lensConfiguration": {
+      "groups": 10,
+      "elements": 11,
+      "aspherical": 2,
+      "ed": 3,
+      "highRefractive": 2,
+      "sourceText": "10组11片"
+    },
+    "fieldNotes": {
+      "wr": "Weather-sealed mount ring only; not fully sealed."
+    },
+    "officialLinks": {
+      "cn": "https://www.7artisans.com/prod_view.aspx?nid=3&typeid=126&id=505",
+      "global": "https://en.7artisans.com/prod_view.aspx?nid=3&typeid=118&id=502"
+    }
+  },
+  {
+    "id": "7artisans-af-25mm-f18-xf",
+    "brand": "7artisans",
+    "model": "AF 25mm F1.8",
+    "focalLengthMin": 25,
+    "focalLengthMax": 25,
+    "maxAperture": 1.8,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "powerZoom": false,
+    "focusMotor": "STM",
+    "weightG": 95,
+    "diameterMm": 67,
+    "length": {
+      "mm": 51.7
+    },
+    "minFocusDistance": {
+      "cm": 25
+    },
+    "angleOfView": 58.3,
+    "angleOfViewCalc": 59,
+    "apertureBladeCount": 9,
+    "compatibleMounts": [
+      "Sony E",
+      "Fujifilm X"
+    ],
+    "lensMaterial": "Metal",
+    "imageUrl": "/lenses/7artisans-af-25mm-f18-xf.webp",
+    "filterMm": 52,
+    "lensConfiguration": {
+      "groups": 5,
+      "elements": 8
+    },
+    "fieldNotes": {},
+    "officialLinks": {
+      "cn": "https://www.7artisans.com/prod_view.aspx?nid=3&typeid=126&id=517",
+      "global": "https://en.7artisans.com/prod_view.aspx?nid=3&typeid=118&id=515"
+    }
+  },
+  {
+    "id": "7artisans-af-27mm-f28-xf",
+    "brand": "7artisans",
+    "model": "AF 27mm F2.8",
+    "focalLengthMin": 27,
+    "focalLengthMax": 27,
+    "maxAperture": 2.8,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "powerZoom": false,
+    "focusMotor": "STM",
+    "weightG": 144,
+    "diameterMm": 61,
+    "length": {
+      "mm": 42
+    },
+    "minFocusDistance": {
+      "cm": 30
+    },
+    "angleOfView": 55,
+    "angleOfViewCalc": 55.3,
+    "apertureBladeCount": 6,
+    "lensMaterial": "Metal",
+    "imageUrl": "/lenses/7artisans-af-27mm-f28-xf.webp",
+    "filterMm": 39,
+    "lensConfiguration": {
+      "groups": 5,
+      "elements": 6
+    },
+    "fieldNotes": {},
+    "officialLinks": {
+      "cn": "https://www.7artisans.com/prod_view.aspx?nid=3&typeid=126&id=482",
+      "global": "https://en.7artisans.com/prod_view.aspx?nid=3&typeid=118&id=465"
+    }
+  },
+  {
+    "id": "7artisans-af-35mm-f14-xf",
+    "brand": "7artisans",
+    "model": "AF 35mm F1.4",
+    "focalLengthMin": 35,
+    "focalLengthMax": 35,
+    "maxAperture": 1.4,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "powerZoom": false,
+    "weightG": 184,
+    "diameterMm": 68,
+    "length": {
+      "mm": 49
+    },
+    "minFocusDistance": {
+      "cm": 35
+    },
+    "angleOfView": 42.5,
+    "angleOfViewCalc": 44,
+    "apertureBladeCount": 7,
+    "lensMaterial": "Metal",
+    "imageUrl": "/lenses/7artisans-af-35mm-f14-xf.webp",
+    "filterMm": 62,
+    "lensConfiguration": {
+      "groups": 5,
+      "elements": 8,
+      "ed": 1,
+      "sourceText": "5组8片"
+    },
+    "fieldNotes": {},
+    "officialLinks": {
+      "cn": "https://www.7artisans.com/prod_view.aspx?nid=3&typeid=126&id=485",
+      "global": "https://en.7artisans.com/prod_view.aspx?nid=3&typeid=118&id=469"
+    }
+  },
+  {
+    "id": "7artisans-af-35mm-f18-xf",
+    "brand": "7artisans",
+    "model": "AF 35mm F1.8",
+    "focalLengthMin": 35,
+    "focalLengthMax": 35,
+    "maxAperture": 1.8,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "powerZoom": false,
+    "focusMotor": "STM",
+    "weightG": 99,
+    "diameterMm": 67,
+    "length": {
+      "mm": 31.3
+    },
+    "minFocusDistance": {
+      "cm": 35
+    },
+    "angleOfView": 44,
+    "angleOfViewCalc": 44,
+    "apertureBladeCount": 9,
+    "compatibleMounts": [
+      "Sony E",
+      "Fujifilm X"
+    ],
+    "lensMaterial": "Metal",
+    "imageUrl": "/lenses/7artisans-af-35mm-f18-xf.webp",
+    "filterMm": 46,
+    "lensConfiguration": {
+      "groups": 5,
+      "elements": 7
+    },
+    "fieldNotes": {},
+    "officialLinks": {
+      "cn": "https://www.7artisans.com/prod_view.aspx?nid=3&typeid=126&id=518",
+      "global": "https://en.7artisans.com/prod_view.aspx?nid=3&typeid=118&id=516"
+    }
+  },
+  {
+    "id": "7artisans-af-50mm-f18-xf",
+    "brand": "7artisans",
+    "model": "AF 50mm F1.8",
+    "focalLengthMin": 50,
+    "focalLengthMax": 50,
+    "maxAperture": 1.8,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "powerZoom": false,
+    "focusMotor": "STM",
+    "weightG": 73,
+    "diameterMm": 67,
+    "length": {
+      "mm": 37
+    },
+    "minFocusDistance": {
+      "cm": 55
+    },
+    "angleOfView": 31.4,
+    "angleOfViewCalc": 31.6,
+    "apertureBladeCount": 5,
+    "compatibleMounts": [
+      "Sony E",
+      "Fujifilm X"
+    ],
+    "lensMaterial": "Metal",
+    "imageUrl": "/lenses/7artisans-af-50mm-f18-xf.webp",
+    "filterMm": 46,
+    "lensConfiguration": {
+      "groups": 5,
+      "elements": 6
+    },
+    "fieldNotes": {},
+    "officialLinks": {
+      "cn": "https://www.7artisans.com/prod_view.aspx?nid=3&typeid=126&id=519",
+      "global": "https://en.7artisans.com/prod_view.aspx?nid=3&typeid=118&id=517"
+    }
+  },
+  {
+    "id": "7artisans-4mm-f28-xf",
+    "brand": "7artisans",
+    "model": "MF 4mm F2.8",
+    "focalLengthMin": 4,
+    "focalLengthMax": 4,
+    "maxAperture": 2.8,
+    "minAperture": 16,
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "powerZoom": false,
+    "weightG": 201,
+    "diameterMm": 60,
+    "length": {
+      "mm": 54
+    },
+    "angleOfView": 225,
+    "angleOfViewCalc": 148.4,
+    "apertureBladeCount": 7,
+    "compatibleMounts": [
+      "Sony E",
+      "Fujifilm X",
+      "Micro Four Thirds",
+      "Canon EF-M"
+    ],
+    "lensMaterial": "Metal",
+    "imageUrl": "/lenses/7artisans-4mm-f28-xf.webp",
+    "filterMm": "N/A",
+    "lensConfiguration": {
+      "groups": 8,
+      "elements": 10
+    },
+    "fieldNotes": {
+      "filterMm": "225° circular fisheye design; no front filter thread."
+    },
+    "officialLinks": {
+      "cn": "https://www.7artisans.com/prod_view.aspx?nid=3&typeid=104&id=438",
+      "global": "https://en.7artisans.com/prod_view.aspx?nid=3&typeid=104&id=438"
+    }
+  },
+  {
+    "id": "7artisans-6mm-f2-xf",
+    "brand": "7artisans",
+    "model": "MF 6mm F2.0",
+    "focalLengthMin": 6,
+    "focalLengthMax": 6,
+    "maxAperture": 2,
+    "minAperture": 16,
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "powerZoom": false,
+    "weightG": 418,
+    "diameterMm": 69,
+    "length": {
+      "mm": 76
+    },
+    "angleOfView": 220,
+    "angleOfViewCalc": 134,
+    "apertureBladeCount": 9,
+    "compatibleMounts": [
+      "Sony E",
+      "Fujifilm X",
+      "Canon RF",
+      "Micro Four Thirds",
+      "Nikon Z"
+    ],
+    "lensMaterial": "Metal",
+    "imageUrl": "/lenses/7artisans-6mm-f2-xf.webp",
+    "filterMm": "N/A",
+    "lensConfiguration": {
+      "groups": 8,
+      "elements": 10
+    },
+    "fieldNotes": {
+      "filterMm": "220° circular fisheye design; no front filter thread."
+    },
+    "officialLinks": {
+      "cn": "https://www.7artisans.com/prod_view.aspx?nid=3&typeid=104&id=511",
+      "global": "https://en.7artisans.com/prod_view.aspx?nid=3&typeid=104&id=508"
+    }
+  },
+  {
+    "id": "7artisans-10mm-f35-xf",
+    "brand": "7artisans",
+    "model": "MF 10mm F3.5",
+    "focalLengthMin": 10,
+    "focalLengthMax": 10,
+    "maxAperture": 3.5,
+    "minAperture": 22,
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "powerZoom": false,
+    "weightG": 125,
+    "diameterMm": 59,
+    "length": {
+      "mm": 34
+    },
+    "minFocusDistance": {
+      "cm": 20
+    },
+    "angleOfView": 108,
+    "angleOfViewCalc": 109.5,
+    "apertureBladeCount": 5,
+    "compatibleMounts": [
+      "Sony E",
+      "Fujifilm X",
+      "Nikon Z",
+      "Micro Four Thirds"
+    ],
+    "lensMaterial": "Metal",
+    "imageUrl": "/lenses/7artisans-10mm-f35-xf.webp",
+    "filterMm": 37,
+    "lensConfiguration": {
+      "groups": 7,
+      "elements": 9
+    },
+    "fieldNotes": {},
+    "officialLinks": {
+      "cn": "https://www.7artisans.com/prod_view.aspx?nid=3&typeid=104&id=497",
+      "global": "https://en.7artisans.com/prod_view.aspx?nid=3&typeid=104&id=478"
+    }
+  },
+  {
+    "id": "7artisans-12mm-f28-xf",
+    "brand": "7artisans",
+    "model": "MF 12mm F2.8 II",
+    "generation": 2,
+    "focalLengthMin": 12,
+    "focalLengthMax": 12,
+    "maxAperture": 2.8,
+    "minAperture": 16,
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "powerZoom": false,
+    "weightG": 301,
+    "diameterMm": 70,
+    "length": {
+      "mm": 66
+    },
+    "minFocusDistance": {
+      "cm": 15
+    },
+    "angleOfView": 100,
+    "angleOfViewCalc": 99.4,
+    "apertureBladeCount": 5,
+    "compatibleMounts": [
+      "Sony E",
+      "Fujifilm X",
+      "Nikon Z",
+      "Micro Four Thirds",
+      "Canon EF-M",
+      "Canon RF"
+    ],
+    "lensMaterial": "Metal",
+    "imageUrl": "/lenses/7artisans-12mm-f28-xf.webp",
+    "filterMm": 67,
+    "lensConfiguration": {
+      "groups": 10,
+      "elements": 12
+    },
+    "fieldNotes": {},
+    "officialLinks": {
+      "cn": "https://www.7artisans.com/prod_view.aspx?nid=3&typeid=104&id=400",
+      "global": "https://en.7artisans.com/prod_view.aspx?nid=3&typeid=104&id=443"
+    }
+  },
+  {
+    "id": "7artisans-18mm-f63-xf",
+    "brand": "7artisans",
+    "model": "MF 18mm F6.3",
+    "focalLengthMin": 18,
+    "focalLengthMax": 18,
+    "maxAperture": 6.3,
+    "minAperture": 6.3,
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "powerZoom": false,
+    "weightG": 58,
+    "diameterMm": 56,
+    "length": {
+      "mm": 15
+    },
+    "minFocusDistance": {
+      "cm": 30
+    },
+    "angleOfView": 74,
+    "angleOfViewCalc": 76.3,
+    "compatibleMounts": [
+      "Sony E",
+      "Fujifilm X",
+      "Canon EF-M",
+      "Micro Four Thirds"
+    ],
+    "lensMaterial": "Metal",
+    "imageUrl": "/lenses/7artisans-18mm-f63-xf.webp",
+    "filterMm": "N/A",
+    "lensConfiguration": {
+      "groups": 5,
+      "elements": 6,
+      "sourceText": "5组6片"
+    },
+    "fieldNotes": {
+      "filterMm": "Fixed-aperture pancake design; no filter thread."
+    },
+    "officialLinks": {
+      "cn": "https://www.7artisans.com/prod_view.aspx?nid=3&typeid=104&id=401",
+      "global": "https://en.7artisans.com/prod_view.aspx?nid=3&typeid=104&id=401"
+    }
+  },
+  {
+    "id": "7artisans-25mm-f18-xf",
+    "brand": "7artisans",
+    "model": "MF 25mm F1.8",
+    "focalLengthMin": 25,
+    "focalLengthMax": 25,
+    "maxAperture": 1.8,
+    "minAperture": 16,
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "powerZoom": false,
+    "weightG": 143,
+    "diameterMm": 60,
+    "length": {
+      "mm": 37.8
+    },
+    "minFocusDistance": {
+      "cm": 18
+    },
+    "angleOfView": 68,
+    "angleOfViewCalc": 59,
+    "apertureBladeCount": 12,
+    "compatibleMounts": [
+      "Sony E",
+      "Fujifilm X",
+      "Canon EF-M",
+      "Micro Four Thirds"
+    ],
+    "lensMaterial": "Metal",
+    "imageUrl": "/lenses/7artisans-25mm-f18-xf.webp",
+    "filterMm": 46,
+    "lensConfiguration": {
+      "groups": 5,
+      "elements": 7
+    },
+    "fieldNotes": {},
+    "officialLinks": {
+      "cn": "https://www.7artisans.com/prod_view.aspx?nid=3&typeid=104&id=402",
+      "global": "https://en.7artisans.com/prod_view.aspx?nid=3&typeid=104&id=402"
+    }
+  },
+  {
+    "id": "7artisans-35mm-f12-xf",
+    "brand": "7artisans",
+    "model": "MF 35mm F1.2 II",
+    "generation": 2,
+    "focalLengthMin": 35,
+    "focalLengthMax": 35,
+    "maxAperture": 1.2,
+    "minAperture": 22,
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "powerZoom": false,
+    "weightG": 218,
+    "diameterMm": 62,
+    "length": {
+      "mm": 44
+    },
+    "minFocusDistance": {
+      "cm": 28
+    },
+    "angleOfView": 43,
+    "angleOfViewCalc": 44,
+    "apertureBladeCount": 10,
+    "compatibleMounts": [
+      "Sony E",
+      "Fujifilm X",
+      "Micro Four Thirds",
+      "Nikon Z",
+      "Canon EF-M"
+    ],
+    "lensMaterial": "Metal",
+    "imageUrl": "/lenses/7artisans-35mm-f12-xf.webp",
+    "filterMm": 46,
+    "lensConfiguration": {
+      "groups": 5,
+      "elements": 6
+    },
+    "fieldNotes": {},
+    "officialLinks": {
+      "cn": "https://www.7artisans.com/prod_view.aspx?nid=3&typeid=104&id=403",
+      "global": "https://en.7artisans.com/prod_view.aspx?nid=3&typeid=104&id=403"
+    }
+  },
+  {
+    "id": "7artisans-35mm-f14-xf",
+    "brand": "7artisans",
+    "model": "MF 35mm F1.4",
+    "focalLengthMin": 35,
+    "focalLengthMax": 35,
+    "maxAperture": 1.4,
+    "minAperture": 16,
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "powerZoom": false,
+    "weightG": 228,
+    "diameterMm": 60,
+    "length": {
+      "mm": 42.2
+    },
+    "minFocusDistance": {
+      "cm": 37
+    },
+    "angleOfView": 43,
+    "angleOfViewCalc": 44,
+    "apertureBladeCount": 9,
+    "compatibleMounts": [
+      "Sony E",
+      "Fujifilm X",
+      "Micro Four Thirds",
+      "Canon EF-M",
+      "Canon RF",
+      "Nikon Z"
+    ],
+    "lensMaterial": "Metal",
+    "imageUrl": "/lenses/7artisans-35mm-f14-xf.webp",
+    "filterMm": 49,
+    "lensConfiguration": {
+      "groups": 5,
+      "elements": 8
+    },
+    "fieldNotes": {},
+    "officialLinks": {
+      "cn": "https://www.7artisans.com/prod_view.aspx?nid=3&typeid=104&id=404",
+      "global": "https://en.7artisans.com/prod_view.aspx?nid=3&typeid=104&id=404"
+    }
+  },
+  {
+    "id": "7artisans-50mm-f14-ts-xf",
+    "brand": "7artisans",
+    "model": "MF 50mm F1.4 Tilt",
+    "focalLengthMin": 50,
+    "focalLengthMax": 50,
+    "maxAperture": 1.4,
+    "minAperture": 16,
+    "specialtyTags": [
+      "tilt"
+    ],
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "powerZoom": false,
+    "weightG": 364,
+    "diameterMm": 75,
+    "length": {
+      "mm": 73
+    },
+    "minFocusDistance": {
+      "cm": 50
+    },
+    "angleOfView": 46,
+    "angleOfViewCalc": 31.6,
+    "apertureBladeCount": 12,
+    "compatibleMounts": [
+      "Sony E",
+      "Fujifilm X",
+      "Micro Four Thirds"
+    ],
+    "lensMaterial": "Metal",
+    "imageUrl": "/lenses/7artisans-50mm-f14-ts-xf.webp",
+    "filterMm": 46,
+    "lensConfiguration": {
+      "groups": 6,
+      "elements": 7
+    },
+    "fieldNotes": {},
+    "officialLinks": {
+      "cn": "https://www.7artisans.com/prod_view.aspx?nid=3&typeid=104&id=496",
+      "global": "https://en.7artisans.com/prod_view.aspx?nid=3&typeid=104&id=496"
+    }
+  },
+  {
+    "id": "7artisans-50mm-f18-xf",
+    "brand": "7artisans",
+    "model": "MF 50mm F1.8",
+    "focalLengthMin": 50,
+    "focalLengthMax": 50,
+    "maxAperture": 1.8,
+    "minAperture": 16,
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "powerZoom": false,
+    "weightG": 168,
+    "diameterMm": 55,
+    "length": {
+      "mm": 40
+    },
+    "minFocusDistance": {
+      "cm": 50
+    },
+    "angleOfView": 32,
+    "angleOfViewCalc": 31.6,
+    "apertureBladeCount": 12,
+    "compatibleMounts": [
+      "Sony E",
+      "Fujifilm X",
+      "Canon EF-M",
+      "Micro Four Thirds"
+    ],
+    "lensMaterial": "Metal",
+    "imageUrl": "/lenses/7artisans-50mm-f18-xf.webp",
+    "filterMm": 52,
+    "lensConfiguration": {
+      "groups": 5,
+      "elements": 6
+    },
+    "fieldNotes": {},
+    "officialLinks": {
+      "cn": "https://www.7artisans.com/prod_view.aspx?nid=3&typeid=104&id=405",
+      "global": "https://en.7artisans.com/prod_view.aspx?nid=3&typeid=104&id=405"
+    }
+  },
+  {
+    "id": "7artisans-55mm-f14-xf",
+    "brand": "7artisans",
+    "model": "MF 55mm F1.4",
+    "focalLengthMin": 55,
+    "focalLengthMax": 55,
+    "maxAperture": 1.4,
+    "minAperture": 16,
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "powerZoom": false,
+    "weightG": 272,
+    "diameterMm": 56,
+    "length": {
+      "mm": 53.6
+    },
+    "angleOfViewCalc": 28.9,
+    "apertureBladeCount": 14,
+    "compatibleMounts": [
+      "Sony E",
+      "Fujifilm X",
+      "Canon EF-M",
+      "Micro Four Thirds"
+    ],
+    "imageUrl": "/lenses/7artisans-55mm-f14-xf.webp",
+    "filterMm": 49,
+    "lensConfiguration": {
+      "groups": 5,
+      "elements": 6
+    },
+    "fieldNotes": {},
+    "officialLinks": {
+      "cn": "https://www.7artisans.com/prod_view.aspx?nid=3&typeid=104&id=406",
+      "global": "https://en.7artisans.com/prod_view.aspx?nid=3&typeid=104&id=406"
+    }
+  },
+  {
+    "id": "7artisans-60mm-f28-xf",
+    "brand": "7artisans",
+    "model": "MF 60mm F2.8 Macro",
+    "focalLengthMin": 60,
+    "focalLengthMax": 60,
+    "maxAperture": 2.8,
+    "minAperture": 16,
+    "specialtyTags": [
+      "macro"
+    ],
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "powerZoom": false,
+    "weightG": 339,
+    "diameterMm": 60,
+    "length": {
+      "mm": 81
+    },
+    "minFocusDistance": {
+      "cm": 26
+    },
+    "maxMagnification": {
+      "value": 1
+    },
+    "angleOfView": 25,
+    "angleOfViewCalc": 26.5,
+    "apertureBladeCount": 9,
+    "compatibleMounts": [
+      "Sony E",
+      "Fujifilm X",
+      "Micro Four Thirds",
+      "Canon EF-M"
+    ],
+    "lensMaterial": "Metal",
+    "imageUrl": "/lenses/7artisans-60mm-f28-xf.webp",
+    "filterMm": 39,
+    "lensConfiguration": {
+      "groups": 7,
+      "elements": 8
+    },
+    "fieldNotes": {},
+    "officialLinks": {
+      "cn": "https://www.7artisans.com/prod_view.aspx?nid=3&typeid=104&id=408",
+      "global": "https://en.7artisans.com/prod_view.aspx?nid=3&typeid=104&id=408"
+    }
+  },
+  {
+    "id": "brightinstar-af-50mm-f14-xf",
+    "brand": "brightinstar",
+    "model": "AF 50mm F1.4",
+    "focalLengthMin": 50,
+    "focalLengthMax": 50,
+    "maxAperture": 1.4,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": false,
+    "apertureRing": false,
+    "powerZoom": false,
+    "weightG": 450,
+    "diameterMm": 72,
+    "length": {
+      "mm": 79
+    },
+    "minFocusDistance": {
+      "cm": 50
+    },
+    "angleOfView": 32,
+    "angleOfViewCalc": 31.6,
+    "apertureBladeCount": 9,
+    "compatibleMounts": [
+      "Sony E",
+      "Fujifilm X"
+    ],
+    "imageUrl": "/lenses/brightinstar-af-50mm-f14-xf.webp",
+    "filterMm": 58,
+    "lensConfiguration": {
+      "groups": 8,
+      "elements": 12,
+      "ed": 2,
+      "highRefractive": 2
+    },
+    "fieldNotes": {},
+    "officialLinks": {
+      "cn": "https://brightinstar.com.cn/products/af-50mm-f1-4-%E5%8D%8A%E7%94%BB%E5%B9%85",
+      "global": "https://brightinstar.com/products/af50mm-f1-4-aps-c-autofocus-lens-large-aperture-portrait-fixed-focus-lens-suitable-fit-for-fuji-x-mount"
+    }
+  },
+  {
+    "id": "brightinstar-mf-75mm-f28-xf",
+    "brand": "brightinstar",
+    "model": "MF 7.5mm F2.8 III",
+    "generation": 3,
+    "focalLengthMin": 7.5,
+    "focalLengthMax": 7.5,
+    "maxAperture": 2.8,
+    "minAperture": 16,
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "powerZoom": false,
+    "weightG": 260,
+    "diameterMm": 62,
+    "length": {
+      "mm": 58
+    },
+    "minFocusDistance": {
+      "cm": 15
+    },
+    "angleOfView": 190,
+    "angleOfViewCalc": 124.1,
+    "apertureBladeCount": 5,
+    "compatibleMounts": [
+      "Sony E",
+      "Canon RF",
+      "Canon EF-M",
+      "Fujifilm X",
+      "Nikon Z",
+      "Micro Four Thirds"
+    ],
+    "imageUrl": "/lenses/brightinstar-mf-75mm-f28-xf.webp",
+    "filterMm": "N/A",
+    "lensConfiguration": {
+      "groups": 9,
+      "elements": 11,
+      "ed": 2,
+      "highRefractive": 3
+    },
+    "fieldNotes": {
+      "filterMm": "Rear 27mm filter slot (proprietary); no front filter thread."
+    },
+    "officialLinks": {
+      "cn": "https://brightinstar.com.cn/collections/%E8%B6%85%E5%B9%BF%E8%A7%92%E9%95%9C%E5%A4%B4/products/mf-7-5mm-f2-8-%E2%85%B2-%E5%8D%8A%E7%94%BB%E5%B9%85",
+      "global": "https://brightinstar.com/products/7-5mm-f2-8-aps-c-fisheye-manual-focus-lens-with-nd-filter-for-fuji-x-mount"
+    }
+  },
+  {
+    "id": "brightinstar-mf-10mm-f56-xf",
+    "brand": "brightinstar",
+    "model": "MF 10mm F5.6",
+    "focalLengthMin": 10,
+    "focalLengthMax": 10,
+    "maxAperture": 5.6,
+    "minAperture": 5.6,
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": false,
+    "powerZoom": false,
+    "weightG": 100,
+    "diameterMm": 53,
+    "length": {
+      "mm": 19
+    },
+    "minFocusDistance": {
+      "cm": 20
+    },
+    "angleOfView": 175,
+    "angleOfViewCalc": 109.5,
+    "compatibleMounts": [
+      "Sony E",
+      "Fujifilm X",
+      "Micro Four Thirds",
+      "Canon RF",
+      "Nikon Z"
+    ],
+    "imageUrl": "/lenses/brightinstar-mf-10mm-f56-xf.webp",
+    "filterMm": "N/A",
+    "lensConfiguration": {
+      "groups": 5,
+      "elements": 6
+    },
+    "fieldNotes": {
+      "filterMm": "No filter can be installed on this lens. Official spec states: \"Filter Size: Do not install\"."
+    },
+    "officialLinks": {
+      "cn": "https://brightinstar.com.cn/products/mf-10mm-f5-6-%E5%8D%8A%E7%94%BB%E5%B9%85",
+      "global": "https://brightinstar.com/products/10mm-f5-6-aps-c-fisheye-lens-wide-angle-lens-pancake-lens-manual-fixed-focus-lens-suitable-for-fuji-x-mount"
+    }
+  },
+  {
+    "id": "brightinstar-mf-10mm-f56-pro-xf",
+    "brand": "brightinstar",
+    "model": "MF 10mm F5.6 PRO",
+    "focalLengthMin": 10,
+    "focalLengthMax": 10,
+    "maxAperture": 5.6,
+    "minAperture": 22,
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": false,
+    "powerZoom": false,
+    "weightG": 100,
+    "diameterMm": 53,
+    "length": {
+      "mm": 20
+    },
+    "minFocusDistance": {
+      "cm": 20
+    },
+    "angleOfView": 175,
+    "angleOfViewCalc": 109.5,
+    "apertureBladeCount": 5,
+    "compatibleMounts": [
+      "Sony E",
+      "Nikon Z",
+      "Fujifilm X",
+      "Micro Four Thirds",
+      "Canon RF"
+    ],
+    "imageUrl": "/lenses/brightinstar-mf-10mm-f56-pro-xf.webp",
+    "filterMm": "N/A",
+    "lensConfiguration": {
+      "groups": 5,
+      "elements": 6
+    },
+    "fieldNotes": {
+      "filterMm": "175° fisheye pancake design; no front filter thread."
+    },
+    "officialLinks": {
+      "cn": "https://brightinstar.com.cn/products/10mm-f5-6-pro",
+      "global": "https://brightinstar.com/products/10mm-f5-6-pro-aps-c-fisheye-lens-wide-angle-lens-for-fujifilm-xf-mount"
+    }
+  },
+  {
+    "id": "brightinstar-mf-12mm-f20-xf",
+    "brand": "brightinstar",
+    "model": "MF 12mm F2.0 III",
+    "generation": 3,
+    "focalLengthMin": 12,
+    "focalLengthMax": 12,
+    "maxAperture": 2,
+    "minAperture": 22,
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "powerZoom": false,
+    "weightG": 268,
+    "diameterMm": 69.5,
+    "length": {
+      "mm": 70.6
+    },
+    "minFocusDistance": {
+      "cm": 18
+    },
+    "angleOfView": 97,
+    "angleOfViewCalc": 99.4,
+    "apertureBladeCount": 10,
+    "imageUrl": "/lenses/brightinstar-mf-12mm-f20-xf.webp",
+    "filterMm": 62,
+    "lensConfiguration": {
+      "groups": 9,
+      "elements": 12,
+      "aspherical": 2,
+      "ed": 2
+    },
+    "fieldNotes": {},
+    "officialLinks": {
+      "cn": "https://brightinstar.com.cn/collections/%E8%B6%85%E5%B9%BF%E8%A7%92%E9%95%9C%E5%A4%B4/products/mf-12mm-f2-0-%E2%85%B2-%E5%8D%8A%E7%94%BB%E5%B9%85",
+      "global": "https://brightinstar.com/products/12mm-f2-0-iii-aps-c-ultra-wide-angle-big-aperture-cameras-lens-for-fuji-x-mount"
+    }
+  },
+  {
+    "id": "brightinstar-mf-25mm-f18-xf",
+    "brand": "brightinstar",
+    "model": "MF 25mm F1.8",
+    "focalLengthMin": 25,
+    "focalLengthMax": 25,
+    "maxAperture": 1.8,
+    "minAperture": 16,
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "powerZoom": false,
+    "weightG": 192,
+    "diameterMm": 57,
+    "length": {
+      "mm": 33
+    },
+    "minFocusDistance": {
+      "cm": 20
+    },
+    "angleOfView": 57.4,
+    "angleOfViewCalc": 59,
+    "apertureBladeCount": 10,
+    "compatibleMounts": [
+      "Sony E",
+      "Canon EF-M",
+      "Fujifilm X",
+      "Micro Four Thirds"
+    ],
+    "imageUrl": "/lenses/brightinstar-mf-25mm-f18-xf.webp",
+    "filterMm": 43,
+    "lensConfiguration": {
+      "groups": 5,
+      "elements": 7
+    },
+    "fieldNotes": {},
+    "officialLinks": {
+      "cn": "https://brightinstar.com.cn/products/mf-25mm-f1-8-%E5%8D%8A%E7%94%BB%E5%B9%85"
+    }
+  },
+  {
+    "id": "brightinstar-mf-35mm-f095-xf",
+    "brand": "brightinstar",
+    "model": "MF 35mm F0.95",
+    "focalLengthMin": 35,
+    "focalLengthMax": 35,
+    "maxAperture": 0.95,
+    "minAperture": 16,
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "powerZoom": false,
+    "weightG": 370,
+    "diameterMm": 62,
+    "length": {
+      "mm": 62
+    },
+    "minFocusDistance": {
+      "cm": 37
+    },
+    "angleOfView": 44,
+    "angleOfViewCalc": 44,
+    "apertureBladeCount": 12,
+    "compatibleMounts": [
+      "Sony E",
+      "Nikon Z",
+      "Canon EF-M",
+      "Canon RF",
+      "Fujifilm X",
+      "Micro Four Thirds"
+    ],
+    "imageUrl": "/lenses/brightinstar-mf-35mm-f095-xf.webp",
+    "filterMm": 52,
+    "lensConfiguration": {
+      "groups": 8,
+      "elements": 11,
+      "ed": 2
+    },
+    "fieldNotes": {},
+    "officialLinks": {
+      "cn": "https://brightinstar.com.cn/products/mf-35mm-f0-95-%E5%8D%8A%E7%94%BB%E5%B9%85",
+      "global": "https://brightinstar.com/products/35mm-f0-95-aps-c-night-god-portrait-star-manual-fixed-focus-lens-suitable-for-fuji-x-mount"
+    }
+  },
+  {
+    "id": "brightinstar-mf-35mm-f12-xf",
+    "brand": "brightinstar",
+    "model": "MF 35mm F1.2",
+    "focalLengthMin": 35,
+    "focalLengthMax": 35,
+    "maxAperture": 1.2,
+    "minAperture": 22,
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "powerZoom": false,
+    "weightG": 212,
+    "diameterMm": 57,
+    "length": {
+      "mm": 38
+    },
+    "minFocusDistance": {
+      "cm": 32
+    },
+    "angleOfView": 43,
+    "angleOfViewCalc": 44,
+    "apertureBladeCount": 10,
+    "lensMaterial": "Metal",
+    "imageUrl": "/lenses/brightinstar-mf-35mm-f12-xf.webp",
+    "filterMm": 43,
+    "lensConfiguration": {
+      "groups": 5,
+      "elements": 6
+    },
+    "fieldNotes": {},
+    "officialLinks": {
+      "cn": "https://brightinstar.com.cn/collections/%E4%BA%BA%E6%96%87%E9%95%9C%E5%A4%B4/products/3512"
+    }
+  },
+  {
+    "id": "brightinstar-mf-35mm-f17-xf",
+    "brand": "brightinstar",
+    "model": "MF 35mm F1.7",
+    "focalLengthMin": 35,
+    "focalLengthMax": 35,
+    "maxAperture": 1.7,
+    "minAperture": 16,
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "powerZoom": false,
+    "weightG": 171,
+    "diameterMm": 57,
+    "length": {
+      "mm": 40
+    },
+    "minFocusDistance": {
+      "cm": 28
+    },
+    "angleOfView": 42,
+    "angleOfViewCalc": 44,
+    "apertureBladeCount": 10,
+    "lensMaterial": "Metal",
+    "imageUrl": "/lenses/brightinstar-mf-35mm-f17-xf.webp",
+    "filterMm": 43,
+    "lensConfiguration": {
+      "groups": 4,
+      "elements": 6
+    },
+    "fieldNotes": {},
+    "officialLinks": {
+      "cn": "https://brightinstar.com.cn/collections/%E4%BA%BA%E6%96%87%E9%95%9C%E5%A4%B4/products/mf-35mm-f1-7-%E5%8D%8A%E7%94%BB%E5%B9%85",
+      "global": "https://brightinstar.com/products/35mm-f1-7-aps-c-wide-angle-manual-focus-prime-lens-for-fuji-x-mount"
+    }
+  },
+  {
+    "id": "brightinstar-mf-50mm-f095-xf",
+    "brand": "brightinstar",
+    "model": "MF 50mm F0.95",
+    "focalLengthMin": 50,
+    "focalLengthMax": 50,
+    "maxAperture": 0.95,
+    "minAperture": 16,
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "powerZoom": false,
+    "weightG": 443,
+    "diameterMm": 68,
+    "length": {
+      "mm": 67
+    },
+    "minFocusDistance": {
+      "cm": 50
+    },
+    "angleOfView": 32,
+    "angleOfViewCalc": 31.6,
+    "apertureBladeCount": 13,
+    "compatibleMounts": [
+      "Sony E",
+      "Nikon Z",
+      "Canon EF-M",
+      "Canon RF",
+      "Fujifilm X",
+      "Micro Four Thirds"
+    ],
+    "imageUrl": "/lenses/brightinstar-mf-50mm-f095-xf.webp",
+    "filterMm": 62,
+    "lensConfiguration": {
+      "groups": 5,
+      "elements": 7,
+      "ed": 2,
+      "highRefractive": 4
+    },
+    "fieldNotes": {},
+    "officialLinks": {
+      "cn": "https://brightinstar.com.cn/products/mf-50mm-f0-95-%E2%85%B1-%E5%85%A8%E7%94%BB%E5%B9%85",
+      "global": "https://brightinstar.com/products/50mm-f0-95-aps-c-night-god-portrait-star-manual-fixed-focus-lens-suitable-for-fuji-x-mount"
+    }
+  },
+  {
+    "id": "brightinstar-mf-50mm-f14-xf",
+    "brand": "brightinstar",
+    "model": "MF 50mm F1.4 III",
+    "generation": 3,
+    "focalLengthMin": 50,
+    "focalLengthMax": 50,
+    "maxAperture": 1.4,
+    "minAperture": 16,
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "powerZoom": false,
+    "weightG": 395,
+    "diameterMm": 63,
+    "length": {
+      "mm": 64
+    },
+    "minFocusDistance": {
+      "cm": 42
+    },
+    "angleOfView": 29.5,
+    "angleOfViewCalc": 31.6,
+    "apertureBladeCount": 9,
+    "imageUrl": "/lenses/brightinstar-mf-50mm-f14-xf.webp",
+    "filterMm": 55,
+    "lensConfiguration": {
+      "groups": 5,
+      "elements": 6,
+      "ed": 1,
+      "highRefractive": 1
+    },
+    "fieldNotes": {},
+    "officialLinks": {
+      "cn": "https://brightinstar.com.cn/collections/%E6%A0%87%E5%87%86%E9%95%9C%E5%A4%B4/products/mf-50mm-f1-4-%E2%85%B2-%E5%8D%8A%E7%94%BB%E5%B9%85",
+      "global": "https://brightinstar.com/products/50mm-f1-4-iii-aps-c-manual-focus-portrait-lens-for-fujifilm-x"
+    }
+  },
+  {
+    "id": "brightinstar-mf-50mm-f18-xf",
+    "brand": "brightinstar",
+    "model": "MF 50mm F1.8",
+    "focalLengthMin": 50,
+    "focalLengthMax": 50,
+    "maxAperture": 1.8,
+    "minAperture": 16,
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "powerZoom": false,
+    "weightG": 227,
+    "diameterMm": 54,
+    "length": {
+      "mm": 40
+    },
+    "minFocusDistance": {
+      "cm": 38
+    },
+    "angleOfView": 32,
+    "angleOfViewCalc": 31.6,
+    "apertureBladeCount": 10,
+    "compatibleMounts": [
+      "Sony E",
+      "Nikon Z",
+      "Micro Four Thirds",
+      "Fujifilm X",
+      "Canon EF-M"
+    ],
+    "imageUrl": "/lenses/brightinstar-mf-50mm-f18-xf.webp",
+    "filterMm": 43,
+    "lensConfiguration": {
+      "groups": 4,
+      "elements": 6
+    },
+    "fieldNotes": {},
+    "officialLinks": {
+      "cn": "https://brightinstar.com.cn/collections/%E6%A0%87%E5%87%86%E9%95%9C%E5%A4%B4/products/mf-50mm-f1-8-%E5%8D%8A%E7%94%BB%E5%B9%85",
+      "global": "https://brightinstar.com/products/50mm-f1-8-aps-c-manual-focus-lens-fit-for-fuji-x-mount"
+    }
+  },
+  {
+    "id": "fujifilm-mkx-18-55mmt29-xf",
+    "brand": "fujifilm",
+    "series": "MKX",
+    "model": "MKX 18-55mmT2.9",
+    "focalLengthMin": 18,
+    "focalLengthMax": 55,
+    "maxAperture": 2.8,
+    "minAperture": 22,
+    "maxTStop": 2.9,
+    "minTStop": 2.9,
+    "specialtyTags": [
+      "cine"
+    ],
+    "af": true,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "powerZoom": false,
+    "internalFocusing": true,
+    "weightG": 1100,
+    "diameterMm": 87,
+    "length": {
+      "mm": 206.6
+    },
+    "minFocusDistance": {
+      "cm": 85,
+      "macroCm": 38,
+      "macroVariants": {
+        "wide": 38
+      }
+    },
+    "angleOfView": [
+      76.5,
+      29
+    ],
+    "angleOfViewCalc": [
+      76.3,
+      28.9
+    ],
+    "apertureBladeCount": 9,
+    "accessories": [
+      "Tripod collar foot",
+      "Support foot",
+      "Zoom lever",
+      "Lens cap FLCP-82",
+      "Lens rear cap RLCP-001",
+      "Lens hood",
+      "Wrapping cloth"
+    ],
+    "imageUrl": "/lenses/fujifilm-mkx-18-55mmt29-xf.webp",
+    "filterMm": 82,
+    "lensConfiguration": {
+      "groups": 17,
+      "elements": 22,
+      "ed": 2,
+      "superEd": 6,
+      "sourceText": "22 elements 17 groups (includes 2 extra low dispersion elements and 6 super extra low dispersion elements)"
+    },
+    "fieldNotes": {},
+    "officialLinks": {
+      "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/mkx18-55mmt29/",
+      "global": "https://www.fujifilm-x.com/global/products/lenses/mkx18-55mmt29/"
+    }
+  },
+  {
+    "id": "fujifilm-mkx-50-135mmt29-xf",
+    "brand": "fujifilm",
+    "series": "MKX",
+    "model": "MKX 50-135mmT2.9",
+    "focalLengthMin": 50,
+    "focalLengthMax": 135,
+    "maxAperture": 2.8,
+    "minAperture": 22,
+    "maxTStop": 2.9,
+    "minTStop": 2.9,
+    "specialtyTags": [
+      "cine"
+    ],
+    "af": true,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "powerZoom": false,
+    "internalFocusing": true,
+    "weightG": 1100,
+    "diameterMm": 87,
+    "length": {
+      "mm": 206.6
+    },
+    "minFocusDistance": {
+      "cm": 120,
+      "macroCm": 85,
+      "macroVariants": {
+        "wide": 85
+      }
+    },
+    "angleOfView": [
+      31.7,
+      12
+    ],
+    "angleOfViewCalc": [
+      31.6,
+      12
+    ],
+    "apertureBladeCount": 9,
+    "accessories": [
+      "Tripod collar foot",
+      "Support foot",
+      "Zoom lever",
+      "Lens cap FLCP-82",
+      "Lens rear cap RLCP-001",
+      "Lens hood",
+      "Wrapping cloth"
+    ],
+    "imageUrl": "/lenses/fujifilm-mkx-50-135mmt29-xf.webp",
+    "filterMm": 82,
+    "lensConfiguration": {
+      "groups": 17,
+      "elements": 22,
+      "ed": 2,
+      "superEd": 2,
+      "sourceText": "22 elements 17 groups (includes 2 extra low dispersion elements and 2 super extra low dispersion elements)"
+    },
+    "fieldNotes": {},
+    "officialLinks": {
+      "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/mkx50-135mmt29/",
+      "global": "https://www.fujifilm-x.com/global/products/lenses/mkx50-135mmt29/"
+    }
+  },
+  {
     "id": "fujifilm-xc-15-45mmf35-56-ois-pz-xf",
     "brand": "fujifilm",
     "series": "XC",
@@ -63,6 +1478,7 @@
       "ed": 2,
       "sourceText": "10 elements 9 groups (includes 3 aspherical, 2ED elements)"
     },
+    "fieldNotes": {},
     "officialLinks": {
       "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/xc15-45mmf35-56-ois-pz/",
       "global": "https://www.fujifilm-x.com/global/products/lenses/xc15-45mmf35-56-ois-pz/"
@@ -109,9 +1525,81 @@
       "aspherical": 2,
       "sourceText": "9 elements 6 groups (includes two aspherical elements)"
     },
+    "fieldNotes": {},
     "officialLinks": {
       "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/xc35mmf2/",
       "global": "https://www.fujifilm-x.com/global/products/lenses/xc35mmf2/"
+    }
+  },
+  {
+    "id": "fujifilm-xc-50-230mmf45-67-ois-ii-xf",
+    "brand": "fujifilm",
+    "series": "XC",
+    "model": "XC 50-230mm F4.5-6.7 OIS II",
+    "generation": 2,
+    "focalLengthMin": 50,
+    "focalLengthMax": 230,
+    "maxAperture": [
+      4.5,
+      6.7
+    ],
+    "minAperture": 22,
+    "af": true,
+    "ois": true,
+    "oisStops": 3.5,
+    "wr": false,
+    "apertureRing": false,
+    "powerZoom": false,
+    "focusMotor": "High-Precision Motor",
+    "internalFocusing": true,
+    "weightG": 375,
+    "diameterMm": 69.5,
+    "length": {
+      "mm": 111,
+      "variants": {
+        "wide": 111,
+        "tele": 177
+      }
+    },
+    "minFocusDistance": {
+      "cm": 110,
+      "macroCm": 110,
+      "variants": {
+        "wide": 110
+      }
+    },
+    "maxMagnification": {
+      "value": 0.2,
+      "variants": {
+        "tele": 0.2
+      }
+    },
+    "angleOfView": [
+      31.7,
+      7.1
+    ],
+    "angleOfViewCalc": [
+      31.6,
+      7
+    ],
+    "apertureBladeCount": 7,
+    "accessories": [
+      "Lens cap",
+      "Lens hood"
+    ],
+    "imageUrl": "/lenses/fujifilm-xc-50-230mmf45-67-ois-ii-xf.webp",
+    "filterMm": 58,
+    "lensConfiguration": {
+      "groups": 10,
+      "elements": 13,
+      "aspherical": 1,
+      "ed": 1,
+      "sourceText": "13 elements in 10 groups (includes 1 aspherical and 1 extra low dispersion elements)"
+    },
+    "fieldNotes": {},
+    "officialLinks": {
+      "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/xc50-230mmf45-67-ois-ii/",
+      "global": "https://www.fujifilm-x.com/global/products/lenses/xc50-230mmf45-67-ois-ii/"
     }
   },
   {
@@ -218,6 +1706,7 @@
       "ed": 2,
       "sourceText": "12 elements in 9 groups (includes 3 aspherical and 2 ED elements)"
     },
+    "fieldNotes": {},
     "officialLinks": {
       "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/xf8mmf35-r-wr/",
       "global": "https://www.fujifilm-x.com/global/products/lenses/xf8mmf35-r-wr/"
@@ -271,6 +1760,7 @@
       "ed": 4,
       "sourceText": "14 elements in 10 groups (includes 4 aspherical, 4 ED elements)"
     },
+    "fieldNotes": {},
     "officialLinks": {
       "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/xf10-24mmf4-r-ois-wr/",
       "global": "https://www.fujifilm-x.com/global/products/lenses/xf10-24mmf4-r-ois-wr/"
@@ -314,6 +1804,7 @@
       "ed": 3,
       "sourceText": "10 elements in 7 groups (includes 2 aspherical and 3 extra low dispersion elements)"
     },
+    "fieldNotes": {},
     "officialLinks": {
       "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/xf14mmf28-r/",
       "global": "https://www.fujifilm-x.com/global/products/lenses/xf14mmf28-r/"
@@ -372,6 +1863,7 @@
       "ed": 3,
       "sourceText": "11 elements in 9 groups (includes 3 aspherical and 3 ED elements)"
     },
+    "fieldNotes": {},
     "officialLinks": {
       "cn": "https://www.fujifilm-x.com/global/products/lenses/xf16-50mmf28-48-r-lm-wr/",
       "global": "https://www.fujifilm-x.com/global/products/lenses/xf16-50mmf28-48-r-lm-wr/"
@@ -433,6 +1925,7 @@
       "ed": 3,
       "sourceText": "17 elements 12 groups (includes 3 aspherical and 3 extra low dispersion elements)"
     },
+    "fieldNotes": {},
     "officialLinks": {
       "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/xf16-55mmf28-r-lm-wr/",
       "global": "https://www.fujifilm-x.com/global/products/lenses/xf16-55mmf28-r-lm-wr/"
@@ -495,6 +1988,7 @@
       "superEd": 1,
       "sourceText": "16 elements in 11 groups (includes 4 aspherical, 3 ED elements, 1 super ED element)"
     },
+    "fieldNotes": {},
     "officialLinks": {
       "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/xf16-55mmf28-r-lm-wr-ii/",
       "global": "https://www.fujifilm-x.com/global/products/lenses/xf16-55mmf28-r-lm-wr-ii/"
@@ -559,9 +2053,58 @@
       "ed": 1,
       "sourceText": "16 elements 12 groups (includes 3 aspherical elements and 1 ED aspherical element)"
     },
+    "fieldNotes": {},
     "officialLinks": {
       "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/xf16-80mmf4-r-ois-wr/",
       "global": "https://www.fujifilm-x.com/global/products/lenses/xf16-80mmf4-r-ois-wr/"
+    }
+  },
+  {
+    "id": "fujifilm-xf-16mmf14-r-wr-xf",
+    "brand": "fujifilm",
+    "series": "XF",
+    "model": "XF 16mm F1.4 R WR",
+    "focalLengthMin": 16,
+    "focalLengthMax": 16,
+    "maxAperture": 1.4,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": true,
+    "apertureRing": true,
+    "powerZoom": false,
+    "focusMotor": "DC Coreless Motor",
+    "internalFocusing": true,
+    "weightG": 375,
+    "diameterMm": 73.4,
+    "length": {
+      "mm": 73
+    },
+    "minFocusDistance": {
+      "cm": 15
+    },
+    "maxMagnification": {
+      "value": 0.21
+    },
+    "angleOfView": 83.2,
+    "angleOfViewCalc": 83,
+    "apertureBladeCount": 9,
+    "accessories": [
+      "Lens hood LH-XF16"
+    ],
+    "imageUrl": "/lenses/fujifilm-xf-16mmf14-r-wr-xf.webp",
+    "filterMm": 67,
+    "lensConfiguration": {
+      "groups": 11,
+      "elements": 13,
+      "aspherical": 2,
+      "ed": 2,
+      "sourceText": "13 elements 11 groups (includes 2 aspherical and 2 extra low dispersion elements)"
+    },
+    "fieldNotes": {},
+    "officialLinks": {
+      "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/xf16mmf14-r-wr/",
+      "global": "https://www.fujifilm-x.com/global/products/lenses/xf16mmf14-r-wr/"
     }
   },
   {
@@ -609,6 +2152,7 @@
       "aspherical": 2,
       "sourceText": "10 elements 8 groups (includes 2 aspherical elements)"
     },
+    "fieldNotes": {},
     "officialLinks": {
       "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/xf16mmf28-r-wr/",
       "global": "https://www.fujifilm-x.com/global/products/lenses/xf16mmf28-r-wr/"
@@ -674,6 +2218,7 @@
       "ed": 1,
       "sourceText": "10 groups 14 elements (including 3 aspherical lens elements and 1 ED lens element)"
     },
+    "fieldNotes": {},
     "officialLinks": {
       "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/xf18-55mmf28-4-r-lm-ois/",
       "global": "https://www.fujifilm-x.com/global/products/lenses/xf18-55mmf28-4-r-lm-ois/"
@@ -727,6 +2272,7 @@
       "ed": 3,
       "sourceText": "15 elements in 12 groups (includes 3 aspherical and 3 ED elements)"
     },
+    "fieldNotes": {},
     "officialLinks": {
       "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/xf18-120mmf4-lm-pz-wr/",
       "global": "https://www.fujifilm-x.com/global/products/lenses/xf18-120mmf4-lm-pz-wr/"
@@ -788,6 +2334,7 @@
       "ed": 2,
       "sourceText": "16 elements in 12 groups (4 aspherical elements and 2 anomalous dispersion lenses)"
     },
+    "fieldNotes": {},
     "officialLinks": {
       "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/xf18-135mmf35-56-r-lm-ois-wr/",
       "global": "https://www.fujifilm-x.com/global/products/lenses/xf18-135mmf35-56-r-lm-ois-wr/"
@@ -835,6 +2382,7 @@
       "ed": 1,
       "sourceText": "15 elements in 9 groups (includes 3 aspherical and 1 ED elements)"
     },
+    "fieldNotes": {},
     "officialLinks": {
       "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/xf18mmf14-r-lm-wr/",
       "global": "https://www.fujifilm-x.com/global/products/lenses/xf18mmf14-r-lm-wr/"
@@ -877,6 +2425,7 @@
       "aspherical": 2,
       "sourceText": "8 elements in 7 groups (includes 2 aspherical elements)"
     },
+    "fieldNotes": {},
     "officialLinks": {
       "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/xf18mmf2-r/",
       "global": "https://www.fujifilm-x.com/global/products/lenses/xf18mmf2-r/"
@@ -921,6 +2470,7 @@
       "ed": 3,
       "sourceText": "15 elements in 10 groups (includes 2 aspherical and 3 ED elements)"
     },
+    "fieldNotes": {},
     "officialLinks": {
       "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/xf23mmf14-r-lm-wr/",
       "global": "https://www.fujifilm-x.com/global/products/lenses/xf23mmf14-r-lm-wr/"
@@ -970,6 +2520,7 @@
       "aspherical": 2,
       "sourceText": "10 elements 6 groups (includes 2 aspherical elements)"
     },
+    "fieldNotes": {},
     "officialLinks": {
       "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/xf23mmf2-r-wr/",
       "global": "https://www.fujifilm-x.com/global/products/lenses/xf23mmf2-r-wr/"
@@ -1011,6 +2562,7 @@
       "aspherical": 1,
       "sourceText": "7 elements in 5 groups (includes 1 aspherical element)"
     },
+    "fieldNotes": {},
     "officialLinks": {
       "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/xf27mmf28-r-wr/",
       "global": "https://www.fujifilm-x.com/global/products/lenses/xf27mmf28-r-wr/"
@@ -1058,6 +2610,7 @@
       "ed": 2,
       "sourceText": "11 elements in 9 groups (includes 3 aspherical and 2 ED elements)"
     },
+    "fieldNotes": {},
     "officialLinks": {
       "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/xf30mmf28-r-lm-wr-macro/",
       "global": "https://www.fujifilm-x.com/global/products/lenses/xf30mmf28-r-lm-wr-macro/"
@@ -1102,6 +2655,7 @@
       "ed": 3,
       "sourceText": "15 elements in 10 groups (includes 2 aspherical and 3 ED elements)"
     },
+    "fieldNotes": {},
     "officialLinks": {
       "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/xf33mmf14-r-lm-wr/",
       "global": "https://www.fujifilm-x.com/global/products/lenses/xf33mmf14-r-lm-wr/"
@@ -1202,6 +2756,7 @@
       "aspherical": 2,
       "sourceText": "9 elements in 6 groups (includes two aspherical elements)"
     },
+    "fieldNotes": {},
     "officialLinks": {
       "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/xf35mmf2-r-wr/",
       "global": "https://www.fujifilm-x.com/global/products/lenses/xf35mmf2-r-wr/"
@@ -1309,6 +2864,7 @@
       "ed": 2,
       "sourceText": "12 elements in 9 groups (includes 1 aspherical, 2 ED elements)"
     },
+    "fieldNotes": {},
     "officialLinks": {
       "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/xf50mmf1-r-wr/",
       "global": "https://www.fujifilm-x.com/global/products/lenses/xf50mmf1-r-wr/"
@@ -1359,6 +2915,7 @@
       "ed": 1,
       "sourceText": "9 elements 7 groups (includes 1 aspherical ED element)"
     },
+    "fieldNotes": {},
     "officialLinks": {
       "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/xf50mmf2-r-wr/",
       "global": "https://www.fujifilm-x.com/global/products/lenses/xf50mmf2-r-wr/"
@@ -1472,6 +3029,7 @@
       "ed": 1,
       "sourceText": "13 elements in 8 groups (includes 2 aspherical and 1 ED elements)"
     },
+    "fieldNotes": {},
     "officialLinks": {
       "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/xf56mmf12-r-wr/",
       "global": "https://www.fujifilm-x.com/global/products/lenses/xf56mmf12-r-wr/"
@@ -1581,6 +3139,7 @@
       "ed": 2,
       "sourceText": "17 elements in 12 groups (includes 1 aspherical and 2 ED elements)"
     },
+    "fieldNotes": {},
     "officialLinks": {
       "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/xf70-300mmf4-56-r-lm-ois-wr/",
       "global": "https://www.fujifilm-x.com/global/products/lenses/xf70-300mmf4-56-r-lm-ois-wr/"
@@ -1637,6 +3196,7 @@
       "superEd": 1,
       "sourceText": "16 elements 12 groups (includes 1 aspherical, 3 ED elements, 1 Super ED element)"
     },
+    "fieldNotes": {},
     "officialLinks": {
       "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/xf80mmf28-r-lm-ois-wr-macro/",
       "global": "https://www.fujifilm-x.com/global/products/lenses/xf80mmf28-r-lm-ois-wr-macro/"
@@ -1679,6 +3239,7 @@
       "ed": 3,
       "sourceText": "11 elements 8 groups (includes 3 extra low dispersion elements)"
     },
+    "fieldNotes": {},
     "officialLinks": {
       "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/xf90mmf2-r-lm-wr/",
       "global": "https://www.fujifilm-x.com/global/products/lenses/xf90mmf2-r-lm-wr/"
@@ -1739,9 +3300,76 @@
       "superEd": 1,
       "sourceText": "21 elements 14 groups (includes 5 extra low dispersion elements and 1 super extra low dispersion element)"
     },
+    "fieldNotes": {},
     "officialLinks": {
       "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/xf100-400mmf45-56-r-lm-ois-wr/",
       "global": "https://www.fujifilm-x.com/global/products/lenses/xf100-400mmf45-56-r-lm-ois-wr/"
+    }
+  },
+  {
+    "id": "fujifilm-xf-150-600mmf56-8-r-lm-ois-wr-xf",
+    "brand": "fujifilm",
+    "series": "XF",
+    "model": "XF 150-600mm F5.6-8 R LM OIS WR",
+    "focalLengthMin": 150,
+    "focalLengthMax": 600,
+    "maxAperture": [
+      5.6,
+      8
+    ],
+    "minAperture": 22,
+    "af": true,
+    "ois": true,
+    "oisStops": 5,
+    "wr": true,
+    "apertureRing": true,
+    "powerZoom": false,
+    "focusMotor": "LM",
+    "internalFocusing": true,
+    "weightG": 1605,
+    "diameterMm": 99,
+    "length": {
+      "mm": 314.5
+    },
+    "minFocusDistance": {
+      "cm": 240
+    },
+    "maxMagnification": {
+      "value": 0.24,
+      "variants": {
+        "tele": 0.24
+      }
+    },
+    "angleOfView": [
+      10.8,
+      2.7
+    ],
+    "angleOfViewCalc": [
+      10.8,
+      2.7
+    ],
+    "apertureBladeCount": 9,
+    "accessories": [
+      "Front lens cap FLCP-82",
+      "Rear lens cap RLCP-001",
+      "Lens hood",
+      "Lens pouch",
+      "Tripod collar foot",
+      "Shuolder strap"
+    ],
+    "imageUrl": "/lenses/fujifilm-xf-150-600mmf56-8-r-lm-ois-wr-xf.webp",
+    "filterMm": 82,
+    "lensConfiguration": {
+      "groups": 17,
+      "elements": 24,
+      "ed": 3,
+      "superEd": 4,
+      "sourceText": "24 elements in 17 groups (includes 3 ED and 4 super ED elements)"
+    },
+    "fieldNotes": {},
+    "officialLinks": {
+      "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/xf150-600mmf56-8-r-lm-ois-wr/",
+      "global": "https://www.fujifilm-x.com/global/products/lenses/xf150-600mmf56-8-r-lm-ois-wr/"
     }
   },
   {
@@ -1791,6 +3419,7 @@
       "superEd": 1,
       "sourceText": "19 elements 14 groups (includes 2 ED elements, 1 Super ED element)"
     },
+    "fieldNotes": {},
     "officialLinks": {
       "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/xf200mmf2-r-lm-ois-wr/",
       "global": "https://www.fujifilm-x.com/global/products/lenses/xf200mmf2-r-lm-ois-wr/"
@@ -1843,9 +3472,665 @@
       "superEd": 2,
       "sourceText": "21 elements in 14 groups (includes 2 super ED and 5 ED elements)"
     },
+    "fieldNotes": {},
     "officialLinks": {
       "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/xf500mmf56-r-lm-ois-wr/",
       "global": "https://www.fujifilm-x.com/global/products/lenses/xf500mmf56-r-lm-ois-wr/"
+    }
+  },
+  {
+    "id": "sgimage-sg-image-af-25mm-f18-aps-c-mirrorless-lens-xf",
+    "brand": "sgimage",
+    "model": "AF 25mm F1.8",
+    "focalLengthMin": 25,
+    "focalLengthMax": 25,
+    "maxAperture": 1.8,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "powerZoom": false,
+    "weightG": 186,
+    "diameterMm": 55,
+    "length": {
+      "mm": 30.5
+    },
+    "minFocusDistance": {
+      "cm": 25
+    },
+    "angleOfView": 58,
+    "angleOfViewCalc": 59,
+    "apertureBladeCount": 7,
+    "compatibleMounts": [
+      "Sony E",
+      "Micro Four Thirds",
+      "Fujifilm X",
+      "Canon RF",
+      "Canon EF-M",
+      "Leica L",
+      "Nikon Z"
+    ],
+    "lensMaterial": "Metal",
+    "imageUrl": "/lenses/sgimage-sg-image-af-25mm-f18-aps-c-mirrorless-lens-xf.webp",
+    "filterMm": 43,
+    "lensConfiguration": {
+      "groups": 5,
+      "elements": 7
+    },
+    "fieldNotes": {},
+    "officialLinks": {
+      "cn": "https://www.sg-image.cn/pd.jsp?id=4",
+      "global": "https://www.sg-image.com/products/aps-c-25mm-f1-8-%E8%87%AA%E5%8A%A8%E5%AF%B9%E7%84%A6%E9%95%9C%E5%A4%B4"
+    }
+  },
+  {
+    "id": "sgimage-sg-image-mf-75mm-f28-aps-c-fisheye-lens-xf",
+    "brand": "sgimage",
+    "model": "MF 7.5mm F2.8",
+    "focalLengthMin": 7.5,
+    "focalLengthMax": 7.5,
+    "maxAperture": 2.8,
+    "minAperture": 16,
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "powerZoom": false,
+    "weightG": 326,
+    "diameterMm": 63,
+    "length": {
+      "mm": 54
+    },
+    "minFocusDistance": {
+      "cm": 12
+    },
+    "angleOfView": 168,
+    "angleOfViewCalc": 124.1,
+    "apertureBladeCount": 7,
+    "compatibleMounts": [
+      "Sony E",
+      "Fujifilm X",
+      "Nikon Z",
+      "Micro Four Thirds",
+      "Canon EF-M",
+      "Canon RF",
+      "Leica L"
+    ],
+    "lensMaterial": "Metal",
+    "imageUrl": "/lenses/sgimage-sg-image-mf-75mm-f28-aps-c-fisheye-lens-xf.webp",
+    "filterMm": "N/A",
+    "lensConfiguration": {
+      "groups": 9,
+      "elements": 11,
+      "sourceText": "9组11片"
+    },
+    "fieldNotes": {
+      "filterMm": "168° fisheye lens; no front filter thread."
+    },
+    "officialLinks": {
+      "cn": "https://www.sg-image.cn/pd.jsp?id=6",
+      "global": "https://www.sg-image.com/products/mf-7-5mm-f2-8-aps-c-fisheye-lens"
+    }
+  },
+  {
+    "id": "sgimage-sg-image-mf-18mm-f63-aps-c-ultra-slim-pancake-lens-xf",
+    "brand": "sgimage",
+    "model": "MF 18mm F6.3",
+    "focalLengthMin": 18,
+    "focalLengthMax": 18,
+    "maxAperture": 6.3,
+    "minAperture": 6.3,
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": false,
+    "powerZoom": false,
+    "weightG": 78,
+    "diameterMm": 60,
+    "length": {
+      "mm": 14
+    },
+    "minFocusDistance": {
+      "cm": 20
+    },
+    "angleOfView": 76,
+    "angleOfViewCalc": 76.3,
+    "compatibleMounts": [
+      "Sony E",
+      "Micro Four Thirds",
+      "Fujifilm X",
+      "Nikon Z"
+    ],
+    "lensMaterial": "Metal",
+    "imageUrl": "/lenses/sgimage-sg-image-mf-18mm-f63-aps-c-ultra-slim-pancake-lens-xf.webp",
+    "filterMm": 37,
+    "lensConfiguration": {
+      "groups": 4,
+      "elements": 6,
+      "sourceText": "4组6片"
+    },
+    "fieldNotes": {
+      "filterMm": "37mm native filter thread. 49mm filters can be used when the optional lens hood is attached."
+    },
+    "officialLinks": {
+      "cn": "https://www.sg-image.cn/pd.jsp?id=21",
+      "global": "https://www.sg-image.com/products/mf-18mm-f6-3-aps-c-ultra-slim-pancake-lens"
+    }
+  },
+  {
+    "id": "sgimage-sg-image-mf-25mm-f18-aps-c-lens-xf",
+    "brand": "sgimage",
+    "model": "MF 25mm F1.8",
+    "focalLengthMin": 25,
+    "focalLengthMax": 25,
+    "maxAperture": 1.8,
+    "minAperture": 16,
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "powerZoom": false,
+    "weightG": 186,
+    "diameterMm": 55,
+    "length": {
+      "mm": 36.5
+    },
+    "minFocusDistance": {
+      "cm": 25
+    },
+    "angleOfView": 58,
+    "angleOfViewCalc": 59,
+    "apertureBladeCount": 7,
+    "compatibleMounts": [
+      "Sony E",
+      "Micro Four Thirds",
+      "Fujifilm X",
+      "Canon RF",
+      "Canon EF-M",
+      "Leica L",
+      "Nikon Z"
+    ],
+    "lensMaterial": "Metal",
+    "imageUrl": "/lenses/sgimage-sg-image-mf-25mm-f18-aps-c-lens-xf.webp",
+    "filterMm": 43,
+    "lensConfiguration": {
+      "groups": 5,
+      "elements": 7,
+      "sourceText": "5组7片"
+    },
+    "fieldNotes": {},
+    "officialLinks": {
+      "cn": "https://www.sg-image.cn/pd.jsp?id=4",
+      "global": "https://www.sg-image.com/products/mf-18mm-f6-3-aps-c-ultra-slim-pancake-lens-copy"
+    }
+  },
+  {
+    "id": "sgimage-sg-image-mf-35mm-f095-ultra-bright-aps-c-lens-xf",
+    "brand": "sgimage",
+    "model": "MF 35mm F0.95",
+    "focalLengthMin": 35,
+    "focalLengthMax": 35,
+    "maxAperture": 0.95,
+    "minAperture": 16,
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "powerZoom": false,
+    "weightG": 393,
+    "diameterMm": 55,
+    "length": {
+      "mm": 63
+    },
+    "minFocusDistance": {
+      "cm": 35
+    },
+    "angleOfView": 44,
+    "angleOfViewCalc": 44,
+    "apertureBladeCount": 12,
+    "compatibleMounts": [
+      "Sony E",
+      "Micro Four Thirds",
+      "Fujifilm X",
+      "Canon RF",
+      "Canon EF-M",
+      "Leica L",
+      "Nikon Z"
+    ],
+    "lensMaterial": "Metal",
+    "imageUrl": "/lenses/sgimage-sg-image-mf-35mm-f095-ultra-bright-aps-c-lens-xf.webp",
+    "filterMm": 52,
+    "lensConfiguration": {
+      "groups": 9,
+      "elements": 12
+    },
+    "fieldNotes": {},
+    "officialLinks": {
+      "cn": "https://www.sg-image.cn/pd.jsp?id=20",
+      "global": "https://www.sg-image.com/products/mf-35mm-f0-95-ultra-bright-aps-c-lens"
+    }
+  },
+  {
+    "id": "sgimage-sg-image-mf-35mm-f12-aps-c-lens-xf",
+    "brand": "sgimage",
+    "model": "MF 35mm F1.2",
+    "focalLengthMin": 35,
+    "focalLengthMax": 35,
+    "maxAperture": 1.2,
+    "minAperture": 16,
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "powerZoom": false,
+    "weightG": 200,
+    "diameterMm": 57,
+    "length": {
+      "mm": 33.1
+    },
+    "minFocusDistance": {
+      "cm": 40
+    },
+    "angleOfView": 44,
+    "angleOfViewCalc": 44,
+    "apertureBladeCount": 9,
+    "compatibleMounts": [
+      "Sony E",
+      "Micro Four Thirds",
+      "Fujifilm X",
+      "Canon RF",
+      "Canon EF-M",
+      "Leica L",
+      "Nikon Z"
+    ],
+    "lensMaterial": "Metal",
+    "imageUrl": "/lenses/sgimage-sg-image-mf-35mm-f12-aps-c-lens-xf.webp",
+    "filterMm": 46,
+    "lensConfiguration": {
+      "groups": 5,
+      "elements": 6,
+      "sourceText": "5组6片"
+    },
+    "fieldNotes": {},
+    "officialLinks": {
+      "cn": "https://www.sg-image.cn/pd.jsp?id=3",
+      "global": "https://www.sg-image.com/products/mf-35mm-f1-2-aps-c-lens"
+    }
+  },
+  {
+    "id": "sgimage-sg-image-mf-50mm-f14-aps-c-lens-xf",
+    "brand": "sgimage",
+    "model": "MF 50mm F1.4",
+    "focalLengthMin": 50,
+    "focalLengthMax": 50,
+    "maxAperture": 1.4,
+    "minAperture": 16,
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "powerZoom": false,
+    "weightG": 249,
+    "diameterMm": 58,
+    "length": {
+      "mm": 42.5
+    },
+    "minFocusDistance": {
+      "cm": 50
+    },
+    "angleOfView": 32,
+    "angleOfViewCalc": 31.6,
+    "apertureBladeCount": 10,
+    "compatibleMounts": [
+      "Sony E",
+      "Micro Four Thirds",
+      "Fujifilm X",
+      "Canon RF",
+      "Canon EF-M",
+      "Leica L",
+      "Nikon Z"
+    ],
+    "lensMaterial": "Metal",
+    "imageUrl": "/lenses/sgimage-sg-image-mf-50mm-f14-aps-c-lens-xf.webp",
+    "filterMm": 49,
+    "lensConfiguration": {
+      "groups": 6,
+      "elements": 6
+    },
+    "fieldNotes": {},
+    "officialLinks": {
+      "cn": "https://www.sg-image.cn/pd.jsp?id=2",
+      "global": "https://www.sg-image.com/products/mf-25mm-f2-8-aps-c-lens-copy"
+    }
+  },
+  {
+    "id": "sigma-contemporary-10-18mm-f28-dc-dn-xf",
+    "brand": "sigma",
+    "series": "Contemporary",
+    "model": "10-18mm F2.8 DC DN",
+    "focalLengthMin": 10,
+    "focalLengthMax": 18,
+    "maxAperture": 2.8,
+    "minAperture": 22,
+    "af": true,
+    "ois": false,
+    "wr": false,
+    "apertureRing": false,
+    "powerZoom": false,
+    "focusMotor": "Stepping Motor",
+    "weightG": 250,
+    "diameterMm": 72.2,
+    "length": {
+      "mm": 64.3
+    },
+    "minFocusDistance": {
+      "cm": 11.6,
+      "variants": {
+        "wide": 11.6,
+        "tele": 19.1
+      }
+    },
+    "maxMagnification": {
+      "value": 0.25,
+      "variants": {
+        "wide": 0.25,
+        "tele": 0.145
+      }
+    },
+    "angleOfView": [
+      109.7,
+      76.5
+    ],
+    "angleOfViewCalc": [
+      109.5,
+      76.3
+    ],
+    "apertureBladeCount": 7,
+    "releaseYear": 2023,
+    "compatibleMounts": [
+      "L-Mount",
+      "Canon RF",
+      "Fujifilm X",
+      "Sony E"
+    ],
+    "accessories": [
+      "Push-on petal type hood LH706-02",
+      "Front cap LCF-67mm III",
+      "Rear cap LCR II"
+    ],
+    "imageUrl": "/lenses/sigma-contemporary-10-18mm-f28-dc-dn-xf.webp",
+    "filterMm": 67,
+    "lensConfiguration": {
+      "groups": 10,
+      "elements": 13,
+      "aspherical": 4,
+      "sld": 1,
+      "fld": 3,
+      "sourceText": "13 elements in 10 groups (3 FLD, 1 SLD, and 4 aspherical elements)"
+    },
+    "fieldNotes": {},
+    "officialLinks": {
+      "cn": "http://www.sigma-photo.com.cn/product/detail?id=343",
+      "global": "https://www.sigma-global.com/en/lenses/c023_10_18_28/"
+    }
+  },
+  {
+    "id": "sigma-contemporary-12mm-f14-dc-xf",
+    "brand": "sigma",
+    "series": "Contemporary",
+    "model": "12mm F1.4 DC",
+    "focalLengthMin": 12,
+    "focalLengthMax": 12,
+    "maxAperture": 1.4,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": "partial",
+    "apertureRing": true,
+    "powerZoom": false,
+    "focusMotor": "Stepping Motor",
+    "weightG": 235,
+    "diameterMm": 68,
+    "length": {
+      "mm": 69.7
+    },
+    "minFocusDistance": {
+      "cm": 17.2
+    },
+    "maxMagnification": {
+      "value": 0.119
+    },
+    "angleOfView": 99.6,
+    "angleOfViewCalc": 99.4,
+    "apertureBladeCount": 9,
+    "releaseYear": 2025,
+    "compatibleMounts": [
+      "Canon RF",
+      "Fujifilm X",
+      "Sony E"
+    ],
+    "accessories": [
+      "Pouch",
+      "Lens hood LH652-01",
+      "Front cap LCF-62 IV",
+      "Rear cap LCR III"
+    ],
+    "imageUrl": "/lenses/sigma-contemporary-12mm-f14-dc-xf.webp",
+    "filterMm": 62,
+    "lensConfiguration": {
+      "groups": 12,
+      "elements": 14,
+      "aspherical": 3,
+      "sld": 2,
+      "sourceText": "14 elements in 12 groups (2 SLD, 3 aspherical elements)"
+    },
+    "fieldNotes": {
+      "wr": "Dust and splash resistant only; not fully sealed."
+    },
+    "officialLinks": {
+      "cn": "http://www.sigma-photo.com.cn/product/detail?id=649",
+      "global": "https://www.sigma-global.com/en/lenses/c025_12_14/"
+    }
+  },
+  {
+    "id": "sigma-contemporary-15mm-f14-dc-xf",
+    "brand": "sigma",
+    "series": "Contemporary",
+    "model": "15mm F1.4 DC",
+    "focalLengthMin": 15,
+    "focalLengthMax": 15,
+    "maxAperture": 1.4,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": "partial",
+    "apertureRing": true,
+    "powerZoom": false,
+    "focusMotor": "Stepping Motor",
+    "weightG": 225,
+    "diameterMm": 64,
+    "length": {
+      "mm": 65.1
+    },
+    "minFocusDistance": {
+      "cm": 17.7
+    },
+    "maxMagnification": {
+      "value": 0.127
+    },
+    "angleOfView": 86.9,
+    "angleOfViewCalc": 86.7,
+    "apertureBladeCount": 9,
+    "releaseYear": 2026,
+    "compatibleMounts": [
+      "Canon RF",
+      "Fujifilm X",
+      "Sony E"
+    ],
+    "accessories": [
+      "Pouch",
+      "Lens hood LH612-01",
+      "Front cap LCF-58 IV",
+      "Rear cap LCR III"
+    ],
+    "imageUrl": "/lenses/sigma-contemporary-15mm-f14-dc-xf.webp",
+    "filterMm": 58,
+    "lensConfiguration": {
+      "groups": 11,
+      "elements": 13,
+      "aspherical": 3,
+      "sld": 3,
+      "fld": 1,
+      "sourceText": "13 elements in 11 groups (1 FLD, 3 SLD, 3 aspherical elements)"
+    },
+    "fieldNotes": {
+      "wr": "Dust and splash resistant only; not fully sealed."
+    },
+    "officialLinks": {
+      "cn": "http://www.sigma-photo.com.cn/product/detail?id=665",
+      "global": "https://www.sigma-global.com/en/lenses/c026_15_14/"
+    }
+  },
+  {
+    "id": "sigma-contemporary-16-300mm-f35-67-dc-os-xf",
+    "brand": "sigma",
+    "series": "Contemporary",
+    "model": "16-300mm F3.5-6.7 DC OS",
+    "focalLengthMin": 16,
+    "focalLengthMax": 300,
+    "maxAperture": [
+      3.5,
+      6.7
+    ],
+    "minAperture": [
+      22,
+      45
+    ],
+    "af": true,
+    "ois": true,
+    "oisStops": 6,
+    "wr": "partial",
+    "apertureRing": false,
+    "powerZoom": false,
+    "focusMotor": "HLA",
+    "internalFocusing": true,
+    "weightG": 615,
+    "diameterMm": 73.8,
+    "length": {
+      "mm": 123.7
+    },
+    "minFocusDistance": {
+      "cm": 17,
+      "variants": {
+        "wide": 17,
+        "tele": 105
+      }
+    },
+    "maxMagnification": {
+      "value": 0.5,
+      "variants": {
+        "wide": 0.33,
+        "tele": 0.25
+      }
+    },
+    "angleOfView": [
+      83.2,
+      5.4
+    ],
+    "angleOfViewCalc": [
+      83,
+      5.4
+    ],
+    "apertureBladeCount": 9,
+    "releaseYear": 2025,
+    "compatibleMounts": [
+      "L-Mount",
+      "Canon RF",
+      "Fujifilm X",
+      "Sony E"
+    ],
+    "accessories": [
+      "Pouch",
+      "Lens hood LH706-03",
+      "Front cap LCF-67 IV",
+      "Rear cap LCR III"
+    ],
+    "imageUrl": "/lenses/sigma-contemporary-16-300mm-f35-67-dc-os-xf.webp",
+    "filterMm": 67,
+    "lensConfiguration": {
+      "groups": 14,
+      "elements": 20,
+      "aspherical": 4,
+      "sld": 4,
+      "fld": 1,
+      "sourceText": "20 elements in 14 groups (1 FLD, 4 SLD, 4 aspherical elements)"
+    },
+    "fieldNotes": {
+      "wr": "Dust and splash resistant only; not fully sealed."
+    },
+    "officialLinks": {
+      "cn": "http://www.sigma-photo.com.cn/product/detail?id=334",
+      "global": "https://www.sigma-global.com/en/lenses/c025_16_300_35_67/"
+    }
+  },
+  {
+    "id": "sigma-contemporary-16mm-f14-dc-dn-xf",
+    "brand": "sigma",
+    "series": "Contemporary",
+    "model": "16mm F1.4 DC DN",
+    "focalLengthMin": 16,
+    "focalLengthMax": 16,
+    "maxAperture": 1.4,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": "partial",
+    "apertureRing": false,
+    "powerZoom": false,
+    "focusMotor": "Stepping Motor",
+    "weightG": 405,
+    "diameterMm": 72.2,
+    "length": {
+      "mm": 92.6
+    },
+    "minFocusDistance": {
+      "cm": 25
+    },
+    "maxMagnification": {
+      "value": 0.101
+    },
+    "angleOfView": 83.2,
+    "angleOfViewCalc": 83,
+    "apertureBladeCount": 9,
+    "releaseYear": 2017,
+    "compatibleMounts": [
+      "L-Mount",
+      "Canon EF-M",
+      "Canon RF",
+      "Fujifilm X",
+      "Micro Four Thirds",
+      "Nikon Z",
+      "Sony E"
+    ],
+    "accessories": [
+      "Lens hood LH716-01",
+      "Front cap LCF-67mm III",
+      "Rear cap LCR II"
+    ],
+    "imageUrl": "/lenses/sigma-contemporary-16mm-f14-dc-dn-xf.webp",
+    "filterMm": 67,
+    "lensConfiguration": {
+      "groups": 13,
+      "elements": 16,
+      "sourceText": "16 elements in 13 groups"
+    },
+    "fieldNotes": {
+      "wr": "Dust and splash resistant only; not fully sealed."
+    },
+    "officialLinks": {
+      "cn": "http://www.sigma-photo.com.cn/product/detail?id=322",
+      "global": "https://www.sigma-global.com/en/lenses/c017_16_14/"
     }
   },
   {
@@ -1859,7 +4144,7 @@
     "minAperture": 16,
     "af": true,
     "ois": false,
-    "wr": true,
+    "wr": "partial",
     "apertureRing": true,
     "powerZoom": false,
     "focusMotor": "HLA",
@@ -1883,17 +4168,18 @@
       39
     ],
     "apertureBladeCount": 11,
+    "releaseYear": 2025,
     "compatibleMounts": [
-      "Leica L",
+      "L-Mount",
       "Canon RF",
       "Fujifilm X",
       "Sony E"
     ],
     "accessories": [
-      "Lens hood",
-      "Front cap",
-      "Rear cap",
-      "Pouch"
+      "Pouch",
+      "Lens hood LH728-02",
+      "Front cap LCF-67 IV",
+      "Rear cap LCR III"
     ],
     "imageUrl": "/lenses/sigma-art-17-40mm-f18-dc-xf.webp",
     "filterMm": 67,
@@ -1901,11 +4187,2012 @@
       "groups": 11,
       "elements": 17,
       "aspherical": 4,
-      "sld": 4
+      "sld": 4,
+      "sourceText": "17 elements in 11 groups (4 SLD, 4 aspherical elements)"
+    },
+    "fieldNotes": {
+      "wr": "Dust and splash resistant only; not fully sealed."
     },
     "officialLinks": {
       "cn": "http://www.sigma-photo.com.cn/product/detail?id=642",
       "global": "https://www.sigma-global.com/en/lenses/a025_17_40_18/"
+    }
+  },
+  {
+    "id": "sigma-contemporary-18-50mm-f28-dc-dn-xf",
+    "brand": "sigma",
+    "series": "Contemporary",
+    "model": "18-50mm F2.8 DC DN",
+    "focalLengthMin": 18,
+    "focalLengthMax": 50,
+    "maxAperture": 2.8,
+    "minAperture": 22,
+    "af": true,
+    "ois": false,
+    "wr": false,
+    "apertureRing": false,
+    "powerZoom": false,
+    "focusMotor": "Stepping Motor",
+    "weightG": 285,
+    "diameterMm": 61.6,
+    "length": {
+      "mm": 76.8
+    },
+    "minFocusDistance": {
+      "cm": 12.1,
+      "variants": {
+        "wide": 12.1,
+        "tele": 30
+      }
+    },
+    "maxMagnification": {
+      "value": 0.357,
+      "variants": {
+        "wide": 0.357,
+        "tele": 0.2
+      }
+    },
+    "angleOfView": [
+      76.5,
+      31.7
+    ],
+    "angleOfViewCalc": [
+      76.3,
+      31.6
+    ],
+    "apertureBladeCount": 7,
+    "releaseYear": 2021,
+    "compatibleMounts": [
+      "L-Mount",
+      "Canon RF",
+      "Fujifilm X",
+      "Sony E"
+    ],
+    "accessories": [
+      "Lens hood LH582-02",
+      "Front cap LCF-55mm III",
+      "Rear cap LCR II"
+    ],
+    "imageUrl": "/lenses/sigma-contemporary-18-50mm-f28-dc-dn-xf.webp",
+    "filterMm": 55,
+    "lensConfiguration": {
+      "groups": 10,
+      "elements": 13,
+      "aspherical": 3,
+      "sld": 1,
+      "sourceText": "13 elements in 10 groups (1 SLD and 3 aspherical lenses)"
+    },
+    "fieldNotes": {},
+    "officialLinks": {
+      "cn": "http://www.sigma-photo.com.cn/product/detail?id=345",
+      "global": "https://www.sigma-global.com/en/lenses/c021_18_50_28/"
+    }
+  },
+  {
+    "id": "sigma-contemporary-23mm-f14-dc-dn-xf",
+    "brand": "sigma",
+    "series": "Contemporary",
+    "model": "23mm F1.4 DC DN",
+    "focalLengthMin": 23,
+    "focalLengthMax": 23,
+    "maxAperture": 1.4,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": false,
+    "apertureRing": false,
+    "powerZoom": false,
+    "weightG": 335,
+    "diameterMm": 65.8,
+    "length": {
+      "mm": 79.2
+    },
+    "minFocusDistance": {
+      "cm": 25
+    },
+    "maxMagnification": {
+      "value": 0.137
+    },
+    "angleOfView": 63.4,
+    "angleOfViewCalc": 63.2,
+    "apertureBladeCount": 9,
+    "releaseYear": 2023,
+    "compatibleMounts": [
+      "L-Mount",
+      "Canon RF",
+      "Fujifilm X",
+      "Sony E"
+    ],
+    "accessories": [
+      "Petal Type Lens Hood LH554-01",
+      "Front cap LCF-52 III",
+      "Rear cap LCR II"
+    ],
+    "imageUrl": "/lenses/sigma-contemporary-23mm-f14-dc-dn-xf.webp",
+    "filterMm": 52,
+    "lensConfiguration": {
+      "groups": 10,
+      "elements": 13,
+      "aspherical": 2,
+      "sld": 3,
+      "sourceText": "13 elements in 10 groups (3 SLD and 2 aspherical elements)"
+    },
+    "fieldNotes": {},
+    "officialLinks": {
+      "cn": "http://www.sigma-photo.com.cn/product/detail?id=324",
+      "global": "https://www.sigma-global.com/en/lenses/c023_23_14/"
+    }
+  },
+  {
+    "id": "sigma-contemporary-30mm-f14-dc-dn-xf",
+    "brand": "sigma",
+    "series": "Contemporary",
+    "model": "30mm F1.4 DC DN",
+    "focalLengthMin": 30,
+    "focalLengthMax": 30,
+    "maxAperture": 1.4,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": false,
+    "apertureRing": false,
+    "powerZoom": false,
+    "weightG": 275,
+    "diameterMm": 64.8,
+    "length": {
+      "mm": 73.6
+    },
+    "minFocusDistance": {
+      "cm": 30
+    },
+    "maxMagnification": {
+      "value": 0.143
+    },
+    "angleOfView": 50.7,
+    "angleOfViewCalc": 50.5,
+    "apertureBladeCount": 9,
+    "releaseYear": 2016,
+    "compatibleMounts": [
+      "L-Mount",
+      "Canon EF-M",
+      "Canon RF",
+      "Fujifilm X",
+      "Micro Four Thirds",
+      "Nikon Z",
+      "Sony E"
+    ],
+    "accessories": [
+      "Lens hood LH586-01",
+      "Front cap LCF-52mm III",
+      "Rear cap LCR II"
+    ],
+    "imageUrl": "/lenses/sigma-contemporary-30mm-f14-dc-dn-xf.webp",
+    "filterMm": 52,
+    "lensConfiguration": {
+      "groups": 7,
+      "elements": 9,
+      "sourceText": "9 elements in 7 groups"
+    },
+    "fieldNotes": {},
+    "officialLinks": {
+      "cn": "http://www.sigma-photo.com.cn/product/detail?id=327",
+      "global": "https://www.sigma-global.com/en/lenses/c016_30_14/"
+    }
+  },
+  {
+    "id": "sigma-contemporary-56mm-f14-dc-dn-xf",
+    "brand": "sigma",
+    "series": "Contemporary",
+    "model": "56mm F1.4 DC DN",
+    "focalLengthMin": 56,
+    "focalLengthMax": 56,
+    "maxAperture": 1.4,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": false,
+    "apertureRing": false,
+    "powerZoom": false,
+    "weightG": 280,
+    "diameterMm": 66.5,
+    "length": {
+      "mm": 59.8
+    },
+    "minFocusDistance": {
+      "cm": 50
+    },
+    "maxMagnification": {
+      "value": 0.135
+    },
+    "angleOfView": 28.5,
+    "angleOfViewCalc": 28.4,
+    "apertureBladeCount": 9,
+    "releaseYear": 2018,
+    "compatibleMounts": [
+      "L-Mount",
+      "Canon EF-M",
+      "Canon RF",
+      "Fujifilm X",
+      "Micro Four Thirds",
+      "Nikon Z",
+      "Sony E"
+    ],
+    "accessories": [
+      "Lens hood LH582-01",
+      "Front cap LCF-55mm III",
+      "Rear cap LCR II"
+    ],
+    "imageUrl": "/lenses/sigma-contemporary-56mm-f14-dc-dn-xf.webp",
+    "filterMm": 55,
+    "lensConfiguration": {
+      "groups": 6,
+      "elements": 10,
+      "sourceText": "10 elements in 6 groups"
+    },
+    "fieldNotes": {},
+    "officialLinks": {
+      "cn": "http://www.sigma-photo.com.cn/product/detail?id=329",
+      "global": "https://www.sigma-global.com/en/lenses/c018_56_14/"
+    }
+  },
+  {
+    "id": "sigma-contemporary-100-400mm-f5-63-dg-dn-os-xf",
+    "brand": "sigma",
+    "series": "Contemporary",
+    "model": "100-400mm F5-6.3 DG DN OS",
+    "focalLengthMin": 100,
+    "focalLengthMax": 400,
+    "maxAperture": [
+      5,
+      6.3
+    ],
+    "minAperture": [
+      22,
+      29
+    ],
+    "af": true,
+    "ois": true,
+    "wr": "partial",
+    "apertureRing": false,
+    "powerZoom": false,
+    "weightG": 1135,
+    "diameterMm": 86,
+    "length": {
+      "mm": 199.5
+    },
+    "minFocusDistance": {
+      "cm": 112,
+      "variants": {
+        "wide": 112,
+        "tele": 160
+      }
+    },
+    "maxMagnification": {
+      "value": 0.244
+    },
+    "angleOfView": [
+      16.2,
+      4.1
+    ],
+    "angleOfViewCalc": [
+      16.1,
+      4.1
+    ],
+    "apertureBladeCount": 9,
+    "releaseYear": 2020,
+    "compatibleMounts": [
+      "L-Mount",
+      "Fujifilm X",
+      "Sony E"
+    ],
+    "accessories": [
+      "Lens hood LH770-05",
+      "Protective cover PT-31",
+      "Front cap LCF-67mm III",
+      "Rear cap LCR II"
+    ],
+    "imageUrl": "/lenses/sigma-contemporary-100-400mm-f5-63-dg-dn-os-xf.webp",
+    "filterMm": 67,
+    "lensConfiguration": {
+      "groups": 16,
+      "elements": 22,
+      "sourceText": "22 elements in 16 groups"
+    },
+    "fieldNotes": {
+      "wr": "Rubber-sealed mount only; not fully weather sealed."
+    },
+    "officialLinks": {
+      "cn": "http://www.sigma-photo.com.cn/product/detail?id=339",
+      "global": "https://www.sigma-global.com/en/lenses/c020_100_400_5_63/"
+    }
+  },
+  {
+    "id": "tamron-11-20mm-f28-di-iii-a-rxd-xf",
+    "brand": "tamron",
+    "model": "11-20mm F/2.8 Di III-A RXD",
+    "generation": 3,
+    "focalLengthMin": 11,
+    "focalLengthMax": 20,
+    "maxAperture": 2.8,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": "partial",
+    "apertureRing": false,
+    "powerZoom": false,
+    "focusMotor": "RXD",
+    "weightG": 335,
+    "diameterMm": 73,
+    "length": {
+      "mm": 86.5
+    },
+    "minFocusDistance": {
+      "cm": 15,
+      "variants": {
+        "wide": 15,
+        "tele": 24
+      }
+    },
+    "maxMagnification": {
+      "value": 0.25,
+      "variants": {
+        "wide": 0.25,
+        "tele": 0.13
+      }
+    },
+    "angleOfView": [
+      105.3,
+      71.6
+    ],
+    "angleOfViewCalc": [
+      104.3,
+      70.6
+    ],
+    "apertureBladeCount": 7,
+    "releaseYear": 2021,
+    "compatibleMounts": [
+      "Sony E",
+      "Fujifilm X",
+      "Canon RF"
+    ],
+    "accessories": [
+      "Flower-shaped hood",
+      "Front cap",
+      "Rear cap"
+    ],
+    "imageUrl": "/lenses/tamron-11-20mm-f28-di-iii-a-rxd-xf.webp",
+    "filterMm": 67,
+    "lensConfiguration": {
+      "groups": 10,
+      "elements": 12
+    },
+    "fieldNotes": {
+      "wr": "Moisture-Resistant Construction: Leak-resistant seals throughout the lens barrel help protect your equipment when shooting outdoors."
+    },
+    "officialLinks": {
+      "cn": "https://www.tamron.com.cn/cameralens/products/b060/index.shtml",
+      "global": "https://www.tamron.com/global/consumer/lenses/b060/spec.html"
+    }
+  },
+  {
+    "id": "tamron-17-70mm-f28-di-iii-a-vc-rxd-xf",
+    "brand": "tamron",
+    "model": "17-70mm F/2.8 Di III-A VC RXD",
+    "generation": 3,
+    "focalLengthMin": 17,
+    "focalLengthMax": 70,
+    "maxAperture": 2.8,
+    "minAperture": 22,
+    "af": true,
+    "ois": true,
+    "wr": "partial",
+    "apertureRing": false,
+    "powerZoom": false,
+    "focusMotor": "RXD",
+    "weightG": 530,
+    "diameterMm": 74.6,
+    "length": {
+      "mm": 119.6
+    },
+    "minFocusDistance": {
+      "cm": 19,
+      "variants": {
+        "wide": 19,
+        "tele": 39
+      }
+    },
+    "maxMagnification": {
+      "value": 0.21,
+      "variants": {
+        "wide": 0.21,
+        "tele": 0.19
+      }
+    },
+    "angleOfView": [
+      79.9,
+      23
+    ],
+    "angleOfViewCalc": [
+      79.5,
+      22.9
+    ],
+    "apertureBladeCount": 9,
+    "releaseYear": 2021,
+    "compatibleMounts": [
+      "Sony E",
+      "Fujifilm X"
+    ],
+    "accessories": [
+      "Flower-shaped hood",
+      "Front cap",
+      "Rear cap"
+    ],
+    "imageUrl": "/lenses/tamron-17-70mm-f28-di-iii-a-vc-rxd-xf.webp",
+    "filterMm": 67,
+    "lensConfiguration": {
+      "groups": 12,
+      "elements": 16
+    },
+    "fieldNotes": {
+      "wr": "Moisture-Resistant Construction: Leak-resistant seals throughout the lens barrel help protect your equipment when shooting outdoors."
+    },
+    "officialLinks": {
+      "cn": "https://www.tamron.com.cn/cameralens/products/b070/index.shtml",
+      "global": "https://www.tamron.com/global/consumer/lenses/b070/spec.html"
+    }
+  },
+  {
+    "id": "tamron-18-300mm-f35-63-di-iii-a-vc-vxd-xf",
+    "brand": "tamron",
+    "model": "18-300mm F/3.5-6.3 Di III-A VC VXD",
+    "generation": 3,
+    "focalLengthMin": 18,
+    "focalLengthMax": 300,
+    "maxAperture": [
+      3.5,
+      6.3
+    ],
+    "minAperture": [
+      22,
+      40
+    ],
+    "af": true,
+    "ois": true,
+    "wr": "partial",
+    "apertureRing": false,
+    "powerZoom": false,
+    "focusMotor": "VXD",
+    "weightG": 620,
+    "diameterMm": 75.5,
+    "length": {
+      "mm": 125.8
+    },
+    "minFocusDistance": {
+      "cm": 15,
+      "variants": {
+        "wide": 15,
+        "tele": 99
+      }
+    },
+    "maxMagnification": {
+      "value": 0.5,
+      "variants": {
+        "wide": 0.5,
+        "tele": 0.25
+      }
+    },
+    "angleOfView": [
+      77.4,
+      5.5
+    ],
+    "angleOfViewCalc": [
+      76.3,
+      5.4
+    ],
+    "apertureBladeCount": 7,
+    "releaseYear": 2021,
+    "compatibleMounts": [
+      "Sony E",
+      "Nikon Z",
+      "Fujifilm X",
+      "Canon RF"
+    ],
+    "accessories": [
+      "Flower-shaped hood",
+      "Front cap",
+      "Rear cap"
+    ],
+    "imageUrl": "/lenses/tamron-18-300mm-f35-63-di-iii-a-vc-vxd-xf.webp",
+    "filterMm": 67,
+    "lensConfiguration": {
+      "groups": 15,
+      "elements": 19
+    },
+    "fieldNotes": {
+      "wr": "Moisture-Resistant Construction: Leak-resistant seals throughout the lens barrel help protect your equipment when shooting outdoors."
+    },
+    "officialLinks": {
+      "cn": "https://www.tamron.com.cn/cameralens/products/b061/index.shtml",
+      "global": "https://www.tamron.com/global/consumer/lenses/b061/spec.html"
+    }
+  },
+  {
+    "id": "tamron-150-500mm-f5-67-di-iii-vc-vxd-x-xf",
+    "brand": "tamron",
+    "model": "150-500mm F/5-6.7 Di III VC VXD X",
+    "generation": 3,
+    "focalLengthMin": 150,
+    "focalLengthMax": 500,
+    "maxAperture": [
+      5,
+      6.7
+    ],
+    "minAperture": [
+      22,
+      32
+    ],
+    "af": true,
+    "ois": true,
+    "wr": "partial",
+    "apertureRing": false,
+    "powerZoom": false,
+    "focusMotor": "VXD",
+    "weightG": 1710,
+    "diameterMm": 93,
+    "length": {
+      "mm": 209.9
+    },
+    "minFocusDistance": {
+      "cm": 60,
+      "variants": {
+        "wide": 60,
+        "tele": 180
+      }
+    },
+    "maxMagnification": {
+      "value": 0.32,
+      "variants": {
+        "wide": 0.32,
+        "tele": 0.27
+      }
+    },
+    "angleOfView": [
+      11,
+      3.3
+    ],
+    "angleOfViewCalc": [
+      10.8,
+      3.2
+    ],
+    "apertureBladeCount": 7,
+    "releaseYear": 2022,
+    "accessories": [
+      "Round-shaped hood",
+      "Front cap",
+      "Rear cap",
+      "Tripod mount"
+    ],
+    "imageUrl": "/lenses/tamron-150-500mm-f5-67-di-iii-vc-vxd-x-xf.webp",
+    "filterMm": 82,
+    "lensConfiguration": {
+      "groups": 16,
+      "elements": 25
+    },
+    "fieldNotes": {
+      "wr": "Moisture-Resistant Construction: Leak-resistant seals throughout the lens barrel help protect your equipment when shooting outdoors."
+    },
+    "officialLinks": {
+      "cn": "https://www.tamron.com.cn/cameralens/products/a057/index.shtml",
+      "global": "https://www.tamron.com/global/consumer/lenses/a057x/spec.html"
+    }
+  },
+  {
+    "id": "ttartisan-35mm-t21-xf",
+    "brand": "ttartisan",
+    "model": "35mm T2.1",
+    "focalLengthMin": 35,
+    "focalLengthMax": 35,
+    "maxAperture": 2,
+    "minAperture": 22,
+    "maxTStop": 2.1,
+    "specialtyTags": [
+      "cine"
+    ],
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "powerZoom": false,
+    "weightG": 669,
+    "diameterMm": 81,
+    "length": {
+      "mm": 58
+    },
+    "minFocusDistance": {
+      "cm": 28
+    },
+    "angleOfView": 63,
+    "angleOfViewCalc": 44,
+    "apertureBladeCount": 11,
+    "compatibleMounts": [
+      "Sony E",
+      "Fujifilm X",
+      "Nikon Z",
+      "Canon RF",
+      "Leica L"
+    ],
+    "lensMaterial": "Metal",
+    "imageUrl": "/lenses/ttartisan-35mm-t21-xf.webp",
+    "filterMm": 82,
+    "lensConfiguration": {
+      "groups": 7,
+      "elements": 10,
+      "sourceText": "7组10片"
+    },
+    "fieldNotes": {},
+    "officialLinks": {
+      "cn": "https://cn.ttartisan.com/?Cine-Lens/35T21-6.html",
+      "global": "https://www.ttartisan.com/?cine-lens/81.html"
+    }
+  },
+  {
+    "id": "ttartisan-ttartisan-af-23mm-f18-xf",
+    "brand": "ttartisan",
+    "model": "AF 23mm F1.8",
+    "focalLengthMin": 23,
+    "focalLengthMax": 23,
+    "maxAperture": 1.8,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "powerZoom": false,
+    "focusMotor": "STM+Lead screw",
+    "weightG": 210,
+    "diameterMm": 67,
+    "length": {
+      "mm": 60
+    },
+    "minFocusDistance": {
+      "cm": 30
+    },
+    "angleOfView": 62,
+    "angleOfViewCalc": 63.2,
+    "apertureBladeCount": 9,
+    "compatibleMounts": [
+      "Sony E",
+      "Fujifilm X",
+      "Nikon Z"
+    ],
+    "accessories": [
+      "Lens hood",
+      "Front cap",
+      "Rear cap"
+    ],
+    "lensMaterial": "Metal",
+    "imageUrl": "/lenses/ttartisan-ttartisan-af-23mm-f18-xf.webp",
+    "filterMm": 52,
+    "lensConfiguration": {
+      "groups": 9,
+      "elements": 11
+    },
+    "fieldNotes": {},
+    "officialLinks": {
+      "cn": "https://cn.ttartisan.com/?AFlens/AF23-19.html",
+      "global": "https://www.ttartisan.com/?af-lens/AF23.html"
+    }
+  },
+  {
+    "id": "ttartisan-af-27mm-f28-xf",
+    "brand": "ttartisan",
+    "model": "AF 27mm F2.8",
+    "focalLengthMin": 27,
+    "focalLengthMax": 27,
+    "maxAperture": 2.8,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "powerZoom": false,
+    "focusMotor": "STM+Lead screw",
+    "weightG": [
+      88,
+      100
+    ],
+    "diameterMm": 61,
+    "length": {
+      "mm": 29
+    },
+    "minFocusDistance": {
+      "cm": 35
+    },
+    "angleOfView": 56,
+    "angleOfViewCalc": 55.3,
+    "apertureBladeCount": 7,
+    "compatibleMounts": [
+      "Sony E",
+      "Fujifilm X",
+      "Nikon Z"
+    ],
+    "lensMaterial": "Metal",
+    "imageUrl": "/lenses/ttartisan-af-27mm-f28-xf.webp",
+    "filterMm": 39,
+    "lensConfiguration": {
+      "groups": 5,
+      "elements": 6
+    },
+    "fieldNotes": {
+      "weightG": "Weight varies by mount variant."
+    },
+    "officialLinks": {
+      "cn": "https://cn.ttartisan.com/?AFlens/264.html",
+      "global": "https://www.ttartisan.com/?af-lens/38.html"
+    }
+  },
+  {
+    "id": "ttartisan-ttartisan-af-35mm-f18-ii-xf",
+    "brand": "ttartisan",
+    "model": "AF 35mm F1.8 II",
+    "generation": 2,
+    "focalLengthMin": 35,
+    "focalLengthMax": 35,
+    "maxAperture": 1.8,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "powerZoom": false,
+    "focusMotor": "STM+Lead screw",
+    "weightG": [
+      176,
+      193
+    ],
+    "diameterMm": 60,
+    "length": {
+      "mm": 49
+    },
+    "minFocusDistance": {
+      "cm": 40
+    },
+    "angleOfView": 45,
+    "angleOfViewCalc": 44,
+    "apertureBladeCount": 9,
+    "compatibleMounts": [
+      "Sony E",
+      "Fujifilm X",
+      "Nikon Z"
+    ],
+    "accessories": [
+      "Lens hood",
+      "Front cap",
+      "Rear cap"
+    ],
+    "lensMaterial": "Metal",
+    "imageUrl": "/lenses/ttartisan-ttartisan-af-35mm-f18-ii-xf.webp",
+    "filterMm": 52,
+    "lensConfiguration": {
+      "groups": 7,
+      "elements": 10,
+      "ed": 2,
+      "highRefractive": 2
+    },
+    "fieldNotes": {
+      "weightG": "Weight varies by mount variant and color."
+    },
+    "officialLinks": {
+      "cn": "https://cn.ttartisan.com/?AFlens/AF-35-II-14.html",
+      "global": "https://www.ttartisan.com/?af-lens/AF-35-II.html"
+    }
+  },
+  {
+    "id": "ttartisan-ttartisan-af-56mm-f18-xf",
+    "brand": "ttartisan",
+    "model": "AF 56mm F1.8",
+    "focalLengthMin": 56,
+    "focalLengthMax": 56,
+    "maxAperture": 1.8,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "powerZoom": false,
+    "focusMotor": "STM+Lead screw",
+    "weightG": [
+      233,
+      245
+    ],
+    "diameterMm": 65,
+    "length": {
+      "mm": 62
+    },
+    "minFocusDistance": {
+      "cm": 50
+    },
+    "angleOfView": 28,
+    "angleOfViewCalc": 28.4,
+    "apertureBladeCount": 9,
+    "compatibleMounts": [
+      "Sony E",
+      "Fujifilm X",
+      "Nikon Z"
+    ],
+    "accessories": [
+      "Lens hood",
+      "Front cap",
+      "Rear cap"
+    ],
+    "lensMaterial": "Metal",
+    "imageUrl": "/lenses/ttartisan-ttartisan-af-56mm-f18-xf.webp",
+    "filterMm": 52,
+    "lensConfiguration": {
+      "groups": 9,
+      "elements": 10,
+      "ed": 1,
+      "highRefractive": 2
+    },
+    "fieldNotes": {
+      "weightG": "Weight varies by mount variant."
+    },
+    "officialLinks": {
+      "cn": "https://cn.ttartisan.com/?AFlens/AF-56-18.html",
+      "global": "https://www.ttartisan.com/?af-lens/AF-56.html"
+    }
+  },
+  {
+    "id": "ttartisan-aps-c-75mm-f2-fisheye-xf",
+    "brand": "ttartisan",
+    "model": "APS-C 7.5mm F2 Fisheye",
+    "focalLengthMin": 7.5,
+    "focalLengthMax": 7.5,
+    "maxAperture": 2,
+    "minAperture": 11,
+    "specialtyTags": [
+      "fisheye"
+    ],
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "powerZoom": false,
+    "weightG": [
+      343,
+      370
+    ],
+    "diameterMm": 72,
+    "length": {
+      "mm": 57
+    },
+    "minFocusDistance": {
+      "cm": 12.5
+    },
+    "angleOfView": 180,
+    "angleOfViewCalc": 124.1,
+    "apertureBladeCount": 7,
+    "compatibleMounts": [
+      "Sony E",
+      "Fujifilm X",
+      "Nikon Z",
+      "Canon RF",
+      "Leica L",
+      "Micro Four Thirds"
+    ],
+    "lensMaterial": "Metal",
+    "imageUrl": "/lenses/ttartisan-aps-c-75mm-f2-fisheye-xf.webp",
+    "filterMm": "N/A",
+    "lensConfiguration": {
+      "groups": 8,
+      "elements": 11
+    },
+    "fieldNotes": {
+      "weightG": "Weight varies by mount variant.",
+      "filterMm": "Bulbous fisheye front element; no filter thread."
+    },
+    "officialLinks": {
+      "cn": "https://cn.ttartisan.com/?list-10/aps-cFisheye75.html",
+      "global": "https://www.ttartisan.com/?aps-c-lenses/72.html"
+    }
+  },
+  {
+    "id": "ttartisan-aps-c-10mm-f20-asph-xf",
+    "brand": "ttartisan",
+    "model": "APS-C 10mm F2 ASPH.",
+    "focalLengthMin": 10,
+    "focalLengthMax": 10,
+    "maxAperture": 2,
+    "minAperture": 16,
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "powerZoom": false,
+    "weightG": [
+      333,
+      345
+    ],
+    "diameterMm": 60,
+    "length": {
+      "mm": 63
+    },
+    "minFocusDistance": {
+      "cm": 25
+    },
+    "angleOfView": 105,
+    "angleOfViewCalc": 109.5,
+    "apertureBladeCount": 8,
+    "compatibleMounts": [
+      "Sony E",
+      "Fujifilm X",
+      "Nikon Z",
+      "Canon RF",
+      "Micro Four Thirds"
+    ],
+    "lensMaterial": "Metal",
+    "imageUrl": "/lenses/ttartisan-aps-c-10mm-f20-asph-xf.webp",
+    "filterMm": 72,
+    "lensConfiguration": {
+      "groups": 10,
+      "elements": 13,
+      "aspherical": 2
+    },
+    "fieldNotes": {
+      "weightG": "Weight varies by mount variant.",
+      "filterMm": "Requires external 72mm filter holder; no front thread."
+    },
+    "officialLinks": {
+      "cn": "https://cn.ttartisan.com/?list-10/10-F2.html",
+      "global": "https://www.ttartisan.com/?aps-c-lenses/79.html"
+    }
+  },
+  {
+    "id": "ttartisan-aps-c-23mm-f14-xf",
+    "brand": "ttartisan",
+    "model": "APS-C 23mm F1.4",
+    "focalLengthMin": 23,
+    "focalLengthMax": 23,
+    "maxAperture": 1.4,
+    "minAperture": 16,
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "powerZoom": false,
+    "weightG": [
+      222,
+      250
+    ],
+    "diameterMm": 60,
+    "length": {
+      "mm": 40.5
+    },
+    "minFocusDistance": {
+      "cm": 20
+    },
+    "angleOfView": 62,
+    "angleOfViewCalc": 63.2,
+    "apertureBladeCount": 10,
+    "compatibleMounts": [
+      "Sony E",
+      "Fujifilm X",
+      "Nikon Z",
+      "Canon RF",
+      "Leica L",
+      "Canon EF-M",
+      "Micro Four Thirds"
+    ],
+    "lensMaterial": "Metal",
+    "imageUrl": "/lenses/ttartisan-aps-c-23mm-f14-xf.webp",
+    "filterMm": 43,
+    "lensConfiguration": {
+      "groups": 6,
+      "elements": 8,
+      "ed": 1,
+      "highRefractive": 3
+    },
+    "fieldNotes": {
+      "weightG": "Weight varies by mount variant."
+    },
+    "officialLinks": {
+      "cn": "https://cn.ttartisan.com/?list-10/APS-C23.html",
+      "global": "https://www.ttartisan.com/?aps-c-lenses/76.html"
+    }
+  },
+  {
+    "id": "ttartisan-aps-c-25mm-f2-xf",
+    "brand": "ttartisan",
+    "model": "APS-C 25mm F2",
+    "focalLengthMin": 25,
+    "focalLengthMax": 25,
+    "maxAperture": 2,
+    "minAperture": 16,
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "powerZoom": false,
+    "weightG": [
+      166,
+      189
+    ],
+    "diameterMm": 59,
+    "length": {
+      "mm": 31
+    },
+    "minFocusDistance": {
+      "cm": 25
+    },
+    "angleOfView": 61,
+    "angleOfViewCalc": 59,
+    "apertureBladeCount": 7,
+    "compatibleMounts": [
+      "Sony E",
+      "Fujifilm X",
+      "Nikon Z",
+      "Canon RF",
+      "Leica L",
+      "Micro Four Thirds"
+    ],
+    "lensMaterial": "Metal",
+    "imageUrl": "/lenses/ttartisan-aps-c-25mm-f2-xf.webp",
+    "filterMm": 43,
+    "lensConfiguration": {
+      "groups": 5,
+      "elements": 7
+    },
+    "fieldNotes": {
+      "weightG": "Weight varies by mount variant."
+    },
+    "officialLinks": {
+      "cn": "https://cn.ttartisan.com/?list-10/254.html",
+      "global": "https://www.ttartisan.com/?aps-c-lenses/78.html"
+    }
+  },
+  {
+    "id": "ttartisan-aps-c-35mm-f095-xf",
+    "brand": "ttartisan",
+    "model": "APS-C 35mm F0.95",
+    "focalLengthMin": 35,
+    "focalLengthMax": 35,
+    "maxAperture": 0.95,
+    "minAperture": 16,
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "powerZoom": false,
+    "weightG": [
+      247,
+      267
+    ],
+    "diameterMm": 57,
+    "length": {
+      "mm": 41
+    },
+    "minFocusDistance": {
+      "cm": 35
+    },
+    "angleOfView": 45,
+    "angleOfViewCalc": 44,
+    "apertureBladeCount": 10,
+    "compatibleMounts": [
+      "Sony E",
+      "Fujifilm X",
+      "Nikon Z",
+      "Canon RF",
+      "Leica L"
+    ],
+    "lensMaterial": "Metal",
+    "imageUrl": "/lenses/ttartisan-aps-c-35mm-f095-xf.webp",
+    "filterMm": 52,
+    "lensConfiguration": {
+      "groups": 5,
+      "elements": 7
+    },
+    "fieldNotes": {
+      "weightG": "Weight varies by mount variant."
+    },
+    "officialLinks": {
+      "cn": "https://cn.ttartisan.com/?list-10/257.html",
+      "global": "https://www.ttartisan.com/?aps-c-lenses/71.html"
+    }
+  },
+  {
+    "id": "ttartisan-aps-c-35mm-f14-xf",
+    "brand": "ttartisan",
+    "model": "APS-C 35mm F1.4",
+    "focalLengthMin": 35,
+    "focalLengthMax": 35,
+    "maxAperture": 1.4,
+    "minAperture": 16,
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "powerZoom": false,
+    "weightG": 180,
+    "diameterMm": 56,
+    "length": {
+      "mm": 44
+    },
+    "minFocusDistance": {
+      "cm": 28
+    },
+    "angleOfView": 45,
+    "angleOfViewCalc": 44,
+    "apertureBladeCount": 10,
+    "compatibleMounts": [
+      "Sony E",
+      "Fujifilm X",
+      "Nikon Z",
+      "Canon RF",
+      "Leica L",
+      "Canon EF-M",
+      "Micro Four Thirds"
+    ],
+    "lensMaterial": "Metal",
+    "imageUrl": "/lenses/ttartisan-aps-c-35mm-f14-xf.webp",
+    "filterMm": 39,
+    "lensConfiguration": {
+      "groups": 6,
+      "elements": 7
+    },
+    "fieldNotes": {},
+    "officialLinks": {
+      "cn": "https://cn.ttartisan.com/?list-10/aps-c35.html",
+      "global": "https://www.ttartisan.com/?aps-c-lenses/71.html"
+    }
+  },
+  {
+    "id": "ttartisan-aps-c-40mm-f28-macro-xf",
+    "brand": "ttartisan",
+    "model": "APS-C 40mm F2.8 Macro",
+    "focalLengthMin": 40,
+    "focalLengthMax": 40,
+    "maxAperture": 2.8,
+    "minAperture": 16,
+    "specialtyTags": [
+      "macro"
+    ],
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "powerZoom": false,
+    "weightG": [
+      371,
+      403
+    ],
+    "diameterMm": 62,
+    "length": {
+      "mm": 76
+    },
+    "minFocusDistance": {
+      "cm": 17
+    },
+    "maxMagnification": {
+      "value": 1
+    },
+    "angleOfView": 40,
+    "angleOfViewCalc": 39,
+    "apertureBladeCount": 11,
+    "compatibleMounts": [
+      "Sony E",
+      "Fujifilm X",
+      "Nikon Z",
+      "Leica L",
+      "Micro Four Thirds"
+    ],
+    "lensMaterial": "Metal",
+    "imageUrl": "/lenses/ttartisan-aps-c-40mm-f28-macro-xf.webp",
+    "filterMm": 52,
+    "lensConfiguration": {
+      "groups": 7,
+      "elements": 8,
+      "ed": 2
+    },
+    "fieldNotes": {
+      "weightG": "Weight varies by mount variant."
+    },
+    "officialLinks": {
+      "cn": "https://cn.ttartisan.com/?list-10/MACRO40.html",
+      "global": "https://www.ttartisan.com/?aps-c-lenses/75.html"
+    }
+  },
+  {
+    "id": "ttartisan-aps-c-50mm-f095-xf",
+    "brand": "ttartisan",
+    "model": "APS-C 50mm F0.95",
+    "focalLengthMin": 50,
+    "focalLengthMax": 50,
+    "maxAperture": 0.95,
+    "minAperture": 16,
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "powerZoom": false,
+    "weightG": 411,
+    "diameterMm": 64,
+    "length": {
+      "mm": 63
+    },
+    "minFocusDistance": {
+      "cm": 50
+    },
+    "angleOfView": 32,
+    "angleOfViewCalc": 31.6,
+    "apertureBladeCount": 10,
+    "compatibleMounts": [
+      "Sony E",
+      "Fujifilm X",
+      "Nikon Z",
+      "Canon RF",
+      "Leica L",
+      "Micro Four Thirds"
+    ],
+    "lensMaterial": "Metal",
+    "imageUrl": "/lenses/ttartisan-aps-c-50mm-f095-xf.webp",
+    "filterMm": 58,
+    "lensConfiguration": {
+      "groups": 6,
+      "elements": 8
+    },
+    "fieldNotes": {},
+    "officialLinks": {
+      "cn": "https://cn.ttartisan.com/?list-10/245.html",
+      "global": "https://www.ttartisan.com/?aps-c-lenses/77.html"
+    }
+  },
+  {
+    "id": "ttartisan-ttartisan-aps-c-50mm-f12-xf",
+    "brand": "ttartisan",
+    "model": "APS-C 50mm F1.2",
+    "focalLengthMin": 50,
+    "focalLengthMax": 50,
+    "maxAperture": 1.2,
+    "minAperture": 16,
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "powerZoom": false,
+    "weightG": 336,
+    "diameterMm": 62,
+    "length": {
+      "mm": 60
+    },
+    "minFocusDistance": {
+      "cm": 50
+    },
+    "angleOfView": 32,
+    "angleOfViewCalc": 31.6,
+    "apertureBladeCount": 10,
+    "compatibleMounts": [
+      "Sony E",
+      "Fujifilm X",
+      "Nikon Z",
+      "Canon RF",
+      "Leica L",
+      "Canon EF-M",
+      "Micro Four Thirds"
+    ],
+    "lensMaterial": "Metal",
+    "imageUrl": "/lenses/ttartisan-ttartisan-aps-c-50mm-f12-xf.webp",
+    "filterMm": 52,
+    "lensConfiguration": {
+      "groups": 5,
+      "elements": 7
+    },
+    "fieldNotes": {},
+    "officialLinks": {
+      "cn": "https://cn.ttartisan.com/?list-10/aps-c50.html",
+      "global": "https://www.ttartisan.com/?aps-c-lenses/73.html"
+    }
+  },
+  {
+    "id": "ttartisan-tilt-aps-c-35mm-f14-xf",
+    "brand": "ttartisan",
+    "model": "Tilt APS-C 35mm F1.4",
+    "focalLengthMin": 35,
+    "focalLengthMax": 35,
+    "maxAperture": 1.4,
+    "minAperture": 16,
+    "specialtyTags": [
+      "tilt"
+    ],
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "powerZoom": false,
+    "weightG": [
+      341,
+      350
+    ],
+    "diameterMm": 66,
+    "length": {
+      "mm": 63
+    },
+    "minFocusDistance": {
+      "cm": 35
+    },
+    "angleOfView": 45,
+    "angleOfViewCalc": 44,
+    "apertureBladeCount": 10,
+    "compatibleMounts": [
+      "Sony E",
+      "Fujifilm X",
+      "Nikon Z",
+      "Canon RF",
+      "Micro Four Thirds"
+    ],
+    "lensMaterial": "Metal",
+    "imageUrl": "/lenses/ttartisan-tilt-aps-c-35mm-f14-xf.webp",
+    "filterMm": 52,
+    "lensConfiguration": {
+      "groups": 6,
+      "elements": 7
+    },
+    "fieldNotes": {
+      "weightG": "Weight varies by mount variant."
+    },
+    "officialLinks": {
+      "cn": "https://cn.ttartisan.com/?list-10/TC35.html",
+      "global": "https://www.ttartisan.com/?aps-c-lenses/Tilt-C-35.html"
+    }
+  },
+  {
+    "id": "viltrox-af-9mm-f28-air-xf",
+    "brand": "viltrox",
+    "series": "Air",
+    "model": "AF 9mm F2.8",
+    "focalLengthMin": 9,
+    "focalLengthMax": 9,
+    "maxAperture": 2.8,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": false,
+    "apertureRing": false,
+    "powerZoom": false,
+    "weightG": 175,
+    "diameterMm": 65,
+    "length": {
+      "mm": 56.4
+    },
+    "minFocusDistance": {
+      "cm": 13
+    },
+    "angleOfView": 113.8,
+    "angleOfViewCalc": 115.1,
+    "compatibleMounts": [
+      "Sony E",
+      "Nikon Z",
+      "Fujifilm X"
+    ],
+    "imageUrl": "/lenses/viltrox-af-9mm-f28-air-xf.webp",
+    "filterMm": 58,
+    "lensConfiguration": {
+      "groups": 11,
+      "elements": 13,
+      "aspherical": 2,
+      "ed": 3,
+      "highRefractive": 3
+    },
+    "fieldNotes": {},
+    "officialLinks": {
+      "cn": "https://www.viltrox.com.cn/productinfo/6117031.html",
+      "global": "https://viltrox.com/products/af-9mm-f2-8-xf"
+    }
+  },
+  {
+    "id": "viltrox-af-13mm-f14-xf",
+    "brand": "viltrox",
+    "model": "AF 13mm F1.4",
+    "focalLengthMin": 13,
+    "focalLengthMax": 13,
+    "maxAperture": 1.4,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": "partial",
+    "apertureRing": true,
+    "powerZoom": false,
+    "focusMotor": "STM+Lead screw",
+    "internalFocusing": true,
+    "weightG": 415,
+    "diameterMm": 74,
+    "length": {
+      "mm": 90
+    },
+    "minFocusDistance": {
+      "cm": 22
+    },
+    "angleOfViewCalc": 94.9,
+    "apertureBladeCount": 9,
+    "compatibleMounts": [
+      "Sony E",
+      "Fujifilm X",
+      "Nikon Z"
+    ],
+    "accessories": [
+      "Lens hood",
+      "Front cap",
+      "Rear cap",
+      "Pouch"
+    ],
+    "imageUrl": "/lenses/viltrox-af-13mm-f14-xf.webp",
+    "filterMm": 67,
+    "lensConfiguration": {
+      "groups": 11,
+      "elements": 14,
+      "aspherical": 2,
+      "ed": 4,
+      "highRefractive": 2
+    },
+    "fieldNotes": {
+      "wr": "Dust-proof design; the aperture ring and the joint part are equipped with a dust-proof seal."
+    },
+    "officialLinks": {
+      "cn": "https://www.viltrox.com.cn/productinfo/1119691.html",
+      "global": "https://viltrox.com/products/13mm-f14-af-lens-for-fujifilm-x-mount-camera-models"
+    }
+  },
+  {
+    "id": "viltrox-af-15mm-f17-air-xf",
+    "brand": "viltrox",
+    "series": "Air",
+    "model": "AF 15mm F1.7",
+    "focalLengthMin": 15,
+    "focalLengthMax": 15,
+    "maxAperture": 1.7,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": false,
+    "apertureRing": false,
+    "powerZoom": false,
+    "weightG": 180,
+    "diameterMm": 65,
+    "length": {
+      "mm": 56.4
+    },
+    "angleOfView": 84.9,
+    "angleOfViewCalc": 86.7,
+    "compatibleMounts": [
+      "Sony E",
+      "Nikon Z",
+      "Fujifilm X"
+    ],
+    "imageUrl": "/lenses/viltrox-af-15mm-f17-air-xf.webp",
+    "filterMm": 58,
+    "lensConfiguration": {
+      "groups": 10,
+      "elements": 12,
+      "aspherical": 2,
+      "ed": 3,
+      "highRefractive": 3
+    },
+    "fieldNotes": {},
+    "officialLinks": {
+      "cn": "https://www.viltrox.com.cn/productinfo/6118527.html",
+      "global": "https://viltrox.com/products/af-15mm-f1-7-xf"
+    }
+  },
+  {
+    "id": "viltrox-af-23mm-f14-xf",
+    "brand": "viltrox",
+    "model": "AF 23mm F1.4",
+    "focalLengthMin": 23,
+    "focalLengthMax": 23,
+    "maxAperture": 1.4,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "powerZoom": false,
+    "focusMotor": "STM+Lead screw",
+    "internalFocusing": true,
+    "weightG": 260,
+    "diameterMm": 65,
+    "length": {
+      "mm": 72
+    },
+    "minFocusDistance": {
+      "cm": 30
+    },
+    "maxMagnification": {
+      "value": 0.1
+    },
+    "angleOfView": 63.4,
+    "angleOfViewCalc": 63.2,
+    "apertureBladeCount": 9,
+    "compatibleMounts": [
+      "Sony E",
+      "Fujifilm X",
+      "Canon EF-M",
+      "Nikon Z"
+    ],
+    "accessories": [
+      "Lens hood",
+      "Front cap",
+      "Rear cap",
+      "Pouch"
+    ],
+    "imageUrl": "/lenses/viltrox-af-23mm-f14-xf.webp",
+    "filterMm": 52,
+    "lensConfiguration": {
+      "groups": 10,
+      "elements": 11,
+      "ed": 2,
+      "highRefractive": 2
+    },
+    "fieldNotes": {},
+    "officialLinks": {
+      "cn": "https://www.viltrox.com.cn/productinfo/519228.html",
+      "global": "https://viltrox.com/products/viltrox-23mm-f14-xf-mount"
+    }
+  },
+  {
+    "id": "viltrox-af-25mm-f17-air-xf",
+    "brand": "viltrox",
+    "series": "Air",
+    "model": "AF 25mm F1.7",
+    "focalLengthMin": 25,
+    "focalLengthMax": 25,
+    "maxAperture": 1.7,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": false,
+    "apertureRing": false,
+    "powerZoom": false,
+    "focusMotor": "STM+Lead screw",
+    "internalFocusing": true,
+    "weightG": 170,
+    "diameterMm": 64,
+    "length": {
+      "mm": 56
+    },
+    "minFocusDistance": {
+      "cm": 30
+    },
+    "maxMagnification": {
+      "value": 0.11
+    },
+    "angleOfView": 60,
+    "angleOfViewCalc": 59,
+    "apertureBladeCount": 9,
+    "compatibleMounts": [
+      "Sony E",
+      "Nikon Z",
+      "Fujifilm X"
+    ],
+    "imageUrl": "/lenses/viltrox-af-25mm-f17-air-xf.webp",
+    "filterMm": 52,
+    "lensConfiguration": {
+      "groups": 10,
+      "elements": 12
+    },
+    "fieldNotes": {},
+    "officialLinks": {
+      "cn": "https://www.viltrox.com.cn/productinfo/3295658.html",
+      "global": "https://viltrox.com/products/af-25mm-f1-7-x"
+    }
+  },
+  {
+    "id": "viltrox-af-27mm-f12-pro-xf",
+    "brand": "viltrox",
+    "series": "Pro",
+    "model": "AF 27mm F1.2",
+    "focalLengthMin": 27,
+    "focalLengthMax": 27,
+    "maxAperture": 1.2,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": "partial",
+    "apertureRing": true,
+    "powerZoom": false,
+    "focusMotor": "STM+Lead screw",
+    "internalFocusing": true,
+    "weightG": 560,
+    "diameterMm": 82,
+    "length": {
+      "mm": 92
+    },
+    "minFocusDistance": {
+      "cm": 28
+    },
+    "maxMagnification": {
+      "value": 0.15
+    },
+    "angleOfView": 55.3,
+    "angleOfViewCalc": 55.3,
+    "apertureBladeCount": 11,
+    "compatibleMounts": [
+      "Sony E",
+      "Nikon Z",
+      "Fujifilm X"
+    ],
+    "imageUrl": "/lenses/viltrox-af-27mm-f12-pro-xf.webp",
+    "filterMm": 67,
+    "lensConfiguration": {
+      "groups": 11,
+      "elements": 15
+    },
+    "fieldNotes": {
+      "wr": "Efficient dust-proof and splash-proof structure; built-in high-grade dust ring."
+    },
+    "officialLinks": {
+      "cn": "https://www.viltrox.com.cn/productinfo/2244196.html",
+      "global": "https://viltrox.com/products/viltrox-af-27mm-f-1-2-pro-xf-mount"
+    }
+  },
+  {
+    "id": "viltrox-af-28mm-f45-xf",
+    "brand": "viltrox",
+    "model": "AF 28mm F4.5",
+    "focalLengthMin": 28,
+    "focalLengthMax": 28,
+    "maxAperture": 4.5,
+    "minAperture": 4.5,
+    "af": true,
+    "ois": false,
+    "wr": false,
+    "apertureRing": false,
+    "powerZoom": false,
+    "focusMotor": "VCM",
+    "internalFocusing": false,
+    "weightG": 60,
+    "diameterMm": 60.3,
+    "length": {
+      "mm": 15.3
+    },
+    "minFocusDistance": {
+      "cm": 34
+    },
+    "angleOfView": 52.07,
+    "angleOfViewCalc": 53.6,
+    "lensMaterial": "Metal",
+    "imageUrl": "/lenses/viltrox-af-28mm-f45-xf.webp",
+    "filterMm": "N/A",
+    "lensConfiguration": {
+      "groups": 6,
+      "elements": 6,
+      "aspherical": 2,
+      "ed": 2
+    },
+    "fieldNotes": {
+      "filterMm": "This lens uses a proprietary slide cap design and has no front filter thread."
+    },
+    "officialLinks": {
+      "cn": "https://www.viltrox.com.cn/productinfo/6118530.html",
+      "global": "https://viltrox.com/products/af-28mm-f4-5-x"
+    }
+  },
+  {
+    "id": "viltrox-af-33mm-f14-xf",
+    "brand": "viltrox",
+    "model": "AF 33mm F1.4",
+    "focalLengthMin": 33,
+    "focalLengthMax": 33,
+    "maxAperture": 1.4,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "powerZoom": false,
+    "focusMotor": "STM+Lead screw",
+    "internalFocusing": true,
+    "weightG": 270,
+    "diameterMm": 65,
+    "length": {
+      "mm": 72
+    },
+    "minFocusDistance": {
+      "cm": 40
+    },
+    "maxMagnification": {
+      "value": 0.1
+    },
+    "angleOfView": 45.7,
+    "angleOfViewCalc": 46.4,
+    "apertureBladeCount": 9,
+    "compatibleMounts": [
+      "Sony E",
+      "Fujifilm X",
+      "Canon EF-M",
+      "Nikon Z"
+    ],
+    "imageUrl": "/lenses/viltrox-af-33mm-f14-xf.webp",
+    "filterMm": 52,
+    "lensConfiguration": {
+      "groups": 9,
+      "elements": 10,
+      "ed": 1,
+      "highRefractive": 1
+    },
+    "fieldNotes": {},
+    "officialLinks": {
+      "cn": "https://www.viltrox.com.cn/productinfo/519231.html",
+      "global": "https://viltrox.com/products/viltrox-af-33mm-f14-xf-aps-c-lens"
+    }
+  },
+  {
+    "id": "viltrox-af-35mm-f17-air-xf",
+    "brand": "viltrox",
+    "series": "Air",
+    "model": "AF 35mm F1.7",
+    "focalLengthMin": 35,
+    "focalLengthMax": 35,
+    "maxAperture": 1.7,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": false,
+    "apertureRing": false,
+    "powerZoom": false,
+    "focusMotor": "STM+Lead screw",
+    "internalFocusing": true,
+    "weightG": 170,
+    "diameterMm": 64,
+    "length": {
+      "mm": 54.7
+    },
+    "minFocusDistance": {
+      "cm": 33
+    },
+    "angleOfView": 45,
+    "angleOfViewCalc": 44,
+    "apertureBladeCount": 9,
+    "compatibleMounts": [
+      "Sony E",
+      "Nikon Z",
+      "Fujifilm X"
+    ],
+    "imageUrl": "/lenses/viltrox-af-35mm-f17-air-xf.webp",
+    "filterMm": 52,
+    "lensConfiguration": {
+      "groups": 9,
+      "elements": 11,
+      "aspherical": 1,
+      "ed": 1,
+      "highRefractive": 2
+    },
+    "fieldNotes": {},
+    "officialLinks": {
+      "cn": "https://www.viltrox.com.cn/productinfo/3229930.html",
+      "global": "https://viltrox.com/products/viltrox-af-35mm-f1-7-aps-c-lens-for-fujifilm-x-mount"
+    }
+  },
+  {
+    "id": "viltrox-af-56mm-f12-pro-xf",
+    "brand": "viltrox",
+    "series": "Pro",
+    "model": "AF 56mm F1.2",
+    "focalLengthMin": 56,
+    "focalLengthMax": 56,
+    "maxAperture": 1.2,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": "partial",
+    "apertureRing": true,
+    "powerZoom": false,
+    "focusMotor": "Dual HyperVCM",
+    "weightG": 575,
+    "diameterMm": 78.4,
+    "length": {
+      "mm": 92
+    },
+    "minFocusDistance": {
+      "cm": 50
+    },
+    "angleOfViewCalc": 28.4,
+    "compatibleMounts": [
+      "Sony E",
+      "Fujifilm X"
+    ],
+    "imageUrl": "/lenses/viltrox-af-56mm-f12-pro-xf.webp",
+    "filterMm": 67,
+    "lensConfiguration": {
+      "groups": 8,
+      "elements": 13,
+      "aspherical": 1,
+      "ed": 1,
+      "highRefractive": 3
+    },
+    "fieldNotes": {
+      "wr": "Durable full-metal, weather-sealed body.",
+      "lensConfiguration": "Includes 1 UA (Ultra Aspherical) element."
+    },
+    "officialLinks": {
+      "cn": "https://www.viltrox.com.cn/productinfo/5934940.html",
+      "global": "https://viltrox.com/products/af-56mm-f1-2-xf"
+    }
+  },
+  {
+    "id": "viltrox-af-56mm-f14-xf",
+    "brand": "viltrox",
+    "model": "AF 56mm F1.4",
+    "focalLengthMin": 56,
+    "focalLengthMax": 56,
+    "maxAperture": 1.4,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "powerZoom": false,
+    "focusMotor": "STM",
+    "internalFocusing": true,
+    "weightG": 290,
+    "diameterMm": 65,
+    "length": {
+      "mm": 72
+    },
+    "minFocusDistance": {
+      "cm": 60
+    },
+    "angleOfViewCalc": 28.4,
+    "compatibleMounts": [
+      "Sony E",
+      "Fujifilm X",
+      "Nikon Z",
+      "Canon EF-M"
+    ],
+    "imageUrl": "/lenses/viltrox-af-56mm-f14-xf.webp",
+    "filterMm": 52,
+    "lensConfiguration": {
+      "groups": 9,
+      "elements": 10,
+      "ed": 1,
+      "highRefractive": 1,
+      "sourceText": "9组10片光学结构，1枚ED镜片和1枚高折射镜片"
+    },
+    "fieldNotes": {},
+    "officialLinks": {
+      "cn": "https://www.viltrox.com.cn/productinfo/519234.html",
+      "global": "https://viltrox.com/products/viltrox-af-56mm-f14-x-mount-lens"
+    }
+  },
+  {
+    "id": "viltrox-af-56mm-f17-air-xf",
+    "brand": "viltrox",
+    "series": "Air",
+    "model": "AF 56mm F1.7",
+    "focalLengthMin": 56,
+    "focalLengthMax": 56,
+    "maxAperture": 1.7,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": false,
+    "apertureRing": false,
+    "powerZoom": false,
+    "focusMotor": "STM+Lead screw",
+    "internalFocusing": true,
+    "weightG": 171,
+    "diameterMm": 65,
+    "length": {
+      "mm": 54.7
+    },
+    "minFocusDistance": {
+      "cm": 55
+    },
+    "angleOfView": 29.8,
+    "angleOfViewCalc": 28.4,
+    "apertureBladeCount": 9,
+    "compatibleMounts": [
+      "Fujifilm X",
+      "Nikon Z"
+    ],
+    "imageUrl": "/lenses/viltrox-af-56mm-f17-air-xf.webp",
+    "filterMm": 52,
+    "lensConfiguration": {
+      "groups": 9,
+      "elements": 11,
+      "ed": 4,
+      "highRefractive": 3
+    },
+    "fieldNotes": {},
+    "officialLinks": {
+      "cn": "https://www.viltrox.com.cn/productinfo/2623584.html",
+      "global": "https://viltrox.com/products/viltrox-af-56mm-f1-7-xf-z"
+    }
+  },
+  {
+    "id": "viltrox-af-75mm-f12-pro-xf",
+    "brand": "viltrox",
+    "series": "Pro",
+    "model": "AF 75mm F1.2",
+    "focalLengthMin": 75,
+    "focalLengthMax": 75,
+    "maxAperture": 1.2,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": "partial",
+    "apertureRing": true,
+    "powerZoom": false,
+    "focusMotor": "STM+Lead screw",
+    "internalFocusing": true,
+    "weightG": 670,
+    "diameterMm": 87,
+    "length": {
+      "mm": 101
+    },
+    "minFocusDistance": {
+      "cm": 88
+    },
+    "angleOfViewCalc": 21.4,
+    "apertureBladeCount": 11,
+    "compatibleMounts": [
+      "Sony E",
+      "Nikon Z",
+      "Fujifilm X"
+    ],
+    "accessories": [
+      "Lens hood",
+      "Front cap",
+      "Rear cap"
+    ],
+    "imageUrl": "/lenses/viltrox-af-75mm-f12-pro-xf.webp",
+    "filterMm": 77,
+    "lensConfiguration": {
+      "groups": 11,
+      "elements": 16
+    },
+    "fieldNotes": {
+      "wr": "Professional-level waterproof and dust-proof structural design."
+    },
+    "officialLinks": {
+      "cn": "https://www.viltrox.com.cn/productinfo/1832587.html",
+      "global": "https://viltrox.com/products/75mm-f12-xf-lens"
+    }
+  },
+  {
+    "id": "viltrox-af-85mm-f18-ii-xf",
+    "brand": "viltrox",
+    "model": "AF 85mm F1.8 II",
+    "generation": 2,
+    "focalLengthMin": 85,
+    "focalLengthMax": 85,
+    "maxAperture": 1.8,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": false,
+    "apertureRing": false,
+    "powerZoom": false,
+    "internalFocusing": true,
+    "weightG": 484,
+    "diameterMm": 80,
+    "length": {
+      "mm": 92
+    },
+    "angleOfViewCalc": 18.9,
+    "lensMaterial": "Metal",
+    "imageUrl": "/lenses/viltrox-af-85mm-f18-ii-xf.webp",
+    "filterMm": 72,
+    "lensConfiguration": {
+      "groups": 7,
+      "elements": 10,
+      "ed": 1,
+      "sourceText": "10 elements in 7 groups, including 1 ED lens and 4 HD lenses"
+    },
+    "fieldNotes": {
+      "lensConfiguration": "Includes 4 HD (High Definition) elements."
+    },
+    "officialLinks": {
+      "cn": "https://www.viltrox.com.cn/productinfo/537784.html",
+      "global": "https://viltrox.com/products/viltrox-85mm-f1-8-lens-of-lighter-weight-for-fuji-x-mount"
     }
   }
 ]
