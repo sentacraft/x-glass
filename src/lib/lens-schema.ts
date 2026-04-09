@@ -1,7 +1,7 @@
 import { z } from "zod";
 
-import { SPEC_NA, SPECIALTY_TAGS, FIELD_NOTE_KEYS } from "./types.ts";
-import type { ApertureValue } from "./types.ts";
+import { SPEC_NA, SPECIALTY_TAGS } from "./types.ts";
+import type { ApertureValue, Lens } from "./types.ts";
 
 const positiveNumberSchema = z.number().positive();
 const nonEmptyStringSchema = z.string().trim().min(1);
@@ -145,9 +145,19 @@ export const lensConfigurationSchema = z
     }
   });
 
-const fieldNoteKeySchema = z.enum(FIELD_NOTE_KEYS);
-
-const fieldNotesSchema = z.record(fieldNoteKeySchema, nonEmptyStringSchema);
+// z.record(enum, string) infers Record<K, string> (all keys required), but the
+// intended semantics are Partial<Record<K, string>> (keys are individually optional).
+// Using strictObject + optional per-field produces the correct inferred type.
+const fieldNotesSchema = z.strictObject({
+  wr: nonEmptyStringSchema.optional(),
+  weightG: nonEmptyStringSchema.optional(),
+  filterMm: nonEmptyStringSchema.optional(),
+  minFocusDistance: nonEmptyStringSchema.optional(),
+  maxMagnification: nonEmptyStringSchema.optional(),
+  lensConfiguration: nonEmptyStringSchema.optional(),
+  ois: nonEmptyStringSchema.optional(),
+  focusMotor: nonEmptyStringSchema.optional(),
+});
 
 const lensObjectSchema = z.strictObject({
   ...lensBaseShape,
@@ -373,6 +383,15 @@ export const lensCatalogSchema = z.array(lensSchema).superRefine((lenses, ctx) =
     }
   });
 });
+
+// Compile-time assertion: Lens interface and lensSchema's inferred type must stay
+// bidirectionally compatible. A type error here means the two have drifted —
+// update whichever definition is stale.
+type _AssertExtends<T, U extends T> = true;
+type _LensSchemaCheck = [
+  _AssertExtends<Lens, z.infer<typeof lensSchema>>,
+  _AssertExtends<z.infer<typeof lensSchema>, Lens>,
+];
 
 export function formatZodIssues(error: z.ZodError): string[] {
   return error.issues.map((issue) => {
