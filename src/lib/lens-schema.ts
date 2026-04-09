@@ -79,6 +79,7 @@ const lensBaseShape = {
     cm: positiveNumberSchema,
     macroCm: positiveNumberSchema.optional(),
     variants: focusDistanceVariantsSchema.optional(),
+    macroVariants: focusDistanceVariantsSchema.optional(),
   }).optional(),
   maxMagnification: z.strictObject({
     value: positiveNumberSchema,
