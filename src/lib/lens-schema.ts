@@ -278,8 +278,16 @@ function makeAllowlistKey(a: string, b: string): string {
 }
 const KNOWN_DISTINCT_SPEC_PAIRS = new Set([
   makeAllowlistKey(
-    "fujifilm-xf-56mm-f12-r-xf", 
+    "fujifilm-xf-56mm-f12-r-xf",
     "fujifilm-xf-56mm-f12-r-apd-xf"),
+  // PRO variant has a distinct optical design despite identical measured specs
+  makeAllowlistKey(
+    "brightinstar-mf-10mm-f56-xf",
+    "brightinstar-mf-10mm-f56-pro-xf"),
+  // Tilt variant adds shift/tilt mechanism; mechanically and optically distinct
+  makeAllowlistKey(
+    "ttartisan-aps-c-35mm-f14-xf",
+    "ttartisan-tilt-aps-c-35mm-f14-xf"),
 ]);
 
 export const lensCatalogSchema = z.array(lensSchema).superRefine((lenses, ctx) => {
