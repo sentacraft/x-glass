@@ -22,7 +22,7 @@ export default function FeatureToggleGroup({
   return (
     <div className="flex flex-wrap gap-1.5">
       {options.map((option) => {
-        const Icon = option.icon;
+        const Icon = option.selected ? Check : option.icon;
         return (
           <Button
             key={option.key}
@@ -30,25 +30,12 @@ export default function FeatureToggleGroup({
             variant={option.selected ? "default" : "outline"}
             className={cn(
               option.selected ? filterPillActiveClass : featurePillClass,
-              "relative whitespace-nowrap",
+              "whitespace-nowrap",
             )}
             onClick={option.onClick}
             aria-pressed={option.selected}
           >
-            <Check
-              className={cn(
-                "pointer-events-none absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 transition-all duration-200",
-                option.selected
-                  ? "scale-100 opacity-100"
-                  : "scale-75 opacity-0",
-              )}
-            />
-            <span
-              className={cn(
-                "inline-flex items-center gap-1.5 transition-transform duration-200",
-                option.selected && "translate-x-2",
-              )}
-            >
+            <span className="inline-flex items-center gap-1.5">
               <Icon className="h-3.5 w-3.5" />
               {option.label}
             </span>
