@@ -193,6 +193,7 @@
     "close": "关闭"
   },
   "Footer": {
-    "dataInfo": "数据 v{version} · {lensCount} 款镜头 · 更新于 {date}"
+    "dataInfo": "数据 · {lensCount} 款镜头 ·",
+    "updatedPrefix": "更新于"
   }
 }

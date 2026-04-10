@@ -194,6 +194,7 @@
     "close": "Close"
   },
   "Footer": {
-    "dataInfo": "Data v{version} · {lensCount} lenses · Updated {date}"
+    "dataInfo": "Data · {lensCount} lenses ·",
+    "updatedPrefix": "Updated"
   }
 }
