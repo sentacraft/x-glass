@@ -80,8 +80,7 @@ export default function LensFilters({
   ];
 
   const hasHiddenActiveFilters =
-    filters.brands.length > 0 ||
-    filters.focalCategories.length > 0 ||
+    filters.typeFilter !== null ||
     filters.specialtyTag !== null ||
     filters.features.length > 0;
 
@@ -119,41 +118,51 @@ export default function LensFilters({
     onClick: () => updateFilters("features", toggleValue(filters.features, key)),
   }));
 
+  const filtersButton = (
+    <button
+      type="button"
+      className={cn(
+        "relative flex h-8 items-center gap-1.5 rounded-full px-3 text-[11px] font-medium transition-colors sm:hidden",
+        mobileFiltersOpen
+          ? "bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900"
+          : "bg-zinc-100 text-zinc-600 hover:bg-zinc-200 hover:text-zinc-900 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700",
+      )}
+      onClick={() => setMobileFiltersOpen((v) => !v)}
+      aria-expanded={mobileFiltersOpen}
+      aria-label={t("moreFilters")}
+    >
+      <SlidersHorizontal className="size-3.5" />
+      <span>{t("filtersButton")}</span>
+      {hasHiddenActiveFilters && !mobileFiltersOpen && (
+        <span className="absolute -right-0.5 -top-0.5 h-2 w-2 rounded-full bg-blue-500" />
+      )}
+    </button>
+  );
+
   return (
     <div className="flex min-w-0 flex-1 flex-col">
-      {/* Always-visible row: Type + mobile More Filters toggle */}
-      <div className="flex items-end gap-4 sm:items-center sm:gap-12">
-        <FilterRow label={t("lensType")}>
-          <TypeSegmentedControl
-            ariaLabel={t("lensType")}
-            options={typeOptions}
-            value={filters.typeFilter}
-            onChange={(v) => updateFilters("typeFilter", v)}
+      {/* Primary filters: always visible on all viewports */}
+      <div className="flex flex-col gap-3">
+        <FilterRow label={t("brand")} trailing={filtersButton}>
+          <MultiSelectChipGroup
+            allLabel={allOptionLabel}
+            allSelected={filters.brands.length === 0}
+            onSelectAll={() => updateFilters("brands", [])}
+            options={brandOptions}
           />
         </FilterRow>
-        <div className="flex shrink-0 items-center border-l border-zinc-200/80 pl-4 dark:border-zinc-800/80 sm:hidden">
-          <button
-            type="button"
-            className={cn(
-              "relative flex h-8 items-center gap-1.5 rounded-full px-3 text-[11px] font-medium transition-colors",
-              mobileFiltersOpen
-                ? "bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900"
-                : "bg-zinc-100 text-zinc-600 hover:bg-zinc-200 hover:text-zinc-900 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700",
-            )}
-            onClick={() => setMobileFiltersOpen((v) => !v)}
-            aria-expanded={mobileFiltersOpen}
-            aria-label={t("moreFilters")}
-          >
-            <SlidersHorizontal className="size-3.5" />
-            <span>{t("filtersButton")}</span>
-            {hasHiddenActiveFilters && !mobileFiltersOpen && (
-              <span className="absolute -right-0.5 -top-0.5 h-2 w-2 rounded-full bg-blue-500" />
-            )}
-          </button>
-        </div>
+
+        <FilterRow label={t("focalRange")}>
+          <MultiSelectChipGroup
+            allLabel={allOptionLabel}
+            allSelected={filters.focalCategories.length === 0}
+            onSelectAll={() => updateFilters("focalCategories", [])}
+            options={focalOptions}
+          />
+        </FilterRow>
       </div>
 
-      {/* Expandable section: collapsed on mobile by default, always open on desktop */}
+      {/* Secondary filters: collapsed on mobile by default, always open on desktop */}
       <div
         className={cn(
           "grid overflow-hidden transition-[grid-template-rows] duration-500 ease-in-out",
@@ -162,21 +171,12 @@ export default function LensFilters({
       >
         <div className="min-h-0 overflow-hidden">
           <div className="flex flex-col gap-3 pt-3 pb-1">
-            <FilterRow label={t("brand")}>
-              <MultiSelectChipGroup
-                allLabel={allOptionLabel}
-                allSelected={filters.brands.length === 0}
-                onSelectAll={() => updateFilters("brands", [])}
-                options={brandOptions}
-              />
-            </FilterRow>
-
-            <FilterRow label={t("focalRange")}>
-              <MultiSelectChipGroup
-                allLabel={allOptionLabel}
-                allSelected={filters.focalCategories.length === 0}
-                onSelectAll={() => updateFilters("focalCategories", [])}
-                options={focalOptions}
+            <FilterRow label={t("lensType")}>
+              <TypeSegmentedControl
+                ariaLabel={t("lensType")}
+                options={typeOptions}
+                value={filters.typeFilter}
+                onChange={(v) => updateFilters("typeFilter", v)}
               />
             </FilterRow>
 
