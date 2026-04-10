@@ -5,6 +5,7 @@
   },
   "Nav": {
     "lenses": "Lenses",
+    "about": "About",
     "compare": "Compare",
     "search": "Search"
   },
@@ -23,6 +24,8 @@
     "emptyDescription": "Auto-suggest will appear as soon as you enter a few characters.",
     "noResults": "No matching lenses found",
     "noResultsHint": "Try a shorter model fragment, brand name, or series keyword.",
+    "suggestLens": "Don't see the lens you're looking for?",
+    "suggestLensLink": "Tell us",
     "results": "Lens search results",
     "view": "Open",
     "generation": "Gen {value}"
@@ -103,6 +106,8 @@
     "clearCompare": "Clear",
     "resultsCount": "{count} lenses",
     "noResults": "No lenses match your filters.",
+    "suggestLens": "Can't find the lens you're looking for?",
+    "suggestLensLink": "Tell us",
     "equivSuffix": "eq."
   },
   "LensDetail": {
@@ -169,6 +174,7 @@
     "addToCompare": "Add to Compare",
     "removeFromCompare": "Remove",
     "officialSite": "Official site",
+    "reportIssue": "Report an issue",
     "notFound": "Lens not found."
   },
   "Brands": {
@@ -231,8 +237,69 @@
     "download": "Download PNG",
     "close": "Close"
   },
+  "About": {
+    "pageTitle": "About X Glass",
+
+    "backgroundTitle": "Background",
+    "backgroundBody": "X Glass is an independent tool for browsing and comparing Fujifilm X-mount lenses across all brands. It was built to fill a gap: no single tool offered a unified, cross-brand X-mount database with interactive side-by-side comparison.",
+
+    "coverageTitle": "Lens Coverage",
+    "coverageBody": "X Glass covers all commercially available lenses natively compatible with the Fujifilm X-mount, including Fujifilm's own XF, XC, and MK series, as well as third-party brands. Multiple generations of the same focal length are listed separately. Adapted lenses from other mounts are out of scope.",
+    "coverageBrands": "Currently indexed brands",
+    "coverageBrandList": "Fujifilm · Sigma · Tamron · Viltrox · TTArtisan · 7Artisans · Brightin Star · SG Image",
+
+    "dataTitle": "Data Maintenance",
+    "dataBody": "Lens data is collected and structured through an automated pipeline, with human review before each release. Updates are published when new lenses launch or when corrections are made.",
+    "dataVersionNote": "The version number and last-updated timestamp in the footer reflect the most recent data release.",
+
+    "faqTitle": "FAQ",
+    "faq1Q": "A lens I'm looking for isn't here. Why?",
+    "faq1A": "We aim for complete X-mount coverage, but the database grows incrementally and some lenses may not have been added yet. Use the feedback links at the bottom of this page to suggest a missing lens — that's the fastest way to get it on our radar.",
+    "faq2Q": "A spec doesn't match the manufacturer's page. Which is correct?",
+    "faq2A": "Always treat the manufacturer's official page as the source of truth. Our data may contain errors or lag behind spec revisions. If you spot a discrepancy, use the \"Report an issue\" link on the lens detail page.",
+    "faq3Q": "Is X Glass affiliated with Fujifilm or any lens brand?",
+    "faq3A": "No. X Glass is an independent project with no affiliation to Fujifilm or any other manufacturer. Lens names and brand marks are the property of their respective owners.",
+    "faq4Q": "Why do some fields show \"—\"?",
+    "faq4A": "A dash means the data hasn't been collected yet, or the manufacturer hasn't publicly disclosed that spec. We continuously work to fill in gaps.",
+
+    "disclaimerTitle": "Disclaimer & Data Sources",
+    "disclaimerSources": "Specifications are sourced primarily from manufacturer official websites and product pages.",
+    "disclaimerAccuracy": "Data may contain errors and specs can change without notice. Always verify critical specifications directly with the manufacturer before making a purchase decision.",
+    "disclaimerLiability": "X Glass is not responsible for any decisions made based on information presented here.",
+
+    "privacyTitle": "Privacy",
+    "privacyBody": "X Glass does not require user accounts and does not collect personal information.",
+
+    "changelogTitle": "Changelog",
+    "changelogBody": "A public changelog tracking data updates and corrections is planned.",
+    "changelogPlaceholder": "Coming soon",
+
+    "feedbackTitle": "Feedback & Contact",
+    "feedbackBody": "Spotted incorrect data or a missing lens? Reports go directly to the maintainer.",
+    "feedbackReport": "Report a data issue",
+    "feedbackSuggest": "Suggest a missing lens",
+    "feedbackGeneral": "General feedback"
+  },
   "Footer": {
     "dataInfo": "Data · {lensCount} lenses ·",
     "updatedPrefix": "Updated"
+  },
+  "Feedback": {
+    "titleDataIssue": "Report a data issue",
+    "titleMissingLens": "Suggest a missing lens",
+    "titleGeneral": "Send feedback",
+    "descriptionDataIssue": "Tell us what's wrong — wrong spec, broken image, typo, anything. It goes straight to the maintainer.",
+    "descriptionMissingLens": "Know an X-mount lens we're missing? Let us know and we'll add it to the queue.",
+    "descriptionGeneral": "Thoughts, bug reports, feature ideas — all welcome.",
+    "contextLens": "About: {model}",
+    "contextQuery": "Search query: {query}",
+    "descriptionLabel": "Description",
+    "descriptionPlaceholder": "Describe the issue in as much detail as you like…",
+    "submit": "Submit",
+    "submitting": "Submitting…",
+    "cancel": "Cancel",
+    "close": "Close",
+    "success": "Thanks — your feedback was received. We'll take a look shortly.",
+    "error": "Something went wrong. Please try again in a moment."
   }
 }
