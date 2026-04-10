@@ -821,7 +821,7 @@
     }
   },
   {
-    "id": "brightinstar-mf-75mm-f28-xf",
+    "id": "brightinstar-mf-7p5mm-f28-xf",
     "brand": "brightinstar",
     "model": "MF 7.5mm F2.8 III",
     "generation": 3,
@@ -853,7 +853,7 @@
       "Nikon Z",
       "Micro Four Thirds"
     ],
-    "imageUrl": "/lenses/brightinstar-mf-75mm-f28-xf.webp",
+    "imageUrl": "/lenses/brightinstar-mf-7p5mm-f28-xf.webp",
     "filterMm": "N/A",
     "lensConfiguration": {
       "groups": 9,
@@ -3479,7 +3479,7 @@
     }
   },
   {
-    "id": "sgimage-sg-image-af-25mm-f18-aps-c-mirrorless-lens-xf",
+    "id": "sgimage-af-25mm-f18-aps-c-mirrorless-lens-xf",
     "brand": "sgimage",
     "model": "AF 25mm F1.8",
     "focalLengthMin": 25,
@@ -3512,7 +3512,7 @@
       "Nikon Z"
     ],
     "lensMaterial": "Metal",
-    "imageUrl": "/lenses/sgimage-sg-image-af-25mm-f18-aps-c-mirrorless-lens-xf.webp",
+    "imageUrl": "/lenses/sgimage-af-25mm-f18-aps-c-mirrorless-lens-xf.webp",
     "filterMm": 52,
     "lensConfiguration": {
       "groups": 5,
@@ -3526,7 +3526,7 @@
     }
   },
   {
-    "id": "sgimage-sg-image-mf-75mm-f28-aps-c-fisheye-lens-xf",
+    "id": "sgimage-mf-7p5mm-f28-aps-c-fisheye-lens-xf",
     "brand": "sgimage",
     "model": "MF 7.5mm F2.8",
     "focalLengthMin": 7.5,
@@ -3559,7 +3559,7 @@
       "Leica L"
     ],
     "lensMaterial": "Metal",
-    "imageUrl": "/lenses/sgimage-sg-image-mf-75mm-f28-aps-c-fisheye-lens-xf.webp",
+    "imageUrl": "/lenses/sgimage-mf-7p5mm-f28-aps-c-fisheye-lens-xf.webp",
     "filterMm": "N/A",
     "lensConfiguration": {
       "groups": 9,
@@ -3575,7 +3575,7 @@
     }
   },
   {
-    "id": "sgimage-sg-image-mf-18mm-f63-aps-c-ultra-slim-pancake-lens-xf",
+    "id": "sgimage-mf-18mm-f63-aps-c-ultra-slim-pancake-lens-xf",
     "brand": "sgimage",
     "model": "MF 18mm F6.3",
     "focalLengthMin": 18,
@@ -3604,7 +3604,7 @@
       "Nikon Z"
     ],
     "lensMaterial": "Metal",
-    "imageUrl": "/lenses/sgimage-sg-image-mf-18mm-f63-aps-c-ultra-slim-pancake-lens-xf.webp",
+    "imageUrl": "/lenses/sgimage-mf-18mm-f63-aps-c-ultra-slim-pancake-lens-xf.webp",
     "filterMm": 37,
     "lensConfiguration": {
       "groups": 4,
@@ -3620,7 +3620,7 @@
     }
   },
   {
-    "id": "sgimage-sg-image-mf-25mm-f18-aps-c-lens-xf",
+    "id": "sgimage-mf-25mm-f18-aps-c-lens-xf",
     "brand": "sgimage",
     "model": "MF 25mm F1.8",
     "focalLengthMin": 25,
@@ -3653,7 +3653,7 @@
       "Nikon Z"
     ],
     "lensMaterial": "Metal",
-    "imageUrl": "/lenses/sgimage-sg-image-mf-25mm-f18-aps-c-lens-xf.webp",
+    "imageUrl": "/lenses/sgimage-mf-25mm-f18-aps-c-lens-xf.webp",
     "filterMm": 43,
     "lensConfiguration": {
       "groups": 5,
@@ -3667,7 +3667,7 @@
     }
   },
   {
-    "id": "sgimage-sg-image-mf-35mm-f095-ultra-bright-aps-c-lens-xf",
+    "id": "sgimage-mf-35mm-f095-ultra-bright-aps-c-lens-xf",
     "brand": "sgimage",
     "model": "MF 35mm F0.95",
     "focalLengthMin": 35,
@@ -3700,7 +3700,7 @@
       "Nikon Z"
     ],
     "lensMaterial": "Metal",
-    "imageUrl": "/lenses/sgimage-sg-image-mf-35mm-f095-ultra-bright-aps-c-lens-xf.webp",
+    "imageUrl": "/lenses/sgimage-mf-35mm-f095-ultra-bright-aps-c-lens-xf.webp",
     "filterMm": 52,
     "lensConfiguration": {
       "groups": 9,
@@ -3713,7 +3713,7 @@
     }
   },
   {
-    "id": "sgimage-sg-image-mf-35mm-f12-aps-c-lens-xf",
+    "id": "sgimage-mf-35mm-f12-aps-c-lens-xf",
     "brand": "sgimage",
     "model": "MF 35mm F1.2",
     "focalLengthMin": 35,
@@ -3746,7 +3746,7 @@
       "Nikon Z"
     ],
     "lensMaterial": "Metal",
-    "imageUrl": "/lenses/sgimage-sg-image-mf-35mm-f12-aps-c-lens-xf.webp",
+    "imageUrl": "/lenses/sgimage-mf-35mm-f12-aps-c-lens-xf.webp",
     "filterMm": 46,
     "lensConfiguration": {
       "groups": 5,
@@ -3760,7 +3760,7 @@
     }
   },
   {
-    "id": "sgimage-sg-image-mf-50mm-f14-aps-c-lens-xf",
+    "id": "sgimage-mf-50mm-f14-aps-c-lens-xf",
     "brand": "sgimage",
     "model": "MF 50mm F1.4",
     "focalLengthMin": 50,
@@ -3793,7 +3793,7 @@
       "Nikon Z"
     ],
     "lensMaterial": "Metal",
-    "imageUrl": "/lenses/sgimage-sg-image-mf-50mm-f14-aps-c-lens-xf.webp",
+    "imageUrl": "/lenses/sgimage-mf-50mm-f14-aps-c-lens-xf.webp",
     "filterMm": 49,
     "lensConfiguration": {
       "groups": 6,
@@ -4837,7 +4837,7 @@
     }
   },
   {
-    "id": "ttartisan-ttartisan-af-23mm-f18-xf",
+    "id": "ttartisan-af-23mm-f18-xf",
     "brand": "ttartisan",
     "model": "AF 23mm F1.8",
     "focalLengthMin": 23,
@@ -4872,7 +4872,7 @@
       "Rear cap"
     ],
     "lensMaterial": "Metal",
-    "imageUrl": "/lenses/ttartisan-ttartisan-af-23mm-f18-xf.webp",
+    "imageUrl": "/lenses/ttartisan-af-23mm-f18-xf.webp",
     "filterMm": 52,
     "lensConfiguration": {
       "groups": 9,
@@ -4933,7 +4933,7 @@
     }
   },
   {
-    "id": "ttartisan-ttartisan-af-35mm-f18-ii-xf",
+    "id": "ttartisan-af-35mm-f18-ii-xf",
     "brand": "ttartisan",
     "model": "AF 35mm F1.8 II",
     "generation": 2,
@@ -4972,7 +4972,7 @@
       "Rear cap"
     ],
     "lensMaterial": "Metal",
-    "imageUrl": "/lenses/ttartisan-ttartisan-af-35mm-f18-ii-xf.webp",
+    "imageUrl": "/lenses/ttartisan-af-35mm-f18-ii-xf.webp",
     "filterMm": 52,
     "lensConfiguration": {
       "groups": 7,
@@ -4989,7 +4989,7 @@
     }
   },
   {
-    "id": "ttartisan-ttartisan-af-56mm-f18-xf",
+    "id": "ttartisan-af-56mm-f18-xf",
     "brand": "ttartisan",
     "model": "AF 56mm F1.8",
     "focalLengthMin": 56,
@@ -5027,7 +5027,7 @@
       "Rear cap"
     ],
     "lensMaterial": "Metal",
-    "imageUrl": "/lenses/ttartisan-ttartisan-af-56mm-f18-xf.webp",
+    "imageUrl": "/lenses/ttartisan-af-56mm-f18-xf.webp",
     "filterMm": 52,
     "lensConfiguration": {
       "groups": 9,
@@ -5044,7 +5044,7 @@
     }
   },
   {
-    "id": "ttartisan-aps-c-75mm-f2-fisheye-xf",
+    "id": "ttartisan-aps-c-7p5mm-f2-fisheye-xf",
     "brand": "ttartisan",
     "model": "APS-C 7.5mm F2 Fisheye",
     "focalLengthMin": 7.5,
@@ -5082,7 +5082,7 @@
       "Micro Four Thirds"
     ],
     "lensMaterial": "Metal",
-    "imageUrl": "/lenses/ttartisan-aps-c-75mm-f2-fisheye-xf.webp",
+    "imageUrl": "/lenses/ttartisan-aps-c-7p5mm-f2-fisheye-xf.webp",
     "filterMm": "N/A",
     "lensConfiguration": {
       "groups": 8,
@@ -5448,7 +5448,7 @@
     }
   },
   {
-    "id": "ttartisan-ttartisan-aps-c-50mm-f12-xf",
+    "id": "ttartisan-aps-c-50mm-f12-xf",
     "brand": "ttartisan",
     "model": "APS-C 50mm F1.2",
     "focalLengthMin": 50,
@@ -5481,7 +5481,7 @@
       "Micro Four Thirds"
     ],
     "lensMaterial": "Metal",
-    "imageUrl": "/lenses/ttartisan-ttartisan-aps-c-50mm-f12-xf.webp",
+    "imageUrl": "/lenses/ttartisan-aps-c-50mm-f12-xf.webp",
     "filterMm": 52,
     "lensConfiguration": {
       "groups": 5,
