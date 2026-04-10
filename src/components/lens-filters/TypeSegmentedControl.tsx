@@ -24,7 +24,7 @@ export default function TypeSegmentedControl<T>({
     <div
       role="radiogroup"
       aria-label={ariaLabel}
-      className={cn("rounded-lg bg-zinc-100 dark:bg-zinc-800 p-1", wrap ? "flex flex-wrap" : "inline-flex")}
+      className={cn("w-fit rounded-lg bg-zinc-100 dark:bg-zinc-800 p-1", wrap ? "flex flex-wrap" : "inline-flex")}
     >
       {options.map((option) => {
         const selected = value === option.value;
