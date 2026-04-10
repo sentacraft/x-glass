@@ -79,7 +79,7 @@ export default function LensCard({
         >
           <div
             {...hookAttr("cardMediaInner")}
-            className="absolute inset-0 p-7 sm:p-8"
+            className="absolute inset-0 p-4 sm:p-7"
           >
             <div className="relative h-full w-full overflow-hidden rounded-xl">
               {lens.imageUrl ? (
@@ -87,7 +87,7 @@ export default function LensCard({
                   src={lens.imageUrl}
                   alt={lens.model}
                   fill
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
+                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
                   style={lensImageStyle}
                   className="object-contain"
                 />
@@ -102,7 +102,7 @@ export default function LensCard({
 
         <div
           {...hookAttr("cardBody")}
-          className="flex flex-col gap-2.5 p-4"
+          className="flex flex-1 flex-col gap-2 p-3 sm:gap-2.5 sm:p-4"
         >
           <div className="flex flex-col gap-1">
             <div className="flex items-center justify-between gap-3 text-[11px] uppercase tracking-[0.14em] text-zinc-500 dark:text-zinc-400">
@@ -131,11 +131,11 @@ export default function LensCard({
             ))}
           </div>
 
-          <dl className="grid grid-cols-2 gap-x-3 gap-y-1 text-xs text-zinc-600 dark:text-zinc-400">
-            <div className="truncate">
+          <dl className="mt-auto flex items-baseline justify-between gap-2 text-xs text-zinc-600 dark:text-zinc-400">
+            <div className="min-w-0 truncate">
               {equivDisplay} {t("equivSuffix")}
             </div>
-            <div className="text-right">{lens.weightG}g</div>
+            <div className="shrink-0">{lens.weightG}g</div>
           </dl>
         </div>
       </Link>
@@ -143,13 +143,13 @@ export default function LensCard({
       {/* Compare toggle */}
       <div
         {...hookAttr("cardFooter")}
-        className="mt-auto px-4 pb-4"
+        className="mt-auto px-3 pb-3 sm:px-4 sm:pb-4"
       >
         <Button
           size="sm"
           onClick={onToggle}
           disabled={selectionDisabled}
-          className={`w-full h-9 text-xs font-medium ${
+          className={`w-full h-8 sm:h-9 text-xs font-medium ${
             isSelected
               ? "bg-blue-500 text-white hover:bg-blue-600"
               : selectionDisabled

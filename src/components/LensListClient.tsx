@@ -10,6 +10,7 @@ import {
   getUniqueBrands,
   type FilterState,
   type SortKey,
+  type SpecialtyTag,
 } from "@/lib/lens";
 import { useCompare } from "@/context/CompareProvider";
 import { useUiHookAttr } from "@/context/TestHookProvider";
@@ -44,6 +45,12 @@ export default function LensListClient({ lenses }: Props) {
 
   const brands = useMemo(() => getUniqueBrands(lenses), [lenses]);
 
+  const availableSpecialtyTags = useMemo(
+    () =>
+      [...new Set(lenses.flatMap((l) => l.specialtyTags ?? []))] as SpecialtyTag[],
+    [lenses]
+  );
+
   const displayed = useMemo(
     () =>
       sortLenses(filterLenses(lenses, filters), filters.sort, filters.sortDir),
@@ -53,6 +60,7 @@ export default function LensListClient({ lenses }: Props) {
   const hasActiveFilters =
     filters.brands.length > 0 ||
     filters.typeFilter !== null ||
+    filters.specialtyTag !== null ||
     filters.focalCategories.length > 0 ||
     filters.features.length > 0;
     
@@ -77,10 +85,11 @@ export default function LensListClient({ lenses }: Props) {
           <LensFilters
             filters={filters}
             brands={brands}
+            availableSpecialtyTags={availableSpecialtyTags}
             onFiltersChange={setFilters}
           />
           <div>
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex items-center justify-between gap-3">
               <div className="flex items-center gap-3 text-sm text-zinc-500 dark:text-zinc-400">
                 <p>{t("resultsCount", { count: displayed.length })}</p>
                 {hasActiveFilters ? (
@@ -158,7 +167,7 @@ export default function LensListClient({ lenses }: Props) {
         ) : (
           <div
             {...hookAttr("grid")}
-            className="grid grid-cols-1 items-start gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+            className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3 xl:grid-cols-4"
           >
             {displayed.map((lens) => (
               <LensCard

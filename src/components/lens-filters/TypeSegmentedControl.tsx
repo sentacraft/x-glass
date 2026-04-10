@@ -10,6 +10,7 @@ interface TypeSegmentedControlProps<T> {
   options: TypeSegmentedOption<T>[];
   value: T;
   onChange: (value: T) => void;
+  wrap?: boolean;
 }
 
 export default function TypeSegmentedControl<T>({
@@ -17,12 +18,13 @@ export default function TypeSegmentedControl<T>({
   options,
   value,
   onChange,
+  wrap = false,
 }: TypeSegmentedControlProps<T>) {
   return (
     <div
       role="radiogroup"
       aria-label={ariaLabel}
-      className="inline-flex rounded-lg bg-zinc-100 p-1"
+      className={cn("rounded-lg bg-zinc-100 dark:bg-zinc-800 p-1", wrap ? "flex flex-wrap" : "inline-flex")}
     >
       {options.map((option) => {
         const selected = value === option.value;
@@ -35,8 +37,8 @@ export default function TypeSegmentedControl<T>({
             className={cn(
               "h-7 rounded-md px-4 text-[12px] font-medium transition-colors",
               selected
-                ? "bg-white text-zinc-900 shadow-sm"
-                : "text-zinc-600 hover:text-zinc-900",
+                ? "bg-white text-zinc-900 shadow-sm dark:bg-zinc-700 dark:text-zinc-50 dark:shadow-none"
+                : "text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100",
             )}
             onClick={() => onChange(option.value)}
           >

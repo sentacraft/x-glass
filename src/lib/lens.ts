@@ -1,7 +1,8 @@
 import lensesData from "../data/lenses.json";
 import metaData from "../data/meta.json";
 import { lensCatalogSchema } from "./lens-schema";
-import type { Lens, LensCatalog } from "./types";
+import type { Lens, LensCatalog, SpecialtyTag } from "./types";
+export type { SpecialtyTag };
 
 export const allLenses: Lens[] = lensCatalogSchema.parse(lensesData) as LensCatalog;
 export const meta = metaData;
@@ -87,6 +88,7 @@ export function getFocalCategoriesOf(lens: {
 export interface FilterState {
   brands: string[]; // empty = all brands
   typeFilter: LensType | null; // null = all types
+  specialtyTag: SpecialtyTag | null; // null = no filter
   features: FilterFeatureKey[]; // empty = no requirement
   focalCategories: FocalCategory[]; // empty = all categories
   weightRange: [number, number] | null; // null = no filter
@@ -98,6 +100,7 @@ export interface FilterState {
 export const defaultFilters: FilterState = {
   brands: [],
   typeFilter: null,
+  specialtyTag: null,
   features: [],
   focalCategories: [],
   weightRange: null,
@@ -113,8 +116,12 @@ export function filterLenses(lenses: Lens[], filters: FilterState): Lens[] {
     }
 
     if (filters.typeFilter && filters.typeFilter !== (isZoom(lens) ? "zoom" : "prime")) {
-        return false;
-      }
+      return false;
+    }
+
+    if (filters.specialtyTag && !lens.specialtyTags?.includes(filters.specialtyTag)) {
+      return false;
+    }
 
     for (const field of FILTER_FEATURE_KEYS) {
       if (filters.features.includes(field) && !lens[field]) {

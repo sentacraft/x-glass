@@ -2,10 +2,9 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { Aperture, Droplet, Focus, Waves } from "lucide-react";
+import { Aperture, Droplet, Focus, SlidersHorizontal, Waves } from "lucide-react";
 import { FILTER_FEATURE_KEYS, FOCAL_CATEGORIES, LENS_TYPES } from "@/lib/lens";
-import type { FilterState, LensType } from "@/lib/lens";
-import { ChevronDown } from "lucide-react";
+import type { FilterState, LensType, SpecialtyTag } from "@/lib/lens";
 import { cn } from "@/lib/utils";
 import FeatureToggleGroup from "./lens-filters/FeatureToggleGroup";
 import FilterRow from "./lens-filters/FilterRow";
@@ -15,51 +14,33 @@ import TypeSegmentedControl from "./lens-filters/TypeSegmentedControl";
 interface Props {
   filters: FilterState;
   brands: string[];
+  availableSpecialtyTags: SpecialtyTag[];
   onFiltersChange: (filters: FilterState) => void;
 }
 
 export default function LensFilters({
   filters,
   brands,
+  availableSpecialtyTags,
   onFiltersChange,
 }: Props) {
   const t = useTranslations("LensList");
   const tBrand = useTranslations("Brands");
-  const [advancedOpen, setAdvancedOpen] = useState(false);
+  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+
   const featureMeta = {
-    af: {
-      label: t("featureAutofocus"),
-      icon: Focus,
-    },
-    ois: {
-      label: t("featureOis"),
-      icon: Waves,
-    },
-    wr: {
-      label: t("featureWr"),
-      icon: Droplet,
-    },
-    apertureRing: {
-      label: t("featureApertureRing"),
-      icon: Aperture,
-    },
+    af: { label: t("featureAutofocus"), icon: Focus },
+    ois: { label: t("featureOis"), icon: Waves },
+    wr: { label: t("featureWr"), icon: Droplet },
+    apertureRing: { label: t("featureApertureRing"), icon: Aperture },
   } as const;
 
-  function updateFilters<K extends keyof FilterState>(
-    key: K,
-    value: FilterState[K],
-  ) {
+  function updateFilters<K extends keyof FilterState>(key: K, value: FilterState[K]) {
     onFiltersChange({ ...filters, [key]: value });
   }
 
   function toggleValue<T extends string>(values: T[], value: T) {
-    return values.includes(value)
-      ? values.filter((item) => item !== value)
-      : [...values, value];
-  }
-
-  function setTypeFilter(value: LensType | null) {
-    updateFilters("typeFilter", value);
+    return values.includes(value) ? values.filter((v) => v !== value) : [...values, value];
   }
 
   function toggleMultiFilter<T extends string>(
@@ -67,14 +48,20 @@ export default function LensFilters({
     value: T,
     allValues: readonly T[],
   ) {
-    const nextValues = toggleValue(currentValues, value);
-
-    if (nextValues.length === 0 || nextValues.length === allValues.length) {
-      return [];
-    }
-
-    return nextValues;
+    const next = toggleValue(currentValues, value);
+    return next.length === 0 || next.length === allValues.length ? [] : next;
   }
+
+  const tagLabels: Record<SpecialtyTag, string> = {
+    cine: t("tagCine"),
+    anamorphic: t("tagAnamorphic"),
+    tilt: t("tagTilt"),
+    shift: t("tagShift"),
+    macro: t("tagMacro"),
+    ultra_macro: t("tagUltraMacro"),
+    fisheye: t("tagFisheye"),
+    probe: t("tagProbe"),
+  };
 
   const typeOptions = [
     { value: null, label: t("allTypes") },
@@ -83,6 +70,20 @@ export default function LensFilters({
       label: t(type === "prime" ? "primes" : "zooms"),
     })),
   ] as { value: LensType | null; label: string }[];
+
+  const specialtyOptions = [
+    { value: null as SpecialtyTag | null, label: t("allSpecialty") },
+    ...availableSpecialtyTags.map((tag) => ({
+      value: tag as SpecialtyTag | null,
+      label: tagLabels[tag],
+    })),
+  ];
+
+  const hasHiddenActiveFilters =
+    filters.brands.length > 0 ||
+    filters.focalCategories.length > 0 ||
+    filters.specialtyTag !== null ||
+    filters.features.length > 0;
 
   const allOptionLabel = t("allTypes");
 
@@ -119,65 +120,81 @@ export default function LensFilters({
   }));
 
   return (
-    <div>
-      <div className="flex min-w-0 flex-1 flex-col gap-3">
-        <FilterRow label={t("brand")}>
-          <MultiSelectChipGroup
-            allLabel={allOptionLabel}
-            allSelected={filters.brands.length === 0}
-            onSelectAll={() => updateFilters("brands", [])}
-            options={brandOptions}
+    <div className="flex min-w-0 flex-1 flex-col">
+      {/* Always-visible row: Type + mobile More Filters toggle */}
+      <div className="flex items-end gap-4 sm:items-center sm:gap-12">
+        <FilterRow label={t("lensType")}>
+          <TypeSegmentedControl
+            ariaLabel={t("lensType")}
+            options={typeOptions}
+            value={filters.typeFilter}
+            onChange={(v) => updateFilters("typeFilter", v)}
           />
         </FilterRow>
-
-        <FilterRow label={t("focalRange")}>
-          <MultiSelectChipGroup
-            allLabel={allOptionLabel}
-            allSelected={filters.focalCategories.length === 0}
-            onSelectAll={() => updateFilters("focalCategories", [])}
-            options={focalOptions}
-          />
-        </FilterRow>
-
-        <div className="flex items-center gap-12">
-          <FilterRow label={t("lensType")}>
-            <TypeSegmentedControl
-              ariaLabel={t("lensType")}
-              options={typeOptions}
-              value={filters.typeFilter}
-              onChange={setTypeFilter}
-            />
-          </FilterRow>
-          <div className="flex h-8 shrink-0 items-center gap-1 border-l border-zinc-200/80 pl-4 dark:border-zinc-800/80">
-            <button
-              type="button"
-              className="flex h-8 items-center gap-1 text-[10px] font-medium uppercase tracking-[0.1em] text-zinc-500 transition-colors hover:text-zinc-800 dark:text-zinc-400 dark:hover:text-zinc-200"
-              onClick={() => setAdvancedOpen((value) => !value)}
-              aria-expanded={advancedOpen}
-            >
-              <span>{advancedOpen ? t("fewerFilters") : t("moreFilters")}</span>
-              <ChevronDown
-                className={cn(
-                  "size-3.5 transition-transform duration-200",
-                  advancedOpen && "rotate-180",
-                )}
-              />
-            </button>
-          </div>
+        <div className="flex shrink-0 items-center border-l border-zinc-200/80 pl-4 dark:border-zinc-800/80 sm:hidden">
+          <button
+            type="button"
+            className={cn(
+              "relative flex h-8 items-center gap-1.5 rounded-full px-3 text-[11px] font-medium transition-colors",
+              mobileFiltersOpen
+                ? "bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900"
+                : "bg-zinc-100 text-zinc-600 hover:bg-zinc-200 hover:text-zinc-900 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700",
+            )}
+            onClick={() => setMobileFiltersOpen((v) => !v)}
+            aria-expanded={mobileFiltersOpen}
+            aria-label={t("moreFilters")}
+          >
+            <SlidersHorizontal className="size-3.5" />
+            <span>{t("filtersButton")}</span>
+            {hasHiddenActiveFilters && !mobileFiltersOpen && (
+              <span className="absolute -right-0.5 -top-0.5 h-2 w-2 rounded-full bg-blue-500" />
+            )}
+          </button>
         </div>
+      </div>
 
-        <div
-          style={{
-            gridTemplateRows: advancedOpen ? "1fr" : "0fr",
-          }}
-          className="grid overflow-hidden transition-[grid-template-rows] duration-500 ease-in-out"
-        >
-          <div className="min-h-0 overflow-hidden">
-            <div className="pt-3 pb-1">
-              <FilterRow label={t("features")}>
-                <FeatureToggleGroup options={featureOptions} />
+      {/* Expandable section: collapsed on mobile by default, always open on desktop */}
+      <div
+        className={cn(
+          "grid overflow-hidden transition-[grid-template-rows] duration-500 ease-in-out",
+          mobileFiltersOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr] sm:grid-rows-[1fr]",
+        )}
+      >
+        <div className="min-h-0 overflow-hidden">
+          <div className="flex flex-col gap-3 pt-3 pb-1">
+            <FilterRow label={t("brand")}>
+              <MultiSelectChipGroup
+                allLabel={allOptionLabel}
+                allSelected={filters.brands.length === 0}
+                onSelectAll={() => updateFilters("brands", [])}
+                options={brandOptions}
+              />
+            </FilterRow>
+
+            <FilterRow label={t("focalRange")}>
+              <MultiSelectChipGroup
+                allLabel={allOptionLabel}
+                allSelected={filters.focalCategories.length === 0}
+                onSelectAll={() => updateFilters("focalCategories", [])}
+                options={focalOptions}
+              />
+            </FilterRow>
+
+            {availableSpecialtyTags.length > 0 && (
+              <FilterRow label={t("specialtyFilter")}>
+                <TypeSegmentedControl
+                  ariaLabel={t("specialtyFilter")}
+                  options={specialtyOptions}
+                  value={filters.specialtyTag}
+                  onChange={(v) => updateFilters("specialtyTag", v)}
+                  wrap
+                />
               </FilterRow>
-            </div>
+            )}
+
+            <FilterRow label={t("features")}>
+              <FeatureToggleGroup options={featureOptions} />
+            </FilterRow>
           </div>
         </div>
       </div>
