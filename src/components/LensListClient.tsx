@@ -25,6 +25,7 @@ import {
 } from "@/components/ui/select";
 import LensCard from "./LensCard";
 import LensFilters from "./LensFilters";
+import FeedbackTrigger from "./FeedbackTrigger";
 
 interface Props {
   lenses: Lens[];
@@ -161,9 +162,20 @@ export default function LensListClient({ lenses }: Props) {
         </div>
 
         {displayed.length === 0 ? (
-          <p className="text-sm text-zinc-500 dark:text-zinc-400">
-            {t("noResults")}
-          </p>
+          <div className="flex flex-col gap-2">
+            <p className="text-sm text-zinc-500 dark:text-zinc-400">
+              {t("noResults")}
+            </p>
+            <p className="text-xs text-zinc-400 dark:text-zinc-500">
+              {t("suggestLens")}{" "}
+              <FeedbackTrigger
+                type="missing_lens"
+                className="underline underline-offset-2 hover:text-zinc-600 dark:hover:text-zinc-300 transition-colors"
+              >
+                {t("suggestLensLink")}
+              </FeedbackTrigger>
+            </p>
+          </div>
         ) : (
           <div
             {...hookAttr("grid")}

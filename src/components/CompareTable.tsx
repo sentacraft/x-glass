@@ -27,12 +27,13 @@ import {
   useSortable,
   arrayMove,
 } from "@dnd-kit/sortable";
-import { GripVertical, X } from "lucide-react";
+import { Flag, GripVertical, X } from "lucide-react";
 import { LensPlaceholderIcon } from "@/components/ui/lens-placeholder-icon";
 import { BoolCell } from "@/components/ui/bool-cell";
 import { FieldNotePopover } from "@/components/ui/field-note-popover";
 import { useRouter } from "@/i18n/navigation";
 import LensSearchDialog from "@/components/LensSearchDialog";
+import FeedbackTrigger from "@/components/FeedbackTrigger";
 import { useCompare } from "@/context/CompareProvider";
 import { MAX_COMPARE, allLenses, getLensUrl } from "@/lib/lens";
 import { lensImageStyle } from "@/lib/lens-image";
@@ -45,9 +46,11 @@ import type { Lens } from "@/lib/types";
 function LensHeaderContent({
   lens,
   officialSiteLabel,
+  reportLabel,
 }: {
   lens: Lens;
   officialSiteLabel: string;
+  reportLabel: string;
 }) {
   const tBrand = useTranslations("Brands");
   const url = getLensUrl(lens);
@@ -78,16 +81,27 @@ function LensHeaderContent({
       <p className="text-center font-semibold leading-snug text-zinc-900 dark:text-zinc-50">
         {lens.model}
       </p>
-      {url && (
-        <ExternalLink
-          href={url}
-          onClick={(e) => e.stopPropagation()}
-          onPointerDown={(e) => e.stopPropagation()}
-          className="mt-2 inline-flex items-center gap-1 self-center text-xs text-blue-500 transition-colors hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300"
+      <div className="mt-2 flex items-center justify-center gap-3">
+        {url && (
+          <ExternalLink
+            href={url}
+            onClick={(e) => e.stopPropagation()}
+            onPointerDown={(e) => e.stopPropagation()}
+            className="inline-flex items-center gap-1 text-xs text-blue-500 transition-colors hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300"
+          >
+            {officialSiteLabel}
+          </ExternalLink>
+        )}
+        <FeedbackTrigger
+          type="data_issue"
+          context={{ lensId: lens.id, lensModel: lens.model }}
+          stopPropagation
+          className="inline-flex items-center gap-1 text-xs text-zinc-400 dark:text-zinc-500 transition-colors hover:text-zinc-600 dark:hover:text-zinc-300"
         >
-          {officialSiteLabel}
-        </ExternalLink>
-      )}
+          <Flag className="h-3 w-3" />
+          {reportLabel}
+        </FeedbackTrigger>
+      </div>
     </>
   );
 }
@@ -97,11 +111,13 @@ function LensHeaderContent({
 function SortableLensHeader({
   lens,
   officialSiteLabel,
+  reportLabel,
   removeLabel,
   onRemove,
 }: {
   lens: Lens;
   officialSiteLabel: string;
+  reportLabel: string;
   removeLabel: string;
   onRemove: () => void;
 }) {
@@ -133,7 +149,11 @@ function SortableLensHeader({
         </div>
       </div>
       <div className="mt-1 flex flex-col items-center text-center">
-        <LensHeaderContent lens={lens} officialSiteLabel={officialSiteLabel} />
+        <LensHeaderContent
+          lens={lens}
+          officialSiteLabel={officialSiteLabel}
+          reportLabel={reportLabel}
+        />
       </div>
     </th>
   );
@@ -177,11 +197,13 @@ function ColumnOverlay({
   lens,
   visibleGroups,
   officialSiteLabel,
+  reportLabel,
   valueCellLabels,
 }: {
   lens: Lens;
   visibleGroups: SpecGroup[];
   officialSiteLabel: string;
+  reportLabel: string;
   valueCellLabels: { yes: string; no: string; unknown: string; missing: string };
 }) {
   function renderRowValue(row: SpecRow) {
@@ -218,7 +240,11 @@ function ColumnOverlay({
         <div className="flex justify-end mb-1">
           <GripVertical className="w-4 h-4 text-zinc-400 dark:text-zinc-500" />
         </div>
-        <LensHeaderContent lens={lens} officialSiteLabel={officialSiteLabel} />
+        <LensHeaderContent
+          lens={lens}
+          officialSiteLabel={officialSiteLabel}
+          reportLabel={reportLabel}
+        />
       </div>
 
       {visibleGroups.map((group) => (
@@ -454,6 +480,7 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
                     key={lens.id}
                     lens={lens}
                     officialSiteLabel={t("officialSite")}
+                    reportLabel={td("reportIssue")}
                     removeLabel={t("removeLens", { model: lens.model })}
                     onRemove={() => handleRemoveLens(lens.id)}
                   />
@@ -729,6 +756,7 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
               lens={activeLens}
               visibleGroups={visibleGroups}
               officialSiteLabel={t("officialSite")}
+              reportLabel={td("reportIssue")}
               valueCellLabels={valueCellLabels}
             />
           )}

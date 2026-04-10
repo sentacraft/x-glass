@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
+import { Flag } from "lucide-react";
 import { allLenses, getLensUrl } from "@/lib/lens";
 import { lensImageStyle } from "@/lib/lens-image";
 import { buildSpecGroups } from "@/lib/lens-spec-groups";
@@ -11,6 +12,7 @@ import { ExternalLink } from "@/components/ui/external-link";
 import { LensPlaceholderIcon } from "@/components/ui/lens-placeholder-icon";
 import { Link } from "@/i18n/navigation";
 import AddToCompareButton from "@/components/AddToCompareButton";
+import FeedbackTrigger from "@/components/FeedbackTrigger";
 import { BoolCell } from "@/components/ui/bool-cell";
 import { FieldNotePopover } from "@/components/ui/field-note-popover";
 
@@ -227,16 +229,26 @@ export default async function LensDetailPage({ params }: { params: Params }) {
           </div>
 
           {/* Actions */}
-          <div className="flex flex-wrap gap-3">
-            <AddToCompareButton lensId={lens.id} />
-            {url && (
-              <ExternalLink
-                href={url}
-                className="inline-flex items-center gap-1.5 text-sm font-medium px-4 py-2 rounded-lg border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors"
-              >
-                {t("officialSite")}
-              </ExternalLink>
-            )}
+          <div className="flex flex-col gap-2">
+            <div className="flex flex-wrap gap-3">
+              <AddToCompareButton lensId={lens.id} />
+              {url && (
+                <ExternalLink
+                  href={url}
+                  className="inline-flex items-center gap-1.5 text-sm font-medium px-4 py-2 rounded-lg border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors"
+                >
+                  {t("officialSite")}
+                </ExternalLink>
+              )}
+            </div>
+            <FeedbackTrigger
+              type="data_issue"
+              context={{ lensId: lens.id, lensModel: lens.model }}
+              className="inline-flex items-center gap-1 text-xs text-zinc-400 dark:text-zinc-500 hover:text-zinc-600 dark:hover:text-zinc-300 transition-colors self-start"
+            >
+              <Flag size={11} />
+              {t("reportIssue")}
+            </FeedbackTrigger>
           </div>
 
           {/* Grouped spec table */}
