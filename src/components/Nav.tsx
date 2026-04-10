@@ -28,6 +28,16 @@ export default function Nav() {
           >
             {t("lenses")}
           </Link>
+          <Link
+            href="/about"
+            className={`text-sm transition-colors ${
+              pathname === "/about"
+                ? "text-zinc-900 dark:text-zinc-50 font-medium"
+                : "text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50"
+            }`}
+          >
+            {t("about")}
+          </Link>
           <LensSearchDialog />
         </div>
       </nav>
