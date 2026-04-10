@@ -29,27 +29,16 @@ import {
 } from "@dnd-kit/sortable";
 import { GripVertical, X } from "lucide-react";
 import { LensPlaceholderIcon } from "@/components/ui/lens-placeholder-icon";
+import { BoolCell } from "@/components/ui/bool-cell";
+import { FieldNotePopover } from "@/components/ui/field-note-popover";
 import { useRouter } from "@/i18n/navigation";
 import LensSearchDialog from "@/components/LensSearchDialog";
 import { useCompare } from "@/context/CompareProvider";
 import { MAX_COMPARE, allLenses, getLensUrl } from "@/lib/lens";
 import { lensImageStyle } from "@/lib/lens-image";
-import * as fmt from "@/lib/lens.format";
+import { buildSpecGroups } from "@/lib/lens-spec-groups";
+import type { SpecRow, SpecGroup, StructuredLine } from "@/lib/lens-spec-groups";
 import type { Lens } from "@/lib/types";
-import { BoolCell } from "@/components/ui/bool-cell";
-
-// --- Shared row type ---
-
-type Row =
-  | { kind: "text"; label: string; getDisplayValue: (l: Lens) => string | undefined }
-  | {
-      kind: "numeric";
-      label: string;
-      getDisplayValue: (l: Lens) => string | undefined;
-      toComparable: (l: Lens) => number | undefined;
-      bestDir?: "min" | "max";
-    }
-  | { kind: "bool"; label: string; getValue: (l: Lens) => boolean | undefined };
 
 // --- LensHeaderContent: shared between SortableLensHeader and ColumnOverlay ---
 
@@ -186,47 +175,38 @@ function AddLensHeader({
 
 function ColumnOverlay({
   lens,
-  primaryRows,
-  advancedRows,
+  visibleGroups,
   officialSiteLabel,
+  valueCellLabels,
 }: {
   lens: Lens;
-  primaryRows: Row[];
-  advancedRows: Row[];
+  visibleGroups: SpecGroup[];
   officialSiteLabel: string;
+  valueCellLabels: { yes: string; no: string; unknown: string; missing: string };
 }) {
-  const td = useTranslations("LensDetail");
-
-  function renderRow(row: Row, i: number) {
-    let content: React.ReactNode;
-
+  function renderRowValue(row: SpecRow) {
     if (row.kind === "bool") {
-      content = (
+      return (
         <BoolCell
           value={row.getValue(lens)}
-          yes={td("yes")}
-          no={td("no")}
-          unknown={td("unknown")}
+          yes={valueCellLabels.yes}
+          no={valueCellLabels.no}
+          unknown={valueCellLabels.unknown}
         />
       );
-    } else if (row.kind === "numeric") {
-      const val = row.getDisplayValue(lens);
-      content =
-        val === undefined ? (
-          td("missing")
-        ) : (
-          <span className="font-medium tabular-nums">{val}</span>
-        );
-    } else {
-      content = row.getDisplayValue(lens) ?? td("unknown");
     }
-
+    const primary = row.getDisplayValue(lens);
+    const sub = row.getSubValue?.(lens);
     return (
-      <div
-        key={i}
-        className="px-4 py-3 text-sm text-zinc-700 dark:text-zinc-300 whitespace-pre-line border-b border-zinc-100 dark:border-zinc-800/60 last:border-0"
-      >
-        {content}
+      <div>
+        <span className="whitespace-pre-line font-medium tabular-nums">
+          {primary ?? valueCellLabels.missing}
+        </span>
+        {sub && (
+          <p className="mt-0.5 whitespace-pre-line text-[11px] leading-relaxed font-normal text-zinc-400 dark:text-zinc-500">
+            {sub}
+          </p>
+        )}
       </div>
     );
   }
@@ -241,20 +221,23 @@ function ColumnOverlay({
         <LensHeaderContent lens={lens} officialSiteLabel={officialSiteLabel} />
       </div>
 
-      {primaryRows.map(renderRow)}
-
-      <div className="px-4 py-3 bg-amber-50/70 dark:bg-amber-950/20 border-b border-zinc-100 dark:border-zinc-800/60">
-        <div className="flex flex-col gap-1">
-          <span className="text-xs font-semibold uppercase tracking-wide text-amber-800 dark:text-amber-300">
-            {td("advancedSpecs")}
-          </span>
-          <span className="text-xs text-amber-700 dark:text-amber-200/80">
-            {td("advancedSpecsNote")}
-          </span>
-        </div>
-      </div>
-
-      {advancedRows.map(renderRow)}
+      {visibleGroups.map((group) => (
+        <React.Fragment key={group.label}>
+          <div className="px-4 py-2 bg-zinc-100/80 dark:bg-zinc-800/60 border-t border-zinc-100 dark:border-zinc-800/60">
+            <span className="text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+              {group.label}
+            </span>
+          </div>
+          {group.rows.map((row) => (
+            <div
+              key={row.label}
+              className="px-4 py-3 text-sm text-zinc-700 dark:text-zinc-300 border-b border-zinc-100 dark:border-zinc-800/60 last:border-0"
+            >
+              {renderRowValue(row)}
+            </div>
+          ))}
+        </React.Fragment>
+      ))}
     </div>
   );
 }
@@ -337,7 +320,6 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
     if (orderedIds.includes(lens.id) || orderedIds.length >= MAX_COMPARE) {
       return;
     }
-
     updateCompare([...orderedIds, lens.id]);
   }
 
@@ -345,121 +327,96 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
     updateCompare(orderedIds.filter((id) => id !== lensId));
   }
 
-  const primaryRows: Row[] = [
-    {
-      kind: "text",
-      label: td("focalLength"),
-      getDisplayValue: (l) => fmt.focalRangeDisplay(l.focalLengthMin, l.focalLengthMax),
-    },
-    {
-      kind: "text",
-      label: td("focalLengthEquiv"),
-      getDisplayValue: (l) => fmt.focalRangeDisplay(fmt.focalEquiv(l.focalLengthMin), fmt.focalEquiv(l.focalLengthMax)),
-    },
-    {
-      kind: "numeric",
-      label: td("maxAperture"),
-      getDisplayValue: (l) => fmt.apertureDisplay(l.maxAperture),
-      toComparable: (l) => Array.isArray(l.maxAperture) ? l.maxAperture[0] : l.maxAperture,
-      bestDir: "min",
-    },
-    { kind: "bool", label: td("af"), getValue: (l) => l.af },
-    {
-      kind: "text",
-      label: td("ois"),
-      getDisplayValue: (l) => fmt.oisDisplay(l.ois, l.oisStops, { yes: td("yes"), no: td("no") }),
-    },
-    { kind: "text", label: td("wr"), getDisplayValue: (l) => fmt.wrDisplay(l.wr, { yes: td("yes"), no: td("no"), partial: td("partial") }) },
-    { kind: "bool", label: td("apertureRing"), getValue: (l) => l.apertureRing },
-    { kind: "bool", label: td("powerZoom"), getValue: (l) => l.powerZoom },
-    {
-      kind: "numeric",
-      label: td("apertureBladeCount"),
-      getDisplayValue: (l) => fmt.optionalNumber(l.apertureBladeCount, ""),
-      toComparable: (l) => l.apertureBladeCount,
-    },
-    {
-      kind: "numeric",
-      label: td("weight"),
-      getDisplayValue: (l) => fmt.weightDisplay(l.weightG, "g"),
-      toComparable: (l) => Array.isArray(l.weightG) ? l.weightG[0] : l.weightG,
-      bestDir: "min",
-    },
-    {
-      kind: "text",
-      label: td("dimensions"),
-      getDisplayValue: (l) => fmt.dimensionsDisplay(l.diameterMm, l.length?.mm),
-    },
-    {
-      kind: "text",
-      label: td("filterSize"),
-      getDisplayValue: (l) => fmt.filterSizeDisplay(l.filterMm),
-    },
-    {
-      kind: "numeric",
-      label: td("minFocusDist"),
-      getDisplayValue: (l) => fmt.optionalNumber(l.minFocusDistance?.cm, "cm"),
-      toComparable: (l) => l.minFocusDistance?.cm,
-      bestDir: "min",
-    },
-    {
-      kind: "numeric",
-      label: td("maxMagnification"),
-      getDisplayValue: (l) => fmt.magnificationDisplay(l.maxMagnification),
-      toComparable: (l) => l.maxMagnification?.value,
-      bestDir: "max",
-    },
-  ];
+  const valueCellLabels = {
+    yes: td("yes"),
+    no: td("no"),
+    unknown: td("unknown"),
+    missing: td("missing"),
+  };
 
-  const advancedRows: Row[] = [
-    {
-      kind: "text",
-      label: td("lengthVariants"),
-      getDisplayValue: (l) =>
-        fmt.lengthVariantsDisplay(l.length?.variants, {
-          retracted: td("lengthRetracted"),
-          wide: td("lengthWide"),
-          tele: td("lengthTele"),
-        }),
-    },
-    {
-      kind: "numeric",
-      label: td("minFocusDistMacro"),
-      getDisplayValue: (l) => fmt.optionalNumber(l.minFocusDistance?.macroCm, "cm"),
-      toComparable: (l) => l.minFocusDistance?.macroCm,
-      bestDir: "min",
-    },
-    {
-      kind: "text",
-      label: td("minFocusDistVariants"),
-      getDisplayValue: (l) =>
-        fmt.focusDistanceVariantsDisplay(l.minFocusDistance?.variants, {
-          wide: td("lengthWide"),
-          tele: td("lengthTele"),
-        }),
-    },
-    {
-      kind: "text",
-      label: td("maxMagnificationVariants"),
-      getDisplayValue: (l) =>
-        fmt.magnificationVariantsDisplay(l.maxMagnification?.variants, {
-          wide: td("lengthWide"),
-          tele: td("lengthTele"),
-        }),
-    },
-    {
-      kind: "text",
-      label: td("lensConfiguration"),
-      getDisplayValue: (l) => fmt.lensConfigurationDisplay(l.lensConfiguration),
-    },
-    {
-      kind: "numeric",
-      label: td("releaseYear"),
-      getDisplayValue: (l) => fmt.optionalNumber(l.releaseYear, ""),
-      toComparable: (l) => l.releaseYear,
-      bestDir: "max",
-    },
-  ];
+  const allGroups = useMemo(
+    () =>
+      buildSpecGroups({
+        groupOptics: td("groupOptics"),
+        groupFocus: td("groupFocus"),
+        groupStabilization: td("groupStabilization"),
+        groupPhysical: td("groupPhysical"),
+        groupFeatures: td("groupFeatures"),
+        groupRelease: td("groupRelease"),
+        focalLength: td("focalLength"),
+        focalLengthEquiv: td("focalLengthEquiv"),
+        maxAperture: td("maxAperture"),
+        minAperture: td("minAperture"),
+        maxTStop: td("maxTStop"),
+        minTStop: td("minTStop"),
+        angleOfView: td("angleOfView"),
+        angleOfViewEstNote: td("angleOfViewEstNote"),
+        apertureBladeCount: td("apertureBladeCount"),
+        lensConfiguration: td("lensConfiguration"),
+        af: td("af"),
+        focusMotor: td("focusMotor"),
+        internalFocusing: td("internalFocusing"),
+        minFocusDist: td("minFocusDist"),
+        maxMagnification: td("maxMagnification"),
+        ois: td("ois"),
+        weight: td("weight"),
+        dimensions: td("dimensions"),
+        filterSize: td("filterSize"),
+        lensMaterial: td("lensMaterial"),
+        wr: td("wr"),
+        apertureRing: td("apertureRing"),
+        powerZoom: td("powerZoom"),
+        specialtyTags: td("specialtyTags"),
+        releaseYear: td("releaseYear"),
+        accessories: td("accessories"),
+        yes: td("yes"),
+        no: td("no"),
+        partial: td("partial"),
+        retracted: td("lengthRetracted"),
+        wide: td("lengthWide"),
+        tele: td("lengthTele"),
+        macro: td("macroLabel"),
+        lc: {
+          groups: td("lcGroups"),
+          elements: td("lcElements"),
+          aspherical: td("lcAspherical"),
+          ed: td("lcEd"),
+          superEd: td("lcSuperEd"),
+          sld: td("lcSld"),
+          fld: td("lcFld"),
+          highRefractive: td("lcHighRefractive"),
+          incl: td("lcIncl"),
+        },
+        tags: {
+          cine: td("tagCine"),
+          anamorphic: td("tagAnamorphic"),
+          tilt: td("tagTilt"),
+          shift: td("tagShift"),
+          macro: td("tagMacro"),
+          ultra_macro: td("tagUltraMacro"),
+          fisheye: td("tagFisheye"),
+          probe: td("tagProbe"),
+        },
+      }),
+    [td]
+  );
+
+  // Per-view suppression: hide rows where no compared lens has data.
+  const visibleGroups = useMemo(
+    () =>
+      allGroups
+        .map((group) => ({
+          ...group,
+          rows: group.rows.filter((row) =>
+            orderedLenses.some((l) => row.hasData(l))
+          ),
+        }))
+        .filter((group) => group.rows.length > 0),
+    [allGroups, orderedLenses]
+  );
+
+  const totalColSpan =
+    orderedLenses.length + 1 + (canAddMore ? 1 : 0);
 
   return (
     <div className="overflow-x-auto rounded-xl border border-zinc-200 dark:border-zinc-800">
@@ -474,7 +431,7 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
         <table
           className="w-full min-w-max table-fixed text-sm border-collapse"
           style={{
-            minWidth: `calc(${LABEL_COLUMN_WIDTH} + ${(orderedLenses.length + (canAddMore ? 1 : 0))} * ${LENS_COLUMN_MIN_WIDTH})`,
+            minWidth: `calc(${LABEL_COLUMN_WIDTH} + ${orderedLenses.length + (canAddMore ? 1 : 0)} * ${LENS_COLUMN_MIN_WIDTH})`,
           }}
         >
           <colgroup>
@@ -484,6 +441,7 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
             ))}
             {canAddMore ? <col style={{ width: LENS_COLUMN_MIN_WIDTH }} /> : null}
           </colgroup>
+
           <thead>
             <tr className="border-b border-zinc-200 dark:border-zinc-800">
               <th className="bg-zinc-50 px-4 py-3 dark:bg-zinc-900/60" />
@@ -523,107 +481,242 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
           </thead>
 
           <tbody>
-            {[...primaryRows, ...advancedRows].map((row, groupOffset) => {
-              const isSectionBoundary = groupOffset === primaryRows.length;
-              let bestVal: number | null = null;
-              if (row.kind === "numeric" && row.bestDir) {
-                const vals = orderedLenses
-                  .map(row.toComparable)
-                  .filter((v): v is number => v !== undefined);
-                if (vals.length > 0) {
-                  bestVal =
-                    row.bestDir === "min" ? Math.min(...vals) : Math.max(...vals);
-                }
-              }
+            {visibleGroups.map((group) => {
               return (
-                <React.Fragment key={row.label}>
-                  {isSectionBoundary && (
-                    <tr className="border-b border-zinc-100 dark:border-zinc-800/60">
-                      <td
-                        colSpan={orderedLenses.length + 1 + (canAddMore ? 1 : 0)}
-                        className="px-4 py-3 bg-amber-50/70 dark:bg-amber-950/20"
-                      >
-                        <div className="flex flex-col gap-1">
-                          <span className="text-xs font-semibold uppercase tracking-wide text-amber-800 dark:text-amber-300">
-                            {td("advancedSpecs")}
-                          </span>
-                          <span className="text-xs text-amber-700 dark:text-amber-200/80">
-                            {td("advancedSpecsNote")}
-                          </span>
-                        </div>
-                      </td>
-                    </tr>
-                  )}
-                  <tr className="border-b border-zinc-100 dark:border-zinc-800/60 last:border-0">
-                    <td className="px-4 py-3 text-xs font-medium text-zinc-500 dark:text-zinc-400 bg-zinc-50/60 dark:bg-zinc-900/30 whitespace-nowrap">
-                      {row.label}
+                <React.Fragment key={group.label}>
+                  {/* Group header row */}
+                  <tr className="border-b border-zinc-100 dark:border-zinc-800/60">
+                    <td
+                      colSpan={totalColSpan}
+                      className="px-4 py-2 bg-zinc-100/80 dark:bg-zinc-800/60"
+                    >
+                      <span className="text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+                        {group.label}
+                      </span>
                     </td>
+                  </tr>
 
-                    {orderedLenses.map((lens) => {
-                      const isActive = lens.id === activeId;
-
-                      if (row.kind === "bool") {
-                        return (
-                          <td
-                            key={lens.id}
-                            className="px-3 py-3 text-center text-zinc-700 dark:text-zinc-300 whitespace-normal break-words"
-                            style={{ opacity: isActive ? 0 : 1 }}
-                          >
-                            <BoolCell
-                              value={row.getValue(lens)}
-                              yes={td("yes")}
-                              no={td("no")}
-                              unknown={td("unknown")}
-                            />
-                          </td>
-                        );
+                  {/* Data rows */}
+                  {group.rows.map((row) => {
+                    // Compute best value for numeric rows
+                    let bestVal: number | null = null;
+                    if (row.kind === "numeric" && row.bestDir) {
+                      const vals = orderedLenses
+                        .map(row.toComparable)
+                        .filter((v): v is number => v !== undefined);
+                      if (vals.length > 1) {
+                        bestVal =
+                          row.bestDir === "min"
+                            ? Math.min(...vals)
+                            : Math.max(...vals);
                       }
+                    }
 
-                      if (row.kind === "numeric") {
-                        const displayVal = row.getDisplayValue(lens);
-                        const comparable = row.toComparable(lens);
-                        const isBest = bestVal !== null && comparable === bestVal;
-                        return (
-                          <td
-                            key={lens.id}
-                            className={`px-3 py-3 text-center font-medium tabular-nums whitespace-normal break-words ${
-                              isBest
-                                ? "text-blue-600 dark:text-blue-400"
-                                : "text-zinc-700 dark:text-zinc-300"
-                            }`}
-                            style={{ opacity: isActive ? 0 : 1 }}
-                          >
-                            {displayVal === undefined ? (
-                              td("unknown")
-                            ) : (
-                              <>
-                                {displayVal}
-                                {isBest && (
-                                  <span className="ml-1.5 text-[10px] font-semibold text-blue-500 dark:text-blue-400 uppercase tracking-wide">
+                    return (
+                      <tr
+                        key={row.label}
+                        className="border-b border-zinc-100 dark:border-zinc-800/60 last:border-0"
+                      >
+                        {/* Label cell */}
+                        <td className="px-4 py-3 text-xs font-medium text-zinc-500 dark:text-zinc-400 bg-zinc-50/60 dark:bg-zinc-900/30 whitespace-nowrap">
+                          {row.label}
+                        </td>
+
+                        {/* Value cells */}
+                        {orderedLenses.map((lens) => {
+                          const isActive = lens.id === activeId;
+                          const fieldNote =
+                            (row.fieldNoteKey ? lens.fieldNotes?.[row.fieldNoteKey] : undefined) ??
+                            row.getNote?.(lens);
+
+                          if (row.kind === "bool") {
+                            return (
+                              <td
+                                key={lens.id}
+                                className="px-3 py-3 text-center text-zinc-700 dark:text-zinc-300"
+                                style={{ opacity: isActive ? 0 : 1 }}
+                              >
+                                <div className="flex items-center justify-center gap-1">
+                                  <BoolCell
+                                    value={row.getValue(lens)}
+                                    yes={valueCellLabels.yes}
+                                    no={valueCellLabels.no}
+                                    unknown={valueCellLabels.unknown}
+                                  />
+                                  {fieldNote && (
+                                    <FieldNotePopover note={fieldNote} />
+                                  )}
+                                </div>
+                              </td>
+                            );
+                          }
+
+                          if (row.kind === "numeric") {
+                            const comparable = row.toComparable(lens);
+                            const isBest =
+                              bestVal !== null && comparable === bestVal;
+                            const fragment = isBest
+                              ? row.getHighlightFragment?.(lens)
+                              : undefined;
+                            const subVal = row.getSubValue?.(lens);
+                            const structuredLines = row.getStructuredLines?.(lens);
+
+                            // --- Structured multi-line rendering ---
+                            if (structuredLines && structuredLines.length > 0) {
+                              return (
+                                <td
+                                  key={lens.id}
+                                  className="px-3 py-3 text-center font-medium tabular-nums text-zinc-700 dark:text-zinc-300 break-words"
+                                  style={{ opacity: isActive ? 0 : 1 }}
+                                >
+                                  <div className="flex items-start justify-center gap-1">
+                                    <div className="flex flex-col items-center gap-0.5">
+                                      {structuredLines.map(
+                                        (line: StructuredLine, i: number) => {
+                                          const lineHighlighted =
+                                            isBest && fragment === line.value;
+                                          return (
+                                            <div
+                                              key={i}
+                                              className={`flex items-baseline gap-1 ${lineHighlighted ? "text-blue-600 dark:text-blue-400" : ""}`}
+                                            >
+                                              <span>{line.value}</span>
+                                              {lineHighlighted && (
+                                                <span className="text-[10px] font-semibold text-blue-500 dark:text-blue-400 uppercase tracking-wide">
+                                                  ★
+                                                </span>
+                                              )}
+                                              {line.label && (
+                                                <span
+                                                  className={`text-[11px] ${lineHighlighted ? "text-blue-400/70 dark:text-blue-400/60" : "text-zinc-400 dark:text-zinc-500"}`}
+                                                >
+                                                  ({line.label})
+                                                </span>
+                                              )}
+                                            </div>
+                                          );
+                                        }
+                                      )}
+                                      {subVal && (
+                                        <p className="mt-0.5 whitespace-pre-line text-[11px] leading-relaxed font-normal text-zinc-400 dark:text-zinc-500">
+                                          {subVal}
+                                        </p>
+                                      )}
+                                    </div>
+                                    {fieldNote && (
+                                      <FieldNotePopover note={fieldNote} />
+                                    )}
+                                  </div>
+                                </td>
+                              );
+                            }
+
+                            // --- Plain string rendering ---
+                            const displayVal = row.getDisplayValue(lens);
+                            const usePartialHighlight =
+                              isBest &&
+                              fragment !== undefined &&
+                              displayVal !== undefined &&
+                              displayVal.includes(fragment) &&
+                              displayVal !== fragment;
+
+                            let primaryNode: React.ReactNode;
+                            if (displayVal === undefined) {
+                              primaryNode = valueCellLabels.unknown;
+                            } else if (usePartialHighlight && fragment) {
+                              const idx = displayVal.indexOf(fragment);
+                              const before = displayVal.slice(0, idx);
+                              const after = displayVal.slice(
+                                idx + fragment.length
+                              );
+                              primaryNode = (
+                                <>
+                                  {before}
+                                  <span className="text-blue-600 dark:text-blue-400">
+                                    {fragment}
+                                  </span>
+                                  <span className="ml-0.5 text-[10px] font-semibold text-blue-500 dark:text-blue-400 uppercase tracking-wide">
                                     ★
                                   </span>
+                                  {after}
+                                </>
+                              );
+                            } else {
+                              primaryNode = (
+                                <>
+                                  {displayVal}
+                                  {isBest && (
+                                    <span className="ml-1.5 text-[10px] font-semibold text-blue-500 dark:text-blue-400 uppercase tracking-wide">
+                                      ★
+                                    </span>
+                                  )}
+                                </>
+                              );
+                            }
+
+                            return (
+                              <td
+                                key={lens.id}
+                                className={`px-3 py-3 text-center font-medium tabular-nums break-words ${
+                                  isBest && !usePartialHighlight
+                                    ? "text-blue-600 dark:text-blue-400"
+                                    : "text-zinc-700 dark:text-zinc-300"
+                                }`}
+                                style={{ opacity: isActive ? 0 : 1 }}
+                              >
+                                <div className="flex items-start justify-center gap-1">
+                                  <div>
+                                    <span className="whitespace-pre-line">
+                                      {primaryNode}
+                                    </span>
+                                    {subVal && (
+                                      <p className="mt-0.5 whitespace-pre-line text-[11px] leading-relaxed font-normal text-zinc-400 dark:text-zinc-500">
+                                        {subVal}
+                                      </p>
+                                    )}
+                                  </div>
+                                  {fieldNote && (
+                                    <FieldNotePopover note={fieldNote} />
+                                  )}
+                                </div>
+                              </td>
+                            );
+                          }
+
+                          // text row
+                          const displayVal = row.getDisplayValue(lens);
+                          const subVal = row.getSubValue?.(lens);
+                          return (
+                            <td
+                              key={lens.id}
+                              className="px-3 py-3 text-center text-zinc-700 dark:text-zinc-300 break-words"
+                              style={{ opacity: isActive ? 0 : 1 }}
+                            >
+                              <div className="flex items-start justify-center gap-1">
+                                <div>
+                                  <span className="whitespace-pre-line">
+                                    {displayVal ?? valueCellLabels.missing}
+                                  </span>
+                                  {subVal && (
+                                    <p className="mt-0.5 whitespace-pre-line text-[11px] leading-relaxed text-zinc-400 dark:text-zinc-500">
+                                      {subVal}
+                                    </p>
+                                  )}
+                                </div>
+                                {fieldNote && (
+                                  <FieldNotePopover note={fieldNote} />
                                 )}
-                              </>
-                            )}
-                          </td>
-                        );
-                      }
+                              </div>
+                            </td>
+                          );
+                        })}
 
-                      return (
-                        <td
-                          key={lens.id}
-                          className="px-3 py-3 text-center text-zinc-700 dark:text-zinc-300 whitespace-pre-line break-words"
-                          style={{ opacity: isActive ? 0 : 1 }}
-                        >
-                          {row.getDisplayValue(lens) ?? td("missing")}
-                        </td>
-                      );
-                    })}
-
-                    {canAddMore ? (
-                      <td className="bg-zinc-50/40 dark:bg-zinc-900/20" />
-                    ) : null}
-                  </tr>
+                        {canAddMore ? (
+                          <td className="bg-zinc-50/40 dark:bg-zinc-900/20" />
+                        ) : null}
+                      </tr>
+                    );
+                  })}
                 </React.Fragment>
               );
             })}
@@ -634,9 +727,9 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
           {activeLens && (
             <ColumnOverlay
               lens={activeLens}
-              primaryRows={primaryRows}
-              advancedRows={advancedRows}
+              visibleGroups={visibleGroups}
               officialSiteLabel={t("officialSite")}
+              valueCellLabels={valueCellLabels}
             />
           )}
         </DragOverlay>
