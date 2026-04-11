@@ -58,6 +58,11 @@ x-glass/
 
 代码改动完成后，直接 stage 相关改动并 commit。不要 push——commit 完成后告知用户即可。
 
+**Plan Mode 归档**：每次用户批准 Plan（即 `ExitPlanMode` 被接受）后，立刻把 `~/.claude/plans/<slug>.md` 归档到 Obsidian vault：
+- 目标路径：`/Users/ericzhang/Library/Mobile Documents/iCloud~md~obsidian/Documents/SentaForge/Geek & Creativity/Projects/X-Glass/plans/YYYY-MM-DD-<kebab-title>.md`
+- 在文件开头注入 frontmatter：`date` / `tags` / `status: approved` / `source`（原始 slug 路径）
+- 归档完成后删除 `~/.claude/plans/<slug>.md` 原文件
+
 ## 数据规范
 
 - **禁止直接修改 `src/data/lenses.json`**：该文件由 `x-glass-pipeline` repo 的 data pipeline 生成并写入，本 repo 内不允许手动编辑。数据变更必须通过 pipeline 流程完成。

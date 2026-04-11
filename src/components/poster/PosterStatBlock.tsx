@@ -1,0 +1,24 @@
+import { cn } from "@/lib/utils";
+
+interface PosterStatBlockProps {
+  value: string | null | undefined;
+  label: string;
+  valueClassName?: string;
+}
+
+/**
+ * A single centered stat: large value + small label beneath.
+ * Renders an empty div when value is absent to maintain grid structure.
+ */
+export function PosterStatBlock({ value, label, valueClassName }: PosterStatBlockProps) {
+  if (!value) return <div />;
+
+  return (
+    <div className="flex flex-col items-center text-center gap-1">
+      <span className={cn("font-semibold tabular-nums text-zinc-900 leading-tight", valueClassName)}>
+        {value}
+      </span>
+      <span className="text-[10px] uppercase tracking-wider text-zinc-400">{label}</span>
+    </div>
+  );
+}

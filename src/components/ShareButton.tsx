@@ -8,12 +8,18 @@ import { useTranslations } from "next-intl";
 import { Share2, Copy, Check, Download, Loader2, ChevronDown, Expand } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { Lens } from "@/lib/types";
-import { drawSharePoster } from "@/lib/share-image";
+import { rasterizePoster } from "@/lib/share-image";
+import { SharePoster, type PosterLabels } from "@/components/poster/SharePoster";
 import {
   Dialog,
   DialogContent,
   DialogFooter,
 } from "@/components/ui/dialog";
+
+// Scale the 750px poster down to fit the ~352px panel content area
+const POSTER_W = 750;
+const PREVIEW_SCALE = 352 / POSTER_W; // ≈ 0.469
+const PREVIEW_H = 220; // visible preview height in pixels
 
 interface ShareButtonProps {
   lenses: Lens[];
@@ -30,26 +36,37 @@ export function ShareButton({ lenses }: ShareButtonProps) {
   const [canShareFile, setCanShareFile] = useState(false);
   const [shareUrl, setShareUrl] = useState("");
 
-  // Poster state
-  const [posterDataUrl, setPosterDataUrl] = useState<string | null>(null);
+  // Poster rasterization state (only needed for download / system share)
   const [posterGenerating, setPosterGenerating] = useState(false);
-  const slugRef = useRef("");
+
+  // Ref to the rendered <SharePoster /> root node
+  const posterRef = useRef<HTMLDivElement>(null);
 
   // Customization
   const [customTitle, setCustomTitle] = useState("");
   const [customSlogan, setCustomSlogan] = useState("");
   const [customOpen, setCustomOpen] = useState(false);
 
-  // Full-size poster lightbox
+  // Full-size lightbox
   const [lightboxOpen, setLightboxOpen] = useState(false);
 
-  // Tracks whether the panel was already open, to distinguish open vs. field-change triggers
-  const wasOpenRef = useRef(false);
+  // Filename slug
+  const slugRef = useRef("");
 
   useEffect(() => {
     setMounted(true);
     setShareUrl(window.location.href);
     setCanNativeShare("share" in navigator);
+
+    // Check PNG file sharing support with a dummy file
+    if ("canShare" in navigator) {
+      const testFile = new File(["x"], "test.png", { type: "image/png" });
+      setCanShareFile(
+        (navigator as Navigator & { canShare: (d: object) => boolean }).canShare({
+          files: [testFile],
+        })
+      );
+    }
 
     const mq = window.matchMedia("(min-width: 640px)");
     setIsDesktop(mq.matches);
@@ -58,75 +75,52 @@ export function ShareButton({ lenses }: ShareButtonProps) {
     return () => mq.removeEventListener("change", handler);
   }, []);
 
-  // Keep shareUrl in sync with URL changes (e.g. column reorder updates the URL)
+  // Keep shareUrl in sync when panel opens
   useEffect(() => {
     if (!open) return;
     setShareUrl(window.location.href);
-  }, [open]);
-
-  // Poster generation — immediate on panel open, debounced on customization change
-  useEffect(() => {
-    if (!open) {
-      wasOpenRef.current = false;
-      return;
-    }
-
-    const alreadyOpen = wasOpenRef.current;
-    wasOpenRef.current = true;
-    const delay = alreadyOpen ? 400 : 0;
-
-    setPosterDataUrl(null);
-    setPosterGenerating(true);
-
     slugRef.current = lenses
       .map((l) => l.model.replace(/\s+/g, "-").toLowerCase())
       .join("_vs_")
       .slice(0, 60);
+  }, [open, lenses]);
 
-    const labels = {
-      appName: "X Glass",
-      comparison: tImage("comparison"),
-      focalLength: tImage("focalLength"),
-      maxAperture: tImage("maxAperture"),
-      weight: tImage("weight"),
-      ois: tImage("ois"),
-      wr: tImage("wr"),
-      minFocusDist: tImage("minFocusDist"),
-      na: tImage("na"),
-      siteUrl: "x-glass.app",
-    };
-
-    const custom = {
-      title: customTitle.trim() || undefined,
-      slogan: customSlogan.trim() || undefined,
-    };
-
-    const timer = setTimeout(() => {
-      drawSharePoster(lenses, labels, custom)
-        .then((url) => {
-          setPosterDataUrl(url);
-          if ("canShare" in navigator) {
-            fetch(url)
-              .then((r) => r.blob())
-              .then((blob) => {
-                const testFile = new File([blob], "test.png", { type: "image/png" });
-                setCanShareFile(
-                  (navigator as Navigator & { canShare: (data: object) => boolean }).canShare(
-                    { files: [testFile] }
-                  )
-                );
-              })
-              .catch(() => {});
-          }
-        })
-        .catch(console.error)
-        .finally(() => setPosterGenerating(false));
-    }, delay);
-
-    return () => clearTimeout(timer);
-    // tImage is a stable translation function — intentionally omitted from deps
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [open, lenses, customTitle, customSlogan]);
+  // Build poster labels from i18n
+  const posterLabels: PosterLabels = {
+    appName: "X Glass",
+    siteUrl: "x-glass.app",
+    comparison: tImage("comparison"),
+    sectionFocus: tImage("sectionFocus"),
+    sectionSizeWeight: tImage("sectionSizeWeight"),
+    sectionFeatures: tImage("sectionFeatures"),
+    sectionDetails: tImage("sectionDetails"),
+    minFocusLabel: tImage("minFocusLabel"),
+    maxMagLabel: tImage("maxMagLabel"),
+    weightLabel: tImage("weightLabel"),
+    dimensionsLabel: tImage("dimensionsLabel"),
+    filterLabel: tImage("filterLabel"),
+    focusMotorLabel: tImage("focusMotorLabel"),
+    lensConfigLabel: tImage("lensConfigLabel"),
+    featureWR: tImage("featureWR"),
+    featureOIS: tImage("featureOIS"),
+    featureAF: tImage("featureAF"),
+    featureApertureRing: tImage("featureApertureRing"),
+    featureInternalFocusing: tImage("featureInternalFocusing"),
+    motorLinear: tImage("motorLinear"),
+    motorStepping: tImage("motorStepping"),
+    motorOther: tImage("motorOther"),
+    wide: tImage("wide"),
+    tele: tImage("tele"),
+    tagCine: tImage("tagCine"),
+    tagAnamorphic: tImage("tagAnamorphic"),
+    tagTilt: tImage("tagTilt"),
+    tagShift: tImage("tagShift"),
+    tagMacro: tImage("tagMacro"),
+    tagUltraMacro: tImage("tagUltraMacro"),
+    tagFisheye: tImage("tagFisheye"),
+    tagProbe: tImage("tagProbe"),
+    na: tImage("na"),
+  };
 
   const handleCopy = useCallback(async () => {
     try {
@@ -149,18 +143,28 @@ export function ShareButton({ lenses }: ShareButtonProps) {
     }
   }, [lenses]);
 
-  const handleDownload = useCallback(() => {
-    if (!posterDataUrl) return;
-    const link = document.createElement("a");
-    link.download = `x-glass_${slugRef.current}.png`;
-    link.href = posterDataUrl;
-    link.click();
-  }, [posterDataUrl]);
+  const handleDownload = useCallback(async () => {
+    if (!posterRef.current) return;
+    setPosterGenerating(true);
+    try {
+      const url = await rasterizePoster(posterRef.current);
+      const link = document.createElement("a");
+      link.download = `x-glass_${slugRef.current}.png`;
+      link.href = url;
+      link.click();
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setPosterGenerating(false);
+    }
+  }, []);
 
   const handleShareImage = useCallback(async () => {
-    if (!posterDataUrl) return;
+    if (!posterRef.current) return;
+    setPosterGenerating(true);
     try {
-      const blob = await (await fetch(posterDataUrl)).blob();
+      const url = await rasterizePoster(posterRef.current);
+      const blob = await (await fetch(url)).blob();
       const file = new File([blob], `x-glass_${slugRef.current}.png`, {
         type: "image/png",
       });
@@ -170,13 +174,14 @@ export function ShareButton({ lenses }: ShareButtonProps) {
       });
     } catch {
       // user cancelled or not supported
+    } finally {
+      setPosterGenerating(false);
     }
-  }, [posterDataUrl, lenses]);
+  }, [lenses]);
 
   const truncatedUrl =
     shareUrl.length > 56 ? shareUrl.slice(0, 56) + "…" : shareUrl;
 
-  // Compact lens caption shown in panel header: "XF35mm F1.4 · XF16mm F2.8"
   const lensCaption = lenses.map((l) => l.model).join(" · ");
 
   const triggerLabel = (
@@ -186,16 +191,20 @@ export function ShareButton({ lenses }: ShareButtonProps) {
     </>
   );
 
-  // base-ui Tabs uses data-active for the selected tab state
   const tabClass =
     "flex-1 rounded-md px-3 py-1.5 text-sm font-medium text-zinc-500 transition-colors hover:text-zinc-900 data-[active]:bg-white data-[active]:text-zinc-900 data-[active]:shadow-xs dark:text-zinc-400 dark:hover:text-zinc-50 dark:data-[active]:bg-zinc-700 dark:data-[active]:text-zinc-50 outline-none focus-visible:ring-2 focus-visible:ring-zinc-400 cursor-pointer";
 
   const inputClass =
     "w-full rounded-md border border-zinc-200 bg-transparent px-3 py-1.5 text-sm text-zinc-900 placeholder:text-zinc-400 outline-none focus:ring-2 focus:ring-zinc-400 dark:border-zinc-700 dark:text-zinc-50 dark:placeholder:text-zinc-600";
 
+  const posterCustom = {
+    title: customTitle.trim() || undefined,
+    slogan: customSlogan.trim() || undefined,
+  };
+
   const panelContent = (
     <div className="flex flex-col gap-4 p-4">
-      {/* Header: title + compact lens caption */}
+      {/* Header */}
       <div className="flex flex-col gap-0.5">
         <h2 className="text-base font-semibold text-zinc-900 dark:text-zinc-50">
           {t("title")}
@@ -216,12 +225,11 @@ export function ShareButton({ lenses }: ShareButtonProps) {
           </Tabs.Tab>
         </Tabs.List>
 
-        {/* ── Link tab ───────────────────────────────────────────── */}
+        {/* ── Link tab ─────────────────────────────────────────── */}
         <Tabs.Panel value="link" className="flex flex-col gap-3">
           <div className="select-all break-all rounded-md bg-zinc-100 px-3 py-2.5 font-mono text-xs leading-relaxed text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400">
             {truncatedUrl}
           </div>
-
           <div className="flex gap-2">
             <button
               onClick={handleCopy}
@@ -244,7 +252,6 @@ export function ShareButton({ lenses }: ShareButtonProps) {
                 </>
               )}
             </button>
-
             {canNativeShare && (
               <button
                 onClick={handleNativeShare}
@@ -257,66 +264,77 @@ export function ShareButton({ lenses }: ShareButtonProps) {
           </div>
         </Tabs.Panel>
 
-        {/* ── Image tab ──────────────────────────────────────────── */}
+        {/* ── Image tab ────────────────────────────────────────── */}
         <Tabs.Panel value="image" className="flex flex-col gap-3">
-          {/* Poster preview: fixed max-height with gradient fade + click to expand */}
+          {/* Poster preview: scaled-down SharePoster in a clipped container */}
           <div
-            className={cn(
-              "group relative max-h-52 overflow-hidden rounded-lg bg-zinc-100 dark:bg-zinc-950",
-              posterDataUrl && !posterGenerating && "cursor-zoom-in"
-            )}
-            onClick={() => posterDataUrl && !posterGenerating && setLightboxOpen(true)}
+            className="group relative overflow-hidden rounded-lg cursor-zoom-in"
+            style={{ height: PREVIEW_H }}
+            onClick={() => setLightboxOpen(true)}
           >
-            {posterGenerating ? (
-              <div className="flex items-center justify-center gap-2 py-10 text-zinc-400">
-                <Loader2 className="size-4 animate-spin" />
-                <span className="text-xs">{t("posterGenerating")}</span>
-              </div>
-            ) : posterDataUrl ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={posterDataUrl}
-                alt={tImage("previewAlt")}
-                className="w-full"
+            {/* Scale wrapper: absolute so it doesn't affect flow height */}
+            <div
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                width: POSTER_W,
+                transform: `scale(${PREVIEW_SCALE})`,
+                transformOrigin: "top left",
+                pointerEvents: "none",
+              }}
+              aria-hidden="true"
+            >
+              <SharePoster
+                ref={posterRef}
+                lenses={lenses}
+                labels={posterLabels}
+                custom={posterCustom}
               />
-            ) : null}
-            {posterDataUrl && !posterGenerating && (
-              <>
-                <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-zinc-100 to-transparent dark:from-zinc-950" />
-                {/* Expand hint — visible on hover */}
-                <div className="absolute right-2 top-2 rounded-md bg-black/30 p-1 opacity-0 transition-opacity group-hover:opacity-100">
-                  <Expand className="size-3.5 text-white" />
-                </div>
-              </>
-            )}
+            </div>
+
+            {/* Gradient fade at bottom */}
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-white to-transparent dark:from-zinc-900" />
+
+            {/* Expand hint on hover */}
+            <div className="absolute right-2 top-2 rounded-md bg-black/30 p-1 opacity-0 transition-opacity group-hover:opacity-100">
+              <Expand className="size-3.5 text-white" />
+            </div>
           </div>
 
-          {/* Full-size poster lightbox */}
+          {/* Full-size lightbox — top-aligned, inner scroll */}
           <Dialog open={lightboxOpen} onOpenChange={setLightboxOpen}>
             <DialogContent
-              className="w-full max-w-3xl overflow-hidden rounded-2xl"
+              className="w-full max-w-3xl overflow-hidden rounded-2xl top-4 translate-y-0"
               showCloseButton
             >
-              <div className="overflow-auto bg-zinc-50 p-6 dark:bg-zinc-950">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={posterDataUrl ?? ""}
-                  alt={tImage("previewAlt")}
-                  className="mx-auto w-full max-w-[750px] rounded shadow-md"
-                />
+              <div className="max-h-[80svh] overflow-y-auto bg-zinc-50 p-6 dark:bg-zinc-950">
+                <div className="mx-auto" style={{ width: POSTER_W }}>
+                  <SharePoster
+                    lenses={lenses}
+                    labels={posterLabels}
+                    custom={posterCustom}
+                  />
+                </div>
               </div>
               <DialogFooter>
                 <button
                   onClick={handleDownload}
-                  className="flex items-center gap-2 rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-zinc-50 transition-colors hover:bg-zinc-700 dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-200"
+                  disabled={posterGenerating}
+                  className="flex items-center gap-2 rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-zinc-50 transition-colors hover:bg-zinc-700 disabled:opacity-50 dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-200"
                 >
-                  <Download className="size-4" />
+                  {posterGenerating ? (
+                    <Loader2 className="size-4 animate-spin" />
+                  ) : (
+                    <Download className="size-4" />
+                  )}
                   {t("posterDownload")}
                 </button>
                 {canShareFile && (
                   <button
                     onClick={handleShareImage}
-                    className="flex items-center gap-2 rounded-lg border border-zinc-200 px-4 py-2 text-sm font-medium text-zinc-700 transition-colors hover:bg-zinc-100 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800"
+                    disabled={posterGenerating}
+                    className="flex items-center gap-2 rounded-lg border border-zinc-200 px-4 py-2 text-sm font-medium text-zinc-700 transition-colors hover:bg-zinc-100 disabled:opacity-50 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800"
                   >
                     <Share2 className="size-4" />
                     {t("posterShare")}
@@ -326,20 +344,24 @@ export function ShareButton({ lenses }: ShareButtonProps) {
             </DialogContent>
           </Dialog>
 
-          {/* Poster actions: Download (primary) + Share (icon-only, conditional) */}
+          {/* Poster actions */}
           <div className="flex gap-2">
             <button
               onClick={handleDownload}
-              disabled={!posterDataUrl}
+              disabled={posterGenerating}
               className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-zinc-900 px-4 py-2.5 text-sm font-medium text-zinc-50 transition-colors hover:bg-zinc-700 disabled:opacity-40 dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-200"
             >
-              <Download className="size-4" />
+              {posterGenerating ? (
+                <Loader2 className="size-4 animate-spin" />
+              ) : (
+                <Download className="size-4" />
+              )}
               {t("posterDownload")}
             </button>
             {canShareFile && (
               <button
                 onClick={handleShareImage}
-                disabled={!posterDataUrl}
+                disabled={posterGenerating}
                 title={t("posterShare")}
                 className="flex items-center justify-center rounded-lg border border-zinc-200 px-3 py-2.5 text-zinc-700 transition-colors hover:bg-zinc-100 disabled:opacity-40 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800"
               >
@@ -349,7 +371,7 @@ export function ShareButton({ lenses }: ShareButtonProps) {
           </div>
 
           {/* Customize accordion */}
-          <div className="border-t border-zinc-100 dark:border-zinc-800 pt-1">
+          <div className="border-t border-zinc-100 pt-1 dark:border-zinc-800">
             <button
               onClick={() => setCustomOpen((v) => !v)}
               className="flex w-full items-center justify-between py-1.5 text-xs font-medium text-zinc-400 transition-colors hover:text-zinc-700 dark:hover:text-zinc-300"
@@ -362,7 +384,6 @@ export function ShareButton({ lenses }: ShareButtonProps) {
                 )}
               />
             </button>
-
             {customOpen && (
               <div className="flex flex-col gap-3 pb-2 pt-2">
                 <div className="flex flex-col gap-1">
@@ -421,7 +442,6 @@ export function ShareButton({ lenses }: ShareButtonProps) {
       </Popover.Portal>
     </Popover.Root>
   ) : (
-    // Mobile: bottom sheet via Drawer
     <Drawer.Root
       open={open}
       onOpenChange={(nextOpen) => setOpen(nextOpen)}
@@ -433,7 +453,6 @@ export function ShareButton({ lenses }: ShareButtonProps) {
       <Drawer.Portal>
         <Drawer.Backdrop className="fixed inset-0 bg-black/40 duration-150 data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0" />
         <Drawer.Popup className="fixed inset-x-0 bottom-0 max-h-[85svh] overflow-y-auto rounded-t-2xl bg-white pb-8 ring-1 ring-zinc-200 duration-200 data-open:animate-in data-open:slide-in-from-bottom data-closed:animate-out data-closed:slide-out-to-bottom dark:bg-zinc-900 dark:ring-zinc-800">
-          {/* Drag handle */}
           <div className="sticky top-0 flex justify-center bg-white pb-1 pt-3 dark:bg-zinc-900">
             <div className="h-1 w-10 rounded-full bg-zinc-300 dark:bg-zinc-600" />
           </div>
