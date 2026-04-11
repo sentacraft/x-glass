@@ -246,8 +246,8 @@ export function SharePoster({ lenses, labels, custom, shareUrl, ref }: SharePost
       style={{ width: POSTER_W, background: "#ffffff" }}
     >
       {/* ── Header ────────────────────────────────────────────── */}
-      <div style={{ padding: `32px ${POSTER_PX}px 28px`, display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-        {/* Left: app badge + title + slogan + lens list */}
+      <div style={{ padding: `24px ${POSTER_PX}px 20px`, display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+        {/* Left: app badge + title + optional slogan */}
         <div>
           <div
             style={{
@@ -256,7 +256,7 @@ export function SharePoster({ lenses, labels, custom, shareUrl, ref }: SharePost
               letterSpacing: "0.1em",
               textTransform: "uppercase",
               color: "#a1a1aa",
-              marginBottom: 10,
+              marginBottom: 8,
             }}
           >
             {labels.appName}
@@ -267,19 +267,16 @@ export function SharePoster({ lenses, labels, custom, shareUrl, ref }: SharePost
               fontWeight: 600,
               color: "#18181b",
               lineHeight: 1.2,
-              marginBottom: slogan ? 6 : 8,
+              marginBottom: slogan ? 6 : 0,
             }}
           >
             {title}
           </div>
           {slogan && (
-            <div style={{ fontSize: 13, color: "#71717a", marginBottom: 8 }}>
+            <div style={{ fontSize: 13, color: "#71717a" }}>
               {slogan}
             </div>
           )}
-          <div style={{ fontSize: 11, color: "#a1a1aa" }}>
-            {lenses.map((l) => l.model).join(" · ")}
-          </div>
         </div>
 
         {/* Right: QR code + CTA below */}
@@ -319,10 +316,10 @@ export function SharePoster({ lenses, labels, custom, shareUrl, ref }: SharePost
       <div style={{ height: 1, background: "#e4e4e7" }} />
 
       {/* ── Product Row ───────────────────────────────────────── */}
-      <div style={{ padding: `20px ${POSTER_PX}px` }}>
+      <div style={{ padding: `16px ${POSTER_PX}px` }}>
         <div style={gridStyle(n)}>
           {lenses.map((lens, i) => {
-            const imgH = n <= 2 ? 160 : 120;
+            const imgH = n <= 2 ? 140 : 100;
             return (
               <div
                 key={i}
@@ -392,7 +389,7 @@ export function SharePoster({ lenses, labels, custom, shareUrl, ref }: SharePost
       <div style={{ height: 1, background: "#e4e4e7" }} />
 
       {/* ── Hero Block ────────────────────────────────────────── */}
-      <div style={{ padding: `24px ${POSTER_PX}px` }}>
+      <div style={{ padding: `20px ${POSTER_PX}px` }}>
         {/* Row 1: Focal length numbers */}
         <div style={{ ...gridStyle(n), marginBottom: 20 }}>
           {lenses.map((lens, i) => (
