@@ -10,6 +10,8 @@ interface FeedbackPayload {
     lensModel?: string;
     searchQuery?: string;
     field?: string;
+    currentValue?: string;
+    suggestedCorrection?: string;
   };
 }
 
@@ -59,6 +61,12 @@ function buildIssue(payload: FeedbackPayload): {
     }
     if (context?.field) {
       lines.push(`**Affected field:** ${context.field}`);
+    }
+    if (context?.currentValue) {
+      lines.push(`**Current value:** ${context.currentValue}`);
+    }
+    if (context?.suggestedCorrection) {
+      lines.push(`**Suggested correction:** ${context.suggestedCorrection}`);
     }
   } else if (type === "missing_lens") {
     lines.push(`**Type:** Missing lens`);

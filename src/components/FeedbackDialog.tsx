@@ -21,11 +21,18 @@ import {
 
 export type FeedbackType = "data_issue" | "missing_lens" | "general";
 
+export interface FeedbackField {
+  /** The label exactly as shown on the page, used both as display text and issue payload. */
+  label: string;
+  /** Current display value for this field on this lens, shown read-only after selection. */
+  currentValue?: string;
+}
+
 export interface FeedbackContext {
   lensId?: string;
   lensModel?: string;
   searchQuery?: string;
-  field?: string; // resolved label of the affected spec field, e.g. "Max Aperture"
+  field?: string;
 }
 
 interface FeedbackDialogProps {
@@ -33,6 +40,8 @@ interface FeedbackDialogProps {
   onOpenChange: (open: boolean) => void;
   type: FeedbackType;
   context?: FeedbackContext;
+  /** Pre-built list of reportable fields for this lens. Only shown for data_issue type. */
+  fields?: FeedbackField[];
 }
 
 type Status = "idle" | "submitting" | "success" | "error";
@@ -42,53 +51,30 @@ export default function FeedbackDialog({
   onOpenChange,
   type,
   context,
+  fields,
 }: FeedbackDialogProps) {
   const t = useTranslations("Feedback");
-  const td = useTranslations("LensDetail");
   const [description, setDescription] = useState("");
-  const [selectedField, setSelectedField] = useState("");
+  const [selectedFieldLabel, setSelectedFieldLabel] = useState("");
+  const [suggestedCorrection, setSuggestedCorrection] = useState("");
   const [status, setStatus] = useState<Status>("idle");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [submitAttempted, setSubmitAttempted] = useState(false);
   const textareaId = useId();
+  const correctionId = useId();
 
-  // All spec field labels the user can pick from, in group order.
-  // Uses LensDetail translations so labels match what's shown on the page.
-  const fieldOptions = [
-    { value: td("focalLength"),       label: td("focalLength") },
-    { value: td("focalLengthEquiv"),  label: td("focalLengthEquiv") },
-    { value: td("maxAperture"),       label: td("maxAperture") },
-    { value: td("minAperture"),       label: td("minAperture") },
-    { value: td("maxTStop"),          label: td("maxTStop") },
-    { value: td("minTStop"),          label: td("minTStop") },
-    { value: td("angleOfView"),       label: td("angleOfView") },
-    { value: td("apertureBladeCount"),label: td("apertureBladeCount") },
-    { value: td("lensConfiguration"), label: td("lensConfiguration") },
-    { value: td("af"),                label: td("af") },
-    { value: td("focusMotor"),        label: td("focusMotor") },
-    { value: td("internalFocusing"),  label: td("internalFocusing") },
-    { value: td("minFocusDist"),      label: td("minFocusDist") },
-    { value: td("maxMagnification"),  label: td("maxMagnification") },
-    { value: td("ois"),               label: td("ois") },
-    { value: td("weight"),            label: td("weight") },
-    { value: td("dimensions"),        label: td("dimensions") },
-    { value: td("filterSize"),        label: td("filterSize") },
-    { value: td("lensMaterial"),      label: td("lensMaterial") },
-    { value: td("wr"),                label: td("wr") },
-    { value: td("apertureRing"),      label: td("apertureRing") },
-    { value: td("powerZoom"),         label: td("powerZoom") },
-    { value: td("specialtyTags"),     label: td("specialtyTags") },
-    { value: td("releaseYear"),       label: td("releaseYear") },
-    { value: td("accessories"),       label: td("accessories") },
-    { value: t("fieldImage"),         label: t("fieldImage") },
-    { value: t("fieldOther"),         label: t("fieldOther") },
-  ];
+  const showFieldPicker = type === "data_issue" && fields && fields.length > 0;
+
+  const selectedField = fields?.find((f) => f.label === selectedFieldLabel);
 
   useEffect(() => {
     if (!open) {
       setDescription("");
-      setSelectedField("");
+      setSelectedFieldLabel("");
+      setSuggestedCorrection("");
       setStatus("idle");
       setErrorMessage(null);
+      setSubmitAttempted(false);
     }
   }, [open]);
 
@@ -114,7 +100,9 @@ export default function FeedbackDialog({
 
   async function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
-    if (description.trim().length === 0 || status === "submitting") {
+    if (status === "submitting") return;
+    if (!hasContent) {
+      setSubmitAttempted(true);
       return;
     }
 
@@ -130,7 +118,9 @@ export default function FeedbackDialog({
           description: description.trim(),
           context: {
             ...(context ?? {}),
-            ...(selectedField ? { field: selectedField } : {}),
+            ...(selectedFieldLabel ? { field: selectedFieldLabel } : {}),
+            ...(selectedField?.currentValue ? { currentValue: selectedField.currentValue } : {}),
+            ...(suggestedCorrection.trim() ? { suggestedCorrection: suggestedCorrection.trim() } : {}),
           },
         }),
       });
@@ -149,18 +139,20 @@ export default function FeedbackDialog({
     }
   }
 
-  const canSubmit = description.trim().length > 0 && status !== "submitting";
+  const hasContent =
+    description.trim().length > 0 || suggestedCorrection.trim().length > 0;
+  const canSubmit = status !== "submitting";
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-md">
         <DialogHeader>
           <DialogTitle>{t(titleKey)}</DialogTitle>
-          <DialogDescription>{t(descriptionKey)}</DialogDescription>
+          {status !== "success" && <DialogDescription>{t(descriptionKey)}</DialogDescription>}
         </DialogHeader>
 
         {status === "success" ? (
-          <div className="px-5 py-6 text-sm text-zinc-700 dark:text-zinc-300">
+          <div className="flex items-center px-5 py-10 text-sm text-zinc-700 dark:text-zinc-300">
             {t("success")}
           </div>
         ) : (
@@ -170,45 +162,91 @@ export default function FeedbackDialog({
                 {contextLine}
               </div>
             )}
-            {type === "data_issue" && (
+
+            {showFieldPicker && (
               <div className="flex flex-col gap-1.5">
                 <span className="text-xs font-medium text-zinc-600 dark:text-zinc-400">
                   {t("fieldPickerLabel")}
                 </span>
                 <Select
-                  value={selectedField}
-                  onValueChange={(v) => setSelectedField(v ?? "")}
-                  items={fieldOptions}
+                  value={selectedFieldLabel}
+                  onValueChange={(v) => {
+                    setSelectedFieldLabel(v ?? "");
+                    setSuggestedCorrection("");
+                  }}
+                  items={fields.map((f) => ({ value: f.label, label: f.label }))}
                 >
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder={t("fieldPickerPlaceholder")} />
                   </SelectTrigger>
                   <SelectContent>
-                    {fieldOptions.map((opt) => (
-                      <SelectItem key={opt.value} value={opt.value}>
-                        {opt.label}
+                    {fields.map((f) => (
+                      <SelectItem key={f.label} value={f.label}>
+                        {f.label}
                       </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
+
+                {selectedField && (
+                  <div className="flex flex-col gap-2 rounded-lg bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 px-3 py-2.5">
+                    {selectedField.currentValue && (
+                      <div className="flex items-baseline gap-2">
+                        <span className="shrink-0 text-xs text-zinc-400 dark:text-zinc-500">
+                          {t("currentValueLabel")}
+                        </span>
+                        <span className="text-xs font-medium text-zinc-700 dark:text-zinc-300">
+                          {selectedField.currentValue}
+                        </span>
+                      </div>
+                    )}
+                    <div className="flex flex-col gap-1">
+                      <label
+                        htmlFor={correctionId}
+                        className="text-xs text-zinc-400 dark:text-zinc-500"
+                      >
+                        {t("suggestedCorrectionLabel")}
+                      </label>
+                      <input
+                        id={correctionId}
+                        type="text"
+                        value={suggestedCorrection}
+                        onChange={(e) => setSuggestedCorrection(e.target.value)}
+                        placeholder={t("suggestedCorrectionPlaceholder")}
+                        maxLength={200}
+                        className="w-full rounded-md border border-zinc-200 bg-white px-2.5 py-1.5 text-sm text-zinc-900 placeholder:text-zinc-400 outline-none focus:border-zinc-400 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-50 dark:placeholder:text-zinc-600 dark:focus:border-zinc-600"
+                      />
+                    </div>
+                  </div>
+                )}
               </div>
             )}
+
             <label
               htmlFor={textareaId}
               className="text-xs font-medium text-zinc-600 dark:text-zinc-400"
             >
               {t("descriptionLabel")}
+              {showFieldPicker && (
+                <span className="ml-1 font-normal text-zinc-400 dark:text-zinc-500">
+                  ({t("descriptionOptional")})
+                </span>
+              )}
             </label>
             <textarea
               id={textareaId}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder={t("descriptionPlaceholder")}
-              rows={5}
+              rows={4}
               maxLength={2000}
-              required
               className="w-full resize-none rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 outline-none focus:border-zinc-400 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-50 dark:placeholder:text-zinc-600 dark:focus:border-zinc-600"
             />
+            {showFieldPicker && submitAttempted && !hasContent && (
+              <p className="text-xs text-amber-600 dark:text-amber-400">
+                {t("contentRequired")}
+              </p>
+            )}
             {status === "error" && (
               <p className="text-xs text-red-600 dark:text-red-400">
                 {t("error")}

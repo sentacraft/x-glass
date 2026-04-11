@@ -34,6 +34,7 @@ import { FieldNotePopover } from "@/components/ui/field-note-popover";
 import { useRouter } from "@/i18n/navigation";
 import LensSearchDialog from "@/components/LensSearchDialog";
 import FeedbackTrigger from "@/components/FeedbackTrigger";
+import type { FeedbackField } from "@/components/FeedbackDialog";
 import { useCompare } from "@/context/CompareProvider";
 import { MAX_COMPARE, allLenses, getLensUrl } from "@/lib/lens";
 import { lensImageStyle } from "@/lib/lens-image";
@@ -47,10 +48,12 @@ function LensHeaderContent({
   lens,
   officialSiteLabel,
   reportLabel,
+  fields,
 }: {
   lens: Lens;
   officialSiteLabel: string;
   reportLabel: string;
+  fields?: FeedbackField[];
 }) {
   const tBrand = useTranslations("Brands");
   const url = getLensUrl(lens);
@@ -95,6 +98,7 @@ function LensHeaderContent({
         <FeedbackTrigger
           type="data_issue"
           context={{ lensId: lens.id, lensModel: lens.model }}
+          fields={fields}
           stopPropagation
           className="inline-flex items-center gap-1 text-xs text-zinc-400 dark:text-zinc-500 transition-colors hover:text-zinc-600 dark:hover:text-zinc-300"
         >
@@ -112,12 +116,14 @@ function SortableLensHeader({
   lens,
   officialSiteLabel,
   reportLabel,
+  fields,
   removeLabel,
   onRemove,
 }: {
   lens: Lens;
   officialSiteLabel: string;
   reportLabel: string;
+  fields?: FeedbackField[];
   removeLabel: string;
   onRemove: () => void;
 }) {
@@ -153,6 +159,7 @@ function SortableLensHeader({
           lens={lens}
           officialSiteLabel={officialSiteLabel}
           reportLabel={reportLabel}
+          fields={fields}
         />
       </div>
     </th>
@@ -199,12 +206,14 @@ function ColumnOverlay({
   officialSiteLabel,
   reportLabel,
   valueCellLabels,
+  fields,
 }: {
   lens: Lens;
   visibleGroups: SpecGroup[];
   officialSiteLabel: string;
   reportLabel: string;
   valueCellLabels: { yes: string; no: string; unknown: string; missing: string };
+  fields?: FeedbackField[];
 }) {
   function renderRowValue(row: SpecRow) {
     if (row.kind === "bool") {
@@ -244,6 +253,7 @@ function ColumnOverlay({
           lens={lens}
           officialSiteLabel={officialSiteLabel}
           reportLabel={reportLabel}
+          fields={fields}
         />
       </div>
 
@@ -441,6 +451,33 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
     [allGroups, orderedLenses]
   );
 
+  // Per-lens reportable fields: only rows visible for each specific lens.
+  const lensFields = useMemo(() => {
+    const map = new Map<string, FeedbackField[]>();
+    for (const lens of orderedLenses) {
+      const fields = allGroups
+        .flatMap((group) => group.rows)
+        .filter((row) => row.hasData(lens))
+        .map((row) => {
+          let currentValue: string | undefined;
+          if (row.kind === "bool") {
+            const v = row.getValue(lens);
+            currentValue =
+              v === true
+                ? valueCellLabels.yes
+                : v === false
+                  ? valueCellLabels.no
+                  : valueCellLabels.unknown;
+          } else {
+            currentValue = row.getDisplayValue(lens) ?? undefined;
+          }
+          return { label: row.label, currentValue };
+        });
+      map.set(lens.id, fields);
+    }
+    return map;
+  }, [allGroups, orderedLenses, valueCellLabels]);
+
   const totalColSpan =
     orderedLenses.length + 1 + (canAddMore ? 1 : 0);
 
@@ -481,6 +518,7 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
                     lens={lens}
                     officialSiteLabel={t("officialSite")}
                     reportLabel={td("reportIssue")}
+                    fields={lensFields.get(lens.id)}
                     removeLabel={t("removeLens", { model: lens.model })}
                     onRemove={() => handleRemoveLens(lens.id)}
                   />
@@ -758,6 +796,7 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
               officialSiteLabel={t("officialSite")}
               reportLabel={td("reportIssue")}
               valueCellLabels={valueCellLabels}
+              fields={lensFields.get(activeLens.id)}
             />
           )}
         </DragOverlay>
