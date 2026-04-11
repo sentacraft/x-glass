@@ -135,7 +135,7 @@ function SortableLensHeader({
     <th
       ref={setNodeRef}
       style={{ opacity: isDragging ? 0 : 1 }}
-      className="bg-zinc-50 px-3 py-4 text-left select-none dark:bg-zinc-900/60"
+      className="sticky top-0 z-20 bg-zinc-50 px-3 py-4 text-left select-none dark:bg-zinc-900"
     >
       <div className="flex items-start justify-between gap-2">
         <button
@@ -179,7 +179,7 @@ function AddLensHeader({
   const t = useTranslations("Compare");
 
   return (
-    <th className="bg-zinc-50 px-3 py-4 text-left dark:bg-zinc-900/60">
+    <th className="sticky top-0 z-20 bg-zinc-50 px-3 py-4 text-left dark:bg-zinc-900">
       <div className="flex min-h-[15rem] flex-col items-center justify-center gap-2.5 px-2 py-5 text-center">
         <LensSearchDialog
           onSelectLens={onSelectLens}
@@ -284,8 +284,8 @@ interface Props {
   lenses: Lens[];
 }
 
-const LABEL_COLUMN_WIDTH = "14rem";
-const LENS_COLUMN_MIN_WIDTH = "12rem";
+const LABEL_COLUMN_WIDTH = "6rem";
+const LENS_COLUMN_MIN_WIDTH = "9rem";
 
 export default function CompareTable({ lenses: initialLenses }: Props) {
   const t = useTranslations("Compare");
@@ -487,7 +487,7 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
     orderedLenses.length + 1 + (canAddMore ? 1 : 0);
 
   return (
-    <div className="overflow-x-auto rounded-xl border border-zinc-200 dark:border-zinc-800">
+    <div className="overflow-auto max-h-[calc(100svh-11rem)] rounded-xl border border-zinc-200 dark:border-zinc-800">
       <DndContext
         id="compare-table-dnd"
         sensors={sensors}
@@ -512,7 +512,7 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
 
           <thead>
             <tr className="border-b border-zinc-200 dark:border-zinc-800">
-              <th className="bg-zinc-50 px-4 py-3 dark:bg-zinc-900/60" />
+              <th className="sticky top-0 left-0 z-30 bg-zinc-50 px-3 py-3 dark:bg-zinc-900" />
               <SortableContext
                 items={orderedIds}
                 strategy={horizontalListSortingStrategy}
@@ -588,7 +588,7 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
                         className="border-b border-zinc-100 dark:border-zinc-800/60 last:border-0"
                       >
                         {/* Label cell */}
-                        <td className="px-4 py-3 text-xs font-medium text-zinc-500 dark:text-zinc-400 bg-zinc-50/60 dark:bg-zinc-900/30 whitespace-nowrap">
+                        <td className="sticky left-0 z-10 px-3 py-3 text-xs font-medium text-zinc-500 dark:text-zinc-400 bg-zinc-50 dark:bg-zinc-900 break-words">
                           {row.label}
                         </td>
 
