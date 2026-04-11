@@ -11,6 +11,13 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export type FeedbackType = "data_issue" | "missing_lens" | "general";
 
@@ -18,6 +25,7 @@ export interface FeedbackContext {
   lensId?: string;
   lensModel?: string;
   searchQuery?: string;
+  field?: string; // resolved label of the affected spec field, e.g. "Max Aperture"
 }
 
 interface FeedbackDialogProps {
@@ -36,14 +44,49 @@ export default function FeedbackDialog({
   context,
 }: FeedbackDialogProps) {
   const t = useTranslations("Feedback");
+  const td = useTranslations("LensDetail");
   const [description, setDescription] = useState("");
+  const [selectedField, setSelectedField] = useState("");
   const [status, setStatus] = useState<Status>("idle");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const textareaId = useId();
 
+  // All spec field labels the user can pick from, in group order.
+  // Uses LensDetail translations so labels match what's shown on the page.
+  const fieldOptions = [
+    { value: td("focalLength"),       label: td("focalLength") },
+    { value: td("focalLengthEquiv"),  label: td("focalLengthEquiv") },
+    { value: td("maxAperture"),       label: td("maxAperture") },
+    { value: td("minAperture"),       label: td("minAperture") },
+    { value: td("maxTStop"),          label: td("maxTStop") },
+    { value: td("minTStop"),          label: td("minTStop") },
+    { value: td("angleOfView"),       label: td("angleOfView") },
+    { value: td("apertureBladeCount"),label: td("apertureBladeCount") },
+    { value: td("lensConfiguration"), label: td("lensConfiguration") },
+    { value: td("af"),                label: td("af") },
+    { value: td("focusMotor"),        label: td("focusMotor") },
+    { value: td("internalFocusing"),  label: td("internalFocusing") },
+    { value: td("minFocusDist"),      label: td("minFocusDist") },
+    { value: td("maxMagnification"),  label: td("maxMagnification") },
+    { value: td("ois"),               label: td("ois") },
+    { value: td("weight"),            label: td("weight") },
+    { value: td("dimensions"),        label: td("dimensions") },
+    { value: td("filterSize"),        label: td("filterSize") },
+    { value: td("lensMaterial"),      label: td("lensMaterial") },
+    { value: td("wr"),                label: td("wr") },
+    { value: td("apertureRing"),      label: td("apertureRing") },
+    { value: td("powerZoom"),         label: td("powerZoom") },
+    { value: td("specialtyTags"),     label: td("specialtyTags") },
+    { value: td("releaseYear"),       label: td("releaseYear") },
+    { value: td("accessories"),       label: td("accessories") },
+    { value: t("fieldImage"),         label: t("fieldImage") },
+    { value: t("fieldOther"),         label: t("fieldOther") },
+  ];
+
   useEffect(() => {
     if (!open) {
       setDescription("");
+      setSelectedField("");
       setStatus("idle");
       setErrorMessage(null);
     }
@@ -85,7 +128,10 @@ export default function FeedbackDialog({
         body: JSON.stringify({
           type,
           description: description.trim(),
-          context: context ?? {},
+          context: {
+            ...(context ?? {}),
+            ...(selectedField ? { field: selectedField } : {}),
+          },
         }),
       });
 
@@ -122,6 +168,29 @@ export default function FeedbackDialog({
             {contextLine && (
               <div className="rounded-lg bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 px-3 py-2 text-xs text-zinc-600 dark:text-zinc-400">
                 {contextLine}
+              </div>
+            )}
+            {type === "data_issue" && (
+              <div className="flex flex-col gap-1.5">
+                <span className="text-xs font-medium text-zinc-600 dark:text-zinc-400">
+                  {t("fieldPickerLabel")}
+                </span>
+                <Select
+                  value={selectedField}
+                  onValueChange={(v) => setSelectedField(v ?? "")}
+                  items={fieldOptions}
+                >
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder={t("fieldPickerPlaceholder")} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {fieldOptions.map((opt) => (
+                      <SelectItem key={opt.value} value={opt.value}>
+                        {opt.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
             )}
             <label

@@ -9,6 +9,7 @@ interface FeedbackPayload {
     lensId?: string;
     lensModel?: string;
     searchQuery?: string;
+    field?: string;
   };
 }
 
@@ -56,6 +57,9 @@ function buildIssue(payload: FeedbackPayload): {
     if (context?.lensId) {
       lines.push(`**Lens ID:** \`${context.lensId}\``);
     }
+    if (context?.field) {
+      lines.push(`**Affected field:** ${context.field}`);
+    }
   } else if (type === "missing_lens") {
     lines.push(`**Type:** Missing lens`);
     if (context?.searchQuery) {
@@ -69,9 +73,10 @@ function buildIssue(payload: FeedbackPayload): {
 
   let title: string;
   if (type === "data_issue") {
-    title = context?.lensModel
-      ? `[Data] ${context.lensModel}`
-      : `[Data] Data issue report`;
+    const base = context?.lensModel ?? "Data issue report";
+    title = context?.field
+      ? `[Data] ${base} — ${context.field}`
+      : `[Data] ${base}`;
   } else if (type === "missing_lens") {
     title = context?.searchQuery
       ? `[Missing] ${context.searchQuery}`
