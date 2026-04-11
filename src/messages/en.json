@@ -33,7 +33,8 @@
   "Home": {
     "cta": "Browse Lenses",
     "dataSnapshot": "lens.json loaded ✓",
-    "dataSnapshotMeta": "{count} lenses · {brands} brands · updated {date}"
+    "dataSnapshotCount": "{count} lenses · {brands} brands",
+    "dataSnapshotDate": "{date}"
   },
   "LensList": {
     "title": "Lenses",

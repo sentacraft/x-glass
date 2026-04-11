@@ -33,7 +33,8 @@
   "Home": {
     "cta": "浏览镜头",
     "dataSnapshot": "lens.json loaded ✓",
-    "dataSnapshotMeta": "{count} 支镜头 · {brands} 个品牌 · 更新于 {date}"
+    "dataSnapshotCount": "{count} 支镜头 · {brands} 个品牌",
+    "dataSnapshotDate": "{date}"
   },
   "LensList": {
     "title": "镜头列表",
