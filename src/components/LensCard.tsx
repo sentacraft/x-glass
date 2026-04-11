@@ -28,6 +28,8 @@ export default function LensCard({
   const tBrand = useTranslations("Brands");
   const hookAttr = useUiHookAttr();
   const equivDisplay = fmt.focalRangeDisplay(fmt.focalEquiv(lens.focalLengthMin), fmt.focalEquiv(lens.focalLengthMax));
+  const mfdDisplay = lens.minFocusDistance ? `${lens.minFocusDistance.cm}cm` : "—";
+  const filterDisplay = fmt.filterSizeDisplay(lens.filterMm);
   const badges = [
     lens.af
       ? {
@@ -105,13 +107,10 @@ export default function LensCard({
           className="flex flex-1 flex-col gap-2 p-3 sm:gap-2.5 sm:p-4"
         >
           <div className="flex flex-col gap-1">
-            <div className="flex items-center justify-between gap-3 text-[11px] uppercase tracking-[0.14em] text-zinc-500 dark:text-zinc-400">
-              <p className="truncate">
-                {tBrand(lens.brand)}
-                {lens.series ? ` · ${lens.series}` : ""}
-              </p>
-              <span className="shrink-0">{lens.releaseYear}</span>
-            </div>
+            <p className="text-[11px] uppercase tracking-[0.14em] text-zinc-500 dark:text-zinc-400 truncate">
+              {tBrand(lens.brand)}
+              {lens.series ? ` · ${lens.series}` : ""}
+            </p>
             <h3
               className="font-semibold text-sm text-zinc-900 dark:text-zinc-50 leading-snug line-clamp-2 min-h-[2.5rem]"
               title={lens.model}
@@ -131,11 +130,22 @@ export default function LensCard({
             ))}
           </div>
 
-          <dl className="mt-auto flex items-baseline justify-between gap-2 text-xs text-zinc-600 dark:text-zinc-400">
+          {/* Mobile: single-row dl */}
+          <dl className="mt-auto flex items-baseline justify-between gap-2 text-xs text-zinc-600 dark:text-zinc-400 sm:hidden">
             <div className="min-w-0 truncate">
               {equivDisplay} {t("equivSuffix")}
             </div>
             <div className="shrink-0">{lens.weightG}g</div>
+          </dl>
+
+          {/* Desktop: 2×2 data grid */}
+          <dl className="mt-auto hidden sm:grid sm:grid-cols-2 sm:gap-x-3 text-xs text-zinc-600 dark:text-zinc-400">
+            <div className="truncate">MFD {mfdDisplay}</div>
+            <div className="text-right">⌀{filterDisplay}</div>
+            <div className="min-w-0 truncate">
+              {equivDisplay} {t("equivSuffix")}
+            </div>
+            <div className="text-right">{lens.weightG}g</div>
           </dl>
         </div>
       </Link>
