@@ -31,15 +31,16 @@ export default function DataInfo() {
   })();
 
   return (
-    <p
-      className="text-center text-xs text-zinc-400 dark:text-zinc-500 mt-3 cursor-pointer hover:text-zinc-300 dark:hover:text-zinc-400 transition-colors font-mono"
-      onClick={cycle}
-    >
-      {h("dataSnapshotMeta", {
-        count: meta.lensCount,
-        brands: brandCount,
-        date: dateLabel,
-      })}
-    </p>
+    <div className="flex flex-col items-center gap-0.5 mt-3">
+      <p className="text-xs text-zinc-400 dark:text-zinc-500 font-mono">
+        {h("dataSnapshotCount", { count: meta.lensCount, brands: brandCount })}
+      </p>
+      <p
+        className="text-xs text-zinc-400 dark:text-zinc-500 font-mono cursor-pointer hover:text-zinc-300 dark:hover:text-zinc-400 transition-colors"
+        onClick={cycle}
+      >
+        {dateLabel}
+      </p>
+    </div>
   );
 }
