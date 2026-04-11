@@ -213,7 +213,8 @@
     "alreadyAdded": "已在对比中",
     "compareFull": "对比已满",
     "needOneMoreLens": "当前这里只有 1 支镜头，再添加 1 支镜头，就可以开始真正的并排对比。",
-    "removeLens": "移除 {model}"
+    "removeLens": "移除 {model}",
+    "reportIssue": "反馈"
   },
   "Share": {
     "button": "分享",

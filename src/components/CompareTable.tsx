@@ -84,7 +84,7 @@ function LensHeaderContent({
       <p className="text-center font-semibold leading-snug text-zinc-900 dark:text-zinc-50">
         {lens.model}
       </p>
-      <div className="mt-2 flex items-center justify-center gap-3">
+      <div className="mt-2 flex flex-wrap items-center justify-center gap-x-3 gap-y-1">
         {url && (
           <ExternalLink
             href={url}
@@ -522,7 +522,7 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
                     key={lens.id}
                     lens={lens}
                     officialSiteLabel={t("officialSite")}
-                    reportLabel={td("reportIssue")}
+                    reportLabel={t("reportIssue")}
                     fields={lensFields.get(lens.id)}
                     removeLabel={t("removeLens", { model: lens.model })}
                     onRemove={() => handleRemoveLens(lens.id)}
@@ -799,7 +799,7 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
               lens={activeLens}
               visibleGroups={visibleGroups}
               officialSiteLabel={t("officialSite")}
-              reportLabel={td("reportIssue")}
+              reportLabel={t("reportIssue")}
               valueCellLabels={valueCellLabels}
               fields={lensFields.get(activeLens.id)}
             />
