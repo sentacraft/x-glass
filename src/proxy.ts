@@ -4,5 +4,9 @@ import { routing } from "./i18n/routing";
 export default createMiddleware(routing);
 
 export const config = {
-  matcher: ["/((?!_next|_vercel|api|.*\\..*).*)"],
+  // Exclude static files (.*\\..*), Next.js internals, API routes, and
+  // App Router metadata convention routes that must stay at the root path.
+  matcher: [
+    "/((?!_next|_vercel|api|opengraph-image|twitter-image|apple-icon|.*\\..*).*)",
+  ],
 };

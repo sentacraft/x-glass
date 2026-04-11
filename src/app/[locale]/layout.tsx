@@ -23,9 +23,11 @@ export const metadata: Metadata = {
   openGraph: {
     siteName: "X Glass",
     type: "website",
+    images: [{ url: "/opengraph-image", width: 1200, height: 630 }],
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
+    images: ["/twitter-image"],
   },
 };
 
