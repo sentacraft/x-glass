@@ -482,7 +482,7 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
     orderedLenses.length + 1 + (canAddMore ? 1 : 0);
 
   return (
-    <div className="overflow-auto max-h-[calc(100svh-11rem)] rounded-xl border border-zinc-200 dark:border-zinc-800">
+    <div className="isolate overflow-auto max-h-[calc(100svh-11rem)] rounded-xl border border-zinc-200 dark:border-zinc-800">
       <DndContext
         id="compare-table-dnd"
         sensors={sensors}
