@@ -16,7 +16,7 @@ import type { SpecialtyTag } from "@/lib/types";
 import { PosterSection } from "./PosterSection";
 import { PosterStatBlock } from "./PosterStatBlock";
 import { PosterFeatureItem } from "./PosterFeatureItem";
-import { PosterFocalRuler } from "./PosterFocalRuler";
+import { PosterFocalRuler, type FocalLensLabel } from "./PosterFocalRuler";
 import { PosterWeightBar } from "./PosterWeightBar";
 
 // ── Labels ─────────────────────────────────────────────────────────
@@ -27,6 +27,7 @@ export interface PosterLabels {
   /** Fallback title when no custom title is set. */
   comparison: string;
   // Section titles
+  sectionFocalCoverage: string;
   sectionFocus: string;
   sectionSizeWeight: string;
   sectionFeatures: string;
@@ -135,6 +136,12 @@ export function SharePoster({ lenses, labels, custom, ref }: SharePosterProps) {
 
   // Section label helpers
   const wideTeleLabels = { wide: labels.wide, tele: labels.tele };
+
+  // Focal Coverage ruler labels — brand + focal range + max aperture per lens
+  const rulerLabels: FocalLensLabel[] = lenses.map((l) => ({
+    brand: l.brand,
+    focal: `${l.focalLengthMin === l.focalLengthMax ? l.focalLengthMin : `${l.focalLengthMin}–${l.focalLengthMax}`}mm  ${apertureDisplay(l.maxAperture)}`,
+  }));
   const specialtyTagLabels: Record<SpecialtyTag, string> = {
     cine: labels.tagCine,
     anamorphic: labels.tagAnamorphic,
@@ -324,7 +331,7 @@ export function SharePoster({ lenses, labels, custom, ref }: SharePosterProps) {
       {/* ── Hero Block ────────────────────────────────────────── */}
       <div style={{ padding: `36px ${POSTER_PX}px` }}>
         {/* Focal length numbers */}
-        <div style={{ ...gridStyle(n), marginBottom: 16 }}>
+        <div style={{ ...gridStyle(n), marginBottom: 24 }}>
           {lenses.map((lens, i) => (
             <div
               key={i}
@@ -338,11 +345,6 @@ export function SharePoster({ lenses, labels, custom, ref }: SharePosterProps) {
               <span style={{ fontSize: 11, color: "#a1a1aa", letterSpacing: "0.05em" }}>mm</span>
             </div>
           ))}
-        </div>
-
-        {/* Focal coverage ruler */}
-        <div style={{ marginBottom: 28 }}>
-          <PosterFocalRuler lenses={lenses} width={POSTER_W - POSTER_PX * 2} />
         </div>
 
         {/* Max aperture */}
@@ -370,6 +372,18 @@ export function SharePoster({ lenses, labels, custom, ref }: SharePosterProps) {
         </div>
       </div>
 
+      {/* ── Focal Coverage Section ────────────────────────────── */}
+      <div style={{ height: 1, background: "#e4e4e7" }} />
+      <div style={{ padding: `28px ${POSTER_PX}px` }}>
+        <PosterSection title={labels.sectionFocalCoverage}>
+          <PosterFocalRuler
+            lenses={lenses}
+            lensLabels={rulerLabels}
+            width={POSTER_W - POSTER_PX * 2}
+          />
+        </PosterSection>
+      </div>
+
       {/* ── Focus Section ─────────────────────────────────────── */}
       {(showMinFocus || showMaxMag) && (
         <>
@@ -377,7 +391,7 @@ export function SharePoster({ lenses, labels, custom, ref }: SharePosterProps) {
           <div style={{ padding: `28px ${POSTER_PX}px` }}>
             <PosterSection title={labels.sectionFocus}>
               {showMinFocus && (
-                <div style={gridStyle(n)}>
+                <div style={{ ...gridStyle(n), alignItems: "center" }}>
                   {lenses.map((lens, i) => {
                     const lines = getFocusVariantLines(
                       lens.minFocusDistance,
@@ -418,7 +432,7 @@ export function SharePoster({ lenses, labels, custom, ref }: SharePosterProps) {
                 </div>
               )}
               {showMaxMag && (
-                <div style={gridStyle(n)}>
+                <div style={{ ...gridStyle(n), alignItems: "center" }}>
                   {lenses.map((lens, i) => {
                     const lines = getFocusVariantLines(
                       lens.maxMagnification,
@@ -618,34 +632,6 @@ export function SharePoster({ lenses, labels, custom, ref }: SharePosterProps) {
           </div>
         </>
       )}
-
-      {/* ── Card Footer (per-column brand + gen) ─────────────── */}
-      <div style={{ height: 1, background: "#e4e4e7" }} />
-      <div style={{ padding: `16px ${POSTER_PX}px` }}>
-        <div style={gridStyle(n)}>
-          {lenses.map((lens, i) => (
-            <div
-              key={i}
-              style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 3 }}
-            >
-              <span
-                style={{
-                  fontSize: 10,
-                  fontWeight: 600,
-                  letterSpacing: "0.08em",
-                  textTransform: "uppercase",
-                  color: "#a1a1aa",
-                }}
-              >
-                {lens.brand}
-              </span>
-              {lens.generation !== undefined && lens.generation > 1 && (
-                <span style={{ fontSize: 10, color: "#d4d4d8" }}>Gen {lens.generation}</span>
-              )}
-            </div>
-          ))}
-        </div>
-      </div>
 
       {/* ── Footer ────────────────────────────────────────────── */}
       <div style={{ height: 1, background: "#e4e4e7" }} />
