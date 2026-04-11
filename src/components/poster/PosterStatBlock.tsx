@@ -13,7 +13,16 @@ interface PosterStatBlockProps {
  * Renders an empty div when value is absent to maintain grid structure.
  */
 export function PosterStatBlock({ value, label, valueClassName, sup }: PosterStatBlockProps) {
-  if (!value) return <div />;
+  if (!value) {
+    return (
+      <div className="flex flex-col items-center text-center gap-1">
+        <span className={cn("font-semibold tabular-nums leading-tight text-zinc-300", valueClassName)}>
+          —
+        </span>
+        <span className="text-[10px] uppercase tracking-wider text-zinc-300">{label}</span>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col items-center text-center gap-1">
