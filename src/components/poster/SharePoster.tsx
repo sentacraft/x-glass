@@ -226,9 +226,10 @@ export function SharePoster({ lenses, labels, custom, ref }: SharePosterProps) {
   };
 
   // Collect in section display order, lenses left-to-right within each field
+  // Weight is now in the hero block — collect first
+  if (showWeight)        lenses.forEach((_, i) => collectNote(i, "weightG", labels.weightLabel));
   if (showMinFocus)      lenses.forEach((_, i) => collectNote(i, "minFocusDistance", labels.minFocusLabel));
   if (showMaxMag)        lenses.forEach((_, i) => collectNote(i, "maxMagnification", labels.maxMagLabel));
-  if (showWeight)        lenses.forEach((_, i) => collectNote(i, "weightG", labels.weightLabel));
   if (showFilter)        lenses.forEach((_, i) => collectNote(i, "filterMm", labels.filterLabel));
   /* Features always rendered */    lenses.forEach((_, i) => collectNote(i, "ois", labels.featureOIS));
   /* Features always rendered */    lenses.forEach((_, i) => collectNote(i, "wr", labels.featureWR));
@@ -385,7 +386,7 @@ export function SharePoster({ lenses, labels, custom, ref }: SharePosterProps) {
         </div>
 
         {/* Max aperture */}
-        <div style={gridStyle(n)}>
+        <div style={{ ...gridStyle(n), marginBottom: showWeight ? 20 : 0 }}>
           {lenses.map((lens, i) => (
             <div
               key={i}
@@ -407,6 +408,38 @@ export function SharePoster({ lenses, labels, custom, ref }: SharePosterProps) {
             </div>
           ))}
         </div>
+
+        {/* Weight — hero metric alongside focal length and aperture */}
+        {showWeight && (
+          <div style={gridStyle(n)}>
+            {lenses.map((lens, i) => {
+              const display = weightDisplay(lens.weightG, "g");
+              if (!display) return <div key={i} />;
+              const sup = noteSup(i, "weightG");
+              return (
+                <div
+                  key={i}
+                  style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}
+                >
+                  <span className={cn("font-semibold tabular-nums text-zinc-900 leading-tight", statSize)}>
+                    {display}
+                    {sup !== undefined && (
+                      <span style={{ fontSize: "0.55em", verticalAlign: "super", marginLeft: 1, color: "#a1a1aa", fontWeight: 500 }}>
+                        {sup}
+                      </span>
+                    )}
+                  </span>
+                  <div style={{ width: "80%", maxWidth: 80 }}>
+                    <PosterWeightBar weightG={lens.weightG} maxWeightG={maxWeightG} lensIndex={i} />
+                  </div>
+                  <span style={{ fontSize: 9, color: "#a1a1aa", letterSpacing: "0.08em", textTransform: "uppercase" }}>
+                    {labels.weightLabel}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+        )}
       </div>
 
       {/* ── Focal Coverage Section ────────────────────────────── */}
@@ -524,59 +557,12 @@ export function SharePoster({ lenses, labels, custom, ref }: SharePosterProps) {
         </>
       )}
 
-      {/* ── Size & Weight Section ─────────────────────────────── */}
-      {(showWeight || showDimensions || showFilter) && (
+      {/* ── Size Section (dimensions + filter; weight is in hero) ── */}
+      {(showDimensions || showFilter) && (
         <>
           <div style={{ height: 1, background: "#e4e4e7" }} />
           <div style={{ padding: `28px ${POSTER_PX}px` }}>
             <PosterSection title={labels.sectionSizeWeight}>
-              {/* Weight + mini bar */}
-              {showWeight && (
-                <div style={gridStyle(n)}>
-                  {lenses.map((lens, i) => {
-                    const display = weightDisplay(lens.weightG, "g");
-                    if (!display) return <div key={i} />;
-                    return (
-                      <div
-                        key={i}
-                        style={{
-                          display: "flex",
-                          flexDirection: "column",
-                          alignItems: "center",
-                          gap: 5,
-                        }}
-                      >
-                        <span className={cn("font-semibold tabular-nums text-zinc-900 leading-tight", statSize)}>
-                          {display}
-                          {noteSup(i, "weightG") !== undefined && (
-                            <span style={{ fontSize: "0.55em", verticalAlign: "super", marginLeft: 1, color: "#a1a1aa", fontWeight: 500 }}>
-                              {noteSup(i, "weightG")}
-                            </span>
-                          )}
-                        </span>
-                        <div style={{ width: "80%", maxWidth: 80 }}>
-                          <PosterWeightBar
-                            weightG={lens.weightG}
-                            maxWeightG={maxWeightG}
-                            lensIndex={i}
-                          />
-                        </div>
-                        <span
-                          style={{
-                            fontSize: 9,
-                            color: "#a1a1aa",
-                            letterSpacing: "0.08em",
-                            textTransform: "uppercase",
-                          }}
-                        >
-                          {labels.weightLabel}
-                        </span>
-                      </div>
-                    );
-                  })}
-                </div>
-              )}
-
               {/* Dimensions */}
               {showDimensions && (
                 <div style={gridStyle(n)}>
