@@ -22,6 +22,7 @@ export const FILTER_FEATURE_KEYS = [
   "ois",
   "wr",
   "apertureRing",
+  "powerZoom",
 ] as const satisfies readonly (keyof Lens)[];
 
 export type FilterFeatureKey = (typeof FILTER_FEATURE_KEYS)[number];
@@ -85,14 +86,35 @@ export function getFocalCategoriesOf(lens: {
   }).map((cat) => cat.key);
 }
 
+export type FocusMotorClass = "linear" | "stepping" | "other";
+
+/**
+ * Classify a brand-specific focus motor string into a canonical class.
+ * Returns undefined only for MF-only lenses (af === false).
+ * AF lenses with an undocumented motor type return "other".
+ */
+export function classifyFocusMotor(lens: Lens): FocusMotorClass | undefined {
+  if (!lens.af) return undefined;
+  const m = lens.focusMotor;
+  if (!m) return "other"; // AF but motor type not documented → treated as Other
+
+  const s = m.toLowerCase();
+  // Linear family: LM, HLA, VXD, VCM, Triple/Quad Linear, Dual HyperVCM
+  if (/\b(lm|hla|vxd|vcm)\b/.test(s) || s.includes("linear") || s.includes("hypervcm"))
+    return "linear";
+  // Stepping family: STM, RXD, "Stepping Motor", "STM+Lead screw"
+  if (/\b(stm|rxd)\b/.test(s) || s.includes("stepping"))
+    return "stepping";
+  return "other";
+}
+
 export interface FilterState {
   brands: string[]; // empty = all brands
   typeFilter: LensType | null; // null = all types
   specialtyTag: SpecialtyTag | null; // null = no filter
+  focusMotorClass: FocusMotorClass | null; // null = no filter
   features: FilterFeatureKey[]; // empty = no requirement
   focalCategories: FocalCategory[]; // empty = all categories
-  weightRange: [number, number] | null; // null = no filter
-  yearRange: [number, number] | null; // null = no filter
   sort: SortKey;
   sortDir: "asc" | "desc";
 }
@@ -101,10 +123,9 @@ export const defaultFilters: FilterState = {
   brands: [],
   typeFilter: null,
   specialtyTag: null,
+  focusMotorClass: null,
   features: [],
   focalCategories: [],
-  weightRange: null,
-  yearRange: null,
   sort: "focalLength",
   sortDir: "asc",
 };
@@ -123,6 +144,10 @@ export function filterLenses(lenses: Lens[], filters: FilterState): Lens[] {
       return false;
     }
 
+    if (filters.focusMotorClass && classifyFocusMotor(lens) !== filters.focusMotorClass) {
+      return false;
+    }
+
     for (const field of FILTER_FEATURE_KEYS) {
       if (filters.features.includes(field) && !lens[field]) {
         return false;
@@ -134,19 +159,6 @@ export function filterLenses(lenses: Lens[], filters: FilterState): Lens[] {
         matchedCats.includes(cat)
       );
       if (!hasOverlap) {
-        return false;
-      }
-    }
-    if (filters.weightRange && lens.weightG !== undefined) {
-      const [wMin, wMax] = filters.weightRange;
-      const w = Array.isArray(lens.weightG) ? lens.weightG[0] : lens.weightG;
-      if (w < wMin || w > wMax) {
-        return false;
-      }
-    }
-    if (filters.yearRange && lens.releaseYear !== undefined) {
-      const [yMin, yMax] = filters.yearRange;
-      if (lens.releaseYear < yMin || lens.releaseYear > yMax) {
         return false;
       }
     }
@@ -172,7 +184,7 @@ export function parseLensIds(ids: string | undefined): Lens[] {
     .filter((l): l is Lens => l !== undefined);
 }
 
-export type SortKey = "focalLength" | "maxAperture" | "weightG" | "releaseYear";
+export type SortKey = "focalLength" | "maxAperture" | "weightG";
 
 function getSortableMaxAperture(lens: Lens): number {
   return Array.isArray(lens.maxAperture) ? lens.maxAperture[0] : lens.maxAperture;

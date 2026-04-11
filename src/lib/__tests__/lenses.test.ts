@@ -272,43 +272,6 @@ describe("filterLenses", () => {
     expect(result[0].id).toBe("fuji-zoom");
   });
 
-  it("filters by weightRange", () => {
-    const result = filterLenses(lensPool, {
-      ...defaultFilters,
-      weightRange: [100, 200],
-    });
-    // lensPool default weightG is 187, all lenses use the default
-    expect(result).toHaveLength(4);
-    const result2 = filterLenses(lensPool, {
-      ...defaultFilters,
-      weightRange: [200, 500],
-    });
-    expect(result2).toHaveLength(0);
-  });
-
-  it("filters by yearRange", () => {
-    const yearPool = [
-      makeLens({
-        id: "old",
-        focalLengthMin: 35,
-        focalLengthMax: 35,
-        releaseYear: 2012,
-      }),
-      makeLens({
-        id: "new",
-        focalLengthMin: 35,
-        focalLengthMax: 35,
-        releaseYear: 2023,
-      }),
-    ];
-    const result = filterLenses(yearPool, {
-      ...defaultFilters,
-      yearRange: [2020, 2025],
-    });
-    expect(result).toHaveLength(1);
-    expect(result[0].id).toBe("new");
-  });
-
   it("filters by required feature: af", () => {
     const result = filterLenses(lensPool, {
       ...defaultFilters,
@@ -527,11 +490,6 @@ describe("sortLenses", () => {
   it("sorts by weightG ascending", () => {
     const ids = sortLenses(sortPool, "weightG", "asc").map((l) => l.id);
     expect(ids).toEqual(["b", "c", "a"]);
-  });
-
-  it("sorts by releaseYear descending", () => {
-    const ids = sortLenses(sortPool, "releaseYear", "desc").map((l) => l.id);
-    expect(ids).toEqual(["a", "c", "b"]);
   });
 
   it("does not mutate the original array", () => {
