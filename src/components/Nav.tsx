@@ -19,8 +19,8 @@ export default function Nav() {
           <Image
             src="/logo-compact.png"
             alt=""
-            width={28}
-            height={28}
+            width={32}
+            height={32}
             className="dark:invert"
           />
           X-Glass
