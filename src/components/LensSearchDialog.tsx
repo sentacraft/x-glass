@@ -241,13 +241,13 @@ export default function LensSearchDialog({
                       )}
                     >
                       <div className="min-w-0">
-                        <p className="truncate text-sm font-medium text-zinc-900 dark:text-zinc-50">
-                          {lens.model}
-                        </p>
-                        <p className="mt-1 truncate text-xs uppercase tracking-[0.14em] text-zinc-500 dark:text-zinc-400">
+                        <p className="truncate text-xs uppercase tracking-[0.14em] text-zinc-500 dark:text-zinc-400">
                           {tBrand(lens.brand)}
                           {lens.series ? ` · ${lens.series}` : ""}
                           {lens.generation ? ` · ${t("generation", { value: lens.generation })}` : ""}
+                        </p>
+                        <p className="mt-0.5 truncate text-sm font-medium text-zinc-900 dark:text-zinc-50">
+                          {lens.model}
                         </p>
                       </div>
                       <span className="shrink-0 text-xs font-medium text-zinc-400 dark:text-zinc-500">
