@@ -433,6 +433,11 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
           fisheye: td("tagFisheye"),
           probe: td("tagProbe"),
         },
+        motorClass: {
+          linear: td("motorLinear"),
+          stepping: td("motorStepping"),
+          other: td("motorOther"),
+        },
       }),
     [td]
   );

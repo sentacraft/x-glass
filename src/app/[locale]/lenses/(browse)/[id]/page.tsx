@@ -166,6 +166,11 @@ export default async function LensDetailPage({ params }: { params: Params }) {
       fisheye: t("tagFisheye"),
       probe: t("tagProbe"),
     },
+    motorClass: {
+      linear: t("motorLinear"),
+      stepping: t("motorStepping"),
+      other: t("motorOther"),
+    },
   });
 
   // Per-view suppression: hide rows where this lens has no data.

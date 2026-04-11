@@ -1,5 +1,6 @@
 import type { Lens, FieldNoteKey, SpecialtyTag } from "./types";
 import type { LensConfigurationLabels } from "./lens.format";
+import { classifyFocusMotor, type FocusMotorClass } from "./lens";
 import * as fmt from "./lens.format";
 
 // ---------------------------------------------------------------------------
@@ -147,6 +148,9 @@ export interface SpecGroupLabels {
 
   // Specialty tag labels
   tags: Record<SpecialtyTag, string>;
+
+  // Focus motor canonical class labels
+  motorClass: Record<FocusMotorClass, string>;
 }
 
 // ---------------------------------------------------------------------------
@@ -173,6 +177,7 @@ export function buildSpecGroups(labels: SpecGroupLabels): SpecGroup[] {
     angleOfViewEstNote,
     lc,
     tags,
+    motorClass,
   } = labels;
 
   return [
@@ -275,7 +280,11 @@ export function buildSpecGroups(labels: SpecGroupLabels): SpecGroup[] {
           label: labels.focusMotor,
           fieldNoteKey: "focusMotor" as FieldNoteKey,
           hasData: (l) => l.focusMotor !== undefined,
-          getDisplayValue: (l) => l.focusMotor,
+          getDisplayValue: (l) => {
+            const cls = classifyFocusMotor(l);
+            return cls ? motorClass[cls] : l.focusMotor;
+          },
+          getSubValue: (l) => l.focusMotor,
         },
         {
           kind: "bool",
