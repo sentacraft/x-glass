@@ -60,7 +60,7 @@ function LensHeaderContent({
 
   return (
     <>
-      <div className="mb-3 flex w-full max-w-[112px] items-center justify-center overflow-hidden rounded-xl bg-zinc-50/70 p-3 dark:bg-zinc-900/50">
+      <div className="mb-2 flex w-full max-w-[88px] items-center justify-center overflow-hidden rounded-xl bg-zinc-50/70 p-2 dark:bg-zinc-900/50">
         {lens.imageUrl ? (
           <div className="relative aspect-square w-full overflow-hidden">
             <Image
@@ -135,7 +135,7 @@ function SortableLensHeader({
     <th
       ref={setNodeRef}
       style={{ opacity: isDragging ? 0 : 1 }}
-      className="sticky top-0 z-20 bg-zinc-50 px-3 py-4 text-left select-none dark:bg-zinc-900"
+      className="sticky top-0 z-20 bg-zinc-50 px-3 py-2 text-left select-none dark:bg-zinc-900"
     >
       <div className="flex items-start justify-between gap-2">
         <button
@@ -179,20 +179,15 @@ function AddLensHeader({
   const t = useTranslations("Compare");
 
   return (
-    <th className="sticky top-0 z-20 bg-zinc-50 px-3 py-4 text-left dark:bg-zinc-900">
-      <div className="flex min-h-[15rem] flex-col items-center justify-center gap-2.5 px-2 py-5 text-center">
+    <th className="sticky top-0 z-20 bg-zinc-50 px-3 py-2 text-left dark:bg-zinc-900">
+      <div className="flex flex-col items-center justify-center gap-2.5 px-2 py-3 text-center" style={{ minHeight: "inherit" }}>
         <LensSearchDialog
           onSelectLens={onSelectLens}
           getResultState={getResultState}
           triggerVariant="button"
           triggerLabel={t("addLens")}
-          triggerClassName="h-9 rounded-full border-zinc-300 bg-white px-3.5 text-zinc-700 hover:bg-zinc-100 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-200 dark:hover:bg-zinc-900"
+          triggerClassName="h-9 whitespace-nowrap rounded-full border-zinc-300 bg-white px-3.5 text-zinc-700 hover:bg-zinc-100 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-200 dark:hover:bg-zinc-900"
         />
-        <div className="space-y-1">
-          <p className="text-xs text-zinc-500 dark:text-zinc-400">
-            {t("addLensHint")}
-          </p>
-        </div>
       </div>
     </th>
   );
