@@ -248,20 +248,14 @@ export function SharePoster({ lenses, labels, custom, shareUrl, ref }: SharePost
     >
       {/* ── Header ────────────────────────────────────────────── */}
       <div style={{ padding: `24px ${POSTER_PX}px 20px`, display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-        {/* Left: app badge + title + optional slogan */}
+        {/* Left: logo mark + title + optional slogan */}
         <div>
-          <div
-            style={{
-              fontSize: 10,
-              fontWeight: 600,
-              letterSpacing: "0.1em",
-              textTransform: "uppercase",
-              color: "#a1a1aa",
-              marginBottom: 8,
-            }}
-          >
-            {labels.appName}
-          </div>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/logo-compact.png"
+            alt={labels.appName}
+            style={{ width: 32, height: 32, display: "block", marginBottom: 10 }}
+          />
           <div
             style={{
               fontSize: slogan ? 22 : 36,
