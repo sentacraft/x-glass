@@ -268,3 +268,61 @@ describe("searchLenses — brand aliases", () => {
     expect(results[0]?.id).toBe("artisans-25-18");
   });
 });
+
+// ---------------------------------------------------------------------------
+// First-party (Fujifilm) ranking bonus
+// ---------------------------------------------------------------------------
+
+describe("searchLenses — first-party ranking bonus", () => {
+  it("'35 f1.4' ranks the Fujifilm XF 35mm above the Sigma 35mm on near-tie", () => {
+    const results = searchLenses(lenses, "35 f1.4");
+    const fujiIdx = results.findIndex((l) => l.id === "fuji-xf35-14");
+    const sigmaIdx = results.findIndex((l) => l.id === "sigma-35-14");
+    expect(fujiIdx).toBeGreaterThanOrEqual(0);
+    expect(sigmaIdx).toBeGreaterThanOrEqual(0);
+    expect(fujiIdx).toBeLessThan(sigmaIdx);
+  });
+
+  it("bonus does not promote unrelated Fujifilm lenses", () => {
+    // "sigma" should still hit sigma lenses; no Fujifilm should be ahead
+    // of Sigma in a sigma-only query.
+    const results = searchLenses(lenses, "sigma");
+    expect(results[0]?.brand).toBe("sigma");
+  });
+
+  it("bonus does not override clearly better third-party matches", () => {
+    // Query "18-50" — only Sigma has this focal range. Fuji should not
+    // appear at all (focal doesn't match any Fuji lens).
+    const results = searchLenses(lenses, "18-50");
+    expect(results[0]?.id).toBe("sigma-18-50-28");
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Result threshold filtering
+// ---------------------------------------------------------------------------
+
+describe("searchLenses — relevance threshold", () => {
+  it("drops weak includes-only matches from the result set", () => {
+    // Single-char query that would substring-match many lenses under the
+    // old "score > 0" filter. With the absolute floor it should be tightly
+    // restricted (or empty).
+    const results = searchLenses(lenses, "r");
+    // Any result that does survive must be a real exact/wordPrefix match
+    // on a meaningful token, not a spurious substring hit. The easiest
+    // assertion is that we don't return the entire fixture set.
+    expect(results.length).toBeLessThan(lenses.length);
+  });
+
+  it("does not flood results when a strong match exists", () => {
+    // "xf35" has a clear best match (fuji-xf35-14). Weak fuji-only
+    // matches must NOT all pile in under the relative-floor rule.
+    const results = searchLenses(lenses, "xf35");
+    expect(results[0]?.id).toBe("fuji-xf35-14");
+    // Should NOT include lenses that only share "xf" series without
+    // any focal / aperture match (relative floor kicks them out).
+    const ids = results.map((l) => l.id);
+    expect(ids).not.toContain("fuji-xf23-f2");
+    expect(ids).not.toContain("fuji-xf40-28");
+  });
+});

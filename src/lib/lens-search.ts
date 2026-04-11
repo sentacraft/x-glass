@@ -180,6 +180,29 @@ const WEIGHTS: Record<keyof TokenBucket, Record<MatchStrength, number>> = {
 };
 
 /**
+ * Soft preference for first-party (Fujifilm) lenses. X-Glass is framed
+ * around the Fuji X-mount ecosystem, so on near-ties Fuji lenses should
+ * appear first. Small enough (~4-25% of a typical total score) to avoid
+ * overriding clearly better third-party matches.
+ */
+const FIRST_PARTY_BRAND = "fujifilm";
+const FIRST_PARTY_BONUS = 50;
+
+/**
+ * Minimum absolute total score a result must reach to show up in
+ * auto-suggest. Roughly equivalent to a single wordPrefix-on-aperture
+ * match, i.e. the weakest result we would still consider relevant.
+ */
+const MIN_ABSOLUTE_SCORE = 200;
+
+/**
+ * Minimum fraction of the best result's score a candidate must reach
+ * to show up alongside it. Prunes the long tail of weak includes-only
+ * matches from cluttering the dropdown when better results exist.
+ */
+const MIN_RELATIVE_SCORE_RATIO = 0.4;
+
+/**
  * Score a single query token across all buckets. Returns 0 if nothing matches.
  */
 function scoreToken(buckets: TokenBucket, queryToken: string): number {
@@ -196,6 +219,8 @@ function scoreToken(buckets: TokenBucket, queryToken: string): number {
 /**
  * Score a multi-token query against a lens with AND semantics — every query
  * token must match at least one bucket, otherwise the lens is excluded.
+ * First-party lenses get a small constant bonus on top of the raw match
+ * score so they win near-ties against third-party lenses.
  */
 function scoreLens(entry: SearchableLensEntry, queryTokens: string[]): number {
   let total = 0;
@@ -203,6 +228,9 @@ function scoreLens(entry: SearchableLensEntry, queryTokens: string[]): number {
     const s = scoreToken(entry.buckets, qt);
     if (s === 0) return 0;
     total += s;
+  }
+  if (entry.lens.brand === FIRST_PARTY_BRAND) {
+    total += FIRST_PARTY_BONUS;
   }
   return total;
 }
@@ -222,12 +250,22 @@ export function searchLensIndex(
     return [];
   }
 
-  return index
+  const scored = index
     .map((entry) => ({
       entry,
       score: scoreLens(entry, queryTokens),
     }))
-    .filter((item) => item.score > 0)
+    .filter((item) => item.score >= MIN_ABSOLUTE_SCORE);
+
+  if (scored.length === 0) {
+    return [];
+  }
+
+  const bestScore = scored.reduce((max, item) => Math.max(max, item.score), 0);
+  const relativeFloor = bestScore * MIN_RELATIVE_SCORE_RATIO;
+
+  return scored
+    .filter((item) => item.score >= relativeFloor)
     .sort((a, b) => {
       if (b.score !== a.score) return b.score - a.score;
       const aLen = a.entry.buckets.model.join("").length;
