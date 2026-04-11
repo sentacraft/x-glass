@@ -20,7 +20,7 @@ export async function generateMetadata({
   const title = lenses.map((l) => l.model).join(" vs ");
   return {
     title,
-    openGraph: { title: `${title} | X Glass` },
+    openGraph: { title: `${title} | X-Glass` },
   };
 }
 

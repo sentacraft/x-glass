@@ -1,7 +1,7 @@
 {
   "Common": {
-    "appName": "X Glass",
-    "appDesc": "富士 X 卡口镜头对比工具"
+    "appName": "X-Glass",
+    "appDesc": "富士党专属的镜头图鉴"
   },
   "Nav": {
     "lenses": "镜头列表",
@@ -32,12 +32,8 @@
   },
   "Home": {
     "cta": "浏览镜头",
-    "feature1Title": "筛选",
-    "feature1Desc": "按品牌、焦段、光圈、自动对焦、防滴防尘筛选",
-    "feature2Title": "对比",
-    "feature2Desc": "最多 4 款镜头并排规格对比",
-    "feature3Title": "等效焦距",
-    "feature3Desc": "自动 ×1.5 换算等效全画幅焦距"
+    "dataSnapshot": "lens.json loaded ✓",
+    "dataSnapshotMeta": "{count} 支镜头 · {brands} 个品牌 · 更新于 {date}"
   },
   "LensList": {
     "title": "镜头列表",
@@ -235,6 +231,12 @@
     "customizeSlogan": "副标题",
     "customizeSloganPlaceholder": "添加一句话…"
   },
+  "ShareImageTitle": {
+    "question": "这几个镜头你会选哪个？",
+    "statement": "我在 X-Glass 做了一组镜头对比",
+    "ctaQR": "扫码查看完整对比",
+    "ctaMono": "compare(lenses[]) → decision"
+  },
   "ShareImage": {
     "comparison": "镜头横向对比",
     "focalLength": "焦段",
@@ -278,13 +280,13 @@
     "tagProbe": "探针"
   },
   "About": {
-    "pageTitle": "关于 X Glass",
+    "pageTitle": "关于 X-Glass",
 
     "backgroundTitle": "项目背景",
-    "backgroundBody": "X Glass 是一个独立开发的富士 X 卡口镜头浏览与对比工具。它的诞生是为了填补一个空白：目前没有任何工具能够跨品牌、统一地收录 X 卡口镜头，并提供交互式并排对比功能。",
+    "backgroundBody": "X-Glass 是一个独立开发的富士 X 卡口镜头浏览与对比工具。它的诞生是为了填补一个空白：目前没有任何工具能够跨品牌、统一地收录 X 卡口镜头，并提供交互式并排对比功能。",
 
     "coverageTitle": "收录范围",
-    "coverageBody": "X Glass 收录所有与富士 X 卡口原生兼容的在售镜头，包括富士自家的 XF、XC、MK 系列，以及各第三方品牌。同焦段的多代版本均独立收录。转接其他卡口的镜头不在收录范围内。",
+    "coverageBody": "X-Glass 收录所有与富士 X 卡口原生兼容的在售镜头，包括富士自家的 XF、XC、MK 系列，以及各第三方品牌。同焦段的多代版本均独立收录。转接其他卡口的镜头不在收录范围内。",
     "coverageBrands": "当前收录品牌",
     "coverageBrandList": "富士 · 适马 · 腾龙 · 唯卓仕 · 铭匠光学 · 七工匠 · 星耀光学 · 深光影像",
 
@@ -297,18 +299,18 @@
     "faq1A": "我们的目标是覆盖所有 X 卡口镜头，但数据库持续扩充中，部分镜头可能尚未录入。可以使用页面底部的反馈链接推荐缺失镜头，这是最快的方式。",
     "faq2Q": "某个参数和厂商官网不一致，以哪个为准？",
     "faq2A": "请以厂商官网为准。我们的数据可能存在错误或尚未同步最新规格。如果发现差异，请使用镜头详情页的「反馈数据问题」链接告知我们。",
-    "faq3Q": "X Glass 和富士或其他品牌有关系吗？",
-    "faq3A": "没有。X Glass 是完全独立的个人项目，与富士或任何镜头厂商均无关联。镜头名称和品牌标识归各自所有者所有。",
+    "faq3Q": "X-Glass 和富士或其他品牌有关系吗？",
+    "faq3A": "没有。X-Glass 是完全独立的个人项目，与富士或任何镜头厂商均无关联。镜头名称和品牌标识归各自所有者所有。",
     "faq4Q": "为什么有些字段显示「—」？",
     "faq4A": "「—」表示该数据尚未采集，或厂商未公开该规格。我们会持续填补空缺。",
 
     "disclaimerTitle": "免责声明与数据来源",
     "disclaimerSources": "规格数据主要来源于厂商官方网站和产品页面。",
     "disclaimerAccuracy": "数据可能存在错误，规格亦可能在未通知的情况下变更。购买前请直接向厂商核实关键规格。",
-    "disclaimerLiability": "X Glass 不对基于本站信息所做的任何决定承担责任。",
+    "disclaimerLiability": "X-Glass 不对基于本站信息所做的任何决定承担责任。",
 
     "privacyTitle": "隐私",
-    "privacyBody": "X Glass 不要求用户注册，也不收集任何个人信息。",
+    "privacyBody": "X-Glass 不要求用户注册，也不收集任何个人信息。",
 
     "changelogTitle": "更新日志",
     "changelogBody": "我们计划提供公开的数据更新和修正记录。",
@@ -322,7 +324,9 @@
   },
   "Footer": {
     "dataInfo": "数据 · {lensCount} 款镜头 ·",
-    "updatedPrefix": "更新于"
+    "updatedPrefix": "更新于",
+    "tagline1": "Data over opinions",
+    "tagline2": "Glass matters"
   },
   "Feedback": {
     "titleDataIssue": "反馈数据问题",

@@ -1,7 +1,7 @@
 {
   "Common": {
-    "appName": "X Glass",
-    "appDesc": "Fujifilm X-Mount Lens Comparison Tool"
+    "appName": "X-Glass",
+    "appDesc": "Lens data, normalized."
   },
   "Nav": {
     "lenses": "Lenses",
@@ -32,12 +32,8 @@
   },
   "Home": {
     "cta": "Browse Lenses",
-    "feature1Title": "Filter",
-    "feature1Desc": "By brand, focal length, aperture, AF, and weather resistance",
-    "feature2Title": "Compare",
-    "feature2Desc": "Side-by-side specs for up to 4 lenses",
-    "feature3Title": "Equiv. FL",
-    "feature3Desc": "Automatic ×1.5 crop factor conversion"
+    "dataSnapshot": "lens.json loaded ✓",
+    "dataSnapshotMeta": "{count} lenses · {brands} brands · updated {date}"
   },
   "LensList": {
     "title": "Lenses",
@@ -236,6 +232,12 @@
     "customizeSlogan": "Slogan",
     "customizeSloganPlaceholder": "Add a personal note…"
   },
+  "ShareImageTitle": {
+    "question": "Which one would you pick?",
+    "statement": "I put together a lens comparison on X-Glass",
+    "ctaQR": "Scan to view the full comparison",
+    "ctaMono": "compare(lenses[]) → decision"
+  },
   "ShareImage": {
     "comparison": "Lens Comparison",
     "focalLength": "Focal Length",
@@ -279,13 +281,13 @@
     "tagProbe": "Probe"
   },
   "About": {
-    "pageTitle": "About X Glass",
+    "pageTitle": "About X-Glass",
 
     "backgroundTitle": "Background",
-    "backgroundBody": "X Glass is an independent tool for browsing and comparing Fujifilm X-mount lenses across all brands. It was built to fill a gap: no single tool offered a unified, cross-brand X-mount database with interactive side-by-side comparison.",
+    "backgroundBody": "X-Glass is an independent tool for browsing and comparing Fujifilm X-mount lenses across all brands. It was built to fill a gap: no single tool offered a unified, cross-brand X-mount database with interactive side-by-side comparison.",
 
     "coverageTitle": "Lens Coverage",
-    "coverageBody": "X Glass covers all commercially available lenses natively compatible with the Fujifilm X-mount, including Fujifilm's own XF, XC, and MK series, as well as third-party brands. Multiple generations of the same focal length are listed separately. Adapted lenses from other mounts are out of scope.",
+    "coverageBody": "X-Glass covers all commercially available lenses natively compatible with the Fujifilm X-mount, including Fujifilm's own XF, XC, and MK series, as well as third-party brands. Multiple generations of the same focal length are listed separately. Adapted lenses from other mounts are out of scope.",
     "coverageBrands": "Currently indexed brands",
     "coverageBrandList": "Fujifilm · Sigma · Tamron · Viltrox · TTArtisan · 7Artisans · Brightin Star · SG Image",
 
@@ -298,18 +300,18 @@
     "faq1A": "We aim for complete X-mount coverage, but the database grows incrementally and some lenses may not have been added yet. Use the feedback links at the bottom of this page to suggest a missing lens — that's the fastest way to get it on our radar.",
     "faq2Q": "A spec doesn't match the manufacturer's page. Which is correct?",
     "faq2A": "Always treat the manufacturer's official page as the source of truth. Our data may contain errors or lag behind spec revisions. If you spot a discrepancy, use the \"Report an issue\" link on the lens detail page.",
-    "faq3Q": "Is X Glass affiliated with Fujifilm or any lens brand?",
-    "faq3A": "No. X Glass is an independent project with no affiliation to Fujifilm or any other manufacturer. Lens names and brand marks are the property of their respective owners.",
+    "faq3Q": "Is X-Glass affiliated with Fujifilm or any lens brand?",
+    "faq3A": "No. X-Glass is an independent project with no affiliation to Fujifilm or any other manufacturer. Lens names and brand marks are the property of their respective owners.",
     "faq4Q": "Why do some fields show \"—\"?",
     "faq4A": "A dash means the data hasn't been collected yet, or the manufacturer hasn't publicly disclosed that spec. We continuously work to fill in gaps.",
 
     "disclaimerTitle": "Disclaimer & Data Sources",
     "disclaimerSources": "Specifications are sourced primarily from manufacturer official websites and product pages.",
     "disclaimerAccuracy": "Data may contain errors and specs can change without notice. Always verify critical specifications directly with the manufacturer before making a purchase decision.",
-    "disclaimerLiability": "X Glass is not responsible for any decisions made based on information presented here.",
+    "disclaimerLiability": "X-Glass is not responsible for any decisions made based on information presented here.",
 
     "privacyTitle": "Privacy",
-    "privacyBody": "X Glass does not require user accounts and does not collect personal information.",
+    "privacyBody": "X-Glass does not require user accounts and does not collect personal information.",
 
     "changelogTitle": "Changelog",
     "changelogBody": "A public changelog tracking data updates and corrections is planned.",
@@ -323,7 +325,9 @@
   },
   "Footer": {
     "dataInfo": "Data · {lensCount} lenses ·",
-    "updatedPrefix": "Updated"
+    "updatedPrefix": "Updated",
+    "tagline1": "Data over opinions",
+    "tagline2": "Glass matters"
   },
   "Feedback": {
     "titleDataIssue": "Report a data issue",

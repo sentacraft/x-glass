@@ -6,12 +6,6 @@ export default function Home() {
   const t = useTranslations("Common");
   const h = useTranslations("Home");
 
-  const features = [
-    { id: "browse", title: h("feature1Title"), desc: h("feature1Desc"), icon: "⊟" },
-    { id: "compare", title: h("feature2Title"), desc: h("feature2Desc"), icon: "⊞" },
-    { id: "equiv", title: h("feature3Title"), desc: h("feature3Desc"), icon: "↔" },
-  ] as const;
-
   return (
     <div className="flex flex-col flex-1 bg-zinc-50 dark:bg-black">
       {/* Hero */}
@@ -31,24 +25,6 @@ export default function Home() {
           </Link>
           <DataInfo />
         </div>
-      </section>
-
-      {/* Features */}
-      <section className="max-w-3xl mx-auto w-full px-4 sm:px-6 pb-24 grid grid-cols-1 sm:grid-cols-3 gap-6">
-        {features.map((f) => (
-          <div
-            key={f.id}
-            className="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-5 flex flex-col gap-2"
-          >
-            <span className="text-2xl">{f.icon}</span>
-            <h2 className="font-semibold text-zinc-900 dark:text-zinc-50">
-              {f.title}
-            </h2>
-            <p className="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">
-              {f.desc}
-            </p>
-          </div>
-        ))}
       </section>
     </div>
   );
