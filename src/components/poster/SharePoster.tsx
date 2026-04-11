@@ -188,26 +188,38 @@ export function SharePoster({ lenses, labels, custom, shareUrl, ref }: SharePost
   const showFilter = lenses.some((l) => l.filterMm !== undefined);
 
   // ── Field notes collection ─────────────────────────────────────
-  // Collect (lensIndex, fieldKey) pairs that have a fieldNote, in display order.
-  // Each unique pair gets a sequential superscript number for footnote references.
+  // Notes with identical text for the same field are aggregated under one
+  // superscript. The footnote block then lists all lens models together.
   interface CollectedNote {
     sup: number;
-    lensModel: string;
+    lensModels: string[];
     fieldLabel: string;
     note: string;
   }
   const noteMap = new Map<string, number>(); // `${lensIndex}:${fieldKey}` → sup
+  // Dedup key → index in footnotes array for aggregation
+  const dedupMap = new Map<string, number>(); // `${fieldKey}::${noteText}` → footnotes index
   const footnotes: CollectedNote[] = [];
   let _supCounter = 1;
 
   const collectNote = (lensIndex: number, key: FieldNoteKey, fieldLabel: string) => {
     const note = lenses[lensIndex].fieldNotes?.[key];
     if (!note) return;
-    const mapKey = `${lensIndex}:${key}`;
-    if (noteMap.has(mapKey)) return;
-    noteMap.set(mapKey, _supCounter);
-    footnotes.push({ sup: _supCounter, lensModel: lenses[lensIndex].model, fieldLabel, note });
-    _supCounter++;
+    const lensMapKey = `${lensIndex}:${key}`;
+    if (noteMap.has(lensMapKey)) return;
+    // Aggregate: if an identical note already exists for this field, reuse its sup
+    const dedupKey = `${key}::${note}`;
+    const existingIdx = dedupMap.get(dedupKey);
+    if (existingIdx !== undefined) {
+      noteMap.set(lensMapKey, footnotes[existingIdx].sup);
+      footnotes[existingIdx].lensModels.push(lenses[lensIndex].model);
+    } else {
+      noteMap.set(lensMapKey, _supCounter);
+      const idx = footnotes.length;
+      footnotes.push({ sup: _supCounter, lensModels: [lenses[lensIndex].model], fieldLabel, note });
+      dedupMap.set(dedupKey, idx);
+      _supCounter++;
+    }
   };
 
   // Collect in section display order, lenses left-to-right within each field
@@ -668,7 +680,7 @@ export function SharePoster({ lenses, labels, custom, shareUrl, ref }: SharePost
                   {fn.sup}
                 </span>
                 <span style={{ fontSize: 8, color: "#a1a1aa", lineHeight: 1.6 }}>
-                  <span style={{ fontWeight: 600 }}>{fn.lensModel}</span>
+                  <span style={{ fontWeight: 600 }}>{fn.lensModels.join(", ")}</span>
                   {" · "}
                   <span>{fn.fieldLabel}</span>
                   {": "}
@@ -680,23 +692,6 @@ export function SharePoster({ lenses, labels, custom, shareUrl, ref }: SharePost
         </>
       )}
 
-      {/* ── Footer ────────────────────────────────────────────── */}
-      <div style={{ height: 1, background: "#e4e4e7" }} />
-      <div
-        style={{
-          padding: `16px ${POSTER_PX}px`,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
-      >
-        <div style={{ display: "flex", flexDirection: "column", gap: 3 }}>
-          <span style={{ fontSize: 13, fontWeight: 600, color: "#18181b" }}>
-            {labels.appName}
-          </span>
-          <span style={{ fontSize: 11, color: "#a1a1aa" }}>{labels.siteUrl}</span>
-        </div>
-      </div>
     </div>
   );
 }
