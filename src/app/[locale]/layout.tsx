@@ -1,6 +1,4 @@
 import type { Metadata } from "next";
-import { GeistSans } from "geist/font/sans";
-import { GeistMono } from "geist/font/mono";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { routing } from "@/i18n/routing";
@@ -44,7 +42,7 @@ export default async function LocaleLayout({
   return (
     <div
       lang={locale}
-      className={`${GeistSans.variable} ${GeistMono.variable} min-h-full font-sans antialiased`}
+      className="min-h-full"
     >
       <NextIntlClientProvider messages={messages}>
         <CompareProvider>

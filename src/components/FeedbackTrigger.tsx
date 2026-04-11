@@ -3,12 +3,14 @@
 import { useState, type ReactNode } from "react";
 import FeedbackDialog, {
   type FeedbackContext,
+  type FeedbackField,
   type FeedbackType,
 } from "./FeedbackDialog";
 
 interface FeedbackTriggerProps {
   type: FeedbackType;
   context?: FeedbackContext;
+  fields?: FeedbackField[];
   className?: string;
   children: ReactNode;
   stopPropagation?: boolean;
@@ -17,6 +19,7 @@ interface FeedbackTriggerProps {
 export default function FeedbackTrigger({
   type,
   context,
+  fields,
   className,
   children,
   stopPropagation = false,
@@ -47,6 +50,7 @@ export default function FeedbackTrigger({
         onOpenChange={setOpen}
         type={type}
         context={context}
+        fields={fields}
       />
     </>
   );

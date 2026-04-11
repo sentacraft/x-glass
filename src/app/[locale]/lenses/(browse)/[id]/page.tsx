@@ -183,6 +183,25 @@ export default async function LensDetailPage({ params }: { params: Params }) {
     missing: t("missing"),
   };
 
+  // Field options for the feedback dialog — mirrors exactly what the user sees in the spec table.
+  const reportableFields = visibleGroups.flatMap((group) =>
+    group.rows.map((row) => {
+      let currentValue: string | undefined;
+      if (row.kind === "bool") {
+        const v = row.getValue(lens);
+        currentValue =
+          v === true
+            ? valueCellLabels.yes
+            : v === false
+              ? valueCellLabels.no
+              : valueCellLabels.unknown;
+      } else {
+        currentValue = row.getDisplayValue(lens) ?? undefined;
+      }
+      return { label: row.label, currentValue };
+    })
+  );
+
   return (
     <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 py-8 flex flex-col gap-8">
       {/* Back link */}
@@ -244,6 +263,7 @@ export default async function LensDetailPage({ params }: { params: Params }) {
             <FeedbackTrigger
               type="data_issue"
               context={{ lensId: lens.id, lensModel: lens.model }}
+              fields={reportableFields}
               className="inline-flex items-center gap-1 text-xs text-zinc-400 dark:text-zinc-500 hover:text-zinc-600 dark:hover:text-zinc-300 transition-colors self-start"
             >
               <Flag size={11} />
