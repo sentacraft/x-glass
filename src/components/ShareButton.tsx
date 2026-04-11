@@ -89,6 +89,7 @@ export function ShareButton({ lenses }: ShareButtonProps) {
   const posterLabels: PosterLabels = {
     appName: "X Glass",
     siteUrl: "x-glass.app",
+    cta: tImage("cta"),
     comparison: tImage("comparison"),
     sectionFocalCoverage: tImage("sectionFocalCoverage"),
     sectionFocus: tImage("sectionFocus"),
@@ -291,6 +292,7 @@ export function ShareButton({ lenses }: ShareButtonProps) {
                 lenses={lenses}
                 labels={posterLabels}
                 custom={posterCustom}
+                shareUrl={shareUrl}
               />
             </div>
 
@@ -315,6 +317,7 @@ export function ShareButton({ lenses }: ShareButtonProps) {
                     lenses={lenses}
                     labels={posterLabels}
                     custom={posterCustom}
+                    shareUrl={shareUrl}
                   />
                 </div>
               </div>

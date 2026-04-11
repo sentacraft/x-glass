@@ -1,6 +1,7 @@
 "use client";
 
 import type { Ref } from "react";
+import QRCode from "react-qr-code";
 import type { Lens } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { classifyFocusMotor } from "@/lib/lens";
@@ -24,6 +25,8 @@ import { PosterWeightBar } from "./PosterWeightBar";
 export interface PosterLabels {
   appName: string;
   siteUrl: string;
+  /** Short CTA / tagline shown in the header top-right. */
+  cta: string;
   /** Fallback title when no custom title is set. */
   comparison: string;
   // Section titles
@@ -121,10 +124,12 @@ interface SharePosterProps {
   lenses: Lens[];
   labels: PosterLabels;
   custom?: PosterCustom;
+  /** Full URL of the current comparison page — used to generate the QR code. */
+  shareUrl?: string;
   ref?: Ref<HTMLDivElement>;
 }
 
-export function SharePoster({ lenses, labels, custom, ref }: SharePosterProps) {
+export function SharePoster({ lenses, labels, custom, shareUrl, ref }: SharePosterProps) {
   const n = lenses.length;
   const title = custom?.title?.trim() || labels.comparison;
   const slogan = custom?.slogan?.trim();
@@ -250,43 +255,58 @@ export function SharePoster({ lenses, labels, custom, ref }: SharePosterProps) {
       style={{ width: POSTER_W, background: "#ffffff" }}
     >
       {/* ── Header ────────────────────────────────────────────── */}
-      <div style={{ padding: `32px ${POSTER_PX}px 28px` }}>
-        <div
-          style={{
-            fontSize: 10,
-            fontWeight: 600,
-            letterSpacing: "0.1em",
-            textTransform: "uppercase",
-            color: "#a1a1aa",
-            marginBottom: 10,
-          }}
-        >
-          {labels.appName}
-        </div>
-        <div
-          style={{
-            fontSize: 22,
-            fontWeight: 600,
-            color: "#18181b",
-            lineHeight: 1.2,
-            marginBottom: slogan ? 6 : 8,
-          }}
-        >
-          {title}
-        </div>
-        {slogan && (
+      <div style={{ padding: `32px ${POSTER_PX}px 28px`, display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+        {/* Left: app badge + title + slogan + lens list */}
+        <div>
           <div
             style={{
-              fontSize: 13,
-              color: "#71717a",
-              marginBottom: 8,
+              fontSize: 10,
+              fontWeight: 600,
+              letterSpacing: "0.1em",
+              textTransform: "uppercase",
+              color: "#a1a1aa",
+              marginBottom: 10,
             }}
           >
-            {slogan}
+            {labels.appName}
           </div>
-        )}
-        <div style={{ fontSize: 11, color: "#a1a1aa" }}>
-          {lenses.map((l) => l.model).join(" · ")}
+          <div
+            style={{
+              fontSize: 22,
+              fontWeight: 600,
+              color: "#18181b",
+              lineHeight: 1.2,
+              marginBottom: slogan ? 6 : 8,
+            }}
+          >
+            {title}
+          </div>
+          {slogan && (
+            <div style={{ fontSize: 13, color: "#71717a", marginBottom: 8 }}>
+              {slogan}
+            </div>
+          )}
+          <div style={{ fontSize: 11, color: "#a1a1aa" }}>
+            {lenses.map((l) => l.model).join(" · ")}
+          </div>
+        </div>
+
+        {/* Right: CTA tagline */}
+        <div style={{ textAlign: "right", flexShrink: 0, paddingLeft: 24, paddingTop: 2 }}>
+          <div
+            style={{
+              fontSize: 11,
+              fontWeight: 600,
+              color: "#18181b",
+              lineHeight: 1.5,
+              maxWidth: 160,
+            }}
+          >
+            {labels.cta}
+          </div>
+          <div style={{ fontSize: 10, color: "#a1a1aa", marginTop: 3 }}>
+            {labels.siteUrl}
+          </div>
         </div>
       </div>
 
@@ -715,19 +735,25 @@ export function SharePoster({ lenses, labels, custom, ref }: SharePosterProps) {
           <span style={{ fontSize: 11, color: "#a1a1aa" }}>{labels.siteUrl}</span>
         </div>
 
-        {/* QR placeholder */}
+        {/* QR code — links to the current compare page */}
         <div
           style={{
-            width: 44,
-            height: 44,
+            width: 64,
+            height: 64,
             borderRadius: 6,
             border: "1.5px solid #e4e4e7",
+            padding: 4,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
+            flexShrink: 0,
           }}
         >
-          <span style={{ fontSize: 8, color: "#d4d4d8", letterSpacing: 1 }}>QR</span>
+          {shareUrl ? (
+            <QRCode value={shareUrl} size={52} level="M" style={{ display: "block" }} />
+          ) : (
+            <span style={{ fontSize: 8, color: "#d4d4d8", letterSpacing: 1 }}>QR</span>
+          )}
         </div>
       </div>
     </div>
