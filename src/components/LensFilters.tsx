@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { Aperture, Droplet, Focus, SlidersHorizontal, Waves } from "lucide-react";
+import { Aperture, ChevronDown, Droplet, Focus, SlidersHorizontal, Waves } from "lucide-react";
 import { FILTER_FEATURE_KEYS, FOCAL_CATEGORIES, LENS_TYPES } from "@/lib/lens";
 import type { FilterState, LensType, SpecialtyTag } from "@/lib/lens";
 import { cn } from "@/lib/utils";
@@ -122,19 +122,26 @@ export default function LensFilters({
     <button
       type="button"
       className={cn(
-        "relative flex h-8 items-center gap-1.5 rounded-full px-3 text-[11px] font-medium transition-colors sm:hidden",
-        mobileFiltersOpen
-          ? "bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900"
-          : "bg-zinc-100 text-zinc-600 hover:bg-zinc-200 hover:text-zinc-900 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700",
+        "inline-flex items-center gap-1.5 self-start text-[11px] font-medium uppercase tracking-[0.08em]",
+        "text-zinc-700 transition-colors hover:text-zinc-900",
+        "dark:text-zinc-300 dark:hover:text-zinc-100",
+        "sm:hidden",
       )}
       onClick={() => setMobileFiltersOpen((v) => !v)}
       aria-expanded={mobileFiltersOpen}
-      aria-label={t("moreFilters")}
     >
       <SlidersHorizontal className="size-3.5" />
-      <span>{t("filtersButton")}</span>
+      <span className="underline decoration-zinc-300 underline-offset-4 hover:decoration-zinc-500 dark:decoration-zinc-600 dark:hover:decoration-zinc-400">
+        {mobileFiltersOpen ? t("fewerFilters") : t("moreFilters")}
+      </span>
+      <ChevronDown
+        className={cn(
+          "size-3.5 transition-transform duration-200",
+          mobileFiltersOpen && "rotate-180",
+        )}
+      />
       {hasHiddenActiveFilters && !mobileFiltersOpen && (
-        <span className="absolute -right-0.5 -top-0.5 h-2 w-2 rounded-full bg-blue-500" />
+        <span className="h-1.5 w-1.5 rounded-full bg-blue-500" />
       )}
     </button>
   );
@@ -143,7 +150,7 @@ export default function LensFilters({
     <div className="flex min-w-0 flex-1 flex-col">
       {/* Primary filters: always visible on all viewports */}
       <div className="flex flex-col gap-3">
-        <FilterRow label={t("brand")} trailing={filtersButton}>
+        <FilterRow label={t("brand")}>
           <MultiSelectChipGroup
             allLabel={allOptionLabel}
             allSelected={filters.brands.length === 0}
@@ -160,6 +167,8 @@ export default function LensFilters({
             options={focalOptions}
           />
         </FilterRow>
+
+        {filtersButton}
       </div>
 
       {/* Secondary filters: collapsed on mobile by default, always open on desktop */}
