@@ -264,7 +264,7 @@ export function SharePoster({ lenses, labels, custom, shareUrl, ref }: SharePost
           </div>
           <div
             style={{
-              fontSize: 22,
+              fontSize: slogan ? 22 : 28,
               fontWeight: 600,
               color: "#18181b",
               lineHeight: 1.2,
