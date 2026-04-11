@@ -5,10 +5,15 @@ import { Popover } from "@base-ui/react/popover";
 import { Drawer } from "@base-ui/react/drawer";
 import { Tabs } from "@base-ui/react/tabs";
 import { useTranslations } from "next-intl";
-import { Share2, Copy, Check, Download, Loader2, ChevronDown } from "lucide-react";
+import { Share2, Copy, Check, Download, Loader2, ChevronDown, Expand } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { Lens } from "@/lib/types";
 import { drawSharePoster } from "@/lib/share-image";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+} from "@/components/ui/dialog";
 
 interface ShareButtonProps {
   lenses: Lens[];
@@ -34,6 +39,9 @@ export function ShareButton({ lenses }: ShareButtonProps) {
   const [customTitle, setCustomTitle] = useState("");
   const [customSlogan, setCustomSlogan] = useState("");
   const [customOpen, setCustomOpen] = useState(false);
+
+  // Full-size poster lightbox
+  const [lightboxOpen, setLightboxOpen] = useState(false);
 
   // Tracks whether the panel was already open, to distinguish open vs. field-change triggers
   const wasOpenRef = useRef(false);
@@ -251,8 +259,14 @@ export function ShareButton({ lenses }: ShareButtonProps) {
 
         {/* ── Image tab ──────────────────────────────────────────── */}
         <Tabs.Panel value="image" className="flex flex-col gap-3">
-          {/* Poster preview: fixed max-height with gradient fade */}
-          <div className="relative max-h-52 overflow-hidden rounded-lg bg-zinc-100 dark:bg-zinc-950">
+          {/* Poster preview: fixed max-height with gradient fade + click to expand */}
+          <div
+            className={cn(
+              "group relative max-h-52 overflow-hidden rounded-lg bg-zinc-100 dark:bg-zinc-950",
+              posterDataUrl && !posterGenerating && "cursor-zoom-in"
+            )}
+            onClick={() => posterDataUrl && !posterGenerating && setLightboxOpen(true)}
+          >
             {posterGenerating ? (
               <div className="flex items-center justify-center gap-2 py-10 text-zinc-400">
                 <Loader2 className="size-4 animate-spin" />
@@ -267,9 +281,50 @@ export function ShareButton({ lenses }: ShareButtonProps) {
               />
             ) : null}
             {posterDataUrl && !posterGenerating && (
-              <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-zinc-100 to-transparent dark:from-zinc-950" />
+              <>
+                <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-zinc-100 to-transparent dark:from-zinc-950" />
+                {/* Expand hint — visible on hover */}
+                <div className="absolute right-2 top-2 rounded-md bg-black/30 p-1 opacity-0 transition-opacity group-hover:opacity-100">
+                  <Expand className="size-3.5 text-white" />
+                </div>
+              </>
             )}
           </div>
+
+          {/* Full-size poster lightbox */}
+          <Dialog open={lightboxOpen} onOpenChange={setLightboxOpen}>
+            <DialogContent
+              className="w-full max-w-3xl overflow-hidden rounded-2xl"
+              showCloseButton
+            >
+              <div className="overflow-auto bg-zinc-50 p-6 dark:bg-zinc-950">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={posterDataUrl ?? ""}
+                  alt={tImage("previewAlt")}
+                  className="mx-auto w-full max-w-[750px] rounded shadow-md"
+                />
+              </div>
+              <DialogFooter>
+                <button
+                  onClick={handleDownload}
+                  className="flex items-center gap-2 rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-zinc-50 transition-colors hover:bg-zinc-700 dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-200"
+                >
+                  <Download className="size-4" />
+                  {t("posterDownload")}
+                </button>
+                {canShareFile && (
+                  <button
+                    onClick={handleShareImage}
+                    className="flex items-center gap-2 rounded-lg border border-zinc-200 px-4 py-2 text-sm font-medium text-zinc-700 transition-colors hover:bg-zinc-100 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800"
+                  >
+                    <Share2 className="size-4" />
+                    {t("posterShare")}
+                  </button>
+                )}
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
 
           {/* Poster actions: Download (primary) + Share (icon-only, conditional) */}
           <div className="flex gap-2">
