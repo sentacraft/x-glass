@@ -164,8 +164,9 @@ export function ShareButton({ lenses }: ShareButtonProps) {
   const handleShareImage = useCallback(async () => {
     if (!posterRef.current) return;
     setPosterGenerating(true);
+    let url: string | undefined;
     try {
-      const url = await rasterizePoster(posterRef.current);
+      url = await rasterizePoster(posterRef.current);
       const blob = await (await fetch(url)).blob();
       const file = new File([blob], `x-glass_${slugRef.current}.png`, {
         type: "image/png",
@@ -174,8 +175,16 @@ export function ShareButton({ lenses }: ShareButtonProps) {
         files: [file],
         title: lenses.map((l) => l.model).join(" vs "),
       });
-    } catch {
-      // user cancelled or not supported
+    } catch (err) {
+      // User cancelled — no fallback needed
+      if (err instanceof Error && err.name === "AbortError") return;
+      // Share API unsupported or failed — fall back to download
+      if (url) {
+        const link = document.createElement("a");
+        link.download = `x-glass_${slugRef.current}.png`;
+        link.href = url;
+        link.click();
+      }
     } finally {
       setPosterGenerating(false);
     }
@@ -456,11 +465,14 @@ export function ShareButton({ lenses }: ShareButtonProps) {
       </Drawer.Trigger>
       <Drawer.Portal>
         <Drawer.Backdrop className="fixed inset-0 bg-black/40 duration-150 data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0" />
-        <Drawer.Popup className="fixed inset-x-0 bottom-0 max-h-[85svh] overflow-y-auto rounded-t-2xl bg-white pb-8 ring-1 ring-zinc-200 duration-200 data-open:animate-in data-open:slide-in-from-bottom data-closed:animate-out data-closed:slide-out-to-bottom dark:bg-zinc-900 dark:ring-zinc-800">
-          <div className="sticky top-0 flex justify-center bg-white pb-1 pt-3 dark:bg-zinc-900">
+        <Drawer.Popup className="fixed inset-x-0 bottom-0 max-h-[85svh] flex flex-col rounded-t-2xl bg-white pb-[env(safe-area-inset-bottom,0px)] ring-1 ring-zinc-200 duration-200 data-open:animate-in data-open:slide-in-from-bottom data-closed:animate-out data-closed:slide-out-to-bottom dark:bg-zinc-900 dark:ring-zinc-800">
+          {/* Handle sits outside the scroll container so swipe-down reaches the drawer */}
+          <div className="flex shrink-0 touch-none justify-center pb-1 pt-3">
             <div className="h-1 w-10 rounded-full bg-zinc-300 dark:bg-zinc-600" />
           </div>
-          {panelContent}
+          <div className="overflow-y-auto pb-8">
+            {panelContent}
+          </div>
         </Drawer.Popup>
       </Drawer.Portal>
     </Drawer.Root>
