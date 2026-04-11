@@ -90,6 +90,7 @@ export function ShareButton({ lenses }: ShareButtonProps) {
     appName: "X Glass",
     siteUrl: "x-glass.app",
     comparison: tImage("comparison"),
+    sectionFocalCoverage: tImage("sectionFocalCoverage"),
     sectionFocus: tImage("sectionFocus"),
     sectionSizeWeight: tImage("sectionSizeWeight"),
     sectionFeatures: tImage("sectionFeatures"),
@@ -305,7 +306,7 @@ export function ShareButton({ lenses }: ShareButtonProps) {
           {/* Full-size lightbox — top-aligned, inner scroll */}
           <Dialog open={lightboxOpen} onOpenChange={setLightboxOpen}>
             <DialogContent
-              className="w-full max-w-3xl overflow-hidden rounded-2xl top-4 translate-y-0"
+              className="w-full max-w-[820px] overflow-hidden rounded-2xl top-4 translate-y-0"
               showCloseButton
             >
               <div className="max-h-[80svh] overflow-x-hidden overflow-y-auto bg-zinc-50 p-6 dark:bg-zinc-950 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
