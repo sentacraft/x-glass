@@ -56,7 +56,7 @@ export default function MultiSelectChipGroup({
         >
           <Check
             className={cn(
-              "pointer-events-none absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 transition-all duration-200",
+              "pointer-events-none absolute left-2 top-1/2 h-3.5 w-3.5 -translate-y-1/2 transition-all duration-200",
               option.selected
                 ? "scale-100 opacity-100"
                 : "scale-75 opacity-0",

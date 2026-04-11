@@ -22,7 +22,7 @@ export default function FeatureToggleGroup({
   return (
     <div className="flex flex-wrap gap-1.5">
       {options.map((option) => {
-        const Icon = option.selected ? Check : option.icon;
+        const Icon = option.icon;
         return (
           <Button
             key={option.key}
@@ -36,7 +36,20 @@ export default function FeatureToggleGroup({
             aria-pressed={option.selected}
           >
             <span className="inline-flex items-center gap-1.5">
-              <Icon className="h-3.5 w-3.5" />
+              <span className="relative inline-flex h-3.5 w-3.5 shrink-0">
+                <Icon
+                  className={cn(
+                    "absolute inset-0 h-3.5 w-3.5 transition-all duration-200",
+                    option.selected ? "scale-75 opacity-0" : "scale-100 opacity-100",
+                  )}
+                />
+                <Check
+                  className={cn(
+                    "absolute inset-0 h-3.5 w-3.5 transition-all duration-200",
+                    option.selected ? "scale-100 opacity-100" : "scale-75 opacity-0",
+                  )}
+                />
+              </span>
               {option.label}
             </span>
           </Button>
