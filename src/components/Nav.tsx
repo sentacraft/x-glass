@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
 import LensSearchDialog from "@/components/LensSearchDialog";
@@ -13,9 +14,16 @@ export default function Nav() {
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
         <Link
           href="/"
-          className="font-bold text-zinc-900 dark:text-zinc-50 text-base tracking-tight"
+          className="flex items-center gap-2 font-bold text-zinc-900 dark:text-zinc-50 text-base tracking-tight"
         >
-          X Glass
+          <Image
+            src="/logo-compact.png"
+            alt=""
+            width={22}
+            height={22}
+            className="dark:invert"
+          />
+          X-Glass
         </Link>
         <div className="flex items-center gap-3">
           <Link
