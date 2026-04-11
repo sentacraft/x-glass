@@ -10,14 +10,12 @@ import {
   weightDisplay,
   filterSizeDisplay,
   dimensionsPrimaryDisplay,
-  lensConfigurationPrimaryDisplay,
   specialtyTagsDisplay,
 } from "@/lib/lens.format";
 import type { SpecialtyTag, FieldNoteKey } from "@/lib/types";
 import { PosterSection } from "./PosterSection";
 import { PosterStatBlock } from "./PosterStatBlock";
 import { PosterFeatureItem } from "./PosterFeatureItem";
-import { PosterFocalRuler, type FocalLensLabel } from "./PosterFocalRuler";
 import { PosterWeightBar } from "./PosterWeightBar";
 
 // ── Labels ─────────────────────────────────────────────────────────
@@ -142,11 +140,6 @@ export function SharePoster({ lenses, labels, custom, shareUrl, ref }: SharePost
   // Section label helpers
   const wideTeleLabels = { wide: labels.wide, tele: labels.tele };
 
-  // Focal Coverage ruler labels — brand + focal range + max aperture per lens
-  const rulerLabels: FocalLensLabel[] = lenses.map((l) => ({
-    brand: l.brand,
-    focal: `${l.focalLengthMin === l.focalLengthMax ? l.focalLengthMin : `${l.focalLengthMin}–${l.focalLengthMax}`}mm  ${apertureDisplay(l.maxAperture)}`,
-  }));
   const specialtyTagLabels: Record<SpecialtyTag, string> = {
     cine: labels.tagCine,
     anamorphic: labels.tagAnamorphic,
@@ -172,27 +165,14 @@ export function SharePoster({ lenses, labels, custom, shareUrl, ref }: SharePost
       ? labels.motorStepping
       : labels.motorOther;
   });
-  const lensConfigValues = lenses.map((l) =>
-    lensConfigurationPrimaryDisplay(l.lensConfiguration, {
-      groups: "groups",
-      elements: "elements",
-      aspherical: "",
-      ed: "",
-      superEd: "",
-      sld: "",
-      fld: "",
-      highRefractive: "",
-      incl: "",
-    })
-  );
   const specialtyValues = lenses.map((l) =>
     specialtyTagsDisplay(l.specialtyTags, specialtyTagLabels)
   );
 
   const showFocusMotorRow = focusMotorValues.some(Boolean);
-  const showLensConfigRow = lensConfigValues.some(Boolean);
   const showSpecialtyRow = specialtyValues.some(Boolean);
-  const showDetailsSection = showFocusMotorRow || showLensConfigRow || showSpecialtyRow;
+  // Details section now only contains specialty tags (focus motor moved to Focus section)
+  const showDetailsSection = showSpecialtyRow;
 
   // ── Focus section visibility ───────────────────────────────────
   const showMinFocus = lenses.some((l) => l.minFocusDistance !== undefined);
@@ -239,7 +219,6 @@ export function SharePoster({ lenses, labels, custom, shareUrl, ref }: SharePost
   /* Features always rendered */    lenses.forEach((_, i) => collectNote(i, "ois", labels.featureOIS));
   /* Features always rendered */    lenses.forEach((_, i) => collectNote(i, "wr", labels.featureWR));
   if (showFocusMotorRow) lenses.forEach((_, i) => collectNote(i, "focusMotor", labels.focusMotorLabel));
-  if (showLensConfigRow) lenses.forEach((_, i) => collectNote(i, "lensConfiguration", labels.lensConfigLabel));
 
   // Helper: look up superscript for a given lens + field (undefined if no note)
   const noteSup = (lensIndex: number, key: FieldNoteKey): number | undefined =>
@@ -328,7 +307,7 @@ export function SharePoster({ lenses, labels, custom, shareUrl, ref }: SharePost
       <div style={{ height: 1, background: "#e4e4e7" }} />
 
       {/* ── Product Row ───────────────────────────────────────── */}
-      <div style={{ padding: `28px ${POSTER_PX}px` }}>
+      <div style={{ padding: `20px ${POSTER_PX}px` }}>
         <div style={gridStyle(n)}>
           {lenses.map((lens, i) => {
             const imgH = n <= 2 ? 160 : 120;
@@ -401,9 +380,9 @@ export function SharePoster({ lenses, labels, custom, shareUrl, ref }: SharePost
       <div style={{ height: 1, background: "#e4e4e7" }} />
 
       {/* ── Hero Block ────────────────────────────────────────── */}
-      <div style={{ padding: `36px ${POSTER_PX}px` }}>
-        {/* Focal length numbers */}
-        <div style={{ ...gridStyle(n), marginBottom: 24 }}>
+      <div style={{ padding: `24px ${POSTER_PX}px` }}>
+        {/* Row 1: Focal length numbers */}
+        <div style={{ ...gridStyle(n), marginBottom: 20 }}>
           {lenses.map((lens, i) => (
             <div
               key={i}
@@ -419,81 +398,64 @@ export function SharePoster({ lenses, labels, custom, shareUrl, ref }: SharePost
           ))}
         </div>
 
-        {/* Max aperture */}
-        <div style={{ ...gridStyle(n), marginBottom: showWeight ? 20 : 0 }}>
-          {lenses.map((lens, i) => (
-            <div
-              key={i}
-              style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 3 }}
-            >
-              <span className={cn("font-semibold tabular-nums text-zinc-900 leading-none", apertureSize)}>
-                {apertureDisplay(lens.maxAperture)}
-              </span>
-              <span
-                style={{
-                  fontSize: 9,
-                  color: "#a1a1aa",
-                  letterSpacing: "0.08em",
-                  textTransform: "uppercase",
-                }}
+        {/* Row 2: Aperture + Weight side-by-side within each lens column */}
+        <div style={gridStyle(n)}>
+          {lenses.map((lens, i) => {
+            const weightDisplay_ = weightDisplay(lens.weightG, "g");
+            const sup = noteSup(i, "weightG");
+            return (
+              <div
+                key={i}
+                style={{ display: "flex", justifyContent: "center", gap: 20, alignItems: "flex-start" }}
               >
-                Max Aperture
-              </span>
-            </div>
-          ))}
-        </div>
-
-        {/* Weight — hero metric alongside focal length and aperture */}
-        {showWeight && (
-          <div style={gridStyle(n)}>
-            {lenses.map((lens, i) => {
-              const display = weightDisplay(lens.weightG, "g");
-              if (!display) return <div key={i} />;
-              const sup = noteSup(i, "weightG");
-              return (
-                <div
-                  key={i}
-                  style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}
-                >
-                  <span className={cn("font-semibold tabular-nums text-zinc-900 leading-tight", statSize)}>
-                    {display}
-                    {sup !== undefined && (
-                      <span style={{ fontSize: "0.55em", verticalAlign: "super", marginLeft: 1, color: "#a1a1aa", fontWeight: 500 }}>
-                        {sup}
-                      </span>
-                    )}
+                {/* Aperture */}
+                <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 3 }}>
+                  <span className={cn("font-semibold tabular-nums text-zinc-900 leading-none", apertureSize)}>
+                    {apertureDisplay(lens.maxAperture)}
                   </span>
-                  <div style={{ width: "80%", maxWidth: 80 }}>
-                    <PosterWeightBar weightG={lens.weightG} maxWeightG={maxWeightG} lensIndex={i} />
-                  </div>
                   <span style={{ fontSize: 9, color: "#a1a1aa", letterSpacing: "0.08em", textTransform: "uppercase" }}>
-                    {labels.weightLabel}
+                    Aperture
                   </span>
                 </div>
-              );
-            })}
-          </div>
-        )}
+
+                {/* Weight */}
+                {showWeight && (
+                  <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 3 }}>
+                    {weightDisplay_ ? (
+                      <>
+                        <span className={cn("font-semibold tabular-nums text-zinc-900 leading-none", apertureSize)}>
+                          {weightDisplay_}
+                          {sup !== undefined && (
+                            <span style={{ fontSize: "0.55em", verticalAlign: "super", marginLeft: 1, color: "#a1a1aa", fontWeight: 500 }}>
+                              {sup}
+                            </span>
+                          )}
+                        </span>
+                        <div style={{ width: 48 }}>
+                          <PosterWeightBar weightG={lens.weightG} maxWeightG={maxWeightG} lensIndex={i} />
+                        </div>
+                        <span style={{ fontSize: 9, color: "#a1a1aa", letterSpacing: "0.08em", textTransform: "uppercase" }}>
+                          {labels.weightLabel}
+                        </span>
+                      </>
+                    ) : (
+                      <span style={{ fontSize: 9, color: "#d4d4d8" }}>—</span>
+                    )}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
       </div>
 
-      {/* ── Focal Coverage Section ────────────────────────────── */}
-      <div style={{ height: 1, background: "#e4e4e7" }} />
-      <div style={{ padding: `28px ${POSTER_PX}px` }}>
-        <PosterSection title={labels.sectionFocalCoverage}>
-          <PosterFocalRuler
-            lenses={lenses}
-            lensLabels={rulerLabels}
-            width={POSTER_W - POSTER_PX * 2}
-          />
-        </PosterSection>
-      </div>
-
-      {/* ── Focus Section ─────────────────────────────────────── */}
-      {(showMinFocus || showMaxMag) && (
+      {/* ── Focus & Size Section ──────────────────────────────── */}
+      {(showMinFocus || showMaxMag || showFocusMotorRow || showDimensions || showFilter) && (
         <>
           <div style={{ height: 1, background: "#e4e4e7" }} />
-          <div style={{ padding: `28px ${POSTER_PX}px` }}>
+          <div style={{ padding: `20px ${POSTER_PX}px` }}>
             <PosterSection title={labels.sectionFocus}>
+              {/* Min focus distance */}
               {showMinFocus && (
                 <div style={{ ...gridStyle(n), alignItems: "center" }}>
                   {lenses.map((lens, i) => {
@@ -540,6 +502,8 @@ export function SharePoster({ lenses, labels, custom, shareUrl, ref }: SharePost
                   })}
                 </div>
               )}
+
+              {/* Max magnification */}
               {showMaxMag && (
                 <div style={{ ...gridStyle(n), alignItems: "center" }}>
                   {lenses.map((lens, i) => {
@@ -586,17 +550,27 @@ export function SharePoster({ lenses, labels, custom, shareUrl, ref }: SharePost
                   })}
                 </div>
               )}
-            </PosterSection>
-          </div>
-        </>
-      )}
 
-      {/* ── Size Section (dimensions + filter; weight is in hero) ── */}
-      {(showDimensions || showFilter) && (
-        <>
-          <div style={{ height: 1, background: "#e4e4e7" }} />
-          <div style={{ padding: `28px ${POSTER_PX}px` }}>
-            <PosterSection title={labels.sectionSizeWeight}>
+              {/* Focus motor — moved from Details */}
+              {showFocusMotorRow && (
+                <div style={gridStyle(n)}>
+                  {focusMotorValues.map((val, i) => (
+                    <PosterStatBlock
+                      key={i}
+                      value={val}
+                      label={labels.focusMotorLabel}
+                      valueClassName="text-sm font-medium"
+                      sup={noteSup(i, "focusMotor")}
+                    />
+                  ))}
+                </div>
+              )}
+
+              {/* Subtle divider between focus and size sub-groups */}
+              {(showMinFocus || showMaxMag || showFocusMotorRow) && (showDimensions || showFilter) && (
+                <div style={{ height: 1, background: "#f4f4f5", margin: `4px 0` }} />
+              )}
+
               {/* Dimensions */}
               {showDimensions && (
                 <div style={gridStyle(n)}>
@@ -633,7 +607,7 @@ export function SharePoster({ lenses, labels, custom, shareUrl, ref }: SharePost
       {/* ── Features Section ──────────────────────────────────── */}
       <>
         <div style={{ height: 1, background: "#e4e4e7" }} />
-        <div style={{ padding: `28px ${POSTER_PX}px` }}>
+        <div style={{ padding: `20px ${POSTER_PX}px` }}>
           <PosterSection title={labels.sectionFeatures}>
             <div style={gridStyle(n)}>
               {lenses.map((lens, i) => (
@@ -660,38 +634,12 @@ export function SharePoster({ lenses, labels, custom, shareUrl, ref }: SharePost
         </div>
       </>
 
-      {/* ── Details Section (conditional) ────────────────────── */}
+      {/* ── Details Section (specialty tags only, rarely shown) ── */}
       {showDetailsSection && (
         <>
           <div style={{ height: 1, background: "#e4e4e7" }} />
-          <div style={{ padding: `28px ${POSTER_PX}px` }}>
+          <div style={{ padding: `20px ${POSTER_PX}px` }}>
             <PosterSection title={labels.sectionDetails}>
-              {showFocusMotorRow && (
-                <div style={gridStyle(n)}>
-                  {focusMotorValues.map((val, i) => (
-                    <PosterStatBlock
-                      key={i}
-                      value={val}
-                      label={labels.focusMotorLabel}
-                      valueClassName="text-sm font-medium"
-                      sup={noteSup(i, "focusMotor")}
-                    />
-                  ))}
-                </div>
-              )}
-              {showLensConfigRow && (
-                <div style={gridStyle(n)}>
-                  {lensConfigValues.map((val, i) => (
-                    <PosterStatBlock
-                      key={i}
-                      value={val}
-                      label={labels.lensConfigLabel}
-                      valueClassName="text-sm font-medium"
-                      sup={noteSup(i, "lensConfiguration")}
-                    />
-                  ))}
-                </div>
-              )}
               {showSpecialtyRow && (
                 <div style={gridStyle(n)}>
                   {specialtyValues.map((val, i) => (
