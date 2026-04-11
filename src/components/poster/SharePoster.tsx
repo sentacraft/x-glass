@@ -623,7 +623,10 @@ export function SharePoster({ lenses, labels, custom, shareUrl, ref }: SharePost
           <PosterSection title={labels.sectionFeatures}>
             <div style={gridStyle(n)}>
               {lenses.map((lens, i) => (
-                <div key={i} style={{ display: "flex", flexDirection: "column", gap: 7 }}>
+                // Outer div centers the block within the grid cell (matching PosterStatBlock alignment).
+                // Inner div stays left-aligned so icon + text baseline stays consistent.
+                <div key={i} style={{ display: "flex", justifyContent: "center" }}>
+                  <div style={{ display: "flex", flexDirection: "column", gap: 7 }}>
                   <PosterFeatureItem present={lens.wr} label={labels.featureWR} sup={noteSup(i, "wr")} />
                   <PosterFeatureItem
                     present={lens.ois}
@@ -639,6 +642,7 @@ export function SharePoster({ lenses, labels, custom, shareUrl, ref }: SharePost
                       label={labels.featureInternalFocusing}
                     />
                   )}
+                  </div>
                 </div>
               ))}
             </div>
