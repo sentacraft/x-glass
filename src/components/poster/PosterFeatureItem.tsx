@@ -1,3 +1,4 @@
+import type { LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface PosterFeatureItemProps {
@@ -7,14 +8,18 @@ interface PosterFeatureItemProps {
   sub?: string;
   /** Footnote superscript number to render after the label. */
   sup?: number;
+  /** Optional Lucide icon rendered between the state symbol and the label. */
+  icon?: LucideIcon;
 }
 
-export function PosterFeatureItem({ present, label, sub, sup }: PosterFeatureItemProps) {
+export function PosterFeatureItem({ present, label, sub, sup, icon: Icon }: PosterFeatureItemProps) {
   const isPresent = present === true || present === "partial";
   const isPartial = present === "partial";
+  const iconColor = isPresent ? "#71717a" : "#d4d4d8";
 
   return (
     <div className="flex items-center gap-1.5">
+      {/* State indicator: ✓ / ~ / — */}
       <span
         className={cn(
           "w-3 shrink-0 text-center text-sm font-semibold tabular-nums leading-none",
@@ -23,6 +28,17 @@ export function PosterFeatureItem({ present, label, sub, sup }: PosterFeatureIte
       >
         {isPresent ? (isPartial ? "~" : "✓") : "—"}
       </span>
+
+      {/* Feature icon */}
+      {Icon && (
+        <Icon
+          size={11}
+          strokeWidth={1.75}
+          style={{ color: iconColor, flexShrink: 0 }}
+        />
+      )}
+
+      {/* Label text */}
       <span
         className={cn("text-xs leading-tight", isPresent ? "text-zinc-700" : "text-zinc-400")}
         style={{ whiteSpace: "nowrap" }}
