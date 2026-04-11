@@ -62,6 +62,7 @@ export default function LensListClient({ lenses }: Props) {
     filters.brands.length > 0 ||
     filters.typeFilter !== null ||
     filters.specialtyTag !== null ||
+    filters.focusMotorClass !== null ||
     filters.focalCategories.length > 0 ||
     filters.features.length > 0;
     
@@ -69,7 +70,6 @@ export default function LensListClient({ lenses }: Props) {
     { value: "focalLength", label: t("sortFocalLength") },
     { value: "maxAperture", label: t("sortAperture") },
     { value: "weightG", label: t("sortWeight") },
-    { value: "releaseYear", label: t("sortYear") },
   ] as const satisfies readonly { value: SortKey; label: string }[];
 
   function clearAllFilters() {

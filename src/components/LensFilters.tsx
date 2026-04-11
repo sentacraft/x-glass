@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { Aperture, ChevronDown, Droplet, Focus, SlidersHorizontal, Waves } from "lucide-react";
+import { Aperture, ChevronDown, Droplet, Focus, SlidersHorizontal, Video, Waves } from "lucide-react";
 import { FILTER_FEATURE_KEYS, FOCAL_CATEGORIES, LENS_TYPES } from "@/lib/lens";
-import type { FilterState, LensType, SpecialtyTag } from "@/lib/lens";
+import type { FilterState, FocusMotorClass, LensType, SpecialtyTag } from "@/lib/lens";
 import { cn } from "@/lib/utils";
 import FeatureToggleGroup from "./lens-filters/FeatureToggleGroup";
 import FilterRow from "./lens-filters/FilterRow";
@@ -33,6 +33,7 @@ export default function LensFilters({
     ois: { label: t("featureOis"), icon: Waves },
     wr: { label: t("featureWr"), icon: Droplet },
     apertureRing: { label: t("featureApertureRing"), icon: Aperture },
+    powerZoom: { label: t("featurePowerZoom"), icon: Video },
   } as const;
 
   function updateFilters<K extends keyof FilterState>(key: K, value: FilterState[K]) {
@@ -79,9 +80,17 @@ export default function LensFilters({
     })),
   ];
 
+  const focusMotorOptions = [
+    { value: null, label: t("allTypes") },
+    { value: "linear" as FocusMotorClass, label: t("motorLinear") },
+    { value: "stepping" as FocusMotorClass, label: t("motorStepping") },
+    { value: "other" as FocusMotorClass, label: t("motorOther") },
+  ] as { value: FocusMotorClass | null; label: string }[];
+
   const hasHiddenActiveFilters =
     filters.typeFilter !== null ||
     filters.specialtyTag !== null ||
+    filters.focusMotorClass !== null ||
     filters.features.length > 0;
 
   const allOptionLabel = t("allTypes");
@@ -200,6 +209,16 @@ export default function LensFilters({
                 />
               </FilterRow>
             )}
+
+            <FilterRow label={t("focusMotorFilter")}>
+              <TypeSegmentedControl
+                ariaLabel={t("focusMotorFilter")}
+                options={focusMotorOptions}
+                value={filters.focusMotorClass}
+                onChange={(v) => updateFilters("focusMotorClass", v)}
+                wrap
+              />
+            </FilterRow>
 
             <FilterRow label={t("features")}>
               <FeatureToggleGroup options={featureOptions} />
