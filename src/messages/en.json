@@ -229,7 +229,11 @@
     "tabImage": "Share Image",
     "posterGenerating": "Generating poster…",
     "posterDownload": "Download PNG",
-    "posterShare": "Share Image"
+    "posterShare": "Share Image",
+    "customize": "Customize",
+    "customizeTitle": "Title",
+    "customizeSlogan": "Slogan",
+    "customizeSloganPlaceholder": "Add a personal note…"
   },
   "ShareImage": {
     "comparison": "Lens Comparison",
