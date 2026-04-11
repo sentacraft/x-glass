@@ -291,21 +291,35 @@ export function SharePoster({ lenses, labels, custom, shareUrl, ref }: SharePost
           </div>
         </div>
 
-        {/* Right: CTA tagline */}
-        <div style={{ textAlign: "right", flexShrink: 0, paddingLeft: 24, paddingTop: 2 }}>
+        {/* Right: QR code + CTA below */}
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", flexShrink: 0, paddingLeft: 24, gap: 8 }}>
+          {/* QR code */}
           <div
             style={{
-              fontSize: 11,
-              fontWeight: 600,
-              color: "#18181b",
-              lineHeight: 1.5,
-              maxWidth: 160,
+              width: 76,
+              height: 76,
+              borderRadius: 6,
+              border: "1.5px solid #e4e4e7",
+              padding: 4,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
             }}
           >
-            {labels.cta}
+            {shareUrl ? (
+              <QRCode value={shareUrl} size={64} level="M" style={{ display: "block" }} />
+            ) : (
+              <span style={{ fontSize: 8, color: "#d4d4d8", letterSpacing: 1 }}>QR</span>
+            )}
           </div>
-          <div style={{ fontSize: 10, color: "#a1a1aa", marginTop: 3 }}>
-            {labels.siteUrl}
+          {/* CTA tagline */}
+          <div style={{ textAlign: "right" }}>
+            <div style={{ fontSize: 10, fontWeight: 600, color: "#18181b", lineHeight: 1.5 }}>
+              {labels.cta}
+            </div>
+            <div style={{ fontSize: 9, color: "#a1a1aa", marginTop: 2 }}>
+              {labels.siteUrl}
+            </div>
           </div>
         </div>
       </div>
@@ -733,27 +747,6 @@ export function SharePoster({ lenses, labels, custom, shareUrl, ref }: SharePost
             {labels.appName}
           </span>
           <span style={{ fontSize: 11, color: "#a1a1aa" }}>{labels.siteUrl}</span>
-        </div>
-
-        {/* QR code — links to the current compare page */}
-        <div
-          style={{
-            width: 64,
-            height: 64,
-            borderRadius: 6,
-            border: "1.5px solid #e4e4e7",
-            padding: 4,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            flexShrink: 0,
-          }}
-        >
-          {shareUrl ? (
-            <QRCode value={shareUrl} size={52} level="M" style={{ display: "block" }} />
-          ) : (
-            <span style={{ fontSize: 8, color: "#d4d4d8", letterSpacing: 1 }}>QR</span>
-          )}
         </div>
       </div>
     </div>
