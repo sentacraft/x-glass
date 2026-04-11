@@ -9,8 +9,6 @@ import {
   weightDisplay,
   filterSizeDisplay,
   dimensionsPrimaryDisplay,
-  minFocusDistancePrimaryDisplay,
-  maxMagnificationPrimaryDisplay,
   lensConfigurationPrimaryDisplay,
   specialtyTagsDisplay,
 } from "@/lib/lens.format";
@@ -70,6 +68,28 @@ export interface PosterLabels {
 export interface PosterCustom {
   title?: string;
   slogan?: string;
+}
+
+// ── Helpers ────────────────────────────────────────────────────────
+
+/**
+ * Returns structured wide/tele lines only when BOTH variants are present.
+ * Single-variant lenses fall back to plain primary value (no Wide/Tele prefix).
+ */
+function getFocusVariantLines(
+  data: { variants?: { wide?: number; tele?: number } } | undefined,
+  format: (v: number) => string,
+  labels: { wide: string; tele: string }
+): Array<{ label: string; value: string }> | null {
+  const wide = data?.variants?.wide;
+  const tele = data?.variants?.tele;
+  if (wide !== undefined && tele !== undefined) {
+    return [
+      { label: labels.wide, value: format(wide) },
+      { label: labels.tele, value: format(tele) },
+    ];
+  }
+  return null;
 }
 
 // ── Constants ──────────────────────────────────────────────────────
@@ -358,26 +378,84 @@ export function SharePoster({ lenses, labels, custom, ref }: SharePosterProps) {
             <PosterSection title={labels.sectionFocus}>
               {showMinFocus && (
                 <div style={gridStyle(n)}>
-                  {lenses.map((lens, i) => (
-                    <PosterStatBlock
-                      key={i}
-                      value={minFocusDistancePrimaryDisplay(lens.minFocusDistance, wideTeleLabels)}
-                      label={labels.minFocusLabel}
-                      valueClassName={statSize}
-                    />
-                  ))}
+                  {lenses.map((lens, i) => {
+                    const lines = getFocusVariantLines(
+                      lens.minFocusDistance,
+                      (v) => `${v}cm`,
+                      wideTeleLabels
+                    );
+                    if (lines) {
+                      return (
+                        <div
+                          key={i}
+                          style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 5 }}
+                        >
+                          {lines.map((line, j) => (
+                            <div key={j} style={{ display: "flex", alignItems: "baseline", gap: 4 }}>
+                              <span style={{ fontSize: 9, fontWeight: 600, color: "#a1a1aa", textTransform: "uppercase", letterSpacing: "0.06em" }}>
+                                {line.label}
+                              </span>
+                              <span className={cn("font-semibold tabular-nums text-zinc-900 leading-tight", statSize)}>
+                                {line.value}
+                              </span>
+                            </div>
+                          ))}
+                          <span style={{ fontSize: 9, color: "#a1a1aa", textTransform: "uppercase", letterSpacing: "0.08em" }}>
+                            {labels.minFocusLabel}
+                          </span>
+                        </div>
+                      );
+                    }
+                    return (
+                      <PosterStatBlock
+                        key={i}
+                        value={lens.minFocusDistance ? `${lens.minFocusDistance.cm}cm` : undefined}
+                        label={labels.minFocusLabel}
+                        valueClassName={statSize}
+                      />
+                    );
+                  })}
                 </div>
               )}
               {showMaxMag && (
                 <div style={gridStyle(n)}>
-                  {lenses.map((lens, i) => (
-                    <PosterStatBlock
-                      key={i}
-                      value={maxMagnificationPrimaryDisplay(lens.maxMagnification, wideTeleLabels)}
-                      label={labels.maxMagLabel}
-                      valueClassName={statSize}
-                    />
-                  ))}
+                  {lenses.map((lens, i) => {
+                    const lines = getFocusVariantLines(
+                      lens.maxMagnification,
+                      (v) => `${v}x`,
+                      wideTeleLabels
+                    );
+                    if (lines) {
+                      return (
+                        <div
+                          key={i}
+                          style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 5 }}
+                        >
+                          {lines.map((line, j) => (
+                            <div key={j} style={{ display: "flex", alignItems: "baseline", gap: 4 }}>
+                              <span style={{ fontSize: 9, fontWeight: 600, color: "#a1a1aa", textTransform: "uppercase", letterSpacing: "0.06em" }}>
+                                {line.label}
+                              </span>
+                              <span className={cn("font-semibold tabular-nums text-zinc-900 leading-tight", statSize)}>
+                                {line.value}
+                              </span>
+                            </div>
+                          ))}
+                          <span style={{ fontSize: 9, color: "#a1a1aa", textTransform: "uppercase", letterSpacing: "0.08em" }}>
+                            {labels.maxMagLabel}
+                          </span>
+                        </div>
+                      );
+                    }
+                    return (
+                      <PosterStatBlock
+                        key={i}
+                        value={lens.maxMagnification ? `${lens.maxMagnification.value}x` : undefined}
+                        label={labels.maxMagLabel}
+                        valueClassName={statSize}
+                      />
+                    );
+                  })}
                 </div>
               )}
             </PosterSection>
