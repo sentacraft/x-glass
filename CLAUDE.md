@@ -56,10 +56,7 @@ x-glass/
 
 ## 工作流规范
 
-代码改动完成后，依次执行：
-1. `git stage` 相关改动
-2. 调用 `/commit-msg` skill 生成 commit message
-3. **不要 commit，也不要 push**——仅将生成的 message 展示给用户确认
+代码改动完成后，直接 stage 相关改动并 commit。不要 push——commit 完成后告知用户即可。
 
 ## 数据规范
 
