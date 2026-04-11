@@ -12,7 +12,7 @@ import {
   lensConfigurationPrimaryDisplay,
   specialtyTagsDisplay,
 } from "@/lib/lens.format";
-import type { SpecialtyTag } from "@/lib/types";
+import type { SpecialtyTag, FieldNoteKey } from "@/lib/types";
 import { PosterSection } from "./PosterSection";
 import { PosterStatBlock } from "./PosterStatBlock";
 import { PosterFeatureItem } from "./PosterFeatureItem";
@@ -201,6 +201,43 @@ export function SharePoster({ lenses, labels, custom, ref }: SharePosterProps) {
     (l) => l.diameterMm !== undefined || l.length !== undefined
   );
   const showFilter = lenses.some((l) => l.filterMm !== undefined);
+
+  // ── Field notes collection ─────────────────────────────────────
+  // Collect (lensIndex, fieldKey) pairs that have a fieldNote, in display order.
+  // Each unique pair gets a sequential superscript number for footnote references.
+  interface CollectedNote {
+    sup: number;
+    lensModel: string;
+    fieldLabel: string;
+    note: string;
+  }
+  const noteMap = new Map<string, number>(); // `${lensIndex}:${fieldKey}` → sup
+  const footnotes: CollectedNote[] = [];
+  let _supCounter = 1;
+
+  const collectNote = (lensIndex: number, key: FieldNoteKey, fieldLabel: string) => {
+    const note = lenses[lensIndex].fieldNotes?.[key];
+    if (!note) return;
+    const mapKey = `${lensIndex}:${key}`;
+    if (noteMap.has(mapKey)) return;
+    noteMap.set(mapKey, _supCounter);
+    footnotes.push({ sup: _supCounter, lensModel: lenses[lensIndex].model, fieldLabel, note });
+    _supCounter++;
+  };
+
+  // Collect in section display order, lenses left-to-right within each field
+  if (showMinFocus)      lenses.forEach((_, i) => collectNote(i, "minFocusDistance", labels.minFocusLabel));
+  if (showMaxMag)        lenses.forEach((_, i) => collectNote(i, "maxMagnification", labels.maxMagLabel));
+  if (showWeight)        lenses.forEach((_, i) => collectNote(i, "weightG", labels.weightLabel));
+  if (showFilter)        lenses.forEach((_, i) => collectNote(i, "filterMm", labels.filterLabel));
+  /* Features always rendered */    lenses.forEach((_, i) => collectNote(i, "ois", labels.featureOIS));
+  /* Features always rendered */    lenses.forEach((_, i) => collectNote(i, "wr", labels.featureWR));
+  if (showFocusMotorRow) lenses.forEach((_, i) => collectNote(i, "focusMotor", labels.focusMotorLabel));
+  if (showLensConfigRow) lenses.forEach((_, i) => collectNote(i, "lensConfiguration", labels.lensConfigLabel));
+
+  // Helper: look up superscript for a given lens + field (undefined if no note)
+  const noteSup = (lensIndex: number, key: FieldNoteKey): number | undefined =>
+    noteMap.get(`${lensIndex}:${key}`);
 
   // ── OIS stops helper ───────────────────────────────────────────
   const oisSub = (l: Lens) =>
@@ -398,6 +435,7 @@ export function SharePoster({ lenses, labels, custom, ref }: SharePosterProps) {
                       (v) => `${v}cm`,
                       wideTeleLabels
                     );
+                    const sup = noteSup(i, "minFocusDistance");
                     if (lines) {
                       return (
                         <div
@@ -416,6 +454,9 @@ export function SharePoster({ lenses, labels, custom, ref }: SharePosterProps) {
                           ))}
                           <span style={{ fontSize: 9, color: "#a1a1aa", textTransform: "uppercase", letterSpacing: "0.08em" }}>
                             {labels.minFocusLabel}
+                            {sup !== undefined && (
+                              <span style={{ fontSize: "0.7em", verticalAlign: "super", marginLeft: 1 }}>{sup}</span>
+                            )}
                           </span>
                         </div>
                       );
@@ -426,6 +467,7 @@ export function SharePoster({ lenses, labels, custom, ref }: SharePosterProps) {
                         value={lens.minFocusDistance ? `${lens.minFocusDistance.cm}cm` : undefined}
                         label={labels.minFocusLabel}
                         valueClassName={statSize}
+                        sup={sup}
                       />
                     );
                   })}
@@ -439,6 +481,7 @@ export function SharePoster({ lenses, labels, custom, ref }: SharePosterProps) {
                       (v) => `${v}x`,
                       wideTeleLabels
                     );
+                    const sup = noteSup(i, "maxMagnification");
                     if (lines) {
                       return (
                         <div
@@ -457,6 +500,9 @@ export function SharePoster({ lenses, labels, custom, ref }: SharePosterProps) {
                           ))}
                           <span style={{ fontSize: 9, color: "#a1a1aa", textTransform: "uppercase", letterSpacing: "0.08em" }}>
                             {labels.maxMagLabel}
+                            {sup !== undefined && (
+                              <span style={{ fontSize: "0.7em", verticalAlign: "super", marginLeft: 1 }}>{sup}</span>
+                            )}
                           </span>
                         </div>
                       );
@@ -467,6 +513,7 @@ export function SharePoster({ lenses, labels, custom, ref }: SharePosterProps) {
                         value={lens.maxMagnification ? `${lens.maxMagnification.value}x` : undefined}
                         label={labels.maxMagLabel}
                         valueClassName={statSize}
+                        sup={sup}
                       />
                     );
                   })}
@@ -501,6 +548,11 @@ export function SharePoster({ lenses, labels, custom, ref }: SharePosterProps) {
                       >
                         <span className={cn("font-semibold tabular-nums text-zinc-900 leading-tight", statSize)}>
                           {display}
+                          {noteSup(i, "weightG") !== undefined && (
+                            <span style={{ fontSize: "0.55em", verticalAlign: "super", marginLeft: 1, color: "#a1a1aa", fontWeight: 500 }}>
+                              {noteSup(i, "weightG")}
+                            </span>
+                          )}
                         </span>
                         <div style={{ width: "80%", maxWidth: 80 }}>
                           <PosterWeightBar
@@ -548,6 +600,7 @@ export function SharePoster({ lenses, labels, custom, ref }: SharePosterProps) {
                       value={filterSizeDisplay(lens.filterMm) ?? undefined}
                       label={labels.filterLabel}
                       valueClassName={cn("text-sm font-medium")}
+                      sup={noteSup(i, "filterMm")}
                     />
                   ))}
                 </div>
@@ -565,11 +618,12 @@ export function SharePoster({ lenses, labels, custom, ref }: SharePosterProps) {
             <div style={gridStyle(n)}>
               {lenses.map((lens, i) => (
                 <div key={i} style={{ display: "flex", flexDirection: "column", gap: 7 }}>
-                  <PosterFeatureItem present={lens.wr} label={labels.featureWR} />
+                  <PosterFeatureItem present={lens.wr} label={labels.featureWR} sup={noteSup(i, "wr")} />
                   <PosterFeatureItem
                     present={lens.ois}
                     label={labels.featureOIS}
                     sub={oisSub(lens)}
+                    sup={noteSup(i, "ois")}
                   />
                   <PosterFeatureItem present={lens.af} label={labels.featureAF} />
                   <PosterFeatureItem present={lens.apertureRing} label={labels.featureApertureRing} />
@@ -600,6 +654,7 @@ export function SharePoster({ lenses, labels, custom, ref }: SharePosterProps) {
                       value={val}
                       label={labels.focusMotorLabel}
                       valueClassName="text-sm font-medium"
+                      sup={noteSup(i, "focusMotor")}
                     />
                   ))}
                 </div>
@@ -612,6 +667,7 @@ export function SharePoster({ lenses, labels, custom, ref }: SharePosterProps) {
                       value={val}
                       label={labels.lensConfigLabel}
                       valueClassName="text-sm font-medium"
+                      sup={noteSup(i, "lensConfiguration")}
                     />
                   ))}
                 </div>
@@ -629,6 +685,29 @@ export function SharePoster({ lenses, labels, custom, ref }: SharePosterProps) {
                 </div>
               )}
             </PosterSection>
+          </div>
+        </>
+      )}
+
+      {/* ── Footnotes ─────────────────────────────────────────── */}
+      {footnotes.length > 0 && (
+        <>
+          <div style={{ height: 1, background: "#f4f4f5" }} />
+          <div style={{ padding: `10px ${POSTER_PX}px`, display: "flex", flexDirection: "column", gap: 4 }}>
+            {footnotes.map((fn) => (
+              <div key={fn.sup} style={{ display: "flex", gap: 5, alignItems: "flex-start" }}>
+                <span style={{ fontSize: 7, color: "#a1a1aa", lineHeight: 1.6, flexShrink: 0, fontWeight: 600 }}>
+                  {fn.sup}
+                </span>
+                <span style={{ fontSize: 8, color: "#a1a1aa", lineHeight: 1.6 }}>
+                  <span style={{ fontWeight: 600 }}>{fn.lensModel}</span>
+                  {" · "}
+                  <span>{fn.fieldLabel}</span>
+                  {": "}
+                  {fn.note}
+                </span>
+              </div>
+            ))}
           </div>
         </>
       )}
