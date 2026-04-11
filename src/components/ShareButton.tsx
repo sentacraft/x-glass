@@ -308,7 +308,7 @@ export function ShareButton({ lenses }: ShareButtonProps) {
               className="w-full max-w-3xl overflow-hidden rounded-2xl top-4 translate-y-0"
               showCloseButton
             >
-              <div className="max-h-[80svh] overflow-y-auto bg-zinc-50 p-6 dark:bg-zinc-950">
+              <div className="max-h-[80svh] overflow-x-hidden overflow-y-auto bg-zinc-50 p-6 dark:bg-zinc-950 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                 <div className="mx-auto" style={{ width: POSTER_W }}>
                   <SharePoster
                     lenses={lenses}
