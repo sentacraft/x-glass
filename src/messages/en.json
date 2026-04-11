@@ -225,7 +225,8 @@
     "copyLink": "Copy Link",
     "copied": "Copied!",
     "nativeShare": "Share",
-    "posterLabel": "Share Image",
+    "tabLink": "Share Link",
+    "tabImage": "Share Image",
     "posterGenerating": "Generating poster…",
     "posterDownload": "Download PNG",
     "posterShare": "Share Image"
