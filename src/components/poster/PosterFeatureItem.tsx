@@ -23,7 +23,10 @@ export function PosterFeatureItem({ present, label, sub, sup }: PosterFeatureIte
       >
         {isPresent ? (isPartial ? "~" : "✓") : "—"}
       </span>
-      <span className={cn("text-xs leading-tight", isPresent ? "text-zinc-700" : "text-zinc-400")}>
+      <span
+        className={cn("text-xs leading-tight", isPresent ? "text-zinc-700" : "text-zinc-400")}
+        style={{ whiteSpace: "nowrap" }}
+      >
         {label}
         {sub && isPresent && (
           <span className="text-zinc-400"> · {sub}</span>
