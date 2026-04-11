@@ -225,11 +225,12 @@
     "copyLink": "Copy Link",
     "copied": "Copied!",
     "nativeShare": "Share",
-    "generateImage": "Generate Share Image",
-    "generateImageHint": "Export a poster for Xiaohongshu or WeChat"
+    "posterLabel": "Share Image",
+    "posterGenerating": "Generating poster…",
+    "posterDownload": "Download PNG",
+    "posterShare": "Share Image"
   },
   "ShareImage": {
-    "title": "Share Image Preview",
     "comparison": "Lens Comparison",
     "focalLength": "Focal Length",
     "maxAperture": "Max Aperture",
@@ -238,12 +239,7 @@
     "wr": "Weather Resistant",
     "minFocusDist": "Min Focus",
     "na": "N/A",
-    "generating": "Generating image…",
-    "previewNote": "Preview — this is the exact image that will be downloaded.",
-    "previewAlt": "Share image preview",
-    "cancel": "Cancel",
-    "download": "Download PNG",
-    "close": "Close"
+    "previewAlt": "Share image preview"
   },
   "About": {
     "pageTitle": "About X Glass",

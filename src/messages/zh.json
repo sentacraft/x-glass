@@ -224,11 +224,12 @@
     "copyLink": "复制链接",
     "copied": "已复制！",
     "nativeShare": "系统分享",
-    "generateImage": "生成分享图",
-    "generateImageHint": "导出适合小红书或微信的对比海报"
+    "posterLabel": "分享图",
+    "posterGenerating": "正在生成海报…",
+    "posterDownload": "下载 PNG",
+    "posterShare": "分享图片"
   },
   "ShareImage": {
-    "title": "分享图预览",
     "comparison": "镜头横向对比",
     "focalLength": "焦段",
     "maxAperture": "最大光圈",
@@ -237,12 +238,7 @@
     "wr": "防尘防滴",
     "minFocusDist": "最近对焦",
     "na": "N/A",
-    "generating": "正在生成图片…",
-    "previewNote": "预览效果 — 下载内容与此图完全一致。",
-    "previewAlt": "分享图预览",
-    "cancel": "取消",
-    "download": "下载 PNG",
-    "close": "关闭"
+    "previewAlt": "分享图预览"
   },
   "About": {
     "pageTitle": "关于 X Glass",
