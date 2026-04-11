@@ -30,7 +30,7 @@ export async function generateMetadata({
   }
   return {
     title: lens.model,
-    openGraph: { title: `${lens.model} | X Glass` },
+    openGraph: { title: `${lens.model} | X-Glass` },
   };
 }
 

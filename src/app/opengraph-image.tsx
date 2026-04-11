@@ -96,7 +96,7 @@ export default function OpenGraphImage() {
               textTransform: "uppercase",
             }}
           >
-            Camera Lens Database
+            Lens data, normalized.
           </div>
         </div>
       </div>

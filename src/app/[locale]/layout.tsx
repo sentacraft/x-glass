@@ -15,13 +15,13 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: {
-    default: "X Glass",
-    template: "%s | X Glass",
+    default: "X-Glass | Fujifilm X Mount Lens Comparison Tool",
+    template: "%s | X-Glass",
   },
   description:
-    "Fujifilm X-Mount lens comparison tool — filter, compare specs, and convert focal lengths. 富士 X 卡口镜头对比工具。",
+    "Not a recommendation engine — a structured lens comparison tool for Fujifilm X users. All brands. One dataset.",
   openGraph: {
-    siteName: "X Glass",
+    siteName: "X-Glass",
     type: "website",
     images: [{ url: "/opengraph-image", width: 1200, height: 630 }],
   },
