@@ -4,19 +4,26 @@ interface PosterStatBlockProps {
   value: string | null | undefined;
   label: string;
   valueClassName?: string;
+  /** Footnote superscript number to render after the value. */
+  sup?: number;
 }
 
 /**
  * A single centered stat: large value + small label beneath.
  * Renders an empty div when value is absent to maintain grid structure.
  */
-export function PosterStatBlock({ value, label, valueClassName }: PosterStatBlockProps) {
+export function PosterStatBlock({ value, label, valueClassName, sup }: PosterStatBlockProps) {
   if (!value) return <div />;
 
   return (
     <div className="flex flex-col items-center text-center gap-1">
       <span className={cn("font-semibold tabular-nums text-zinc-900 leading-tight", valueClassName)}>
         {value}
+        {sup !== undefined && (
+          <span style={{ fontSize: "0.55em", verticalAlign: "super", marginLeft: 1, color: "#a1a1aa", fontWeight: 500 }}>
+            {sup}
+          </span>
+        )}
       </span>
       <span className="text-[10px] uppercase tracking-wider text-zinc-400">{label}</span>
     </div>

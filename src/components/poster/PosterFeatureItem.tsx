@@ -5,9 +5,11 @@ interface PosterFeatureItemProps {
   label: string;
   /** Optional sub-label appended when present, e.g. "5-stop" for OIS. */
   sub?: string;
+  /** Footnote superscript number to render after the label. */
+  sup?: number;
 }
 
-export function PosterFeatureItem({ present, label, sub }: PosterFeatureItemProps) {
+export function PosterFeatureItem({ present, label, sub, sup }: PosterFeatureItemProps) {
   const isPresent = present === true || present === "partial";
   const isPartial = present === "partial";
 
@@ -25,6 +27,11 @@ export function PosterFeatureItem({ present, label, sub }: PosterFeatureItemProp
         {label}
         {sub && isPresent && (
           <span className="text-zinc-400"> · {sub}</span>
+        )}
+        {sup !== undefined && (
+          <span style={{ fontSize: "0.7em", verticalAlign: "super", marginLeft: 1, color: "#a1a1aa" }}>
+            {sup}
+          </span>
         )}
       </span>
     </div>
