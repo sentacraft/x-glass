@@ -1,6 +1,7 @@
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import DataInfo from "@/components/DataFooter";
+import Tagline from "@/components/Tagline";
 
 export default function Home() {
   const t = useTranslations("Common");
@@ -9,7 +10,7 @@ export default function Home() {
   return (
     <div className="flex flex-col flex-1 bg-zinc-50 dark:bg-black">
       {/* Hero */}
-      <section className="flex flex-col items-center justify-center text-center px-4 py-28 sm:py-36">
+      <section className="flex flex-col items-center justify-center text-center px-4 py-28 sm:py-36 flex-1">
         <h1 className="text-5xl sm:text-6xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
           {t("appName")}
         </h1>
@@ -26,6 +27,11 @@ export default function Home() {
           <DataInfo />
         </div>
       </section>
+
+      {/* Tagline — barely visible footer credit */}
+      <div className="pb-6 flex justify-center">
+        <Tagline />
+      </div>
     </div>
   );
 }
