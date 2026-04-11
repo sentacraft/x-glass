@@ -224,7 +224,8 @@
     "copyLink": "复制链接",
     "copied": "已复制！",
     "nativeShare": "系统分享",
-    "posterLabel": "分享图",
+    "tabLink": "分享链接",
+    "tabImage": "分享图片",
     "posterGenerating": "正在生成海报…",
     "posterDownload": "下载 PNG",
     "posterShare": "分享图片"
