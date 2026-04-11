@@ -57,9 +57,6 @@ export function PosterFocalRuler({ lenses, lensLabels, width = 670 }: PosterFoca
       viewBox={`0 0 ${width} ${totalH}`}
       style={{ overflow: "visible" }}
     >
-      {/* Track background — spans bar area only */}
-      <rect x={0} y={0} width={TRACK_W} height={barsH} rx={4} fill="#f4f4f5" />
-
       {/* Per-lens rows */}
       {lenses.map((lens, i) => {
         const rowY = i * ROW_H;
