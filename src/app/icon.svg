@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Two overlapping circles -->
+  <circle cx="24" cy="32" r="18" stroke="currentColor" stroke-width="3" fill="none"/>
+  <circle cx="40" cy="32" r="18" stroke="currentColor" stroke-width="3" fill="none"/>
+  <!-- X as two crossing lines -->
+  <line x1="18" y1="18" x2="46" y2="46" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+  <line x1="46" y1="18" x2="18" y2="46" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+</svg>
