@@ -5,7 +5,7 @@ import { Popover } from "@base-ui/react/popover";
 import { Drawer } from "@base-ui/react/drawer";
 import { Tabs } from "@base-ui/react/tabs";
 import { useTranslations } from "next-intl";
-import { Share2, Copy, Check, Download, Loader2 } from "lucide-react";
+import { Share2, Copy, Check, Download, Loader2, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { Lens } from "@/lib/types";
 import { drawSharePoster } from "@/lib/share-image";
@@ -30,6 +30,14 @@ export function ShareButton({ lenses }: ShareButtonProps) {
   const [posterGenerating, setPosterGenerating] = useState(false);
   const slugRef = useRef("");
 
+  // Customization
+  const [customTitle, setCustomTitle] = useState("");
+  const [customSlogan, setCustomSlogan] = useState("");
+  const [customOpen, setCustomOpen] = useState(false);
+
+  // Tracks whether the panel was already open, to distinguish open vs. field-change triggers
+  const wasOpenRef = useRef(false);
+
   useEffect(() => {
     setMounted(true);
     setShareUrl(window.location.href);
@@ -48,11 +56,18 @@ export function ShareButton({ lenses }: ShareButtonProps) {
     setShareUrl(window.location.href);
   }, [open]);
 
-  // Generate poster in the background as soon as the panel opens
+  // Poster generation — immediate on panel open, debounced on customization change
   useEffect(() => {
-    if (!open) return;
+    if (!open) {
+      wasOpenRef.current = false;
+      return;
+    }
+
+    const alreadyOpen = wasOpenRef.current;
+    wasOpenRef.current = true;
+    const delay = alreadyOpen ? 400 : 0;
+
     setPosterDataUrl(null);
-    setCanShareFile(false);
     setPosterGenerating(true);
 
     slugRef.current = lenses
@@ -73,29 +88,37 @@ export function ShareButton({ lenses }: ShareButtonProps) {
       siteUrl: "x-glass.app",
     };
 
-    drawSharePoster(lenses, labels)
-      .then((url) => {
-        setPosterDataUrl(url);
-        // Probe file-share capability with a real File object
-        if ("canShare" in navigator) {
-          fetch(url)
-            .then((r) => r.blob())
-            .then((blob) => {
-              const testFile = new File([blob], "test.png", { type: "image/png" });
-              setCanShareFile(
-                (navigator as Navigator & { canShare: (data: object) => boolean }).canShare(
-                  { files: [testFile] }
-                )
-              );
-            })
-            .catch(() => {});
-        }
-      })
-      .catch(console.error)
-      .finally(() => setPosterGenerating(false));
+    const custom = {
+      title: customTitle.trim() || undefined,
+      slogan: customSlogan.trim() || undefined,
+    };
+
+    const timer = setTimeout(() => {
+      drawSharePoster(lenses, labels, custom)
+        .then((url) => {
+          setPosterDataUrl(url);
+          if ("canShare" in navigator) {
+            fetch(url)
+              .then((r) => r.blob())
+              .then((blob) => {
+                const testFile = new File([blob], "test.png", { type: "image/png" });
+                setCanShareFile(
+                  (navigator as Navigator & { canShare: (data: object) => boolean }).canShare(
+                    { files: [testFile] }
+                  )
+                );
+              })
+              .catch(() => {});
+          }
+        })
+        .catch(console.error)
+        .finally(() => setPosterGenerating(false));
+    }, delay);
+
+    return () => clearTimeout(timer);
     // tImage is a stable translation function — intentionally omitted from deps
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [open, lenses]);
+  }, [open, lenses, customTitle, customSlogan]);
 
   const handleCopy = useCallback(async () => {
     try {
@@ -145,7 +168,7 @@ export function ShareButton({ lenses }: ShareButtonProps) {
   const truncatedUrl =
     shareUrl.length > 56 ? shareUrl.slice(0, 56) + "…" : shareUrl;
 
-  // Compact lens caption: "XF10-18mm F4 · XF10mm F2"
+  // Compact lens caption shown in panel header: "XF35mm F1.4 · XF16mm F2.8"
   const lensCaption = lenses.map((l) => l.model).join(" · ");
 
   const triggerLabel = (
@@ -155,9 +178,12 @@ export function ShareButton({ lenses }: ShareButtonProps) {
     </>
   );
 
-  // Shared tab pill styles
+  // base-ui Tabs uses data-active for the selected tab state
   const tabClass =
-    "flex-1 rounded-md px-3 py-1.5 text-sm font-medium text-zinc-500 transition-colors hover:text-zinc-900 data-selected:bg-white data-selected:text-zinc-900 data-selected:shadow-xs dark:text-zinc-400 dark:hover:text-zinc-50 dark:data-selected:bg-zinc-700 dark:data-selected:text-zinc-50 outline-none focus-visible:ring-2 focus-visible:ring-zinc-400 cursor-pointer";
+    "flex-1 rounded-md px-3 py-1.5 text-sm font-medium text-zinc-500 transition-colors hover:text-zinc-900 data-[active]:bg-white data-[active]:text-zinc-900 data-[active]:shadow-xs dark:text-zinc-400 dark:hover:text-zinc-50 dark:data-[active]:bg-zinc-700 dark:data-[active]:text-zinc-50 outline-none focus-visible:ring-2 focus-visible:ring-zinc-400 cursor-pointer";
+
+  const inputClass =
+    "w-full rounded-md border border-zinc-200 bg-transparent px-3 py-1.5 text-sm text-zinc-900 placeholder:text-zinc-400 outline-none focus:ring-2 focus:ring-zinc-400 dark:border-zinc-700 dark:text-zinc-50 dark:placeholder:text-zinc-600";
 
   const panelContent = (
     <div className="flex flex-col gap-4 p-4">
@@ -172,24 +198,22 @@ export function ShareButton({ lenses }: ShareButtonProps) {
       </div>
 
       {/* Tabs */}
-      <Tabs.Root defaultValue="link" className="flex flex-col gap-4">
+      <Tabs.Root defaultValue="image" className="flex flex-col gap-4">
         <Tabs.List className="flex gap-1 rounded-lg bg-zinc-100 p-1 dark:bg-zinc-800">
-          <Tabs.Tab value="link" className={tabClass}>
-            {t("tabLink")}
-          </Tabs.Tab>
           <Tabs.Tab value="image" className={tabClass}>
             {t("tabImage")}
           </Tabs.Tab>
+          <Tabs.Tab value="link" className={tabClass}>
+            {t("tabLink")}
+          </Tabs.Tab>
         </Tabs.List>
 
-        {/* Link tab */}
+        {/* ── Link tab ───────────────────────────────────────────── */}
         <Tabs.Panel value="link" className="flex flex-col gap-3">
-          {/* URL box */}
           <div className="select-all break-all rounded-md bg-zinc-100 px-3 py-2.5 font-mono text-xs leading-relaxed text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400">
             {truncatedUrl}
           </div>
 
-          {/* Actions */}
           <div className="flex gap-2">
             <button
               onClick={handleCopy}
@@ -216,7 +240,8 @@ export function ShareButton({ lenses }: ShareButtonProps) {
             {canNativeShare && (
               <button
                 onClick={handleNativeShare}
-                className="flex items-center justify-center gap-2 rounded-lg border border-zinc-200 px-4 py-2.5 text-sm font-medium text-zinc-700 transition-colors hover:bg-zinc-100 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800"
+                title={t("nativeShare")}
+                className="flex items-center justify-center rounded-lg border border-zinc-200 px-3 py-2.5 text-zinc-700 transition-colors hover:bg-zinc-100 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800"
               >
                 <Share2 className="size-4" />
               </button>
@@ -224,7 +249,7 @@ export function ShareButton({ lenses }: ShareButtonProps) {
           </div>
         </Tabs.Panel>
 
-        {/* Image tab */}
+        {/* ── Image tab ──────────────────────────────────────────── */}
         <Tabs.Panel value="image" className="flex flex-col gap-3">
           {/* Poster preview: fixed max-height with gradient fade */}
           <div className="relative max-h-52 overflow-hidden rounded-lg bg-zinc-100 dark:bg-zinc-950">
@@ -241,13 +266,12 @@ export function ShareButton({ lenses }: ShareButtonProps) {
                 className="w-full"
               />
             ) : null}
-            {/* Bottom gradient fade — only over the actual image */}
             {posterDataUrl && !posterGenerating && (
               <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-zinc-100 to-transparent dark:from-zinc-950" />
             )}
           </div>
 
-          {/* Actions: Download (primary) + Share (icon-only, conditional) */}
+          {/* Poster actions: Download (primary) + Share (icon-only, conditional) */}
           <div className="flex gap-2">
             <button
               onClick={handleDownload}
@@ -266,6 +290,51 @@ export function ShareButton({ lenses }: ShareButtonProps) {
               >
                 <Share2 className="size-4" />
               </button>
+            )}
+          </div>
+
+          {/* Customize accordion */}
+          <div className="border-t border-zinc-100 dark:border-zinc-800 pt-1">
+            <button
+              onClick={() => setCustomOpen((v) => !v)}
+              className="flex w-full items-center justify-between py-1.5 text-xs font-medium text-zinc-400 transition-colors hover:text-zinc-700 dark:hover:text-zinc-300"
+            >
+              <span>{t("customize")}</span>
+              <ChevronDown
+                className={cn(
+                  "size-3.5 transition-transform duration-200",
+                  customOpen && "rotate-180"
+                )}
+              />
+            </button>
+
+            {customOpen && (
+              <div className="flex flex-col gap-3 pb-2 pt-2">
+                <div className="flex flex-col gap-1">
+                  <label className="text-xs text-zinc-400 dark:text-zinc-500">
+                    {t("customizeTitle")}
+                  </label>
+                  <input
+                    type="text"
+                    value={customTitle}
+                    onChange={(e) => setCustomTitle(e.target.value)}
+                    placeholder={tImage("comparison")}
+                    className={inputClass}
+                  />
+                </div>
+                <div className="flex flex-col gap-1">
+                  <label className="text-xs text-zinc-400 dark:text-zinc-500">
+                    {t("customizeSlogan")}
+                  </label>
+                  <input
+                    type="text"
+                    value={customSlogan}
+                    onChange={(e) => setCustomSlogan(e.target.value)}
+                    placeholder={t("customizeSloganPlaceholder")}
+                    className={inputClass}
+                  />
+                </div>
+              </div>
             )}
           </div>
         </Tabs.Panel>

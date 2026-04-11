@@ -228,7 +228,11 @@
     "tabImage": "分享图片",
     "posterGenerating": "正在生成海报…",
     "posterDownload": "下载 PNG",
-    "posterShare": "分享图片"
+    "posterShare": "分享图片",
+    "customize": "自定义",
+    "customizeTitle": "标题",
+    "customizeSlogan": "副标题",
+    "customizeSloganPlaceholder": "添加一句话…"
   },
   "ShareImage": {
     "comparison": "镜头横向对比",

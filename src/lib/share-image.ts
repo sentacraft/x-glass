@@ -31,7 +31,9 @@ const PX  = 40;   // horizontal padding
 const SCALE = 2;  // retina export
 
 // Section heights (logical px)
-const HEADER_H  = 140; // 40 top + 10 label + 14 gap + 20 title + 8 gap + 20 models + 28 bottom
+// Slogan adds 22px (14px font + 8px gap) and tightens the title gap by 2px → net +20px
+const HEADER_H_BASE = 140;
+const HEADER_SLOGAN_EXTRA = 20;
 const IMG_GAP   = 10;  // gap between image area and brand label
 const BRAND_H   = 13;  // 10px brand + 3px gap
 const MODEL_H   = 12;  // model name font-size
@@ -71,14 +73,24 @@ function hLine(ctx: CanvasRenderingContext2D, y: number) {
   ctx.fillRect(0, y, W, 1);
 }
 
+export interface ShareImageCustom {
+  /** Overrides labels.comparison as the poster headline. */
+  title?: string;
+  /** Optional sub-headline rendered below the title. */
+  slogan?: string;
+}
+
 // ── Main export ────────────────────────────────────────────────────
 export async function drawSharePoster(
   lenses: Lens[],
-  labels: ShareImageLabels
+  labels: ShareImageLabels,
+  custom?: ShareImageCustom
 ): Promise<string> {
   const n = lenses.length;
   const imgH = n <= 2 ? 160 : 120;
   const imagesH = IMG_PAD + imgH + IMG_GAP + BRAND_H + MODEL_H + IMG_PAD;
+  const hasSlogan = !!custom?.slogan?.trim();
+  const HEADER_H = HEADER_H_BASE + (hasSlogan ? HEADER_SLOGAN_EXTRA : 0);
   const totalH = HEADER_H + SEP + imagesH + SEP + TABLE_H + SEP + FOOTER_H;
 
   // Load fonts and images in parallel
@@ -113,11 +125,20 @@ export async function drawSharePoster(
   ctx.fillText(labels.appName.toUpperCase(), PX, y + 8);
   y += 10 + 14;
 
-  // Title (20px, semibold, zinc-900)
+  // Title (20px, semibold, zinc-900) — overridable via custom.title
+  const displayTitle = custom?.title?.trim() || labels.comparison;
   ctx.font = `600 20px ${FONT}`;
   ctx.fillStyle = C.z900;
-  ctx.fillText(labels.comparison, PX, y + 16);
-  y += 20 + 8;
+  ctx.fillText(truncate(ctx, displayTitle, W - PX * 2), PX, y + 16);
+  y += 20 + (hasSlogan ? 6 : 8);
+
+  // Slogan (14px, zinc-500) — only rendered when custom.slogan is set
+  if (hasSlogan) {
+    ctx.font = `400 14px ${FONT}`;
+    ctx.fillStyle = C.z500;
+    ctx.fillText(truncate(ctx, custom!.slogan!, W - PX * 2), PX, y + 11);
+    y += 14 + 8;
+  }
 
   // Model names (12px, zinc-500)
   ctx.font = `400 12px ${FONT}`;
