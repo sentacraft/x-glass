@@ -19,7 +19,7 @@ export default function DataInfo() {
     );
 
   const formatDate = (dateStr: string) =>
-    new Intl.DateTimeFormat(locale, { month: "long", day: "numeric" }).format(
+    new Intl.DateTimeFormat(locale, { year: "numeric", month: "long", day: "numeric" }).format(
       new Date(dateStr)
     );
 
