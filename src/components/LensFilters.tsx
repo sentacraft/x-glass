@@ -151,7 +151,7 @@ export default function LensFilters({
         )}
       />
       {hasHiddenActiveFilters && !mobileFiltersOpen && (
-        <span className="h-1.5 w-1.5 rounded-full bg-blue-500" />
+        <span className="h-1.5 w-1.5 rounded-full bg-zinc-900 dark:bg-zinc-100" />
       )}
     </button>
   );

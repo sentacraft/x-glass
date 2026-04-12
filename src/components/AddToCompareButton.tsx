@@ -2,6 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { useCompare } from "@/context/CompareProvider";
+import { ACTION_PRIMARY_CLS } from "@/lib/ui-tokens";
 
 interface Props {
   lensId: string;
@@ -21,7 +22,7 @@ export default function AddToCompareButton({ lensId }: Props) {
       className={`inline-flex items-center gap-1.5 text-sm font-medium px-4 py-2 rounded-lg transition-colors ${
         isSelected
           ? "bg-zinc-200 text-zinc-700 hover:bg-zinc-300 dark:bg-zinc-700 dark:text-zinc-200 dark:hover:bg-zinc-600"
-          : "bg-blue-500 text-white hover:bg-blue-600 disabled:opacity-40 disabled:cursor-not-allowed"
+          : ACTION_PRIMARY_CLS
       }`}
     >
       {isSelected ? t("removeFromCompare") : t("addToCompare")}
