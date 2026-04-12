@@ -87,7 +87,7 @@ function LensHeader({
   onShiftRight: () => void;
 }) {
   return (
-    <th className="group relative z-20 bg-zinc-50 px-3 py-1 text-left transition-colors sm:py-1.5 sm:group-hover:bg-zinc-100 dark:bg-zinc-900 dark:sm:group-hover:bg-zinc-800">
+    <th className="group relative sticky top-14 z-20 bg-zinc-50 px-3 py-1 text-left transition-colors sm:py-1.5 sm:group-hover:bg-zinc-100 dark:bg-zinc-900 dark:sm:group-hover:bg-zinc-800">
       <div className="flex items-start justify-between gap-1 transition-opacity sm:absolute sm:inset-x-3 sm:top-1.5 sm:z-10 sm:opacity-0 sm:group-hover:opacity-100">
         <button
           type="button"
@@ -298,7 +298,7 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
 
   const totalColSpan = orderedLenses.length + 1;
 
-  const PHANTOM_HEADER_ENABLED = true;
+  const PHANTOM_HEADER_ENABLED = false;
 
   // --- Phantom sticky header ---
   const theadRef = useRef<HTMLTableSectionElement>(null);
@@ -404,7 +404,7 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
 
         <thead ref={theadRef}>
           <tr className="border-b border-zinc-200 dark:border-zinc-800">
-            <th className="sticky left-0 z-30 bg-zinc-50 px-3 py-3 dark:bg-zinc-900" />
+            <th className="sticky top-14 left-0 z-30 bg-zinc-50 px-3 py-3 dark:bg-zinc-900" />
             {orderedLenses.map((lens, index) => (
               <LensHeader
                 key={lens.id}
