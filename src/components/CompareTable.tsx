@@ -427,17 +427,14 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
           {visibleGroups.map((group) => {
             return (
               <React.Fragment key={group.label}>
-                {/* Group header row.
-                    sticky on a colSpan <td> is unreliable in WebKit/Blink,
-                    so we keep the td unstyled (full-row background via row bg)
-                    and use a sticky inner div anchored just past the label column. */}
+                {/* Group header row: sticky anchor cell holds the label column,
+                    content cell spans the lens columns and centers the label. */}
                 <tr className="border-b border-zinc-100 bg-zinc-100/80 dark:border-zinc-800/60 dark:bg-zinc-800/60">
-                  <td colSpan={totalColSpan} className="py-2">
-                    <div className="sticky left-24 inline-block px-3">
-                      <span className="text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
-                        {group.label}
-                      </span>
-                    </div>
+                  <td className="sticky left-0 z-10 bg-zinc-100/80 dark:bg-zinc-800/60" />
+                  <td colSpan={orderedLenses.length} className="py-2 text-center">
+                    <span className="text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+                      {group.label}
+                    </span>
                   </td>
                 </tr>
 
