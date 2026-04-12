@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 import { readFileSync, existsSync } from "fs";
 import { join, dirname } from "path";
-import { bladePath, coverPoints, R, BLADE_COUNT, STEP_DEG } from "@/lib/aperture";
+import { bladePath, coverPoints, R } from "@/lib/aperture";
 import { BRAND_LOGO } from "@/config/brand";
 
 /** Walk up directory tree until node_modules/<pkg>/<relPath> is found. */
@@ -21,8 +21,10 @@ export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 const T = BRAND_LOGO.t;
-const bp = bladePath(T);
-const cp = coverPoints(T);
+const BLADE_COUNT = BRAND_LOGO.N;
+const STEP_DEG = 360 / BLADE_COUNT;
+const bp = bladePath(T, BRAND_LOGO);
+const cp = coverPoints(T, BRAND_LOGO);
 
 export default function OpenGraphImage() {
   const geistBold = readFileSync(
