@@ -5,7 +5,7 @@ import { Popover } from "@base-ui/react/popover";
 import { Drawer } from "@base-ui/react/drawer";
 import { Tabs } from "@base-ui/react/tabs";
 import { useTranslations } from "next-intl";
-import { Share2, Copy, Check, Download, Loader2, ChevronDown, Expand } from "lucide-react";
+import { Share2, Copy, Check, Download, Loader2, Expand, SlidersHorizontal } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { Lens } from "@/lib/types";
 import { rasterizePoster } from "@/lib/share-image";
@@ -384,96 +384,89 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
 
           {/* Bottom controls — relative anchor for the floating Customize overlay */}
           <div className="relative">
-            {/* Customize overlay: always anchored above actions, trigger forms the bottom edge */}
-            <div className="absolute bottom-full left-0 right-0 z-10 rounded-xl bg-white shadow-[0_-4px_20px_rgba(0,0,0,0.10)] dark:bg-zinc-900">
-              {/* Inputs — animated open/close, trigger always visible below */}
-              <div
-                className={cn(
-                  "overflow-hidden transition-[max-height] duration-200 ease-out",
-                  customOpen ? "max-h-48" : "max-h-0"
-                )}
-              >
-                <div className="flex flex-col gap-3 p-3 pb-0">
-                  <div className="flex flex-col gap-1">
-                    <label className="text-xs text-zinc-400 dark:text-zinc-500">
-                      {t("customizeTitle")}
-                    </label>
-                    <input
-                      type="text"
-                      value={customTitle}
-                      onChange={(e) => setCustomTitle(e.target.value)}
-                      placeholder={tImage("comparison")}
-                      className={inputClass}
-                    />
-                  </div>
-                  <div className="flex flex-col gap-1">
-                    <label className="text-xs text-zinc-400 dark:text-zinc-500">
-                      {t("customizeSlogan")}
-                    </label>
-                    <input
-                      type="text"
-                      value={customSlogan}
-                      onChange={(e) => setCustomSlogan(e.target.value)}
-                      placeholder={t("customizeSloganPlaceholder")}
-                      className={inputClass}
-                    />
-                  </div>
+            {/* Customize overlay: floats above action row, collapses fully when closed */}
+            <div
+              className={cn(
+                "absolute bottom-full left-0 right-0 z-10 overflow-hidden rounded-xl bg-white transition-[max-height] duration-200 ease-out dark:bg-zinc-900",
+                customOpen
+                  ? "max-h-48 shadow-[0_-4px_20px_rgba(0,0,0,0.10)]"
+                  : "max-h-0"
+              )}
+            >
+              <div className="flex flex-col gap-3 p-3">
+                <div className="flex flex-col gap-1">
+                  <label className="text-xs text-zinc-400 dark:text-zinc-500">
+                    {t("customizeTitle")}
+                  </label>
+                  <input
+                    type="text"
+                    value={customTitle}
+                    onChange={(e) => setCustomTitle(e.target.value)}
+                    placeholder={tImage("comparison")}
+                    className={inputClass}
+                  />
+                </div>
+                <div className="flex flex-col gap-1">
+                  <label className="text-xs text-zinc-400 dark:text-zinc-500">
+                    {t("customizeSlogan")}
+                  </label>
+                  <input
+                    type="text"
+                    value={customSlogan}
+                    onChange={(e) => setCustomSlogan(e.target.value)}
+                    placeholder={t("customizeSloganPlaceholder")}
+                    className={inputClass}
+                  />
                 </div>
               </div>
-              {/* Trigger — always visible, forms the bottom edge of the panel */}
-              <button
-                onClick={() => setCustomOpen((v) => !v)}
-                className="flex w-full items-center justify-between px-3 py-2.5 text-xs font-medium text-zinc-400 transition-colors hover:text-zinc-700 dark:hover:text-zinc-300"
-              >
-                <span>{t("customize")}</span>
-                <ChevronDown
-                  className={cn(
-                    "size-3.5 transition-transform duration-200",
-                    !customOpen && "rotate-180"
-                  )}
-                />
-              </button>
             </div>
 
-            {/* Poster actions */}
-            <div className="flex gap-2 pt-3">
-            {canShareFile ? (
-              <>
-                <button
-                  onClick={handleShareImage}
-                  disabled={posterGenerating}
-                  className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-zinc-900 px-4 py-2.5 text-sm font-medium text-zinc-50 transition-colors hover:bg-zinc-700 disabled:opacity-40 dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-200"
-                >
-                  {posterGenerating ? (
-                    <Loader2 className="size-4 animate-spin" />
-                  ) : (
-                    <Share2 className="size-4" />
-                  )}
-                  {t("posterShare")}
-                </button>
+            {/* Action row — Customize toggle on the left, share actions on the right */}
+            <div className="flex gap-2">
+              {/* Customize toggle — leftmost, icon-only */}
+              <button
+                onClick={() => setCustomOpen((v) => !v)}
+                title={t("customize")}
+                className={cn(
+                  "flex items-center justify-center rounded-lg border px-3 py-2.5 transition-colors",
+                  customOpen
+                    ? "border-zinc-900 bg-zinc-900 text-zinc-50 dark:border-zinc-50 dark:bg-zinc-50 dark:text-zinc-900"
+                    : "border-zinc-200 text-zinc-500 hover:bg-zinc-100 hover:text-zinc-700 dark:border-zinc-700 dark:text-zinc-400 dark:hover:bg-zinc-800"
+                )}
+              >
+                <SlidersHorizontal className="size-4" />
+              </button>
+
+              {/* Share + Download */}
+              {canShareFile ? (
+                <>
+                  <button
+                    onClick={handleShareImage}
+                    disabled={posterGenerating}
+                    className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-zinc-900 px-4 py-2.5 text-sm font-medium text-zinc-50 transition-colors hover:bg-zinc-700 disabled:opacity-40 dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-200"
+                  >
+                    {posterGenerating ? <Loader2 className="size-4 animate-spin" /> : <Share2 className="size-4" />}
+                    {t("posterShare")}
+                  </button>
+                  <button
+                    onClick={handleDownload}
+                    disabled={posterGenerating}
+                    title={t("posterDownload")}
+                    className="flex items-center justify-center rounded-lg border border-zinc-200 px-3 py-2.5 text-zinc-700 transition-colors hover:bg-zinc-100 disabled:opacity-40 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800"
+                  >
+                    <Download className="size-4" />
+                  </button>
+                </>
+              ) : (
                 <button
                   onClick={handleDownload}
                   disabled={posterGenerating}
-                  title={t("posterDownload")}
-                  className="flex items-center justify-center rounded-lg border border-zinc-200 px-3 py-2.5 text-zinc-700 transition-colors hover:bg-zinc-100 disabled:opacity-40 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800"
+                  className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-zinc-900 px-4 py-2.5 text-sm font-medium text-zinc-50 transition-colors hover:bg-zinc-700 disabled:opacity-40 dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-200"
                 >
-                  <Download className="size-4" />
+                  {posterGenerating ? <Loader2 className="size-4 animate-spin" /> : <Download className="size-4" />}
+                  {t("posterDownload")}
                 </button>
-              </>
-            ) : (
-              <button
-                onClick={handleDownload}
-                disabled={posterGenerating}
-                className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-zinc-900 px-4 py-2.5 text-sm font-medium text-zinc-50 transition-colors hover:bg-zinc-700 disabled:opacity-40 dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-200"
-              >
-                {posterGenerating ? (
-                  <Loader2 className="size-4 animate-spin" />
-                ) : (
-                  <Download className="size-4" />
-                )}
-                {t("posterDownload")}
-              </button>
-            )}
+              )}
             </div>
           </div>
         </Tabs.Panel>
