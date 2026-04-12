@@ -4,6 +4,7 @@ import { parseLensIds } from "@/lib/lens";
 import { Link } from "@/i18n/navigation";
 import CompareTable from "@/components/CompareTable";
 import { ShareButton } from "@/components/ShareButton";
+import CompareAddLensButton from "@/components/CompareAddLensButton";
 
 export async function generateMetadata({
   searchParams,
@@ -46,7 +47,7 @@ export default async function ComparePage({
   }
 
   return (
-    <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 py-8 flex flex-col gap-6">
+    <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-8 flex flex-col gap-3 sm:gap-6">
       {/* Header */}
       <div className="flex items-center gap-3">
         <Link
@@ -55,10 +56,11 @@ export default async function ComparePage({
         >
           ←
         </Link>
-        <h1 className="text-2xl font-bold text-zinc-900 dark:text-zinc-50">
+        <h1 className="hidden sm:block text-2xl font-bold text-zinc-900 dark:text-zinc-50">
           {t("title")}
         </h1>
-        <div className="ml-auto">
+        <div className="ml-auto flex items-center gap-3">
+          <CompareAddLensButton lenses={lenses} />
           <ShareButton lenses={lenses} />
         </div>
       </div>

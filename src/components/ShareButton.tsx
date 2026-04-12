@@ -198,7 +198,7 @@ export function ShareButton({ lenses }: ShareButtonProps) {
   const triggerLabel = (
     <>
       <Share2 className="size-4" />
-      {t("button")}
+      <span className="hidden sm:inline">{t("button")}</span>
     </>
   );
 
