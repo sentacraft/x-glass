@@ -198,7 +198,7 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
 
   const triggerLabel = (
     <>
-      <Share2 className="size-4" />
+      <Share2 className="size-5" />
       <span className="hidden sm:inline">{t("button")}</span>
     </>
   );
@@ -435,7 +435,7 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
   const isFab = variant === "fab";
 
   const defaultTriggerClass =
-    "flex cursor-pointer items-center gap-1.5 rounded-md text-sm text-zinc-500 outline-none transition-colors hover:text-zinc-900 focus-visible:ring-2 focus-visible:ring-zinc-400 dark:text-zinc-400 dark:hover:text-zinc-50";
+    "flex cursor-pointer items-center gap-1.5 rounded-md p-1 text-sm text-zinc-500 outline-none transition-colors hover:text-zinc-900 focus-visible:ring-2 focus-visible:ring-zinc-400 dark:text-zinc-400 dark:hover:text-zinc-50";
 
   const fabTriggerClass =
     "flex h-12 w-12 cursor-pointer items-center justify-center rounded-full bg-zinc-900 text-white shadow-lg outline-none transition-colors hover:bg-zinc-700 focus-visible:ring-2 focus-visible:ring-zinc-400 dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-200";
