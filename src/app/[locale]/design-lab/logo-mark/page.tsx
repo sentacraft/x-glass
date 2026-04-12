@@ -337,6 +337,169 @@ function Slider({
   );
 }
 
+// ── Aperture ring ─────────────────────────────────────────────────────────────
+
+const RING_SPACING = 64; // px between value labels
+
+// f-stop values displayed on the ring, left → right (closed → open).
+// "A" = auto/full-open, numeric values match standard Fuji aperture ring markings.
+// t values are derived from the fStop() formula inverted: t = 1 - log2(f/1.4)/5
+const RING_VALUES = [
+  { label: "A",   t: 1.00 },
+  { label: "16",  t: 0.30 },
+  { label: "11",  t: 0.40 },
+  { label: "8",   t: 0.50 },
+  { label: "5.6", t: 0.60 },
+  { label: "4",   t: 0.70 },
+  { label: "2.8", t: 0.80 },
+  { label: "2",   t: 0.90 },
+  { label: "1.4", t: 1.00 },
+] as const;
+
+function ApertureRingControl({
+  value,
+  onChange,
+  isAnimating,
+}: {
+  value: number;
+  onChange: (t: number) => void;
+  isAnimating: boolean;
+}) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [offset, setOffset] = useState(0);
+  const [snapping, setSnapping] = useState(false);
+  const isDragging = useRef(false);
+  const dragStart = useRef<{ x: number; offset: number } | null>(null);
+
+  function indexForValue(v: number) {
+    let best = 0, bestDist = Infinity;
+    RING_VALUES.forEach((rv, i) => {
+      const d = Math.abs(rv.t - v);
+      if (d < bestDist) { bestDist = d; best = i; }
+    });
+    return best;
+  }
+
+  function offsetForIndex(i: number) {
+    const w = containerRef.current?.offsetWidth ?? 400;
+    return w / 2 - i * RING_SPACING;
+  }
+
+  // Sync strip position when value is changed externally (slider, preset load)
+  useEffect(() => {
+    if (isDragging.current || isAnimating) return;
+    setOffset(offsetForIndex(indexForValue(value)));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value, isAnimating]);
+
+  // Set initial offset once container is measured
+  useEffect(() => {
+    setOffset(offsetForIndex(indexForValue(value)));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  function snapToNearest(rawOffset: number) {
+    const w = containerRef.current?.offsetWidth ?? 400;
+    const idx = Math.round((w / 2 - rawOffset) / RING_SPACING);
+    const clamped = Math.max(0, Math.min(RING_VALUES.length - 1, idx));
+    setSnapping(true);
+    setOffset(w / 2 - clamped * RING_SPACING);
+    onChange(RING_VALUES[clamped].t);
+    setTimeout(() => setSnapping(false), 220);
+  }
+
+  function onPointerDown(e: React.PointerEvent<HTMLDivElement>) {
+    e.currentTarget.setPointerCapture(e.pointerId);
+    isDragging.current = true;
+    dragStart.current = { x: e.clientX, offset };
+    setSnapping(false);
+  }
+
+  function onPointerMove(e: React.PointerEvent<HTMLDivElement>) {
+    if (!isDragging.current || !dragStart.current) return;
+    setOffset(dragStart.current.offset + (e.clientX - dragStart.current.x));
+  }
+
+  function onPointerUp(e: React.PointerEvent<HTMLDivElement>) {
+    if (!isDragging.current || !dragStart.current) return;
+    const newOffset = dragStart.current.offset + (e.clientX - dragStart.current.x);
+    isDragging.current = false;
+    dragStart.current = null;
+    snapToNearest(newOffset);
+  }
+
+  return (
+    <div
+      ref={containerRef}
+      className="relative rounded-xl overflow-hidden select-none cursor-grab active:cursor-grabbing"
+      style={{ height: 52, backgroundColor: "#1a1a1a" }}
+      onPointerDown={onPointerDown}
+      onPointerMove={onPointerMove}
+      onPointerUp={onPointerUp}
+    >
+      {/* Subtle top highlight for depth */}
+      <div className="absolute inset-x-0 top-0 h-px" style={{ background: "rgba(255,255,255,0.08)" }} />
+
+      {/* Labels strip — masked at edges for cylinder-wrap illusion */}
+      <div
+        className="absolute inset-0"
+        style={{
+          maskImage:
+            "linear-gradient(to right, transparent 0%, black 18%, black 82%, transparent 100%)",
+          WebkitMaskImage:
+            "linear-gradient(to right, transparent 0%, black 18%, black 82%, transparent 100%)",
+        }}
+      >
+        <div
+          className="absolute top-0 h-full flex items-center"
+          style={{
+            left: offset,
+            transition: snapping ? "left 0.2s ease-out" : "none",
+            willChange: "left",
+          }}
+        >
+          {RING_VALUES.map((v) => (
+            <div
+              key={v.label}
+              className="flex items-center justify-center font-bold text-sm tabular-nums"
+              style={{
+                width: RING_SPACING,
+                color: v.label === "A" ? "#C0452D" : "white",
+                letterSpacing: "0.02em",
+              }}
+            >
+              {v.label}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Fixed indicator line at center — sits above the faded strip */}
+      <div
+        className="absolute inset-y-0 pointer-events-none"
+        style={{ left: "50%", transform: "translateX(-50%)", width: 1 }}
+      >
+        {/* Top tick extending above the bar */}
+        <div className="absolute w-full bg-white" style={{ top: 0, height: "100%" }} />
+      </div>
+
+      {/* Small indicator notch at the bottom center */}
+      <div
+        className="absolute bottom-0 pointer-events-none"
+        style={{
+          left: "50%",
+          transform: "translateX(-50%)",
+          width: 0,
+          height: 0,
+          borderLeft: "4px solid transparent",
+          borderRight: "4px solid transparent",
+          borderBottom: "5px solid rgba(255,255,255,0.6)",
+        }}
+      />
+    </div>
+  );
+}
+
 // ── Constants ─────────────────────────────────────────────────────────────────
 
 const BLADE_OPTIONS = [5, 6, 7, 9] as const;
@@ -507,6 +670,13 @@ export default function LogoMarkLab() {
               </div>
             ))}
           </div>
+
+          {/* Aperture ring control */}
+          <ApertureRingControl
+            value={aperture}
+            onChange={setAperture}
+            isAnimating={isAnimating}
+          />
 
           {/* Favicon size row */}
           <div className="rounded-xl border border-gray-200 p-5">
