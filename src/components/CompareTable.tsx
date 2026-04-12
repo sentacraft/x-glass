@@ -87,7 +87,7 @@ function LensHeader({
   onShiftRight: () => void;
 }) {
   return (
-    <th className="group relative z-20 bg-zinc-50 px-3 py-1 text-left transition-colors sm:py-1.5 sm:group-hover:bg-zinc-100 dark:bg-zinc-900 dark:sm:group-hover:bg-zinc-800">
+    <th className="group relative z-20 border-l border-zinc-200 bg-zinc-50 px-3 py-1 text-left transition-colors sm:py-1.5 sm:group-hover:bg-zinc-100 dark:border-zinc-800 dark:bg-zinc-900 dark:sm:group-hover:bg-zinc-800">
       <div className="flex items-start justify-between gap-1 transition-opacity sm:absolute sm:inset-x-3 sm:top-1.5 sm:z-10 sm:opacity-0 sm:group-hover:opacity-100">
         <button
           type="button"
@@ -370,7 +370,7 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
               <div
                 key={lens.id}
                 style={{ width: colWidths[i + 1], flexShrink: 0 }}
-                className="px-2 py-1.5 text-center"
+                className="border-l border-zinc-200 px-2 py-1.5 text-center dark:border-zinc-800"
               >
                 <p className="truncate text-[10px] text-zinc-400 dark:text-zinc-500">
                   {tBrand(lens.brand)}
