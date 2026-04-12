@@ -84,8 +84,7 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
     const el = lightboxContainerRef.current;
     if (!el) return;
     const updateScale = () => {
-      const available = el.clientWidth - 48; // subtract p-6 (24px * 2)
-      setLightboxScale(Math.min(1, available / POSTER_W));
+      setLightboxScale(Math.min(1, el.clientWidth / POSTER_W));
     };
     updateScale();
     const ro = new ResizeObserver(updateScale);
@@ -335,14 +334,14 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
           {/* Full-size lightbox — top-aligned, inner scroll */}
           <Dialog open={lightboxOpen} onOpenChange={setLightboxOpen}>
             <DialogContent
-              className="w-full max-w-[820px] overflow-hidden rounded-2xl top-4 translate-y-0"
+              className="w-[calc(100vw-2rem)] max-w-[820px] overflow-hidden rounded-2xl top-4 translate-y-0"
               showCloseButton
             >
               <div
                 ref={lightboxContainerRef}
-                className="max-h-[80svh] overflow-y-auto bg-zinc-50 p-6 dark:bg-zinc-950 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+                className="max-h-[80svh] overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
               >
-                <div className="mx-auto" style={{ width: POSTER_W, zoom: lightboxScale }}>
+                <div style={{ width: POSTER_W, zoom: lightboxScale }}>
                   <SharePoster
                     lenses={lenses}
                     labels={posterLabels}
