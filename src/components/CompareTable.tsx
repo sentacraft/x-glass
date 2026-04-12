@@ -4,6 +4,7 @@ import React, {
   startTransition,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from "react";
 import Image from "next/image";
@@ -136,6 +137,7 @@ const LENS_COLUMN_MIN_WIDTH = "9rem";
 export default function CompareTable({ lenses: initialLenses }: Props) {
   const t = useTranslations("Compare");
   const td = useTranslations("LensDetail");
+  const tBrand = useTranslations("Brands");
   const router = useRouter();
   const { replaceCompare } = useCompare();
   const initialLensIds = useMemo(
@@ -296,8 +298,90 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
 
   const totalColSpan = orderedLenses.length + 1;
 
+  // --- Phantom sticky header ---
+  const theadRef = useRef<HTMLTableSectionElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const phantomInnerRef = useRef<HTMLDivElement>(null);
+  const [showPhantom, setShowPhantom] = useState(false);
+  const [colWidths, setColWidths] = useState<number[]>([]);
+  const [containerLeft, setContainerLeft] = useState(0);
+  const [containerWidth, setContainerWidth] = useState(0);
+
+  useEffect(() => {
+    const thead = theadRef.current;
+    if (!thead) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setShowPhantom(!entry.isIntersecting),
+      { rootMargin: "-56px 0px 0px 0px", threshold: 0 },
+    );
+    observer.observe(thead);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    const thead = theadRef.current;
+    if (!container || !thead) return;
+    const update = () => {
+      const rect = container.getBoundingClientRect();
+      setContainerLeft(rect.left + container.clientLeft);
+      setContainerWidth(container.clientWidth);
+      const row = thead.querySelector("tr");
+      if (row) {
+        const cells = row.querySelectorAll("th");
+        setColWidths(Array.from(cells).map((c) => c.getBoundingClientRect().width));
+      }
+    };
+    update();
+    const observer = new ResizeObserver(update);
+    observer.observe(container);
+    return () => observer.disconnect();
+  }, [orderedLenses]);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+    const onScroll = () => {
+      if (phantomInnerRef.current) {
+        phantomInnerRef.current.style.transform = `translateX(-${container.scrollLeft}px)`;
+      }
+    };
+    container.addEventListener("scroll", onScroll, { passive: true });
+    return () => container.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
-    <div className="isolate overflow-x-auto overflow-y-clip rounded-xl border border-zinc-200 dark:border-zinc-800">
+    <>
+    {/* Phantom sticky header: appears when real thead scrolls behind nav */}
+    <div
+      className={`fixed top-14 z-20 overflow-hidden border-b border-zinc-200 bg-white/95 backdrop-blur-sm transition-all duration-200 dark:border-zinc-800 dark:bg-zinc-950/95 ${
+        showPhantom
+          ? "opacity-100 translate-y-0"
+          : "opacity-0 -translate-y-1 pointer-events-none"
+      }`}
+      style={{ left: containerLeft, width: containerWidth }}
+    >
+      <div ref={phantomInnerRef} className="flex">
+        {colWidths[0] != null && (
+          <div style={{ width: colWidths[0], flexShrink: 0 }} />
+        )}
+        {orderedLenses.map((lens, i) => (
+          <div
+            key={lens.id}
+            style={{ width: colWidths[i + 1], flexShrink: 0 }}
+            className="px-2 py-1.5 text-center"
+          >
+            <p className="truncate text-[10px] text-zinc-400 dark:text-zinc-500">
+              {tBrand(lens.brand)}
+            </p>
+            <p className="truncate text-xs font-semibold text-zinc-900 dark:text-zinc-50">
+              {lens.model}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+    <div ref={containerRef} className="isolate overflow-x-auto overflow-y-clip rounded-xl border border-zinc-200 dark:border-zinc-800">
       <table
         className="w-full min-w-max table-fixed text-sm border-collapse"
         style={{
@@ -311,7 +395,7 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
           ))}
         </colgroup>
 
-        <thead>
+        <thead ref={theadRef}>
           <tr className="border-b border-zinc-200 dark:border-zinc-800">
             <th className="sticky top-0 left-0 z-30 bg-zinc-50 px-3 py-3 dark:bg-zinc-900" />
             {orderedLenses.map((lens, index) => (
@@ -596,5 +680,6 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
         </tbody>
       </table>
     </div>
+    </>
   );
 }
