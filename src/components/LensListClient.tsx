@@ -78,7 +78,7 @@ export default function LensListClient({ lenses }: Props) {
 
   return (
     <>
-      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 py-8 flex flex-col gap-6 pb-24">
+      <div className="w-full max-w-7xl mx-auto px-5 sm:px-6 py-8 flex flex-col gap-6 pb-24">
         <div className="flex flex-col gap-4">
           <h1 className="text-2xl font-bold text-zinc-900 dark:text-zinc-50">
             {t("title")}
@@ -180,7 +180,7 @@ export default function LensListClient({ lenses }: Props) {
         ) : (
           <div
             {...hookAttr("grid")}
-            className="grid grid-cols-1 gap-4 px-2 min-[500px]:grid-cols-2 min-[500px]:px-0 lg:grid-cols-3 xl:grid-cols-4"
+            className="grid grid-cols-1 gap-4 min-[500px]:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
           >
             {displayed.map((lens) => (
               <LensCard
