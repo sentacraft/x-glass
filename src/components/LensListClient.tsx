@@ -180,7 +180,7 @@ export default function LensListClient({ lenses }: Props) {
         ) : (
           <div
             {...hookAttr("grid")}
-            className="grid grid-cols-1 gap-4 px-4 sm:grid-cols-2 sm:gap-4 sm:px-0 lg:grid-cols-3 xl:grid-cols-4"
+            className="grid grid-cols-1 gap-4 px-4 min-[500px]:grid-cols-2 min-[500px]:px-0 lg:grid-cols-3 xl:grid-cols-4"
           >
             {displayed.map((lens) => (
               <LensCard
