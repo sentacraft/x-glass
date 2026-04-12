@@ -1,8 +1,7 @@
 {
   "Common": {
     "appName": "X-Glass",
-    "appDesc": "富士党专属的镜头图鉴",
-    "zeroHallucination": "0 hallucination"
+    "appDesc": "富士党专属的镜头图鉴"
   },
   "Nav": {
     "lenses": "镜头列表",
@@ -34,7 +33,7 @@
   "Home": {
     "cta": "浏览镜头",
     "dataSnapshot": "lens.json loaded ✓",
-    "dataSnapshotCount": "{count} 支镜头 · {brands} 个品牌",
+    "dataSnapshotCount": "{count} 支镜头 · {brands} 个品牌 · 0 hallucination",
     "dataSnapshotDate": "{date}",
     "dataTooltip": "数据来源于制造商官方规格，非 AI 生成。"
   },
