@@ -2,7 +2,7 @@
 
 import type { Ref } from "react";
 import QRCode from "react-qr-code";
-import { Droplets, Hand, Focus, Aperture, ArrowLeftRight } from "lucide-react";
+import { FEATURE_ICONS } from "@/lib/feature-icons";
 import type { Lens } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { classifyFocusMotor } from "@/lib/lens";
@@ -618,21 +618,21 @@ export function SharePoster({ lenses, labels, custom, shareUrl, ref }: SharePost
                 // Inner div stays left-aligned so icon + text baseline stays consistent.
                 <div key={i} style={{ display: "flex", justifyContent: "center" }}>
                   <div style={{ display: "flex", flexDirection: "column", gap: 7 }}>
-                  <PosterFeatureItem present={lens.wr} label={labels.featureWR} sup={noteSup(i, "wr")} icon={Droplets} />
+                  <PosterFeatureItem present={lens.wr} label={labels.featureWR} sup={noteSup(i, "wr")} icon={FEATURE_ICONS.wr} />
                   <PosterFeatureItem
                     present={lens.ois}
                     label={labels.featureOIS}
                     sub={oisSub(lens)}
                     sup={noteSup(i, "ois")}
-                    icon={Hand}
+                    icon={FEATURE_ICONS.ois}
                   />
-                  <PosterFeatureItem present={lens.af} label={labels.featureAF} icon={Focus} />
-                  <PosterFeatureItem present={lens.apertureRing} label={labels.featureApertureRing} icon={Aperture} />
+                  <PosterFeatureItem present={lens.af} label={labels.featureAF} icon={FEATURE_ICONS.af} />
+                  <PosterFeatureItem present={lens.apertureRing} label={labels.featureApertureRing} icon={FEATURE_ICONS.apertureRing} />
                   {showInternalFocusing && (
                     <PosterFeatureItem
                       present={lens.internalFocusing}
                       label={labels.featureInternalFocusing}
-                      icon={ArrowLeftRight}
+                      icon={FEATURE_ICONS.internalFocusing}
                     />
                   )}
                   </div>
