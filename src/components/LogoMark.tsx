@@ -1,10 +1,8 @@
 // Static SVG aperture mark — server-compatible, no "use client" needed.
-// Geometry is baked from the design-lab preset:
+// Geometry baked from design-lab preset:
 //   N=7, t=0.3, skew=0.5, overlap=0.65, curve=1, twist=0.35,
 //   bladeStroke=0.5, shadow=0.8 (stdDeviation=4)
-//
-// Theming: fill/stroke colours are driven by Tailwind's fill-* / stroke-*
-// utilities so the mark adapts to light and dark mode automatically.
+// Theming via Tailwind fill-*/stroke-* utilities (light/dark automatic).
 
 const R = 100;
 const N_BLADES = 7;
@@ -63,22 +61,6 @@ const COVER_POINTS = (() => {
   }).join(" ");
 })();
 
-// Outer decorative ring: thin circle at r=112 + 36 graduation tick marks.
-// 9 major ticks (every 40°, matching the 9 f-stop positions) + 27 minor ones.
-const RING_TICKS = Array.from({ length: 36 }, (_, i) => {
-  const angle = ((i * 10) / 180) * Math.PI;
-  const major = i % 4 === 0;
-  const r = 112;
-  const inner = r - (major ? 8 : 4);
-  return {
-    x1: r * Math.cos(angle),
-    y1: r * Math.sin(angle),
-    x2: inner * Math.cos(angle),
-    y2: inner * Math.sin(angle),
-    major,
-  };
-});
-
 interface LogoMarkProps {
   /** Render size in px. Default 80. */
   size?: number;
@@ -94,7 +76,7 @@ export default function LogoMark({
 }: LogoMarkProps) {
   return (
     <svg
-      viewBox="-125 -125 250 250"
+      viewBox="-112 -112 224 224"
       width={size}
       height={size}
       className={className}
@@ -156,26 +138,6 @@ export default function LogoMark({
         className="fill-stone-100 dark:fill-zinc-950"
       />
 
-      {/* Outer ring with graduation marks — very understated (opacity 0.2).
-          36 ticks in total: 9 major (at f-stop positions, 40° apart) and
-          27 minor. Suggests a physical aperture ring without being loud. */}
-      <g
-        className="stroke-zinc-900 dark:stroke-zinc-100"
-        opacity={0.2}
-        fill="none"
-      >
-        <circle r={112} strokeWidth={0.5} />
-        {RING_TICKS.map((tk, i) => (
-          <line
-            key={i}
-            x1={tk.x1}
-            y1={tk.y1}
-            x2={tk.x2}
-            y2={tk.y2}
-            strokeWidth={tk.major ? 0.75 : 0.4}
-          />
-        ))}
-      </g>
     </svg>
   );
 }
