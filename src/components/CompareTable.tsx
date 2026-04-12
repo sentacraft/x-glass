@@ -121,13 +121,13 @@ function LensHeader({
   onShiftRight: () => void;
 }) {
   return (
-    <th className="sticky top-0 z-20 bg-zinc-50 px-3 py-2 text-left dark:bg-zinc-900">
-      <div className="flex items-start justify-between gap-1">
+    <th className="group sticky top-0 z-20 bg-zinc-50 px-3 py-2 text-left dark:bg-zinc-900">
+      <div className="flex items-start justify-between gap-1 transition-opacity sm:opacity-0 sm:group-hover:opacity-100">
         <button
           type="button"
           onClick={onRemove}
           aria-label={removeLabel}
-          className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-zinc-300 transition-colors hover:bg-zinc-100 hover:text-zinc-600 dark:text-zinc-600 dark:hover:bg-zinc-800 dark:hover:text-zinc-300"
+          className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-zinc-300 transition-colors active:bg-red-50 active:text-red-500 hover:bg-red-50 hover:text-red-500 dark:text-zinc-600 dark:active:bg-red-950/30 dark:active:text-red-400 dark:hover:bg-red-950/30 dark:hover:text-red-400"
         >
           <X className="h-3.5 w-3.5" />
         </button>
