@@ -210,7 +210,7 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
   const truncatedUrl =
     shareUrl.length > 56 ? shareUrl.slice(0, 56) + "…" : shareUrl;
 
-  const lensCaption = lenses.map((l) => l.model).join(" · ");
+  const lensCaption = lenses.map((l) => l.model).join(" / ");
 
   const triggerLabel = (
     <>
