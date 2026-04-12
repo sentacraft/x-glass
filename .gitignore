@@ -48,5 +48,6 @@ next-env.d.ts
 # coding agents
 .agents/
 .claude/
+.playwright-mcp/
 skills-lock.json
 src/app/[[]locale[]]/design-lab/
