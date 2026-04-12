@@ -87,7 +87,7 @@ function LensHeader({
   onShiftRight: () => void;
 }) {
   return (
-    <th className="group relative sticky top-14 z-20 bg-zinc-50 px-3 py-1 text-left transition-colors sm:py-1.5 sm:group-hover:bg-zinc-100 dark:bg-zinc-900 dark:sm:group-hover:bg-zinc-800">
+    <th className="group relative z-20 bg-zinc-50 px-3 py-1 text-left transition-colors sm:py-1.5 sm:group-hover:bg-zinc-100 dark:bg-zinc-900 dark:sm:group-hover:bg-zinc-800">
       <div className="flex items-start justify-between gap-1 transition-opacity sm:absolute sm:inset-x-3 sm:top-1.5 sm:z-10 sm:opacity-0 sm:group-hover:opacity-100">
         <button
           type="button"
@@ -298,8 +298,6 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
 
   const totalColSpan = orderedLenses.length + 1;
 
-  const PHANTOM_HEADER_ENABLED = false;
-
   // --- Phantom sticky header ---
   const theadRef = useRef<HTMLTableSectionElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -351,7 +349,7 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
     <>
     {/* Phantom sticky header: h-0 so it takes no layout space; sticky (not fixed)
         so it bounces with content during iOS overscroll instead of staying put */}
-    {PHANTOM_HEADER_ENABLED && <div className="sticky top-14 z-20 h-0 overflow-x-clip">
+    <div className="sticky top-14 z-20 h-0 overflow-x-clip">
       <div
         className={`absolute left-0 right-0 top-0 transition-all duration-200 ${
           showPhantom
@@ -387,7 +385,7 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
       </div>
       </div>
       </div>
-    </div>}
+    </div>
     <div ref={containerRef} className="isolate overflow-x-auto overflow-y-clip rounded-xl border border-zinc-200 dark:border-zinc-800">
       <table
         className="w-full min-w-max table-fixed text-sm border-collapse"
@@ -404,7 +402,7 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
 
         <thead ref={theadRef}>
           <tr className="border-b border-zinc-200 dark:border-zinc-800">
-            <th className="sticky top-14 left-0 z-30 bg-zinc-50 px-3 py-3 dark:bg-zinc-900" />
+            <th className="sticky left-0 z-30 bg-zinc-50 px-3 py-3 dark:bg-zinc-900" />
             {orderedLenses.map((lens, index) => (
               <LensHeader
                 key={lens.id}
