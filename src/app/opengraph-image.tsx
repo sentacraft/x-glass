@@ -1,6 +1,8 @@
 import { ImageResponse } from "next/og";
 import { readFileSync, existsSync } from "fs";
 import { join, dirname } from "path";
+import { bladePath, coverPoints, R, BLADE_COUNT, STEP_DEG } from "@/lib/aperture";
+import { BRAND_LOGO } from "@/config/brand";
 
 /** Walk up directory tree until node_modules/<pkg>/<relPath> is found. */
 function resolvePackageFile(pkg: string, relPath: string): string {
@@ -18,10 +20,11 @@ export const alt = "X-Glass — Camera Lens Database";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-export default function OpenGraphImage() {
-  const logoPng = readFileSync(join(process.cwd(), "public/logo.png"));
-  const logoSrc = `data:image/png;base64,${logoPng.toString("base64")}`;
+const T = BRAND_LOGO.t;
+const bp = bladePath(T);
+const cp = coverPoints(T);
 
+export default function OpenGraphImage() {
   const geistBold = readFileSync(
     resolvePackageFile("geist", "dist/fonts/geist-sans/Geist-Bold.ttf")
   );
@@ -37,20 +40,32 @@ export default function OpenGraphImage() {
           flexDirection: "row",
           width: "1200px",
           height: "630px",
-          backgroundColor: "#FFFFFF",
+          backgroundColor: "#FAFAF9",
           alignItems: "center",
           padding: "80px",
         }}
       >
-        {/* Logo mark — the actual design PNG, pixel-perfect */}
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={logoSrc}
-          width={420}
-          height={420}
-          alt=""
+        {/* Aperture mark — inline SVG (Satori does not support mask/filter) */}
+        <svg
+          viewBox="-112 -112 224 224"
+          width={380}
+          height={380}
           style={{ flexShrink: 0 }}
-        />
+        >
+          {/* Clipping circle */}
+          <clipPath id="og-clip">
+            <circle r={R} />
+          </clipPath>
+          <g clipPath="url(#og-clip)">
+            {Array.from({ length: BLADE_COUNT }, (_, i) => (
+              <g key={i} transform={`rotate(${STEP_DEG * i})`}>
+                <path d={bp} fill="#18181b" />
+              </g>
+            ))}
+          </g>
+          {/* Cover polygon hides center */}
+          <polygon points={cp} fill="#FAFAF9" />
+        </svg>
 
         {/* Vertical divider */}
         <div
@@ -58,7 +73,7 @@ export default function OpenGraphImage() {
             width: "1px",
             height: "200px",
             backgroundColor: "#E5E5E5",
-            marginLeft: "40px",
+            marginLeft: "48px",
             flexShrink: 0,
           }}
         />

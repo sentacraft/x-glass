@@ -15,7 +15,7 @@ export default function Tagline() {
   if (!tagline) return null;
 
   return (
-    <span className="text-[11px] text-zinc-300 dark:text-zinc-700 tracking-wide select-none">
+    <span className="text-[11px] text-zinc-400 dark:text-zinc-600 tracking-wide select-none">
       {tagline}
     </span>
   );

@@ -1,9 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
 import LensSearchDialog from "@/components/LensSearchDialog";
+import LogoMark from "@/components/LogoMark";
 
 export default function Nav() {
   const t = useTranslations("Nav");
@@ -16,13 +16,7 @@ export default function Nav() {
           href="/"
           className="flex items-center gap-2 font-bold text-zinc-900 dark:text-zinc-50 text-base tracking-tight"
         >
-          <Image
-            src="/logo-compact.png"
-            alt=""
-            width={32}
-            height={32}
-            className="dark:invert"
-          />
+          <LogoMark size={32} uid="nav" />
           X-Glass
         </Link>
         <div className="flex items-center gap-3">

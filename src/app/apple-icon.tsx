@@ -1,14 +1,15 @@
 import { ImageResponse } from "next/og";
-import { readFileSync } from "fs";
-import { join } from "path";
+import { bladePath, coverPoints, R, BLADE_COUNT, STEP_DEG } from "@/lib/aperture";
+import { BRAND_LOGO } from "@/config/brand";
 
 export const size = { width: 180, height: 180 };
 export const contentType = "image/png";
 
-export default function AppleIcon() {
-  const logoPng = readFileSync(join(process.cwd(), "public/logo.png"));
-  const logoSrc = `data:image/png;base64,${logoPng.toString("base64")}`;
+const T = BRAND_LOGO.t;
+const bp = bladePath(T);
+const cp = coverPoints(T);
 
+export default function AppleIcon() {
   return new ImageResponse(
     (
       <div
@@ -21,8 +22,19 @@ export default function AppleIcon() {
           justifyContent: "center",
         }}
       >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={logoSrc} width={160} height={160} alt="" />
+        <svg viewBox="-112 -112 224 224" width={160} height={160}>
+          <clipPath id="ai-clip">
+            <circle r={R} />
+          </clipPath>
+          <g clipPath="url(#ai-clip)">
+            {Array.from({ length: BLADE_COUNT }, (_, i) => (
+              <g key={i} transform={`rotate(${STEP_DEG * i})`}>
+                <path d={bp} fill="#18181b" />
+              </g>
+            ))}
+          </g>
+          <polygon points={cp} fill="#ffffff" />
+        </svg>
       </div>
     ),
     { width: 180, height: 180 }
