@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback, useRef, useMemo, useEffect } from "react";
+import { savePreset, loadPreset } from "./actions";
 
 // ── Geometry ──────────────────────────────────────────────────────────────────
 
@@ -34,6 +35,7 @@ function buildBladePath(
   skew: number,
   overlap: number,
   curve: number,
+  twist: number,
 ): string {
   const step = (2 * Math.PI) / N;
   const rInner = R * (0.08 + 0.72 * t);
@@ -52,11 +54,16 @@ function buildBladePath(
   const ax1 = R * Math.cos(arcEnd);
   const ay1 = R * Math.sin(arcEnd);
 
+  // Twist: as the aperture closes (t→0) the inner polygon rotates by
+  // twist×step extra radians. Adjacent blades still share inner corners
+  // because the same offset is applied to both P2 and P3 of every blade.
+  const innerOffset = twist * (1 - t) * step;
+
   // Inner trailing corner (p2) and leading corner (p3).
-  const p2x = rInner * Math.cos(step * (1 + skew));
-  const p2y = rInner * Math.sin(step * (1 + skew));
-  const p3x = rInner * Math.cos(step * skew);
-  const p3y = rInner * Math.sin(step * skew);
+  const p2x = rInner * Math.cos(step * (1 + skew) + innerOffset);
+  const p2y = rInner * Math.sin(step * (1 + skew) + innerOffset);
+  const p3x = rInner * Math.cos(step * skew + innerOffset);
+  const p3y = rInner * Math.sin(step * skew + innerOffset);
 
   // Side-edge curves: each blade's two side edges (trailing: arcEnd→p2, leading:
   // p3→arcStart) get a quadratic bezier whose control point is pushed AWAY from
@@ -97,11 +104,13 @@ interface MarkProps {
   skew: number;
   overlap: number;
   curve: number;
+  twist: number;
   shadowIntensity: number;
   bladeStroke: number;
   ringStroke: number;
   showTicks: boolean;
   showDot: boolean;
+  showLabel: boolean;
   fill: string;
   gap: string;
   size: number;
@@ -115,19 +124,21 @@ function ApertureMark({
   skew,
   overlap,
   curve,
+  twist,
   shadowIntensity,
   bladeStroke,
   ringStroke,
   showTicks,
   showDot,
+  showLabel,
   fill,
   gap,
   size,
   uid,
 }: MarkProps) {
   const bladePath = useMemo(
-    () => buildBladePath(N, t, skew, overlap, curve),
-    [N, t, skew, overlap, curve],
+    () => buildBladePath(N, t, skew, overlap, curve, twist),
+    [N, t, skew, overlap, curve, twist],
   );
   const stepDeg = 360 / N;
   // Aperture opening radius — mirrors the formula in buildBladePath.
@@ -140,11 +151,12 @@ function ApertureMark({
   // the inner edges are straight chords, not arcs.
   const aperturePolygon = useMemo(() => {
     const step = (2 * Math.PI) / N;
+    const innerOffset = twist * (1 - t) * step;
     return Array.from({ length: N }, (_, i) => {
-      const a = i * step + skew * step;
+      const a = i * step + skew * step + innerOffset;
       return `${(rInner * Math.cos(a)).toFixed(3)},${(rInner * Math.sin(a)).toFixed(3)}`;
     }).join(" ");
-  }, [N, rInner, skew]);
+  }, [N, rInner, skew, twist, t]);
 
   const ticks = useMemo(() => {
     return Array.from({ length: N }, (_, i) => {
@@ -228,7 +240,20 @@ function ApertureMark({
         <circle r={R} fill="none" stroke={fill} strokeWidth={ringStroke} />
       )}
 
-      {/* Pivot tick marks inside the ring */}
+      {/* Single index mark at 12 o'clock — bridges inside/outside the ring,
+          mimicking the reference line on a real Fuji aperture ring. Shown
+          whenever the outer ring is visible. */}
+      {ringStroke > 0 && (
+        <line
+          x1={0} y1={-(R - 10)}
+          x2={0} y2={-(R + 8)}
+          stroke={fill}
+          strokeWidth={2}
+          strokeLinecap="round"
+        />
+      )}
+
+      {/* Pivot tick marks at each blade pivot position */}
       {showTicks &&
         ticks.map((tk) => (
           <line
@@ -242,16 +267,33 @@ function ApertureMark({
           />
         ))}
 
-      {/* Fuji-style red alignment rectangle at 12 o'clock */}
+      {/* Fuji-style red alignment tab at 3 o'clock (lens mount index) */}
       {showDot && (
         <rect
-          x={-4}
-          y={-(R + 4)}
+          x={R + 4}
+          y={-1.5}
           width={8}
           height={3}
           rx={0.5}
-          fill="#E60012"
+          fill="#C0452D"
         />
+      )}
+
+      {/* Fuji "A" (Auto) label next to the 12 o'clock index mark.
+          Visible at ≥32px render sizes; naturally disappears at favicon scale. */}
+      {showLabel && (
+        <text
+          x={5}
+          y={-(R + 5)}
+          fontSize={9}
+          fontWeight="bold"
+          fill="#C0452D"
+          fontFamily="sans-serif"
+          dominantBaseline="auto"
+          textAnchor="start"
+        >
+          A
+        </text>
       )}
     </svg>
   );
@@ -300,8 +342,20 @@ function Slider({
 const BLADE_OPTIONS = [5, 6, 7, 9] as const;
 const PREVIEW_SIZES = [16, 24, 32, 48, 64, 128] as const;
 
-const LIGHT = { fill: "#1f2937", gap: "#f3f4f6", bg: "#f3f4f6" };
-const DARK  = { fill: "#e5e7eb", gap: "#111827", bg: "#111827" };
+const LIGHT_BG = "#f3f4f6";
+const DARK_BG  = "#111827";
+
+function bladeColors(lightness: number) {
+  // lightness 0 = original dark/light fills; 1 = much lighter/darker
+  const lFill = Math.round(31 + lightness * 100);  // #1f(31) → ~131
+  const dFill = Math.round(229 - lightness * 100);  // #e5(229) → ~129
+  const lHex = `rgb(${lFill},${lFill + 4},${lFill + 8})`;
+  const dHex = `rgb(${dFill},${dFill + 2},${dFill + 3})`;
+  return {
+    light: { fill: lHex, gap: LIGHT_BG, bg: LIGHT_BG },
+    dark:  { fill: dHex, gap: DARK_BG,  bg: DARK_BG },
+  };
+}
 
 // Approximate displayed f-stop from openness parameter
 function fStop(t: number): string {
@@ -319,13 +373,18 @@ export default function LogoMarkLab() {
   const [skew, setSkew] = useState(0.3);
   const [overlap, setOverlap] = useState(0.15);
   const [curve, setCurve] = useState(0);
+  const [twist, setTwist] = useState(0.5);
   const [shadowIntensity, setShadowIntensity] = useState(0);
+  const [bladeLightness, setBladeLightness] = useState(0);
   const [showTicks, setShowTicks] = useState(false);
   const [showDot, setShowDot] = useState(true);
+  const [showLabel, setShowLabel] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [loaded, setLoaded] = useState(false);
 
   const animRef = useRef<number | null>(null);
   const startTRef = useRef(aperture);
+  const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const handleAnimate = useCallback(() => {
     if (isAnimating) {
@@ -379,7 +438,40 @@ export default function LogoMarkLab() {
     };
   }, []);
 
-  const markProps = { N, t: aperture, skew, overlap, curve, shadowIntensity, bladeStroke, ringStroke, showTicks, showDot };
+  // Load preset from disk on mount
+  useEffect(() => {
+    loadPreset().then((data) => {
+      if (!data) { setLoaded(true); return; }
+      if (typeof data.N === "number") setN(data.N);
+      if (typeof data.aperture === "number") setAperture(data.aperture);
+      if (typeof data.bladeStroke === "number") setBladeStroke(data.bladeStroke);
+      if (typeof data.ringStroke === "number") setRingStroke(data.ringStroke);
+      if (typeof data.skew === "number") setSkew(data.skew);
+      if (typeof data.overlap === "number") setOverlap(data.overlap);
+      if (typeof data.curve === "number") setCurve(data.curve);
+      if (typeof data.twist === "number") setTwist(data.twist);
+      if (typeof data.shadowIntensity === "number") setShadowIntensity(data.shadowIntensity);
+      if (typeof data.bladeLightness === "number") setBladeLightness(data.bladeLightness);
+      if (typeof data.showTicks === "boolean") setShowTicks(data.showTicks);
+      if (typeof data.showDot === "boolean") setShowDot(data.showDot);
+      if (typeof data.showLabel === "boolean") setShowLabel(data.showLabel);
+      setLoaded(true);
+    });
+  }, []);
+
+  // Debounced save: persist all params 500ms after last change
+  useEffect(() => {
+    if (!loaded) return;
+    if (saveTimer.current) clearTimeout(saveTimer.current);
+    saveTimer.current = setTimeout(() => {
+      savePreset({ N, aperture, bladeStroke, ringStroke, skew, overlap, curve, twist, shadowIntensity, bladeLightness, showTicks, showDot, showLabel });
+    }, 500);
+    return () => { if (saveTimer.current) clearTimeout(saveTimer.current); };
+  }, [loaded, N, aperture, bladeStroke, ringStroke, skew, overlap, curve, twist, shadowIntensity, bladeLightness, showTicks, showDot, showLabel]);
+
+  const colors = bladeColors(bladeLightness);
+  const themes = [colors.light, colors.dark] as const;
+  const markProps = { N, t: aperture, skew, overlap, curve, twist, shadowIntensity, bladeStroke, ringStroke, showTicks, showDot, showLabel };
 
   return (
     <main className="mx-auto max-w-7xl px-6 py-10">
@@ -399,7 +491,7 @@ export default function LogoMarkLab() {
         <div className="flex-1 min-w-0 space-y-4">
           {/* Main preview: light + dark cards */}
           <div className="flex gap-4">
-            {([LIGHT, DARK] as const).map((theme, idx) => (
+            {themes.map((theme, idx) => (
               <div
                 key={idx}
                 className="flex-1 flex items-center justify-center rounded-xl py-12"
@@ -421,7 +513,7 @@ export default function LogoMarkLab() {
             <p className="mb-4 text-xs font-medium text-gray-400 uppercase tracking-wider">
               Favicon / icon size preview
             </p>
-            {([LIGHT, DARK] as const).map((theme, tidx) => (
+            {themes.map((theme, tidx) => (
               <div key={tidx} className={`flex items-end gap-5 flex-wrap ${tidx === 1 ? "mt-4" : ""}`}>
                 {PREVIEW_SIZES.map((sz) => (
                   <div key={sz} className="flex flex-col items-center gap-1.5">
@@ -534,6 +626,15 @@ export default function LogoMarkLab() {
               display={curve === 0 ? "off" : curve.toFixed(2)}
             />
             <Slider
+              label="Closing twist"
+              value={twist}
+              min={0}
+              max={2}
+              step={0.05}
+              onChange={setTwist}
+              display={twist === 0 ? "off" : `${twist.toFixed(2)}×`}
+            />
+            <Slider
               label="Shadow intensity"
               value={shadowIntensity}
               min={0}
@@ -542,8 +643,17 @@ export default function LogoMarkLab() {
               onChange={setShadowIntensity}
               display={shadowIntensity === 0 ? "off" : shadowIntensity.toFixed(2)}
             />
+            <Slider
+              label="Blade lightness"
+              value={bladeLightness}
+              min={0}
+              max={1}
+              step={0.01}
+              onChange={setBladeLightness}
+              display={bladeLightness === 0 ? "default" : `+${(bladeLightness * 100).toFixed(0)}%`}
+            />
             <p className="text-xs text-gray-400 -mt-2">
-              Rake = diagonal sweep. Overlap = arc width (try 0.45+). Curve = side-edge convexity outward (try 0.3–0.6).
+              Lighten blades to make shadow visible on dark fills. Try 0.3–0.5 with shadow on.
             </p>
           </div>
 
@@ -566,6 +676,15 @@ export default function LogoMarkLab() {
                 className="rounded"
               />
               Show red alignment marker
+            </label>
+            <label className="flex items-center gap-2.5 text-sm text-gray-600 cursor-pointer select-none">
+              <input
+                type="checkbox"
+                checked={showLabel}
+                onChange={(e) => setShowLabel(e.target.checked)}
+                className="rounded"
+              />
+              Show "A" label (≥32px)
             </label>
           </div>
 
