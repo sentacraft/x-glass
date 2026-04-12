@@ -298,6 +298,9 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
 
   const totalColSpan = orderedLenses.length + 1;
 
+  // Set to true to re-enable once cross-browser testing confirms behavior.
+  const PHANTOM_HEADER_ENABLED = false;
+
   // --- Phantom sticky header ---
   const theadRef = useRef<HTMLTableSectionElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -349,7 +352,7 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
     <>
     {/* Phantom sticky header: h-0 so it takes no layout space; sticky (not fixed)
         so it bounces with content during iOS overscroll instead of staying put */}
-    <div className="sticky top-14 z-20 h-0 overflow-x-clip">
+    {PHANTOM_HEADER_ENABLED && <div className="sticky top-14 z-20 h-0 overflow-x-clip">
       <div
         className={`absolute left-0 right-0 top-0 transition-all duration-200 ${
           showPhantom
@@ -385,7 +388,7 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
       </div>
       </div>
       </div>
-    </div>
+    </div>}
     <div ref={containerRef} className="isolate overflow-x-auto overflow-y-clip rounded-xl border border-zinc-200 dark:border-zinc-800">
       <table
         className="w-full min-w-max table-fixed text-sm border-collapse"
