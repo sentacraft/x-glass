@@ -121,23 +121,23 @@ function LensHeader({
   onShiftRight: () => void;
 }) {
   return (
-    <th className="group sticky top-0 z-20 bg-zinc-50 px-3 py-2 text-left dark:bg-zinc-900">
+    <th className="group sticky top-0 z-20 bg-zinc-50 px-3 py-2 text-left transition-colors sm:group-hover:bg-zinc-100 dark:bg-zinc-900 dark:sm:group-hover:bg-zinc-800">
       <div className="flex items-start justify-between gap-1 transition-opacity sm:opacity-0 sm:group-hover:opacity-100">
         <button
           type="button"
           onClick={onRemove}
           aria-label={removeLabel}
-          className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-zinc-300 transition-colors active:bg-red-50 active:text-red-500 hover:bg-red-50 hover:text-red-500 dark:text-zinc-600 dark:active:bg-red-950/30 dark:active:text-red-400 dark:hover:bg-red-950/30 dark:hover:text-red-400"
+          className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-zinc-400 transition-colors active:bg-red-50 active:text-red-500 hover:bg-red-50 hover:text-red-500 dark:text-zinc-500 dark:active:bg-red-950/30 dark:active:text-red-400 dark:hover:bg-red-950/30 dark:hover:text-red-400"
         >
           <X className="h-3.5 w-3.5" />
         </button>
-        <div className="ml-auto flex items-center gap-0.5">
+        <div className="ml-auto flex items-center gap-2">
           <button
             type="button"
             onClick={onShiftLeft}
             disabled={!canShiftLeft}
             aria-label={shiftLeftLabel}
-            className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-zinc-400 transition-colors hover:bg-zinc-100 hover:text-zinc-700 disabled:cursor-default disabled:opacity-30 disabled:hover:bg-transparent dark:text-zinc-500 dark:hover:bg-zinc-800 dark:hover:text-zinc-200"
+            className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-zinc-500 transition-colors hover:bg-zinc-200 hover:text-zinc-700 disabled:cursor-default disabled:opacity-30 disabled:hover:bg-transparent dark:text-zinc-400 dark:hover:bg-zinc-700 dark:hover:text-zinc-200"
           >
             <ChevronLeft className="h-3.5 w-3.5" />
           </button>
@@ -146,7 +146,7 @@ function LensHeader({
             onClick={onShiftRight}
             disabled={!canShiftRight}
             aria-label={shiftRightLabel}
-            className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-zinc-400 transition-colors hover:bg-zinc-100 hover:text-zinc-700 disabled:cursor-default disabled:opacity-30 disabled:hover:bg-transparent dark:text-zinc-500 dark:hover:bg-zinc-800 dark:hover:text-zinc-200"
+            className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-zinc-500 transition-colors hover:bg-zinc-200 hover:text-zinc-700 disabled:cursor-default disabled:opacity-30 disabled:hover:bg-transparent dark:text-zinc-400 dark:hover:bg-zinc-700 dark:hover:text-zinc-200"
           >
             <ChevronRight className="h-3.5 w-3.5" />
           </button>
