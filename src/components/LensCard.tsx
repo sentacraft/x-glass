@@ -159,7 +159,7 @@ export default function LensCard({
           size="sm"
           onClick={onToggle}
           disabled={selectionDisabled}
-          className={`w-full h-8 sm:h-9 text-xs font-medium ${
+          className={`w-full h-10 sm:h-9 text-xs font-medium ${
             isSelected
               ? "bg-blue-500 text-white hover:bg-blue-600"
               : selectionDisabled
