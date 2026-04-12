@@ -38,6 +38,49 @@ export interface BrandExportValues {
 }
 
 /**
+ * Read current numeric values from a named `export const <presetName> = { … }` block
+ * in brand.ts. Returns null if the preset cannot be found or parsed.
+ */
+export async function readFromBrand(
+  presetName: "BRAND_LOGO" | "BRAND_LOGO_SM",
+): Promise<BrandExportValues | null> {
+  try {
+    const content = await readFile(BRAND_PATH, "utf-8");
+
+    const startPattern = new RegExp(`export const ${presetName}[^=]*=\\s*\\{`);
+    const startMatch = startPattern.exec(content);
+    if (!startMatch) return null;
+
+    const bodyStart = startMatch.index + startMatch[0].length;
+    let depth = 1, bodyEnd = bodyStart;
+    while (bodyEnd < content.length && depth > 0) {
+      if (content[bodyEnd] === "{") depth++;
+      if (content[bodyEnd] === "}") depth--;
+      bodyEnd++;
+    }
+    const body = content.slice(bodyStart, bodyEnd - 1);
+
+    function extract(key: string): number {
+      const m = new RegExp(`\\b${key}:\\s*([\\d.]+)`).exec(body);
+      return m ? parseFloat(m[1]) : 0;
+    }
+
+    return {
+      N:                  extract("N"),
+      t:                  extract("t"),
+      halfSpread:         extract("halfSpread"),
+      overlap:            extract("overlap"),
+      curve:              extract("curve"),
+      twist:              extract("twist"),
+      bladeStrokeWidth:   extract("bladeStrokeWidth"),
+      shadowStdDeviation: extract("shadowStdDeviation"),
+    };
+  } catch {
+    return null;
+  }
+}
+
+/**
  * Patch numeric values inside a named `export const <presetName> = { … }` block
  * in brand.ts. Uses string replacement scoped to that object's body so
  * BRAND_LOGO and BRAND_LOGO_SM don't interfere with each other.
