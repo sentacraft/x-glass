@@ -28,6 +28,7 @@ interface ShareButtonProps {
 export function ShareButton({ lenses }: ShareButtonProps) {
   const t = useTranslations("Share");
   const tImage = useTranslations("ShareImage");
+  const tBrand = useTranslations("Brands");
   const [open, setOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const [isDesktop, setIsDesktop] = useState(true);
@@ -209,7 +210,7 @@ export function ShareButton({ lenses }: ShareButtonProps) {
   const truncatedUrl =
     shareUrl.length > 56 ? shareUrl.slice(0, 56) + "…" : shareUrl;
 
-  const lensCaption = lenses.map((l) => `${l.brand} · ${l.model}`).join(" / ");
+  const lensCaption = lenses.map((l) => `${tBrand(l.brand)} · ${l.model}`).join(" / ");
 
   const triggerLabel = (
     <>
@@ -236,7 +237,7 @@ export function ShareButton({ lenses }: ShareButtonProps) {
         <h2 className="text-base font-semibold text-zinc-900 dark:text-zinc-50">
           {t("title")}
         </h2>
-        <p className="truncate text-xs text-zinc-400 dark:text-zinc-500">
+        <p className="text-xs leading-relaxed text-zinc-400 dark:text-zinc-500">
           {lensCaption}
         </p>
       </div>
