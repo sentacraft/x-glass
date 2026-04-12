@@ -1,13 +1,15 @@
 import { ImageResponse } from "next/og";
-import { bladePath, coverPoints, R, BLADE_COUNT, STEP_DEG } from "@/lib/aperture";
+import { bladePath, coverPoints, R } from "@/lib/aperture";
 import { BRAND_LOGO } from "@/config/brand";
 
 export const size = { width: 180, height: 180 };
 export const contentType = "image/png";
 
 const T = BRAND_LOGO.t;
-const bp = bladePath(T);
-const cp = coverPoints(T);
+const BLADE_COUNT = BRAND_LOGO.N;
+const STEP_DEG = 360 / BLADE_COUNT;
+const bp = bladePath(T, BRAND_LOGO);
+const cp = coverPoints(T, BRAND_LOGO);
 
 export default function AppleIcon() {
   return new ImageResponse(
