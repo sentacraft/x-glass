@@ -389,7 +389,7 @@ export function ShareButton({ lenses }: ShareButtonProps) {
                 customOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
               )}
             >
-              <div className="overflow-hidden">
+              <div className="min-h-0 overflow-hidden">
                 <div className="flex flex-col gap-3 pb-3 pt-1">
                   <div className="flex flex-col gap-1">
                     <label className="text-xs text-zinc-400 dark:text-zinc-500">
