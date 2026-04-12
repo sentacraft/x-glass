@@ -90,7 +90,7 @@ export default function LensListClient({ lenses }: Props) {
             onFiltersChange={setFilters}
           />
           <div>
-            <div className="flex items-center justify-between gap-3">
+            <div className="flex flex-wrap items-center gap-3">
               <div className="flex items-center gap-3 text-sm text-zinc-500 dark:text-zinc-400">
                 <p className="whitespace-nowrap">{t("resultsCount", { count: displayed.length })}</p>
                 {hasActiveFilters ? (
@@ -104,7 +104,7 @@ export default function LensListClient({ lenses }: Props) {
                 ) : null}
               </div>
 
-              <div className="inline-flex items-center gap-0.5 self-start rounded-full border border-zinc-200/70 bg-white/80 p-0.75 shadow-sm shadow-zinc-950/[0.02] dark:border-zinc-800 dark:bg-zinc-900/30 sm:self-auto">
+              <div className="ml-auto inline-flex items-center gap-0.5 rounded-full border border-zinc-200/70 bg-white/80 p-0.75 shadow-sm shadow-zinc-950/[0.02] dark:border-zinc-800 dark:bg-zinc-900/30">
                 <label
                   htmlFor="results-sort"
                   className="whitespace-nowrap pl-2.5 text-[10px] font-medium uppercase tracking-[0.08em] text-zinc-500 dark:text-zinc-400"
