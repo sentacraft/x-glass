@@ -54,16 +54,25 @@ function StructuredLines({ lines }: { lines: StructuredLine[] }) {
 function renderRowValue(
   row: SpecRow,
   lens: Lens,
-  labels: { yes: string; no: string; unknown: string; missing: string }
+  labels: { yes: string; no: string; partial: string; unknown: string; missing: string }
 ) {
   if (row.kind === "bool") {
+    const subVal = row.getSubValue?.(lens);
     return (
-      <BoolCell
-        value={row.getValue(lens)}
-        yes={labels.yes}
-        no={labels.no}
-        unknown={labels.unknown}
-      />
+      <div>
+        <BoolCell
+          value={row.getValue(lens)}
+          yes={labels.yes}
+          no={labels.no}
+          partial={labels.partial}
+          unknown={labels.unknown}
+        />
+        {subVal && (
+          <p className="mt-0.5 text-[11px] leading-relaxed text-zinc-400 dark:text-zinc-500">
+            {subVal}
+          </p>
+        )}
+      </div>
     );
   }
   const structuredLines = row.kind === "numeric" ? row.getStructuredLines?.(lens) : undefined;
@@ -184,6 +193,7 @@ export default async function LensDetailPage({ params }: { params: Params }) {
   const valueCellLabels = {
     yes: t("yes"),
     no: t("no"),
+    partial: t("partial"),
     unknown: t("unknown"),
     missing: t("missing"),
   };
@@ -197,9 +207,11 @@ export default async function LensDetailPage({ params }: { params: Params }) {
         currentValue =
           v === true
             ? valueCellLabels.yes
-            : v === false
-              ? valueCellLabels.no
-              : valueCellLabels.unknown;
+            : v === "partial"
+              ? valueCellLabels.partial
+              : v === false
+                ? valueCellLabels.no
+                : valueCellLabels.unknown;
       } else {
         currentValue = row.getDisplayValue(lens) ?? undefined;
       }

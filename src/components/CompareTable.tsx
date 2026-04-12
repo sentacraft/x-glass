@@ -158,6 +158,7 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
   const valueCellLabels = {
     yes: td("yes"),
     no: td("no"),
+    partial: td("partial"),
     unknown: td("unknown"),
     missing: td("missing"),
   };
@@ -283,9 +284,11 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
             currentValue =
               v === true
                 ? valueCellLabels.yes
-                : v === false
-                  ? valueCellLabels.no
-                  : valueCellLabels.unknown;
+                : v === "partial"
+                  ? valueCellLabels.partial
+                  : v === false
+                    ? valueCellLabels.no
+                    : valueCellLabels.unknown;
           } else {
             currentValue = row.getDisplayValue(lens) ?? undefined;
           }
@@ -471,18 +474,27 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
                           row.getNote?.(lens);
 
                         if (row.kind === "bool") {
+                          const subVal = row.getSubValue?.(lens);
                           return (
                             <td
                               key={lens.id}
                               className="px-3 py-3 text-center text-zinc-700 dark:text-zinc-300"
                             >
                               <div className="flex items-center justify-center gap-1">
-                                <BoolCell
-                                  value={row.getValue(lens)}
-                                  yes={valueCellLabels.yes}
-                                  no={valueCellLabels.no}
-                                  unknown={valueCellLabels.unknown}
-                                />
+                                <div>
+                                  <BoolCell
+                                    value={row.getValue(lens)}
+                                    yes={valueCellLabels.yes}
+                                    no={valueCellLabels.no}
+                                    partial={valueCellLabels.partial}
+                                    unknown={valueCellLabels.unknown}
+                                  />
+                                  {subVal && (
+                                    <p className="mt-0.5 text-[11px] leading-relaxed font-normal text-zinc-400 dark:text-zinc-500">
+                                      {subVal}
+                                    </p>
+                                  )}
+                                </div>
                                 {fieldNote && (
                                   <FieldNotePopover note={fieldNote} />
                                 )}
