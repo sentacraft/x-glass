@@ -323,12 +323,26 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
     const container = containerRef.current;
     const thead = theadRef.current;
     if (!container || !thead) return;
+
+    const updateSectionCenter = () => {
+      // Center of the visible content pane (everything right of the sticky label
+      // column), expressed as a position in table coordinate space so that
+      // absolutely-positioned section labels always appear in the middle of the
+      // non-sticky viewport area regardless of horizontal scroll.
+      const firstTh = thead.querySelector("th");
+      const labelColW = firstTh ? firstTh.offsetWidth : 96;
+      const center =
+        container.scrollLeft + labelColW + (container.clientWidth - labelColW) / 2;
+      container.style.setProperty("--section-center", `${center}px`);
+    };
+
     const update = () => {
       const row = thead.querySelector("tr");
       if (row) {
         const cells = row.querySelectorAll("th");
         setColWidths(Array.from(cells).map((c) => c.getBoundingClientRect().width));
       }
+      updateSectionCenter();
     };
     update();
     const observer = new ResizeObserver(update);
@@ -338,11 +352,18 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
 
   useEffect(() => {
     const container = containerRef.current;
-    if (!container) return;
+    const thead = theadRef.current;
+    if (!container || !thead) return;
     const onScroll = () => {
       if (phantomInnerRef.current) {
         phantomInnerRef.current.style.transform = `translateX(-${container.scrollLeft}px)`;
       }
+      // Keep section labels centered in the visible content pane
+      const firstTh = thead.querySelector("th");
+      const labelColW = firstTh ? firstTh.offsetWidth : 96;
+      const center =
+        container.scrollLeft + labelColW + (container.clientWidth - labelColW) / 2;
+      container.style.setProperty("--section-center", `${center}px`);
     };
     container.addEventListener("scroll", onScroll, { passive: true });
     return () => container.removeEventListener("scroll", onScroll);
@@ -427,12 +448,22 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
           {visibleGroups.map((group) => {
             return (
               <React.Fragment key={group.label}>
-                {/* Group header row: sticky anchor cell holds the label column,
-                    content cell spans the lens columns and centers the label. */}
+                {/* Group header row.
+                    The label is absolutely positioned at --section-center (updated
+                    on scroll/resize) so it stays centered in the visible content
+                    pane regardless of horizontal scroll position. */}
                 <tr className="border-b border-zinc-100 bg-zinc-100/80 dark:border-zinc-800/60 dark:bg-zinc-800/60">
-                  <td className="sticky left-0 z-10 bg-zinc-100/80 dark:bg-zinc-800/60" />
-                  <td colSpan={orderedLenses.length} className="py-2 text-center">
-                    <span className="text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+                  <td colSpan={totalColSpan} className="relative h-8">
+                    <span
+                      style={{
+                        position: "absolute",
+                        top: "50%",
+                        left: "var(--section-center, 50%)",
+                        transform: "translate(-50%, -50%)",
+                        whiteSpace: "nowrap",
+                      }}
+                      className="text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400"
+                    >
                       {group.label}
                     </span>
                   </td>
