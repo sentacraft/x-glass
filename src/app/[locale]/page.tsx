@@ -25,9 +25,6 @@ export default function Home() {
         <p className="mt-4 text-lg text-zinc-500 dark:text-zinc-400 max-w-sm">
           {t("appDesc")}
         </p>
-        <span className="mt-3 inline-block px-2 py-0.5 rounded-full border border-zinc-200 dark:border-zinc-800 text-[10px] font-mono text-zinc-400 dark:text-zinc-600 select-none">
-          {t("zeroHallucination")}
-        </span>
         <div className="mt-8 flex flex-col items-center gap-0">
           <Link
             href="/lenses"

@@ -1,8 +1,7 @@
 {
   "Common": {
     "appName": "X-Glass",
-    "appDesc": "Lens data, normalized.",
-    "zeroHallucination": "0 hallucination"
+    "appDesc": "Lens data, normalized."
   },
   "Nav": {
     "lenses": "Lenses",
@@ -34,7 +33,7 @@
   "Home": {
     "cta": "Browse Lenses",
     "dataSnapshot": "lens.json loaded ✓",
-    "dataSnapshotCount": "{count} lenses · {brands} brands",
+    "dataSnapshotCount": "{count} lenses · {brands} brands · 0 hallucination",
     "dataSnapshotDate": "{date}",
     "dataTooltip": "Verified from manufacturer data. No AI-generated specs."
   },
