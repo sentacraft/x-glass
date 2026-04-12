@@ -2,6 +2,7 @@
 
 import type { Ref } from "react";
 import QRCode from "react-qr-code";
+import LogoMark from "@/components/LogoMark";
 import { FEATURE_ICONS } from "@/lib/feature-icons";
 import type { Lens } from "@/lib/types";
 import { cn } from "@/lib/utils";
@@ -250,12 +251,7 @@ export function SharePoster({ lenses, labels, custom, shareUrl, ref }: SharePost
       <div style={{ padding: `24px ${POSTER_PX}px 20px`, display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
         {/* Left: logo mark + title + optional slogan */}
         <div>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/logo-compact.png"
-            alt={labels.appName}
-            style={{ width: 32, height: 32, display: "block", marginBottom: 10 }}
-          />
+          <LogoMark size={32} uid="poster" className="mb-[10px]" />
           <div
             style={{
               fontSize: slogan ? 22 : 36,
