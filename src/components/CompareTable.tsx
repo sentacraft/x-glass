@@ -347,14 +347,16 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
 
   return (
     <>
-    {/* Phantom sticky header: appears when real thead scrolls behind nav */}
-    <div
-      className={`fixed top-14 left-0 right-0 z-20 transition-all duration-200 ${
-        showPhantom
-          ? "opacity-100 translate-y-0"
-          : "opacity-0 -translate-y-1 pointer-events-none"
-      }`}
-    >
+    {/* Phantom sticky header: h-0 so it takes no layout space; sticky (not fixed)
+        so it bounces with content during iOS overscroll instead of staying put */}
+    <div className="sticky top-14 z-20 h-0 overflow-visible">
+      <div
+        className={`absolute left-0 right-0 top-0 transition-all duration-200 ${
+          showPhantom
+            ? "opacity-100 translate-y-0"
+            : "opacity-0 -translate-y-1 pointer-events-none"
+        }`}
+      >
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
       <div className="overflow-hidden border-b border-zinc-200 bg-white/95 backdrop-blur-sm dark:border-zinc-800 dark:bg-zinc-950/95">
       <div ref={phantomInnerRef} className="flex">
@@ -375,6 +377,7 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
             </p>
           </div>
         ))}
+      </div>
       </div>
       </div>
       </div>
