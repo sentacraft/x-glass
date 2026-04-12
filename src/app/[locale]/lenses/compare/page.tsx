@@ -37,9 +37,17 @@ export default async function ComparePage({
 
   if (lenses.length === 0) {
     return (
-      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 py-16 flex flex-col items-center gap-4 text-center">
-        <p className="text-zinc-500 dark:text-zinc-400">{t("noLenses")}</p>
-        <Link href="/lenses" className="text-sm text-blue-500 hover:underline">
+      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 py-24 flex flex-col items-center gap-3 text-center">
+        <p className="text-5xl font-bold text-zinc-200 dark:text-zinc-800 select-none">
+          {t("emptyHeading")}
+        </p>
+        <p className="text-sm text-zinc-400 dark:text-zinc-600">
+          {t("emptySubtext")}
+        </p>
+        <Link
+          href="/lenses"
+          className="mt-4 text-sm text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 transition-colors"
+        >
           ← {t("backToLenses")}
         </Link>
       </div>
