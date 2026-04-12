@@ -387,36 +387,34 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
             {/* Expandable content: in DOM before the trigger so it appears above */}
             <div
               className={cn(
-                "grid transition-[grid-template-rows] duration-200 ease-out",
-                customOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+                "overflow-hidden transition-[max-height] duration-200 ease-out",
+                customOpen ? "max-h-48" : "max-h-0"
               )}
             >
-              <div className="min-h-0 overflow-hidden">
-                <div className="flex flex-col gap-3 pb-3 pt-1">
-                  <div className="flex flex-col gap-1">
-                    <label className="text-xs text-zinc-400 dark:text-zinc-500">
-                      {t("customizeTitle")}
-                    </label>
-                    <input
-                      type="text"
-                      value={customTitle}
-                      onChange={(e) => setCustomTitle(e.target.value)}
-                      placeholder={tImage("comparison")}
-                      className={inputClass}
-                    />
-                  </div>
-                  <div className="flex flex-col gap-1">
-                    <label className="text-xs text-zinc-400 dark:text-zinc-500">
-                      {t("customizeSlogan")}
-                    </label>
-                    <input
-                      type="text"
-                      value={customSlogan}
-                      onChange={(e) => setCustomSlogan(e.target.value)}
-                      placeholder={t("customizeSloganPlaceholder")}
-                      className={inputClass}
-                    />
-                  </div>
+              <div className="flex flex-col gap-3 pb-3 pt-1">
+                <div className="flex flex-col gap-1">
+                  <label className="text-xs text-zinc-400 dark:text-zinc-500">
+                    {t("customizeTitle")}
+                  </label>
+                  <input
+                    type="text"
+                    value={customTitle}
+                    onChange={(e) => setCustomTitle(e.target.value)}
+                    placeholder={tImage("comparison")}
+                    className={inputClass}
+                  />
+                </div>
+                <div className="flex flex-col gap-1">
+                  <label className="text-xs text-zinc-400 dark:text-zinc-500">
+                    {t("customizeSlogan")}
+                  </label>
+                  <input
+                    type="text"
+                    value={customSlogan}
+                    onChange={(e) => setCustomSlogan(e.target.value)}
+                    placeholder={t("customizeSloganPlaceholder")}
+                    className={inputClass}
+                  />
                 </div>
               </div>
             </div>
