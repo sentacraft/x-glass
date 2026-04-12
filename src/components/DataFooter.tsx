@@ -32,7 +32,10 @@ export default function DataInfo() {
 
   return (
     <div className="flex flex-col items-center gap-0.5 mt-3">
-      <p className="text-xs text-zinc-400 dark:text-zinc-500 font-mono">
+      <p
+        className="text-xs text-zinc-400 dark:text-zinc-500 font-mono"
+        title={h("dataTooltip")}
+      >
         {h("dataSnapshotCount", { count: meta.lensCount, brands: brandCount })}
       </p>
       <p

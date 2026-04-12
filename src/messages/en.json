@@ -1,7 +1,8 @@
 {
   "Common": {
     "appName": "X-Glass",
-    "appDesc": "Lens data, normalized."
+    "appDesc": "Lens data, normalized.",
+    "zeroHallucination": "0 hallucination"
   },
   "Nav": {
     "lenses": "Lenses",
@@ -34,7 +35,8 @@
     "cta": "Browse Lenses",
     "dataSnapshot": "lens.json loaded ✓",
     "dataSnapshotCount": "{count} lenses · {brands} brands",
-    "dataSnapshotDate": "{date}"
+    "dataSnapshotDate": "{date}",
+    "dataTooltip": "Verified from manufacturer data. No AI-generated specs."
   },
   "LensList": {
     "title": "Lenses",
@@ -197,6 +199,8 @@
     "title": "Compare",
     "backToLenses": "Back to Lenses",
     "noLenses": "No lenses selected. Go back and pick some to compare.",
+    "emptyHeading": "it depends.",
+    "emptySubtext": "No best lens. Trade-offs everywhere.",
     "officialSite": "Official site",
     "buildCompare": "Build Your Compare Set",
     "buildCompareHint": "{count} of {max} slots filled. Add or remove lenses here before reviewing the full table.",
@@ -330,7 +334,9 @@
     "dataInfo": "Data · {lensCount} lenses ·",
     "updatedPrefix": "Updated",
     "tagline1": "Data over opinions",
-    "tagline2": "Glass matters"
+    "tagline2": "Glass matters",
+    "tagline3": "aperture ring > mode dial",
+    "tagline4": "f/2 feels right"
   },
   "Feedback": {
     "titleDataIssue": "Report a data issue",

@@ -8,7 +8,8 @@ export default function Tagline() {
   const [tagline, setTagline] = useState<string | null>(null);
 
   useEffect(() => {
-    setTagline(Math.random() < 0.5 ? t("tagline1") : t("tagline2"));
+    const taglines = [t("tagline1"), t("tagline2"), t("tagline3"), t("tagline4")];
+    setTagline(taglines[Math.floor(Math.random() * taglines.length)]);
   }, [t]);
 
   if (!tagline) return null;

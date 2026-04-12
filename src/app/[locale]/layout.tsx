@@ -3,6 +3,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { routing } from "@/i18n/routing";
 import Nav from "@/components/Nav";
+import ConsoleEgg from "@/components/ConsoleEgg";
 import TestHookPanel from "@/components/TestHookPanel";
 import { CompareProvider } from "@/context/CompareProvider";
 import { TestHookProvider } from "@/context/TestHookProvider";
@@ -48,6 +49,7 @@ export default async function LocaleLayout({
     >
       <NextIntlClientProvider messages={messages}>
         <CompareProvider>
+          <ConsoleEgg />
           <Nav />
           {TESTHOOK_ALLOWED ? (
             <TestHookProvider>
