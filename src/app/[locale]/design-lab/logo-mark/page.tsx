@@ -380,9 +380,21 @@ function ApertureRingControl({
     return best;
   }
 
+  // Each label slot is RING_SPACING wide; the label text is centered within
+  // that slot. So label i's visual center is at: offset + (i + 0.5) * RING_SPACING.
+  // To center label i under the indicator (at w/2):
+  //   offset = w/2 - (i + 0.5) * RING_SPACING
   function offsetForIndex(i: number) {
     const w = containerRef.current?.offsetWidth ?? 400;
-    return w / 2 - i * RING_SPACING;
+    return w / 2 - (i + 0.5) * RING_SPACING;
+  }
+
+  // Nearest label index for a given strip offset:
+  //   i + 0.5 = (w/2 - offset) / RING_SPACING  →  i = ... - 0.5
+  function nearestIndex(rawOffset: number) {
+    const w = containerRef.current?.offsetWidth ?? 400;
+    const idx = Math.round((w / 2 - rawOffset) / RING_SPACING - 0.5);
+    return Math.max(0, Math.min(RING_VALUES.length - 1, idx));
   }
 
   // Sync strip position when value is changed externally (slider, preset load)
@@ -398,16 +410,6 @@ function ApertureRingControl({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  function snapToNearest(rawOffset: number) {
-    const w = containerRef.current?.offsetWidth ?? 400;
-    const idx = Math.round((w / 2 - rawOffset) / RING_SPACING);
-    const clamped = Math.max(0, Math.min(RING_VALUES.length - 1, idx));
-    setSnapping(true);
-    setOffset(w / 2 - clamped * RING_SPACING);
-    onChange(RING_VALUES[clamped].t);
-    setTimeout(() => setSnapping(false), 220);
-  }
-
   function onPointerDown(e: React.PointerEvent<HTMLDivElement>) {
     e.currentTarget.setPointerCapture(e.pointerId);
     isDragging.current = true;
@@ -417,7 +419,10 @@ function ApertureRingControl({
 
   function onPointerMove(e: React.PointerEvent<HTMLDivElement>) {
     if (!isDragging.current || !dragStart.current) return;
-    setOffset(dragStart.current.offset + (e.clientX - dragStart.current.x));
+    const newOffset = dragStart.current.offset + (e.clientX - dragStart.current.x);
+    setOffset(newOffset);
+    // Real-time aperture update while dragging
+    onChange(RING_VALUES[nearestIndex(newOffset)].t);
   }
 
   function onPointerUp(e: React.PointerEvent<HTMLDivElement>) {
@@ -425,77 +430,82 @@ function ApertureRingControl({
     const newOffset = dragStart.current.offset + (e.clientX - dragStart.current.x);
     isDragging.current = false;
     dragStart.current = null;
-    snapToNearest(newOffset);
+    // Snap to the nearest label center
+    const idx = nearestIndex(newOffset);
+    setSnapping(true);
+    setOffset(offsetForIndex(idx));
+    onChange(RING_VALUES[idx].t);
+    setTimeout(() => setSnapping(false), 220);
   }
 
   return (
-    <div
-      ref={containerRef}
-      className="relative rounded-xl overflow-hidden select-none cursor-grab active:cursor-grabbing"
-      style={{ height: 52, backgroundColor: "#1a1a1a" }}
-      onPointerDown={onPointerDown}
-      onPointerMove={onPointerMove}
-      onPointerUp={onPointerUp}
-    >
-      {/* Subtle top highlight for depth */}
-      <div className="absolute inset-x-0 top-0 h-px" style={{ background: "rgba(255,255,255,0.08)" }} />
-
-      {/* Labels strip — masked at edges for cylinder-wrap illusion */}
+    // Outer wrapper provides `relative` context so the above-bar tick can use
+    // `bottom: 100%` to escape the overflow:hidden inner container.
+    <div className="relative">
+      {/* Indicator tick above the bar */}
       <div
-        className="absolute inset-0"
-        style={{
-          maskImage:
-            "linear-gradient(to right, transparent 0%, black 18%, black 82%, transparent 100%)",
-          WebkitMaskImage:
-            "linear-gradient(to right, transparent 0%, black 18%, black 82%, transparent 100%)",
-        }}
-      >
-        <div
-          className="absolute top-0 h-full flex items-center"
-          style={{
-            left: offset,
-            transition: snapping ? "left 0.2s ease-out" : "none",
-            willChange: "left",
-          }}
-        >
-          {RING_VALUES.map((v) => (
-            <div
-              key={v.label}
-              className="flex items-center justify-center font-bold text-sm tabular-nums"
-              style={{
-                width: RING_SPACING,
-                color: v.label === "A" ? "#C0452D" : "white",
-                letterSpacing: "0.02em",
-              }}
-            >
-              {v.label}
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Fixed indicator line at center — sits above the faded strip */}
-      <div
-        className="absolute inset-y-0 pointer-events-none"
-        style={{ left: "50%", transform: "translateX(-50%)", width: 1 }}
-      >
-        {/* Top tick extending above the bar */}
-        <div className="absolute w-full bg-white" style={{ top: 0, height: "100%" }} />
-      </div>
-
-      {/* Small indicator notch at the bottom center */}
-      <div
-        className="absolute bottom-0 pointer-events-none"
+        className="absolute pointer-events-none bg-white"
         style={{
           left: "50%",
+          bottom: "100%",
           transform: "translateX(-50%)",
-          width: 0,
-          height: 0,
-          borderLeft: "4px solid transparent",
-          borderRight: "4px solid transparent",
-          borderBottom: "5px solid rgba(255,255,255,0.6)",
+          width: 1,
+          height: 8,
+          marginBottom: 2,
         }}
       />
+
+      <div
+        ref={containerRef}
+        className="relative rounded-xl overflow-hidden select-none cursor-grab active:cursor-grabbing"
+        style={{ height: 52, backgroundColor: "#1a1a1a" }}
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={onPointerUp}
+      >
+        {/* Subtle top highlight for depth */}
+        <div className="absolute inset-x-0 top-0 h-px" style={{ background: "rgba(255,255,255,0.08)" }} />
+
+        {/* Labels strip — masked at edges for cylinder-wrap illusion */}
+        <div
+          className="absolute inset-0"
+          style={{
+            maskImage:
+              "linear-gradient(to right, transparent 0%, black 18%, black 82%, transparent 100%)",
+            WebkitMaskImage:
+              "linear-gradient(to right, transparent 0%, black 18%, black 82%, transparent 100%)",
+          }}
+        >
+          <div
+            className="absolute top-0 h-full flex items-center"
+            style={{
+              left: offset,
+              transition: snapping ? "left 0.2s ease-out" : "none",
+              willChange: "left",
+            }}
+          >
+            {RING_VALUES.map((v) => (
+              <div
+                key={v.label}
+                className="flex items-center justify-center font-bold text-sm tabular-nums"
+                style={{
+                  width: RING_SPACING,
+                  color: v.label === "A" ? "#C0452D" : "white",
+                  letterSpacing: "0.02em",
+                }}
+              >
+                {v.label}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Fixed indicator line at center — 1px white, full bar height */}
+        <div
+          className="absolute inset-y-0 w-px bg-white pointer-events-none"
+          style={{ left: "50%", transform: "translateX(-50%)" }}
+        />
+      </div>
     </div>
   );
 }
