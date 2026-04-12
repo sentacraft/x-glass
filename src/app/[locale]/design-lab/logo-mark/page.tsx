@@ -1,107 +1,17 @@
 "use client";
 
 import { useState, useCallback, useRef, useMemo, useEffect } from "react";
-import { savePreset, loadPreset } from "./actions";
-
-// ── Geometry ──────────────────────────────────────────────────────────────────
-
-const R = 100;
-
-function fmt(x: number, y: number): string {
-  return `${x.toFixed(3)},${y.toFixed(3)}`;
-}
-
-/**
- * Build the SVG path for a single blade template positioned at angle 0.
- * All N blades are created by rotating this template by i*(360/N) degrees.
- *
- * Outer edge: a true circular arc following the outer ring — eliminates all
- * gaps between blades and the outer circle. Each blade's arc spans
- * (1 + 2*overlap) * step, so adjacent blades overlap by `overlap*step` on
- * each side, fully covering the outer annulus.
- *
- * Inner tiling proof: P3 of blade i is at global angle (i*step + skew*step).
- * P2 of blade (i-1) is at ((i-1)*step + (1+skew)*step) = (i+skew)*step. They
- * match exactly → adjacent blades share their inner corner for any skew and t,
- * producing a clean N-gon aperture opening.
- *
- * @param N     Number of blades
- * @param t     Aperture openness [0, 1] — 0 = closed, 1 = fully open
- * @param skew  Inner-edge rake angle as fraction of step [0.05, 0.5]
- */
-function buildBladePath(
-  N: number,
-  t: number,
-  skew: number,
-  overlap: number,
-  curve: number,
-  twist: number,
-): string {
-  const step = (2 * Math.PI) / N;
-  const rInner = R * (0.08 + 0.72 * t);
-
-  // Outer arc: each blade extends `overlap` steps past each end of its slot.
-  // Keep overlap small (0.1–0.2) so adjacent blades don't massively cover each
-  // other — all blades stay visually similar in shape.
-  // sweep=1 = clockwise in SVG (y-down), matching increasing-angle direction.
-  const arcStart = -overlap * step;
-  const arcEnd   =  step * (1 + overlap);
-  const arcSpan  = arcEnd - arcStart;
-  const largeArc = arcSpan > Math.PI ? 1 : 0;
-
-  const ax0 = R * Math.cos(arcStart);
-  const ay0 = R * Math.sin(arcStart);
-  const ax1 = R * Math.cos(arcEnd);
-  const ay1 = R * Math.sin(arcEnd);
-
-  // Twist: as the aperture closes (t→0) the inner polygon rotates by
-  // twist×step extra radians. Adjacent blades still share inner corners
-  // because the same offset is applied to both P2 and P3 of every blade.
-  const innerOffset = twist * (1 - t) * step;
-
-  // Inner trailing corner (p2) and leading corner (p3).
-  const p2x = rInner * Math.cos(step * (1 + skew) + innerOffset);
-  const p2y = rInner * Math.sin(step * (1 + skew) + innerOffset);
-  const p3x = rInner * Math.cos(step * skew + innerOffset);
-  const p3y = rInner * Math.sin(step * skew + innerOffset);
-
-  // Side-edge curves: each blade's two side edges (trailing: arcEnd→p2, leading:
-  // p3→arcStart) get a quadratic bezier whose control point is pushed AWAY from
-  // the centre relative to the edge midpoint. pull > 1 means the midpoint is
-  // scaled outward, creating a convex bulge — matching the outward-bowing side
-  // edges visible on real aperture blades in the reference image.
-  // curve=0 → straight sides; higher values → more convex (outward) sides.
-  const pull = 1 + curve * 0.85;
-  const cpTrailX = ((ax1 + p2x) / 2) * pull;
-  const cpTrailY = ((ay1 + p2y) / 2) * pull;
-  const cpLeadX  = ((p3x + ax0) / 2) * pull;
-  const cpLeadY  = ((p3y + ay0) / 2) * pull;
-
-  const trailingEdge = curve > 0
-    ? `Q ${fmt(cpTrailX, cpTrailY)} ${fmt(p2x, p2y)}`
-    : `L ${fmt(p2x, p2y)}`;
-
-  // When curve>0 the leading edge is explicit so Z just closes the path cleanly.
-  const leadingEdge = curve > 0
-    ? `Q ${fmt(cpLeadX, cpLeadY)} ${fmt(ax0, ay0)}`
-    : ``;
-
-  return [
-    `M ${fmt(ax0, ay0)}`,
-    `A ${R} ${R} 0 ${largeArc} 1 ${fmt(ax1, ay1)}`,
-    trailingEdge,
-    `L ${fmt(p3x, p3y)}`,
-    leadingEdge,
-    `Z`,
-  ].join(" ");
-}
+import { savePreset, loadPreset, exportToBrand } from "./actions";
+import { bladePath, coverPoints, R } from "@/lib/aperture";
+import type { ApertureParams } from "@/lib/aperture";
+import { LOGO_SM_THRESHOLD } from "@/config/brand";
 
 // ── ApertureMark component ────────────────────────────────────────────────────
 
 interface MarkProps {
   N: number;
   t: number;
-  skew: number;
+  halfSpread: number;
   overlap: number;
   curve: number;
   twist: number;
@@ -121,7 +31,7 @@ interface MarkProps {
 function ApertureMark({
   N,
   t,
-  skew,
+  halfSpread,
   overlap,
   curve,
   twist,
@@ -136,27 +46,21 @@ function ApertureMark({
   size,
   uid,
 }: MarkProps) {
-  const bladePath = useMemo(
-    () => buildBladePath(N, t, skew, overlap, curve, twist),
-    [N, t, skew, overlap, curve, twist],
-  );
+  const params: ApertureParams = { N, halfSpread, overlap, curve, twist };
   const stepDeg = 360 / N;
-  // Aperture opening radius — mirrors the formula in buildBladePath.
   const rInner = R * (0.08 + 0.72 * t);
 
-  // The aperture opening is an N-gon whose vertices are the P3 inner-leading
-  // corners of each blade after rotation. Blade i's P3 sits at global angle
-  // (i * step + skew * step). Connecting them with straight lines gives the
-  // correct polygonal opening — matching the reference aperture geometry where
-  // the inner edges are straight chords, not arcs.
-  const aperturePolygon = useMemo(() => {
-    const step = (2 * Math.PI) / N;
-    const innerOffset = twist * (1 - t) * step;
-    return Array.from({ length: N }, (_, i) => {
-      const a = i * step + skew * step + innerOffset;
-      return `${(rInner * Math.cos(a)).toFixed(3)},${(rInner * Math.sin(a)).toFixed(3)}`;
-    }).join(" ");
-  }, [N, rInner, skew, twist, t]);
+  const bp = useMemo(
+    () => bladePath(t, params),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [N, t, halfSpread, overlap, curve, twist],
+  );
+
+  const aperturePolygon = useMemo(
+    () => coverPoints(t, params),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [N, t, halfSpread, overlap, curve, twist],
+  );
 
   const ticks = useMemo(() => {
     return Array.from({ length: N }, (_, i) => {
@@ -195,27 +99,22 @@ function ApertureMark({
             />
           </filter>
         )}
-        {/* Per-blade masks for circular overlap: each blade is masked to
-            exclude the next blade's footprint. This makes every blade show
-            only its un-covered portion, eliminating all z-order issues from
-            the circular stacking chain — works for any overlap/curve value. */}
         {Array.from({ length: N }, (_, i) => (
           <mask id={`bmask-${i}-${uid}`} key={i}>
             <rect x="-120" y="-120" width="240" height="240" fill="white" />
             <g transform={`rotate(${stepDeg * ((i + 1) % N)})`}>
-              <path d={bladePath} fill="black" />
+              <path d={bp} fill="black" />
             </g>
           </mask>
         ))}
       </defs>
 
-      {/* Blades, clipped to the outer disc */}
       <g clipPath={`url(#${clipId})`}>
         {Array.from({ length: N }, (_, i) => (
           <g key={i} mask={`url(#bmask-${i}-${uid})`}>
             <g transform={`rotate(${stepDeg * i})`}>
               <path
-                d={bladePath}
+                d={bp}
                 fill={fill}
                 stroke={gap}
                 strokeWidth={bladeStroke}
@@ -228,21 +127,12 @@ function ApertureMark({
         ))}
       </g>
 
-      {/* Aperture cover polygon — paints the N-gon opening with the background
-          colour to erase any shadow bleed or inner-edge stroke from the blade
-          paths. Vertices are the P3 inner-leading corners of each blade,
-          producing a polygon that exactly matches the aperture shape and
-          preserves the straight-edged polygonal opening geometry. */}
       <polygon points={aperturePolygon} fill={gap} />
 
-      {/* Outer ring — drawn on top for a crisp circular boundary */}
       {ringStroke > 0 && (
         <circle r={R} fill="none" stroke={fill} strokeWidth={ringStroke} />
       )}
 
-      {/* Single index mark at 12 o'clock — bridges inside/outside the ring,
-          mimicking the reference line on a real Fuji aperture ring. Shown
-          whenever the outer ring is visible. */}
       {ringStroke > 0 && (
         <line
           x1={0} y1={-(R - 10)}
@@ -253,7 +143,6 @@ function ApertureMark({
         />
       )}
 
-      {/* Pivot tick marks at each blade pivot position */}
       {showTicks &&
         ticks.map((tk) => (
           <line
@@ -267,7 +156,6 @@ function ApertureMark({
           />
         ))}
 
-      {/* Fuji-style red alignment tab at 3 o'clock (lens mount index) */}
       {showDot && (
         <rect
           x={R + 4}
@@ -279,8 +167,6 @@ function ApertureMark({
         />
       )}
 
-      {/* Fuji "A" (Auto) label next to the 12 o'clock index mark.
-          Visible at ≥32px render sizes; naturally disappears at favicon scale. */}
       {showLabel && (
         <text
           x={5}
@@ -341,9 +227,6 @@ function Slider({
 
 const RING_SPACING = 64; // px between value labels
 
-// f-stop values displayed on the ring, left → right (closed → open).
-// "A" = auto/full-open, numeric values match standard Fuji aperture ring markings.
-// t values are derived from the fStop() formula inverted: t = 1 - log2(f/1.4)/5
 const RING_VALUES = [
   { label: "A",   t: 1.00 },
   { label: "16",  t: 0.30 },
@@ -380,28 +263,19 @@ function ApertureRingControl({
     return best;
   }
 
-  // Each label slot is RING_SPACING wide; the label text is centered within
-  // that slot. So label i's visual center is at: offset + (i + 0.5) * RING_SPACING.
-  // To center label i under the indicator (at w/2):
-  //   offset = w/2 - (i + 0.5) * RING_SPACING
   function offsetForIndex(i: number) {
     const w = containerRef.current?.offsetWidth ?? 400;
     return w / 2 - (i + 0.5) * RING_SPACING;
   }
 
-  // Nearest label index for a given strip offset.
   function nearestIndex(rawOffset: number) {
     const w = containerRef.current?.offsetWidth ?? 400;
     const idx = Math.round((w / 2 - rawOffset) / RING_SPACING - 0.5);
     return Math.max(0, Math.min(RING_VALUES.length - 1, idx));
   }
 
-  // Stepless aperture value for any strip offset: linearly interpolates t
-  // between the two neighboring ring stops that straddle the indicator.
-  // This gives smooth, continuous aperture response while dragging.
   function tFromOffset(rawOffset: number) {
     const w = containerRef.current?.offsetWidth ?? 400;
-    // Continuous index position: 0 = indicator on label 0 centre, 1 = label 1, …
     const pos = (w / 2 - rawOffset) / RING_SPACING - 0.5;
     if (pos <= 0) return RING_VALUES[0].t;
     if (pos >= RING_VALUES.length - 1) return RING_VALUES[RING_VALUES.length - 1].t;
@@ -410,14 +284,12 @@ function ApertureRingControl({
     return RING_VALUES[lo].t + (RING_VALUES[lo + 1].t - RING_VALUES[lo].t) * frac;
   }
 
-  // Sync strip position when value is changed externally (slider, preset load)
   useEffect(() => {
     if (isDragging.current || isAnimating) return;
     setOffset(offsetForIndex(indexForValue(value)));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value, isAnimating]);
 
-  // Set initial offset once container is measured
   useEffect(() => {
     setOffset(offsetForIndex(indexForValue(value)));
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -434,7 +306,6 @@ function ApertureRingControl({
     if (!isDragging.current || !dragStart.current) return;
     const newOffset = dragStart.current.offset + (e.clientX - dragStart.current.x);
     setOffset(newOffset);
-    // Stepless real-time update — interpolates between stops
     onChange(tFromOffset(newOffset));
   }
 
@@ -443,7 +314,6 @@ function ApertureRingControl({
     const newOffset = dragStart.current.offset + (e.clientX - dragStart.current.x);
     isDragging.current = false;
     dragStart.current = null;
-    // Snap strip to nearest named stop on release
     const idx = nearestIndex(newOffset);
     setSnapping(true);
     setOffset(offsetForIndex(idx));
@@ -452,8 +322,6 @@ function ApertureRingControl({
   }
 
   return (
-    // Outer wrapper: `relative` so the indicator tick (rendered after the ring)
-    // can use absolute positioning that straddles the ring's top edge.
     <div className="relative">
       <div
         ref={containerRef}
@@ -463,17 +331,12 @@ function ApertureRingControl({
         onPointerMove={onPointerMove}
         onPointerUp={onPointerUp}
       >
-        {/* Subtle top highlight for depth */}
         <div className="absolute inset-x-0 top-0 h-px" style={{ background: "rgba(255,255,255,0.08)" }} />
-
-        {/* Labels strip — masked at edges for cylinder-wrap illusion */}
         <div
           className="absolute inset-0"
           style={{
-            maskImage:
-              "linear-gradient(to right, transparent 0%, black 18%, black 82%, transparent 100%)",
-            WebkitMaskImage:
-              "linear-gradient(to right, transparent 0%, black 18%, black 82%, transparent 100%)",
+            maskImage: "linear-gradient(to right, transparent 0%, black 18%, black 82%, transparent 100%)",
+            WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 18%, black 82%, transparent 100%)",
           }}
         >
           <div
@@ -500,12 +363,6 @@ function ApertureRingControl({
           </div>
         </div>
       </div>
-
-      {/* Fixed indicator tick: rendered AFTER the ring so it paints on top.
-          Straddles the ring's top edge — bottom 8px is inside the dark ring
-          (white-on-dark, clearly visible); top 10px protrudes above the ring.
-          `overflow:hidden` on the ring only clips the ring's own children,
-          not this sibling element, so the full tick is rendered. */}
       <div
         className="absolute pointer-events-none"
         style={{
@@ -531,9 +388,8 @@ const LIGHT_BG = "#f3f4f6";
 const DARK_BG  = "#111827";
 
 function bladeColors(lightness: number) {
-  // lightness 0 = original dark/light fills; 1 = much lighter/darker
-  const lFill = Math.round(31 + lightness * 100);  // #1f(31) → ~131
-  const dFill = Math.round(229 - lightness * 100);  // #e5(229) → ~129
+  const lFill = Math.round(31 + lightness * 100);
+  const dFill = Math.round(229 - lightness * 100);
   const lHex = `rgb(${lFill},${lFill + 4},${lFill + 8})`;
   const dHex = `rgb(${dFill},${dFill + 2},${dFill + 3})`;
   return {
@@ -542,9 +398,7 @@ function bladeColors(lightness: number) {
   };
 }
 
-// Approximate displayed f-stop from openness parameter
 function fStop(t: number): string {
-  // Maps t=1 → f/1.4, t=0 → f/45 on a log scale
   return "f/" + (1.4 * Math.pow(2, (1 - t) * 5)).toFixed(1);
 }
 
@@ -555,7 +409,7 @@ export default function LogoMarkLab() {
   const [aperture, setAperture] = useState(0.65);
   const [bladeStroke, setBladeStroke] = useState(1.5);
   const [ringStroke, setRingStroke] = useState(2);
-  const [skew, setSkew] = useState(0.3);
+  const [halfSpread, setHalfSpread] = useState(0.6);
   const [overlap, setOverlap] = useState(0.15);
   const [curve, setCurve] = useState(0);
   const [twist, setTwist] = useState(0.5);
@@ -566,6 +420,7 @@ export default function LogoMarkLab() {
   const [showLabel, setShowLabel] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
   const [loaded, setLoaded] = useState(false);
+  const [exportStatus, setExportStatus] = useState<string | null>(null);
 
   const animRef = useRef<number | null>(null);
   const startTRef = useRef(aperture);
@@ -631,7 +486,7 @@ export default function LogoMarkLab() {
       if (typeof data.aperture === "number") setAperture(data.aperture);
       if (typeof data.bladeStroke === "number") setBladeStroke(data.bladeStroke);
       if (typeof data.ringStroke === "number") setRingStroke(data.ringStroke);
-      if (typeof data.skew === "number") setSkew(data.skew);
+      if (typeof data.halfSpread === "number") setHalfSpread(data.halfSpread);
       if (typeof data.overlap === "number") setOverlap(data.overlap);
       if (typeof data.curve === "number") setCurve(data.curve);
       if (typeof data.twist === "number") setTwist(data.twist);
@@ -649,14 +504,35 @@ export default function LogoMarkLab() {
     if (!loaded) return;
     if (saveTimer.current) clearTimeout(saveTimer.current);
     saveTimer.current = setTimeout(() => {
-      savePreset({ N, aperture, bladeStroke, ringStroke, skew, overlap, curve, twist, shadowIntensity, bladeLightness, showTicks, showDot, showLabel });
+      savePreset({ N, aperture, bladeStroke, ringStroke, halfSpread, overlap, curve, twist, shadowIntensity, bladeLightness, showTicks, showDot, showLabel });
     }, 500);
     return () => { if (saveTimer.current) clearTimeout(saveTimer.current); };
-  }, [loaded, N, aperture, bladeStroke, ringStroke, skew, overlap, curve, twist, shadowIntensity, bladeLightness, showTicks, showDot, showLabel]);
+  }, [loaded, N, aperture, bladeStroke, ringStroke, halfSpread, overlap, curve, twist, shadowIntensity, bladeLightness, showTicks, showDot, showLabel]);
+
+  async function handleExport(presetName: "BRAND_LOGO" | "BRAND_LOGO_SM") {
+    setExportStatus("Saving…");
+    const result = await exportToBrand(presetName, {
+      N,
+      t: aperture,
+      halfSpread,
+      overlap,
+      curve,
+      twist,
+      bladeStrokeWidth: bladeStroke,
+      // Design Lab uses shadowIntensity (0–1) → stdDeviation = intensity × 5
+      shadowStdDeviation: shadowIntensity * 5,
+    });
+    if (result.ok) {
+      setExportStatus(`✓ Written to ${presetName}`);
+      setTimeout(() => setExportStatus(null), 3000);
+    } else {
+      setExportStatus(`✗ ${result.error}`);
+    }
+  }
 
   const colors = bladeColors(bladeLightness);
   const themes = [colors.light, colors.dark] as const;
-  const markProps = { N, t: aperture, skew, overlap, curve, twist, shadowIntensity, bladeStroke, ringStroke, showTicks, showDot, showLabel };
+  const markProps = { N, t: aperture, halfSpread, overlap, curve, twist, shadowIntensity, bladeStroke, ringStroke, showTicks, showDot, showLabel };
 
   return (
     <main className="mx-auto max-w-7xl px-6 py-10">
@@ -791,19 +667,22 @@ export default function LogoMarkLab() {
               display={`${ringStroke.toFixed(2)}px`}
             />
             <Slider
-              label="Blade rake"
-              value={skew}
-              min={0.05}
-              max={0.5}
+              label="Half-spread (sweep)"
+              value={halfSpread}
+              min={0}
+              max={0.95}
               step={0.01}
-              onChange={setSkew}
-              display={`${(skew * 100).toFixed(0)}%`}
+              onChange={setHalfSpread}
+              display={halfSpread.toFixed(2)}
             />
+            <p className="text-xs text-gray-400 -mt-2">
+              Equal gaps guaranteed at any value. 0 = symmetric, higher = more swept.
+            </p>
             <Slider
               label="Blade overlap"
               value={overlap}
               min={0.02}
-              max={0.65}
+              max={0.9}
               step={0.01}
               onChange={setOverlap}
               display={`${(overlap * 100).toFixed(0)}%`}
@@ -876,7 +755,7 @@ export default function LogoMarkLab() {
                 onChange={(e) => setShowLabel(e.target.checked)}
                 className="rounded"
               />
-              Show "A" label (≥32px)
+              Show &ldquo;A&rdquo; label (≥32px)
             </label>
           </div>
 
@@ -907,11 +786,41 @@ export default function LogoMarkLab() {
               <span>{(R * (0.08 + 0.72 * aperture)).toFixed(1)}px</span>
             </div>
             <div className="flex justify-between">
-              <span>rake</span><span>{skew.toFixed(2)} × step</span>
+              <span>halfSpread</span><span>{halfSpread.toFixed(2)}</span>
             </div>
             <div className="flex justify-between">
               <span>overlap</span><span>{overlap.toFixed(2)} × step</span>
             </div>
+          </div>
+
+          <hr className="border-gray-100" />
+
+          {/* Export to brand.ts */}
+          <div className="space-y-2">
+            <p className="text-xs font-medium text-gray-400 uppercase tracking-wider">
+              Export to brand.ts
+            </p>
+            <p className="text-xs text-gray-400">
+              Writes current params directly into{" "}
+              <span className="font-mono">src/config/brand.ts</span>.
+            </p>
+            <button
+              onClick={() => handleExport("BRAND_LOGO")}
+              className="w-full rounded-md py-1.5 text-sm font-medium bg-gray-900 text-white hover:bg-gray-700 transition-colors"
+            >
+              → BRAND_LOGO <span className="text-gray-400 font-normal">(≥{LOGO_SM_THRESHOLD}px)</span>
+            </button>
+            <button
+              onClick={() => handleExport("BRAND_LOGO_SM")}
+              className="w-full rounded-md py-1.5 text-sm font-medium bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors"
+            >
+              → BRAND_LOGO_SM <span className="text-gray-400 font-normal">(&lt;{LOGO_SM_THRESHOLD}px)</span>
+            </button>
+            {exportStatus && (
+              <p className={`text-xs font-mono ${exportStatus.startsWith("✓") ? "text-green-600" : "text-red-500"}`}>
+                {exportStatus}
+              </p>
+            )}
           </div>
         </aside>
       </div>
