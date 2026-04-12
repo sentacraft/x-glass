@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { Aperture, ChevronDown, Droplet, Focus, SlidersHorizontal, Video, Waves } from "lucide-react";
+import { ChevronDown, SlidersHorizontal } from "lucide-react";
+import { FEATURE_ICONS } from "@/lib/feature-icons";
 import { FILTER_FEATURE_KEYS, FOCAL_CATEGORIES, LENS_TYPES } from "@/lib/lens";
 import type { FilterState, FocusMotorClass, LensType, SpecialtyTag } from "@/lib/lens";
 import { cn } from "@/lib/utils";
@@ -29,11 +30,11 @@ export default function LensFilters({
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
   const featureMeta = {
-    af: { label: t("featureAutofocus"), icon: Focus },
-    ois: { label: t("featureOis"), icon: Waves },
-    wr: { label: t("featureWr"), icon: Droplet },
-    apertureRing: { label: t("featureApertureRing"), icon: Aperture },
-    powerZoom: { label: t("featurePowerZoom"), icon: Video },
+    af: { label: t("featureAutofocus"), icon: FEATURE_ICONS.af },
+    ois: { label: t("featureOis"), icon: FEATURE_ICONS.ois },
+    wr: { label: t("featureWr"), icon: FEATURE_ICONS.wr },
+    apertureRing: { label: t("featureApertureRing"), icon: FEATURE_ICONS.apertureRing },
+    powerZoom: { label: t("featurePowerZoom"), icon: FEATURE_ICONS.powerZoom },
   } as const;
 
   function updateFilters<K extends keyof FilterState>(key: K, value: FilterState[K]) {
