@@ -381,6 +381,59 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
             </DialogContent>
           </Dialog>
 
+          {/* Customize accordion — sits above the action buttons, expands upward */}
+          <div className="flex flex-col border-b border-zinc-100 dark:border-zinc-800">
+            {/* Expandable content: in DOM before the trigger so it appears above */}
+            <div
+              className={cn(
+                "grid transition-[grid-template-rows] duration-200 ease-out",
+                customOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+              )}
+            >
+              <div className="overflow-hidden">
+                <div className="flex flex-col gap-3 pb-3 pt-1">
+                  <div className="flex flex-col gap-1">
+                    <label className="text-xs text-zinc-400 dark:text-zinc-500">
+                      {t("customizeTitle")}
+                    </label>
+                    <input
+                      type="text"
+                      value={customTitle}
+                      onChange={(e) => setCustomTitle(e.target.value)}
+                      placeholder={tImage("comparison")}
+                      className={inputClass}
+                    />
+                  </div>
+                  <div className="flex flex-col gap-1">
+                    <label className="text-xs text-zinc-400 dark:text-zinc-500">
+                      {t("customizeSlogan")}
+                    </label>
+                    <input
+                      type="text"
+                      value={customSlogan}
+                      onChange={(e) => setCustomSlogan(e.target.value)}
+                      placeholder={t("customizeSloganPlaceholder")}
+                      className={inputClass}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            {/* Trigger */}
+            <button
+              onClick={() => setCustomOpen((v) => !v)}
+              className="flex w-full items-center justify-between py-1.5 text-xs font-medium text-zinc-400 transition-colors hover:text-zinc-700 dark:hover:text-zinc-300"
+            >
+              <span>{t("customize")}</span>
+              <ChevronDown
+                className={cn(
+                  "size-3.5 transition-transform duration-200",
+                  !customOpen && "rotate-180"
+                )}
+              />
+            </button>
+          </div>
+
           {/* Poster actions */}
           <div className="flex gap-2">
             {canShareFile ? (
@@ -419,50 +472,6 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
                 )}
                 {t("posterDownload")}
               </button>
-            )}
-          </div>
-
-          {/* Customize accordion */}
-          <div className="border-t border-zinc-100 pt-1 dark:border-zinc-800">
-            <button
-              onClick={() => setCustomOpen((v) => !v)}
-              className="flex w-full items-center justify-between py-1.5 text-xs font-medium text-zinc-400 transition-colors hover:text-zinc-700 dark:hover:text-zinc-300"
-            >
-              <span>{t("customize")}</span>
-              <ChevronDown
-                className={cn(
-                  "size-3.5 transition-transform duration-200",
-                  customOpen && "rotate-180"
-                )}
-              />
-            </button>
-            {customOpen && (
-              <div className="flex flex-col gap-3 pb-2 pt-2">
-                <div className="flex flex-col gap-1">
-                  <label className="text-xs text-zinc-400 dark:text-zinc-500">
-                    {t("customizeTitle")}
-                  </label>
-                  <input
-                    type="text"
-                    value={customTitle}
-                    onChange={(e) => setCustomTitle(e.target.value)}
-                    placeholder={tImage("comparison")}
-                    className={inputClass}
-                  />
-                </div>
-                <div className="flex flex-col gap-1">
-                  <label className="text-xs text-zinc-400 dark:text-zinc-500">
-                    {t("customizeSlogan")}
-                  </label>
-                  <input
-                    type="text"
-                    value={customSlogan}
-                    onChange={(e) => setCustomSlogan(e.target.value)}
-                    placeholder={t("customizeSloganPlaceholder")}
-                    className={inputClass}
-                  />
-                </div>
-              </div>
             )}
           </div>
         </Tabs.Panel>
