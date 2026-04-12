@@ -51,19 +51,11 @@ function LensHeaderContent({
         )}
       </div>
 
-      {/* Mobile: brand · model on one line to save vertical space */}
-      <p className="sm:hidden text-center text-xs text-zinc-500 dark:text-zinc-400">
-        <span className="font-normal">{tBrand(lens.brand)}</span>
-        {" · "}
-        <span className="font-semibold text-zinc-900 dark:text-zinc-50">{lens.model}</span>
-      </p>
-
-      {/* Desktop: separate lines */}
-      <p className="hidden sm:block text-center text-xs font-normal text-zinc-500 dark:text-zinc-400">
+      <p className="text-center text-xs font-normal text-zinc-500 dark:text-zinc-400">
         {tBrand(lens.brand)}
         {lens.series ? ` · ${lens.series}` : ""}
       </p>
-      <p className="hidden sm:block text-center font-semibold leading-snug text-zinc-900 dark:text-zinc-50">
+      <p className="text-center font-semibold leading-snug text-zinc-900 dark:text-zinc-50">
         {lens.model}
       </p>
     </>
@@ -94,7 +86,7 @@ function LensHeader({
   onShiftRight: () => void;
 }) {
   return (
-    <th className="group relative sticky top-14 z-20 bg-zinc-50 px-3 py-1 text-left transition-colors sm:py-1.5 sm:group-hover:bg-zinc-100 dark:bg-zinc-900 dark:sm:group-hover:bg-zinc-800">
+    <th className="group relative sticky top-0 z-20 bg-zinc-50 px-3 py-1 text-left transition-colors sm:py-1.5 sm:group-hover:bg-zinc-100 dark:bg-zinc-900 dark:sm:group-hover:bg-zinc-800">
       <div className="flex items-start justify-between gap-1 transition-opacity sm:absolute sm:inset-x-3 sm:top-1.5 sm:z-10 sm:opacity-0 sm:group-hover:opacity-100">
         <button
           type="button"
@@ -321,7 +313,7 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
 
         <thead>
           <tr className="border-b border-zinc-200 dark:border-zinc-800">
-            <th className="sticky top-14 left-0 z-30 bg-zinc-50 px-3 py-3 dark:bg-zinc-900" />
+            <th className="sticky top-0 left-0 z-30 bg-zinc-50 px-3 py-3 dark:bg-zinc-900" />
             {orderedLenses.map((lens, index) => (
               <LensHeader
                 key={lens.id}
