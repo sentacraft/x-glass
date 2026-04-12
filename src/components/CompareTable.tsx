@@ -336,7 +336,7 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
     const observer = new ResizeObserver(update);
     observer.observe(container);
     return () => observer.disconnect();
-  }, [orderedLenses]);
+  }, [orderedIds]);
 
   useEffect(() => {
     const container = containerRef.current;
