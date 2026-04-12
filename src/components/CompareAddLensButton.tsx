@@ -9,9 +9,10 @@ import type { Lens } from "@/lib/types";
 
 interface Props {
   lenses: Lens[];
+  triggerClassName?: string;
 }
 
-export default function CompareAddLensButton({ lenses }: Props) {
+export default function CompareAddLensButton({ lenses, triggerClassName }: Props) {
   const t = useTranslations("Compare");
   const router = useRouter();
 
@@ -49,7 +50,7 @@ export default function CompareAddLensButton({ lenses }: Props) {
       getResultState={getResultState}
       triggerVariant="button"
       triggerLabel={t("addLens")}
-      triggerClassName="h-9 whitespace-nowrap rounded-full border border-zinc-300 bg-white px-3.5 text-sm text-zinc-700 hover:bg-zinc-100 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-200 dark:hover:bg-zinc-900"
+      triggerClassName={triggerClassName ?? "h-9 whitespace-nowrap rounded-full border border-zinc-300 bg-white px-3.5 text-sm text-zinc-700 hover:bg-zinc-100 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-200 dark:hover:bg-zinc-900"}
     />
   );
 }

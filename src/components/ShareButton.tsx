@@ -23,9 +23,10 @@ const PREVIEW_H = 220; // visible preview height in pixels
 
 interface ShareButtonProps {
   lenses: Lens[];
+  variant?: "default" | "fab";
 }
 
-export function ShareButton({ lenses }: ShareButtonProps) {
+export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
   const t = useTranslations("Share");
   const tImage = useTranslations("ShareImage");
   const [open, setOpen] = useState(false);
@@ -431,23 +432,36 @@ export function ShareButton({ lenses }: ShareButtonProps) {
     </div>
   );
 
+  const isFab = variant === "fab";
+
+  const defaultTriggerClass =
+    "flex cursor-pointer items-center gap-1.5 rounded-md text-sm text-zinc-500 outline-none transition-colors hover:text-zinc-900 focus-visible:ring-2 focus-visible:ring-zinc-400 dark:text-zinc-400 dark:hover:text-zinc-50";
+
+  const fabTriggerClass =
+    "flex h-12 w-12 cursor-pointer items-center justify-center rounded-full bg-zinc-900 text-white shadow-lg outline-none transition-colors hover:bg-zinc-700 focus-visible:ring-2 focus-visible:ring-zinc-400 dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-200";
+
+  const triggerContent = isFab ? (
+    <Share2 className="size-5" />
+  ) : (
+    triggerLabel
+  );
+
   // Before mount: static placeholder to avoid layout shift
   const shareControl = !mounted ? (
     <button
       disabled
-      className="flex cursor-default items-center gap-1.5 text-sm text-zinc-500 dark:text-zinc-400"
       aria-hidden
+      className={isFab ? fabTriggerClass + " cursor-default opacity-0" : "flex cursor-default items-center gap-1.5 text-sm text-zinc-500 dark:text-zinc-400"}
     >
-      <Share2 className="size-4" />
-      {t("button")}
+      {isFab ? <Share2 className="size-5" /> : <><Share2 className="size-4" />{t("button")}</>}
     </button>
   ) : isDesktop ? (
     <Popover.Root open={open} onOpenChange={(nextOpen) => setOpen(nextOpen)}>
-      <Popover.Trigger className="flex cursor-pointer items-center gap-1.5 rounded-md text-sm text-zinc-500 outline-none transition-colors hover:text-zinc-900 focus-visible:ring-2 focus-visible:ring-zinc-400 dark:text-zinc-400 dark:hover:text-zinc-50">
-        {triggerLabel}
+      <Popover.Trigger className={isFab ? fabTriggerClass : defaultTriggerClass}>
+        {triggerContent}
       </Popover.Trigger>
       <Popover.Portal>
-        <Popover.Positioner side="bottom" align="end" sideOffset={8}>
+        <Popover.Positioner side={isFab ? "top" : "bottom"} align="end" sideOffset={8}>
           <Popover.Popup className="w-96 max-h-[calc(100svh-80px)] overflow-y-auto origin-(--transform-origin) rounded-xl bg-white shadow-lg ring-1 ring-zinc-200 duration-100 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95 dark:bg-zinc-900 dark:ring-zinc-800">
             {panelContent}
           </Popover.Popup>
@@ -460,8 +474,8 @@ export function ShareButton({ lenses }: ShareButtonProps) {
       onOpenChange={(nextOpen) => setOpen(nextOpen)}
       swipeDirection="down"
     >
-      <Drawer.Trigger className="flex cursor-pointer items-center gap-1.5 rounded-md text-sm text-zinc-500 outline-none transition-colors hover:text-zinc-900 focus-visible:ring-2 focus-visible:ring-zinc-400 dark:text-zinc-400 dark:hover:text-zinc-50">
-        {triggerLabel}
+      <Drawer.Trigger className={isFab ? fabTriggerClass : defaultTriggerClass}>
+        {triggerContent}
       </Drawer.Trigger>
       <Drawer.Portal>
         <Drawer.Backdrop className="fixed inset-0 bg-black/40 duration-150 data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0" />
