@@ -1,0 +1,609 @@
+"use client";
+
+import { useState, useCallback, useRef, useMemo, useEffect } from "react";
+
+// ── Geometry ──────────────────────────────────────────────────────────────────
+
+const R = 100;
+
+function fmt(x: number, y: number): string {
+  return `${x.toFixed(3)},${y.toFixed(3)}`;
+}
+
+/**
+ * Build the SVG path for a single blade template positioned at angle 0.
+ * All N blades are created by rotating this template by i*(360/N) degrees.
+ *
+ * Outer edge: a true circular arc following the outer ring — eliminates all
+ * gaps between blades and the outer circle. Each blade's arc spans
+ * (1 + 2*overlap) * step, so adjacent blades overlap by `overlap*step` on
+ * each side, fully covering the outer annulus.
+ *
+ * Inner tiling proof: P3 of blade i is at global angle (i*step + skew*step).
+ * P2 of blade (i-1) is at ((i-1)*step + (1+skew)*step) = (i+skew)*step. They
+ * match exactly → adjacent blades share their inner corner for any skew and t,
+ * producing a clean N-gon aperture opening.
+ *
+ * @param N     Number of blades
+ * @param t     Aperture openness [0, 1] — 0 = closed, 1 = fully open
+ * @param skew  Inner-edge rake angle as fraction of step [0.05, 0.5]
+ */
+function buildBladePath(
+  N: number,
+  t: number,
+  skew: number,
+  overlap: number,
+  curve: number,
+): string {
+  const step = (2 * Math.PI) / N;
+  const rInner = R * (0.08 + 0.72 * t);
+
+  // Outer arc: each blade extends `overlap` steps past each end of its slot.
+  // Keep overlap small (0.1–0.2) so adjacent blades don't massively cover each
+  // other — all blades stay visually similar in shape.
+  // sweep=1 = clockwise in SVG (y-down), matching increasing-angle direction.
+  const arcStart = -overlap * step;
+  const arcEnd   =  step * (1 + overlap);
+  const arcSpan  = arcEnd - arcStart;
+  const largeArc = arcSpan > Math.PI ? 1 : 0;
+
+  const ax0 = R * Math.cos(arcStart);
+  const ay0 = R * Math.sin(arcStart);
+  const ax1 = R * Math.cos(arcEnd);
+  const ay1 = R * Math.sin(arcEnd);
+
+  // Inner trailing corner (p2) and leading corner (p3).
+  const p2x = rInner * Math.cos(step * (1 + skew));
+  const p2y = rInner * Math.sin(step * (1 + skew));
+  const p3x = rInner * Math.cos(step * skew);
+  const p3y = rInner * Math.sin(step * skew);
+
+  // Side-edge curves: each blade's two side edges (trailing: arcEnd→p2, leading:
+  // p3→arcStart) get a quadratic bezier whose control point is pushed AWAY from
+  // the centre relative to the edge midpoint. pull > 1 means the midpoint is
+  // scaled outward, creating a convex bulge — matching the outward-bowing side
+  // edges visible on real aperture blades in the reference image.
+  // curve=0 → straight sides; higher values → more convex (outward) sides.
+  const pull = 1 + curve * 0.85;
+  const cpTrailX = ((ax1 + p2x) / 2) * pull;
+  const cpTrailY = ((ay1 + p2y) / 2) * pull;
+  const cpLeadX  = ((p3x + ax0) / 2) * pull;
+  const cpLeadY  = ((p3y + ay0) / 2) * pull;
+
+  const trailingEdge = curve > 0
+    ? `Q ${fmt(cpTrailX, cpTrailY)} ${fmt(p2x, p2y)}`
+    : `L ${fmt(p2x, p2y)}`;
+
+  // When curve>0 the leading edge is explicit so Z just closes the path cleanly.
+  const leadingEdge = curve > 0
+    ? `Q ${fmt(cpLeadX, cpLeadY)} ${fmt(ax0, ay0)}`
+    : ``;
+
+  return [
+    `M ${fmt(ax0, ay0)}`,
+    `A ${R} ${R} 0 ${largeArc} 1 ${fmt(ax1, ay1)}`,
+    trailingEdge,
+    `L ${fmt(p3x, p3y)}`,
+    leadingEdge,
+    `Z`,
+  ].join(" ");
+}
+
+// ── ApertureMark component ────────────────────────────────────────────────────
+
+interface MarkProps {
+  N: number;
+  t: number;
+  skew: number;
+  overlap: number;
+  curve: number;
+  shadowIntensity: number;
+  bladeStroke: number;
+  ringStroke: number;
+  showTicks: boolean;
+  showDot: boolean;
+  fill: string;
+  gap: string;
+  size: number;
+  /** Must be unique per mark on the page — SVG clip IDs are document-global. */
+  uid: string;
+}
+
+function ApertureMark({
+  N,
+  t,
+  skew,
+  overlap,
+  curve,
+  shadowIntensity,
+  bladeStroke,
+  ringStroke,
+  showTicks,
+  showDot,
+  fill,
+  gap,
+  size,
+  uid,
+}: MarkProps) {
+  const bladePath = useMemo(
+    () => buildBladePath(N, t, skew, overlap, curve),
+    [N, t, skew, overlap, curve],
+  );
+  const stepDeg = 360 / N;
+  // Aperture opening radius — mirrors the formula in buildBladePath.
+  const rInner = R * (0.08 + 0.72 * t);
+
+  // The aperture opening is an N-gon whose vertices are the P3 inner-leading
+  // corners of each blade after rotation. Blade i's P3 sits at global angle
+  // (i * step + skew * step). Connecting them with straight lines gives the
+  // correct polygonal opening — matching the reference aperture geometry where
+  // the inner edges are straight chords, not arcs.
+  const aperturePolygon = useMemo(() => {
+    const step = (2 * Math.PI) / N;
+    return Array.from({ length: N }, (_, i) => {
+      const a = i * step + skew * step;
+      return `${(rInner * Math.cos(a)).toFixed(3)},${(rInner * Math.sin(a)).toFixed(3)}`;
+    }).join(" ");
+  }, [N, rInner, skew]);
+
+  const ticks = useMemo(() => {
+    return Array.from({ length: N }, (_, i) => {
+      const a = ((stepDeg * i) / 180) * Math.PI;
+      return {
+        key: i,
+        x1: (R - 7) * Math.cos(a),
+        y1: (R - 7) * Math.sin(a),
+        x2: R * Math.cos(a),
+        y2: R * Math.sin(a),
+      };
+    });
+  }, [N, stepDeg]);
+
+  const clipId = `iris-clip-${uid}`;
+
+  return (
+    <svg
+      viewBox="-120 -120 240 240"
+      width={size}
+      height={size}
+      style={{ display: "block", flexShrink: 0 }}
+    >
+      <defs>
+        <clipPath id={clipId}>
+          <circle r={R} />
+        </clipPath>
+        {shadowIntensity > 0 && (
+          <filter id={`bshadow-${uid}`} x="-25%" y="-25%" width="150%" height="150%">
+            <feDropShadow
+              dx={0}
+              dy={0}
+              stdDeviation={shadowIntensity * 5}
+              floodColor="black"
+              floodOpacity={0.55}
+            />
+          </filter>
+        )}
+        {/* Per-blade masks for circular overlap: each blade is masked to
+            exclude the next blade's footprint. This makes every blade show
+            only its un-covered portion, eliminating all z-order issues from
+            the circular stacking chain — works for any overlap/curve value. */}
+        {Array.from({ length: N }, (_, i) => (
+          <mask id={`bmask-${i}-${uid}`} key={i}>
+            <rect x="-120" y="-120" width="240" height="240" fill="white" />
+            <g transform={`rotate(${stepDeg * ((i + 1) % N)})`}>
+              <path d={bladePath} fill="black" />
+            </g>
+          </mask>
+        ))}
+      </defs>
+
+      {/* Blades, clipped to the outer disc */}
+      <g clipPath={`url(#${clipId})`}>
+        {Array.from({ length: N }, (_, i) => (
+          <g key={i} mask={`url(#bmask-${i}-${uid})`}>
+            <g transform={`rotate(${stepDeg * i})`}>
+              <path
+                d={bladePath}
+                fill={fill}
+                stroke={gap}
+                strokeWidth={bladeStroke}
+                strokeLinejoin="miter"
+                strokeMiterlimit={10}
+                filter={shadowIntensity > 0 ? `url(#bshadow-${uid})` : undefined}
+              />
+            </g>
+          </g>
+        ))}
+      </g>
+
+      {/* Aperture cover polygon — paints the N-gon opening with the background
+          colour to erase any shadow bleed or inner-edge stroke from the blade
+          paths. Vertices are the P3 inner-leading corners of each blade,
+          producing a polygon that exactly matches the aperture shape and
+          preserves the straight-edged polygonal opening geometry. */}
+      <polygon points={aperturePolygon} fill={gap} />
+
+      {/* Outer ring — drawn on top for a crisp circular boundary */}
+      {ringStroke > 0 && (
+        <circle r={R} fill="none" stroke={fill} strokeWidth={ringStroke} />
+      )}
+
+      {/* Pivot tick marks inside the ring */}
+      {showTicks &&
+        ticks.map((tk) => (
+          <line
+            key={tk.key}
+            x1={tk.x1}
+            y1={tk.y1}
+            x2={tk.x2}
+            y2={tk.y2}
+            stroke={fill}
+            strokeWidth={1}
+          />
+        ))}
+
+      {/* Fuji-style red alignment rectangle at 12 o'clock */}
+      {showDot && (
+        <rect
+          x={-4}
+          y={-(R + 4)}
+          width={8}
+          height={3}
+          rx={0.5}
+          fill="#E60012"
+        />
+      )}
+    </svg>
+  );
+}
+
+// ── Slider ────────────────────────────────────────────────────────────────────
+
+function Slider({
+  label,
+  value,
+  min,
+  max,
+  step,
+  onChange,
+  display,
+}: {
+  label: string;
+  value: number;
+  min: number;
+  max: number;
+  step: number;
+  onChange: (v: number) => void;
+  display?: string;
+}) {
+  return (
+    <div className="space-y-1">
+      <div className="flex justify-between text-xs text-gray-500">
+        <span>{label}</span>
+        <span className="font-mono tabular-nums">{display ?? value.toFixed(2)}</span>
+      </div>
+      <input
+        type="range"
+        min={min}
+        max={max}
+        step={step}
+        value={value}
+        onChange={(e) => onChange(parseFloat(e.target.value))}
+        className="w-full accent-gray-800"
+      />
+    </div>
+  );
+}
+
+// ── Constants ─────────────────────────────────────────────────────────────────
+
+const BLADE_OPTIONS = [5, 6, 7, 9] as const;
+const PREVIEW_SIZES = [16, 24, 32, 48, 64, 128] as const;
+
+const LIGHT = { fill: "#1f2937", gap: "#f3f4f6", bg: "#f3f4f6" };
+const DARK  = { fill: "#e5e7eb", gap: "#111827", bg: "#111827" };
+
+// Approximate displayed f-stop from openness parameter
+function fStop(t: number): string {
+  // Maps t=1 → f/1.4, t=0 → f/45 on a log scale
+  return "f/" + (1.4 * Math.pow(2, (1 - t) * 5)).toFixed(1);
+}
+
+// ── Page ──────────────────────────────────────────────────────────────────────
+
+export default function LogoMarkLab() {
+  const [N, setN] = useState<number>(9);
+  const [aperture, setAperture] = useState(0.65);
+  const [bladeStroke, setBladeStroke] = useState(1.5);
+  const [ringStroke, setRingStroke] = useState(2);
+  const [skew, setSkew] = useState(0.3);
+  const [overlap, setOverlap] = useState(0.15);
+  const [curve, setCurve] = useState(0);
+  const [shadowIntensity, setShadowIntensity] = useState(0);
+  const [showTicks, setShowTicks] = useState(false);
+  const [showDot, setShowDot] = useState(true);
+  const [isAnimating, setIsAnimating] = useState(false);
+
+  const animRef = useRef<number | null>(null);
+  const startTRef = useRef(aperture);
+
+  const handleAnimate = useCallback(() => {
+    if (isAnimating) {
+      if (animRef.current) cancelAnimationFrame(animRef.current);
+      animRef.current = null;
+      setIsAnimating(false);
+      return;
+    }
+
+    setIsAnimating(true);
+    startTRef.current = aperture;
+    const startTime = performance.now();
+    const CLOSE_MS = 900;
+    const PAUSE_MS = 250;
+    const OPEN_MS  = 900;
+    const TOTAL_MS = CLOSE_MS + PAUSE_MS + OPEN_MS;
+
+    function easeInOut(p: number) {
+      return p < 0.5 ? 2 * p * p : -1 + (4 - 2 * p) * p;
+    }
+
+    function tick(now: number) {
+      const elapsed = now - startTime;
+
+      if (elapsed >= TOTAL_MS) {
+        setAperture(startTRef.current);
+        setIsAnimating(false);
+        animRef.current = null;
+        return;
+      }
+
+      let newT: number;
+      if (elapsed < CLOSE_MS) {
+        newT = startTRef.current * (1 - easeInOut(elapsed / CLOSE_MS));
+      } else if (elapsed < CLOSE_MS + PAUSE_MS) {
+        newT = 0;
+      } else {
+        newT = startTRef.current * easeInOut((elapsed - CLOSE_MS - PAUSE_MS) / OPEN_MS);
+      }
+
+      setAperture(newT);
+      animRef.current = requestAnimationFrame(tick);
+    }
+
+    animRef.current = requestAnimationFrame(tick);
+  }, [aperture, isAnimating]);
+
+  useEffect(() => {
+    return () => {
+      if (animRef.current) cancelAnimationFrame(animRef.current);
+    };
+  }, []);
+
+  const markProps = { N, t: aperture, skew, overlap, curve, shadowIntensity, bladeStroke, ringStroke, showTicks, showDot };
+
+  return (
+    <main className="mx-auto max-w-7xl px-6 py-10">
+      <div className="mb-1 text-xs text-gray-400 tracking-wide uppercase">
+        Design Lab
+      </div>
+      <h1 className="text-2xl font-semibold tracking-tight">
+        Logo Mark — Mechanical Aperture
+      </h1>
+      <p className="mt-1 text-sm text-gray-500">
+        Parametric iris explorer. Adjust controls to find the right balance of
+        mechanical precision vs. readability.
+      </p>
+
+      <div className="mt-8 flex gap-6 items-start">
+        {/* ── Preview ──────────────────────────────────────────────────── */}
+        <div className="flex-1 min-w-0 space-y-4">
+          {/* Main preview: light + dark cards */}
+          <div className="flex gap-4">
+            {([LIGHT, DARK] as const).map((theme, idx) => (
+              <div
+                key={idx}
+                className="flex-1 flex items-center justify-center rounded-xl py-12"
+                style={{ backgroundColor: theme.bg }}
+              >
+                <ApertureMark
+                  {...markProps}
+                  fill={theme.fill}
+                  gap={theme.gap}
+                  size={200}
+                  uid={`main-${idx}`}
+                />
+              </div>
+            ))}
+          </div>
+
+          {/* Favicon size row */}
+          <div className="rounded-xl border border-gray-200 p-5">
+            <p className="mb-4 text-xs font-medium text-gray-400 uppercase tracking-wider">
+              Favicon / icon size preview
+            </p>
+            {([LIGHT, DARK] as const).map((theme, tidx) => (
+              <div key={tidx} className={`flex items-end gap-5 flex-wrap ${tidx === 1 ? "mt-4" : ""}`}>
+                {PREVIEW_SIZES.map((sz) => (
+                  <div key={sz} className="flex flex-col items-center gap-1.5">
+                    <div
+                      className="flex items-center justify-center rounded"
+                      style={{ background: theme.bg, padding: sz < 32 ? 4 : 6 }}
+                    >
+                      <ApertureMark
+                        {...markProps}
+                        fill={theme.fill}
+                        gap={theme.gap}
+                        size={sz}
+                        uid={`fav-${tidx}-${sz}`}
+                      />
+                    </div>
+                    <span className="text-xs text-gray-400 tabular-nums">{sz}</span>
+                  </div>
+                ))}
+                <span className="text-xs text-gray-300 self-end pb-4">
+                  {tidx === 0 ? "light" : "dark"}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* ── Controls ─────────────────────────────────────────────────── */}
+        <aside className="w-72 shrink-0 space-y-6 rounded-xl border border-gray-200 p-5">
+          {/* Blade count */}
+          <div>
+            <p className="mb-2 text-xs font-medium text-gray-400 uppercase tracking-wider">
+              Blade count
+            </p>
+            <div className="flex gap-2">
+              {BLADE_OPTIONS.map((n) => (
+                <button
+                  key={n}
+                  onClick={() => setN(n)}
+                  className={`flex-1 rounded-md py-1.5 text-sm font-medium transition-colors ${
+                    N === n
+                      ? "bg-gray-900 text-white"
+                      : "bg-gray-100 text-gray-500 hover:bg-gray-200"
+                  }`}
+                >
+                  {n}
+                </button>
+              ))}
+            </div>
+            {N === 9 && (
+              <p className="mt-1.5 text-xs text-gray-400">
+                ↑ 9-blade = common Fuji prime spec
+              </p>
+            )}
+          </div>
+
+          {/* Sliders */}
+          <div className="space-y-4">
+            <Slider
+              label="Aperture openness"
+              value={aperture}
+              min={0}
+              max={1}
+              step={0.01}
+              onChange={setAperture}
+              display={fStop(aperture)}
+            />
+            <Slider
+              label="Blade gap stroke"
+              value={bladeStroke}
+              min={0}
+              max={4}
+              step={0.1}
+              onChange={setBladeStroke}
+              display={`${bladeStroke.toFixed(1)}px`}
+            />
+            <Slider
+              label="Outer ring stroke"
+              value={ringStroke}
+              min={0}
+              max={6}
+              step={0.25}
+              onChange={setRingStroke}
+              display={`${ringStroke.toFixed(2)}px`}
+            />
+            <Slider
+              label="Blade rake"
+              value={skew}
+              min={0.05}
+              max={0.5}
+              step={0.01}
+              onChange={setSkew}
+              display={`${(skew * 100).toFixed(0)}%`}
+            />
+            <Slider
+              label="Blade overlap"
+              value={overlap}
+              min={0.02}
+              max={0.65}
+              step={0.01}
+              onChange={setOverlap}
+              display={`${(overlap * 100).toFixed(0)}%`}
+            />
+            <Slider
+              label="Side edge curve"
+              value={curve}
+              min={0}
+              max={1.0}
+              step={0.01}
+              onChange={setCurve}
+              display={curve === 0 ? "off" : curve.toFixed(2)}
+            />
+            <Slider
+              label="Shadow intensity"
+              value={shadowIntensity}
+              min={0}
+              max={1}
+              step={0.01}
+              onChange={setShadowIntensity}
+              display={shadowIntensity === 0 ? "off" : shadowIntensity.toFixed(2)}
+            />
+            <p className="text-xs text-gray-400 -mt-2">
+              Rake = diagonal sweep. Overlap = arc width (try 0.45+). Curve = side-edge convexity outward (try 0.3–0.6).
+            </p>
+          </div>
+
+          {/* Toggles */}
+          <div className="space-y-2.5">
+            <label className="flex items-center gap-2.5 text-sm text-gray-600 cursor-pointer select-none">
+              <input
+                type="checkbox"
+                checked={showTicks}
+                onChange={(e) => setShowTicks(e.target.checked)}
+                className="rounded"
+              />
+              Show pivot tick marks
+            </label>
+            <label className="flex items-center gap-2.5 text-sm text-gray-600 cursor-pointer select-none">
+              <input
+                type="checkbox"
+                checked={showDot}
+                onChange={(e) => setShowDot(e.target.checked)}
+                className="rounded"
+              />
+              Show red alignment marker
+            </label>
+          </div>
+
+          {/* Animate */}
+          <button
+            onClick={handleAnimate}
+            className={`w-full rounded-md py-2 text-sm font-medium transition-colors ${
+              isAnimating
+                ? "bg-red-50 text-red-600 border border-red-200 hover:bg-red-100"
+                : "bg-gray-900 text-white hover:bg-gray-700"
+            }`}
+          >
+            {isAnimating ? "■ Stop" : "▶ Animate aperture"}
+          </button>
+
+          <hr className="border-gray-100" />
+
+          {/* Current state readout */}
+          <div className="space-y-1 text-xs font-mono text-gray-400">
+            <div className="flex justify-between">
+              <span>blades</span><span>{N}</span>
+            </div>
+            <div className="flex justify-between">
+              <span>t</span><span>{aperture.toFixed(3)}</span>
+            </div>
+            <div className="flex justify-between">
+              <span>r_inner</span>
+              <span>{(R * (0.08 + 0.72 * aperture)).toFixed(1)}px</span>
+            </div>
+            <div className="flex justify-between">
+              <span>rake</span><span>{skew.toFixed(2)} × step</span>
+            </div>
+            <div className="flex justify-between">
+              <span>overlap</span><span>{overlap.toFixed(2)} × step</span>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </main>
+  );
+}
