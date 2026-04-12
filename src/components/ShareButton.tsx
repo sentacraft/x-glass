@@ -333,12 +333,12 @@ export function ShareButton({ lenses }: ShareButtonProps) {
           {/* Full-size lightbox — top-aligned, inner scroll */}
           <Dialog open={lightboxOpen} onOpenChange={setLightboxOpen}>
             <DialogContent
-              className="w-[calc(100vw-2rem)] max-w-[820px] overflow-hidden rounded-2xl top-4 translate-y-0"
+              className="flex w-[calc(100vw-2rem)] max-w-[820px] max-h-[calc(100svh-2rem)] flex-col overflow-hidden rounded-2xl top-4 translate-y-0 shadow-[0_8px_40px_rgba(0,0,0,0.22),0_0_0_1px_rgba(0,0,0,0.06)]"
               showCloseButton
             >
               <div
                 ref={lightboxContainerRef}
-                className="max-h-[80svh] overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+                className="flex-1 min-h-0 overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
               >
                 <div style={{ width: POSTER_W, zoom: lightboxScale }}>
                   <SharePoster
