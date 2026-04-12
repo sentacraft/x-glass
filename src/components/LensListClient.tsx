@@ -92,11 +92,11 @@ export default function LensListClient({ lenses }: Props) {
           <div>
             <div className="flex items-center justify-between gap-3">
               <div className="flex items-center gap-3 text-sm text-zinc-500 dark:text-zinc-400">
-                <p>{t("resultsCount", { count: displayed.length })}</p>
+                <p className="whitespace-nowrap">{t("resultsCount", { count: displayed.length })}</p>
                 {hasActiveFilters ? (
                   <button
                     type="button"
-                    className="text-[11px] font-medium uppercase tracking-[0.08em] text-zinc-700 underline decoration-zinc-300 underline-offset-4 transition-colors hover:text-zinc-900 hover:decoration-zinc-500 dark:text-zinc-300 dark:decoration-zinc-600 dark:hover:text-zinc-100 dark:hover:decoration-zinc-400"
+                    className="whitespace-nowrap text-[11px] font-medium uppercase tracking-[0.08em] text-zinc-700 underline decoration-zinc-300 underline-offset-4 transition-colors hover:text-zinc-900 hover:decoration-zinc-500 dark:text-zinc-300 dark:decoration-zinc-600 dark:hover:text-zinc-100 dark:hover:decoration-zinc-400"
                     onClick={clearAllFilters}
                   >
                     {t("clearFilters")}
@@ -107,7 +107,7 @@ export default function LensListClient({ lenses }: Props) {
               <div className="inline-flex items-center gap-0.5 self-start rounded-full border border-zinc-200/70 bg-white/80 p-0.75 shadow-sm shadow-zinc-950/[0.02] dark:border-zinc-800 dark:bg-zinc-900/30 sm:self-auto">
                 <label
                   htmlFor="results-sort"
-                  className="pl-2.5 text-[10px] font-medium uppercase tracking-[0.08em] text-zinc-500 dark:text-zinc-400"
+                  className="whitespace-nowrap pl-2.5 text-[10px] font-medium uppercase tracking-[0.08em] text-zinc-500 dark:text-zinc-400"
                 >
                   {t("sortBy")}
                 </label>
