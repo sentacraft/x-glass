@@ -41,20 +41,20 @@ function LensHeaderContent({
 
   return (
     <>
-      <div className="mb-2 flex w-full max-w-[88px] items-center justify-center overflow-hidden rounded-xl bg-zinc-50/70 p-2 dark:bg-zinc-900/50">
+      <div className="mb-1 flex w-full max-w-[72px] items-center justify-center overflow-hidden rounded-xl bg-zinc-50/70 p-1.5 sm:mb-2 sm:max-w-[84px] sm:p-2 dark:bg-zinc-900/50">
         {lens.imageUrl ? (
           <div className="relative aspect-square w-full overflow-hidden">
             <Image
               src={lens.imageUrl}
               alt={lens.model}
               fill
-              sizes="112px"
+              sizes="96px"
               style={lensImageStyle}
               className="object-contain"
             />
           </div>
         ) : (
-          <LensPlaceholderIcon className="h-12 w-12 text-zinc-300 dark:text-zinc-600" />
+          <LensPlaceholderIcon className="h-10 w-10 sm:h-12 sm:w-12 text-zinc-300 dark:text-zinc-600" />
         )}
       </div>
 
@@ -65,7 +65,7 @@ function LensHeaderContent({
       <p className="text-center font-semibold leading-snug text-zinc-900 dark:text-zinc-50">
         {lens.model}
       </p>
-      <div className="mt-2 flex flex-wrap items-center justify-center gap-x-3 gap-y-1">
+      <div className="mt-1 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 sm:mt-2">
         {url && (
           <ExternalLink
             href={url}
@@ -121,8 +121,8 @@ function LensHeader({
   onShiftRight: () => void;
 }) {
   return (
-    <th className="group sticky top-0 z-20 bg-zinc-50 px-3 py-2 text-left transition-colors sm:group-hover:bg-zinc-100 dark:bg-zinc-900 dark:sm:group-hover:bg-zinc-800">
-      <div className="flex items-start justify-between gap-1 transition-opacity sm:opacity-0 sm:group-hover:opacity-100">
+    <th className="group relative sticky top-0 z-20 bg-zinc-50 px-3 py-1 text-left transition-colors sm:py-1.5 sm:group-hover:bg-zinc-100 dark:bg-zinc-900 dark:sm:group-hover:bg-zinc-800">
+      <div className="flex items-start justify-between gap-1 transition-opacity sm:absolute sm:inset-x-3 sm:top-1.5 sm:z-10 sm:opacity-0 sm:group-hover:opacity-100">
         <button
           type="button"
           onClick={onRemove}
@@ -152,7 +152,7 @@ function LensHeader({
           </button>
         </div>
       </div>
-      <div className="mt-1 flex flex-col items-center text-center">
+      <div className="mt-1 flex flex-col items-center text-center sm:mt-0">
         <LensHeaderContent
           lens={lens}
           officialSiteLabel={officialSiteLabel}
