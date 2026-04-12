@@ -3,18 +3,14 @@
 // Aperture mark component — client component so the interactive and loading
 // variants can update blade geometry in the browser.
 // Theming via Tailwind fill-*/stroke-* utilities (light/dark automatic).
+//
+// Automatically selects BRAND_LOGO_SM for sizes below LOGO_SM_THRESHOLD so
+// the blade gap remains legible at small render sizes (nav, favicon, etc.).
 
 import { useState, useRef, useEffect } from "react";
-import { BRAND_LOGO } from "@/config/brand";
+import { BRAND_LOGO, BRAND_LOGO_SM, LOGO_SM_THRESHOLD } from "@/config/brand";
 import { ANIMATION } from "@/config/ui";
-import { bladePath, coverPoints, R, BLADE_COUNT, STEP_DEG } from "@/lib/aperture";
-
-// ── Constants ─────────────────────────────────────────────────────────────────
-
-const N = BLADE_COUNT;
-const BLADE_STROKE_W = BRAND_LOGO.bladeStrokeWidth;
-const SHADOW_STD = BRAND_LOGO.shadowStdDeviation;
-const DEFAULT_T = BRAND_LOGO.t;
+import { bladePath, coverPoints, R } from "@/lib/aperture";
 
 // ── Component ─────────────────────────────────────────────────────────────────
 
@@ -37,6 +33,12 @@ export default function LogoMark({
   className,
   interactive = false,
 }: LogoMarkProps) {
+  // Pick the optical preset based on render size
+  const preset = size < LOGO_SM_THRESHOLD ? BRAND_LOGO_SM : BRAND_LOGO;
+  const { N, bladeStrokeWidth: BLADE_STROKE_W, shadowStdDeviation: SHADOW_STD, shadowOpacity: SHADOW_OPACITY } = preset;
+  const STEP_DEG = 360 / N;
+  const DEFAULT_T = preset.t;
+
   const [t, setT] = useState(DEFAULT_T);
   const tRef = useRef(DEFAULT_T);
   const animRef = useRef<number | null>(null);
@@ -93,8 +95,8 @@ export default function LogoMark({
     animRef.current = requestAnimationFrame(tick);
   }
 
-  const bp = bladePath(t);
-  const cp = coverPoints(t);
+  const bp = bladePath(t, preset);
+  const cp = coverPoints(t, preset);
 
   return (
     <svg
@@ -113,7 +115,7 @@ export default function LogoMark({
           <circle r={R} />
         </clipPath>
         <filter id={`${uid}-shadow`} x="-25%" y="-25%" width="150%" height="150%">
-          <feDropShadow dx={0} dy={0} stdDeviation={SHADOW_STD} floodColor="black" floodOpacity={0.55} />
+          <feDropShadow dx={0} dy={0} stdDeviation={SHADOW_STD} floodColor="black" floodOpacity={SHADOW_OPACITY} />
         </filter>
         {/* Per-blade masks — recomputed as t changes so z-order stays correct */}
         {Array.from({ length: N }, (_, i) => (

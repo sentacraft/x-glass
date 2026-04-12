@@ -2,20 +2,40 @@
 // Shared between the interactive LogoMark component and server-side renderers
 // (OG image, apple-icon) that cannot use client components.
 
-import { BRAND_LOGO } from "@/config/brand";
-
 export const R = 100;
-export const BLADE_COUNT = BRAND_LOGO.N;
-export const STEP_DEG = 360 / BLADE_COUNT;
 
-const { N, skew: SKEW, overlap: OVERLAP, curve: CURVE, twist: TWIST } = BRAND_LOGO;
+export interface ApertureParams {
+  N: number;
+  /**
+   * Half-spread of the two inner blade tips around the arc midpoint.
+   * Replaces the old "skew" parameter.
+   *
+   * The arc midpoint is always at step/2 (= 180°/N). With halfSpread h:
+   *   trailing tip = step/2 − h×step
+   *   leading  tip = step/2 + h×step
+   *
+   * Both visible side edges end up with the same angular span:
+   *   (0.5 + overlap − halfSpread) × step
+   * …so all N blade gaps are mathematically identical regardless of N or t.
+   *
+   * Range: [0, overlap + 0.5)
+   *   0   → symmetric / no-sweep (both tips merge at arc midpoint)
+   *   0.5 → moderate sweep, largest equal gaps
+   *   →max → maximum sweep, gaps shrink toward zero
+   */
+  halfSpread: number;
+  overlap: number;
+  curve: number;
+  twist: number;
+}
 
 function fmt(x: number, y: number) {
   return `${x.toFixed(3)},${y.toFixed(3)}`;
 }
 
 /** SVG path string for a single aperture blade at openness t ∈ [0, 1]. */
-export function bladePath(t: number): string {
+export function bladePath(t: number, p: ApertureParams): string {
+  const { N, halfSpread, overlap: OVERLAP, curve: CURVE, twist: TWIST } = p;
   const step = (2 * Math.PI) / N;
   const rInner = R * (0.08 + 0.72 * t);
   const arcStart = -OVERLAP * step;
@@ -26,10 +46,13 @@ export function bladePath(t: number): string {
   const ax1 = R * Math.cos(arcEnd);
   const ay1 = R * Math.sin(arcEnd);
   const off = TWIST * (1 - t) * step;
-  const p2x = rInner * Math.cos(step * (1 + SKEW) + off);
-  const p2y = rInner * Math.sin(step * (1 + SKEW) + off);
-  const p3x = rInner * Math.cos(step * SKEW + off);
-  const p3y = rInner * Math.sin(step * SKEW + off);
+  // Symmetric tip placement — guarantees equal gap on both sides of every blade
+  const p3Angle = step / 2 - halfSpread * step + off;
+  const p2Angle = step / 2 + halfSpread * step + off;
+  const p2x = rInner * Math.cos(p2Angle);
+  const p2y = rInner * Math.sin(p2Angle);
+  const p3x = rInner * Math.cos(p3Angle);
+  const p3y = rInner * Math.sin(p3Angle);
   const pull = 1 + CURVE * 0.85;
   const cpTx = ((ax1 + p2x) / 2) * pull;
   const cpTy = ((ay1 + p2y) / 2) * pull;
@@ -46,12 +69,14 @@ export function bladePath(t: number): string {
 }
 
 /** Space-separated x,y pairs for the center cover polygon at openness t. */
-export function coverPoints(t: number): string {
+export function coverPoints(t: number, p: ApertureParams): string {
+  const { N, halfSpread, twist: TWIST } = p;
   const step = (2 * Math.PI) / N;
   const rInner = R * (0.08 + 0.72 * t);
   const off = TWIST * (1 - t) * step;
+  // Vertex i = trailing tip of blade i = step/2 − halfSpread×step + i×step + off
   return Array.from({ length: N }, (_, i) => {
-    const a = i * step + SKEW * step + off;
+    const a = i * step + (0.5 - halfSpread) * step + off;
     return `${(rInner * Math.cos(a)).toFixed(3)},${(rInner * Math.sin(a)).toFixed(3)}`;
   }).join(" ");
 }
