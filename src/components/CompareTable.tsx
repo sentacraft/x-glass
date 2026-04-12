@@ -27,17 +27,10 @@ import type { Lens } from "@/lib/types";
 
 function LensHeaderContent({
   lens,
-  officialSiteLabel,
-  reportLabel,
-  fields,
 }: {
   lens: Lens;
-  officialSiteLabel: string;
-  reportLabel: string;
-  fields?: FeedbackField[];
 }) {
   const tBrand = useTranslations("Brands");
-  const url = getLensUrl(lens);
 
   return (
     <>
@@ -58,35 +51,21 @@ function LensHeaderContent({
         )}
       </div>
 
-      <p className="text-center text-xs font-normal text-zinc-500 dark:text-zinc-400">
+      {/* Mobile: brand · model on one line to save vertical space */}
+      <p className="sm:hidden text-center text-xs text-zinc-500 dark:text-zinc-400">
+        <span className="font-normal">{tBrand(lens.brand)}</span>
+        {" · "}
+        <span className="font-semibold text-zinc-900 dark:text-zinc-50">{lens.model}</span>
+      </p>
+
+      {/* Desktop: separate lines */}
+      <p className="hidden sm:block text-center text-xs font-normal text-zinc-500 dark:text-zinc-400">
         {tBrand(lens.brand)}
         {lens.series ? ` · ${lens.series}` : ""}
       </p>
-      <p className="text-center font-semibold leading-snug text-zinc-900 dark:text-zinc-50">
+      <p className="hidden sm:block text-center font-semibold leading-snug text-zinc-900 dark:text-zinc-50">
         {lens.model}
       </p>
-      <div className="mt-1 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 sm:mt-2">
-        {url && (
-          <ExternalLink
-            href={url}
-            onClick={(e) => e.stopPropagation()}
-            onPointerDown={(e) => e.stopPropagation()}
-            className="inline-flex items-center gap-1 text-xs text-blue-500 transition-colors hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300"
-          >
-            {officialSiteLabel}
-          </ExternalLink>
-        )}
-        <FeedbackTrigger
-          type="data_issue"
-          context={{ lensId: lens.id, lensModel: lens.model }}
-          fields={fields}
-          stopPropagation
-          className="inline-flex items-center gap-1 text-xs text-zinc-400 dark:text-zinc-500 transition-colors hover:text-zinc-600 dark:hover:text-zinc-300"
-        >
-          <Flag className="h-3 w-3" />
-          {reportLabel}
-        </FeedbackTrigger>
-      </div>
     </>
   );
 }
@@ -95,9 +74,6 @@ function LensHeaderContent({
 
 function LensHeader({
   lens,
-  officialSiteLabel,
-  reportLabel,
-  fields,
   removeLabel,
   shiftLeftLabel,
   shiftRightLabel,
@@ -108,9 +84,6 @@ function LensHeader({
   onShiftRight,
 }: {
   lens: Lens;
-  officialSiteLabel: string;
-  reportLabel: string;
-  fields?: FeedbackField[];
   removeLabel: string;
   shiftLeftLabel: string;
   shiftRightLabel: string;
@@ -121,7 +94,7 @@ function LensHeader({
   onShiftRight: () => void;
 }) {
   return (
-    <th className="group relative sticky top-0 z-20 bg-zinc-50 px-3 py-1 text-left transition-colors sm:py-1.5 sm:group-hover:bg-zinc-100 dark:bg-zinc-900 dark:sm:group-hover:bg-zinc-800">
+    <th className="group relative sticky top-14 z-20 bg-zinc-50 px-3 py-1 text-left transition-colors sm:py-1.5 sm:group-hover:bg-zinc-100 dark:bg-zinc-900 dark:sm:group-hover:bg-zinc-800">
       <div className="flex items-start justify-between gap-1 transition-opacity sm:absolute sm:inset-x-3 sm:top-1.5 sm:z-10 sm:opacity-0 sm:group-hover:opacity-100">
         <button
           type="button"
@@ -153,12 +126,7 @@ function LensHeader({
         </div>
       </div>
       <div className="mt-1 flex flex-col items-center text-center sm:mt-0">
-        <LensHeaderContent
-          lens={lens}
-          officialSiteLabel={officialSiteLabel}
-          reportLabel={reportLabel}
-          fields={fields}
-        />
+        <LensHeaderContent lens={lens} />
       </div>
     </th>
   );
@@ -337,7 +305,7 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
   const totalColSpan = orderedLenses.length + 1;
 
   return (
-    <div className="isolate overflow-auto max-h-[calc(100svh-7rem)] sm:max-h-[calc(100svh-11rem)] rounded-xl border border-zinc-200 dark:border-zinc-800">
+    <div className="isolate overflow-x-auto overflow-y-clip rounded-xl border border-zinc-200 dark:border-zinc-800">
       <table
         className="w-full min-w-max table-fixed text-sm border-collapse"
         style={{
@@ -353,14 +321,11 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
 
         <thead>
           <tr className="border-b border-zinc-200 dark:border-zinc-800">
-            <th className="sticky top-0 left-0 z-30 bg-zinc-50 px-3 py-3 dark:bg-zinc-900" />
+            <th className="sticky top-14 left-0 z-30 bg-zinc-50 px-3 py-3 dark:bg-zinc-900" />
             {orderedLenses.map((lens, index) => (
               <LensHeader
                 key={lens.id}
                 lens={lens}
-                officialSiteLabel={t("officialSite")}
-                reportLabel={t("reportIssue")}
-                fields={lensFields.get(lens.id)}
                 removeLabel={t("removeLens", { model: lens.model })}
                 shiftLeftLabel={t("shiftLeft")}
                 shiftRightLabel={t("shiftRight")}
@@ -605,6 +570,37 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
               </React.Fragment>
             );
           })}
+          {/* Footer row: official site + report links per lens */}
+          <tr className="border-t border-zinc-200 dark:border-zinc-800">
+            <td className="sticky left-0 z-10 bg-zinc-50 px-3 py-2 dark:bg-zinc-900" />
+            {orderedLenses.map((lens) => {
+              const url = getLensUrl(lens);
+              const fields = lensFields.get(lens.id);
+              return (
+                <td key={lens.id} className="px-3 py-2">
+                  <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1">
+                    {url && (
+                      <ExternalLink
+                        href={url}
+                        className="inline-flex items-center gap-1 text-xs text-blue-500 transition-colors hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300"
+                      >
+                        {t("officialSite")}
+                      </ExternalLink>
+                    )}
+                    <FeedbackTrigger
+                      type="data_issue"
+                      context={{ lensId: lens.id, lensModel: lens.model }}
+                      fields={fields}
+                      className="inline-flex items-center gap-1 text-xs text-zinc-400 dark:text-zinc-500 transition-colors hover:text-zinc-600 dark:hover:text-zinc-300"
+                    >
+                      <Flag className="h-3 w-3" />
+                      {t("reportIssue")}
+                    </FeedbackTrigger>
+                  </div>
+                </td>
+              );
+            })}
+          </tr>
         </tbody>
       </table>
     </div>
