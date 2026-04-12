@@ -506,7 +506,7 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
                                 key={lens.id}
                                 className="px-3 py-3 text-center font-medium tabular-nums text-zinc-700 dark:text-zinc-300 break-words"
                               >
-                                <div className="flex items-start justify-center gap-1">
+                                <div className="flex items-center justify-center gap-1">
                                   <div className="flex flex-col items-center gap-0.5">
                                     {structuredLines.map(
                                       (line: StructuredLine, i: number) => {
@@ -600,7 +600,7 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
                                   : "text-zinc-700 dark:text-zinc-300"
                               }`}
                             >
-                              <div className="flex items-start justify-center gap-1">
+                              <div className="flex items-center justify-center gap-1">
                                 <div>
                                   <span className="whitespace-pre-line">
                                     {primaryNode}
@@ -627,7 +627,7 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
                             key={lens.id}
                             className="px-3 py-3 text-center text-zinc-700 dark:text-zinc-300 break-words"
                           >
-                            <div className="flex items-start justify-center gap-1">
+                            <div className="flex items-center justify-center gap-1">
                               <div>
                                 <span className="whitespace-pre-line">
                                   {displayVal ?? valueCellLabels.missing}
