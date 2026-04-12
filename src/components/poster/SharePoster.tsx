@@ -282,7 +282,6 @@ export function SharePoster({ lenses, labels, custom, shareUrl, ref }: SharePost
               width: 76,
               height: 76,
               borderRadius: 6,
-              border: "1.5px solid #e4e4e7",
               padding: 4,
               display: "flex",
               alignItems: "center",

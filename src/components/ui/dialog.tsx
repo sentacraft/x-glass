@@ -80,7 +80,7 @@ function DialogContent({
       >
         {children}
         {showCloseButton && (
-          <DialogPrimitive.Close className="absolute right-4 top-4 z-10 inline-flex h-9 w-9 items-center justify-center rounded-full text-zinc-400 transition-colors hover:bg-zinc-100 hover:text-zinc-700 dark:hover:bg-zinc-900 dark:hover:text-zinc-200">
+          <DialogPrimitive.Close className="absolute right-4 top-4 z-10 inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/70 text-zinc-400 backdrop-blur-sm transition-colors hover:bg-zinc-100 hover:text-zinc-700 dark:bg-zinc-950/70 dark:hover:bg-zinc-900 dark:hover:text-zinc-200">
             <X className="h-4 w-4" />
           </DialogPrimitive.Close>
         )}
