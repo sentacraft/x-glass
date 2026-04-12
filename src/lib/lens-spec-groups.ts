@@ -82,7 +82,9 @@ export interface NumericRow extends BaseRow {
 
 export interface BoolRow extends BaseRow {
   kind: "bool";
-  getValue: (l: Lens) => boolean | undefined;
+  getValue: (l: Lens) => boolean | "partial" | undefined;
+  /** Optional supplemental text rendered below the bool indicator (e.g. "6 stops" for OIS). */
+  getSubValue?: (l: Lens) => string | undefined;
 }
 
 export type SpecRow = TextRow | NumericRow | BoolRow;
@@ -249,6 +251,7 @@ export function buildSpecGroups(labels: SpecGroupLabels): SpecGroup[] {
           hasData: (l) => l.apertureBladeCount !== undefined,
           getDisplayValue: (l) => fmt.optionalNumber(l.apertureBladeCount, ""),
           toComparable: (l) => l.apertureBladeCount,
+          bestDir: "max",
         },
         {
           kind: "text",
@@ -358,12 +361,15 @@ export function buildSpecGroups(labels: SpecGroupLabels): SpecGroup[] {
       label: labels.groupStabilization,
       rows: [
         {
-          kind: "text",
+          kind: "bool",
           label: labels.ois,
           fieldNoteKey: "ois" as FieldNoteKey,
           hasData: () => true,
-          getDisplayValue: (l) =>
-            fmt.oisDisplay(l.ois, l.oisStops, { yes, no }),
+          getValue: (l) => l.ois,
+          getSubValue: (l) =>
+            l.ois && l.oisStops !== undefined
+              ? `${l.oisStops} stops`
+              : undefined,
         },
       ] satisfies SpecRow[],
     },
@@ -417,12 +423,11 @@ export function buildSpecGroups(labels: SpecGroupLabels): SpecGroup[] {
       label: labels.groupFeatures,
       rows: [
         {
-          kind: "text",
+          kind: "bool",
           label: labels.wr,
           fieldNoteKey: "wr" as FieldNoteKey,
           hasData: () => true,
-          getDisplayValue: (l) =>
-            fmt.wrDisplay(l.wr, { yes, no, partial }),
+          getValue: (l) => (l.wr === "partial" ? "partial" : l.wr),
         },
         {
           kind: "bool",
