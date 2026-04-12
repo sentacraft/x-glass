@@ -325,14 +325,10 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
     if (!container || !thead) return;
 
     const updateSectionCenter = () => {
-      // Center of the visible content pane (everything right of the sticky label
-      // column), expressed as a position in table coordinate space so that
-      // absolutely-positioned section labels always appear in the middle of the
-      // non-sticky viewport area regardless of horizontal scroll.
-      const firstTh = thead.querySelector("th");
-      const labelColW = firstTh ? firstTh.offsetWidth : 96;
-      const center =
-        container.scrollLeft + labelColW + (container.clientWidth - labelColW) / 2;
+      // Center of the full visible viewport, expressed as a position in table
+      // coordinate space so that absolutely-positioned section labels stay locked
+      // to the midpoint of the screen regardless of horizontal scroll.
+      const center = container.scrollLeft + container.clientWidth / 2;
       container.style.setProperty("--section-center", `${center}px`);
     };
 
@@ -358,11 +354,8 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
       if (phantomInnerRef.current) {
         phantomInnerRef.current.style.transform = `translateX(-${container.scrollLeft}px)`;
       }
-      // Keep section labels centered in the visible content pane
-      const firstTh = thead.querySelector("th");
-      const labelColW = firstTh ? firstTh.offsetWidth : 96;
-      const center =
-        container.scrollLeft + labelColW + (container.clientWidth - labelColW) / 2;
+      // Keep section labels centered in the full visible viewport
+      const center = container.scrollLeft + container.clientWidth / 2;
       container.style.setProperty("--section-center", `${center}px`);
     };
     container.addEventListener("scroll", onScroll, { passive: true });
