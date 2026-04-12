@@ -102,12 +102,12 @@ export const BRAND_LOGO = {
  */
 export const BRAND_LOGO_SM = {
   N: 6,
-  t: 0.72,
+  t: 0.57,
   halfSpread: 0.6,
   overlap: 0.65,
-  curve: 0.83,
-  twist: 0.5,
-  bladeStrokeWidth: 6.5,
+  curve: 0.98,
+  twist: 0.85,
+  bladeStrokeWidth: 6.6,
   shadowStdDeviation: 2,
   shadowOpacity: 0.4,
 } as const;
