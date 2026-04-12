@@ -3,7 +3,7 @@ import { getTranslations } from "next-intl/server";
 import { parseLensIds } from "@/lib/lens";
 import { Link } from "@/i18n/navigation";
 import CompareTable from "@/components/CompareTable";
-import { ShareButton } from "@/components/ShareButton";
+import ComparePageHeader from "@/components/ComparePageHeader";
 import CompareAddLensButton from "@/components/CompareAddLensButton";
 
 export async function generateMetadata({
@@ -49,21 +49,7 @@ export default async function ComparePage({
   return (
     <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-8 flex flex-col gap-3 sm:gap-6">
       {/* Header */}
-      <div className="flex items-center gap-3">
-        <Link
-          href="/lenses"
-          className="text-sm text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 transition-colors"
-        >
-          ←
-        </Link>
-        <h1 className="hidden sm:block text-2xl font-bold text-zinc-900 dark:text-zinc-50">
-          {t("title")}
-        </h1>
-        <CompareAddLensButton lenses={lenses} />
-        <div className="ml-auto">
-          <ShareButton lenses={lenses} />
-        </div>
-      </div>
+      <ComparePageHeader lenses={lenses} />
 
       {lenses.length < 2 ? (
         <div className="rounded-2xl border border-amber-200 bg-amber-50/80 px-4 py-3 text-sm text-amber-900 dark:border-amber-900/60 dark:bg-amber-950/20 dark:text-amber-200">
@@ -72,6 +58,12 @@ export default async function ComparePage({
       ) : null}
 
       <CompareTable lenses={lenses} />
+
+      {/* Bottom add-lens entry — visible when scrolled to bottom of a long table */}
+      <CompareAddLensButton
+        lenses={lenses}
+        triggerClassName="flex w-full items-center justify-center gap-2 rounded-xl border border-dashed border-zinc-300 py-3 text-sm text-zinc-500 transition-colors hover:border-zinc-400 hover:text-zinc-700 dark:border-zinc-700 dark:text-zinc-400 dark:hover:border-zinc-500 dark:hover:text-zinc-300"
+      />
 
       {/* Back link */}
       <Link
