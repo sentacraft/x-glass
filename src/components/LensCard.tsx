@@ -64,7 +64,7 @@ export default function LensCard({
   return (
     <div
       {...hookAttr("card")}
-      className={`rounded-2xl border bg-white dark:bg-zinc-900 flex flex-col overflow-hidden transition-all ${
+      className={`rounded-2xl border bg-white dark:bg-zinc-900 flex flex-col overflow-hidden transition-[border-color,box-shadow] ${
         isSelected
           ? "border-blue-500 ring-1 ring-blue-500 shadow-lg shadow-blue-500/10"
           : "border-zinc-200 dark:border-zinc-800"
