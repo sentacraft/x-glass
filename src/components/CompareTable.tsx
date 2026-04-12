@@ -358,24 +358,30 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
         }`}
       >
       <div className="overflow-hidden border-b border-zinc-200 bg-white/95 backdrop-blur-sm dark:border-zinc-800 dark:bg-zinc-950/95">
-      <div ref={phantomInnerRef} className="flex">
+      <div className="flex">
+        {/* Fixed blank area matching the sticky label column — never scrolls */}
         {colWidths[0] != null && (
           <div style={{ width: colWidths[0], flexShrink: 0 }} />
         )}
-        {orderedLenses.map((lens, i) => (
-          <div
-            key={lens.id}
-            style={{ width: colWidths[i + 1], flexShrink: 0 }}
-            className="px-2 py-1.5 text-center"
-          >
-            <p className="truncate text-[10px] text-zinc-400 dark:text-zinc-500">
-              {tBrand(lens.brand)}
-            </p>
-            <p className="truncate text-xs font-semibold text-zinc-900 dark:text-zinc-50">
-              {lens.model}
-            </p>
+        {/* Lens columns only — translateX syncs with table horizontal scroll */}
+        <div className="flex-1 overflow-hidden">
+          <div ref={phantomInnerRef} className="flex">
+            {orderedLenses.map((lens, i) => (
+              <div
+                key={lens.id}
+                style={{ width: colWidths[i + 1], flexShrink: 0 }}
+                className="px-2 py-1.5 text-center"
+              >
+                <p className="truncate text-[10px] text-zinc-400 dark:text-zinc-500">
+                  {tBrand(lens.brand)}
+                </p>
+                <p className="truncate text-xs font-semibold text-zinc-900 dark:text-zinc-50">
+                  {lens.model}
+                </p>
+              </div>
+            ))}
           </div>
-        ))}
+        </div>
       </div>
       </div>
       </div>
