@@ -484,7 +484,7 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
                       className="border-b border-zinc-100 dark:border-zinc-800/60 last:border-0"
                     >
                       {/* Label cell */}
-                      <td className="sticky left-0 z-10 px-3 py-3 text-xs font-medium text-zinc-500 dark:text-zinc-400 bg-zinc-50 dark:bg-zinc-900 break-words">
+                      <td className="sticky left-0 z-10 px-3 py-3 text-right text-xs font-medium text-zinc-500 dark:text-zinc-400 bg-zinc-50 dark:bg-zinc-900 break-words">
                         {row.label}
                       </td>
 
