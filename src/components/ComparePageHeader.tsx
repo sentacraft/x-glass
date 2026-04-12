@@ -39,16 +39,11 @@ export default function ComparePageHeader({ lenses }: Props) {
         >
           ←
         </Link>
-        <h1 className="hidden sm:block text-2xl font-bold text-zinc-900 dark:text-zinc-50 shrink-0">
+        <h1 className="hidden sm:block text-2xl font-bold text-zinc-900 dark:text-zinc-50">
           {t("title")}
         </h1>
-        <div className="flex flex-1 px-2">
-          <CompareAddLensButton
-            lenses={lenses}
-            triggerClassName="flex w-full items-center justify-start gap-2 rounded-full border border-zinc-200 bg-zinc-50 px-4 py-2 text-sm text-zinc-400 hover:border-zinc-300 hover:bg-white hover:text-zinc-500 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-500 dark:hover:border-zinc-600 dark:hover:bg-zinc-800 dark:hover:text-zinc-400 transition-colors"
-          />
-        </div>
-        <div className="shrink-0">
+        <CompareAddLensButton lenses={lenses} />
+        <div className="ml-auto">
           <ShareButton lenses={lenses} />
         </div>
       </div>
