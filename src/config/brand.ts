@@ -25,7 +25,7 @@ export const BRAND_LOGO = {
    * 0 = fully closed, 1 = fully open.
    * Design Lab: "aperture"
    */
-  t: 0.3,
+  t: 0.52,
 
   /**
    * How far each inner blade tip deviates from the arc midpoint (step/2).
@@ -50,14 +50,14 @@ export const BRAND_LOGO = {
    * each side. Higher → blades overlap more, aperture ring looks denser.
    * Design Lab: "overlap"
    */
-  overlap: 0.65,
+  overlap: 0.9,
 
   /**
    * Curvature of the Bézier control points on both blade side-edges.
    * 0 = straight edges (polygonal blades), higher = more bowed / organic.
    * Design Lab: "curve"
    */
-  curve: 1.0,
+  curve: 0.59,
 
   /**
    * Rotational offset applied to the inner tips as the aperture closes.
@@ -65,7 +65,7 @@ export const BRAND_LOGO = {
    * 0 = no twist, higher = more dramatic rotation when closed.
    * Design Lab: "twist"
    */
-  twist: 0.35,
+  twist: 0.5,
 
   /**
    * Width of the background-coloured stroke drawn on each blade edge.
@@ -74,7 +74,7 @@ export const BRAND_LOGO = {
    * proportionally with the rendered size.
    * Design Lab: "bladeStroke"
    */
-  bladeStrokeWidth: 0.5,
+  bladeStrokeWidth: 4.4,
 
   /**
    * Blur radius of the per-blade drop shadow (feDropShadow stdDeviation).
@@ -82,7 +82,7 @@ export const BRAND_LOGO = {
    * Design Lab: "shadowIntensity" controlled blur + opacity together;
    * here they are split into shadowStdDeviation and shadowOpacity.
    */
-  shadowStdDeviation: 4,
+  shadowStdDeviation: 2.25,
 
   /**
    * Opacity of the per-blade drop shadow (feDropShadow floodOpacity).
@@ -101,13 +101,13 @@ export const BRAND_LOGO = {
  *  - Softer shadow — tight blur radius at small sizes just muddies the mark
  */
 export const BRAND_LOGO_SM = {
-  N: 5,
-  t: 0.35,
+  N: 6,
+  t: 0.72,
   halfSpread: 0.6,
   overlap: 0.65,
-  curve: 1.0,
-  twist: 0.35,
-  bladeStrokeWidth: 4,
+  curve: 0.83,
+  twist: 0.5,
+  bladeStrokeWidth: 6.5,
   shadowStdDeviation: 2,
   shadowOpacity: 0.4,
 } as const;
