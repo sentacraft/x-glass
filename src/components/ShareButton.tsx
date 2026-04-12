@@ -50,6 +50,8 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
 
   // Full-size lightbox
   const [lightboxOpen, setLightboxOpen] = useState(false);
+  const lightboxContainerRef = useRef<HTMLDivElement>(null);
+  const [lightboxScale, setLightboxScale] = useState(1);
 
   // Filename slug
   const slugRef = useRef("");
@@ -75,6 +77,21 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
     mq.addEventListener("change", handler);
     return () => mq.removeEventListener("change", handler);
   }, []);
+
+  // Scale lightbox poster to fit container width on mobile
+  useEffect(() => {
+    if (!lightboxOpen) return;
+    const el = lightboxContainerRef.current;
+    if (!el) return;
+    const updateScale = () => {
+      const available = el.clientWidth - 48; // subtract p-6 (24px * 2)
+      setLightboxScale(Math.min(1, available / POSTER_W));
+    };
+    updateScale();
+    const ro = new ResizeObserver(updateScale);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [lightboxOpen]);
 
   // Keep shareUrl in sync when panel opens
   useEffect(() => {
@@ -321,8 +338,11 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
               className="w-full max-w-[820px] overflow-hidden rounded-2xl top-4 translate-y-0"
               showCloseButton
             >
-              <div className="max-h-[80svh] overflow-x-hidden overflow-y-auto bg-zinc-50 p-6 dark:bg-zinc-950 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                <div className="mx-auto" style={{ width: POSTER_W }}>
+              <div
+                ref={lightboxContainerRef}
+                className="max-h-[80svh] overflow-y-auto bg-zinc-50 p-6 dark:bg-zinc-950 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+              >
+                <div className="mx-auto" style={{ width: POSTER_W, zoom: lightboxScale }}>
                   <SharePoster
                     lenses={lenses}
                     labels={posterLabels}
@@ -331,11 +351,25 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
                   />
                 </div>
               </div>
-              <DialogFooter>
+              <DialogFooter className="justify-center">
+                {canShareFile && (
+                  <button
+                    onClick={handleShareImage}
+                    disabled={posterGenerating}
+                    className="flex items-center gap-2 rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-zinc-50 transition-colors hover:bg-zinc-700 disabled:opacity-50 dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-200"
+                  >
+                    {posterGenerating ? (
+                      <Loader2 className="size-4 animate-spin" />
+                    ) : (
+                      <Share2 className="size-4" />
+                    )}
+                    {t("posterShare")}
+                  </button>
+                )}
                 <button
                   onClick={handleDownload}
                   disabled={posterGenerating}
-                  className="flex items-center gap-2 rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-zinc-50 transition-colors hover:bg-zinc-700 disabled:opacity-50 dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-200"
+                  className="flex items-center gap-2 rounded-lg border border-zinc-200 px-4 py-2 text-sm font-medium text-zinc-700 transition-colors hover:bg-zinc-100 disabled:opacity-50 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800"
                 >
                   {posterGenerating ? (
                     <Loader2 className="size-4 animate-spin" />
@@ -344,42 +378,47 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
                   )}
                   {t("posterDownload")}
                 </button>
-                {canShareFile && (
-                  <button
-                    onClick={handleShareImage}
-                    disabled={posterGenerating}
-                    className="flex items-center gap-2 rounded-lg border border-zinc-200 px-4 py-2 text-sm font-medium text-zinc-700 transition-colors hover:bg-zinc-100 disabled:opacity-50 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800"
-                  >
-                    <Share2 className="size-4" />
-                    {t("posterShare")}
-                  </button>
-                )}
               </DialogFooter>
             </DialogContent>
           </Dialog>
 
           {/* Poster actions */}
           <div className="flex gap-2">
-            <button
-              onClick={handleDownload}
-              disabled={posterGenerating}
-              className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-zinc-900 px-4 py-2.5 text-sm font-medium text-zinc-50 transition-colors hover:bg-zinc-700 disabled:opacity-40 dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-200"
-            >
-              {posterGenerating ? (
-                <Loader2 className="size-4 animate-spin" />
-              ) : (
-                <Download className="size-4" />
-              )}
-              {t("posterDownload")}
-            </button>
-            {canShareFile && (
+            {canShareFile ? (
+              <>
+                <button
+                  onClick={handleShareImage}
+                  disabled={posterGenerating}
+                  className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-zinc-900 px-4 py-2.5 text-sm font-medium text-zinc-50 transition-colors hover:bg-zinc-700 disabled:opacity-40 dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-200"
+                >
+                  {posterGenerating ? (
+                    <Loader2 className="size-4 animate-spin" />
+                  ) : (
+                    <Share2 className="size-4" />
+                  )}
+                  {t("posterShare")}
+                </button>
+                <button
+                  onClick={handleDownload}
+                  disabled={posterGenerating}
+                  title={t("posterDownload")}
+                  className="flex items-center justify-center rounded-lg border border-zinc-200 px-3 py-2.5 text-zinc-700 transition-colors hover:bg-zinc-100 disabled:opacity-40 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800"
+                >
+                  <Download className="size-4" />
+                </button>
+              </>
+            ) : (
               <button
-                onClick={handleShareImage}
+                onClick={handleDownload}
                 disabled={posterGenerating}
-                title={t("posterShare")}
-                className="flex items-center justify-center rounded-lg border border-zinc-200 px-3 py-2.5 text-zinc-700 transition-colors hover:bg-zinc-100 disabled:opacity-40 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800"
+                className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-zinc-900 px-4 py-2.5 text-sm font-medium text-zinc-50 transition-colors hover:bg-zinc-700 disabled:opacity-40 dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-200"
               >
-                <Share2 className="size-4" />
+                {posterGenerating ? (
+                  <Loader2 className="size-4 animate-spin" />
+                ) : (
+                  <Download className="size-4" />
+                )}
+                {t("posterDownload")}
               </button>
             )}
           </div>
