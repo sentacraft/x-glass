@@ -304,8 +304,6 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
   const phantomInnerRef = useRef<HTMLDivElement>(null);
   const [showPhantom, setShowPhantom] = useState(false);
   const [colWidths, setColWidths] = useState<number[]>([]);
-  const [containerLeft, setContainerLeft] = useState(0);
-  const [containerWidth, setContainerWidth] = useState(0);
 
   useEffect(() => {
     const thead = theadRef.current;
@@ -323,9 +321,6 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
     const thead = theadRef.current;
     if (!container || !thead) return;
     const update = () => {
-      const rect = container.getBoundingClientRect();
-      setContainerLeft(rect.left + container.clientLeft);
-      setContainerWidth(container.clientWidth);
       const row = thead.querySelector("tr");
       if (row) {
         const cells = row.querySelectorAll("th");
@@ -354,13 +349,14 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
     <>
     {/* Phantom sticky header: appears when real thead scrolls behind nav */}
     <div
-      className={`fixed top-14 z-20 overflow-hidden border-b border-zinc-200 bg-white/95 backdrop-blur-sm transition-all duration-200 dark:border-zinc-800 dark:bg-zinc-950/95 ${
+      className={`fixed top-14 left-0 right-0 z-20 transition-all duration-200 ${
         showPhantom
           ? "opacity-100 translate-y-0"
           : "opacity-0 -translate-y-1 pointer-events-none"
       }`}
-      style={{ left: containerLeft, width: containerWidth }}
     >
+      <div className="mx-auto max-w-7xl px-4 sm:px-6">
+      <div className="overflow-hidden border-b border-zinc-200 bg-white/95 backdrop-blur-sm dark:border-zinc-800 dark:bg-zinc-950/95">
       <div ref={phantomInnerRef} className="flex">
         {colWidths[0] != null && (
           <div style={{ width: colWidths[0], flexShrink: 0 }} />
@@ -379,6 +375,8 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
             </p>
           </div>
         ))}
+      </div>
+      </div>
       </div>
     </div>
     <div ref={containerRef} className="isolate overflow-x-auto overflow-y-clip rounded-xl border border-zinc-200 dark:border-zinc-800">
