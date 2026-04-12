@@ -295,9 +295,9 @@ export function ShareButton({ lenses }: ShareButtonProps) {
 
         {/* ── Image tab ────────────────────────────────────────── */}
         <Tabs.Panel value="image" className="flex flex-col gap-3">
-          {/* Poster preview: scaled-down SharePoster in a clipped container */}
+          {/* Poster preview: full-bleed, breaks out of p-4 padding */}
           <div
-            className="group relative overflow-hidden rounded-lg cursor-zoom-in"
+            className="group relative -mx-4 cursor-zoom-in overflow-hidden"
             style={{ height: PREVIEW_H }}
             onClick={() => setLightboxOpen(true)}
           >
@@ -382,60 +382,54 @@ export function ShareButton({ lenses }: ShareButtonProps) {
             </DialogContent>
           </Dialog>
 
-          {/* Bottom controls — relative anchor for the floating Customize overlay */}
-          <div className="relative">
-            {/* Customize overlay: floats above action row, collapses fully when closed */}
-            <div
-              className={cn(
-                "absolute bottom-full left-0 right-0 z-10 overflow-hidden rounded-xl bg-white transition-[max-height] duration-200 ease-out dark:bg-zinc-900",
-                customOpen
-                  ? "max-h-48 shadow-[0_-4px_20px_rgba(0,0,0,0.10)]"
-                  : "max-h-0"
-              )}
-            >
-              <div className="flex flex-col gap-3 p-3">
-                <div className="flex flex-col gap-1">
-                  <label className="text-xs text-zinc-400 dark:text-zinc-500">
-                    {t("customizeTitle")}
-                  </label>
-                  <input
-                    type="text"
-                    value={customTitle}
-                    onChange={(e) => setCustomTitle(e.target.value)}
-                    placeholder={tImage("comparison")}
-                    className={inputClass}
-                  />
-                </div>
-                <div className="flex flex-col gap-1">
-                  <label className="text-xs text-zinc-400 dark:text-zinc-500">
-                    {t("customizeSlogan")}
-                  </label>
-                  <input
-                    type="text"
-                    value={customSlogan}
-                    onChange={(e) => setCustomSlogan(e.target.value)}
-                    placeholder={t("customizeSloganPlaceholder")}
-                    className={inputClass}
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* Action row — Customize toggle on the left, share actions on the right */}
-            <div className="flex gap-2">
-              {/* Customize toggle — leftmost, icon-only */}
-              <button
-                onClick={() => setCustomOpen((v) => !v)}
-                title={t("customize")}
-                className={cn(
-                  "flex items-center justify-center rounded-lg border px-3 py-2.5 transition-colors",
-                  customOpen
-                    ? "border-zinc-900 bg-zinc-900 text-zinc-50 dark:border-zinc-50 dark:bg-zinc-50 dark:text-zinc-900"
-                    : "border-zinc-200 text-zinc-500 hover:bg-zinc-100 hover:text-zinc-700 dark:border-zinc-700 dark:text-zinc-400 dark:hover:bg-zinc-800"
-                )}
-              >
-                <SlidersHorizontal className="size-4" />
-              </button>
+          {/* Action row — Customize Popover on the left, share actions on the right */}
+          <div className="flex gap-2">
+              {/* Customize — Popover anchored to this trigger button */}
+              <Popover.Root open={customOpen} onOpenChange={setCustomOpen}>
+                <Popover.Trigger
+                  title={t("customize")}
+                  className={cn(
+                    "flex items-center justify-center rounded-lg border px-3 py-2.5 outline-none transition-colors",
+                    customOpen
+                      ? "border-zinc-900 bg-zinc-900 text-zinc-50 dark:border-zinc-50 dark:bg-zinc-50 dark:text-zinc-900"
+                      : "border-zinc-200 text-zinc-500 hover:bg-zinc-100 hover:text-zinc-700 dark:border-zinc-700 dark:text-zinc-400 dark:hover:bg-zinc-800"
+                  )}
+                >
+                  <SlidersHorizontal className="size-4" />
+                </Popover.Trigger>
+                <Popover.Portal>
+                  <Popover.Positioner side="top" align="start" sideOffset={8}>
+                    <Popover.Popup className="w-72 origin-(--transform-origin) rounded-xl border border-zinc-200 bg-white p-3 shadow-lg duration-100 outline-none data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95 dark:border-zinc-700 dark:bg-zinc-900">
+                      <div className="flex flex-col gap-3">
+                        <div className="flex flex-col gap-1">
+                          <label className="text-xs text-zinc-400 dark:text-zinc-500">
+                            {t("customizeTitle")}
+                          </label>
+                          <input
+                            type="text"
+                            value={customTitle}
+                            onChange={(e) => setCustomTitle(e.target.value)}
+                            placeholder={tImage("comparison")}
+                            className={inputClass}
+                          />
+                        </div>
+                        <div className="flex flex-col gap-1">
+                          <label className="text-xs text-zinc-400 dark:text-zinc-500">
+                            {t("customizeSlogan")}
+                          </label>
+                          <input
+                            type="text"
+                            value={customSlogan}
+                            onChange={(e) => setCustomSlogan(e.target.value)}
+                            placeholder={t("customizeSloganPlaceholder")}
+                            className={inputClass}
+                          />
+                        </div>
+                      </div>
+                    </Popover.Popup>
+                  </Popover.Positioner>
+                </Popover.Portal>
+              </Popover.Root>
 
               {/* Share + Download */}
               {canShareFile ? (
@@ -467,7 +461,6 @@ export function ShareButton({ lenses }: ShareButtonProps) {
                   {t("posterDownload")}
                 </button>
               )}
-            </div>
           </div>
         </Tabs.Panel>
       </Tabs.Root>
