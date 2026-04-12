@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useMemo, useEffect } from "react";
+import { motion, AnimatePresence } from "motion/react";
+import { spring } from "@/lib/animation";
 import { useTranslations } from "next-intl";
 import type { Lens } from "@/lib/types";
 import {
@@ -162,48 +164,67 @@ export default function LensListClient({ lenses }: Props) {
           </div>
         </div>
 
-        {displayed.length === 0 ? (
-          <div className="flex flex-col gap-2">
-            <p className="text-sm text-zinc-500 dark:text-zinc-400">
-              {t("noResults")}
-            </p>
-            <p className="text-xs text-zinc-400 dark:text-zinc-500">
-              {t("suggestLens")}{" "}
-              <FeedbackTrigger
-                type="missing_lens"
-                className="underline underline-offset-2 hover:text-zinc-600 dark:hover:text-zinc-300 transition-colors"
-              >
-                {t("suggestLensLink")}
-              </FeedbackTrigger>
-            </p>
-          </div>
-        ) : (
-          <div
-            {...hookAttr("grid")}
-            className="grid grid-cols-1 gap-4 min-[500px]:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
-          >
-            {displayed.map((lens) => (
-              <LensCard
-                key={lens.id}
-                lens={lens}
-                isSelected={compareIds.includes(lens.id)}
-                selectionDisabled={!canToggle(lens.id)}
-                onToggle={() => toggleCompare(lens.id)}
-              />
-            ))}
-          </div>
-        )}
+        <AnimatePresence mode="wait" initial={false}>
+          {displayed.length === 0 ? (
+            <motion.div
+              key="empty"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.15 }}
+              className="flex flex-col gap-2"
+            >
+              <p className="text-sm text-zinc-500 dark:text-zinc-400">
+                {t("noResults")}
+              </p>
+              <p className="text-xs text-zinc-400 dark:text-zinc-500">
+                {t("suggestLens")}{" "}
+                <FeedbackTrigger
+                  type="missing_lens"
+                  className="underline underline-offset-2 hover:text-zinc-600 dark:hover:text-zinc-300 transition-colors"
+                >
+                  {t("suggestLensLink")}
+                </FeedbackTrigger>
+              </p>
+            </motion.div>
+          ) : (
+            <motion.div
+              key={displayed.map((l) => l.id).join()}
+              {...hookAttr("grid")}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.18, ease: "easeOut" }}
+              className="grid grid-cols-1 gap-4 min-[500px]:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+            >
+              {displayed.map((lens) => (
+                <LensCard
+                  key={lens.id}
+                  lens={lens}
+                  isSelected={compareIds.includes(lens.id)}
+                  selectionDisabled={!canToggle(lens.id)}
+                  onToggle={() => toggleCompare(lens.id)}
+                />
+              ))}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
 
-      {showScrollTop && (
-        <button
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="fixed bottom-24 right-6 z-40 w-10 h-10 flex items-center justify-center rounded-full bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 shadow-md text-zinc-600 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-700 transition-colors"
-          aria-label="Back to top"
-        >
-          <ChevronUp size={16} />
-        </button>
-      )}
+      <AnimatePresence>
+        {showScrollTop && (
+          <motion.button
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            transition={spring.bounce}
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            className="fixed bottom-24 right-6 z-40 w-10 h-10 flex items-center justify-center rounded-full bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 shadow-md text-zinc-600 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-700 transition-colors"
+            aria-label="Back to top"
+          >
+            <ChevronUp size={16} />
+          </motion.button>
+        )}
+      </AnimatePresence>
     </>
   );
 }
