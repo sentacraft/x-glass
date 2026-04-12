@@ -16,9 +16,10 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 
-// Scale the 750px poster down to fit the ~352px panel content area
+// Scale the 750px poster down to fit the panel content area
 const POSTER_W = 750;
 const PREVIEW_SCALE = 352 / POSTER_W; // ≈ 0.469
+const PREVIEW_SCALED_W = POSTER_W * PREVIEW_SCALE; // 352px — visual width after scale
 const PREVIEW_H = 310; // visible preview height in pixels
 
 interface ShareButtonProps {
@@ -306,7 +307,7 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
               style={{
                 position: "absolute",
                 top: 0,
-                left: 0,
+                left: `calc(50% - ${PREVIEW_SCALED_W / 2}px)`,
                 width: POSTER_W,
                 transform: `scale(${PREVIEW_SCALE})`,
                 transformOrigin: "top left",
