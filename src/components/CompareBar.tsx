@@ -7,6 +7,7 @@ import { allLenses } from "@/lib/lens";
 import { useCompare } from "@/context/CompareProvider";
 import { motion, AnimatePresence } from "motion/react";
 import { spring } from "@/lib/animation";
+import { ACTION_PRIMARY_CLS } from "@/lib/ui-tokens";
 
 export default function CompareBar() {
   const t = useTranslations("LensList");
@@ -86,7 +87,7 @@ export default function CompareBar() {
               <button
                 onClick={handleCompare}
                 disabled={selectedLenses.length < 2}
-                className="shrink-0 text-sm font-medium px-4 py-2 rounded-xl bg-blue-500 text-white hover:bg-blue-600 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                className={`shrink-0 text-sm font-medium px-4 py-2 rounded-xl ${ACTION_PRIMARY_CLS}`}
               >
                 {t("goCompare", { count: selectedLenses.length })}
               </button>

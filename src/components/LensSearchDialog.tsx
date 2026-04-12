@@ -236,7 +236,7 @@ export default function LensSearchDialog({
                         isDisabled
                           ? "cursor-not-allowed border-transparent bg-zinc-50/80 opacity-60 dark:bg-zinc-900/60"
                           : isActive
-                            ? "border-blue-200 bg-blue-50/80 dark:border-blue-900/70 dark:bg-blue-950/30"
+                            ? "border-zinc-200 bg-zinc-50/80 dark:border-zinc-700 dark:bg-zinc-800/50"
                             : "border-transparent bg-white hover:bg-zinc-50 dark:bg-zinc-950 dark:hover:bg-zinc-900"
                       )}
                     >

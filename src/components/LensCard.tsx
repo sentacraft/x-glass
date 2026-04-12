@@ -2,8 +2,10 @@
 
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-import { Aperture, Droplet, Focus, Waves } from "lucide-react";
+import { Aperture } from "lucide-react";
 import { Link } from "@/i18n/navigation";
+import { FEATURE_ICONS } from "@/lib/feature-icons";
+import { ACTION_PRIMARY_CLS, CARD_SELECTED_BORDER_CLS } from "@/lib/ui-tokens";
 import { LensPlaceholderIcon } from "@/components/ui/lens-placeholder-icon";
 import type { Lens } from "@/lib/types";
 import { lensImageStyle } from "@/lib/lens-image";
@@ -35,28 +37,28 @@ export default function LensCard({
       ? {
           label: "AF",
           description: t("featureAutofocusDesc"),
-          icon: Focus,
+          icon: FEATURE_ICONS.af,
         }
       : null,
     lens.ois
       ? {
           label: "OIS",
           description: t("featureOisDesc"),
-          icon: Waves,
+          icon: FEATURE_ICONS.ois,
         }
       : null,
     lens.wr
       ? {
           label: "WR",
           description: t("featureWrDesc"),
-          icon: Droplet,
+          icon: FEATURE_ICONS.wr,
         }
       : null,
     lens.apertureRing
       ? {
           label: t("badgeRing"),
           description: t("featureApertureRingDesc"),
-          icon: Aperture,
+          icon: FEATURE_ICONS.apertureRing,
         }
       : null,
   ].filter((badge) => badge !== null);
@@ -66,7 +68,7 @@ export default function LensCard({
       {...hookAttr("card")}
       className={`rounded-2xl border bg-white dark:bg-zinc-900 flex flex-col overflow-hidden transition-[border-color,box-shadow] ${
         isSelected
-          ? "border-blue-500 ring-1 ring-blue-500 shadow-lg shadow-blue-500/10"
+          ? CARD_SELECTED_BORDER_CLS
           : "border-zinc-200 dark:border-zinc-800"
       }`}
     >
@@ -161,7 +163,7 @@ export default function LensCard({
           disabled={selectionDisabled}
           className={`w-full h-10 sm:h-9 text-xs font-medium ${
             isSelected
-              ? "bg-blue-500 text-white hover:bg-blue-600"
+              ? ACTION_PRIMARY_CLS
               : selectionDisabled
                 ? "bg-zinc-100 dark:bg-zinc-800 text-zinc-400 dark:text-zinc-600 cursor-not-allowed"
                 : "bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-zinc-700"

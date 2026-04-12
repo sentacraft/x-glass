@@ -38,9 +38,9 @@ const CSS_CARD_CHROME_BARE = `
   box-shadow: none !important;
 }
 
-[data-ui-hook="card"][class*="border-blue-500"] {
-  border-color: rgb(59 130 246) !important;
-  box-shadow: 0 0 0 1px rgb(59 130 246) !important;
+[data-ui-hook="card"][class*="border-zinc-900"] {
+  border-color: rgb(24 24 27) !important;
+  box-shadow: 0 0 0 1px rgb(24 24 27) !important;
 }
 `;
 
