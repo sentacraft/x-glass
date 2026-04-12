@@ -19,7 +19,7 @@ import {
 // Scale the 750px poster down to fit the ~352px panel content area
 const POSTER_W = 750;
 const PREVIEW_SCALE = 352 / POSTER_W; // ≈ 0.469
-const PREVIEW_H = 260; // visible preview height in pixels
+const PREVIEW_H = 310; // visible preview height in pixels
 
 interface ShareButtonProps {
   lenses: Lens[];
@@ -324,7 +324,7 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
             </div>
 
             {/* Gradient fade at bottom */}
-            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-white to-transparent dark:from-zinc-900" />
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-white to-transparent dark:from-zinc-900" />
 
             {/* Expand hint on hover */}
             <div className="absolute right-2 top-2 rounded-md bg-black/30 p-1 opacity-0 transition-opacity group-hover:opacity-100">
@@ -384,54 +384,56 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
 
           {/* Bottom controls — relative anchor for the floating Customize overlay */}
           <div className="relative">
-            {/* Customize overlay: expands upward over the preview, doesn't affect Drawer height */}
-            <div
-              className={cn(
-                "absolute bottom-full left-0 right-0 z-10 overflow-hidden rounded-t-xl bg-white transition-[max-height] duration-200 ease-out dark:bg-zinc-900",
-                customOpen ? "max-h-48 shadow-[0_-4px_16px_rgba(0,0,0,0.08)]" : "max-h-0"
-              )}
-            >
-              <div className="flex flex-col gap-3 p-3 pb-2">
-                <div className="flex flex-col gap-1">
-                  <label className="text-xs text-zinc-400 dark:text-zinc-500">
-                    {t("customizeTitle")}
-                  </label>
-                  <input
-                    type="text"
-                    value={customTitle}
-                    onChange={(e) => setCustomTitle(e.target.value)}
-                    placeholder={tImage("comparison")}
-                    className={inputClass}
-                  />
-                </div>
-                <div className="flex flex-col gap-1">
-                  <label className="text-xs text-zinc-400 dark:text-zinc-500">
-                    {t("customizeSlogan")}
-                  </label>
-                  <input
-                    type="text"
-                    value={customSlogan}
-                    onChange={(e) => setCustomSlogan(e.target.value)}
-                    placeholder={t("customizeSloganPlaceholder")}
-                    className={inputClass}
-                  />
+            {/* Customize overlay: always anchored above actions, trigger forms the bottom edge */}
+            <div className="absolute bottom-full left-0 right-0 z-10 rounded-xl bg-white shadow-[0_-4px_20px_rgba(0,0,0,0.10)] dark:bg-zinc-900">
+              {/* Inputs — animated open/close, trigger always visible below */}
+              <div
+                className={cn(
+                  "overflow-hidden transition-[max-height] duration-200 ease-out",
+                  customOpen ? "max-h-48" : "max-h-0"
+                )}
+              >
+                <div className="flex flex-col gap-3 p-3 pb-0">
+                  <div className="flex flex-col gap-1">
+                    <label className="text-xs text-zinc-400 dark:text-zinc-500">
+                      {t("customizeTitle")}
+                    </label>
+                    <input
+                      type="text"
+                      value={customTitle}
+                      onChange={(e) => setCustomTitle(e.target.value)}
+                      placeholder={tImage("comparison")}
+                      className={inputClass}
+                    />
+                  </div>
+                  <div className="flex flex-col gap-1">
+                    <label className="text-xs text-zinc-400 dark:text-zinc-500">
+                      {t("customizeSlogan")}
+                    </label>
+                    <input
+                      type="text"
+                      value={customSlogan}
+                      onChange={(e) => setCustomSlogan(e.target.value)}
+                      placeholder={t("customizeSloganPlaceholder")}
+                      className={inputClass}
+                    />
+                  </div>
                 </div>
               </div>
+              {/* Trigger — always visible, forms the bottom edge of the panel */}
+              <button
+                onClick={() => setCustomOpen((v) => !v)}
+                className="flex w-full items-center justify-between px-3 py-2.5 text-xs font-medium text-zinc-400 transition-colors hover:text-zinc-700 dark:hover:text-zinc-300"
+              >
+                <span>{t("customize")}</span>
+                <ChevronDown
+                  className={cn(
+                    "size-3.5 transition-transform duration-200",
+                    !customOpen && "rotate-180"
+                  )}
+                />
+              </button>
             </div>
-
-            {/* Customize trigger */}
-            <button
-              onClick={() => setCustomOpen((v) => !v)}
-              className="flex w-full items-center justify-between border-b border-zinc-100 py-1.5 text-xs font-medium text-zinc-400 transition-colors hover:text-zinc-700 dark:border-zinc-800 dark:hover:text-zinc-300"
-            >
-              <span>{t("customize")}</span>
-              <ChevronDown
-                className={cn(
-                  "size-3.5 transition-transform duration-200",
-                  !customOpen && "rotate-180"
-                )}
-              />
-            </button>
 
             {/* Poster actions */}
             <div className="flex gap-2 pt-3">
