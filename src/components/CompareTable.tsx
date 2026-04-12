@@ -370,7 +370,7 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
               <div
                 key={lens.id}
                 style={{ width: colWidths[i + 1], flexShrink: 0 }}
-                className="border-l border-zinc-200 px-2 py-1.5 text-center dark:border-zinc-800"
+                className="px-2 py-1.5 text-center"
               >
                 <p className="truncate text-[10px] text-zinc-400 dark:text-zinc-500">
                   {tBrand(lens.brand)}
