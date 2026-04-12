@@ -39,8 +39,8 @@ export default function LogoMark({
   const STEP_DEG = 360 / N;
   const DEFAULT_T = preset.t;
 
-  const [t, setT] = useState(DEFAULT_T);
-  const tRef = useRef(DEFAULT_T);
+  const [t, setT] = useState<number>(DEFAULT_T);
+  const tRef = useRef<number>(DEFAULT_T);
   const animRef = useRef<number | null>(null);
   // Entry-offset refs: fade out the gap between current aperture and cursor's
   // absolute position so there's no jump when the cursor first enters.
