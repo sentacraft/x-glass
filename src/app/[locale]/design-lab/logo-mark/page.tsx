@@ -452,23 +452,9 @@ function ApertureRingControl({
   }
 
   return (
-    // Outer wrapper provides `relative` context so the above-bar tick can use
-    // `bottom: 100%` to escape the overflow:hidden inner container.
+    // Outer wrapper: `relative` so the indicator tick (rendered after the ring)
+    // can use absolute positioning that straddles the ring's top edge.
     <div className="relative">
-      {/* Indicator tick above the bar — 2px wide for visibility */}
-      <div
-        className="absolute pointer-events-none"
-        style={{
-          left: "50%",
-          bottom: "100%",
-          transform: "translateX(-50%)",
-          width: 2,
-          height: 10,
-          marginBottom: 3,
-          backgroundColor: "white",
-        }}
-      />
-
       <div
         ref={containerRef}
         className="relative rounded-xl overflow-hidden select-none cursor-grab active:cursor-grabbing"
@@ -513,19 +499,25 @@ function ApertureRingControl({
             ))}
           </div>
         </div>
-
-        {/* Fixed indicator line at center — 2px white, full bar height.
-            Rendered after the masked labels div so it always shows on top. */}
-        <div
-          className="absolute inset-y-0 pointer-events-none"
-          style={{
-            left: "50%",
-            transform: "translateX(-50%)",
-            width: 2,
-            backgroundColor: "white",
-          }}
-        />
       </div>
+
+      {/* Fixed indicator tick: rendered AFTER the ring so it paints on top.
+          Straddles the ring's top edge — bottom 8px is inside the dark ring
+          (white-on-dark, clearly visible); top 10px protrudes above the ring.
+          `overflow:hidden` on the ring only clips the ring's own children,
+          not this sibling element, so the full tick is rendered. */}
+      <div
+        className="absolute pointer-events-none"
+        style={{
+          left: "50%",
+          top: -10,
+          transform: "translateX(-50%)",
+          width: 2,
+          height: 18,
+          backgroundColor: "white",
+          zIndex: 1,
+        }}
+      />
     </div>
   );
 }
