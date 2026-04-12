@@ -19,7 +19,7 @@ import {
 // Scale the 750px poster down to fit the ~352px panel content area
 const POSTER_W = 750;
 const PREVIEW_SCALE = 352 / POSTER_W; // ≈ 0.469
-const PREVIEW_H = 220; // visible preview height in pixels
+const PREVIEW_H = 260; // visible preview height in pixels
 
 interface ShareButtonProps {
   lenses: Lens[];
@@ -382,16 +382,16 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
             </DialogContent>
           </Dialog>
 
-          {/* Customize accordion — sits above the action buttons, expands upward */}
-          <div className="flex flex-col border-b border-zinc-100 dark:border-zinc-800">
-            {/* Expandable content: in DOM before the trigger so it appears above */}
+          {/* Bottom controls — relative anchor for the floating Customize overlay */}
+          <div className="relative">
+            {/* Customize overlay: expands upward over the preview, doesn't affect Drawer height */}
             <div
               className={cn(
-                "overflow-hidden transition-[max-height] duration-200 ease-out",
-                customOpen ? "max-h-48" : "max-h-0"
+                "absolute bottom-full left-0 right-0 z-10 overflow-hidden rounded-t-xl bg-white transition-[max-height] duration-200 ease-out dark:bg-zinc-900",
+                customOpen ? "max-h-48 shadow-[0_-4px_16px_rgba(0,0,0,0.08)]" : "max-h-0"
               )}
             >
-              <div className="flex flex-col gap-3 pb-3 pt-1">
+              <div className="flex flex-col gap-3 p-3 pb-2">
                 <div className="flex flex-col gap-1">
                   <label className="text-xs text-zinc-400 dark:text-zinc-500">
                     {t("customizeTitle")}
@@ -418,10 +418,11 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
                 </div>
               </div>
             </div>
-            {/* Trigger */}
+
+            {/* Customize trigger */}
             <button
               onClick={() => setCustomOpen((v) => !v)}
-              className="flex w-full items-center justify-between py-1.5 text-xs font-medium text-zinc-400 transition-colors hover:text-zinc-700 dark:hover:text-zinc-300"
+              className="flex w-full items-center justify-between border-b border-zinc-100 py-1.5 text-xs font-medium text-zinc-400 transition-colors hover:text-zinc-700 dark:border-zinc-800 dark:hover:text-zinc-300"
             >
               <span>{t("customize")}</span>
               <ChevronDown
@@ -431,10 +432,9 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
                 )}
               />
             </button>
-          </div>
 
-          {/* Poster actions */}
-          <div className="flex gap-2">
+            {/* Poster actions */}
+            <div className="flex gap-2 pt-3">
             {canShareFile ? (
               <>
                 <button
@@ -472,6 +472,7 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
                 {t("posterDownload")}
               </button>
             )}
+            </div>
           </div>
         </Tabs.Panel>
       </Tabs.Root>
