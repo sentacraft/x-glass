@@ -122,7 +122,8 @@ export default function LogoMark({
           <mask id={`${uid}-bm-${i}`} key={i}>
             <rect x="-120" y="-120" width="240" height="240" fill="white" />
             <g transform={`rotate(${STEP_DEG * ((i + 1) % N)})`}>
-              <path d={bp} fill="black" />
+              <path d={bp} fill="black" stroke="black"
+                strokeWidth={BLADE_STROKE_W} strokeLinejoin="miter" strokeMiterlimit={10} />
             </g>
           </mask>
         ))}

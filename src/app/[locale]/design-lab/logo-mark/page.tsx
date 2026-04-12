@@ -38,7 +38,8 @@ function ApertureMark({
           <mask id={`bmask-${i}-${uid}`} key={i}>
             <rect x="-120" y="-120" width="240" height="240" fill="white" />
             <g transform={`rotate(${stepDeg * ((i + 1) % N)})`}>
-              <path d={bp} fill="black" />
+              <path d={bp} fill="black" stroke="black"
+                strokeWidth={bladeStroke} strokeLinejoin="miter" strokeMiterlimit={10} />
             </g>
           </mask>
         ))}
