@@ -59,8 +59,8 @@ export default async function ComparePage({
         <h1 className="hidden sm:block text-2xl font-bold text-zinc-900 dark:text-zinc-50">
           {t("title")}
         </h1>
-        <div className="ml-auto flex items-center gap-3">
-          <CompareAddLensButton lenses={lenses} />
+        <CompareAddLensButton lenses={lenses} />
+        <div className="ml-auto">
           <ShareButton lenses={lenses} />
         </div>
       </div>
