@@ -389,12 +389,25 @@ function ApertureRingControl({
     return w / 2 - (i + 0.5) * RING_SPACING;
   }
 
-  // Nearest label index for a given strip offset:
-  //   i + 0.5 = (w/2 - offset) / RING_SPACING  →  i = ... - 0.5
+  // Nearest label index for a given strip offset.
   function nearestIndex(rawOffset: number) {
     const w = containerRef.current?.offsetWidth ?? 400;
     const idx = Math.round((w / 2 - rawOffset) / RING_SPACING - 0.5);
     return Math.max(0, Math.min(RING_VALUES.length - 1, idx));
+  }
+
+  // Stepless aperture value for any strip offset: linearly interpolates t
+  // between the two neighboring ring stops that straddle the indicator.
+  // This gives smooth, continuous aperture response while dragging.
+  function tFromOffset(rawOffset: number) {
+    const w = containerRef.current?.offsetWidth ?? 400;
+    // Continuous index position: 0 = indicator on label 0 centre, 1 = label 1, …
+    const pos = (w / 2 - rawOffset) / RING_SPACING - 0.5;
+    if (pos <= 0) return RING_VALUES[0].t;
+    if (pos >= RING_VALUES.length - 1) return RING_VALUES[RING_VALUES.length - 1].t;
+    const lo = Math.floor(pos);
+    const frac = pos - lo;
+    return RING_VALUES[lo].t + (RING_VALUES[lo + 1].t - RING_VALUES[lo].t) * frac;
   }
 
   // Sync strip position when value is changed externally (slider, preset load)
@@ -421,8 +434,8 @@ function ApertureRingControl({
     if (!isDragging.current || !dragStart.current) return;
     const newOffset = dragStart.current.offset + (e.clientX - dragStart.current.x);
     setOffset(newOffset);
-    // Real-time aperture update while dragging
-    onChange(RING_VALUES[nearestIndex(newOffset)].t);
+    // Stepless real-time update — interpolates between stops
+    onChange(tFromOffset(newOffset));
   }
 
   function onPointerUp(e: React.PointerEvent<HTMLDivElement>) {
@@ -430,7 +443,7 @@ function ApertureRingControl({
     const newOffset = dragStart.current.offset + (e.clientX - dragStart.current.x);
     isDragging.current = false;
     dragStart.current = null;
-    // Snap to the nearest label center
+    // Snap strip to nearest named stop on release
     const idx = nearestIndex(newOffset);
     setSnapping(true);
     setOffset(offsetForIndex(idx));
@@ -442,16 +455,17 @@ function ApertureRingControl({
     // Outer wrapper provides `relative` context so the above-bar tick can use
     // `bottom: 100%` to escape the overflow:hidden inner container.
     <div className="relative">
-      {/* Indicator tick above the bar */}
+      {/* Indicator tick above the bar — 2px wide for visibility */}
       <div
-        className="absolute pointer-events-none bg-white"
+        className="absolute pointer-events-none"
         style={{
           left: "50%",
           bottom: "100%",
           transform: "translateX(-50%)",
-          width: 1,
-          height: 8,
-          marginBottom: 2,
+          width: 2,
+          height: 10,
+          marginBottom: 3,
+          backgroundColor: "white",
         }}
       />
 
@@ -500,10 +514,16 @@ function ApertureRingControl({
           </div>
         </div>
 
-        {/* Fixed indicator line at center — 1px white, full bar height */}
+        {/* Fixed indicator line at center — 2px white, full bar height.
+            Rendered after the masked labels div so it always shows on top. */}
         <div
-          className="absolute inset-y-0 w-px bg-white pointer-events-none"
-          style={{ left: "50%", transform: "translateX(-50%)" }}
+          className="absolute inset-y-0 pointer-events-none"
+          style={{
+            left: "50%",
+            transform: "translateX(-50%)",
+            width: 2,
+            backgroundColor: "white",
+          }}
         />
       </div>
     </div>
