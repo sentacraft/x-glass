@@ -107,7 +107,7 @@ export default function LensListClient({ lenses }: Props) {
               <div className="inline-flex items-center gap-0.5 self-start rounded-full border border-zinc-200/70 bg-white/80 p-0.75 shadow-sm shadow-zinc-950/[0.02] dark:border-zinc-800 dark:bg-zinc-900/30 sm:self-auto">
                 <label
                   htmlFor="results-sort"
-                  className="whitespace-nowrap pl-2.5 text-[10px] font-medium uppercase tracking-[0.08em] text-zinc-500 dark:text-zinc-400"
+                  className="hidden whitespace-nowrap pl-2.5 text-[10px] font-medium uppercase tracking-[0.08em] text-zinc-500 dark:text-zinc-400 sm:inline"
                 >
                   {t("sortBy")}
                 </label>
@@ -124,7 +124,8 @@ export default function LensListClient({ lenses }: Props) {
                   <SelectTrigger
                     id="results-sort"
                     size="sm"
-                    className="min-w-[7.75rem] rounded-full border-transparent bg-transparent px-2.5 text-[12px] shadow-none dark:bg-transparent"
+                    hideChevronOnMobile
+                    className="rounded-full border-transparent bg-transparent px-2.5 text-[12px] shadow-none dark:bg-transparent sm:min-w-[7.75rem]"
                   >
                     <SelectValue placeholder={t("sortFocalLength")} />
                   </SelectTrigger>
