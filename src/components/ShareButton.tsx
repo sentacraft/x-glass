@@ -340,7 +340,7 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
             }}
           >
             <DialogContent
-              className="flex w-[calc(100vw-2rem)] max-w-[750px] max-h-[calc(100svh-2rem)] flex-col overflow-hidden rounded-2xl top-4 translate-y-0 shadow-[0_8px_40px_rgba(0,0,0,0.22),0_0_0_1px_rgba(0,0,0,0.06)]"
+              className="flex w-[calc(100vw-2rem)] max-w-[750px] h-[calc(100svh-2rem)] sm:h-auto sm:max-h-[calc(100svh-2rem)] flex-col overflow-hidden rounded-2xl top-4 translate-y-0 shadow-[0_8px_40px_rgba(0,0,0,0.22),0_0_0_1px_rgba(0,0,0,0.06)]"
               showCloseButton
             >
               <div
@@ -363,8 +363,8 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
                   />
                   {!lightboxZoomed && (
                     <div className="pointer-events-none absolute inset-x-0 bottom-0 flex justify-center pb-8">
-                      <div className="flex items-center gap-1.5 rounded-full bg-black/50 px-3 py-1.5 text-sm text-white backdrop-blur-sm">
-                        <ZoomIn className="size-4" />
+                      <div className="flex items-center gap-2 rounded-full bg-black/55 px-4 py-2 text-base font-medium text-white backdrop-blur-sm">
+                        <ZoomIn className="size-5" />
                         {t("posterZoomHint")}
                       </div>
                     </div>
