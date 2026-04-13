@@ -9,7 +9,7 @@ export default function Home() {
   const h = useTranslations("Home");
 
   return (
-    <div className="flex flex-col bg-stone-100 dark:bg-zinc-950 h-[calc(100svh-3.5rem)] overflow-hidden">
+    <div className="flex flex-col bg-stone-100 dark:bg-zinc-950 min-h-[calc(100dvh-3.5rem)]">
       {/* Hero */}
       <section className="flex flex-col items-center justify-center text-center px-4 py-16 flex-1">
         <LogoMark size={104} uid="hero" className="mb-6" interactive />
