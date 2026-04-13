@@ -5,7 +5,7 @@ import { Popover } from "@base-ui/react/popover";
 import { Drawer } from "@base-ui/react/drawer";
 import { Tabs } from "@base-ui/react/tabs";
 import { useTranslations } from "next-intl";
-import { Share2, Copy, Check, Download, Loader2, Expand, SlidersHorizontal } from "lucide-react";
+import { Share2, Copy, Check, Download, Loader2, Expand, SlidersHorizontal, ZoomIn } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { Lens } from "@/lib/types";
 import { rasterizePoster } from "@/lib/share-image";
@@ -52,6 +52,7 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
 
   // Full-size lightbox
   const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxZoomed, setLightboxZoomed] = useState(false);
   const lightboxContainerRef = useRef<HTMLDivElement>(null);
   const [lightboxScale, setLightboxScale] = useState(1);
 
@@ -333,23 +334,44 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
             </div>
           </div>
 
-          {/* Full-size lightbox — top-aligned, inner scroll */}
-          <Dialog open={lightboxOpen} onOpenChange={setLightboxOpen}>
+          {/* Full-size lightbox — fit-to-window by default, tap to zoom to 100% */}
+          <Dialog
+            open={lightboxOpen}
+            onOpenChange={(open) => {
+              setLightboxOpen(open);
+              if (!open) setLightboxZoomed(false);
+            }}
+          >
             <DialogContent
               className="flex w-[calc(100vw-2rem)] max-w-[750px] max-h-[calc(100svh-2rem)] flex-col overflow-hidden rounded-2xl top-4 translate-y-0 shadow-[0_8px_40px_rgba(0,0,0,0.22),0_0_0_1px_rgba(0,0,0,0.06)]"
               showCloseButton
             >
               <div
                 ref={lightboxContainerRef}
-                className="flex-1 min-h-0 overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+                className={cn(
+                  "flex-1 min-h-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
+                  lightboxZoomed ? "overflow-auto" : "overflow-y-auto overflow-x-hidden"
+                )}
               >
-                <div style={{ width: POSTER_W, zoom: lightboxScale }}>
+                <div
+                  style={{ width: POSTER_W, zoom: lightboxZoomed ? 1 : lightboxScale }}
+                  className={cn("relative", lightboxZoomed ? "cursor-zoom-out" : "cursor-zoom-in")}
+                  onClick={() => setLightboxZoomed((z) => !z)}
+                >
                   <SharePoster
                     lenses={lenses}
                     labels={posterLabels}
                     custom={posterCustom}
                     shareUrl={shareUrl}
                   />
+                  {!lightboxZoomed && (
+                    <div className="pointer-events-none absolute inset-x-0 bottom-0 flex justify-center pb-8">
+                      <div className="flex items-center gap-1.5 rounded-full bg-black/50 px-3 py-1.5 text-sm text-white backdrop-blur-sm">
+                        <ZoomIn className="size-4" />
+                        {t("posterZoomHint")}
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
               <DialogFooter className="justify-center">
