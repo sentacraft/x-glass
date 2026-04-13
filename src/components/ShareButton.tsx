@@ -219,8 +219,8 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
 
   const triggerLabel = (
     <>
-      <Share2 className="size-5" />
-      <span className="hidden sm:inline">{t("button")}</span>
+      <Share2 className="size-4" />
+      <span>{t("button")}</span>
     </>
   );
 
@@ -353,58 +353,67 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
                 if (e.target === e.currentTarget) setLightboxOpen(false);
               }}
             >
-              {/* Poster card */}
-              <motion.div
-                ref={lightboxContainerRef}
-                initial={{ opacity: 0, scale: 0.97 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.12, ease: "easeOut" }}
-                className="relative w-[calc(100vw-1.5rem)] max-w-[750px] max-h-[calc(100svh-5rem)] overflow-hidden rounded-2xl bg-white shadow-[0_8px_40px_rgba(0,0,0,0.22),0_0_0_1px_rgba(0,0,0,0.06)]"
-                style={lockedCardHeight !== undefined ? { height: lockedCardHeight } : undefined}
-              >
-                {/* Scrollable poster — in zoom mode fill the locked card height exactly
-                    so the scroll container matches the visible area */}
-                <div
-                  className={cn(
-                    "[scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
-                    posterZoomed
-                      ? "h-full overflow-auto"
-                      : "max-h-[calc(100svh-5rem)] overflow-y-auto overflow-x-hidden"
-                  )}
-                >
-                  <div style={{ width: POSTER_W, zoom: posterZoomed ? 1 : lightboxScale }}>
-                    <SharePoster lenses={lenses} labels={posterLabels} custom={posterCustom} shareUrl={shareUrl} />
-                  </div>
-                </div>
-
-                {/* Close — top-right of card */}
+              {/* Wrapper: sized like the card so the close button can sit outside it */}
+              <div className="relative w-[calc(100vw-1.5rem)] max-w-[750px]">
+                {/* Close — floats above the top-right corner of the card */}
                 <button
                   onClick={() => setLightboxOpen(false)}
-                  className="absolute top-3 right-3 inline-flex h-8 w-8 items-center justify-center rounded-full bg-black/30 text-white backdrop-blur-sm transition-colors hover:bg-black/50"
+                  className="absolute -top-4 right-1 sm:-right-4 z-10 inline-flex h-9 w-9 items-center justify-center rounded-full bg-black/50 text-white backdrop-blur-md transition-colors hover:bg-black/70"
                   aria-label={t("close")}
                 >
-                  <X className="size-3.5" />
+                  <X className="size-4" />
                 </button>
 
-                {/* Zoom toggle — bottom-right of card */}
-                <button
-                  onClick={() => {
-                    setPosterZoomed((z) => {
-                      if (!z && cardElRef.current) {
-                        // Lock card height before zooming so the card doesn't resize
-                        setLockedCardHeight(cardElRef.current.offsetHeight);
-                      } else {
-                        setLockedCardHeight(undefined);
-                      }
-                      return !z;
-                    });
-                  }}
-                  className="absolute bottom-3 right-3 inline-flex h-8 w-8 items-center justify-center rounded-full bg-black/30 text-white backdrop-blur-sm transition-colors hover:bg-black/50"
-                  aria-label={posterZoomed ? t("posterZoomOut") : t("posterZoomHint")}
+                {/* Poster card */}
+                <motion.div
+                  ref={lightboxContainerRef}
+                  initial={{ opacity: 0, scale: 0.97 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.12, ease: "easeOut" }}
+                  className="relative w-full max-h-[calc(100svh-5rem)] overflow-hidden rounded-2xl bg-white shadow-[0_8px_40px_rgba(0,0,0,0.22),0_0_0_1px_rgba(0,0,0,0.06)]"
+                  style={lockedCardHeight !== undefined ? { height: lockedCardHeight } : undefined}
                 >
-                  {posterZoomed ? <Minimize2 className="size-3.5" /> : <Maximize2 className="size-3.5" />}
-                </button>
-              </motion.div>
+                  {/* Scrollable poster — in zoom mode fill the locked card height exactly
+                      so the scroll container matches the visible area */}
+                  <div
+                    className={cn(
+                      "[scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
+                      posterZoomed
+                        ? "h-full overflow-auto"
+                        : "max-h-[calc(100svh-5rem)] overflow-y-auto overflow-x-hidden"
+                    )}
+                  >
+                    {/* transition-[zoom] animates the zoom switch on browsers that support it */}
+                    <div
+                      className="transition-[zoom] duration-200 ease-out"
+                      style={{ width: POSTER_W, zoom: posterZoomed ? 1 : lightboxScale }}
+                    >
+                      <SharePoster lenses={lenses} labels={posterLabels} custom={posterCustom} shareUrl={shareUrl} />
+                    </div>
+                  </div>
+
+                  {/* Zoom toggle — only useful when the card is smaller than the poster */}
+                  {lightboxScale < 1 && (
+                    <button
+                      onClick={() => {
+                        setPosterZoomed((z) => {
+                          if (!z && cardElRef.current) {
+                            // Lock card height before zooming so the card doesn't resize
+                            setLockedCardHeight(cardElRef.current.offsetHeight);
+                          } else {
+                            setLockedCardHeight(undefined);
+                          }
+                          return !z;
+                        });
+                      }}
+                      className="absolute bottom-3 right-3 inline-flex h-8 w-8 items-center justify-center rounded-full bg-black/30 text-white backdrop-blur-sm transition-colors hover:bg-black/50"
+                      aria-label={posterZoomed ? t("posterZoomOut") : t("posterZoomHint")}
+                    >
+                      {posterZoomed ? <Minimize2 className="size-3.5" /> : <Maximize2 className="size-3.5" />}
+                    </button>
+                  )}
+                </motion.div>
+              </div>
             </DialogContent>
           </Dialog>
 
