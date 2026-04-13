@@ -448,8 +448,8 @@ export function SharePoster({ lenses, labels, custom, shareUrl, ref }: SharePost
         </div>
       </div>
 
-      {/* ── Focus & Size Section ──────────────────────────────── */}
-      {(showMinFocus || showMaxMag || showFocusMotorRow || showDimensions || showFilter) && (
+      {/* ── Focus Section ────────────────────────────────────── */}
+      {(showMinFocus || showMaxMag || showFocusMotorRow) && (
         <>
           <div style={{ height: 1, background: "#e4e4e7" }} />
           <div style={{ padding: `20px ${POSTER_PX}px` }}>
@@ -565,11 +565,17 @@ export function SharePoster({ lenses, labels, custom, shareUrl, ref }: SharePost
                 </div>
               )}
 
-              {/* Subtle divider between focus and size sub-groups */}
-              {(showMinFocus || showMaxMag || showFocusMotorRow) && (showDimensions || showFilter) && (
-                <div style={{ height: 1, background: "#f4f4f5", margin: `4px 0` }} />
-              )}
+            </PosterSection>
+          </div>
+        </>
+      )}
 
+      {/* ── Size Section ─────────────────────────────────────── */}
+      {(showDimensions || showFilter) && (
+        <>
+          <div style={{ height: 1, background: "#e4e4e7" }} />
+          <div style={{ padding: `20px ${POSTER_PX}px` }}>
+            <PosterSection title={labels.sectionSizeWeight}>
               {/* Dimensions */}
               {showDimensions && (
                 <div style={gridStyle(n)}>
