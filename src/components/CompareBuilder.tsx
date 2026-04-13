@@ -57,9 +57,9 @@ export default function CompareBuilder() {
   }
 
   return (
-    <div className="h-full flex flex-col gap-4 px-4 sm:px-6 py-6 sm:py-8">
+    <div className="flex flex-col gap-4 px-4 sm:px-6 py-6 sm:py-8">
       {/* Header */}
-      <div className="flex flex-col gap-1 shrink-0">
+      <div className="flex flex-col gap-1">
         <h1 className="text-2xl font-bold text-zinc-900 dark:text-zinc-50">
           {t("title")}
         </h1>
@@ -68,8 +68,8 @@ export default function CompareBuilder() {
         </p>
       </div>
 
-      {/* Slots — flex-1 so they fill remaining viewport height */}
-      <div className="flex-1 min-h-0 grid grid-cols-1 min-[500px]:grid-cols-3 gap-4">
+      {/* Slots — fixed height per card so the grid is stable regardless of state */}
+      <div className="grid grid-cols-1 min-[500px]:grid-cols-3 gap-4">
         {slots.map((slotId, i) => {
           const lens = slotId
             ? allLenses.find((l) => l.id === slotId)
@@ -79,7 +79,7 @@ export default function CompareBuilder() {
             return (
               <div
                 key={i}
-                className="relative flex h-full w-full flex-col items-center justify-center gap-2 rounded-[28px] border border-zinc-200 bg-zinc-50/60 px-6 py-8 text-center dark:border-zinc-800 dark:bg-zinc-900/60"
+                className="relative flex h-[220px] w-full flex-col items-center justify-center gap-2 rounded-[28px] border border-zinc-200 bg-zinc-50/60 px-6 py-8 text-center dark:border-zinc-800 dark:bg-zinc-900/60"
               >
                 <button
                   onClick={() => clearSlot(i)}
@@ -107,7 +107,7 @@ export default function CompareBuilder() {
               getResultState={getResultState}
               triggerVariant="card"
               triggerLabel={t("addLens")}
-              triggerClassName="h-full"
+              triggerClassName="h-[220px]"
             />
           );
         })}

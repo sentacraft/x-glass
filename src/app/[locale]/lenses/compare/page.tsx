@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { parseLensIds } from "@/lib/lens";
-import { Link } from "@/i18n/navigation";
 import CompareTable from "@/components/CompareTable";
 import ComparePageHeader from "@/components/ComparePageHeader";
 import CompareAddLensButton from "@/components/CompareAddLensButton";
 import CompareBuilder from "@/components/CompareBuilder";
+import BackButton from "@/components/BackButton";
 
 export async function generateMetadata({
   searchParams,
@@ -60,12 +60,11 @@ export default async function ComparePage({
       />
 
       {/* Back link */}
-      <Link
-        href="/lenses"
+      <BackButton
+        fallbackHref="/lenses"
+        label={`← ${t("backToLenses")}`}
         className="self-start text-sm text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 transition-colors"
-      >
-        ← {t("backToLenses")}
-      </Link>
+      />
     </div>
   );
 }
