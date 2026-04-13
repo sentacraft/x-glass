@@ -10,7 +10,7 @@ export default function Nav() {
   const pathname = usePathname();
 
   return (
-    <header className="border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-black sticky top-0 z-30">
+    <header className="shrink-0 border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-black z-30">
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
         <Link
           href="/"

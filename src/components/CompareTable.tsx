@@ -7,6 +7,7 @@ import React, {
   useRef,
   useState,
 } from "react";
+import { useScrollContainer } from "@/context/ScrollContainerContext";
 import Image from "next/image";
 import { ExternalLink } from "@/components/ui/external-link";
 import { useTranslations } from "next-intl";
@@ -302,6 +303,7 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
   }, [allGroups, orderedLenses, valueCellLabels]);
 
   const totalColSpan = orderedLenses.length + 1;
+  const scrollContainer = useScrollContainer();
 
   // --- Phantom sticky header ---
   const theadRef = useRef<HTMLTableSectionElement>(null);
@@ -315,11 +317,11 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
     if (!thead) return;
     const observer = new IntersectionObserver(
       ([entry]) => setShowPhantom(!entry.isIntersecting),
-      { rootMargin: "-56px 0px 0px 0px", threshold: 0 },
+      { root: scrollContainer, rootMargin: "0px", threshold: 0 },
     );
     observer.observe(thead);
     return () => observer.disconnect();
-  }, []);
+  }, [scrollContainer]);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -356,7 +358,7 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
     <>
     {/* Phantom sticky header: h-0 so it takes no layout space; sticky (not fixed)
         so it bounces with content during iOS overscroll instead of staying put */}
-    <div className="sticky top-14 z-20 h-0 overflow-x-clip">
+    <div className="sticky top-0 z-20 h-0 overflow-x-clip">
       <div
         className={`absolute left-0 right-0 top-0 transition-all duration-200 ${
           showPhantom
