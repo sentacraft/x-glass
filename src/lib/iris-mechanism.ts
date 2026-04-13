@@ -250,8 +250,8 @@ export function bladeShapePath(config: IrisMechanismConfig): string {
     `A ${fmt(hw)} ${fmt(hw)} 0 0 1 ${fmt(ITipX)} ${fmt(ITipY)}`,
     // Inner arc tip→tail (CCW, bows through −y)
     `A ${fmt(Ri)} ${fmt(Ri)} 0 0 0 ${fmt(ITailX)} ${fmt(ITailY)}`,
-    // Tail semicircle cap inner→outer (CCW, bulges outward at tail)
-    `A ${fmt(hw)} ${fmt(hw)} 0 0 0 ${fmt(OTailX)} ${fmt(OTailY)}`,
+    // Tail semicircle cap inner→outer (CW, bulges outward at tail)
+    `A ${fmt(hw)} ${fmt(hw)} 0 0 1 ${fmt(OTailX)} ${fmt(OTailY)}`,
     "Z",
   ].join(" ");
 }
