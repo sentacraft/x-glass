@@ -63,13 +63,22 @@ function DialogContent({
   className,
   children,
   showCloseButton = true,
+  showOverlayCloseButton = false,
   ...props
 }: DialogPrimitive.Popup.Props & {
   showCloseButton?: boolean;
+  /** Renders the close button on the backdrop overlay (fixed top-6 right-6) instead of
+   *  inside the popup. Use when the popup content should remain visually uncluttered. */
+  showOverlayCloseButton?: boolean;
 }) {
   return (
     <DialogPortal>
       <DialogBackdrop />
+      {showOverlayCloseButton && (
+        <DialogPrimitive.Close className="fixed right-6 top-6 z-[60] inline-flex h-10 w-10 items-center justify-center rounded-full bg-black/40 text-white backdrop-blur-md transition-colors hover:bg-black/60">
+          <X className="h-5 w-5" />
+        </DialogPrimitive.Close>
+      )}
       <DialogPrimitive.Popup
         data-slot="dialog-content"
         className={cn(

@@ -5,17 +5,15 @@ import { Popover } from "@base-ui/react/popover";
 import { Drawer } from "@base-ui/react/drawer";
 import { Tabs } from "@base-ui/react/tabs";
 import { useTranslations } from "next-intl";
-import { Share2, Copy, Check, Download, Loader2, Expand, SlidersHorizontal, ZoomIn, X } from "lucide-react";
+import { Share2, Copy, Check, Download, Loader2, Expand, SlidersHorizontal, ZoomIn } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { cn } from "@/lib/utils";
-import { ICON_CLOSE_BTN_CLS } from "@/lib/ui-tokens";
 import type { Lens } from "@/lib/types";
 import { rasterizePoster } from "@/lib/share-image";
 import { SharePoster, type PosterLabels } from "@/components/poster/SharePoster";
 import {
   Dialog,
   DialogContent,
-  DialogFooter,
 } from "@/components/ui/dialog";
 
 // Scale the 750px poster down to fit the panel content area
@@ -342,19 +340,10 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
             }}
           >
             <DialogContent
-              className="flex w-[calc(100vw-2rem)] max-w-[750px] max-h-[calc(100svh-2rem)] flex-col overflow-hidden rounded-2xl top-4 translate-y-0 shadow-[0_8px_40px_rgba(0,0,0,0.22),0_0_0_1px_rgba(0,0,0,0.06)]"
+              className="flex w-[calc(100vw-2rem)] max-w-[750px] max-h-[80svh] flex-col overflow-hidden rounded-2xl shadow-[0_8px_40px_rgba(0,0,0,0.22),0_0_0_1px_rgba(0,0,0,0.06)]"
               showCloseButton={false}
+              showOverlayCloseButton
             >
-              {/* Close strip — sits above the poster so it never overlaps the QR code */}
-              <div className="flex shrink-0 justify-end p-2 border-b border-zinc-100 dark:border-zinc-800">
-                <button
-                  onClick={() => setLightboxOpen(false)}
-                  className={cn(ICON_CLOSE_BTN_CLS, "h-8 w-8")}
-                  aria-label="Close"
-                >
-                  <X className="h-4 w-4" />
-                </button>
-              </div>
               <div
                 ref={lightboxContainerRef}
                 className={cn(
@@ -395,34 +384,6 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
                   </AnimatePresence>
                 </div>
               </div>
-              <DialogFooter className="justify-center">
-                {canShareFile && (
-                  <button
-                    onClick={handleShareImage}
-                    disabled={posterGenerating}
-                    className="flex items-center gap-2 rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-zinc-50 transition-colors hover:bg-zinc-700 disabled:opacity-50 dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-200"
-                  >
-                    {posterGenerating ? (
-                      <Loader2 className="size-4 animate-spin" />
-                    ) : (
-                      <Share2 className="size-4" />
-                    )}
-                    {t("posterShare")}
-                  </button>
-                )}
-                <button
-                  onClick={handleDownload}
-                  disabled={posterGenerating}
-                  className="flex items-center gap-2 rounded-lg border border-zinc-200 px-4 py-2 text-sm font-medium text-zinc-700 transition-colors hover:bg-zinc-100 disabled:opacity-50 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800"
-                >
-                  {posterGenerating ? (
-                    <Loader2 className="size-4 animate-spin" />
-                  ) : (
-                    <Download className="size-4" />
-                  )}
-                  {t("posterDownload")}
-                </button>
-              </DialogFooter>
             </DialogContent>
           </Dialog>
 
