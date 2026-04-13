@@ -4,9 +4,9 @@ import { useEffect, useRef, useState } from "react";
 import { useScrollContainer } from "@/context/ScrollContainerContext";
 import { Z } from "@/config/ui";
 import { useTranslations } from "next-intl";
-import { Link } from "@/i18n/navigation";
 import { ShareButton } from "@/components/ShareButton";
 import CompareAddLensButton from "@/components/CompareAddLensButton";
+import BackButton from "@/components/BackButton";
 import type { Lens } from "@/lib/types";
 
 interface Props {
@@ -34,12 +34,11 @@ export default function ComparePageHeader({ lenses }: Props) {
   return (
     <>
       <div ref={headerRef} className="flex items-center gap-3">
-        <Link
-          href="/lenses"
+        <BackButton
+          fallbackHref="/lenses"
+          label="←"
           className="text-sm text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 transition-colors"
-        >
-          ←
-        </Link>
+        />
         <h1 className="hidden sm:block text-2xl font-bold text-zinc-900 dark:text-zinc-50">
           {t("title")}
         </h1>
