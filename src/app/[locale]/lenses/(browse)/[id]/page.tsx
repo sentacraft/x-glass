@@ -12,6 +12,7 @@ import { ExternalLink } from "@/components/ui/external-link";
 import { LensPlaceholderIcon } from "@/components/ui/lens-placeholder-icon";
 import { Link } from "@/i18n/navigation";
 import AddToCompareButton from "@/components/AddToCompareButton";
+import { ShareButton } from "@/components/ShareButton";
 import FeedbackTrigger from "@/components/FeedbackTrigger";
 import { BoolCell } from "@/components/ui/bool-cell";
 import { FieldNotePopover } from "@/components/ui/field-note-popover";
@@ -268,6 +269,7 @@ export default async function LensDetailPage({ params }: { params: Params }) {
           <div className="flex flex-col gap-2">
             <div className="flex flex-wrap gap-3">
               <AddToCompareButton lensId={lens.id} />
+              <ShareButton lenses={[lens]} />
               {url && (
                 <ExternalLink
                   href={url}
