@@ -352,7 +352,8 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
               {/* ── State-driven content ── */}
               <AnimatePresence mode="sync" initial={false}>
                 {!lightboxZoomed ? (
-                  /* Preview: compact white card, centered, tap anywhere to enter immersive */
+                  /* Preview: compact white card, centered.
+                     On mobile: tap to enter immersive. On desktop: scroll to explore. */
                   <motion.div
                     key="preview"
                     ref={lightboxContainerRef}
@@ -360,8 +361,11 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.95 }}
                     transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
-                    className="relative w-[calc(100vw-4rem)] max-w-[750px] max-h-[calc(100svh-5rem)] overflow-y-auto overflow-x-hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden rounded-2xl bg-white shadow-[0_8px_40px_rgba(0,0,0,0.22),0_0_0_1px_rgba(0,0,0,0.06)] cursor-zoom-in"
-                    onClick={() => setLightboxZoomed(true)}
+                    className={cn(
+                      "relative w-[calc(100vw-4rem)] max-w-[750px] max-h-[calc(100svh-5rem)] overflow-y-auto overflow-x-hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden rounded-2xl bg-white shadow-[0_8px_40px_rgba(0,0,0,0.22),0_0_0_1px_rgba(0,0,0,0.06)]",
+                      !isDesktop && "cursor-zoom-in"
+                    )}
+                    onClick={!isDesktop ? () => setLightboxZoomed(true) : undefined}
                   >
                     <div style={{ width: POSTER_W, zoom: lightboxScale }}>
                       <SharePoster lenses={lenses} labels={posterLabels} custom={posterCustom} shareUrl={shareUrl} />
@@ -405,19 +409,21 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
                   <X className="size-4" />
                 </button>
 
-                {/* Zoom toggle */}
-                <button
-                  onClick={() => setLightboxZoomed((z) => !z)}
-                  className={cn(
-                    "pointer-events-auto absolute bottom-4 right-4 inline-flex h-10 w-10 items-center justify-center rounded-full backdrop-blur-sm transition-colors",
-                    lightboxZoomed
-                      ? "bg-white/15 text-white hover:bg-white/25"
-                      : "bg-black/40 text-white hover:bg-black/60"
-                  )}
-                  aria-label={lightboxZoomed ? t("posterZoomOut") : t("posterZoomHint")}
-                >
-                  {lightboxZoomed ? <Minimize2 className="size-4" /> : <Maximize2 className="size-4" />}
-                </button>
+                {/* Zoom toggle — mobile only (desktop users scroll the preview card) */}
+                {!isDesktop && (
+                  <button
+                    onClick={() => setLightboxZoomed((z) => !z)}
+                    className={cn(
+                      "pointer-events-auto absolute bottom-4 right-4 inline-flex h-10 w-10 items-center justify-center rounded-full backdrop-blur-sm transition-colors",
+                      lightboxZoomed
+                        ? "bg-white/15 text-white hover:bg-white/25"
+                        : "bg-black/40 text-white hover:bg-black/60"
+                    )}
+                    aria-label={lightboxZoomed ? t("posterZoomOut") : t("posterZoomHint")}
+                  >
+                    {lightboxZoomed ? <Minimize2 className="size-4" /> : <Maximize2 className="size-4" />}
+                  </button>
+                )}
 
                 {/* Download — appears only in immersive mode */}
                 <AnimatePresence>

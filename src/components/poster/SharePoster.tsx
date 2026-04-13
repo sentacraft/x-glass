@@ -18,7 +18,6 @@ import type { SpecialtyTag, FieldNoteKey } from "@/lib/types";
 import { PosterSection } from "./PosterSection";
 import { PosterStatBlock } from "./PosterStatBlock";
 import { PosterFeatureItem } from "./PosterFeatureItem";
-import { PosterWeightBar } from "./PosterWeightBar";
 
 // ── Labels ─────────────────────────────────────────────────────────
 
@@ -430,9 +429,6 @@ export function SharePoster({ lenses, labels, custom, shareUrl, ref }: SharePost
                             </span>
                           )}
                         </span>
-                        <div style={{ width: 48 }}>
-                          <PosterWeightBar weightG={lens.weightG} maxWeightG={maxWeightG} lensIndex={i} />
-                        </div>
                         <span style={{ fontSize: 9, color: "#a1a1aa", letterSpacing: "0.08em", textTransform: "uppercase" }}>
                           {labels.weightLabel}
                         </span>
