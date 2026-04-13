@@ -178,53 +178,80 @@ export function thetaRange(config: IrisMechanismConfig): {
  * Generate the SVG path d-string for a single blade in local coordinates.
  *
  * Local frame: pivot hole at origin (0, 0), guide pin direction along +x axis.
- * The blade body extends from near the origin to bladeLength along +x.
+ * Blade extends from (0,0) to (bladeLength, 0) along the centerline.
  *
- * Shape: a symmetrical elongated petal (upper/lower halves mirrored).
- *   - Outer edge (away from aperture center when assembled): gentle arc
- *   - Inner edge (faces aperture center): Bézier curve, curvature controlled
- *     by bladeCurvature ∈ [0, 1]. Higher values → rounder aperture opening.
+ * Shape: TRUE circular arc-strip — both long edges are concentric circular arcs,
+ * capped by exact semicircles at each end. Matches the original MechanicalIris
+ * blade geometry where inner, outer and midline edges are all arcs of concentric
+ * circles sharing the same center.
+ *
+ * The shared arc center sits below the chord (positive y in SVG), so the strip
+ * bows in the −y direction (upward on screen). This produces the crescent shape
+ * characteristic of real iris diaphragm blades.
+ *
+ * Derivation (chord = L, half-chord cx = L/2, half-width hw = W/2):
+ *   sagitta   s = C × hw × 1.2           (arc bow at midpoint, scales with curvature)
+ *   arc radius  R = (cx² + s²) / (2s)    (chord-sagitta formula)
+ *   center y   cy = R − s                (positive, below chord)
+ *   scale factor f = hw / R
+ *
+ * Outer-arc endpoints (radius R + hw):
+ *   tail = (−cx·f,  −cy·f)      inner-arc endpoints (radius R − hw):
+ *   tip  = ( cx·(2+f), −cy·f)       tail = (cx·f,  cy·f)
+ *                                    tip  = (cx·(2−f), cy·f)
+ *
+ * End caps: semicircles (radius hw) centered at pivot (0,0) and tip (L,0).
+ *
+ * SVG arc directions (derived from angular positions of endpoints relative to center):
+ *   outer arc tail→tip:  sweep=1 (clockwise,       bows through −y top)
+ *   tip cap outer→inner: sweep=1 (clockwise,       caps around the tip)
+ *   inner arc tip→tail:  sweep=0 (counterclockwise, bows through −y top)
+ *   tail cap inner→outer: sweep=0 (counterclockwise, caps around the tail)
  */
 export function bladeShapePath(config: IrisMechanismConfig): string {
-  const { pinDistance: d, bladeLength: L, bladeWidth: W, bladeCurvature: C } =
-    config;
+  const { bladeLength: L, bladeWidth: W, bladeCurvature: C } = config;
 
-  const hw = W / 2; // half-width
-
-  // Key x positions along the blade centerline
-  const xStart = -hw * 0.3; // slightly behind pivot (rounded tail)
-  const xTip = L;            // blade tip
-
-  // Bézier control points for the inner (aperture-facing) edge.
-  // bladeCurvature=0 → straight (cp at midpoint), =1 → strongly bowed outward.
-  const innerBow = hw * C * 1.4;
-  const outerBow = hw * C * 0.5;
-  const midX = (xStart + xTip) / 2;
-
-  // Upper half path (y < 0 in SVG = visually "up")
-  // Lower half is the mirror (y > 0)
-  //
-  // Path: M start-upper → C curve to tip-upper → round tip → C curve back to start-lower → round tail → Z
-
-  // Tip: small arc connecting upper and lower edges at the tip
-  const tipR = hw * 0.45;
-
-  // Tail: small arc at the pivot end
-  const tailR = hw * 0.35;
-
+  const hw = W / 2;
   const fmt = (n: number) => n.toFixed(3);
 
+  if (C < 0.005) {
+    // Degenerate: straight rectangular strip with semicircle caps.
+    return [
+      `M 0 ${fmt(-hw)}`,
+      `L ${fmt(L)} ${fmt(-hw)}`,
+      `A ${fmt(hw)} ${fmt(hw)} 0 0 1 ${fmt(L)} ${fmt(hw)}`,
+      `L 0 ${fmt(hw)}`,
+      `A ${fmt(hw)} ${fmt(hw)} 0 0 1 0 ${fmt(-hw)}`,
+      "Z",
+    ].join(" ");
+  }
+
+  const cx = L / 2;                                        // half-chord = arc center x
+  const s  = C * hw * 1.2;                                 // sagitta
+  const R  = (cx * cx + s * s) / (2 * s);                 // arc radius
+  const cy = R - s;                                        // arc center y (below chord)
+  const f  = hw / R;                                       // radial fraction
+  const Ro = R + hw;                                       // outer arc radius
+  const Ri = R - hw;                                       // inner arc radius
+
+  // Outer arc endpoints (above chord: negative y)
+  const OTailX = -cx * f,        OTailY = -cy * f;
+  const OTipX  =  cx * (2 + f),  OTipY  = OTailY;
+
+  // Inner arc endpoints (below chord: positive y)
+  const ITailX =  cx * f,        ITailY =  cy * f;
+  const ITipX  =  cx * (2 - f),  ITipY  = ITailY;
+
   return [
-    // Start at tail upper
-    `M ${fmt(xStart)} ${fmt(-hw + tailR)}`,
-    // Inner (upper) edge to tip: Bézier bow outward (away from aperture center = negative y)
-    `C ${fmt(midX)} ${fmt(-hw - innerBow)}, ${fmt(midX)} ${fmt(-hw - innerBow)}, ${fmt(xTip)} ${fmt(-hw + tipR)}`,
-    // Round tip arc (clockwise in SVG = CW)
-    `A ${fmt(tipR)} ${fmt(tipR)} 0 0 1 ${fmt(xTip)} ${fmt(hw - tipR)}`,
-    // Outer (lower) edge back to tail: Bézier bow slightly outward
-    `C ${fmt(midX)} ${fmt(hw + outerBow)}, ${fmt(midX)} ${fmt(hw + outerBow)}, ${fmt(xStart)} ${fmt(hw - tailR)}`,
-    // Round tail arc
-    `A ${fmt(tailR)} ${fmt(tailR)} 0 0 1 ${fmt(xStart)} ${fmt(-hw + tailR)}`,
+    `M ${fmt(OTailX)} ${fmt(OTailY)}`,
+    // Outer arc tail→tip (CW, bows through −y)
+    `A ${fmt(Ro)} ${fmt(Ro)} 0 0 1 ${fmt(OTipX)} ${fmt(OTipY)}`,
+    // Tip semicircle cap outer→inner (CW, bulges outward at tip)
+    `A ${fmt(hw)} ${fmt(hw)} 0 0 1 ${fmt(ITipX)} ${fmt(ITipY)}`,
+    // Inner arc tip→tail (CCW, bows through −y)
+    `A ${fmt(Ri)} ${fmt(Ri)} 0 0 0 ${fmt(ITailX)} ${fmt(ITailY)}`,
+    // Tail semicircle cap inner→outer (CCW, bulges outward at tail)
+    `A ${fmt(hw)} ${fmt(hw)} 0 0 0 ${fmt(OTailX)} ${fmt(OTailY)}`,
     "Z",
   ].join(" ");
 }
@@ -238,6 +265,6 @@ export const DEFAULT_IRIS_CONFIG: IrisMechanismConfig = {
   pinDistance: 68,
   slotOffset: Math.PI / 5, // 36°
   bladeLength: 115,
-  bladeWidth: 48,
-  bladeCurvature: 0.55,
+  bladeWidth: 30,
+  bladeCurvature: 0.65,
 };
