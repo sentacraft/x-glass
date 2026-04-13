@@ -54,10 +54,15 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [posterZoomed, setPosterZoomed] = useState(false);
   const [lightboxScale, setLightboxScale] = useState(1);
+  // Locked card height: captured just before entering zoom mode so the card
+  // doesn't resize when the poster switches from fit-scale to zoom:1.
+  const [lockedCardHeight, setLockedCardHeight] = useState<number | undefined>(undefined);
+  const cardElRef = useRef<HTMLDivElement | null>(null);
   // Callback ref: fires as soon as the portal element mounts, avoiding the
   // race condition where useEffect runs before the portal has attached the ref.
   const lightboxRoRef = useRef<ResizeObserver | null>(null);
   const lightboxContainerRef = useCallback((el: HTMLDivElement | null) => {
+    cardElRef.current = el;
     lightboxRoRef.current?.disconnect();
     lightboxRoRef.current = null;
     if (!el) return;
@@ -336,7 +341,7 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
             open={lightboxOpen}
             onOpenChange={(open) => {
               setLightboxOpen(open);
-              if (!open) setPosterZoomed(false);
+              if (!open) { setPosterZoomed(false); setLockedCardHeight(undefined); }
             }}
           >
             <DialogContent
@@ -354,7 +359,8 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
                 initial={{ opacity: 0, scale: 0.97 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.12, ease: "easeOut" }}
-                className="relative w-[calc(100vw-4rem)] max-w-[750px] max-h-[calc(100svh-5rem)] overflow-hidden rounded-2xl bg-white shadow-[0_8px_40px_rgba(0,0,0,0.22),0_0_0_1px_rgba(0,0,0,0.06)]"
+                className="relative w-[calc(100vw-1.5rem)] max-w-[750px] max-h-[calc(100svh-5rem)] overflow-hidden rounded-2xl bg-white shadow-[0_8px_40px_rgba(0,0,0,0.22),0_0_0_1px_rgba(0,0,0,0.06)]"
+                style={lockedCardHeight !== undefined ? { height: lockedCardHeight } : undefined}
               >
                 {/* Scrollable poster — overflow-x: auto in zoomed mode so user can pan */}
                 <div
@@ -370,7 +376,17 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
 
                 {/* Zoom toggle — overlaid at bottom-right of card */}
                 <button
-                  onClick={() => setPosterZoomed((z) => !z)}
+                  onClick={() => {
+                    setPosterZoomed((z) => {
+                      if (!z && cardElRef.current) {
+                        // Lock card height before zooming so the card doesn't resize
+                        setLockedCardHeight(cardElRef.current.offsetHeight);
+                      } else {
+                        setLockedCardHeight(undefined);
+                      }
+                      return !z;
+                    });
+                  }}
                   className="absolute bottom-3 right-3 inline-flex h-8 w-8 items-center justify-center rounded-full bg-black/30 text-white backdrop-blur-sm transition-colors hover:bg-black/50"
                   aria-label={posterZoomed ? t("posterZoomOut") : t("posterZoomHint")}
                 >
