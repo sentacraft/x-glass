@@ -27,9 +27,11 @@ const PREVIEW_H = 310; // visible preview height in pixels
 interface ShareButtonProps {
   lenses: Lens[];
   variant?: "default" | "fab";
+  /** Override the default trigger button class (non-fab variant only). */
+  triggerClassName?: string;
 }
 
-export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
+export function ShareButton({ lenses, variant = "default", triggerClassName }: ShareButtonProps) {
   const t = useTranslations("Share");
   const tImage = useTranslations("ShareImage");
   const tBrand = useTranslations("Brands");
@@ -510,6 +512,7 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
   const isFab = variant === "fab";
 
   const defaultTriggerClass =
+    triggerClassName ??
     "flex cursor-pointer items-center gap-1.5 rounded-md p-1 text-sm text-zinc-500 outline-none transition-colors hover:text-zinc-900 focus-visible:ring-2 focus-visible:ring-zinc-400 dark:text-zinc-400 dark:hover:text-zinc-50";
 
   const fabTriggerClass =

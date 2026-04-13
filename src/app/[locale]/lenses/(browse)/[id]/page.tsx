@@ -14,6 +14,7 @@ import { Link } from "@/i18n/navigation";
 import AddToCompareButton from "@/components/AddToCompareButton";
 import { ShareButton } from "@/components/ShareButton";
 import FeedbackTrigger from "@/components/FeedbackTrigger";
+import { ACTION_OUTLINE_CLS } from "@/lib/ui-tokens";
 import { BoolCell } from "@/components/ui/bool-cell";
 import { FieldNotePopover } from "@/components/ui/field-note-popover";
 
@@ -269,12 +270,9 @@ export default async function LensDetailPage({ params }: { params: Params }) {
           <div className="flex flex-col gap-2">
             <div className="flex flex-wrap gap-3">
               <AddToCompareButton lensId={lens.id} />
-              <ShareButton lenses={[lens]} />
+              <ShareButton lenses={[lens]} triggerClassName={ACTION_OUTLINE_CLS} />
               {url && (
-                <ExternalLink
-                  href={url}
-                  className="inline-flex items-center gap-1.5 text-sm font-medium px-4 py-2 rounded-lg border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors"
-                >
+                <ExternalLink href={url} className={ACTION_OUTLINE_CLS}>
                   {t("officialSite")}
                 </ExternalLink>
               )}
