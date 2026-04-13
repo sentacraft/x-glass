@@ -6,6 +6,7 @@ import Nav from "@/components/Nav";
 import ConsoleEgg from "@/components/ConsoleEgg";
 import TestHookPanel from "@/components/TestHookPanel";
 import { CompareProvider } from "@/context/CompareProvider";
+import { ScrollContainer } from "@/context/ScrollContainerContext";
 import { TestHookProvider } from "@/context/TestHookProvider";
 import { TESTHOOK_ALLOWED } from "@/lib/testhook";
 import "../globals.css";
@@ -45,20 +46,22 @@ export default async function LocaleLayout({
   return (
     <div
       lang={locale}
-      className="min-h-full"
+      className="flex h-svh flex-col overflow-hidden"
     >
       <NextIntlClientProvider messages={messages}>
         <CompareProvider>
           <ConsoleEgg />
           <Nav />
-          {TESTHOOK_ALLOWED ? (
-            <TestHookProvider>
-              {children}
-              <TestHookPanel />
-            </TestHookProvider>
-          ) : (
-            children
-          )}
+          <ScrollContainer>
+            {TESTHOOK_ALLOWED ? (
+              <TestHookProvider>
+                {children}
+                <TestHookPanel />
+              </TestHookProvider>
+            ) : (
+              children
+            )}
+          </ScrollContainer>
         </CompareProvider>
       </NextIntlClientProvider>
     </div>

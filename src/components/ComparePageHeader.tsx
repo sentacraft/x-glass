@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useScrollContainer } from "@/context/ScrollContainerContext";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { ShareButton } from "@/components/ShareButton";
@@ -15,6 +16,7 @@ export default function ComparePageHeader({ lenses }: Props) {
   const t = useTranslations("Compare");
   const headerRef = useRef<HTMLDivElement>(null);
   const [showFab, setShowFab] = useState(false);
+  const scrollContainer = useScrollContainer();
 
   // Show the FAB when the header row scrolls behind the nav bar
   useEffect(() => {
@@ -22,13 +24,11 @@ export default function ComparePageHeader({ lenses }: Props) {
     if (!el) return;
     const observer = new IntersectionObserver(
       ([entry]) => setShowFab(!entry.isIntersecting),
-      // Shrink the root rect by the nav height (56px) so the FAB appears
-      // as soon as the header disappears behind the nav, not the viewport top
-      { rootMargin: "-56px 0px 0px 0px", threshold: 0 },
+      { root: scrollContainer, rootMargin: "0px", threshold: 0 },
     );
     observer.observe(el);
     return () => observer.disconnect();
-  }, []);
+  }, [scrollContainer]);
 
   return (
     <>
