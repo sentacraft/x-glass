@@ -5,8 +5,10 @@ import { Popover } from "@base-ui/react/popover";
 import { Drawer } from "@base-ui/react/drawer";
 import { Tabs } from "@base-ui/react/tabs";
 import { useTranslations } from "next-intl";
-import { Share2, Copy, Check, Download, Loader2, Expand, SlidersHorizontal, ZoomIn } from "lucide-react";
+import { Share2, Copy, Check, Download, Loader2, Expand, SlidersHorizontal, ZoomIn, X } from "lucide-react";
+import { motion, AnimatePresence } from "motion/react";
 import { cn } from "@/lib/utils";
+import { ICON_CLOSE_BTN_CLS } from "@/lib/ui-tokens";
 import type { Lens } from "@/lib/types";
 import { rasterizePoster } from "@/lib/share-image";
 import { SharePoster, type PosterLabels } from "@/components/poster/SharePoster";
@@ -340,9 +342,19 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
             }}
           >
             <DialogContent
-              className="flex w-[calc(100vw-2rem)] max-w-[750px] h-[calc(100svh-2rem)] sm:h-auto sm:max-h-[calc(100svh-2rem)] flex-col overflow-hidden rounded-2xl top-4 translate-y-0 shadow-[0_8px_40px_rgba(0,0,0,0.22),0_0_0_1px_rgba(0,0,0,0.06)]"
-              showCloseButton
+              className="flex w-[calc(100vw-2rem)] max-w-[750px] max-h-[calc(100svh-2rem)] flex-col overflow-hidden rounded-2xl top-4 translate-y-0 shadow-[0_8px_40px_rgba(0,0,0,0.22),0_0_0_1px_rgba(0,0,0,0.06)]"
+              showCloseButton={false}
             >
+              {/* Close strip — sits above the poster so it never overlaps the QR code */}
+              <div className="flex shrink-0 justify-end p-2 border-b border-zinc-100 dark:border-zinc-800">
+                <button
+                  onClick={() => setLightboxOpen(false)}
+                  className={cn(ICON_CLOSE_BTN_CLS, "h-8 w-8")}
+                  aria-label="Close"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
               <div
                 ref={lightboxContainerRef}
                 className={cn(
@@ -351,7 +363,11 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
                 )}
               >
                 <div
-                  style={{ width: POSTER_W, zoom: lightboxZoomed ? 1 : lightboxScale }}
+                  style={{
+                    width: POSTER_W,
+                    zoom: lightboxZoomed ? 1 : lightboxScale,
+                    transition: "zoom 0.35s cubic-bezier(0.4, 0, 0.2, 1)",
+                  }}
                   className={cn("relative", lightboxZoomed ? "cursor-zoom-out" : "cursor-zoom-in")}
                   onClick={() => setLightboxZoomed((z) => !z)}
                 >
@@ -361,14 +377,22 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
                     custom={posterCustom}
                     shareUrl={shareUrl}
                   />
-                  {!lightboxZoomed && (
-                    <div className="pointer-events-none absolute inset-x-0 bottom-0 flex justify-center pb-8">
-                      <div className="flex items-center gap-2 rounded-full bg-black/55 px-4 py-2 text-base font-medium text-white backdrop-blur-sm">
-                        <ZoomIn className="size-5" />
-                        {t("posterZoomHint")}
-                      </div>
-                    </div>
-                  )}
+                  <AnimatePresence>
+                    {!lightboxZoomed && (
+                      <motion.div
+                        className="pointer-events-none absolute inset-x-0 bottom-0 flex justify-center pb-8"
+                        initial={{ opacity: 0, y: 6 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 6 }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        <div className="flex items-center gap-2 rounded-full bg-black/55 px-4 py-2 text-base font-medium text-white backdrop-blur-sm">
+                          <ZoomIn className="size-5" />
+                          {t("posterZoomHint")}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
               </div>
               <DialogFooter className="justify-center">
