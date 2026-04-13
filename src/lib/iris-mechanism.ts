@@ -258,11 +258,18 @@ export function bladeShapePath(config: IrisMechanismConfig): string {
 
 // ── Default config ────────────────────────────────────────────────────────────
 
-/** Reasonable starting configuration for a 7-blade iris. */
+/**
+ * Reasonable starting configuration for a 7-blade iris.
+ *
+ * pinDistance must exceed the closure threshold Rp²/√(Rp²−hw²) ≈ 79.5 px
+ * for the aperture to close to near-zero at kinRange.max.
+ * d=80 (slightly above threshold) leaves ~2 px residual aperture and
+ * expands the kinematic range to ±90° from −δ (d > Rp condition).
+ */
 export const DEFAULT_IRIS_CONFIG: IrisMechanismConfig = {
   N: 7,
   pivotRadius: 78,
-  pinDistance: 68,
+  pinDistance: 80,
   slotOffset: Math.PI / 5, // 36°
   bladeLength: 115,
   bladeWidth: 30,
