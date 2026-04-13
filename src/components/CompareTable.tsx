@@ -37,20 +37,20 @@ function LensHeaderContent({
 
   return (
     <>
-      <div className="mb-1 flex w-full max-w-[72px] items-center justify-center overflow-hidden rounded-xl bg-zinc-50/70 p-1.5 sm:mb-2 sm:max-w-[84px] sm:p-2 dark:bg-zinc-900/50">
+      <div className="mb-1 flex w-full max-w-[80px] items-center justify-center overflow-hidden rounded-xl bg-zinc-50/70 p-1.5 sm:mb-2 sm:max-w-[160px] sm:p-3 dark:bg-zinc-900/50">
         {lens.imageUrl ? (
           <div className="relative aspect-square w-full overflow-hidden">
             <Image
               src={lens.imageUrl}
               alt={lens.model}
               fill
-              sizes="96px"
+              sizes="(min-width: 640px) 160px, 80px"
               style={lensImageStyle}
               className="object-contain"
             />
           </div>
         ) : (
-          <LensPlaceholderIcon className="h-10 w-10 sm:h-12 sm:w-12 text-zinc-300 dark:text-zinc-600" />
+          <LensPlaceholderIcon className="h-10 w-10 sm:h-20 sm:w-20 text-zinc-300 dark:text-zinc-600" />
         )}
       </div>
 
