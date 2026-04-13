@@ -42,7 +42,7 @@ export default function ComparePageHeader({ lenses }: Props) {
         <h1 className="hidden sm:block text-2xl font-bold text-zinc-900 dark:text-zinc-50">
           {t("title")}
         </h1>
-        <CompareAddLensButton lenses={lenses} />
+        {lenses.length >= 2 && <CompareAddLensButton lenses={lenses} />}
         {lenses.length >= 2 && (
           <div className="ml-auto">
             <ShareButton lenses={lenses} />
