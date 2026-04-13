@@ -53,8 +53,19 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
   // Full-size lightbox
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxZoomed, setLightboxZoomed] = useState(false);
-  const lightboxContainerRef = useRef<HTMLDivElement>(null);
   const [lightboxScale, setLightboxScale] = useState(1);
+  // Callback ref: fires as soon as the portal element mounts, avoiding the
+  // race condition where useEffect runs before the portal has attached the ref.
+  const lightboxRoRef = useRef<ResizeObserver | null>(null);
+  const lightboxContainerRef = useCallback((el: HTMLDivElement | null) => {
+    lightboxRoRef.current?.disconnect();
+    lightboxRoRef.current = null;
+    if (!el) return;
+    const updateScale = () => setLightboxScale(Math.min(1, el.clientWidth / POSTER_W));
+    updateScale();
+    lightboxRoRef.current = new ResizeObserver(updateScale);
+    lightboxRoRef.current.observe(el);
+  }, []);
 
   // Filename slug
   const slugRef = useRef("");
@@ -80,20 +91,6 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
     mq.addEventListener("change", handler);
     return () => mq.removeEventListener("change", handler);
   }, []);
-
-  // Scale lightbox poster to fit container width on mobile
-  useEffect(() => {
-    if (!lightboxOpen) return;
-    const el = lightboxContainerRef.current;
-    if (!el) return;
-    const updateScale = () => {
-      setLightboxScale(Math.min(1, el.clientWidth / POSTER_W));
-    };
-    updateScale();
-    const ro = new ResizeObserver(updateScale);
-    ro.observe(el);
-    return () => ro.disconnect();
-  }, [lightboxOpen]);
 
   // Keep shareUrl in sync when panel opens
   useEffect(() => {
