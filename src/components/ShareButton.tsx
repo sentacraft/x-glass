@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback, useRef } from "react";
+import { useGesture } from "@use-gesture/react";
 import { Popover } from "@base-ui/react/popover";
 import { Drawer } from "@base-ui/react/drawer";
 import { Tabs } from "@base-ui/react/tabs";
@@ -55,9 +56,15 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [posterViewMode, setPosterViewMode] = useState<"preview" | "fit" | "actual">("preview");
   const [lightboxScale, setLightboxScale] = useState(1);
+  const [viewerScale, setViewerScale] = useState(1);
+  const [viewerOffset, setViewerOffset] = useState({ x: 0, y: 0 });
+  const [stageRect, setStageRect] = useState({ width: 0, height: 0 });
+  const [posterRect, setPosterRect] = useState({ width: POSTER_W, height: 0 });
   // Callback ref: fires as soon as the portal element mounts, avoiding the
   // race condition where useEffect runs before the portal has attached the ref.
   const lightboxRoRef = useRef<ResizeObserver | null>(null);
+  const immersiveStageRef = useRef<HTMLDivElement | null>(null);
+  const immersivePosterRef = useRef<HTMLDivElement | null>(null);
   const lightboxContainerRef = useCallback((el: HTMLDivElement | null) => {
     lightboxRoRef.current?.disconnect();
     lightboxRoRef.current = null;
@@ -247,7 +254,148 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
   }, [isDesktop]);
 
   const isImmersiveView = posterViewMode !== "preview";
-  const isActualSizeView = posterViewMode === "actual";
+  const fitScale =
+    stageRect.width > 0 && stageRect.height > 0 && posterRect.height > 0
+      ? Math.min(stageRect.width / posterRect.width, stageRect.height / posterRect.height, 1)
+      : 1;
+
+  const clampOffset = useCallback(
+    (nextScale: number, nextOffset: { x: number; y: number }) => {
+      if (!stageRect.width || !stageRect.height || !posterRect.width || !posterRect.height) {
+        return nextOffset;
+      }
+
+      const scaledWidth = posterRect.width * nextScale;
+      const scaledHeight = posterRect.height * nextScale;
+      const maxX = Math.max(0, (scaledWidth - stageRect.width) / 2);
+      const maxY = Math.max(0, (scaledHeight - stageRect.height) / 2);
+
+      return {
+        x: Math.min(maxX, Math.max(-maxX, nextOffset.x)),
+        y: Math.min(maxY, Math.max(-maxY, nextOffset.y)),
+      };
+    },
+    [posterRect.height, posterRect.width, stageRect.height, stageRect.width]
+  );
+
+  useEffect(() => {
+    if (!lightboxOpen || !isImmersiveView) {
+      return;
+    }
+
+    const stageEl = immersiveStageRef.current;
+    const posterEl = immersivePosterRef.current;
+    if (!stageEl || !posterEl) {
+      return;
+    }
+
+    const updateRects = () => {
+      setStageRect({
+        width: stageEl.clientWidth,
+        height: stageEl.clientHeight,
+      });
+      setPosterRect({
+        width: posterEl.scrollWidth || POSTER_W,
+        height: posterEl.scrollHeight,
+      });
+    };
+
+    updateRects();
+    const observer = new ResizeObserver(updateRects);
+    observer.observe(stageEl);
+    observer.observe(posterEl);
+    return () => observer.disconnect();
+  }, [isImmersiveView, lightboxOpen]);
+
+  useEffect(() => {
+    if (!isImmersiveView) {
+      setViewerOffset({ x: 0, y: 0 });
+      setViewerScale(1);
+      return;
+    }
+
+    if (posterViewMode === "fit") {
+      setViewerScale(fitScale);
+      setViewerOffset({ x: 0, y: 0 });
+      return;
+    }
+
+    if (posterViewMode === "actual") {
+      setViewerScale(1);
+      setViewerOffset(clampOffset(1, { x: 0, y: 0 }));
+    }
+  }, [clampOffset, fitScale, isImmersiveView, posterViewMode]);
+
+  const viewerScaleRef = useRef(viewerScale);
+  const viewerOffsetRef = useRef(viewerOffset);
+  const pinchStartScaleRef = useRef(1);
+  const pinchStartOffsetRef = useRef({ x: 0, y: 0 });
+
+  useEffect(() => {
+    viewerScaleRef.current = viewerScale;
+  }, [viewerScale]);
+
+  useEffect(() => {
+    viewerOffsetRef.current = viewerOffset;
+  }, [viewerOffset]);
+
+  const updateViewerTransform = useCallback(
+    (nextScale: number, nextOffset: { x: number; y: number }) => {
+      const boundedOffset = clampOffset(nextScale, nextOffset);
+      setViewerScale(nextScale);
+      setViewerOffset(boundedOffset);
+    },
+    [clampOffset]
+  );
+
+  const viewerGestureBind = useGesture(
+    {
+      onDrag: ({ offset: [x, y] }) => {
+        if (!isImmersiveView || viewerScaleRef.current <= fitScale + 0.001) {
+          return;
+        }
+        updateViewerTransform(viewerScaleRef.current, { x, y });
+      },
+      onPinch: ({ first, offset: [distance], memo }) => {
+        if (!isImmersiveView) {
+          return memo;
+        }
+
+        if (first) {
+          pinchStartScaleRef.current = viewerScaleRef.current;
+          pinchStartOffsetRef.current = viewerOffsetRef.current;
+          return distance;
+        }
+
+        const startDistance = memo ?? distance;
+        const scaleRatio = startDistance === 0 ? 1 : distance / startDistance;
+        const nextScale = Math.min(3, Math.max(fitScale, pinchStartScaleRef.current * scaleRatio));
+        updateViewerTransform(nextScale, pinchStartOffsetRef.current);
+        return startDistance;
+      },
+      onWheel: ({ event, delta: [, dy] }) => {
+        if (!isImmersiveView || !isDesktop) {
+          return;
+        }
+        event.preventDefault();
+        const nextScale = Math.min(3, Math.max(fitScale, viewerScaleRef.current - dy * 0.0015));
+        updateViewerTransform(nextScale, viewerOffsetRef.current);
+      },
+    },
+    {
+      drag: {
+        from: () => [viewerOffsetRef.current.x, viewerOffsetRef.current.y],
+        pointer: { touch: true },
+        filterTaps: true,
+      },
+      pinch: {
+        scaleBounds: () => ({ min: fitScale, max: 3 }),
+      },
+      wheel: {
+        eventOptions: { passive: false },
+      },
+    }
+  );
 
   const panelContent = (
     <div className="flex flex-col gap-4 p-4">
@@ -399,7 +547,6 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
                      layer. */
                   <motion.div
                     key={posterViewMode}
-                    ref={lightboxContainerRef}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
@@ -407,16 +554,29 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
                     className="fixed inset-0 overflow-y-auto overflow-x-hidden bg-zinc-950/96 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
                   >
                     <div
-                      className="flex min-h-full w-full justify-center px-4 pb-[calc(env(safe-area-inset-bottom,0px)+1rem)] pt-[calc(env(safe-area-inset-top,0px)+4rem)]"
+                      ref={immersiveStageRef}
+                      className="flex min-h-full w-full items-center justify-center overflow-hidden px-4 pb-[calc(env(safe-area-inset-bottom,0px)+1rem)] pt-[calc(env(safe-area-inset-top,0px)+4rem)] touch-none"
                       onClick={(e) => {
                         if (e.target === e.currentTarget && !isDesktop) {
                           setPosterViewMode("preview");
                         }
                       }}
+                      style={{ touchAction: "none" }}
+                      {...viewerGestureBind()}
                     >
                       <div
-                        style={{ width: POSTER_W, zoom: isActualSizeView ? 1 : lightboxScale }}
-                        className="shrink-0"
+                        ref={immersivePosterRef}
+                        style={{
+                          width: POSTER_W,
+                          transform: `translate3d(${viewerOffset.x}px, ${viewerOffset.y}px, 0) scale(${viewerScale})`,
+                          transformOrigin: "center center",
+                          willChange: "transform",
+                          cursor:
+                            viewerScale > fitScale + 0.001
+                              ? "grab"
+                              : "default",
+                        }}
+                        className="shrink-0 select-none"
                       >
                         <SharePoster lenses={lenses} labels={posterLabels} custom={posterCustom} shareUrl={shareUrl} />
                       </div>
