@@ -54,6 +54,7 @@ export default function LensSearchDialog({
   const [query, setQuery] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
   const inputId = useId();
   const titleId = useId();
   const descriptionId = useId();
@@ -78,6 +79,16 @@ export default function LensSearchDialog({
       setActiveIndex(0);
     }
   }, [open]);
+
+  // Scroll active result into view when navigating with keyboard
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+    const activeItem = container.querySelector('[aria-selected="true"]');
+    if (activeItem) {
+      (activeItem as HTMLElement).scrollIntoView({ block: "nearest" });
+    }
+  }, [activeIndex]);
 
   const results = useMemo(
     () => searchLensIndex(lensSearchIndex, deferredQuery),
@@ -180,7 +191,7 @@ export default function LensSearchDialog({
             </div>
           </DialogHeader>
 
-          <div className="max-h-[60vh] overflow-y-auto px-3 py-3">
+          <div ref={scrollContainerRef} className="max-h-[60vh] overflow-y-auto px-3 py-3">
             {query.trim().length === 0 ? (
               <div className="rounded-2xl border border-dashed border-zinc-200 px-5 py-10 text-center dark:border-zinc-800">
                 <p className="text-sm font-medium text-zinc-700 dark:text-zinc-200">
