@@ -188,7 +188,7 @@ export default function LensSearchDialog({
                 placeholder={t("placeholder")}
                 aria-controls={resultsId}
                 aria-autocomplete="list"
-                className="w-full border-0 bg-transparent text-sm text-zinc-950 outline-none placeholder:text-zinc-400 dark:text-zinc-50"
+                className="w-full border-0 bg-transparent text-base sm:text-sm text-zinc-950 outline-none placeholder:text-zinc-400 dark:text-zinc-50"
               />
               {query && (
                 <button
@@ -209,7 +209,7 @@ export default function LensSearchDialog({
 
           <div
             ref={scrollContainerRef}
-            className="min-h-[240px] max-h-[60vh] overflow-y-auto px-3 py-3 [scrollbar-width:thin] [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-zinc-200 dark:[&::-webkit-scrollbar-thumb]:bg-zinc-700"
+            className="h-[300px] overflow-y-auto px-3 py-3 [scrollbar-width:thin] [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-zinc-200 dark:[&::-webkit-scrollbar-thumb]:bg-zinc-700"
           >
             {query.trim().length === 0 ? (
               <div className="rounded-2xl border border-dashed border-zinc-200 px-5 py-10 text-center dark:border-zinc-800">
