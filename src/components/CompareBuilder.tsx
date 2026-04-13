@@ -10,55 +10,56 @@ import { X } from "lucide-react";
 import LensSearchDialog from "@/components/LensSearchDialog";
 import type { Lens } from "@/lib/types";
 
+// Each slot is a lens ID or null. Position is stable — removing slot i sets it
+// to null without shifting other slots, so filled slots stay in their column.
+type Slots = (string | null)[];
+
 export default function CompareBuilder() {
   const t = useTranslations("Compare");
   const tList = useTranslations("LensList");
   const tBrand = useTranslations("Brands");
   const router = useRouter();
-  const [draftIds, setDraftIds] = useState<string[]>([]);
 
-  const draftLenses = draftIds
-    .map((id) => allLenses.find((l) => l.id === id))
-    .filter((l): l is Lens => l !== undefined);
+  const [slots, setSlots] = useState<Slots>(() =>
+    Array<string | null>(MAX_COMPARE).fill(null)
+  );
 
-  const addLens = useCallback((lens: Lens) => {
-    setDraftIds((prev) => {
-      if (prev.includes(lens.id) || prev.length >= MAX_COMPARE) return prev;
-      return [...prev, lens.id];
-    });
-  }, []);
+  const filledIds = slots.filter((id): id is string => id !== null);
+  const filledCount = filledIds.length;
+  const allFilled = !slots.includes(null);
 
-  const removeLens = useCallback((id: string) => {
-    setDraftIds((prev) => prev.filter((x) => x !== id));
-  }, []);
+  function fillSlot(slotIndex: number, lens: Lens) {
+    setSlots((prev) => prev.map((s, i) => (i === slotIndex ? lens.id : s)));
+  }
+
+  function clearSlot(slotIndex: number) {
+    setSlots((prev) => prev.map((s, i) => (i === slotIndex ? null : s)));
+  }
 
   const getResultState = useCallback(
-    (candidate: Lens) => ({
-      actionLabel: draftIds.includes(candidate.id)
-        ? t("alreadyAdded")
-        : draftIds.length >= MAX_COMPARE
-          ? t("compareFull")
-          : t("addToCompareAction"),
-      disabled:
-        draftIds.includes(candidate.id) || draftIds.length >= MAX_COMPARE,
-    }),
-    [draftIds, t]
+    (candidate: Lens) => {
+      const taken = slots.includes(candidate.id);
+      const full = !slots.includes(null);
+      return {
+        actionLabel: taken
+          ? t("alreadyAdded")
+          : full
+            ? t("compareFull")
+            : t("addToCompareAction"),
+        disabled: taken || full,
+      };
+    },
+    [slots, t]
   );
 
   function handleCompare() {
-    router.push(`/lenses/compare?ids=${draftIds.join(",")}`);
+    router.push(`/lenses/compare?ids=${filledIds.join(",")}`);
   }
 
-  // Always show at least 3 slots; when slots are filling up, grow by 1 to
-  // show the next available empty slot, capped at MAX_COMPARE.
-  const totalSlots =
-    draftIds.length >= MAX_COMPARE
-      ? MAX_COMPARE
-      : Math.max(3, draftIds.length + 1);
-
   return (
-    <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 py-8 flex flex-col gap-8">
-      <div className="flex flex-col gap-1">
+    <div className="h-full flex flex-col gap-4 px-4 sm:px-6 py-6 sm:py-8">
+      {/* Header */}
+      <div className="flex flex-col gap-1 shrink-0">
         <h1 className="text-2xl font-bold text-zinc-900 dark:text-zinc-50">
           {t("title")}
         </h1>
@@ -67,18 +68,21 @@ export default function CompareBuilder() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 min-[500px]:grid-cols-3 gap-4">
-        {Array.from({ length: totalSlots }).map((_, i) => {
-          const lens = draftLenses[i];
+      {/* Slots — flex-1 so they fill remaining viewport height */}
+      <div className="flex-1 min-h-0 grid grid-cols-1 min-[500px]:grid-cols-3 gap-4">
+        {slots.map((slotId, i) => {
+          const lens = slotId
+            ? allLenses.find((l) => l.id === slotId)
+            : undefined;
 
           if (lens) {
             return (
               <div
-                key={lens.id}
-                className="relative flex min-h-[220px] w-full flex-col items-center justify-center gap-2 rounded-[28px] border border-zinc-200 bg-zinc-50/60 px-6 py-8 text-center dark:border-zinc-800 dark:bg-zinc-900/60"
+                key={i}
+                className="relative flex h-full w-full flex-col items-center justify-center gap-2 rounded-[28px] border border-zinc-200 bg-zinc-50/60 px-6 py-8 text-center dark:border-zinc-800 dark:bg-zinc-900/60"
               >
                 <button
-                  onClick={() => removeLens(lens.id)}
+                  onClick={() => clearSlot(i)}
                   className={cn(ICON_CLOSE_BTN_CLS, "absolute right-3 top-3 h-8 w-8")}
                   aria-label={t("removeLens", {
                     model: `${tBrand(lens.brand)} ${lens.model}`,
@@ -98,23 +102,25 @@ export default function CompareBuilder() {
 
           return (
             <LensSearchDialog
-              key={`empty-${i}`}
-              onSelectLens={addLens}
+              key={i}
+              onSelectLens={(lens) => fillSlot(i, lens)}
               getResultState={getResultState}
               triggerVariant="card"
               triggerLabel={t("addLens")}
+              triggerClassName="h-full"
             />
           );
         })}
       </div>
 
-      <div className="flex justify-center">
+      {/* Compare CTA */}
+      <div className="flex justify-center shrink-0">
         <button
-          disabled={draftLenses.length < 2}
+          disabled={filledCount < 2}
           onClick={handleCompare}
           className={cn(ACTION_PRIMARY_CLS, "rounded-xl px-8 py-3 text-sm font-medium")}
         >
-          {tList("goCompare", { count: draftLenses.length })}
+          {tList("goCompare", { count: filledCount })}
         </button>
       </div>
     </div>

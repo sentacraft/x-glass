@@ -4,7 +4,7 @@
     "appDesc": "Lens data, normalized."
   },
   "Nav": {
-    "lenses": "Lenses",
+    "lenses": "Browse",
     "compare": "Compare",
     "about": "About"
   },
@@ -182,7 +182,7 @@
   "Compare": {
     "title": "Compare",
     "backToLenses": "Back to Lenses",
-    "builderHint": "Pick 2 to 4 lenses for a side-by-side comparison.",
+    "builderHint": "Pick 2 to 3 lenses for a side-by-side comparison.",
     "emptyHeading": "it depends.",
     "emptySubtext": "No best lens. Trade-offs everywhere.",
     "officialSite": "Official site",
