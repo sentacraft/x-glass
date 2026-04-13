@@ -361,7 +361,7 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
                   onClick={() => setLightboxOpen(false)}
                   className={cn(
                     ICON_CLOSE_BTN_CLS,
-                    "absolute -top-4 right-1 sm:-right-4 z-10 h-9 w-9 bg-white/90 shadow-sm backdrop-blur-sm dark:bg-zinc-800/90"
+                    "absolute -top-10 right-0 sm:-top-4 sm:-right-4 z-10 h-9 w-9 bg-white/90 shadow-sm backdrop-blur-sm dark:bg-zinc-800/90"
                   )}
                   aria-label={t("close")}
                 >
