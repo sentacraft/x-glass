@@ -4,7 +4,7 @@
     "appDesc": "富士党专属的镜头图鉴"
   },
   "Nav": {
-    "lenses": "镜头列表",
+    "lenses": "浏览",
     "compare": "对比",
     "about": "关于"
   },
@@ -182,7 +182,7 @@
   "Compare": {
     "title": "对比",
     "backToLenses": "返回列表",
-    "builderHint": "选择 2 到 4 支镜头，开始横向对比。",
+    "builderHint": "选择 2 到 3 支镜头，开始横向对比。",
     "emptyHeading": "这得看情况。",
     "emptySubtext": "没有最好的镜头，到处都是取舍。",
     "officialSite": "官网",

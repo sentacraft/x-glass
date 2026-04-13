@@ -7,7 +7,7 @@ export type { SpecialtyTag };
 export const allLenses: Lens[] = lensCatalogSchema.parse(lensesData) as LensCatalog;
 export const meta = metaData;
 export const brandCount = new Set(allLenses.map((l) => l.brand)).size;
-export const MAX_COMPARE = 4;
+export const MAX_COMPARE = 3;
 
 export type LensType = "prime" | "zoom";
 export const LENS_TYPES = ["prime", "zoom"] as const satisfies readonly LensType[];
