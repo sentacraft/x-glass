@@ -347,9 +347,7 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
             <DialogContent
               noDefaultPositioning
               className="fixed inset-0 flex items-center justify-center border-0 bg-transparent p-0 shadow-none duration-100"
-              style={{ zIndex: 60 }}
               backdropClassName="bg-zinc-950/75 transition-[background-color] duration-150"
-              backdropStyle={{ zIndex: 60 }}
               showCloseButton={false}
               onClick={(e) => {
                 if (e.target === e.currentTarget) setLightboxOpen(false);
