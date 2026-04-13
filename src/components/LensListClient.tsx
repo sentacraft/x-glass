@@ -29,6 +29,7 @@ import {
 } from "@/components/ui/select";
 import LensCard from "./LensCard";
 import LensFilters from "./LensFilters";
+import LensSearchDialog from "./LensSearchDialog";
 import FeedbackTrigger from "./FeedbackTrigger";
 
 interface Props {
@@ -87,9 +88,12 @@ export default function LensListClient({ lenses }: Props) {
     <>
       <div className="w-full max-w-7xl mx-auto px-5 sm:px-6 py-8 flex flex-col gap-6 pb-24">
         <div className="flex flex-col gap-4">
-          <h1 className="text-2xl font-bold text-zinc-900 dark:text-zinc-50">
-            {t("title")}
-          </h1>
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <h1 className="text-2xl font-bold text-zinc-900 dark:text-zinc-50">
+              {t("title")}
+            </h1>
+            <LensSearchDialog triggerVariant="icon" />
+          </div>
           <LensFilters
             filters={filters}
             brands={brands}

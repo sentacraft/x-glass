@@ -2,7 +2,6 @@
 
 import { useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
-import LensSearchDialog from "@/components/LensSearchDialog";
 import LogoMark from "@/components/LogoMark";
 
 export default function Nav() {
@@ -51,7 +50,6 @@ export default function Nav() {
           >
             {t("about")}
           </Link>
-          <LensSearchDialog />
         </div>
       </nav>
     </header>
