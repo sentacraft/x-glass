@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useScrollContainer } from "@/context/ScrollContainerContext";
+import { Z } from "@/config/ui";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { ShareButton } from "@/components/ShareButton";
@@ -50,7 +51,7 @@ export default function ComparePageHeader({ lenses }: Props) {
 
       {/* Floating share FAB — slides up when the header share button is out of view */}
       <div
-        className={`fixed bottom-6 right-4 z-40 transition-all duration-200 sm:right-6 ${
+        className={`fixed bottom-6 right-4 ${Z.fixed} transition-all duration-200 sm:right-6 ${
           showFab
             ? "opacity-100 translate-y-0 pointer-events-auto"
             : "opacity-0 translate-y-3 pointer-events-none"

@@ -9,6 +9,7 @@ import { Share2, Copy, Check, Download, Loader2, Expand, SlidersHorizontal, Maxi
 import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
 import { ICON_CLOSE_BTN_CLS } from "@/lib/ui-tokens";
+import { Z } from "@/config/ui";
 import type { Lens } from "@/lib/types";
 import { rasterizePoster } from "@/lib/share-image";
 import { SharePoster, type PosterLabels } from "@/components/poster/SharePoster";
@@ -555,10 +556,10 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
         {/* When the lightbox is open its own backdrop (z-60) covers everything;
             suppress the Drawer backdrop to avoid double-darkening the top half. */}
         <Drawer.Backdrop className={cn(
-          "fixed inset-0 z-50 duration-150 data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0",
+          `fixed inset-0 ${Z.overlay} duration-150 data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0`,
           lightboxOpen ? "bg-transparent" : "bg-black/40"
         )} />
-        <Drawer.Popup className="fixed inset-x-0 bottom-0 z-50 max-h-[85svh] flex flex-col rounded-t-2xl bg-white pb-[env(safe-area-inset-bottom,0px)] ring-1 ring-zinc-200 duration-200 data-open:animate-in data-open:slide-in-from-bottom data-closed:animate-out data-closed:slide-out-to-bottom dark:bg-zinc-900 dark:ring-zinc-800">
+        <Drawer.Popup className={`fixed inset-x-0 bottom-0 ${Z.overlay} max-h-[85svh] flex flex-col rounded-t-2xl bg-white pb-[env(safe-area-inset-bottom,0px)] ring-1 ring-zinc-200 duration-200 data-open:animate-in data-open:slide-in-from-bottom data-closed:animate-out data-closed:slide-out-to-bottom dark:bg-zinc-900 dark:ring-zinc-800`}>
           {/* Handle sits outside the scroll container so swipe-down reaches the drawer */}
           <div className="flex shrink-0 touch-none justify-center pb-1 pt-3">
             <div className="h-1 w-10 rounded-full bg-zinc-300 dark:bg-zinc-600" />

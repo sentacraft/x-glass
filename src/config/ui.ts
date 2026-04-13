@@ -8,29 +8,36 @@ export const ANIMATION = {
   logoEaseOutMs: 700,
   // LogoMark: entry catch-up duration to eliminate jump on mouse enter (ms)
   logoCatchupMs: 180,
-  // TODO: page transition duration
-  // TODO: toast / notification fade duration
 } as const;
 
 // ── Z-index layers ────────────────────────────────────────────────────────────
+//
+// Stacking order (low → high):
+//   local    z-10   Inline stacking within a card or table (close buttons, sticky data cells)
+//   table    z-20   Table-level chrome (phantom sticky header bar)
+//   chrome   z-30   App shell chrome (nav bar, table frozen corner)
+//   fixed    z-40   Fixed UI chrome that floats above content (compare bar, FABs)
+//   overlay  z-50   Overlay primitives: drawers, dropdown selects
+//   dialog   z-[60] Modal dialogs — must sit above drawers (z-50)
+//
+// Note: table-level z-indexes (local, table, chrome) live in a CSS stacking
+// context isolated from the rest of the page; their values only need to be
+// consistent relative to each other, not to fixed/overlay/dialog layers.
 
-// TODO: Enumerate all z-index values currently hardcoded in components.
-// Example shape (fill in as you audit):
-// export const Z = {
-//   base: 0,
-//   stickyHeader: 10,
-//   compareBar: 20,
-//   drawer: 30,
-//   modal: 40,
-//   toast: 50,
-// } as const;
+export const Z = {
+  local:   "z-10",
+  table:   "z-20",
+  chrome:  "z-30",
+  fixed:   "z-40",
+  overlay: "z-50",
+  dialog:  "z-[60]",
+} as const;
 
 // ── Layout ────────────────────────────────────────────────────────────────────
-
-// TODO: navbar height, sidebar width, compare-bar height — values currently
-// hardcoded as Tailwind arbitrary values (e.g. min-h-[calc(100svh-3.5rem)]).
-// Keeping them here lets you change one number and have calc() expressions
-// automatically stay in sync.
+//
+// The layout's scroll container (ScrollContainerContext) owns the vertical
+// scroll; the nav bar sits above it in a flex column. Individual pages should
+// use h-full / flex-1 rather than calc(100dvh - navHeight).
 
 // ── Lens list / compare ───────────────────────────────────────────────────────
 

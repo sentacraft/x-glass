@@ -5,6 +5,7 @@ import { X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { ICON_CLOSE_BTN_CLS } from "@/lib/ui-tokens";
+import { Z } from "@/config/ui";
 
 function Dialog({
   open,
@@ -54,7 +55,7 @@ function DialogBackdrop({ className, ...props }: React.HTMLAttributes<HTMLDivEle
       data-slot="dialog-backdrop"
       aria-hidden="true"
       className={cn(
-        "fixed inset-0 z-[60] bg-zinc-950/55 backdrop-blur-sm",
+        `fixed inset-0 ${Z.dialog} bg-zinc-950/55 backdrop-blur-sm`,
         className
       )}
       {...props}
@@ -86,7 +87,7 @@ function DialogContent({
       <DialogPrimitive.Popup
         data-slot="dialog-content"
         className={cn(
-          "fixed z-[60] rounded-2xl border border-zinc-200 bg-white p-0 shadow-2xl dark:border-zinc-800 dark:bg-zinc-950",
+          `fixed ${Z.dialog} rounded-2xl border border-zinc-200 bg-white p-0 shadow-2xl dark:border-zinc-800 dark:bg-zinc-950`,
           !noDefaultPositioning && "left-1/2 top-1/2 w-full max-w-2xl -translate-x-1/2 -translate-y-1/2",
           "origin-[var(--transform-origin)] duration-200 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-90 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-90",
           className
