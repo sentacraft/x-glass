@@ -5,6 +5,7 @@
   },
   "Nav": {
     "lenses": "Lenses",
+    "compare": "Compare",
     "about": "About"
   },
   "Search": {
@@ -28,6 +29,7 @@
   },
   "Home": {
     "cta": "Browse Lenses",
+    "ctaCompare": "Compare",
     "dataSnapshot": "lens.json loaded ✓",
     "dataSnapshotCount": "{count} lenses · {brands} brands · 0 hallucination",
     "dataTooltip": "Verified from manufacturer data. No AI-generated specs."
@@ -180,6 +182,7 @@
   "Compare": {
     "title": "Compare",
     "backToLenses": "Back to Lenses",
+    "builderHint": "Pick 2 to 4 lenses for a side-by-side comparison.",
     "emptyHeading": "it depends.",
     "emptySubtext": "No best lens. Trade-offs everywhere.",
     "officialSite": "Official site",

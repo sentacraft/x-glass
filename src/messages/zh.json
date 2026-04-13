@@ -5,6 +5,7 @@
   },
   "Nav": {
     "lenses": "镜头列表",
+    "compare": "对比",
     "about": "关于"
   },
   "Search": {
@@ -28,6 +29,7 @@
   },
   "Home": {
     "cta": "浏览镜头",
+    "ctaCompare": "对比",
     "dataSnapshot": "lens.json loaded ✓",
     "dataSnapshotCount": "{count} 支镜头 · {brands} 个品牌 · 0 hallucination",
     "dataTooltip": "数据来源于制造商官方规格，非 AI 生成。"
@@ -180,6 +182,7 @@
   "Compare": {
     "title": "对比",
     "backToLenses": "返回列表",
+    "builderHint": "选择 2 到 4 支镜头，开始横向对比。",
     "emptyHeading": "这得看情况。",
     "emptySubtext": "没有最好的镜头，到处都是取舍。",
     "officialSite": "官网",

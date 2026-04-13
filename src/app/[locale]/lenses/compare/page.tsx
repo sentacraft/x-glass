@@ -5,6 +5,7 @@ import { Link } from "@/i18n/navigation";
 import CompareTable from "@/components/CompareTable";
 import ComparePageHeader from "@/components/ComparePageHeader";
 import CompareAddLensButton from "@/components/CompareAddLensButton";
+import CompareBuilder from "@/components/CompareBuilder";
 
 export async function generateMetadata({
   searchParams,
@@ -36,22 +37,7 @@ export default async function ComparePage({
   const lenses = parseLensIds(ids);
 
   if (lenses.length === 0) {
-    return (
-      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 py-24 flex flex-col items-center gap-3 text-center">
-        <p className="text-5xl font-bold text-zinc-200 dark:text-zinc-800 select-none">
-          {t("emptyHeading")}
-        </p>
-        <p className="text-sm text-zinc-400 dark:text-zinc-600">
-          {t("emptySubtext")}
-        </p>
-        <Link
-          href="/lenses"
-          className="mt-4 text-sm text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 transition-colors"
-        >
-          ← {t("backToLenses")}
-        </Link>
-      </div>
-    );
+    return <CompareBuilder />;
   }
 
   return (
