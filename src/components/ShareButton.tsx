@@ -5,8 +5,7 @@ import { Popover } from "@base-ui/react/popover";
 import { Drawer } from "@base-ui/react/drawer";
 import { Tabs } from "@base-ui/react/tabs";
 import { useTranslations } from "next-intl";
-import { Share2, Copy, Check, Download, Loader2, Expand, SlidersHorizontal, ZoomIn } from "lucide-react";
-import { motion, AnimatePresence } from "motion/react";
+import { Share2, Copy, Check, Download, Loader2, Expand, SlidersHorizontal, Maximize2, Minimize2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { Lens } from "@/lib/types";
 import { rasterizePoster } from "@/lib/share-image";
@@ -339,15 +338,19 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
               if (!open) setLightboxZoomed(false);
             }}
           >
+            {/* noDefaultPositioning lets us use explicit top/bottom insets instead of
+                top-1/2 -translate-y-1/2, which can push the dialog above the nav bar. */}
             <DialogContent
-              className="flex w-[calc(100vw-4rem)] max-w-[750px] max-h-[80svh] flex-col rounded-2xl shadow-[0_8px_40px_rgba(0,0,0,0.22),0_0_0_1px_rgba(0,0,0,0.06)]"
+              noDefaultPositioning
+              className="fixed left-1/2 -translate-x-1/2 w-[calc(100vw-4rem)] max-w-[750px] top-20 bottom-4 border-0 flex flex-col rounded-2xl shadow-[0_8px_40px_rgba(0,0,0,0.22),0_0_0_1px_rgba(0,0,0,0.06)]"
+              backdropClassName="bg-zinc-950/75"
               showCloseButton={false}
               showOverlayCloseButton
             >
               <div
                 ref={lightboxContainerRef}
                 className={cn(
-                  "flex-1 min-h-0 rounded-2xl [scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
+                  "flex flex-col flex-1 min-h-0 rounded-2xl [scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
                   lightboxZoomed ? "overflow-auto" : "overflow-y-auto overflow-x-hidden"
                 )}
               >
@@ -357,8 +360,7 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
                     zoom: lightboxZoomed ? 1 : lightboxScale,
                     transition: "zoom 0.35s cubic-bezier(0.4, 0, 0.2, 1)",
                   }}
-                  className={cn("relative", lightboxZoomed ? "cursor-zoom-out" : "cursor-zoom-in")}
-                  onClick={() => setLightboxZoomed((z) => !z)}
+                  className={cn("relative", !lightboxZoomed && "my-auto")}
                 >
                   <SharePoster
                     lenses={lenses}
@@ -366,23 +368,18 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
                     custom={posterCustom}
                     shareUrl={shareUrl}
                   />
-                  <AnimatePresence>
-                    {!lightboxZoomed && (
-                      <motion.div
-                        className="pointer-events-none absolute inset-x-0 bottom-0 flex justify-center pb-8"
-                        initial={{ opacity: 0, y: 6 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 6 }}
-                        transition={{ duration: 0.2 }}
-                      >
-                        <div className="flex items-center gap-2 rounded-full bg-black/55 px-4 py-2 text-base font-medium text-white backdrop-blur-sm">
-                          <ZoomIn className="size-5" />
-                          {t("posterZoomHint")}
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
                 </div>
+              </div>
+              {/* Zoom toggle button — pointer-events-none overlay keeps it over the scroll area
+                  without participating in scroll layout. Always anchored to bottom-right corner. */}
+              <div className="pointer-events-none absolute inset-0 z-10 rounded-2xl">
+                <button
+                  onClick={() => setLightboxZoomed((z) => !z)}
+                  className="pointer-events-auto absolute bottom-4 right-4 inline-flex h-10 w-10 items-center justify-center rounded-full bg-black/50 text-white backdrop-blur-md transition-colors hover:bg-black/70"
+                  aria-label={lightboxZoomed ? t("posterZoomOut") : t("posterZoomHint")}
+                >
+                  {lightboxZoomed ? <Minimize2 className="size-4" /> : <Maximize2 className="size-4" />}
+                </button>
               </div>
             </DialogContent>
           </Dialog>
@@ -518,8 +515,8 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
         {triggerContent}
       </Drawer.Trigger>
       <Drawer.Portal>
-        <Drawer.Backdrop className="fixed inset-0 bg-black/40 duration-150 data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0" />
-        <Drawer.Popup className="fixed inset-x-0 bottom-0 max-h-[85svh] flex flex-col rounded-t-2xl bg-white pb-[env(safe-area-inset-bottom,0px)] ring-1 ring-zinc-200 duration-200 data-open:animate-in data-open:slide-in-from-bottom data-closed:animate-out data-closed:slide-out-to-bottom dark:bg-zinc-900 dark:ring-zinc-800">
+        <Drawer.Backdrop className="fixed inset-0 z-50 bg-black/40 duration-150 data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0" />
+        <Drawer.Popup className="fixed inset-x-0 bottom-0 z-50 max-h-[85svh] flex flex-col rounded-t-2xl bg-white pb-[env(safe-area-inset-bottom,0px)] ring-1 ring-zinc-200 duration-200 data-open:animate-in data-open:slide-in-from-bottom data-closed:animate-out data-closed:slide-out-to-bottom dark:bg-zinc-900 dark:ring-zinc-800">
           {/* Handle sits outside the scroll container so swipe-down reaches the drawer */}
           <div className="flex shrink-0 touch-none justify-center pb-1 pt-3">
             <div className="h-1 w-10 rounded-full bg-zinc-300 dark:bg-zinc-600" />
