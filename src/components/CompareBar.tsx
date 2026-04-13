@@ -10,6 +10,7 @@ import { spring } from "@/lib/animation";
 import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ACTION_PRIMARY_CLS, ICON_CLOSE_BTN_CLS } from "@/lib/ui-tokens";
+import { Z } from "@/config/ui";
 
 export default function CompareBar() {
   const t = useTranslations("LensList");
@@ -40,7 +41,7 @@ export default function CompareBar() {
           animate={{ y: 0 }}
           exit={{ y: "100%" }}
           transition={spring.snappy}
-          className="fixed bottom-0 left-0 right-0 z-40 border-t border-zinc-200 dark:border-zinc-800 bg-white/95 dark:bg-black/95 backdrop-blur-sm pb-[env(safe-area-inset-bottom,0px)]"
+          className={`fixed bottom-0 left-0 right-0 ${Z.fixed} border-t border-zinc-200 dark:border-zinc-800 bg-white/95 dark:bg-black/95 backdrop-blur-sm pb-[env(safe-area-inset-bottom,0px)]`}
         >
           <div className="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-3 sm:flex-row sm:items-center sm:gap-4 sm:px-6">
             <div className="flex min-w-0 flex-1 gap-2 overflow-x-auto pb-1 sm:pb-0">
