@@ -364,8 +364,8 @@ export default function ApertureV2Lab() {
   const [showMechanics, setShowMechanics] = useState(false);
 
   // Animation: theta oscillates between range.min and range.max
-  const rafRef = useRef<number>();
-  const startRef = useRef<number | undefined>();
+  const rafRef = useRef<number | undefined>(undefined);
+  const startRef = useRef<number | undefined>(undefined);
   const thetaRef = useRef(theta);
 
   useEffect(() => {
