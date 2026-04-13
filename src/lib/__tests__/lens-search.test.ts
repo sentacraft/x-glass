@@ -60,6 +60,26 @@ const lenses = [
     minAperture: 22,
   },
   {
+    id: "fuji-xf100-400",
+    brand: "fujifilm",
+    series: "XF",
+    model: "XF 100-400mm F4.5-5.6 R LM OIS WR",
+    focalLengthMin: 100,
+    focalLengthMax: 400,
+    maxAperture: [4.5, 5.6],
+    minAperture: 22,
+  },
+  {
+    id: "sigma-100-400",
+    brand: "sigma",
+    series: "Contemporary",
+    model: "100-400mm F5-6.3 DG DN OS",
+    focalLengthMin: 100,
+    focalLengthMax: 400,
+    maxAperture: [5, 6.3],
+    minAperture: 22,
+  },
+  {
     id: "artisans-25-18",
     brand: "7artisans",
     series: undefined,
@@ -204,6 +224,19 @@ describe("searchLenses — focal & aperture tokens", () => {
   it("'40' alone matches the 40mm lens by focal token", () => {
     const results = searchLenses(lenses, "40");
     expect(results[0]?.id).toBe("fuji-xf40-28");
+  });
+
+  it("'40' prefers complete 40mm hits over 400mm prefix hits", () => {
+    const results = searchLenses(lenses, "40");
+    const fuji40Idx = results.findIndex((l) => l.id === "fuji-xf40-28");
+    const fuji100400Idx = results.findIndex((l) => l.id === "fuji-xf100-400");
+    const sigma100400Idx = results.findIndex((l) => l.id === "sigma-100-400");
+
+    expect(fuji40Idx).toBeGreaterThanOrEqual(0);
+    expect(fuji100400Idx).toBeGreaterThanOrEqual(0);
+    expect(sigma100400Idx).toBeGreaterThanOrEqual(0);
+    expect(fuji40Idx).toBeLessThan(fuji100400Idx);
+    expect(fuji40Idx).toBeLessThan(sigma100400Idx);
   });
 
   it("'18-50' matches the zoom lens", () => {

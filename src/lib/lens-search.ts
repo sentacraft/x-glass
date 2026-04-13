@@ -162,21 +162,43 @@ export function buildLensSearchIndex(lenses: Lens[]): LensSearchIndex {
 // Scoring
 // ---------------------------------------------------------------------------
 
-type MatchStrength = "exact" | "wordPrefix" | "includes" | "none";
+type MatchStrength =
+  | "exact"
+  | "boundaryPrefix"
+  | "wordPrefix"
+  | "includes"
+  | "none";
+
+function isBoundaryPrefix(token: string, query: string): boolean {
+  if (!token.startsWith(query) || token.length === query.length) {
+    return false;
+  }
+
+  const nextChar = token[query.length];
+
+  // Prefer complete numeric chunks such as "40" in "40mm" over broader
+  // numeric prefixes such as "40" in "400mm".
+  if (/^\d+$/.test(query)) {
+    return /\D/.test(nextChar);
+  }
+
+  return true;
+}
 
 function matchStrength(tokens: string[], query: string): MatchStrength {
   if (tokens.includes(query)) return "exact";
+  if (tokens.some((t) => isBoundaryPrefix(t, query))) return "boundaryPrefix";
   if (tokens.some((t) => t.startsWith(query))) return "wordPrefix";
   if (tokens.some((t) => t.includes(query))) return "includes";
   return "none";
 }
 
 const WEIGHTS: Record<keyof TokenBucket, Record<MatchStrength, number>> = {
-  model:    { exact: 600, wordPrefix: 450, includes: 280, none: 0 },
-  brand:    { exact: 260, wordPrefix: 200, includes: 120, none: 0 },
-  alias:    { exact: 240, wordPrefix: 180, includes: 110, none: 0 },
-  series:   { exact: 210, wordPrefix: 160, includes: 110, none: 0 },
-  aperture: { exact: 190, wordPrefix: 170, includes: 140, none: 0 },
+  model:    { exact: 600, boundaryPrefix: 520, wordPrefix: 450, includes: 280, none: 0 },
+  brand:    { exact: 260, boundaryPrefix: 220, wordPrefix: 200, includes: 120, none: 0 },
+  alias:    { exact: 240, boundaryPrefix: 200, wordPrefix: 180, includes: 110, none: 0 },
+  series:   { exact: 210, boundaryPrefix: 180, wordPrefix: 160, includes: 110, none: 0 },
+  aperture: { exact: 190, boundaryPrefix: 180, wordPrefix: 170, includes: 140, none: 0 },
 };
 
 /**
