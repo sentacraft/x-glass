@@ -46,10 +46,13 @@ function DialogPortal({
   );
 }
 
-function DialogBackdrop({ className, ...props }: DialogPrimitive.Backdrop.Props) {
+// base-ui's Dialog.Backdrop renders no DOM node when inside Dialog.Portal,
+// so we use a plain div instead.
+function DialogBackdrop({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   return (
-    <DialogPrimitive.Backdrop
+    <div
       data-slot="dialog-backdrop"
+      aria-hidden="true"
       className={cn(
         "fixed inset-0 z-[60] bg-zinc-950/55 backdrop-blur-sm",
         className
