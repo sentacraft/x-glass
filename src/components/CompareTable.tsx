@@ -290,7 +290,7 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
                   ? valueCellLabels.partial
                   : v === false
                     ? valueCellLabels.no
-                    : valueCellLabels.unknown;
+                    : valueCellLabels.missing;
           } else {
             currentValue = row.getDisplayValue(lens) ?? undefined;
           }
@@ -506,12 +506,12 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
                               <div className="flex items-center justify-center gap-1">
                                 <div>
                                   <BoolCell
-                                    value={row.getValue(lens)}
-                                    yes={valueCellLabels.yes}
-                                    no={valueCellLabels.no}
-                                    partial={valueCellLabels.partial}
-                                    unknown={valueCellLabels.unknown}
-                                  />
+                                  value={row.getValue(lens)}
+                                  yes={valueCellLabels.yes}
+                                  no={valueCellLabels.no}
+                                  partial={valueCellLabels.partial}
+                                  unknown={valueCellLabels.missing}
+                                />
                                   {subVal && (
                                     <p className="mt-0.5 text-[11px] leading-relaxed font-normal text-zinc-400 dark:text-zinc-500">
                                       {subVal}
@@ -596,7 +596,7 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
 
                           let primaryNode: React.ReactNode;
                           if (displayVal === undefined) {
-                            primaryNode = valueCellLabels.unknown;
+                            primaryNode = valueCellLabels.missing;
                           } else if (usePartialHighlight && fragment) {
                             const idx = displayVal.indexOf(fragment);
                             const before = displayVal.slice(0, idx);
