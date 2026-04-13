@@ -270,12 +270,12 @@ export default async function LensDetailPage({ params }: { params: Params }) {
           <div className="flex flex-col gap-2">
             <div className="flex flex-wrap gap-3">
               <AddToCompareButton lensId={lens.id} />
-              <ShareButton lenses={[lens]} triggerClassName={ACTION_OUTLINE_CLS} />
               {url && (
                 <ExternalLink href={url} className={ACTION_OUTLINE_CLS}>
                   {t("officialSite")}
                 </ExternalLink>
               )}
+              <ShareButton lenses={[lens]} triggerClassName={ACTION_OUTLINE_CLS} />
             </div>
             <FeedbackTrigger
               type="data_issue"
@@ -314,7 +314,7 @@ export default async function LensDetailPage({ params }: { params: Params }) {
                           {row.label}
                         </td>
                         <td className="px-4 py-2.5 text-zinc-700 dark:text-zinc-300">
-                          <div className="flex items-start gap-1.5">
+                          <div className="flex items-center gap-1.5">
                             {renderRowValue(row, lens, valueCellLabels)}
                             {(() => {
                               const note =
