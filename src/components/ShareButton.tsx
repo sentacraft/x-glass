@@ -348,6 +348,9 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
                 lightboxZoomed ? "bg-black/90 backdrop-blur-[2px]" : "bg-zinc-950/75"
               )}
               showCloseButton={false}
+              onClick={(e) => {
+                if (e.target === e.currentTarget) setLightboxOpen(false);
+              }}
             >
               {/* ── State-driven content ── */}
               <AnimatePresence mode="sync" initial={false}>
