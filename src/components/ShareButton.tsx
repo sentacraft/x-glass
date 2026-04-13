@@ -394,7 +394,9 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
                     </div>
                   </motion.div>
                 ) : (
-                  /* Immersive: full viewport, dark, poster centered. */
+                  /* Immersive: full viewport scene. Drawer may remain open in
+                     state, but it should be visually isolated beneath this
+                     layer. */
                   <motion.div
                     key={posterViewMode}
                     ref={lightboxContainerRef}
@@ -402,18 +404,22 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.12 }}
-                    className="fixed inset-0 flex flex-col overflow-y-auto overflow-x-hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-                    onClick={(e) => {
-                      if (e.target === e.currentTarget && !isDesktop) {
-                        setPosterViewMode("preview");
-                      }
-                    }}
+                    className="fixed inset-0 overflow-y-auto overflow-x-hidden bg-zinc-950/96 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
                   >
                     <div
-                      style={{ width: POSTER_W, zoom: isActualSizeView ? 1 : lightboxScale }}
-                      className="my-auto"
+                      className="flex min-h-full w-full justify-center px-4 pb-[calc(env(safe-area-inset-bottom,0px)+1rem)] pt-[calc(env(safe-area-inset-top,0px)+4rem)]"
+                      onClick={(e) => {
+                        if (e.target === e.currentTarget && !isDesktop) {
+                          setPosterViewMode("preview");
+                        }
+                      }}
                     >
-                      <SharePoster lenses={lenses} labels={posterLabels} custom={posterCustom} shareUrl={shareUrl} />
+                      <div
+                        style={{ width: POSTER_W, zoom: isActualSizeView ? 1 : lightboxScale }}
+                        className="shrink-0"
+                      >
+                        <SharePoster lenses={lenses} labels={posterLabels} custom={posterCustom} shareUrl={shareUrl} />
+                      </div>
                     </div>
                   </motion.div>
                 )}
