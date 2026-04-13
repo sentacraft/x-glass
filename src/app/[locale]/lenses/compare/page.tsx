@@ -43,14 +43,11 @@ export default async function ComparePage({
       {/* Table — minColumns=2 ensures cold start always shows 2 search-trigger columns */}
       <CompareTable lenses={lenses} minColumns={2} />
 
-      {/* Bottom add-lens entry — only shown when there are already 2 lenses
-          (table has content to scroll past; empty slot columns handle 0–1) */}
-      {lenses.length >= 2 && (
-        <CompareAddLensButton
-          lenses={lenses}
-          triggerClassName="flex w-full items-center justify-center gap-2 rounded-xl border border-dashed border-zinc-300 py-3 text-sm text-zinc-500 transition-colors hover:border-zinc-400 hover:text-zinc-700 dark:border-zinc-700 dark:text-zinc-400 dark:hover:border-zinc-500 dark:hover:text-zinc-300"
-        />
-      )}
+      {/* Bottom add-lens entry — visible when scrolled to bottom of a long table */}
+      <CompareAddLensButton
+        lenses={lenses}
+        triggerClassName="flex w-full items-center justify-center gap-2 rounded-xl border border-dashed border-zinc-300 py-3 text-sm text-zinc-500 transition-colors hover:border-zinc-400 hover:text-zinc-700 dark:border-zinc-700 dark:text-zinc-400 dark:hover:border-zinc-500 dark:hover:text-zinc-300"
+      />
 
       {/* Back link */}
       <BackButton
