@@ -46,7 +46,7 @@ function DialogPortal({
   );
 }
 
-function DialogBackdrop({ className, ...props }: DialogPrimitive.Backdrop.Props) {
+function DialogBackdrop({ className, style, ...props }: DialogPrimitive.Backdrop.Props) {
   return (
     <DialogPrimitive.Backdrop
       data-slot="dialog-backdrop"
@@ -54,6 +54,7 @@ function DialogBackdrop({ className, ...props }: DialogPrimitive.Backdrop.Props)
         "fixed inset-0 z-50 bg-zinc-950/55 backdrop-blur-sm",
         className
       )}
+      style={style}
       {...props}
     />
   );
@@ -62,6 +63,7 @@ function DialogBackdrop({ className, ...props }: DialogPrimitive.Backdrop.Props)
 function DialogContent({
   className,
   backdropClassName,
+  backdropStyle,
   children,
   showCloseButton = true,
   showOverlayCloseButton = false,
@@ -69,6 +71,7 @@ function DialogContent({
   ...props
 }: DialogPrimitive.Popup.Props & {
   backdropClassName?: string;
+  backdropStyle?: React.CSSProperties;
   showCloseButton?: boolean;
   /** Renders the close button outside the popup at the card's top-right corner (-right-4 -top-4).
    *  Requires the popup to NOT have overflow-hidden (move it to inner content instead). */
@@ -79,7 +82,7 @@ function DialogContent({
 }) {
   return (
     <DialogPortal>
-      <DialogBackdrop className={backdropClassName} />
+      <DialogBackdrop className={backdropClassName} style={backdropStyle} />
       <DialogPrimitive.Popup
         data-slot="dialog-content"
         className={cn(
