@@ -74,11 +74,6 @@ function DialogContent({
   return (
     <DialogPortal>
       <DialogBackdrop />
-      {showOverlayCloseButton && (
-        <DialogPrimitive.Close className="fixed right-6 top-6 z-[60] inline-flex h-10 w-10 items-center justify-center rounded-full bg-black/40 text-white backdrop-blur-md transition-colors hover:bg-black/60">
-          <X className="h-5 w-5" />
-        </DialogPrimitive.Close>
-      )}
       <DialogPrimitive.Popup
         data-slot="dialog-content"
         className={cn(
@@ -91,6 +86,11 @@ function DialogContent({
         {children}
         {showCloseButton && (
           <DialogPrimitive.Close className={cn(ICON_CLOSE_BTN_CLS, "absolute right-4 top-4 z-10 h-9 w-9 bg-white/90 shadow-sm backdrop-blur-sm dark:bg-zinc-800/90")}>
+            <X className="h-4 w-4" />
+          </DialogPrimitive.Close>
+        )}
+        {showOverlayCloseButton && (
+          <DialogPrimitive.Close className="absolute -right-4 -top-4 z-10 inline-flex h-9 w-9 items-center justify-center rounded-full bg-black/50 text-white backdrop-blur-md transition-colors hover:bg-black/70">
             <X className="h-4 w-4" />
           </DialogPrimitive.Close>
         )}

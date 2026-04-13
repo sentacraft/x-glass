@@ -340,14 +340,14 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
             }}
           >
             <DialogContent
-              className="flex w-[calc(100vw-2rem)] max-w-[750px] max-h-[80svh] flex-col overflow-hidden rounded-2xl shadow-[0_8px_40px_rgba(0,0,0,0.22),0_0_0_1px_rgba(0,0,0,0.06)]"
+              className="flex w-[calc(100vw-2rem)] max-w-[750px] max-h-[80svh] flex-col rounded-2xl shadow-[0_8px_40px_rgba(0,0,0,0.22),0_0_0_1px_rgba(0,0,0,0.06)]"
               showCloseButton={false}
               showOverlayCloseButton
             >
               <div
                 ref={lightboxContainerRef}
                 className={cn(
-                  "flex-1 min-h-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
+                  "flex-1 min-h-0 rounded-2xl [scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
                   lightboxZoomed ? "overflow-auto" : "overflow-y-auto overflow-x-hidden"
                 )}
               >
