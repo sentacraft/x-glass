@@ -6,7 +6,7 @@ import { Drawer } from "@base-ui/react/drawer";
 import { Tabs } from "@base-ui/react/tabs";
 import { useTranslations } from "next-intl";
 import { Share2, Copy, Check, Download, Loader2, Expand, SlidersHorizontal, Maximize2, Minimize2, X } from "lucide-react";
-import { motion, AnimatePresence } from "motion/react";
+import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
 import type { Lens } from "@/lib/types";
 import { rasterizePoster } from "@/lib/share-image";
@@ -52,7 +52,7 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
 
   // Full-size lightbox
   const [lightboxOpen, setLightboxOpen] = useState(false);
-  const [lightboxZoomed, setLightboxZoomed] = useState(false);
+  const [posterZoomed, setPosterZoomed] = useState(false);
   const [lightboxScale, setLightboxScale] = useState(1);
   // Callback ref: fires as soon as the portal element mounts, avoiding the
   // race condition where useEffect runs before the portal has attached the ref.
@@ -331,121 +331,62 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
             </div>
           </div>
 
-          {/* Full-size lightbox — two states: preview card and immersive full-screen */}
+          {/* Full-size lightbox */}
           <Dialog
             open={lightboxOpen}
             onOpenChange={(open) => {
               setLightboxOpen(open);
-              if (!open) setLightboxZoomed(false);
+              if (!open) setPosterZoomed(false);
             }}
           >
-            {/* Dialog fills the full viewport; all visual styling lives inside */}
             <DialogContent
               noDefaultPositioning
               className="fixed inset-0 flex items-center justify-center border-0 bg-transparent p-0 shadow-none duration-100"
-              backdropClassName={cn(
-                "transition-[background-color] duration-150",
-                lightboxZoomed ? "bg-black/90 backdrop-blur-[2px]" : "bg-zinc-950/75"
-              )}
+              backdropClassName="bg-zinc-950/75 transition-[background-color] duration-150"
               showCloseButton={false}
               onClick={(e) => {
                 if (e.target === e.currentTarget) setLightboxOpen(false);
               }}
             >
-              {/* ── State-driven content ── */}
-              <AnimatePresence mode="sync" initial={false}>
-                {!lightboxZoomed ? (
-                  /* Preview: compact white card, centered.
-                     On mobile: tap to enter immersive. On desktop: scroll to explore. */
-                  <motion.div
-                    key="preview"
-                    ref={lightboxContainerRef}
-                    initial={{ opacity: 0, scale: 0.97 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.97 }}
-                    transition={{ duration: 0.12, ease: "easeOut" }}
-                    className={cn(
-                      "relative w-[calc(100vw-4rem)] max-w-[750px] max-h-[calc(100svh-5rem)] overflow-y-auto overflow-x-hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden rounded-2xl bg-white shadow-[0_8px_40px_rgba(0,0,0,0.22),0_0_0_1px_rgba(0,0,0,0.06)]",
-                      !isDesktop && "cursor-zoom-in"
-                    )}
-                    onClick={!isDesktop ? () => setLightboxZoomed(true) : undefined}
-                  >
-                    <div style={{ width: POSTER_W, zoom: lightboxScale }}>
-                      <SharePoster lenses={lenses} labels={posterLabels} custom={posterCustom} shareUrl={shareUrl} />
-                    </div>
-                  </motion.div>
-                ) : (
-                  /* Immersive: full viewport, dark, poster centered, tap dark area to exit */
-                  <motion.div
-                    key="immersive"
-                    ref={lightboxContainerRef}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.12 }}
-                    className="fixed inset-0 flex flex-col overflow-y-auto overflow-x-hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-                    onClick={(e) => { if (e.target === e.currentTarget) setLightboxZoomed(false); }}
-                  >
-                    <div
-                      style={{ width: POSTER_W, zoom: lightboxScale }}
-                      className="my-auto"
-                    >
-                      <SharePoster lenses={lenses} labels={posterLabels} custom={posterCustom} shareUrl={shareUrl} />
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+              {/* Poster card */}
+              <motion.div
+                ref={lightboxContainerRef}
+                initial={{ opacity: 0, scale: 0.97 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.12, ease: "easeOut" }}
+                className="relative w-[calc(100vw-4rem)] max-w-[750px] max-h-[calc(100svh-5rem)] overflow-hidden rounded-2xl bg-white shadow-[0_8px_40px_rgba(0,0,0,0.22),0_0_0_1px_rgba(0,0,0,0.06)]"
+              >
+                {/* Scrollable poster — overflow-x: auto in zoomed mode so user can pan */}
+                <div
+                  className={cn(
+                    "max-h-[calc(100svh-5rem)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
+                    posterZoomed ? "overflow-auto" : "overflow-y-auto overflow-x-hidden"
+                  )}
+                >
+                  <div style={{ width: POSTER_W, zoom: posterZoomed ? 1 : lightboxScale }}>
+                    <SharePoster lenses={lenses} labels={posterLabels} custom={posterCustom} shareUrl={shareUrl} />
+                  </div>
+                </div>
 
-              {/* ── Persistent controls — float above both states ── */}
+                {/* Zoom toggle — overlaid at bottom-right of card */}
+                <button
+                  onClick={() => setPosterZoomed((z) => !z)}
+                  className="absolute bottom-3 right-3 inline-flex h-8 w-8 items-center justify-center rounded-full bg-black/30 text-white backdrop-blur-sm transition-colors hover:bg-black/50"
+                  aria-label={posterZoomed ? t("posterZoomOut") : t("posterZoomHint")}
+                >
+                  {posterZoomed ? <Minimize2 className="size-3.5" /> : <Maximize2 className="size-3.5" />}
+                </button>
+              </motion.div>
+
+              {/* Close button — floats above card at top-right of viewport */}
               <div className="pointer-events-none absolute inset-0 z-50">
-                {/* Close */}
                 <button
                   onClick={() => setLightboxOpen(false)}
-                  className={cn(
-                    "pointer-events-auto absolute top-4 right-4 inline-flex h-10 w-10 items-center justify-center rounded-full backdrop-blur-sm transition-colors",
-                    lightboxZoomed
-                      ? "bg-white/15 text-white hover:bg-white/25"
-                      : "bg-black/40 text-white hover:bg-black/60"
-                  )}
+                  className="pointer-events-auto absolute top-4 right-4 inline-flex h-10 w-10 items-center justify-center rounded-full bg-black/40 text-white backdrop-blur-sm transition-colors hover:bg-black/60"
                   aria-label={t("close")}
                 >
                   <X className="size-4" />
                 </button>
-
-                {/* Zoom toggle — mobile only (desktop users scroll the preview card) */}
-                {!isDesktop && (
-                  <button
-                    onClick={() => setLightboxZoomed((z) => !z)}
-                    className={cn(
-                      "pointer-events-auto absolute bottom-4 right-4 inline-flex h-10 w-10 items-center justify-center rounded-full backdrop-blur-sm transition-colors",
-                      lightboxZoomed
-                        ? "bg-white/15 text-white hover:bg-white/25"
-                        : "bg-black/40 text-white hover:bg-black/60"
-                    )}
-                    aria-label={lightboxZoomed ? t("posterZoomOut") : t("posterZoomHint")}
-                  >
-                    {lightboxZoomed ? <Minimize2 className="size-4" /> : <Maximize2 className="size-4" />}
-                  </button>
-                )}
-
-                {/* Download — appears only in immersive mode */}
-                <AnimatePresence>
-                  {lightboxZoomed && (
-                    <motion.button
-                      key="dl"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.15 }}
-                      onClick={handleDownload}
-                      disabled={posterGenerating}
-                      className="pointer-events-auto absolute top-4 left-4 inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/15 text-white hover:bg-white/25 backdrop-blur-sm transition-colors disabled:opacity-50"
-                      aria-label={t("posterDownload")}
-                    >
-                      {posterGenerating ? <Loader2 className="size-4 animate-spin" /> : <Download className="size-4" />}
-                    </motion.button>
-                  )}
-                </AnimatePresence>
               </div>
             </DialogContent>
           </Dialog>
