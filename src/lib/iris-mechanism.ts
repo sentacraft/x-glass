@@ -161,8 +161,11 @@ export function thetaRange(config: IrisMechanismConfig): {
 
   // Theoretical limits from discriminant
   if (ratio >= 1) {
-    // Discriminant never negative — full rotation possible
-    return { min: -delta - Math.PI / 2, max: -delta + Math.PI / 2 };
+    // d ≥ Rp: discriminant d²−Rp²sin²(δ+θ) ≥ d²−Rp² > 0 everywhere — never negative.
+    // The iris closes monotonically as θ increases from −δ (guide pin at max radius
+    // Rp+d, blades radially outward) to −δ+π (guide pin at min radius d−Rp ≥ 0,
+    // blades pointing nearly inward at ~180°). Use the full closing half-period.
+    return { min: -delta, max: -delta + Math.PI };
   }
 
   const halfSpan = Math.asin(Math.min(1, ratio));
