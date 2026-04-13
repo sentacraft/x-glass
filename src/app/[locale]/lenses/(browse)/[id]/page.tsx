@@ -234,7 +234,7 @@ export default async function LensDetailPage({ params }: { params: Params }) {
       {/* Main content */}
       <div className="flex flex-col sm:flex-row gap-8">
         {/* Image */}
-        <div className="w-full shrink-0 sm:w-56">
+        <div className="w-full max-w-56 mx-auto sm:mx-0 shrink-0 sm:w-56">
           <div className="flex aspect-square items-center justify-center overflow-hidden rounded-2xl border border-zinc-100 bg-zinc-50/70 p-5 dark:border-zinc-800 dark:bg-zinc-900/50">
             {lens.imageUrl ? (
               <div className="relative aspect-square w-full overflow-hidden">

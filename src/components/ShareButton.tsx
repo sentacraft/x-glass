@@ -116,7 +116,7 @@ export function ShareButton({ lenses, variant = "default", triggerClassName }: S
     appName: "X Glass",
     siteUrl: "x-glass.app",
     cta: tImage("cta"),
-    comparison: tImage("comparison"),
+    comparison: lenses.length === 1 ? tImage("singleLens") : tImage("comparison"),
     sectionFocalCoverage: tImage("sectionFocalCoverage"),
     sectionFocus: tImage("sectionFocus"),
     sectionSizeWeight: tImage("sectionSizeWeight"),
@@ -244,7 +244,7 @@ export function ShareButton({ lenses, variant = "default", triggerClassName }: S
       {/* Header */}
       <div className="flex flex-col gap-0.5">
         <h2 className="text-base font-semibold text-zinc-900 dark:text-zinc-50">
-          {t("title")}
+          {lenses.length === 1 ? t("titleSingle") : t("title")}
         </h2>
         <p className="text-xs leading-relaxed text-zinc-400 dark:text-zinc-500">
           {lensCaption}
@@ -451,7 +451,7 @@ export function ShareButton({ lenses, variant = "default", triggerClassName }: S
                             type="text"
                             value={customTitle}
                             onChange={(e) => setCustomTitle(e.target.value)}
-                            placeholder={tImage("comparison")}
+                            placeholder={lenses.length === 1 ? tImage("singleLens") : tImage("comparison")}
                             className={inputClass}
                           />
                         </div>

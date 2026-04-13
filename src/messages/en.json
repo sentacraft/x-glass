@@ -195,6 +195,7 @@
   "Share": {
     "button": "Share",
     "title": "Share this comparison",
+    "titleSingle": "Share this lens",
     "description": "This link preserves the current lens selection and column order.",
     "copyLink": "Copy Link",
     "copied": "Copied!",
@@ -213,6 +214,7 @@
   },
   "ShareImage": {
     "comparison": "Lens Comparison",
+    "singleLens": "Lens Profile",
     "focalLength": "Focal Length",
     "maxAperture": "Max Aperture",
     "weight": "Weight",
