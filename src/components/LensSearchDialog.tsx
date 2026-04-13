@@ -9,7 +9,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { Search } from "lucide-react";
+import { Search, X } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 import { allLenses } from "@/lib/lens";
@@ -164,9 +164,11 @@ export default function LensSearchDialog({
           className="w-full max-w-2xl overflow-hidden rounded-[28px] border border-zinc-200 bg-white shadow-2xl shadow-zinc-950/20 dark:border-zinc-800 dark:bg-zinc-950"
           showCloseButton
         >
-          <DialogHeader className="border-b border-zinc-100 dark:border-zinc-800 pr-12">
-            <DialogTitle>{t("title")}</DialogTitle>
-            <DialogDescription>{t("description")}</DialogDescription>
+          <DialogHeader className="border-b border-zinc-100 dark:border-zinc-800">
+            <div className="pr-12">
+              <DialogTitle>{t("title")}</DialogTitle>
+              <DialogDescription>{t("description")}</DialogDescription>
+            </div>
 
             <div className="mt-1 flex items-center gap-3 rounded-2xl border border-zinc-200 bg-zinc-50 px-4 py-3 shadow-inner shadow-zinc-200/30 dark:border-zinc-800 dark:bg-zinc-900 dark:shadow-black/20">
               <label htmlFor={inputId} className="sr-only">
@@ -188,10 +190,27 @@ export default function LensSearchDialog({
                 aria-autocomplete="list"
                 className="w-full border-0 bg-transparent text-sm text-zinc-950 outline-none placeholder:text-zinc-400 dark:text-zinc-50"
               />
+              {query && (
+                <button
+                  type="button"
+                  aria-label="Clear search"
+                  onClick={() => {
+                    setQuery("");
+                    setActiveIndex(0);
+                    inputRef.current?.focus();
+                  }}
+                  className="shrink-0 text-zinc-400 transition-colors hover:text-zinc-600 dark:hover:text-zinc-300"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              )}
             </div>
           </DialogHeader>
 
-          <div ref={scrollContainerRef} className="max-h-[60vh] overflow-y-auto px-3 py-3">
+          <div
+            ref={scrollContainerRef}
+            className="min-h-[240px] max-h-[60vh] overflow-y-auto px-3 py-3 [scrollbar-width:thin] [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-zinc-200 dark:[&::-webkit-scrollbar-thumb]:bg-zinc-700"
+          >
             {query.trim().length === 0 ? (
               <div className="rounded-2xl border border-dashed border-zinc-200 px-5 py-10 text-center dark:border-zinc-800">
                 <p className="text-sm font-medium text-zinc-700 dark:text-zinc-200">
