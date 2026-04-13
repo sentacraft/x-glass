@@ -346,8 +346,8 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
           >
             <DialogContent
               noDefaultPositioning
-              className="fixed inset-0 flex items-center justify-center border-0 bg-transparent p-0 shadow-none duration-100"
-              backdropClassName="bg-zinc-950/75 transition-[background-color] duration-150"
+              className="fixed inset-0 z-[60] flex items-center justify-center border-0 bg-transparent p-0 shadow-none duration-100"
+              backdropClassName="z-[60] bg-zinc-950/75 transition-[background-color] duration-150"
               showCloseButton={false}
               onClick={(e) => {
                 if (e.target === e.currentTarget) setLightboxOpen(false);
@@ -362,11 +362,14 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
                 className="relative w-[calc(100vw-1.5rem)] max-w-[750px] max-h-[calc(100svh-5rem)] overflow-hidden rounded-2xl bg-white shadow-[0_8px_40px_rgba(0,0,0,0.22),0_0_0_1px_rgba(0,0,0,0.06)]"
                 style={lockedCardHeight !== undefined ? { height: lockedCardHeight } : undefined}
               >
-                {/* Scrollable poster — overflow-x: auto in zoomed mode so user can pan */}
+                {/* Scrollable poster — in zoom mode fill the locked card height exactly
+                    so the scroll container matches the visible area */}
                 <div
                   className={cn(
-                    "max-h-[calc(100svh-5rem)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
-                    posterZoomed ? "overflow-auto" : "overflow-y-auto overflow-x-hidden"
+                    "[scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
+                    posterZoomed
+                      ? "h-full overflow-auto"
+                      : "max-h-[calc(100svh-5rem)] overflow-y-auto overflow-x-hidden"
                   )}
                 >
                   <div style={{ width: POSTER_W, zoom: posterZoomed ? 1 : lightboxScale }}>
@@ -374,7 +377,16 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
                   </div>
                 </div>
 
-                {/* Zoom toggle — overlaid at bottom-right of card */}
+                {/* Close — top-right of card */}
+                <button
+                  onClick={() => setLightboxOpen(false)}
+                  className="absolute top-3 right-3 inline-flex h-8 w-8 items-center justify-center rounded-full bg-black/30 text-white backdrop-blur-sm transition-colors hover:bg-black/50"
+                  aria-label={t("close")}
+                >
+                  <X className="size-3.5" />
+                </button>
+
+                {/* Zoom toggle — bottom-right of card */}
                 <button
                   onClick={() => {
                     setPosterZoomed((z) => {
@@ -393,17 +405,6 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
                   {posterZoomed ? <Minimize2 className="size-3.5" /> : <Maximize2 className="size-3.5" />}
                 </button>
               </motion.div>
-
-              {/* Close button — floats above card at top-right of viewport */}
-              <div className="pointer-events-none absolute inset-0 z-50">
-                <button
-                  onClick={() => setLightboxOpen(false)}
-                  className="pointer-events-auto absolute top-4 right-4 inline-flex h-10 w-10 items-center justify-center rounded-full bg-black/40 text-white backdrop-blur-sm transition-colors hover:bg-black/60"
-                  aria-label={t("close")}
-                >
-                  <X className="size-4" />
-                </button>
-              </div>
             </DialogContent>
           </Dialog>
 
