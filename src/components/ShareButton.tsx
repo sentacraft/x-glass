@@ -60,7 +60,8 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
   const [stageRect, setStageRect] = useState({ width: 0, height: 0 });
   const [posterRect, setPosterRect] = useState({ width: POSTER_W, height: POSTER_W * 1.5 });
   const viewerStageRef = useRef<HTMLDivElement | null>(null);
-  const viewerPosterRef = useRef<HTMLDivElement | null>(null);
+  const viewerPosterShellRef = useRef<HTMLDivElement | null>(null);
+  const viewerPosterContentRef = useRef<HTMLDivElement | null>(null);
 
   // Filename slug
   const slugRef = useRef("");
@@ -268,20 +269,21 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
     }
 
     const stageEl = viewerStageRef.current;
-    const posterEl = viewerPosterRef.current;
-    if (!stageEl || !posterEl) {
+    const posterShellEl = viewerPosterShellRef.current;
+    const posterContentEl = viewerPosterContentRef.current;
+    if (!stageEl || !posterShellEl || !posterContentEl) {
       return;
     }
 
     const updateRects = () => {
-      const sourcePosterEl = posterRef.current ?? posterEl;
+      const sourcePosterEl = posterRef.current ?? posterContentEl;
       setStageRect({
         width: stageEl.clientWidth,
         height: stageEl.clientHeight,
       });
       setPosterRect({
         width: POSTER_W,
-        height: sourcePosterEl.scrollHeight || posterEl.scrollHeight || POSTER_W * 1.5,
+        height: sourcePosterEl.scrollHeight || posterContentEl.scrollHeight || POSTER_W * 1.5,
       });
     };
 
@@ -289,7 +291,8 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
     const rafId = window.requestAnimationFrame(updateRects);
     const observer = new ResizeObserver(updateRects);
     observer.observe(stageEl);
-    observer.observe(posterEl);
+    observer.observe(posterShellEl);
+    observer.observe(posterContentEl);
     if (posterRef.current) {
       observer.observe(posterRef.current);
     }
@@ -529,7 +532,7 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
                     >
                       <div className="absolute inset-0 flex items-center justify-center">
                         <div
-                          ref={viewerPosterRef}
+                          ref={viewerPosterShellRef}
                           style={{
                             width: POSTER_W,
                             transform: `translate3d(${viewerOffset.x}px, ${viewerOffset.y}px, 0) scale(${viewerScale})`,
@@ -539,7 +542,9 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
                           }}
                           className="shrink-0 select-none"
                         >
-                          <SharePoster lenses={lenses} labels={posterLabels} custom={posterCustom} shareUrl={shareUrl} />
+                          <div ref={viewerPosterContentRef} style={{ width: POSTER_W }}>
+                            <SharePoster lenses={lenses} labels={posterLabels} custom={posterCustom} shareUrl={shareUrl} />
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -561,7 +566,7 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
                       {...viewerGestureBind()}
                     >
                       <div
-                        ref={viewerPosterRef}
+                        ref={viewerPosterShellRef}
                         style={{
                           width: POSTER_W,
                           transform: `translate3d(${viewerOffset.x}px, ${viewerOffset.y}px, 0) scale(${viewerScale})`,
@@ -574,7 +579,9 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
                         }}
                         className="shrink-0 select-none"
                       >
-                        <SharePoster lenses={lenses} labels={posterLabels} custom={posterCustom} shareUrl={shareUrl} />
+                        <div ref={viewerPosterContentRef} style={{ width: POSTER_W }}>
+                          <SharePoster lenses={lenses} labels={posterLabels} custom={posterCustom} shareUrl={shareUrl} />
+                        </div>
                       </div>
                     </div>
                   </motion.div>
@@ -785,10 +792,7 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
           style={{ zIndex: Z.drawerBackdrop }}
         />
         <Drawer.Popup
-          className={cn(
-            "fixed inset-x-0 bottom-0 z-50 max-h-[85svh] flex flex-col rounded-t-2xl bg-white pb-[env(safe-area-inset-bottom,0px)] ring-1 ring-zinc-200 duration-200 data-open:animate-in data-open:slide-in-from-bottom data-closed:animate-out data-closed:slide-out-to-bottom dark:bg-zinc-900 dark:ring-zinc-800",
-            lightboxOpen && "pointer-events-none opacity-20"
-          )}
+          className="fixed inset-x-0 bottom-0 z-50 max-h-[85svh] flex flex-col rounded-t-2xl bg-white pb-[env(safe-area-inset-bottom,0px)] ring-1 ring-zinc-200 duration-200 data-open:animate-in data-open:slide-in-from-bottom data-closed:animate-out data-closed:slide-out-to-bottom dark:bg-zinc-900 dark:ring-zinc-800"
           style={{ zIndex: Z.drawer }}
         >
           {/* Handle sits outside the scroll container so swipe-down reaches the drawer */}
