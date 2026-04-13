@@ -147,32 +147,23 @@ function IrisVisualization({
         </clipPath>
 
         {/*
-          Stroke masks — cyclic overlap with forward-half masking.
+          Stroke masks — cyclic overlap.
 
-          Blade i's stroke is hidden wherever any of the next floor((N-1)/2)
-          blades in the cycle cover it. This handles multi-blade overlaps at
-          small apertures while maintaining perfect symmetry (every blade has
-          the same number of masking blades) and a consistent pairwise z-order
-          with no mutual-masking contradictions.
+          Blade i's stroke is hidden wherever blade (i+1)%N sits on top of it.
+          Fills are rendered flat (same color, z-order irrelevant). Only the
+          visible edge of each blade carries depth information, and edges are
+          1-D so cyclic masking has no triple-overlap paradox.
         */}
-        {Array.from({ length: N }, (_, i) => {
-          const maskCount = Math.floor((N - 1) / 2);
-          return (
-            <mask id={`mask-stroke-${i}-${uid}`} key={i}>
-              <rect x="-150" y="-150" width="300" height="300" fill="white" />
-              {Array.from({ length: maskCount }, (_, k) => {
-                const j = (i + 1 + k) % N;
-                return (
-                  <g key={j} transform={`rotate(${(stepDeg * j).toFixed(3)})`}>
-                    <g transform={b0Transform}>
-                      <path d={shape} fill="black" />
-                    </g>
-                  </g>
-                );
-              })}
-            </mask>
-          );
-        })}
+        {Array.from({ length: N }, (_, i) => (
+          <mask id={`mask-stroke-${i}-${uid}`} key={i}>
+            <rect x="-150" y="-150" width="300" height="300" fill="white" />
+            <g transform={`rotate(${(stepDeg * ((i + 1) % N)).toFixed(3)})`}>
+              <g transform={b0Transform}>
+                <path d={shape} fill="black" />
+              </g>
+            </g>
+          </mask>
+        ))}
       </defs>
 
       {/* ── Background ── */}
@@ -364,8 +355,8 @@ export default function ApertureV2Lab() {
   const [showMechanics, setShowMechanics] = useState(false);
 
   // Animation: theta oscillates between range.min and range.max
-  const rafRef = useRef<number | undefined>(undefined);
-  const startRef = useRef<number | undefined>(undefined);
+  const rafRef = useRef<number>();
+  const startRef = useRef<number>();
   const thetaRef = useRef(theta);
 
   useEffect(() => {

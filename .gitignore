@@ -50,4 +50,3 @@ next-env.d.ts
 .claude/
 .playwright-mcp/
 skills-lock.json
-src/app/[[]locale[]]/design-lab/
