@@ -12,6 +12,7 @@ import type { Lens } from "@/lib/types";
 
 export default function CompareBuilder() {
   const t = useTranslations("Compare");
+  const tList = useTranslations("LensList");
   const tBrand = useTranslations("Brands");
   const router = useRouter();
   const [draftIds, setDraftIds] = useState<string[]>([]);
@@ -113,7 +114,7 @@ export default function CompareBuilder() {
           onClick={handleCompare}
           className={cn(ACTION_PRIMARY_CLS, "rounded-xl px-8 py-3 text-sm font-medium")}
         >
-          {t("goCompare", { count: draftLenses.length })}
+          {tList("goCompare", { count: draftLenses.length })}
         </button>
       </div>
     </div>
