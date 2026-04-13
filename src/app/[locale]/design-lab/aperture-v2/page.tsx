@@ -147,29 +147,32 @@ function IrisVisualization({
         </clipPath>
 
         {/*
-          Stroke masks — cyclic overlap, all higher layers.
+          Stroke masks — cyclic overlap with forward-half masking.
 
-          Blade i's stroke is hidden wherever ANY blade above it in the cyclic
-          stack is present: blades (i+1)%N, (i+2)%N, ..., (i+N-1)%N.
-          Masking only by the immediate successor ((i+1)%N) leaves ghost strokes
-          when a tightly closed iris causes blade i to extend under blades two or
-          more steps ahead in the stack.
+          Blade i's stroke is hidden wherever any of the next floor((N-1)/2)
+          blades in the cycle cover it. This handles multi-blade overlaps at
+          small apertures while maintaining perfect symmetry (every blade has
+          the same number of masking blades) and a consistent pairwise z-order
+          with no mutual-masking contradictions.
         */}
-        {Array.from({ length: N }, (_, i) => (
-          <mask id={`mask-stroke-${i}-${uid}`} key={i}>
-            <rect x="-150" y="-150" width="300" height="300" fill="white" />
-            {Array.from({ length: N - 1 }, (_, k) => {
-              const j = (i + 1 + k) % N;
-              return (
-                <g key={k} transform={`rotate(${(stepDeg * j).toFixed(3)})`}>
-                  <g transform={b0Transform}>
-                    <path d={shape} fill="black" />
+        {Array.from({ length: N }, (_, i) => {
+          const maskCount = Math.floor((N - 1) / 2);
+          return (
+            <mask id={`mask-stroke-${i}-${uid}`} key={i}>
+              <rect x="-150" y="-150" width="300" height="300" fill="white" />
+              {Array.from({ length: maskCount }, (_, k) => {
+                const j = (i + 1 + k) % N;
+                return (
+                  <g key={j} transform={`rotate(${(stepDeg * j).toFixed(3)})`}>
+                    <g transform={b0Transform}>
+                      <path d={shape} fill="black" />
+                    </g>
                   </g>
-                </g>
-              );
-            })}
-          </mask>
-        ))}
+                );
+              })}
+            </mask>
+          );
+        })}
       </defs>
 
       {/* ── Background ── */}
