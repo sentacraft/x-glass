@@ -23,12 +23,23 @@ export default function Nav() {
           <Link
             href="/lenses"
             className={`text-sm transition-colors ${
-              pathname === "/lenses" || pathname.startsWith("/lenses/")
+              pathname === "/lenses" ||
+              (pathname.startsWith("/lenses/") && !pathname.startsWith("/lenses/compare"))
                 ? "text-zinc-900 dark:text-zinc-50 font-medium"
                 : "text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50"
             }`}
           >
             {t("lenses")}
+          </Link>
+          <Link
+            href="/lenses/compare"
+            className={`text-sm transition-colors ${
+              pathname.startsWith("/lenses/compare")
+                ? "text-zinc-900 dark:text-zinc-50 font-medium"
+                : "text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50"
+            }`}
+          >
+            {t("compare")}
           </Link>
           <Link
             href="/about"
