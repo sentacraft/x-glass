@@ -326,21 +326,12 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
     const thead = theadRef.current;
     if (!container || !thead) return;
 
-    const updateSectionCenter = () => {
-      // Center of the full visible viewport, expressed as a position in table
-      // coordinate space so that absolutely-positioned section labels stay locked
-      // to the midpoint of the screen regardless of horizontal scroll.
-      const center = container.scrollLeft + container.clientWidth / 2;
-      container.style.setProperty("--section-center", `${center}px`);
-    };
-
     const update = () => {
       const row = thead.querySelector("tr");
       if (row) {
         const cells = row.querySelectorAll("th");
         setColWidths(Array.from(cells).map((c) => c.getBoundingClientRect().width));
       }
-      updateSectionCenter();
     };
     update();
     const observer = new ResizeObserver(update);
@@ -356,9 +347,6 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
       if (phantomInnerRef.current) {
         phantomInnerRef.current.style.transform = `translateX(-${container.scrollLeft}px)`;
       }
-      // Keep section labels centered in the full visible viewport
-      const center = container.scrollLeft + container.clientWidth / 2;
-      container.style.setProperty("--section-center", `${center}px`);
     };
     container.addEventListener("scroll", onScroll, { passive: true });
     return () => container.removeEventListener("scroll", onScroll);
@@ -448,17 +436,8 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
                     on scroll/resize) so it stays centered in the visible content
                     pane regardless of horizontal scroll position. */}
                 <tr className="border-b border-zinc-100 bg-zinc-100/80 dark:border-zinc-800/60 dark:bg-zinc-800/60">
-                  <td colSpan={totalColSpan} className="relative h-8">
-                    <span
-                      style={{
-                        position: "absolute",
-                        top: "50%",
-                        left: "var(--section-center, 50%)",
-                        transform: "translate(-50%, -50%)",
-                        whiteSpace: "nowrap",
-                      }}
-                      className="text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400"
-                    >
+                  <td colSpan={totalColSpan} className="h-8 text-center">
+                    <span className="text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
                       {group.label}
                     </span>
                   </td>
