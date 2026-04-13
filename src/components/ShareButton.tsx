@@ -539,7 +539,12 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
         {triggerContent}
       </Drawer.Trigger>
       <Drawer.Portal>
-        <Drawer.Backdrop className="fixed inset-0 z-50 bg-black/40 duration-150 data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0" />
+        {/* When the lightbox is open its own backdrop (z-60) covers everything;
+            suppress the Drawer backdrop to avoid double-darkening the top half. */}
+        <Drawer.Backdrop className={cn(
+          "fixed inset-0 z-50 duration-150 data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0",
+          lightboxOpen ? "bg-transparent" : "bg-black/40"
+        )} />
         <Drawer.Popup className="fixed inset-x-0 bottom-0 z-50 max-h-[85svh] flex flex-col rounded-t-2xl bg-white pb-[env(safe-area-inset-bottom,0px)] ring-1 ring-zinc-200 duration-200 data-open:animate-in data-open:slide-in-from-bottom data-closed:animate-out data-closed:slide-out-to-bottom dark:bg-zinc-900 dark:ring-zinc-800">
           {/* Handle sits outside the scroll container so swipe-down reaches the drawer */}
           <div className="flex shrink-0 touch-none justify-center pb-1 pt-3">
