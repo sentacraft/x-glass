@@ -22,3 +22,17 @@ export const LIST_ITEM_ACTIVE_CLS =
 
 /** Small indicator dot signalling an active hidden filter. */
 export const ACTIVE_DOT_CLS = "bg-zinc-900 dark:bg-zinc-100";
+
+/**
+ * Circular dismiss / close icon button.
+ * Normal state is transparent; hover/active shows a red fill + icon.
+ * Add a size class (e.g. `h-8 w-8`) per usage site.
+ *
+ * Overlay variant (for buttons that float over colored surfaces, e.g. share
+ * poster dialog): compose with `bg-white/90 shadow-sm backdrop-blur-sm
+ * dark:bg-zinc-800/90` to give it a persistent frosted-glass base.
+ */
+export const ICON_CLOSE_BTN_CLS =
+  "inline-flex shrink-0 items-center justify-center rounded-full transition-colors " +
+  "text-zinc-500 hover:bg-red-50 hover:text-red-500 active:bg-red-50 active:text-red-500 " +
+  "dark:text-zinc-400 dark:hover:bg-red-950/30 dark:hover:text-red-400 dark:active:bg-red-950/30 dark:active:text-red-400";

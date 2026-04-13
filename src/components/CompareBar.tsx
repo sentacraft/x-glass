@@ -7,7 +7,9 @@ import { allLenses } from "@/lib/lens";
 import { useCompare } from "@/context/CompareProvider";
 import { motion, AnimatePresence } from "motion/react";
 import { spring } from "@/lib/animation";
-import { ACTION_PRIMARY_CLS } from "@/lib/ui-tokens";
+import { X } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { ACTION_PRIMARY_CLS, ICON_CLOSE_BTN_CLS } from "@/lib/ui-tokens";
 
 export default function CompareBar() {
   const t = useTranslations("LensList");
@@ -67,10 +69,10 @@ export default function CompareBar() {
                       </span>
                       <button
                         onClick={() => toggleCompare(lens.id)}
-                        className="mt-0.5 text-base leading-none text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200"
+                        className={cn(ICON_CLOSE_BTN_CLS, "h-5 w-5 -mr-0.5 mt-0.5")}
                         aria-label={tCompare("removeLens", { model: displayName })}
                       >
-                        ×
+                        <X className="h-3 w-3" />
                       </button>
                     </motion.div>
                   );

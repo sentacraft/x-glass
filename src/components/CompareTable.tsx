@@ -11,6 +11,8 @@ import Image from "next/image";
 import { ExternalLink } from "@/components/ui/external-link";
 import { useTranslations } from "next-intl";
 import { ChevronLeft, ChevronRight, Flag, X } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { ICON_CLOSE_BTN_CLS } from "@/lib/ui-tokens";
 import { LensPlaceholderIcon } from "@/components/ui/lens-placeholder-icon";
 import { BoolCell } from "@/components/ui/bool-cell";
 import { FieldNotePopover } from "@/components/ui/field-note-popover";
@@ -93,7 +95,7 @@ function LensHeader({
           type="button"
           onClick={onRemove}
           aria-label={removeLabel}
-          className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-zinc-500 transition-colors active:bg-red-50 active:text-red-500 hover:bg-red-50 hover:text-red-500 dark:text-zinc-400 dark:active:bg-red-950/30 dark:active:text-red-400 dark:hover:bg-red-950/30 dark:hover:text-red-400"
+          className={cn(ICON_CLOSE_BTN_CLS, "h-8 w-8")}
         >
           <X className="h-3.5 w-3.5" />
         </button>
