@@ -182,16 +182,11 @@
   "Compare": {
     "title": "对比",
     "backToLenses": "返回列表",
-    "builderHint": "选择 2 到 3 支镜头，开始横向对比。",
-    "emptyHeading": "这得看情况。",
-    "emptySubtext": "没有最好的镜头，到处都是取舍。",
     "officialSite": "官网",
     "addLens": "添加镜头",
-    "add": "添加",
     "addToCompareAction": "加入对比",
     "alreadyAdded": "已在对比中",
     "compareFull": "对比已满",
-    "needOneMoreLens": "当前这里只有 1 支镜头，再添加 1 支镜头，就可以开始真正的并排对比。",
     "removeLens": "移除 {model}",
     "reportIssue": "反馈",
     "shiftLeft": "左移",
@@ -200,6 +195,7 @@
   "Share": {
     "button": "分享",
     "title": "分享当前对比",
+    "titleSingle": "分享此镜头",
     "description": "此链接会保留当前选择的镜头和列顺序。",
     "copyLink": "复制链接",
     "copied": "已复制！",
@@ -218,6 +214,7 @@
   },
   "ShareImage": {
     "comparison": "镜头横向对比",
+    "singleLens": "镜头详情",
     "focalLength": "焦段",
     "maxAperture": "最大光圈",
     "weight": "重量",

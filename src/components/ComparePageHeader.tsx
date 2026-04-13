@@ -43,9 +43,11 @@ export default function ComparePageHeader({ lenses }: Props) {
           {t("title")}
         </h1>
         <CompareAddLensButton lenses={lenses} />
-        <div className="ml-auto">
-          <ShareButton lenses={lenses} />
-        </div>
+        {lenses.length >= 1 && (
+          <div className="ml-auto">
+            <ShareButton lenses={lenses} />
+          </div>
+        )}
       </div>
 
       {/* Floating share FAB — slides up when the header share button is out of view */}

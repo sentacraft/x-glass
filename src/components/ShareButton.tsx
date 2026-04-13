@@ -27,9 +27,11 @@ const PREVIEW_H = 310; // visible preview height in pixels
 interface ShareButtonProps {
   lenses: Lens[];
   variant?: "default" | "fab";
+  /** Override the default trigger button class (non-fab variant only). */
+  triggerClassName?: string;
 }
 
-export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
+export function ShareButton({ lenses, variant = "default", triggerClassName }: ShareButtonProps) {
   const t = useTranslations("Share");
   const tImage = useTranslations("ShareImage");
   const tBrand = useTranslations("Brands");
@@ -114,7 +116,7 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
     appName: "X Glass",
     siteUrl: "x-glass.app",
     cta: tImage("cta"),
-    comparison: tImage("comparison"),
+    comparison: lenses.length === 1 ? tImage("singleLens") : tImage("comparison"),
     sectionFocalCoverage: tImage("sectionFocalCoverage"),
     sectionFocus: tImage("sectionFocus"),
     sectionSizeWeight: tImage("sectionSizeWeight"),
@@ -242,7 +244,7 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
       {/* Header */}
       <div className="flex flex-col gap-0.5">
         <h2 className="text-base font-semibold text-zinc-900 dark:text-zinc-50">
-          {t("title")}
+          {lenses.length === 1 ? t("titleSingle") : t("title")}
         </h2>
         <p className="text-xs leading-relaxed text-zinc-400 dark:text-zinc-500">
           {lensCaption}
@@ -449,7 +451,7 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
                             type="text"
                             value={customTitle}
                             onChange={(e) => setCustomTitle(e.target.value)}
-                            placeholder={tImage("comparison")}
+                            placeholder={lenses.length === 1 ? tImage("singleLens") : tImage("comparison")}
                             className={inputClass}
                           />
                         </div>
@@ -510,6 +512,7 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
   const isFab = variant === "fab";
 
   const defaultTriggerClass =
+    triggerClassName ??
     "flex cursor-pointer items-center gap-1.5 rounded-md p-1 text-sm text-zinc-500 outline-none transition-colors hover:text-zinc-900 focus-visible:ring-2 focus-visible:ring-zinc-400 dark:text-zinc-400 dark:hover:text-zinc-50";
 
   const fabTriggerClass =
@@ -521,14 +524,15 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
     triggerLabel
   );
 
-  // Before mount: static placeholder to avoid layout shift
+  // Before mount: static placeholder — must use the same class as the
+  // mounted trigger so there is no visual jump after hydration.
   const shareControl = !mounted ? (
     <button
       disabled
       aria-hidden
-      className={isFab ? fabTriggerClass + " cursor-default opacity-0" : "flex cursor-default items-center gap-1.5 text-sm text-zinc-500 dark:text-zinc-400"}
+      className={isFab ? fabTriggerClass + " cursor-default opacity-0" : defaultTriggerClass}
     >
-      {isFab ? <Share2 className="size-5" /> : <><Share2 className="size-4" />{t("button")}</>}
+      {triggerContent}
     </button>
   ) : isDesktop ? (
     <Popover.Root open={open} onOpenChange={(nextOpen) => setOpen(nextOpen)}>

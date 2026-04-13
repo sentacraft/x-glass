@@ -2,6 +2,7 @@
 
 import React, {
   startTransition,
+  useCallback,
   useEffect,
   useMemo,
   useRef,
@@ -21,7 +22,8 @@ import { useRouter } from "@/i18n/navigation";
 import FeedbackTrigger from "@/components/FeedbackTrigger";
 import type { FeedbackField } from "@/components/FeedbackDialog";
 import { useCompare } from "@/context/CompareProvider";
-import { allLenses, getLensUrl } from "@/lib/lens";
+import { allLenses, getLensUrl, MAX_COMPARE } from "@/lib/lens";
+import LensSearchDialog from "@/components/LensSearchDialog";
 import { lensImageStyle } from "@/lib/lens-image";
 import { buildSpecGroups } from "@/lib/lens-spec-groups";
 import type { SpecRow, SpecGroup, StructuredLine } from "@/lib/lens-spec-groups";
@@ -128,16 +130,43 @@ function LensHeader({
   );
 }
 
+// --- EmptyLensHeader: placeholder column header with a search trigger ---
+
+function EmptyLensHeader({
+  addLensLabel,
+  onSelectLens,
+  getResultState,
+}: {
+  addLensLabel: string;
+  onSelectLens: (lens: Lens) => void;
+  getResultState: (lens: Lens) => { actionLabel: string; disabled: boolean };
+}) {
+  return (
+    // h-px is the CSS trick that allows children to use h-full inside a table cell
+    <th className="h-px align-top border-l border-zinc-200 bg-zinc-50 p-2 dark:border-zinc-800 dark:bg-zinc-900">
+      <LensSearchDialog
+        onSelectLens={onSelectLens}
+        getResultState={getResultState}
+        triggerVariant="slot"
+        triggerLabel={addLensLabel}
+        triggerClassName="h-full w-full rounded-2xl"
+      />
+    </th>
+  );
+}
+
 // --- CompareTable ---
 
 interface Props {
   lenses: Lens[];
+  /** Minimum number of columns to display; empty slot headers fill the gap. */
+  minColumns?: number;
 }
 
 const LABEL_COLUMN_WIDTH = "6rem";
 const LENS_COLUMN_MIN_WIDTH = "9rem";
 
-export default function CompareTable({ lenses: initialLenses }: Props) {
+export default function CompareTable({ lenses: initialLenses, minColumns = 0 }: Props) {
   const t = useTranslations("Compare");
   const td = useTranslations("LensDetail");
   const tBrand = useTranslations("Brands");
@@ -157,6 +186,35 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
   const orderedLenses = orderedIds
     .map((id) => allLenses.find((lens) => lens.id === id))
     .filter((lens): lens is Lens => lens !== undefined);
+
+  // Number of empty slot columns to render (search triggers filling up to minColumns)
+  const emptySlotCount = Math.max(0, minColumns - orderedLenses.length);
+
+  const handleAddLens = useCallback(
+    (lens: Lens) => {
+      if (orderedIds.includes(lens.id) || orderedIds.length >= MAX_COMPARE) return;
+      const nextIds = [...orderedIds, lens.id];
+      replaceCompare(nextIds);
+      setOrderedIds(nextIds);
+      startTransition(() => {
+        router.replace(`/lenses/compare?ids=${nextIds.join(",")}`);
+      });
+    },
+    [orderedIds, replaceCompare, router]
+  );
+
+  const getAddResultState = useCallback(
+    (candidate: Lens) => ({
+      actionLabel: orderedIds.includes(candidate.id)
+        ? t("alreadyAdded")
+        : orderedIds.length >= MAX_COMPARE
+          ? t("compareFull")
+          : t("addToCompareAction"),
+      disabled:
+        orderedIds.includes(candidate.id) || orderedIds.length >= MAX_COMPARE,
+    }),
+    [orderedIds, t]
+  );
 
   const valueCellLabels = {
     yes: td("yes"),
@@ -302,7 +360,7 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
     return map;
   }, [allGroups, orderedLenses, valueCellLabels]);
 
-  const totalColSpan = orderedLenses.length + 1;
+  const totalColSpan = orderedLenses.length + 1 + emptySlotCount;
   const scrollContainer = useScrollContainer();
 
   // --- Phantom sticky header ---
@@ -407,6 +465,9 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
           {orderedLenses.map((lens) => (
             <col key={lens.id} style={{ width: LENS_COLUMN_MIN_WIDTH }} />
           ))}
+          {Array.from({ length: emptySlotCount }).map((_, i) => (
+            <col key={`empty-col-${i}`} style={{ width: LENS_COLUMN_MIN_WIDTH }} />
+          ))}
         </colgroup>
 
         <thead ref={theadRef}>
@@ -424,6 +485,14 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
                 onRemove={() => handleRemoveLens(lens.id)}
                 onShiftLeft={() => handleShiftLens(lens.id, -1)}
                 onShiftRight={() => handleShiftLens(lens.id, 1)}
+              />
+            ))}
+            {Array.from({ length: emptySlotCount }).map((_, i) => (
+              <EmptyLensHeader
+                key={`empty-header-${i}`}
+                addLensLabel={t("addLens")}
+                onSelectLens={handleAddLens}
+                getResultState={getAddResultState}
               />
             ))}
           </tr>
@@ -471,7 +540,7 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
                         {row.label}
                       </td>
 
-                      {/* Value cells */}
+                      {/* Value cells — filled lenses */}
                       {orderedLenses.map((lens) => {
                         const fieldNote =
                           (row.fieldNoteKey ? lens.fieldNotes?.[row.fieldNoteKey] : undefined) ??
@@ -663,6 +732,13 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
                           </td>
                         );
                       })}
+                      {/* Empty slot cells for unfilled columns */}
+                      {Array.from({ length: emptySlotCount }).map((_, i) => (
+                        <td
+                          key={`empty-cell-${i}`}
+                          className="border-l border-zinc-100 bg-white dark:border-zinc-800/60 dark:bg-zinc-950"
+                        />
+                      ))}
                     </tr>
                   );
                 })}
@@ -702,6 +778,9 @@ export default function CompareTable({ lenses: initialLenses }: Props) {
                 </td>
               );
             })}
+            {Array.from({ length: emptySlotCount }).map((_, i) => (
+              <td key={`empty-foot-${i}`} className="border-l border-zinc-200 dark:border-zinc-800" />
+            ))}
           </tr>
         </tfoot>
       </table>

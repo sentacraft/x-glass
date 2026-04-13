@@ -182,16 +182,11 @@
   "Compare": {
     "title": "Compare",
     "backToLenses": "Back to Lenses",
-    "builderHint": "Pick 2 to 3 lenses for a side-by-side comparison.",
-    "emptyHeading": "it depends.",
-    "emptySubtext": "No best lens. Trade-offs everywhere.",
     "officialSite": "Official site",
     "addLens": "Add lens",
-    "add": "Add",
     "addToCompareAction": "Add to compare",
     "alreadyAdded": "Already added",
     "compareFull": "Compare full",
-    "needOneMoreLens": "You only have one lens here right now. Add one more lens to unlock a proper side-by-side comparison.",
     "removeLens": "Remove {model}",
     "reportIssue": "Report",
     "shiftLeft": "Move left",
@@ -200,6 +195,7 @@
   "Share": {
     "button": "Share",
     "title": "Share this comparison",
+    "titleSingle": "Share this lens",
     "description": "This link preserves the current lens selection and column order.",
     "copyLink": "Copy Link",
     "copied": "Copied!",
@@ -218,6 +214,7 @@
   },
   "ShareImage": {
     "comparison": "Lens Comparison",
+    "singleLens": "Lens Profile",
     "focalLength": "Focal Length",
     "maxAperture": "Max Aperture",
     "weight": "Weight",

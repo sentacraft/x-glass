@@ -4,7 +4,6 @@ import { parseLensIds } from "@/lib/lens";
 import CompareTable from "@/components/CompareTable";
 import ComparePageHeader from "@/components/ComparePageHeader";
 import CompareAddLensButton from "@/components/CompareAddLensButton";
-import CompareBuilder from "@/components/CompareBuilder";
 import BackButton from "@/components/BackButton";
 
 export async function generateMetadata({
@@ -36,22 +35,13 @@ export default async function ComparePage({
 
   const lenses = parseLensIds(ids);
 
-  if (lenses.length === 0) {
-    return <CompareBuilder />;
-  }
-
   return (
     <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-8 flex flex-col gap-3 sm:gap-4">
       {/* Header */}
       <ComparePageHeader lenses={lenses} />
 
-      {lenses.length < 2 ? (
-        <div className="rounded-2xl border border-amber-200 bg-amber-50/80 px-4 py-3 text-sm text-amber-900 dark:border-amber-900/60 dark:bg-amber-950/20 dark:text-amber-200">
-          {t("needOneMoreLens")}
-        </div>
-      ) : null}
-
-      <CompareTable lenses={lenses} />
+      {/* Table — minColumns=2 ensures cold start always shows 2 search-trigger columns */}
+      <CompareTable lenses={lenses} minColumns={2} />
 
       {/* Bottom add-lens entry — visible when scrolled to bottom of a long table */}
       <CompareAddLensButton
