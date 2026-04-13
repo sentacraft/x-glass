@@ -54,28 +54,13 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
 
   // Full-size poster viewer
   const [lightboxOpen, setLightboxOpen] = useState(false);
-  const [posterViewMode, setPosterViewMode] = useState<"preview" | "fit" | "actual">("preview");
-  const [lightboxScale, setLightboxScale] = useState(1);
+  const [posterViewMode, setPosterViewMode] = useState<"fit" | "actual">("fit");
   const [viewerScale, setViewerScale] = useState(1);
   const [viewerOffset, setViewerOffset] = useState({ x: 0, y: 0 });
   const [stageRect, setStageRect] = useState({ width: 0, height: 0 });
   const [posterRect, setPosterRect] = useState({ width: POSTER_W, height: 0 });
-  // Callback ref: fires as soon as the portal element mounts, avoiding the
-  // race condition where useEffect runs before the portal has attached the ref.
-  const lightboxRoRef = useRef<ResizeObserver | null>(null);
-  const immersiveStageRef = useRef<HTMLDivElement | null>(null);
-  const immersivePosterRef = useRef<HTMLDivElement | null>(null);
-  const lightboxContainerRef = useCallback((el: HTMLDivElement | null) => {
-    lightboxRoRef.current?.disconnect();
-    lightboxRoRef.current = null;
-    if (!el) {
-      return;
-    }
-    const updateScale = () => setLightboxScale(Math.min(1, el.clientWidth / POSTER_W));
-    updateScale();
-    lightboxRoRef.current = new ResizeObserver(updateScale);
-    lightboxRoRef.current.observe(el);
-  }, []);
+  const viewerStageRef = useRef<HTMLDivElement | null>(null);
+  const viewerPosterRef = useRef<HTMLDivElement | null>(null);
 
   // Filename slug
   const slugRef = useRef("");
@@ -249,11 +234,10 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
   };
 
   const openPosterViewer = useCallback(() => {
-    setPosterViewMode(isDesktop ? "fit" : "preview");
+    setPosterViewMode("fit");
     setLightboxOpen(true);
-  }, [isDesktop]);
+  }, []);
 
-  const isImmersiveView = posterViewMode !== "preview";
   const fitScale =
     stageRect.width > 0 && stageRect.height > 0 && posterRect.height > 0
       ? Math.min(stageRect.width / posterRect.width, stageRect.height / posterRect.height, 1)
@@ -279,12 +263,12 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
   );
 
   useEffect(() => {
-    if (!lightboxOpen || !isImmersiveView) {
+    if (!lightboxOpen) {
       return;
     }
 
-    const stageEl = immersiveStageRef.current;
-    const posterEl = immersivePosterRef.current;
+    const stageEl = viewerStageRef.current;
+    const posterEl = viewerPosterRef.current;
     if (!stageEl || !posterEl) {
       return;
     }
@@ -305,10 +289,10 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
     observer.observe(stageEl);
     observer.observe(posterEl);
     return () => observer.disconnect();
-  }, [isImmersiveView, lightboxOpen]);
+  }, [lightboxOpen]);
 
   useEffect(() => {
-    if (!isImmersiveView) {
+    if (!lightboxOpen) {
       setViewerOffset({ x: 0, y: 0 });
       setViewerScale(1);
       return;
@@ -324,7 +308,7 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
       setViewerScale(1);
       setViewerOffset(clampOffset(1, { x: 0, y: 0 }));
     }
-  }, [clampOffset, fitScale, isImmersiveView, posterViewMode]);
+  }, [clampOffset, fitScale, lightboxOpen, posterViewMode]);
 
   const viewerScaleRef = useRef(viewerScale);
   const viewerOffsetRef = useRef(viewerOffset);
@@ -351,13 +335,13 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
   const viewerGestureBind = useGesture(
     {
       onDrag: ({ offset: [x, y] }) => {
-        if (!isImmersiveView || viewerScaleRef.current <= fitScale + 0.001) {
+        if (!lightboxOpen || viewerScaleRef.current <= fitScale + 0.001) {
           return;
         }
         updateViewerTransform(viewerScaleRef.current, { x, y });
       },
       onPinch: ({ first, offset: [distance], memo }) => {
-        if (!isImmersiveView) {
+        if (!lightboxOpen) {
           return memo;
         }
 
@@ -374,7 +358,7 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
         return startDistance;
       },
       onWheel: ({ event, delta: [, dy] }) => {
-        if (!isImmersiveView || !isDesktop) {
+        if (!lightboxOpen || !isDesktop) {
           return;
         }
         event.preventDefault();
@@ -504,7 +488,7 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
             onOpenChange={(open) => {
               setLightboxOpen(open);
               if (!open) {
-                setPosterViewMode("preview");
+                setPosterViewMode("fit");
               }
             }}
           >
@@ -514,39 +498,48 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
               className="fixed inset-0 flex items-center justify-center border-0 bg-transparent p-0 shadow-none duration-100"
               backdropStyle={{ zIndex: Z.dialogBackdrop }}
               style={{ zIndex: Z.dialog }}
-              backdropClassName={cn(
-                "transition-[background-color] duration-150",
-                isImmersiveView ? "bg-black/90 backdrop-blur-[2px]" : "bg-zinc-950/75"
-              )}
+              backdropClassName="bg-zinc-950/82 transition-[background-color] duration-150"
               showCloseButton={false}
             >
               {/* ── State-driven content ── */}
               <AnimatePresence mode="sync" initial={false}>
-                {posterViewMode === "preview" ? (
-                  /* Preview: mobile-only intermediate step before entering the immersive viewer. */
+                {!isDesktop ? (
+                  /* Mobile: keep a fixed lightbox shell and switch poster zoom modes inside it. */
                   <motion.div
-                    key="preview"
-                    ref={lightboxContainerRef}
+                    key="mobile-lightbox"
                     initial={{ opacity: 0, scale: 0.97 }}
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.97 }}
                     transition={{ duration: 0.12, ease: "easeOut" }}
-                    className={cn(
-                      "relative w-[calc(100vw-4rem)] max-w-[750px] max-h-[calc(100svh-5rem)] overflow-y-auto overflow-x-hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden rounded-2xl bg-white shadow-[0_8px_40px_rgba(0,0,0,0.22),0_0_0_1px_rgba(0,0,0,0.06)]",
-                      !isDesktop && "cursor-zoom-in"
-                    )}
-                    onClick={!isDesktop ? () => setPosterViewMode("fit") : undefined}
+                    className="relative h-[min(calc(100svh-6rem),46rem)] w-[calc(100vw-2rem)] max-w-[750px] overflow-hidden rounded-2xl bg-white shadow-[0_8px_40px_rgba(0,0,0,0.22),0_0_0_1px_rgba(0,0,0,0.06)]"
                   >
-                    <div style={{ width: POSTER_W, zoom: lightboxScale }}>
-                      <SharePoster lenses={lenses} labels={posterLabels} custom={posterCustom} shareUrl={shareUrl} />
+                    <div
+                      ref={viewerStageRef}
+                      className="relative h-full w-full overflow-hidden touch-none"
+                      style={{ touchAction: "none" }}
+                      {...viewerGestureBind()}
+                    >
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div
+                          ref={viewerPosterRef}
+                          style={{
+                            width: POSTER_W,
+                            transform: `translate3d(${viewerOffset.x}px, ${viewerOffset.y}px, 0) scale(${viewerScale})`,
+                            transformOrigin: "center center",
+                            willChange: "transform",
+                            cursor: viewerScale > fitScale + 0.001 ? "grab" : "default",
+                          }}
+                          className="shrink-0 select-none"
+                        >
+                          <SharePoster lenses={lenses} labels={posterLabels} custom={posterCustom} shareUrl={shareUrl} />
+                        </div>
+                      </div>
                     </div>
                   </motion.div>
                 ) : (
-                  /* Immersive: full viewport scene. Drawer may remain open in
-                     state, but it should be visually isolated beneath this
-                     layer. */
+                  /* Desktop: keep the full-screen poster scene. */
                   <motion.div
-                    key={posterViewMode}
+                    key="desktop-viewer"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
@@ -554,18 +547,13 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
                     className="fixed inset-0 overflow-y-auto overflow-x-hidden bg-zinc-950/96 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
                   >
                     <div
-                      ref={immersiveStageRef}
+                      ref={viewerStageRef}
                       className="flex min-h-full w-full items-center justify-center overflow-hidden px-4 pb-[calc(env(safe-area-inset-bottom,0px)+1rem)] pt-[calc(env(safe-area-inset-top,0px)+4rem)] touch-none"
-                      onClick={(e) => {
-                        if (e.target === e.currentTarget && !isDesktop) {
-                          setPosterViewMode("preview");
-                        }
-                      }}
                       style={{ touchAction: "none" }}
                       {...viewerGestureBind()}
                     >
                       <div
-                        ref={immersivePosterRef}
+                        ref={viewerPosterRef}
                         style={{
                           width: POSTER_W,
                           transform: `translate3d(${viewerOffset.x}px, ${viewerOffset.y}px, 0) scale(${viewerScale})`,
@@ -595,7 +583,7 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
                   onClick={() => setLightboxOpen(false)}
                   className={cn(
                     "pointer-events-auto absolute top-4 right-4 inline-flex h-10 w-10 items-center justify-center rounded-full backdrop-blur-sm transition-colors",
-                    isImmersiveView
+                    isDesktop
                       ? "bg-white/15 text-white hover:bg-white/25"
                       : "bg-black/40 text-white hover:bg-black/60"
                   )}
@@ -608,29 +596,21 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
                 {lightboxOpen && (
                   <button
                     onClick={() => {
-                      if (posterViewMode === "preview") {
-                        setPosterViewMode("fit");
-                        return;
-                      }
                       setPosterViewMode((mode) => (mode === "fit" ? "actual" : "fit"));
                     }}
                     className={cn(
                       "pointer-events-auto absolute bottom-4 right-4 inline-flex h-10 w-10 items-center justify-center rounded-full backdrop-blur-sm transition-colors",
-                      isImmersiveView
+                      isDesktop
                         ? "bg-white/15 text-white hover:bg-white/25"
                         : "bg-black/40 text-white hover:bg-black/60"
                     )}
                     aria-label={
-                      posterViewMode === "preview"
-                        ? t("posterEnterFullscreen")
-                        : posterViewMode === "fit"
+                      posterViewMode === "fit"
                           ? t("posterActualSize")
                           : t("posterFitScreen")
                     }
                     title={
-                      posterViewMode === "preview"
-                        ? t("posterEnterFullscreen")
-                        : posterViewMode === "fit"
+                      posterViewMode === "fit"
                           ? t("posterActualSize")
                           : t("posterFitScreen")
                     }
@@ -641,7 +621,7 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
 
                 {/* Download — appears only in immersive mode */}
                 <AnimatePresence>
-                  {isImmersiveView && (
+                  {lightboxOpen && (
                     <motion.button
                       key="dl"
                       initial={{ opacity: 0 }}
