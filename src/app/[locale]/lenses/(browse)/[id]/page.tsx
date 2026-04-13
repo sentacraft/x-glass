@@ -270,6 +270,7 @@ export default async function LensDetailPage({ params }: { params: Params }) {
           <div className="flex flex-col gap-2">
             <div className="flex flex-wrap gap-3">
               <AddToCompareButton lensId={lens.id} />
+              <ShareButton lenses={[lens]} />
               {url && (
                 <ExternalLink href={url} className={ACTION_OUTLINE_CLS}>
                   {t("officialSite")}
