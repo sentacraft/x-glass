@@ -342,9 +342,9 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
             {/* Dialog fills the full viewport; all visual styling lives inside */}
             <DialogContent
               noDefaultPositioning
-              className="fixed inset-0 flex items-center justify-center border-0 bg-transparent p-0 shadow-none"
+              className="fixed inset-0 flex items-center justify-center border-0 bg-transparent p-0 shadow-none duration-100"
               backdropClassName={cn(
-                "transition-[background-color] duration-300",
+                "transition-[background-color] duration-150",
                 lightboxZoomed ? "bg-black/90 backdrop-blur-[2px]" : "bg-zinc-950/75"
               )}
               showCloseButton={false}
@@ -360,10 +360,10 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
                   <motion.div
                     key="preview"
                     ref={lightboxContainerRef}
-                    initial={{ opacity: 0, scale: 0.95 }}
+                    initial={{ opacity: 0, scale: 0.97 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.95 }}
-                    transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
+                    exit={{ opacity: 0, scale: 0.97 }}
+                    transition={{ duration: 0.12, ease: "easeOut" }}
                     className={cn(
                       "relative w-[calc(100vw-4rem)] max-w-[750px] max-h-[calc(100svh-5rem)] overflow-y-auto overflow-x-hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden rounded-2xl bg-white shadow-[0_8px_40px_rgba(0,0,0,0.22),0_0_0_1px_rgba(0,0,0,0.06)]",
                       !isDesktop && "cursor-zoom-in"
@@ -382,7 +382,7 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    transition={{ duration: 0.2 }}
+                    transition={{ duration: 0.12 }}
                     className="fixed inset-0 flex flex-col overflow-y-auto overflow-x-hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
                     onClick={(e) => { if (e.target === e.currentTarget) setLightboxZoomed(false); }}
                   >
