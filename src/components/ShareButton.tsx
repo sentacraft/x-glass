@@ -8,6 +8,7 @@ import { useTranslations } from "next-intl";
 import { Share2, Copy, Check, Download, Loader2, Expand, SlidersHorizontal, Maximize2, Minimize2, X } from "lucide-react";
 import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
+import { ICON_CLOSE_BTN_CLS } from "@/lib/ui-tokens";
 import type { Lens } from "@/lib/types";
 import { rasterizePoster } from "@/lib/share-image";
 import { SharePoster, type PosterLabels } from "@/components/poster/SharePoster";
@@ -358,7 +359,10 @@ export function ShareButton({ lenses, variant = "default" }: ShareButtonProps) {
                 {/* Close — floats above the top-right corner of the card */}
                 <button
                   onClick={() => setLightboxOpen(false)}
-                  className="absolute -top-4 right-1 sm:-right-4 z-10 inline-flex h-9 w-9 items-center justify-center rounded-full bg-black/50 text-white backdrop-blur-md transition-colors hover:bg-black/70"
+                  className={cn(
+                    ICON_CLOSE_BTN_CLS,
+                    "absolute -top-4 right-1 sm:-right-4 z-10 h-9 w-9 bg-white/90 shadow-sm backdrop-blur-sm dark:bg-zinc-800/90"
+                  )}
                   aria-label={t("close")}
                 >
                   <X className="size-4" />
