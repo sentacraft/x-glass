@@ -37,7 +37,7 @@ interface LensSearchDialogProps {
   getResultState?: (lens: Lens) => LensSearchResultState | undefined;
   triggerClassName?: string;
   triggerLabel?: string;
-  triggerVariant?: "icon" | "button" | "card";
+  triggerVariant?: "icon" | "button" | "card" | "slot";
 }
 
 export default function LensSearchDialog({
@@ -143,7 +143,7 @@ export default function LensSearchDialog({
           triggerClassName
         )}
       >
-        <Search className={triggerVariant === "card" ? "h-7 w-7" : "h-4 w-4"} />
+        <Search className={triggerVariant === "card" || triggerVariant === "slot" ? "h-7 w-7" : "h-4 w-4"} />
         {triggerVariant === "button" ? (
           <span>{triggerLabel ?? t("add")}</span>
         ) : null}
@@ -156,6 +156,11 @@ export default function LensSearchDialog({
               {t("cardHint")}
             </span>
           </>
+        ) : null}
+        {triggerVariant === "slot" ? (
+          <span className="text-base font-medium text-zinc-800 dark:text-zinc-100">
+            {triggerLabel ?? t("addLens")}
+          </span>
         ) : null}
       </button>
 

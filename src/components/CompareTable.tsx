@@ -142,13 +142,14 @@ function EmptyLensHeader({
   getResultState: (lens: Lens) => { actionLabel: string; disabled: boolean };
 }) {
   return (
-    <th className="align-top border-l border-zinc-200 bg-zinc-50 p-2 dark:border-zinc-800 dark:bg-zinc-900">
+    // h-px is the CSS trick that allows children to use h-full inside a table cell
+    <th className="h-px align-top border-l border-zinc-200 bg-zinc-50 p-2 dark:border-zinc-800 dark:bg-zinc-900">
       <LensSearchDialog
         onSelectLens={onSelectLens}
         getResultState={getResultState}
-        triggerVariant="card"
+        triggerVariant="slot"
         triggerLabel={addLensLabel}
-        triggerClassName="h-full w-full min-h-[130px] sm:min-h-[190px] rounded-2xl"
+        triggerClassName="h-full w-full rounded-2xl"
       />
     </th>
   );
