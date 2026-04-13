@@ -14,16 +14,19 @@ export const ANIMATION = {
 
 // ── Z-index layers ────────────────────────────────────────────────────────────
 
-// TODO: Enumerate all z-index values currently hardcoded in components.
-// Example shape (fill in as you audit):
-// export const Z = {
-//   base: 0,
-//   stickyHeader: 10,
-//   compareBar: 20,
-//   drawer: 30,
-//   modal: 40,
-//   toast: 50,
-// } as const;
+export const Z = {
+  base: 0,
+  compareTable: 10,
+  stickyHeader: 20,
+  nav: 30,
+  floatingAction: 40,
+  drawerBackdrop: 50,
+  drawer: 60,
+  dialogBackdrop: 70,
+  dialog: 80,
+  dialogControls: 90,
+  debugPanel: 100,
+} as const;
 
 // ── Layout ────────────────────────────────────────────────────────────────────
 

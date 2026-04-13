@@ -3,6 +3,7 @@
 import { Dialog as DialogPrimitive } from "@base-ui/react/dialog";
 import { X } from "lucide-react";
 
+import { Z } from "@/config/ui";
 import { cn } from "@/lib/utils";
 import { ICON_CLOSE_BTN_CLS } from "@/lib/ui-tokens";
 
@@ -46,7 +47,11 @@ function DialogPortal({
   );
 }
 
-function DialogBackdrop({ className, ...props }: DialogPrimitive.Backdrop.Props) {
+function DialogBackdrop({
+  className,
+  style,
+  ...props
+}: DialogPrimitive.Backdrop.Props) {
   return (
     <DialogPrimitive.Backdrop
       data-slot="dialog-backdrop"
@@ -54,6 +59,7 @@ function DialogBackdrop({ className, ...props }: DialogPrimitive.Backdrop.Props)
         "fixed inset-0 z-50 bg-zinc-950/55 backdrop-blur-sm",
         className
       )}
+      style={{ zIndex: Z.dialogBackdrop, ...style }}
       {...props}
     />
   );
@@ -62,6 +68,8 @@ function DialogBackdrop({ className, ...props }: DialogPrimitive.Backdrop.Props)
 function DialogContent({
   className,
   backdropClassName,
+  backdropStyle,
+  style,
   children,
   showCloseButton = true,
   showOverlayCloseButton = false,
@@ -69,6 +77,7 @@ function DialogContent({
   ...props
 }: DialogPrimitive.Popup.Props & {
   backdropClassName?: string;
+  backdropStyle?: React.CSSProperties;
   showCloseButton?: boolean;
   /** Renders the close button outside the popup at the card's top-right corner (-right-4 -top-4).
    *  Requires the popup to NOT have overflow-hidden (move it to inner content instead). */
@@ -79,7 +88,7 @@ function DialogContent({
 }) {
   return (
     <DialogPortal>
-      <DialogBackdrop className={backdropClassName} />
+      <DialogBackdrop className={backdropClassName} style={backdropStyle} />
       <DialogPrimitive.Popup
         data-slot="dialog-content"
         className={cn(
@@ -88,6 +97,7 @@ function DialogContent({
           "origin-[var(--transform-origin)] duration-200 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-90 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-90",
           className
         )}
+        style={{ zIndex: Z.dialog, ...style }}
         {...props}
       >
         {children}
