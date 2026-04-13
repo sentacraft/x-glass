@@ -524,14 +524,15 @@ export function ShareButton({ lenses, variant = "default", triggerClassName }: S
     triggerLabel
   );
 
-  // Before mount: static placeholder to avoid layout shift
+  // Before mount: static placeholder — must use the same class as the
+  // mounted trigger so there is no visual jump after hydration.
   const shareControl = !mounted ? (
     <button
       disabled
       aria-hidden
-      className={isFab ? fabTriggerClass + " cursor-default opacity-0" : "flex cursor-default items-center gap-1.5 text-sm text-zinc-500 dark:text-zinc-400"}
+      className={isFab ? fabTriggerClass + " cursor-default opacity-0" : defaultTriggerClass}
     >
-      {isFab ? <Share2 className="size-5" /> : <><Share2 className="size-4" />{t("button")}</>}
+      {triggerContent}
     </button>
   ) : isDesktop ? (
     <Popover.Root open={open} onOpenChange={(nextOpen) => setOpen(nextOpen)}>
