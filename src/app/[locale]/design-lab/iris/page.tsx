@@ -26,11 +26,15 @@ function IrisStage({
   config,
   theta,
   showMechanics,
+  strokeWidth,
+  shadowOpacity,
   uid,
 }: {
   config: IrisMechanismConfig;
   theta: number;
   showMechanics: boolean;
+  strokeWidth: number;
+  shadowOpacity: number;
   uid: string;
 }) {
   const { N } = config;
@@ -68,6 +72,9 @@ function IrisStage({
         <clipPath id={`clip-${uid}`}>
           <circle r={R_HOUSING} />
         </clipPath>
+        <filter id={`shadow-${uid}`} x="-20%" y="-20%" width="140%" height="140%">
+          <feDropShadow dx="0" dy="0" stdDeviation="2" floodColor="black" floodOpacity={shadowOpacity} />
+        </filter>
 
         {/*
           Stroke masks — cyclic overlap with forward-half masking.
@@ -151,7 +158,7 @@ function IrisStage({
         {Array.from({ length: N }, (_, i) => (
           <g key={i} transform={`rotate(${(stepDeg * i).toFixed(3)})`}>
             <g transform={b0Transform}>
-              <path d={shape} fill="#1d1d1d" stroke="none" />
+              <path d={shape} fill="#1d1d1d" stroke="none" filter={shadowOpacity > 0 ? `url(#shadow-${uid})` : undefined} />
             </g>
           </g>
         ))}
@@ -160,7 +167,7 @@ function IrisStage({
           <g key={i} mask={`url(#mask-stroke-${i}-${uid})`}>
             <g transform={`rotate(${(stepDeg * i).toFixed(3)})`}>
               <g transform={b0Transform}>
-                <path d={shape} fill="none" stroke="#303030" strokeWidth="0.5" />
+                <path d={shape} fill="none" stroke="#303030" strokeWidth={strokeWidth} />
               </g>
             </g>
           </g>
@@ -328,6 +335,8 @@ export default function ApertureV2Lab() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [speed, setSpeed] = useState(0.35); // Hz
   const [showMechanics, setShowMechanics] = useState(false);
+  const [strokeWidth, setStrokeWidth] = useState(0.5);
+  const [shadowOpacity, setShadowOpacity] = useState(0);
 
   // Animation: theta oscillates between range.min and range.max
   const rafRef = useRef<number | undefined>(undefined);
@@ -413,6 +422,8 @@ export default function ApertureV2Lab() {
               config={derivedConfig}
               theta={theta}
               showMechanics={showMechanics}
+              strokeWidth={strokeWidth}
+              shadowOpacity={shadowOpacity}
               uid="main"
             />
           </div>
@@ -644,6 +655,47 @@ export default function ApertureV2Lab() {
                 />
               </div>
             ))}
+          </section>
+
+          {/* Appearance */}
+          <section className="space-y-2.5">
+            <p className="text-xs text-zinc-600 uppercase tracking-wider">
+              Appearance
+            </p>
+            <div className="space-y-1">
+              <div className="flex justify-between text-xs">
+                <span className="text-zinc-600">Stroke</span>
+                <span className="text-zinc-400 font-mono">{strokeWidth.toFixed(1)} px</span>
+              </div>
+              <input
+                type="range"
+                min={0}
+                max={3}
+                step={0.1}
+                value={strokeWidth}
+                onChange={(e) => setStrokeWidth(parseFloat(e.target.value))}
+                className="w-full"
+                style={{ accentColor: "#52525b" }}
+              />
+            </div>
+            <div className="space-y-1">
+              <div className="flex justify-between text-xs">
+                <span className="text-zinc-600">Shadow</span>
+                <span className="text-zinc-400 font-mono">
+                  {shadowOpacity === 0 ? "off" : shadowOpacity.toFixed(2)}
+                </span>
+              </div>
+              <input
+                type="range"
+                min={0}
+                max={1}
+                step={0.01}
+                value={shadowOpacity}
+                onChange={(e) => setShadowOpacity(parseFloat(e.target.value))}
+                className="w-full"
+                style={{ accentColor: "#52525b" }}
+              />
+            </div>
           </section>
 
           {/* Reset */}
