@@ -16,13 +16,12 @@ import {
   type IrisMechanismConfig,
 } from "@/lib/iris-kinematics";
 import { readFromBrand, exportToBrand } from "./actions";
-import { IRIS_HERO, IRIS_NAV } from "@/config/brand";
+import { IRIS_HERO, IRIS_NAV, R_HOUSING } from "@/config/brand";
 import type { IrisConfig } from "@/config/brand";
 import Iris from "@/components/Iris";
 
 // SVG coordinate space: origin at iris center, R_HOUSING = outer display radius.
 // viewBox is larger to accommodate the actuator ring sitting outside R_HOUSING.
-const R_HOUSING = 100;
 const VIEWBOX = "-150 -150 300 300";
 
 // ── F-stop ring constants ─────────────────────────────────────────────────────
@@ -53,7 +52,6 @@ function IrisStage({
   fStopRingOuter = true,
   fStop = 1.4,
   strokeWidth,
-  shadowOpacity,
   bladeColor,
   strokeColor,
   uid,
@@ -65,7 +63,6 @@ function IrisStage({
   fStopRingOuter?: boolean;
   fStop?: number;
   strokeWidth: number;
-  shadowOpacity: number;
   bladeColor: string;
   strokeColor: string;
   uid: string;
@@ -105,10 +102,6 @@ function IrisStage({
         <clipPath id={`clip-${uid}`}>
           <circle r={R_HOUSING} />
         </clipPath>
-        <filter id={`shadow-${uid}`} x="-20%" y="-20%" width="140%" height="140%">
-          <feDropShadow dx="0" dy="0" stdDeviation="2" floodColor="black" floodOpacity={shadowOpacity} />
-        </filter>
-
         {/*
           Stroke masks — cyclic overlap with forward-half masking.
 
@@ -191,7 +184,7 @@ function IrisStage({
         {Array.from({ length: N }, (_, i) => (
           <g key={i} transform={`rotate(${(stepDeg * i).toFixed(3)})`}>
             <g transform={b0Transform}>
-              <path d={shape} fill={bladeColor} stroke="none" filter={shadowOpacity > 0 ? `url(#shadow-${uid})` : undefined} />
+              <path d={shape} fill={bladeColor} stroke="none" />
             </g>
           </g>
         ))}
@@ -413,7 +406,6 @@ export default function ApertureV2Lab() {
     if (v.bladeColor) setBladeGray(parseInt(v.bladeColor.slice(1, 3), 16));
     if (v.strokeColor) setStrokeGray(parseInt(v.strokeColor.slice(1, 3), 16));
     if (v.strokeWidth !== undefined) setStrokeWidth(v.strokeWidth);
-    if (v.shadow !== undefined) setShadowOpacity(v.shadow ? 0.55 : 0);
     setOpenFStop(v.openFStop ?? 1.4);
     setDefaultFStop(v.defaultFStop ?? 5.6);
     setInitAnimation(v.initAnimation ?? false);
@@ -440,7 +432,6 @@ export default function ApertureV2Lab() {
       bladeColor: grayHex(bladeGray),
       strokeColor: grayHex(strokeGray),
       strokeWidth: strokeWidth,
-      shadow: shadowOpacity > 0,
       interactive: selectedProfile === "production:hero",
       initAnimation,
     };
@@ -464,7 +455,6 @@ export default function ApertureV2Lab() {
       if (v.bladeColor) setBladeGray(parseInt(v.bladeColor.slice(1, 3), 16));
       if (v.strokeColor) setStrokeGray(parseInt(v.strokeColor.slice(1, 3), 16));
       if (v.strokeWidth !== undefined) setStrokeWidth(v.strokeWidth);
-      if (v.shadow !== undefined) setShadowOpacity(v.shadow ? 0.55 : 0);
       setOpenFStop(v.openFStop ?? 1.4);
       setDefaultFStop(v.defaultFStop ?? 5.6);
       setInitAnimation(v.initAnimation ?? false);
@@ -504,7 +494,6 @@ export default function ApertureV2Lab() {
   const [openFStop, setOpenFStop] = useState(1.4);
   const [defaultFStop, setDefaultFStop] = useState(5.6);
   const [strokeWidth, setStrokeWidth] = useState(0.5);
-  const [shadowOpacity, setShadowOpacity] = useState(0);
   const [bladeGray, setBladeGray] = useState(24);   // 0=black … 255=white; default ≈ zinc-900
   const [strokeGray, setStrokeGray] = useState(63); // default ≈ zinc-700
 
@@ -681,8 +670,9 @@ export default function ApertureV2Lab() {
 
       const cx = rect.left + rect.width  / 2;
       const cy = rect.top  + rect.height / 2;
-      const hotLeft   = cx - D * 1.5;
-      const hotRight  = cx + D * 1.5;
+      const hotzoneScale = IRIS_HERO.hotzoneScale ?? 1.5;
+      const hotLeft   = cx - D * hotzoneScale;
+      const hotRight  = cx + D * hotzoneScale;
       const hotTop    = cy - D;
       const hotBottom = cy + D;
 
@@ -723,7 +713,7 @@ export default function ApertureV2Lab() {
       // small-aperture end feels "slower" — matching a physical aperture ring.
       const t       = Math.max(0, Math.min(1, (e.clientX - hotLeft) / (hotRight - hotLeft)));
       const rOpen   = inradiusOpen;
-      const r22     = (openFStop * rOpen) / 22;
+      const r22     = (openFStop * rOpen) / (IRIS_HERO.closedFStop ?? 22);
       const targetR = rOpen + t * (r22 - rOpen); // linear in diameter
       const rawTarget = findThetaForInradius(targetR, derivedConfig, range);
 
@@ -787,7 +777,6 @@ export default function ApertureV2Lab() {
               fStopRingOuter={fStopRingOuter}
               fStop={ringFStop}
               strokeWidth={strokeWidth}
-              shadowOpacity={shadowOpacity}
               bladeColor={grayHex(bladeGray)}
               strokeColor={grayHex(strokeGray)}
               uid="main"
@@ -1151,19 +1140,6 @@ export default function ApertureV2Lab() {
                 />
               </div>
 
-              {/* Shadow */}
-              <div className="space-y-1">
-                <div className="flex justify-between text-xs">
-                  <span className="text-zinc-500">Shadow</span>
-                  <span className="text-zinc-700 font-mono">
-                    {shadowOpacity === 0 ? "off" : shadowOpacity.toFixed(2)}
-                  </span>
-                </div>
-                <input type="range" min={0} max={1} step={0.01} value={shadowOpacity}
-                  onChange={(e) => setShadowOpacity(parseFloat(e.target.value))}
-                  className="w-full" style={{ accentColor: "#18181b" }}
-                />
-              </div>
             </section>
 
             <button

@@ -9,6 +9,14 @@
 
 import type { StoredIrisParams } from "@/lib/iris-kinematics";
 
+// ── Shared rendering constant ─────────────────────────────────────────────────
+//
+// SVG coordinate-space radius of the aperture housing ring. All Iris instances
+// (component, OG image, apple icon, Design Lab) use the same scale; the SVG
+// viewBox and pixel size control the final rendered size.
+
+export const R_HOUSING = 100;
+
 // ── IrisConfig ────────────────────────────────────────────────────────────────
 //
 // Full configuration for an Iris component instance. Extends the kinematic
@@ -28,24 +36,41 @@ export interface IrisConfig extends StoredIrisParams {
   strokeColor?: string;
   /** Blade gap stroke width in SVG units. Default 1.5. */
   strokeWidth?: number;
-  /** Show blade drop-shadow. Default true. */
-  shadow?: boolean;
 
   // ── Interactive ─────────────────────────────────────────────────────────────
   /** When true, aperture openness tracks horizontal mouse position. */
   interactive?: boolean;
   /**
-   * When true, plays an entry animation on mount: open → f/22 → defaultFStop
-   * over 1 second, using the same exponential-smoothing chase as follow-mouse.
+   * When true, plays an entry animation on mount: open → closedFStop →
+   * defaultFStop over 1 second, using the exponential-smoothing chase.
    */
   initAnimation?: boolean;
+  /**
+   * Hard stop for mouse interaction — the minimum aperture (maximum f-number)
+   * the pointer can reach. Paired with openFStop which anchors the open end.
+   * Default 22.
+   */
+  closedFStop?: number;
+  /**
+   * Scale factor applied to the iris diameter to compute the mouse interaction
+   * hotzone (Design Lab follow-mouse mode). Default 1.5.
+   */
+  hotzoneScale?: number;
+
+  // ── Animation ────────────────────────────────────────────────────────────────
+  /** Exponential-smoothing time constant for follow-mouse chase (ms). Default 60. */
+  chaseTauMs?: number;
+  /** Duration of the cubic ease-out return after mouse leaves (ms). Default 700. */
+  easeOutMs?: number;
+  /** Duration over which the entry jump-offset decays to zero (ms). Default 300. */
+  catchupMs?: number;
 }
 
 // ── Named configs ─────────────────────────────────────────────────────────────
 //
 // Two optical-size tiers — analogous to font optical sizing:
-//   IRIS_HERO  → large renders: homepage hero, OG image, apple icon
-//   IRIS_NAV   → small renders: navbar icon, favicon
+//   IRIS_HERO  → homepage hero (large, interactive)
+//   IRIS_NAV   → navbar icon, OG image, apple icon (small / static renders)
 //
 // Pass the config directly to <Iris config={…} /> — no size-threshold logic
 // lives in the component itself.
@@ -65,10 +90,15 @@ export const IRIS_HERO: IrisConfig = {
   bladeColor: "#181818",
   strokeColor: "#b3b3b3",
   strokeWidth: 1.0,
-  shadow: false,
   // Interactive
   interactive: true,
   initAnimation: false,
+  closedFStop: 22,
+  hotzoneScale: 1.5,
+  // Animation
+  chaseTauMs: 60,
+  easeOutMs: 700,
+  catchupMs: 300,
 };
 
 export const IRIS_NAV: IrisConfig = {
@@ -82,9 +112,10 @@ export const IRIS_NAV: IrisConfig = {
   defaultFStop: 5.6,
   // Size
   size: 26,
-  // Appearance: Tailwind dark/light automatic (no colour overrides)
+  // Appearance — explicit colour required for Satori (OG/apple-icon) which
+  // cannot evaluate Tailwind classes.
+  bladeColor: "#18181b",
   strokeWidth: 1.5,
-  shadow: true,
   // Interactive
   interactive: false,
   initAnimation: false,

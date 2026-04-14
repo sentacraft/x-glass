@@ -7,17 +7,16 @@ import {
   computeThetaOpen,
   findThetaForFStop,
 } from "@/lib/iris-kinematics";
-import { IRIS_HERO } from "@/config/brand";
+import { IRIS_NAV, R_HOUSING } from "@/config/brand";
 
 export const size = { width: 180, height: 180 };
 export const contentType = "image/png";
 
 // Pre-compute at module level (runs once per server render).
 // Satori constraint: no SVG mask or filter elements — fill pass only.
-const R_HOUSING = 100;
-const dc = buildDerivedConfig(IRIS_HERO, R_HOUSING);
+const dc = buildDerivedConfig(IRIS_NAV, R_HOUSING);
 const thetaOpen = computeThetaOpen(dc, R_HOUSING);
-const theta = findThetaForFStop(IRIS_HERO.defaultFStop, dc, { min: thetaOpen, max: thetaRange(dc).max }, IRIS_HERO.openFStop);
+const theta = findThetaForFStop(IRIS_NAV.defaultFStop, dc, { min: thetaOpen, max: thetaRange(dc).max }, IRIS_NAV.openFStop);
 const blades = solveAllBlades(theta, dc);
 const shape = bladeShapePath(dc);
 const N = dc.N;
@@ -48,7 +47,7 @@ export default function AppleIcon() {
             {Array.from({ length: N }, (_, i) => (
               <g key={i} transform={`rotate(${(stepDeg * i).toFixed(3)})`}>
                 <g transform={b0Transform}>
-                  <path d={shape} fill="#18181b" />
+                  <path d={shape} fill={IRIS_NAV.bladeColor} />
                 </g>
               </g>
             ))}

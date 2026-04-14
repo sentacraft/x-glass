@@ -21,12 +21,8 @@ import {
   findThetaForInradius,
   findThetaForFStop,
 } from "@/lib/iris-kinematics";
-import { IRIS_HERO, type IrisConfig } from "@/config/brand";
-import { ANIMATION } from "@/config/ui";
+import { IRIS_HERO, R_HOUSING, type IrisConfig } from "@/config/brand";
 
-const R_HOUSING = 100;
-const SHADOW_STD = 1.5;
-const SHADOW_OPACITY = 0.55;
 
 // ── Component ─────────────────────────────────────────────────────────────────
 
@@ -55,10 +51,13 @@ export default function Iris({
     size: configSize,
     interactive = false,
     initAnimation = false,
+    closedFStop = 22,
+    chaseTauMs = 60,
+    easeOutMs = 700,
+    catchupMs = 300,
     bladeColor,
     strokeColor,
     strokeWidth = 1.5,
-    shadow = true,
   } = config;
   const size = sizeProp ?? configSize;
 
@@ -158,10 +157,8 @@ export default function Iris({
   // ── Mouse interaction ──────────────────────────────────────────────────────
   // Architecture mirrors the Design Lab iris:
   //   mousemove  → writes targetThetaRef (raw desired theta, with entry-offset applied)
-  //   chase RAF  → each frame exponentially approaches targetThetaRef (τ = 60 ms)
-  //   leave RAF  → cubic ease-out back to DEFAULT_THETA over logoEaseOutMs
-
-  const CHASE_TAU_MS = 60;
+  //   chase RAF  → each frame exponentially approaches targetThetaRef (τ = chaseTauMs)
+  //   leave RAF  → cubic ease-out back to DEFAULT_THETA over easeOutMs
 
   function startChase() {
     if (chaseRef.current) return;
@@ -169,7 +166,7 @@ export default function Iris({
     function chaseTick(now: number) {
       const dt   = Math.min(now - lastFrameRef.current, 64);
       lastFrameRef.current = now;
-      const k    = 1 - Math.exp(-dt / CHASE_TAU_MS);
+      const k    = 1 - Math.exp(-dt / chaseTauMs);
       const next = thetaRef.current + (targetThetaRef.current - thetaRef.current) * k;
       thetaRef.current = next;
       setTheta(next);
@@ -187,7 +184,7 @@ export default function Iris({
   function posToDiameterTheta(clientX: number, rect: DOMRect): number {
     const rawPos = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
     if (inradiusOpen <= 0) return thetaOpen + rawPos * (thetaMax - thetaOpen); // fallback: linear
-    const r22     = (config.openFStop * inradiusOpen) / 22;
+    const r22     = (config.openFStop * inradiusOpen) / closedFStop;
     const targetR = inradiusOpen + rawPos * (r22 - inradiusOpen);
     return findThetaForInradius(targetR, dc, { min: thetaOpen, max: thetaMax });
   }
@@ -206,7 +203,7 @@ export default function Iris({
     if (!interactive) return;
     const rect   = e.currentTarget.getBoundingClientRect();
     const target = posToDiameterTheta(e.clientX, rect);
-    const p      = Math.min(1, (performance.now() - entryTimeRef.current) / ANIMATION.logoCatchupMs);
+    const p      = Math.min(1, (performance.now() - entryTimeRef.current) / catchupMs);
     const offset = entryOffsetRef.current * (1 - p) ** 2;
     targetThetaRef.current = Math.max(thetaOpen, Math.min(thetaMax, target + offset));
   }
@@ -218,7 +215,7 @@ export default function Iris({
     const startTime  = performance.now();
 
     function tick(now: number) {
-      const p        = Math.min(1, (now - startTime) / ANIMATION.logoEaseOutMs);
+      const p        = Math.min(1, (now - startTime) / easeOutMs);
       const eased    = 1 - (1 - p) ** 3;
       const newTheta = startTheta + (DEFAULT_THETA - startTheta) * eased;
       thetaRef.current = newTheta;
@@ -250,9 +247,6 @@ export default function Iris({
               relying on a background-colour cover plate. Works on any background. */}
           <circle r={R_HOUSING - dc.bladeWidth} />
         </clipPath>
-        <filter id={`${uid}-shadow`} x="-25%" y="-25%" width="150%" height="150%">
-          <feDropShadow dx={0} dy={0} stdDeviation={SHADOW_STD} floodColor="black" floodOpacity={SHADOW_OPACITY} />
-        </filter>
         {/* Stroke masks — cyclic forward-half masking (same as iris). */}
         {Array.from({ length: N }, (_, i) => (
           <mask id={`${uid}-sm-${i}`} key={i}>
@@ -282,7 +276,6 @@ export default function Iris({
                 className={bladeColor ? undefined : "fill-zinc-900 dark:fill-zinc-100"}
                 fill={bladeColor}
                 stroke="none"
-                filter={shadow ? `url(#${uid}-shadow)` : undefined}
               />
             </g>
           </g>
