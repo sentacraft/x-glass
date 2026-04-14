@@ -472,7 +472,13 @@ export default function CompareTable({ lenses: initialLenses, minColumns = 0 }: 
 
         <thead ref={theadRef}>
           <tr className="border-b border-zinc-200 dark:border-zinc-800">
-            <th className="sticky left-0 z-30 bg-zinc-50 px-3 py-3 dark:bg-zinc-900" />
+            <th className="sticky left-0 z-30 bg-zinc-50 px-3 py-3 dark:bg-zinc-900">
+              {orderedLenses.length === 0 && (
+                <span className="text-xs text-zinc-400 dark:text-zinc-500">
+                  {t("emptyHint", { count: MAX_COMPARE })}
+                </span>
+              )}
+            </th>
             {orderedLenses.map((lens, index) => (
               <LensHeader
                 key={lens.id}
@@ -491,8 +497,8 @@ export default function CompareTable({ lenses: initialLenses, minColumns = 0 }: 
               <EmptyLensHeader
                 key={`empty-header-${i}`}
                 addLensLabel={
-                  orderedLenses.length === 0 && i === 0
-                    ? t("selectFirst")
+                  orderedLenses.length === 0
+                    ? i === 0 ? t("selectFirst") : t("addMore")
                     : t("addLens")
                 }
                 onSelectLens={handleAddLens}
@@ -502,7 +508,7 @@ export default function CompareTable({ lenses: initialLenses, minColumns = 0 }: 
           </tr>
         </thead>
 
-        <tbody>
+        {orderedLenses.length > 0 && <tbody>
           {visibleGroups.map((group) => {
             return (
               <React.Fragment key={group.label}>
@@ -749,9 +755,9 @@ export default function CompareTable({ lenses: initialLenses, minColumns = 0 }: 
               </React.Fragment>
             );
           })}
-        </tbody>
+        </tbody>}
 
-        <tfoot>
+        {orderedLenses.length > 0 && <tfoot>
           {/* Footer row: official site + report links per lens */}
           <tr className="border-t border-zinc-200 bg-zinc-100/80 dark:border-zinc-800 dark:bg-zinc-800/60">
             <td className="sticky left-0 z-10 bg-zinc-100 px-3 py-2 dark:bg-zinc-800" />
@@ -786,7 +792,7 @@ export default function CompareTable({ lenses: initialLenses, minColumns = 0 }: 
               <td key={`empty-foot-${i}`} className="border-l border-zinc-200 dark:border-zinc-800" />
             ))}
           </tr>
-        </tfoot>
+        </tfoot>}
       </table>
     </div>
     </>

@@ -185,6 +185,8 @@
     "officialSite": "官网",
     "addLens": "添加镜头",
     "selectFirst": "选择一个镜头开始对比",
+    "addMore": "继续添加镜头",
+    "emptyHint": "最多对比 {count} 只镜头",
     "addToCompareAction": "加入对比",
     "alreadyAdded": "已在对比中",
     "compareFull": "对比已满",
