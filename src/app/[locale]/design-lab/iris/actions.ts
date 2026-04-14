@@ -161,8 +161,10 @@ export async function exportToConfig(
     } catch (tscErr: unknown) {
       // Restore original content so the project stays in a compilable state.
       await writeFile(CONFIG_PATH, originalContent, "utf-8");
-      const stderr = (tscErr as { stderr?: string; stdout?: string }).stderr ?? (tscErr as { stdout?: string }).stdout ?? String(tscErr);
-      return { ok: false, error: `TypeScript error after export:\n${stderr}` };
+      // tsc writes errors to stdout; use || (not ??) to fall through empty strings.
+      const e = tscErr as { stderr?: string; stdout?: string };
+      const output = e.stdout || e.stderr || String(tscErr);
+      return { ok: false, error: `TypeScript error after export:\n${output}` };
     }
 
     return { ok: true };

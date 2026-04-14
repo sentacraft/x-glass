@@ -914,9 +914,13 @@ export default function ApertureV2Lab() {
                 </button>
               </div>
               {exportStatus && (
-                <p className={`text-xs font-mono ${exportStatus.startsWith("✓") ? "text-green-600" : "text-red-500"}`}>
-                  {exportStatus}
-                </p>
+                exportStatus.startsWith("✓") ? (
+                  <p className="text-xs font-mono text-green-600">{exportStatus}</p>
+                ) : (
+                  <pre className="text-xs font-mono text-red-500 whitespace-pre-wrap break-all max-h-48 overflow-y-auto rounded bg-red-50 p-2 border border-red-200">
+                    {exportStatus}
+                  </pre>
+                )
               )}
               {/* Production size indicator */}
               {selectedProfile !== "lab" && (
