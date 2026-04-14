@@ -17,7 +17,6 @@ import {
   thetaRange,
   buildDerivedConfig,
   computeThetaOpen,
-  tNormToTheta,
   apertureInradius,
   findThetaForInradius,
   findThetaForFStop,
@@ -63,7 +62,7 @@ export default function Iris({
   } = config;
   const size = sizeProp ?? configSize;
 
-  // Kinematic derivation — must come before DEFAULT_T so the f-stop → theta
+  // Kinematic derivation — must come before DEFAULT_THETA so the f-stop → theta
   // conversion is available when initialising state.
   const dc = useMemo(() => buildDerivedConfig(config, R_HOUSING), [config]);
   const thetaOpen = useMemo(() => computeThetaOpen(dc, R_HOUSING), [dc]);
@@ -72,27 +71,25 @@ export default function Iris({
   // Aperture inradius at fully-open position — used for diameter-linear mapping.
   const inradiusOpen = useMemo(() => apertureInradius(thetaOpen, dc), [thetaOpen, dc]);
 
-  // Convert defaultFStop → normalised t for state initialisation.
-  const DEFAULT_T = useMemo(() => {
-    const thetaAtFStop = findThetaForFStop(config.defaultFStop, dc, { min: thetaOpen, max: thetaMax }, config.openFStop);
-    return Math.max(0.02, Math.min(0.98, (thetaAtFStop - thetaOpen) / (thetaMax - thetaOpen)));
-  }, [config.defaultFStop, config.openFStop, dc, thetaOpen, thetaMax]);
+  // Theta at defaultFStop — the resting position for state initialisation and leave ease-out.
+  const DEFAULT_THETA = useMemo(() =>
+    findThetaForFStop(config.defaultFStop, dc, { min: thetaOpen, max: thetaMax }, config.openFStop),
+  [config.defaultFStop, config.openFStop, dc, thetaOpen, thetaMax]);
 
-  const [t, setT] = useState<number>(DEFAULT_T);
-  const tRef = useRef<number>(DEFAULT_T);
-  const animRef    = useRef<number | null>(null); // leave ease-out RAF
-  const chaseRef   = useRef<number | null>(null); // follow-mouse chase RAF
+  // State is theta directly — no normalised-t layer.
+  const [theta, setTheta] = useState<number>(DEFAULT_THETA);
+  const thetaRef    = useRef<number>(DEFAULT_THETA);
+  const animRef     = useRef<number | null>(null); // leave ease-out RAF
+  const chaseRef    = useRef<number | null>(null); // follow-mouse / init chase RAF
   const initAnimRef = useRef<number | null>(null); // init animation sequencer RAF
-  const targetTRef = useRef<number>(DEFAULT_T);  // raw desired t written by mousemove/init
-  const lastFrameRef = useRef<number>(0);
+  const targetThetaRef = useRef<number>(DEFAULT_THETA); // desired theta written by mousemove/init
+  const lastFrameRef   = useRef<number>(0);
   const entryOffsetRef = useRef(0);
-  const entryTimeRef = useRef(0);
-  // Keep DEFAULT_T accessible to the mount-only init animation effect.
-  const defaultTRef = useRef(DEFAULT_T);
-  defaultTRef.current = DEFAULT_T;
+  const entryTimeRef   = useRef(0);
+  // Kept in sync each render so the mount-only init effect can read DEFAULT_THETA.
+  const defaultThetaRef = useRef(DEFAULT_THETA);
+  defaultThetaRef.current = DEFAULT_THETA;
 
-  // Per-frame: convert t → theta → blade states.
-  const theta = tNormToTheta(t, thetaOpen, thetaMax);
   const blades = useMemo(
     () => solveAllBlades(theta, dc),
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -108,16 +105,16 @@ export default function Iris({
   }, []);
 
   // Init animation: open → f/22 → defaultFStop over 1000 ms on mount.
-  // Drives targetTRef through keyframes; the existing chase RAF does smoothing.
+  // Drives targetThetaRef through keyframes; the existing chase RAF does smoothing.
   useEffect(() => {
     if (!initAnimation) return;
 
     const INIT_DURATION_MS = 1000;
 
     // Jump to fully open immediately.
-    tRef.current = 0.02;
-    targetTRef.current = 0.02;
-    setT(0.02);
+    thetaRef.current = thetaOpen;
+    targetThetaRef.current = thetaOpen;
+    setTheta(thetaOpen);
 
     startChase();
 
@@ -125,8 +122,8 @@ export default function Iris({
     function sequenceTick(now: number) {
       const p = Math.min(1, (now - startTime) / INIT_DURATION_MS);
 
-      // Sweep from fully open (t≈0) → f/22 (t≈1) over the full duration.
-      targetTRef.current = Math.max(0.02, Math.min(0.98, p));
+      // Sweep from fully open (thetaOpen) → fully closed (thetaMax) over the full duration.
+      targetThetaRef.current = thetaOpen + p * (thetaMax - thetaOpen);
 
       if (p < 1) {
         initAnimRef.current = requestAnimationFrame(sequenceTick);
@@ -134,8 +131,8 @@ export default function Iris({
         initAnimRef.current = null;
         // Snap immediately to defaultFStop once the sweep completes.
         stopChase();
-        tRef.current = defaultTRef.current;
-        setT(defaultTRef.current);
+        thetaRef.current = defaultThetaRef.current;
+        setTheta(defaultThetaRef.current);
       }
     }
 
@@ -146,7 +143,7 @@ export default function Iris({
       stopChase();
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // mount-only
+  }, []); // mount-only — thetaOpen/thetaMax captured via refs
 
   const { N } = dc;
   const stepDeg = 360 / N;
@@ -160,9 +157,9 @@ export default function Iris({
 
   // ── Mouse interaction ──────────────────────────────────────────────────────
   // Architecture mirrors the Design Lab iris:
-  //   mousemove  → writes targetTRef (raw desired t, with entry-offset applied)
-  //   chase RAF  → each frame exponentially approaches targetTRef (τ = 60 ms)
-  //   leave RAF  → cubic ease-out back to DEFAULT_T over logoEaseOutMs
+  //   mousemove  → writes targetThetaRef (raw desired theta, with entry-offset applied)
+  //   chase RAF  → each frame exponentially approaches targetThetaRef (τ = 60 ms)
+  //   leave RAF  → cubic ease-out back to DEFAULT_THETA over logoEaseOutMs
 
   const CHASE_TAU_MS = 60;
 
@@ -173,9 +170,9 @@ export default function Iris({
       const dt   = Math.min(now - lastFrameRef.current, 64);
       lastFrameRef.current = now;
       const k    = 1 - Math.exp(-dt / CHASE_TAU_MS);
-      const next = tRef.current + (targetTRef.current - tRef.current) * k;
-      tRef.current = next;
-      setT(next);
+      const next = thetaRef.current + (targetThetaRef.current - thetaRef.current) * k;
+      thetaRef.current = next;
+      setTheta(next);
       chaseRef.current = requestAnimationFrame(chaseTick);
     }
     chaseRef.current = requestAnimationFrame(chaseTick);
@@ -185,16 +182,14 @@ export default function Iris({
     if (chaseRef.current) { cancelAnimationFrame(chaseRef.current); chaseRef.current = null; }
   }
 
-  // Map raw horizontal position to a normalised t using diameter-linear scaling.
-  // Left = most open (t=0, rOpen), right = f/22 (small t value).
-  // This is a log transform in f-stop space — mirrors Design Lab behaviour.
-  function posToDiameterT(clientX: number, rect: DOMRect): number {
+  // Map raw horizontal position to theta using diameter-linear scaling.
+  // Left = most open (thetaOpen), right = f/22. Log transform in f-stop space.
+  function posToDiameterTheta(clientX: number, rect: DOMRect): number {
     const rawPos = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
-    if (inradiusOpen <= 0) return rawPos; // fallback: linear
+    if (inradiusOpen <= 0) return thetaOpen + rawPos * (thetaMax - thetaOpen); // fallback: linear
     const r22     = (config.openFStop * inradiusOpen) / 22;
     const targetR = inradiusOpen + rawPos * (r22 - inradiusOpen);
-    const targetTheta = findThetaForInradius(targetR, dc, { min: thetaOpen, max: thetaMax });
-    return Math.max(0.02, Math.min(0.98, (targetTheta - thetaOpen) / (thetaMax - thetaOpen)));
+    return findThetaForInradius(targetR, dc, { min: thetaOpen, max: thetaMax });
   }
 
   function handleMouseEnter(e: React.MouseEvent<SVGSVGElement>) {
@@ -202,7 +197,7 @@ export default function Iris({
     if (animRef.current)     { cancelAnimationFrame(animRef.current);     animRef.current = null; }
     if (initAnimRef.current) { cancelAnimationFrame(initAnimRef.current); initAnimRef.current = null; }
     const rect = e.currentTarget.getBoundingClientRect();
-    entryOffsetRef.current = tRef.current - posToDiameterT(e.clientX, rect);
+    entryOffsetRef.current = thetaRef.current - posToDiameterTheta(e.clientX, rect);
     entryTimeRef.current   = performance.now();
     startChase();
   }
@@ -210,24 +205,24 @@ export default function Iris({
   function handleMouseMove(e: React.MouseEvent<SVGSVGElement>) {
     if (!interactive) return;
     const rect   = e.currentTarget.getBoundingClientRect();
-    const target = posToDiameterT(e.clientX, rect);
+    const target = posToDiameterTheta(e.clientX, rect);
     const p      = Math.min(1, (performance.now() - entryTimeRef.current) / ANIMATION.logoCatchupMs);
     const offset = entryOffsetRef.current * (1 - p) ** 2;
-    targetTRef.current = Math.max(0.02, Math.min(0.98, target + offset));
+    targetThetaRef.current = Math.max(thetaOpen, Math.min(thetaMax, target + offset));
   }
 
   function handleMouseLeave() {
     if (!interactive) return;
     stopChase();
-    const startT    = tRef.current;
-    const startTime = performance.now();
+    const startTheta = thetaRef.current;
+    const startTime  = performance.now();
 
     function tick(now: number) {
-      const p     = Math.min(1, (now - startTime) / ANIMATION.logoEaseOutMs);
-      const eased = 1 - (1 - p) ** 3;
-      const newT  = startT + (DEFAULT_T - startT) * eased;
-      tRef.current = newT;
-      setT(newT);
+      const p        = Math.min(1, (now - startTime) / ANIMATION.logoEaseOutMs);
+      const eased    = 1 - (1 - p) ** 3;
+      const newTheta = startTheta + (DEFAULT_THETA - startTheta) * eased;
+      thetaRef.current = newTheta;
+      setTheta(newTheta);
       if (p < 1) animRef.current = requestAnimationFrame(tick);
       else animRef.current = null;
     }
