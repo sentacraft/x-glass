@@ -1,16 +1,28 @@
 "use client";
 
-// Aperture mark component — client component so the interactive and loading
-// variants can update blade geometry in the browser.
-// Theming via Tailwind fill-*/stroke-* utilities (light/dark automatic).
+// Aperture mark component — renders the X-Glass logo using the physical
+// iris kinematic model (iris-mechanism.ts).
 //
 // Automatically selects BRAND_LOGO_SM for sizes below LOGO_SM_THRESHOLD so
 // the blade gap remains legible at small render sizes (nav, favicon, etc.).
+//
+// Theming via Tailwind fill-*/stroke-* utilities (light/dark automatic).
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
+import {
+  solveAllBlades,
+  bladeShapePath,
+  thetaRange,
+  buildDerivedConfig,
+  computeThetaOpen,
+  tNormToTheta,
+} from "@/lib/iris-mechanism";
 import { BRAND_LOGO, BRAND_LOGO_SM, LOGO_SM_THRESHOLD } from "@/config/brand";
 import { ANIMATION } from "@/config/ui";
-import { bladePath, coverPoints, R } from "@/lib/aperture";
+
+const R_HOUSING = 100;
+const SHADOW_STD = 1.5;
+const SHADOW_OPACITY = 0.55;
 
 // ── Component ─────────────────────────────────────────────────────────────────
 
@@ -33,22 +45,43 @@ export default function LogoMark({
   className,
   interactive = false,
 }: LogoMarkProps) {
-  // Pick the optical preset based on render size
   const preset = size < LOGO_SM_THRESHOLD ? BRAND_LOGO_SM : BRAND_LOGO;
-  const { N, bladeStrokeWidth: BLADE_STROKE_W, shadowStdDeviation: SHADOW_STD, shadowOpacity: SHADOW_OPACITY } = preset;
-  const STEP_DEG = 360 / N;
   const DEFAULT_T = preset.t;
 
   const [t, setT] = useState<number>(DEFAULT_T);
   const tRef = useRef<number>(DEFAULT_T);
   const animRef = useRef<number | null>(null);
-  // Entry-offset refs: fade out the gap between current aperture and cursor's
-  // absolute position so there's no jump when the cursor first enters.
   const entryOffsetRef = useRef(0);
   const entryTimeRef = useRef(0);
 
-  // Cancel any pending animation on unmount
+  // Kinematic derivation — recomputed only when preset changes (size threshold cross).
+  const dc = useMemo(() => buildDerivedConfig(preset, R_HOUSING), [preset]);
+  const thetaOpen = useMemo(() => computeThetaOpen(dc, R_HOUSING), [dc]);
+  const thetaMax = useMemo(() => thetaRange(dc).max, [dc]);
+
+  // Per-frame: convert t → theta → blade states.
+  const theta = tNormToTheta(t, thetaOpen, thetaMax);
+  const blades = useMemo(
+    () => solveAllBlades(theta, dc),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [theta, dc]
+  );
+  const shape = useMemo(() => bladeShapePath(dc), [dc]);
+
+  // Cancel any pending animation on unmount.
   useEffect(() => () => { if (animRef.current) cancelAnimationFrame(animRef.current); }, []);
+
+  const { N } = dc;
+  const stepDeg = 360 / N;
+  const maskCount = Math.floor((N - 1) / 2);
+
+  if (blades.length === 0) return null;
+
+  const b0 = blades[0];
+  const b0AngleDeg = (b0.bladeAngle * 180) / Math.PI;
+  const b0Transform = `translate(${b0.pivotPos.x.toFixed(3)},${b0.pivotPos.y.toFixed(3)}) rotate(${b0AngleDeg.toFixed(3)})`;
+
+  // ── Mouse interaction ──────────────────────────────────────────────────────
 
   function absT(clientX: number, rect: DOMRect) {
     return Math.max(0.02, Math.min(0.98, (clientX - rect.left) / rect.width));
@@ -58,7 +91,6 @@ export default function LogoMark({
     if (!interactive) return;
     if (animRef.current) { cancelAnimationFrame(animRef.current); animRef.current = null; }
     const rect = e.currentTarget.getBoundingClientRect();
-    // Record the gap to fade away — aperture stays put at entry, then converges
     entryOffsetRef.current = tRef.current - absT(e.clientX, rect);
     entryTimeRef.current = performance.now();
   }
@@ -67,7 +99,6 @@ export default function LogoMark({
     if (!interactive) return;
     const rect = e.currentTarget.getBoundingClientRect();
     const target = absT(e.clientX, rect);
-    // Fade the entry offset to zero over logoCatchupMs (ease-out)
     const p = Math.min(1, (performance.now() - entryTimeRef.current) / ANIMATION.logoCatchupMs);
     const offset = entryOffsetRef.current * (1 - p) ** 2;
     const newT = Math.max(0.02, Math.min(0.98, target + offset));
@@ -95,8 +126,7 @@ export default function LogoMark({
     animRef.current = requestAnimationFrame(tick);
   }
 
-  const bp = bladePath(t, preset);
-  const cp = coverPoints(t, preset);
+  // ── Render ─────────────────────────────────────────────────────────────────
 
   return (
     <svg
@@ -112,43 +142,68 @@ export default function LogoMark({
     >
       <defs>
         <clipPath id={`${uid}-clip`}>
-          <circle r={R} />
+          <circle r={R_HOUSING} />
         </clipPath>
         <filter id={`${uid}-shadow`} x="-25%" y="-25%" width="150%" height="150%">
           <feDropShadow dx={0} dy={0} stdDeviation={SHADOW_STD} floodColor="black" floodOpacity={SHADOW_OPACITY} />
         </filter>
-        {/* Per-blade masks — recomputed as t changes so z-order stays correct */}
+        {/* Stroke masks — cyclic forward-half masking (same as aperture-v2). */}
         {Array.from({ length: N }, (_, i) => (
-          <mask id={`${uid}-bm-${i}`} key={i}>
+          <mask id={`${uid}-sm-${i}`} key={i}>
             <rect x="-120" y="-120" width="240" height="240" fill="white" />
-            <g transform={`rotate(${STEP_DEG * ((i + 1) % N)})`}>
-              <path d={bp} fill="black" stroke="black"
-                strokeWidth={BLADE_STROKE_W} strokeLinejoin="miter" strokeMiterlimit={10} />
-            </g>
+            {Array.from({ length: maskCount }, (_, k) => {
+              const j = (i + 1 + k) % N;
+              return (
+                <g key={j} transform={`rotate(${(stepDeg * j).toFixed(3)})`}>
+                  <g transform={b0Transform}>
+                    <path d={shape} fill="black" />
+                  </g>
+                </g>
+              );
+            })}
           </mask>
         ))}
       </defs>
 
-      {/* Aperture blades — clipped to outer disc */}
+      {/* Aperture blades — fill pass (flat, no masks) + stroke pass (cyclic). */}
       <g clipPath={`url(#${uid}-clip)`}>
+        {/* Fill pass */}
         {Array.from({ length: N }, (_, i) => (
-          <g key={i} mask={`url(#${uid}-bm-${i})`}>
-            <g transform={`rotate(${STEP_DEG * i})`}>
+          <g key={i} transform={`rotate(${(stepDeg * i).toFixed(3)})`}>
+            <g transform={b0Transform}>
               <path
-                d={bp}
-                className="fill-zinc-900 stroke-stone-100 dark:fill-zinc-100 dark:stroke-zinc-950"
-                strokeWidth={BLADE_STROKE_W}
-                strokeLinejoin="miter"
-                strokeMiterlimit={10}
+                d={shape}
+                className="fill-zinc-900 dark:fill-zinc-100"
+                stroke="none"
                 filter={`url(#${uid}-shadow)`}
               />
             </g>
           </g>
         ))}
+        {/* Stroke pass — cyclic masks produce the blade-gap lines */}
+        {Array.from({ length: N }, (_, i) => (
+          <g key={i} mask={`url(#${uid}-sm-${i})`}>
+            <g transform={`rotate(${(stepDeg * i).toFixed(3)})`}>
+              <g transform={b0Transform}>
+                <path
+                  d={shape}
+                  fill="none"
+                  className="stroke-stone-100 dark:stroke-zinc-950"
+                  strokeWidth={1.5}
+                />
+              </g>
+            </g>
+          </g>
+        ))}
       </g>
 
-      {/* Cover polygon — hides shadow bleed in the aperture opening */}
-      <polygon points={cp} className="fill-stone-100 dark:fill-zinc-950" />
+      {/* Housing cover plate — hides blade roots (R_HOUSING−bladeWidth → R_HOUSING). */}
+      <circle
+        r={R_HOUSING - dc.bladeWidth / 2}
+        fill="none"
+        className="stroke-stone-100 dark:stroke-zinc-950"
+        strokeWidth={dc.bladeWidth + 1}
+      />
     </svg>
   );
 }

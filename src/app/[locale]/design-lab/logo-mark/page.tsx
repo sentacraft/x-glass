@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useRef, useMemo, useEffect } from "react";
-import { exportToBrand, readFromBrand } from "./actions";
 import { bladePath, coverPoints, R } from "@/lib/aperture";
 import type { ApertureParams } from "@/lib/aperture";
 import { LOGO_SM_THRESHOLD } from "@/config/brand";
@@ -194,7 +193,7 @@ function ParamControls({
   halfSpread, setHalfSpread, overlap, setOverlap,
   curve, setCurve, twist, setTwist,
   bladeStroke, setBladeStroke, shadow, setShadow,
-  presetLabel, onExport, onReset, exportStatus,
+  onReset,
 }: {
   N: number;           setN: (v: number) => void;
   aperture: number;    setAperture: (v: number) => void;
@@ -204,10 +203,7 @@ function ParamControls({
   twist: number;       setTwist: (v: number) => void;
   bladeStroke: number; setBladeStroke: (v: number) => void;
   shadow: number;      setShadow: (v: number) => void;
-  presetLabel: string;
-  onExport: () => void;
   onReset: () => void;
-  exportStatus: string | null;
 }) {
   return (
     <aside className="w-72 shrink-0 space-y-5 rounded-xl border border-gray-200 p-5">
@@ -244,23 +240,15 @@ function ParamControls({
           onChange={setShadow} display={shadow === 0 ? "off" : shadow.toFixed(2)} />
       </div>
 
-      {/* Export + Reset */}
-      <div className="space-y-2 pt-1">
-        <div className="flex gap-2">
-          <button onClick={onExport}
-            className="flex-1 rounded-md py-1.5 text-sm font-medium bg-zinc-900 text-zinc-50 hover:bg-zinc-700 transition-colors">
-            → {presetLabel}
-          </button>
-          <button onClick={onReset}
-            className="rounded-md px-3 py-1.5 text-sm font-medium bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors">
-            Reset
-          </button>
-        </div>
-        {exportStatus && (
-          <p className={`text-xs font-mono ${exportStatus.startsWith("✓") ? "text-green-600" : "text-red-500"}`}>
-            {exportStatus}
-          </p>
-        )}
+      {/* Reset only — export is handled by Aperture V2 Studio */}
+      <div className="pt-1">
+        <button onClick={onReset}
+          className="w-full rounded-md py-1.5 text-sm font-medium bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors">
+          Reset
+        </button>
+        <p className="mt-2 text-xs text-gray-400 text-center">
+          Use Aperture V2 Studio to edit brand config
+        </p>
       </div>
     </aside>
   );
@@ -347,77 +335,17 @@ export default function LogoMarkLab() {
   const [smBladeStroke, setSmBladeStroke] = useState(4.0);
   const [smShadow,      setSmShadow]      = useState(0.4);
 
-  // ─ Export status ──────────────────────────────────────────────────────────
-  const [lgExportStatus, setLgExportStatus] = useState<string | null>(null);
-  const [smExportStatus, setSmExportStatus] = useState<string | null>(null);
-
-  // ─ Load from brand.ts on mount ────────────────────────────────────────────
-  useEffect(() => {
-    readFromBrand("BRAND_LOGO").then((v) => {
-      if (!v) return;
-      setLgN(v.N);
-      const t = v.t;
-      setLgT(t); lgTRef.current = t; setLgDisplayT(t);
-      setLgHalfSpread(v.halfSpread);
-      setLgOverlap(v.overlap);
-      setLgCurve(v.curve);
-      setLgTwist(v.twist);
-      setLgBladeStroke(v.bladeStrokeWidth);
-      setLgShadow(v.shadowStdDeviation / 5);
-    });
-    readFromBrand("BRAND_LOGO_SM").then((v) => {
-      if (!v) return;
-      setSmN(v.N);
-      setSmT(v.t);
-      setSmHalfSpread(v.halfSpread);
-      setSmOverlap(v.overlap);
-      setSmCurve(v.curve);
-      setSmTwist(v.twist);
-      setSmBladeStroke(v.bladeStrokeWidth);
-      setSmShadow(v.shadowStdDeviation / 5);
-    });
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
-  // ─ Export / Reset handlers ────────────────────────────────────────────────
-  async function handleLgExport() {
-    setLgExportStatus("Saving…");
-    const res = await exportToBrand("BRAND_LOGO", {
-      N: lgN, t: lgT, halfSpread: lgHalfSpread, overlap: lgOverlap,
-      curve: lgCurve, twist: lgTwist, bladeStrokeWidth: lgBladeStroke,
-      shadowStdDeviation: lgShadow * 5,
-    });
-    setLgExportStatus(res.ok ? "✓ Written to BRAND_LOGO" : `✗ ${res.error}`);
-    if (res.ok) setTimeout(() => setLgExportStatus(null), 3000);
+  // ─ Reset handlers (local only — no brand.ts I/O) ─────────────────────────
+  function handleLgReset() {
+    setLgN(7); setLgT(0.3); lgTRef.current = 0.3; setLgDisplayT(0.3);
+    setLgHalfSpread(0.6); setLgOverlap(0.65); setLgCurve(1.0);
+    setLgTwist(0.35); setLgBladeStroke(0.5); setLgShadow(0.8);
   }
 
-  async function handleLgReset() {
-    const v = await readFromBrand("BRAND_LOGO");
-    if (!v) return;
-    setLgN(v.N);
-    setLgT(v.t); lgTRef.current = v.t; setLgDisplayT(v.t);
-    setLgHalfSpread(v.halfSpread); setLgOverlap(v.overlap);
-    setLgCurve(v.curve); setLgTwist(v.twist);
-    setLgBladeStroke(v.bladeStrokeWidth); setLgShadow(v.shadowStdDeviation / 5);
-  }
-
-  async function handleSmExport() {
-    setSmExportStatus("Saving…");
-    const res = await exportToBrand("BRAND_LOGO_SM", {
-      N: smN, t: smT, halfSpread: smHalfSpread, overlap: smOverlap,
-      curve: smCurve, twist: smTwist, bladeStrokeWidth: smBladeStroke,
-      shadowStdDeviation: smShadow * 5,
-    });
-    setSmExportStatus(res.ok ? "✓ Written to BRAND_LOGO_SM" : `✗ ${res.error}`);
-    if (res.ok) setTimeout(() => setSmExportStatus(null), 3000);
-  }
-
-  async function handleSmReset() {
-    const v = await readFromBrand("BRAND_LOGO_SM");
-    if (!v) return;
-    setSmN(v.N); setSmT(v.t);
-    setSmHalfSpread(v.halfSpread); setSmOverlap(v.overlap);
-    setSmCurve(v.curve); setSmTwist(v.twist);
-    setSmBladeStroke(v.bladeStrokeWidth); setSmShadow(v.shadowStdDeviation / 5);
+  function handleSmReset() {
+    setSmN(5); setSmT(0.35);
+    setSmHalfSpread(0.6); setSmOverlap(0.65); setSmCurve(1.0);
+    setSmTwist(0.35); setSmBladeStroke(4.0); setSmShadow(0.4);
   }
 
   // ─ Render ─────────────────────────────────────────────────────────────────
@@ -429,7 +357,7 @@ export default function LogoMarkLab() {
       {/* Header */}
       <div>
         <div className="mb-1 text-xs text-gray-400 tracking-wide uppercase">Design Lab</div>
-        <h1 className="text-2xl font-semibold tracking-tight">Logo Mark — Mechanical Aperture</h1>
+        <h1 className="text-2xl font-semibold tracking-tight">Logo Mark — Legacy Parametric Model (demo)</h1>
         <p className="mt-1 text-sm text-gray-500">
           Two optical presets, analogous to font optical sizing.
           Large for hero renders (≥{LOGO_SM_THRESHOLD}px), SM for nav and favicon.
@@ -472,10 +400,7 @@ export default function LogoMarkLab() {
             twist={lgTwist} setTwist={setLgTwist}
             bladeStroke={lgBladeStroke} setBladeStroke={setLgBladeStroke}
             shadow={lgShadow} setShadow={setLgShadow}
-            presetLabel="BRAND_LOGO"
-            onExport={handleLgExport}
             onReset={handleLgReset}
-            exportStatus={lgExportStatus}
           />
         </div>
       </section>
@@ -517,10 +442,7 @@ export default function LogoMarkLab() {
             twist={smTwist} setTwist={setSmTwist}
             bladeStroke={smBladeStroke} setBladeStroke={setSmBladeStroke}
             shadow={smShadow} setShadow={setSmShadow}
-            presetLabel="BRAND_LOGO_SM"
-            onExport={handleSmExport}
             onReset={handleSmReset}
-            exportStatus={smExportStatus}
           />
         </div>
       </section>

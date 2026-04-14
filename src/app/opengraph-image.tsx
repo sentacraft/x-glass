@@ -1,7 +1,14 @@
 import { ImageResponse } from "next/og";
 import { readFileSync, existsSync } from "fs";
 import { join, dirname } from "path";
-import { bladePath, coverPoints, R } from "@/lib/aperture";
+import {
+  solveAllBlades,
+  bladeShapePath,
+  thetaRange,
+  buildDerivedConfig,
+  computeThetaOpen,
+  tNormToTheta,
+} from "@/lib/iris-mechanism";
 import { BRAND_LOGO } from "@/config/brand";
 
 /** Walk up directory tree until node_modules/<pkg>/<relPath> is found. */
@@ -20,11 +27,19 @@ export const alt = "X-Glass — Camera Lens Database";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-const T = BRAND_LOGO.t;
-const BLADE_COUNT = BRAND_LOGO.N;
-const STEP_DEG = 360 / BLADE_COUNT;
-const bp = bladePath(T, BRAND_LOGO);
-const cp = coverPoints(T, BRAND_LOGO);
+// Pre-compute at module level (runs once per server render).
+// Satori constraint: no SVG mask or filter elements — fill pass only.
+const R_HOUSING = 100;
+const dc = buildDerivedConfig(BRAND_LOGO, R_HOUSING);
+const thetaOpen = computeThetaOpen(dc, R_HOUSING);
+const theta = tNormToTheta(BRAND_LOGO.t, thetaOpen, thetaRange(dc).max);
+const blades = solveAllBlades(theta, dc);
+const shape = bladeShapePath(dc);
+const N = dc.N;
+const stepDeg = 360 / N;
+const b0 = blades[0];
+const b0AngleDeg = (b0.bladeAngle * 180) / Math.PI;
+const b0Transform = `translate(${b0.pivotPos.x.toFixed(3)},${b0.pivotPos.y.toFixed(3)}) rotate(${b0AngleDeg.toFixed(3)})`;
 
 export default function OpenGraphImage() {
   const geistBold = readFileSync(
@@ -47,26 +62,32 @@ export default function OpenGraphImage() {
           padding: "80px",
         }}
       >
-        {/* Aperture mark — inline SVG (Satori does not support mask/filter) */}
+        {/* Aperture mark — fill pass only (Satori: no mask/filter). */}
         <svg
           viewBox="-112 -112 224 224"
           width={380}
           height={380}
           style={{ flexShrink: 0 }}
         >
-          {/* Clipping circle */}
           <clipPath id="og-clip">
-            <circle r={R} />
+            <circle r={R_HOUSING} />
           </clipPath>
           <g clipPath="url(#og-clip)">
-            {Array.from({ length: BLADE_COUNT }, (_, i) => (
-              <g key={i} transform={`rotate(${STEP_DEG * i})`}>
-                <path d={bp} fill="#18181b" />
+            {Array.from({ length: N }, (_, i) => (
+              <g key={i} transform={`rotate(${(stepDeg * i).toFixed(3)})`}>
+                <g transform={b0Transform}>
+                  <path d={shape} fill="#18181b" />
+                </g>
               </g>
             ))}
           </g>
-          {/* Cover polygon hides center */}
-          <polygon points={cp} fill="#FAFAF9" />
+          {/* Housing cover plate — hides blade roots. */}
+          <circle
+            r={R_HOUSING - dc.bladeWidth / 2}
+            fill="none"
+            stroke="#FAFAF9"
+            strokeWidth={dc.bladeWidth + 1}
+          />
         </svg>
 
         {/* Vertical divider */}

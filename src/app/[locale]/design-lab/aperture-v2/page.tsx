@@ -5,99 +5,20 @@ import {
   solveAllBlades,
   thetaRange,
   bladeShapePath,
+  buildDerivedConfig,
+  computeThetaOpen,
+  computeBladeCurvature,
+  tNormToTheta,
   DEFAULT_IRIS_CONFIG,
   type IrisMechanismConfig,
+  type StoredIrisParams,
 } from "@/lib/iris-mechanism";
+import { readFromBrand, exportToBrand } from "./actions";
 
 // SVG coordinate space: origin at iris center, R_HOUSING = outer display radius.
 // viewBox is larger to accommodate the actuator ring sitting outside R_HOUSING.
 const R_HOUSING = 100;
 const VIEWBOX = "-150 -150 300 300";
-
-// ── Physical range computation ────────────────────────────────────────────────
-
-/**
- * Find θ_open: the largest theta at which the outer arc apex (OMid) is still
- * flush with the housing circle.
- *
- * OMid = (cx, cy−Ro) is the topmost point of the outer arc in local frame — the
- * only point we use as the reference, because OTail/OTip endpoints extend beyond
- * the blade's physical length (OTipX = cx·(2+f) > L) and dominate the radius
- * sample for wide blades, giving a wrong open position.
- *
- * Search interval: apexRadius is monotonically decreasing on [−δ, kinRange.max].
- *   • d ≥ Rp: kinRange.min = −δ (blades radially outward, apex radius >> housing).
- *   • d  < Rp: kinRange is a hump centred at −δ; −δ is still the most-open point
- *     and lies exactly at (kinRange.min + kinRange.max) / 2.
- * In both cases lo = −δ is the correct starting point.
- */
-function computeThetaOpen(
-  config: IrisMechanismConfig,
-  housingRadius: number
-): number {
-  const { bladeLength: L, bladeWidth: W, bladeCurvature: C } = config;
-  const hw = W / 2;
-  const cx = L / 2;
-  const s = C * hw * 1.2;
-  const Rarc = (cx * cx + s * s) / (2 * s);
-  const cy = Rarc - s;
-  const Ro = Rarc + hw;
-
-  // Outer arc apex in local frame — the point that should visually align with the housing.
-  const OMidX = cx;
-  const OMidY = cy - Ro; // negative (above chord) whenever Ro > cy
-
-  function apexRadius(theta: number): number {
-    const blades = solveAllBlades(theta, config);
-    if (!blades.length) return 0;
-    const b = blades[0];
-    const ca = Math.cos(b.bladeAngle), sa = Math.sin(b.bladeAngle);
-    const wx = b.pivotPos.x + ca * OMidX - sa * OMidY;
-    const wy = b.pivotPos.y + sa * OMidX + ca * OMidY;
-    return Math.sqrt(wx * wx + wy * wy);
-  }
-
-  const kinRange = thetaRange(config);
-  // Most-open position is always at θ = −δ (blades radially outward, apex at max radius).
-  const lo = -config.slotOffset;
-  const hi = kinRange.max;
-
-  // Edge cases
-  if (apexRadius(lo) < housingRadius) return lo;
-  if (apexRadius(hi) >= housingRadius) return hi;
-
-  // Binary search on [lo, hi]: apexRadius is monotonically decreasing.
-  // Find the largest theta where apexRadius >= housingRadius.
-  let a = lo, b_var = hi;
-  for (let i = 0; i < 60; i++) {
-    const m = (a + b_var) / 2;
-    if (apexRadius(m) >= housingRadius) a = m; else b_var = m;
-  }
-  return a;
-}
-
-// ── Derived blade curvature ───────────────────────────────────────────────────
-
-/**
- * Derive bladeCurvature so the outer arc radius exactly equals housingRadius.
- *
- * Constraint: Ro = R + hw = housingRadius  →  R = housingRadius - hw
- * Chord-sagitta: R = (cx² + s²) / (2s), s = C · hw · 1.2
- *
- * Solving for C (smaller root = less extreme curvature):
- *   C = (Rt - √(Rt² - cx²)) / (hw · 1.2)
- *   where Rt = housingRadius - hw, cx = L / 2
- *
- * Requires Rt ≥ cx; falls back to 0 if not satisfiable.
- */
-function computeBladeCurvature(L: number, W: number, housingRadius: number): number {
-  const hw = W / 2;
-  const cx = L / 2;
-  const Rt = housingRadius - hw;
-  const disc = Rt * Rt - cx * cx;
-  if (disc < 0) return 0;
-  return (Rt - Math.sqrt(disc)) / (hw * 1.2);
-}
 
 // ── IrisVisualization ─────────────────────────────────────────────────────────
 
@@ -329,6 +250,11 @@ function IrisVisualization({
 
 export default function ApertureV2Lab() {
   const [config, setConfig] = useState<IrisMechanismConfig>(DEFAULT_IRIS_CONFIG);
+
+  // Studio state — preset selection and brand.ts read/write.
+  const [selectedPreset, setSelectedPreset] = useState<"BRAND_LOGO" | "BRAND_LOGO_SM">("BRAND_LOGO");
+  const [exportStatus, setExportStatus] = useState<string | null>(null);
+
   const setField = (patch: Partial<IrisMechanismConfig>) => {
     setConfig(prev => {
       const next = { ...prev, ...patch };
@@ -343,25 +269,49 @@ export default function ApertureV2Lab() {
     startRef.current = undefined;
   };
 
-  // Derive geometry-constrained parameters (not free parameters):
-  //   pivotRadius = R_HOUSING - bladeWidth/2  → outer arc center coincides with world
-  //                  origin at open position, so the entire outer arc lies on the housing
-  //                  circle (blades are flush with the housing wall when fully open).
-  //   bladeCurvature = derived so outer arc radius Ro exactly equals R_HOUSING.
+  // Load a preset from brand.ts into the config sliders.
+  async function loadPreset(preset: "BRAND_LOGO" | "BRAND_LOGO_SM") {
+    const v = await readFromBrand(preset);
+    if (!v) return;
+    const dc = buildDerivedConfig(v, R_HOUSING);
+    setConfig(dc);
+    setIsPlaying(false);
+    startRef.current = undefined;
+  }
+
+  // Export current config + current t value back to brand.ts.
+  async function handleExport() {
+    setExportStatus("Saving…");
+    const { min, max } = range;
+    const tExport = Math.max(0, Math.min(1, (theta - min) / (max - min)));
+    const stored: StoredIrisParams = {
+      N: config.N,
+      pinDistance: config.pinDistance,
+      slotOffset: config.slotOffset,
+      bladeLength: config.bladeLength,
+      bladeWidth: config.bladeWidth,
+      t: tExport,
+    };
+    const res = await exportToBrand(selectedPreset, stored);
+    setExportStatus(res.ok ? `✓ Written to ${selectedPreset}` : `✗ ${res.error}`);
+    if (res.ok) setTimeout(() => setExportStatus(null), 3000);
+  }
+
+  // Load BRAND_LOGO on first mount.
+  useEffect(() => { loadPreset("BRAND_LOGO"); }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Reload when preset selector changes.
+  useEffect(() => { loadPreset(selectedPreset); }, [selectedPreset]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Derive geometry-constrained parameters via the shared helper.
   const derivedConfig = useMemo(
-    () => ({
-      ...config,
-      pivotRadius: R_HOUSING - config.bladeWidth / 2,
-      bladeCurvature: computeBladeCurvature(config.bladeLength, config.bladeWidth, R_HOUSING),
-    }),
+    () => buildDerivedConfig(config, R_HOUSING),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [config.N, config.pinDistance, config.slotOffset,
      config.bladeLength, config.bladeWidth]
   );
 
   // Physical range: [θ_open, kinRange.max]
-  //   θ_open = theta where outer arc is flush with R_HOUSING (fully open, blades at housing wall)
-  //   max    = kinematic limit (most closed achievable position)
   const range = useMemo(
     () => ({
       min: computeThetaOpen(derivedConfig, R_HOUSING),
@@ -370,18 +320,9 @@ export default function ApertureV2Lab() {
     [derivedConfig]
   );
 
-  // Start fully open (range.min = outer arc apex flush with housing wall).
-  // Use derived curvature for consistency with the live range computation.
+  // Start at t=0 (fully open) for the default config.
   const [theta, setTheta] = useState(() => {
-    const initDerived = {
-      ...DEFAULT_IRIS_CONFIG,
-      pivotRadius: R_HOUSING - DEFAULT_IRIS_CONFIG.bladeWidth / 2,
-      bladeCurvature: computeBladeCurvature(
-        DEFAULT_IRIS_CONFIG.bladeLength,
-        DEFAULT_IRIS_CONFIG.bladeWidth,
-        R_HOUSING
-      ),
-    };
+    const initDerived = buildDerivedConfig(DEFAULT_IRIS_CONFIG, R_HOUSING);
     return computeThetaOpen(initDerived, R_HOUSING);
   });
   const [isPlaying, setIsPlaying] = useState(false);
@@ -503,6 +444,50 @@ export default function ApertureV2Lab() {
 
         {/* Controls */}
         <div className="w-56 shrink-0 space-y-5 pt-1">
+          {/* Studio — brand.ts preset read/write */}
+          <section className="space-y-2.5">
+            <p className="text-xs text-zinc-600 uppercase tracking-wider">
+              Studio
+            </p>
+            <div className="flex gap-1.5">
+              {(["BRAND_LOGO", "BRAND_LOGO_SM"] as const).map((preset) => (
+                <button
+                  key={preset}
+                  onClick={() => setSelectedPreset(preset)}
+                  className="flex-1 rounded py-1.5 text-xs font-mono font-medium transition-colors"
+                  style={{
+                    background: selectedPreset === preset ? "#3f3f46" : "#1c1c1c",
+                    color: selectedPreset === preset ? "#e4e4e7" : "#52525b",
+                    border: `1px solid ${selectedPreset === preset ? "#52525b" : "#222"}`,
+                  }}
+                >
+                  {preset === "BRAND_LOGO" ? "LG" : "SM"}
+                </button>
+              ))}
+            </div>
+            <div className="flex gap-1.5">
+              <button
+                onClick={() => loadPreset(selectedPreset)}
+                className="flex-1 rounded py-1.5 text-xs font-medium transition-colors"
+                style={{ background: "#1c1c1c", color: "#71717a", border: "1px solid #222" }}
+              >
+                Load
+              </button>
+              <button
+                onClick={handleExport}
+                className="flex-1 rounded py-1.5 text-xs font-medium transition-colors"
+                style={{ background: "#27272a", color: "#a1a1aa", border: "1px solid #3f3f46" }}
+              >
+                → Export
+              </button>
+            </div>
+            {exportStatus && (
+              <p className={`text-xs font-mono ${exportStatus.startsWith("✓") ? "text-green-500" : "text-red-400"}`}>
+                {exportStatus}
+              </p>
+            )}
+          </section>
+
           {/* Animation */}
           <section className="space-y-3">
             <p className="text-xs text-zinc-600 uppercase tracking-wider">

@@ -259,6 +259,145 @@ export function bladeShapePath(config: IrisMechanismConfig): string {
   ].join(" ");
 }
 
+// ── Derived-config helpers ────────────────────────────────────────────────────
+
+/**
+ * The subset of IrisMechanismConfig that is stored in brand.ts / config files.
+ * Derived parameters (pivotRadius, bladeCurvature) are always computed at use
+ * time via buildDerivedConfig and are never persisted.
+ */
+export interface StoredIrisParams {
+  /** Number of blades (5–9). */
+  N: number;
+  /** Rigid distance from pivot hole to guide-pin hole on each blade (px). */
+  pinDistance: number;
+  /** Angular offset δ of the actuator-ring slot relative to pivot (rad, decimal). */
+  slotOffset: number;
+  /** Total blade length from pivot to tip (px). */
+  bladeLength: number;
+  /** Blade body width at its widest point (px). */
+  bladeWidth: number;
+  /**
+   * Default aperture openness for static / initial renders.
+   * 0 = fully open (blades at housing wall), 1 = fully closed (minimum aperture).
+   */
+  t: number;
+}
+
+/**
+ * Derive bladeCurvature so the outer arc radius exactly equals housingRadius.
+ *
+ * Constraint: Ro = R + hw = housingRadius  →  R = housingRadius - hw
+ * Chord-sagitta: R = (cx² + s²) / (2s), s = C · hw · 1.2
+ *
+ * Solving for C (smaller root = less extreme curvature):
+ *   C = (Rt - √(Rt² - cx²)) / (hw · 1.2)
+ *   where Rt = housingRadius - hw, cx = L / 2
+ *
+ * Returns 0 if the constraint is not satisfiable (Rt < cx).
+ */
+export function computeBladeCurvature(
+  L: number,
+  W: number,
+  housingRadius: number
+): number {
+  const hw = W / 2;
+  const cx = L / 2;
+  const Rt = housingRadius - hw;
+  const disc = Rt * Rt - cx * cx;
+  if (disc < 0) return 0;
+  return (Rt - Math.sqrt(disc)) / (hw * 1.2);
+}
+
+/**
+ * Find θ_open: the largest theta at which the outer arc apex (OMid) is still
+ * flush with the housing circle.
+ *
+ * OMid = (cx, cy−Ro) is the topmost point of the outer arc in local blade frame.
+ * apexRadius is monotonically decreasing on [−δ, kinRange.max].
+ * Binary search finds the crossover point where apexRadius = housingRadius.
+ */
+export function computeThetaOpen(
+  config: IrisMechanismConfig,
+  housingRadius: number
+): number {
+  const { bladeLength: L, bladeWidth: W, bladeCurvature: C } = config;
+  const hw = W / 2;
+  const cx = L / 2;
+  const s = C * hw * 1.2;
+  const Rarc = (cx * cx + s * s) / (2 * s);
+  const cy = Rarc - s;
+  const Ro = Rarc + hw;
+
+  const OMidX = cx;
+  const OMidY = cy - Ro;
+
+  function apexRadius(theta: number): number {
+    const blades = solveAllBlades(theta, config);
+    if (!blades.length) return 0;
+    const b = blades[0];
+    const ca = Math.cos(b.bladeAngle), sa = Math.sin(b.bladeAngle);
+    const wx = b.pivotPos.x + ca * OMidX - sa * OMidY;
+    const wy = b.pivotPos.y + sa * OMidX + ca * OMidY;
+    return Math.sqrt(wx * wx + wy * wy);
+  }
+
+  const kinRange = thetaRange(config);
+  const lo = -config.slotOffset;
+  const hi = kinRange.max;
+
+  if (apexRadius(lo) < housingRadius) return lo;
+  if (apexRadius(hi) >= housingRadius) return hi;
+
+  let a = lo, b = hi;
+  for (let i = 0; i < 60; i++) {
+    const m = (a + b) / 2;
+    if (apexRadius(m) >= housingRadius) a = m; else b = m;
+  }
+  return a;
+}
+
+/**
+ * Build a fully-populated IrisMechanismConfig from the stored (free-parameter)
+ * subset, deriving pivotRadius and bladeCurvature from housingRadius.
+ *
+ * Accepts any object that contains the five free parameters — this includes
+ * both StoredIrisParams (which also has `t`) and IrisMechanismConfig (which
+ * also has pivotRadius/bladeCurvature). The `t` and derived fields are ignored.
+ */
+export function buildDerivedConfig(
+  stored: Pick<StoredIrisParams, "N" | "pinDistance" | "slotOffset" | "bladeLength" | "bladeWidth">,
+  housingRadius: number
+): IrisMechanismConfig {
+  const bladeCurvature = computeBladeCurvature(
+    stored.bladeLength,
+    stored.bladeWidth,
+    housingRadius
+  );
+  return {
+    N: stored.N,
+    pivotRadius: housingRadius - stored.bladeWidth / 2,
+    pinDistance: stored.pinDistance,
+    slotOffset: stored.slotOffset,
+    bladeLength: stored.bladeLength,
+    bladeWidth: stored.bladeWidth,
+    bladeCurvature,
+  };
+}
+
+/**
+ * Map a normalised openness value t ∈ [0, 1] to an actuator angle theta.
+ *   t = 0 → theta = thetaOpen  (fully open, blades at housing wall)
+ *   t = 1 → theta = thetaMax   (kinematic limit, most closed)
+ */
+export function tNormToTheta(
+  t: number,
+  thetaOpen: number,
+  thetaMax: number
+): number {
+  return thetaOpen + t * (thetaMax - thetaOpen);
+}
+
 // ── Default config ────────────────────────────────────────────────────────────
 
 /**
