@@ -50,3 +50,9 @@ next-env.d.ts
 .claude/
 .playwright-mcp/
 skills-lock.json
+
+# development screenshots dumped in repo root
+/*.png
+/*.jpg
+/*.jpeg
+/*.webp
