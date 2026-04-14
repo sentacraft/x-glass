@@ -454,7 +454,7 @@ export default function ApertureV2Lab() {
         </div>
 
         {/* Controls — 3-column grid */}
-        <div className="shrink-0 grid grid-cols-3 gap-x-8 pt-1" style={{ width: 580 }}>
+        <div style={{ flexShrink: 0, width: 580, display: "grid", gridTemplateColumns: "repeat(3, 1fr)", columnGap: 32, paddingTop: 4 }}>
 
           {/* ── Col 1: Playback & View ── */}
           <div className="space-y-5">
