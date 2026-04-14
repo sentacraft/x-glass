@@ -5,10 +5,16 @@ import { Link, usePathname } from "@/i18n/navigation";
 import LensSearchDialog from "@/components/LensSearchDialog";
 import Iris from "@/components/Iris";
 import { IRIS_NAV } from "@/config/iris-config";
+import { useCompare } from "@/context/CompareProvider";
 
 export default function Nav() {
   const t = useTranslations("Nav");
   const pathname = usePathname();
+  const { compareIds } = useCompare();
+  const compareHref =
+    compareIds.length > 0
+      ? `/lenses/compare?ids=${compareIds.join(",")}`
+      : "/lenses/compare";
 
   return (
     <header className="shrink-0 border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-black z-30">
@@ -33,7 +39,7 @@ export default function Nav() {
             {t("lenses")}
           </Link>
           <Link
-            href="/lenses/compare"
+            href={compareHref}
             className={`text-sm transition-colors ${
               pathname.startsWith("/lenses/compare")
                 ? "text-zinc-900 dark:text-zinc-50 font-medium"
