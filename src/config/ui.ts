@@ -7,7 +7,7 @@ export const ANIMATION = {
   // Iris: ease-out return duration after mouse leaves (ms)
   logoEaseOutMs: 700,
   // Iris: entry catch-up duration to eliminate jump on mouse enter (ms)
-  logoCatchupMs: 180,
+  logoCatchupMs: 300,
 } as const;
 
 // ── Z-index layers ────────────────────────────────────────────────────────────

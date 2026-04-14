@@ -10,6 +10,8 @@ import {
   computeBladeCurvature,
   tNormToTheta,
   DEFAULT_IRIS_CONFIG,
+  apertureInradius,
+  findThetaForInradius,
   type IrisMechanismConfig,
   type StoredIrisParams,
 } from "@/lib/iris-kinematics";
@@ -351,103 +353,11 @@ function IrisStage({
 }
 
 // ── F-stop helpers ────────────────────────────────────────────────────────────
-
-/**
- * Compute the aperture inradius by finding where two adjacent blades' inner
- * arcs intersect. That intersection point is the corner of the aperture polygon;
- * its distance from the iris centre equals the inscribed-circle radius.
- *
- * Each blade has a circular inner arc of radius Ri = R − hw centred at local
- * (cx, cy_local). We transform both blade-0 and blade-1 arc centres to world
- * frame, then solve the two-equal-radius circle intersection. The nearer of the
- * two solutions to the iris centre is the aperture vertex.
- *
- * This is the only correct approach: blade-tip or perpendicular-to-centreline
- * approximations both fail because the blade tip crosses the iris centre during
- * closure and the inner-arc curvature is not captured by a straight-line proxy.
- */
-function apertureInradius(theta: number, dc: IrisMechanismConfig): number {
-  const blades = solveAllBlades(theta, dc);
-  if (blades.length < 2) return 0;
-
-  const { bladeLength: L, bladeWidth: W, bladeCurvature: C } = dc;
-  const hw = W / 2;
-  const cx = L / 2;
-
-  if (C < 0.005) return 0;
-
-  const s    = C * hw * 1.2;
-  const R    = (cx * cx + s * s) / (2 * s);
-  const cyL  = R - s;   // inner-arc centre y in local frame (positive = below chord)
-  const Ri   = R - hw;  // inner-arc radius
-
-  if (Ri <= 0) return 0;
-
-  // World-frame inner-arc centre for blade b
-  function arcCenter(b: (typeof blades)[0]) {
-    const ca = Math.cos(b.bladeAngle), sa = Math.sin(b.bladeAngle);
-    return {
-      x: b.pivotPos.x + cx * ca - cyL * sa,
-      y: b.pivotPos.y + cx * sa + cyL * ca,
-    };
-  }
-
-  const c0 = arcCenter(blades[0]);
-  const c1 = arcCenter(blades[1]);
-
-  const dx = c1.x - c0.x;
-  const dy = c1.y - c0.y;
-  const d  = Math.sqrt(dx * dx + dy * dy);
-
-  // When arc centers coincide (d ≈ 0), all inner arcs are concentric at the
-  // iris origin — this is the fully-open state where Ro = R_HOUSING forces every
-  // arc centre to land exactly at origin. The aperture is then the inner-arc
-  // circle itself, so inradius = Ri.
-  if (d < 0.001) return Ri;
-  if (d >= 2 * Ri) return 0;
-
-  // Midpoint + perpendicular offset for equal-radius circle intersection
-  const mx = (c0.x + c1.x) / 2;
-  const my = (c0.y + c1.y) / 2;
-  const h  = Math.sqrt(Math.max(0, Ri * Ri - (d / 2) * (d / 2)));
-
-  const px = (-dy / d) * h;
-  const py = ( dx / d) * h;
-
-  const r1 = Math.hypot(mx + px, my + py);
-  const r2 = Math.hypot(mx - px, my - py);
-
-  return Math.min(r1, r2);
-}
+// apertureInradius and findThetaForInradius are imported from iris-kinematics.
 
 function formatFStop(f: number): string {
   if (!isFinite(f) || f > 22) return "f/—";
   return `f/${f.toFixed(1)}`;
-}
-
-/**
- * Binary-search for the theta value that produces a given target f-stop.
- * Returns range.min (fully open) if the target is smaller than the open f-stop,
- * or range.max (fully closed) if it cannot be reached.
- */
-/**
- * Binary-search for the theta value that produces a given aperture inradius.
- * Mirrors findThetaForFStop but works in the radius domain directly,
- * avoiding the need to convert back to f-stop at the call site.
- */
-function findThetaForInradius(
-  targetR: number,
-  dc: IrisMechanismConfig,
-  range: { min: number; max: number },
-): number {
-  let lo = range.min;
-  let hi = range.max;
-  for (let i = 0; i < 48; i++) {
-    const mid = (lo + hi) / 2;
-    if (apertureInradius(mid, dc) > targetR) lo = mid;
-    else hi = mid;
-  }
-  return (lo + hi) / 2;
 }
 
 function findThetaForFStop(
