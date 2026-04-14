@@ -6,8 +6,12 @@
 // double-quoted literals (e.g. bladeColor: "#181818").
 
 import { writeFile, readFile } from "fs/promises";
+import { exec } from "child_process";
+import { promisify } from "util";
 import path from "path";
 import { IRIS_DEFAULTS, type IrisConfig } from "@/config/iris-config";
+
+const execAsync = promisify(exec);
 
 const CONFIG_PATH = path.join(process.cwd(), "src/config/iris-config.ts");
 
@@ -92,7 +96,8 @@ export async function exportToConfig(
   values: IrisConfig,
 ): Promise<{ ok: boolean; error?: string }> {
   try {
-    let content = await readFile(CONFIG_PATH, "utf-8");
+    const originalContent = await readFile(CONFIG_PATH, "utf-8");
+    let content = originalContent;
 
     // Match up to the first `{` so `withIrisDefaults({` works as well as plain `= {`.
     const startPattern = new RegExp(`export const ${presetName}[^{]*\\{`);
@@ -149,6 +154,17 @@ export async function exportToConfig(
 
     content = content.slice(0, bodyStart) + body + content.slice(bodyEnd - 1);
     await writeFile(CONFIG_PATH, content, "utf-8");
+
+    // Type-check the patched file to catch any malformed output early.
+    try {
+      await execAsync("npx tsc --noEmit", { cwd: process.cwd() });
+    } catch (tscErr: unknown) {
+      // Restore original content so the project stays in a compilable state.
+      await writeFile(CONFIG_PATH, originalContent, "utf-8");
+      const stderr = (tscErr as { stderr?: string; stdout?: string }).stderr ?? (tscErr as { stdout?: string }).stdout ?? String(tscErr);
+      return { ok: false, error: `TypeScript error after export:\n${stderr}` };
+    }
+
     return { ok: true };
   } catch (err) {
     return { ok: false, error: String(err) };
