@@ -257,6 +257,31 @@ function IrisStage({
   );
 }
 
+// ── F-stop helpers ────────────────────────────────────────────────────────────
+
+/**
+ * Estimate the aperture inradius (inscribed-circle radius) at a given theta.
+ *
+ * Approximation: blade 0's inner-arc midpoint is at local (bladeLength/2, 0).
+ * Its world-frame distance from the iris centre equals the inradius of the
+ * regular N-gon aperture polygon (all blades are symmetric, so blade 0 is
+ * representative).
+ */
+function apertureInradius(theta: number, dc: IrisMechanismConfig): number {
+  const blades = solveAllBlades(theta, dc);
+  if (blades.length === 0) return 0;
+  const b = blades[0];
+  const halfL = dc.bladeLength / 2;
+  const x = b.pivotPos.x + halfL * Math.cos(b.bladeAngle);
+  const y = b.pivotPos.y + halfL * Math.sin(b.bladeAngle);
+  return Math.sqrt(x * x + y * y);
+}
+
+function formatFStop(f: number): string {
+  if (!isFinite(f) || f > 22) return "f/—";
+  return `f/${f.toFixed(1)}`;
+}
+
 // ── Page ──────────────────────────────────────────────────────────────────────
 
 export default function ApertureV2Lab() {
@@ -405,6 +430,23 @@ export default function ApertureV2Lab() {
     ((theta - range.min) / (range.max - range.min)) * 100
   );
 
+  // F-stop: calibrated so fully-open = f/1.4. Uses inscribed-circle approximation.
+  const inradiusCurrent = useMemo(
+    () => apertureInradius(theta, derivedConfig),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [theta, derivedConfig.N, derivedConfig.pivotRadius, derivedConfig.pinDistance,
+     derivedConfig.slotOffset, derivedConfig.bladeLength]
+  );
+  const inradiusMax = useMemo(
+    () => apertureInradius(range.min, derivedConfig),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [range.min, derivedConfig.N, derivedConfig.pivotRadius, derivedConfig.pinDistance,
+     derivedConfig.slotOffset, derivedConfig.bladeLength]
+  );
+  const fStop = inradiusCurrent > 0.5
+    ? 1.4 * (inradiusMax / inradiusCurrent)
+    : Infinity;
+
   return (
     <main
       style={{ background: "#f5f5f4", minHeight: "100vh" }}
@@ -459,9 +501,13 @@ export default function ApertureV2Lab() {
               style={{ accentColor: "#52525b" }}
             />
             <div className="flex justify-between text-xs font-mono mt-1">
-              <span className="text-zinc-600">open</span>
-              <span className="text-zinc-400">{openPct}%</span>
-              <span className="text-zinc-600">closed</span>
+              <span className="text-zinc-500">open</span>
+              <span className="text-zinc-600">
+                {openPct}%
+                <span className="text-zinc-400 ml-2">·</span>
+                <span className="ml-2">{formatFStop(fStop)}</span>
+              </span>
+              <span className="text-zinc-500">closed</span>
             </div>
           </div>
         </div>
