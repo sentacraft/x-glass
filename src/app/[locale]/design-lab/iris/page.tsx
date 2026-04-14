@@ -667,29 +667,60 @@ export default function ApertureV2Lab() {
   // Blades: use the f/5.6 theta in Auto mode so the aperture looks right.
   const displayTheta = openPct === 0 ? autoTheta : theta;
 
-  // Follow-mouse: global listener + non-linear easing (mirrors iris-pheno behaviour).
+  // Follow-mouse: global listener + RAF-based exponential smoothing.
   //
-  // Entry: offset captured on first frame, decays via (1-p)^2 quadratic ease-out
-  //        over 180 ms so rapid entry doesn't produce an abrupt jump.
-  // Leave: RAF-driven cubic ease-out back to autoTheta over 700 ms.
+  // Architecture:
+  //   mousemove → writes to followTargetRef (raw desired theta, with entry offset)
+  //   chase RAF  → each frame: current += (target - current) * k(dt)
+  //                where k = 1 - exp(-dt / FOLLOW_TAU_MS)  [framerate-independent]
+  //
+  // This decouples mouse sampling from rendering and acts as a low-pass filter,
+  // suppressing high-frequency jitter while keeping the response feeling live.
+  //
+  // Entry:  offset recorded on first hotzone frame, decays (1-p)^2 over 300 ms.
+  // Leave:  cubic ease-out back to autoTheta over 700 ms.
+  const FOLLOW_TAU_MS = 60; // exponential smoothing time constant (ms); lower = snappier
+  const followTargetRef      = useRef(0);
   const followEntryOffsetRef = useRef(0);
   const followEntryTimeRef   = useRef(0);
   const wasInHotzoneRef      = useRef(false);
+  const followChaseRafRef    = useRef<number | null>(null);
   const followLeaveRafRef    = useRef<number | null>(null);
+  const followLastFrameRef   = useRef(0);
 
-  // Cleanup leave-animation when component unmounts or followMouse turns off.
+  // Cleanup all RAFs on unmount.
   useEffect(() => () => {
+    if (followChaseRafRef.current) cancelAnimationFrame(followChaseRafRef.current);
     if (followLeaveRafRef.current) cancelAnimationFrame(followLeaveRafRef.current);
   }, []);
 
   useEffect(() => {
     if (!followMouse) {
       wasInHotzoneRef.current = false;
-      if (followLeaveRafRef.current) {
-        cancelAnimationFrame(followLeaveRafRef.current);
-        followLeaveRafRef.current = null;
-      }
+      if (followChaseRafRef.current) { cancelAnimationFrame(followChaseRafRef.current); followChaseRafRef.current = null; }
+      if (followLeaveRafRef.current) { cancelAnimationFrame(followLeaveRafRef.current); followLeaveRafRef.current = null; }
       return;
+    }
+
+    // Chase loop: runs while in hotzone, smoothly tracks followTargetRef.
+    function startChase() {
+      if (followChaseRafRef.current) return; // already running
+      followLastFrameRef.current = performance.now();
+      function chaseTick(now: number) {
+        const dt = Math.min(now - followLastFrameRef.current, 64); // cap at ~4 frames
+        followLastFrameRef.current = now;
+        const k    = 1 - Math.exp(-dt / FOLLOW_TAU_MS);
+        const cur  = thetaRef.current;
+        const next = cur + (followTargetRef.current - cur) * k;
+        setTheta(next);
+        thetaRef.current = next;
+        followChaseRafRef.current = requestAnimationFrame(chaseTick);
+      }
+      followChaseRafRef.current = requestAnimationFrame(chaseTick);
+    }
+
+    function stopChase() {
+      if (followChaseRafRef.current) { cancelAnimationFrame(followChaseRafRef.current); followChaseRafRef.current = null; }
     }
 
     function handleMouseMove(e: MouseEvent) {
@@ -716,7 +747,8 @@ export default function ApertureV2Lab() {
       if (!inHot) {
         if (wasInHotzoneRef.current) {
           wasInHotzoneRef.current = false;
-          // Cubic ease-out back to autoTheta over 700 ms (mirrors iris-pheno lgMouseLeave)
+          stopChase();
+          // Cubic ease-out back to autoTheta over 700 ms
           if (followLeaveRafRef.current) cancelAnimationFrame(followLeaveRafRef.current);
           const fromTheta = thetaRef.current;
           const toTheta   = autoTheta;
@@ -735,36 +767,32 @@ export default function ApertureV2Lab() {
         return;
       }
 
-      // Cancel any in-progress leave animation
-      if (followLeaveRafRef.current) {
-        cancelAnimationFrame(followLeaveRafRef.current);
-        followLeaveRafRef.current = null;
-      }
+      // Cancel any in-progress leave animation and ensure chase is running
+      if (followLeaveRafRef.current) { cancelAnimationFrame(followLeaveRafRef.current); followLeaveRafRef.current = null; }
+      startChase();
 
       // Map horizontal position within hotzone → [range.min, thetaF22]
       const t           = Math.max(0, Math.min(1, (e.clientX - hotLeft) / (hotRight - hotLeft)));
-      const targetTheta = range.min + t * (thetaF22 - range.min);
+      const rawTarget   = range.min + t * (thetaF22 - range.min);
 
       if (!wasInHotzoneRef.current) {
         // First frame: record entry offset for smooth catchup
-        followEntryOffsetRef.current = thetaRef.current - targetTheta;
+        followEntryOffsetRef.current = thetaRef.current - rawTarget;
         followEntryTimeRef.current   = performance.now();
         wasInHotzoneRef.current      = true;
       }
 
-      // Quadratic ease-out on entry offset: (1-p)^2 over 180 ms
-      const p           = Math.min(1, (performance.now() - followEntryTimeRef.current) / 300);
-      const off         = followEntryOffsetRef.current * (1 - p) ** 2;
-      const smoothTheta = targetTheta + off;
-
-      setTheta(smoothTheta);
-      thetaRef.current = smoothTheta;
-      startRef.current = undefined;
+      // Quadratic ease-out on entry offset: (1-p)^2 over 300 ms
+      const p                  = Math.min(1, (performance.now() - followEntryTimeRef.current) / 300);
+      const off                = followEntryOffsetRef.current * (1 - p) ** 2;
+      followTargetRef.current  = rawTarget + off; // chase RAF reads this every frame
+      startRef.current         = undefined;
     }
 
     document.addEventListener("mousemove", handleMouseMove);
     return () => {
       document.removeEventListener("mousemove", handleMouseMove);
+      stopChase();
       wasInHotzoneRef.current = false;
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
