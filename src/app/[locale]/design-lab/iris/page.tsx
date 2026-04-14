@@ -357,9 +357,29 @@ function IrisStage({
 // ── F-stop helpers ────────────────────────────────────────────────────────────
 // apertureInradius and findThetaForInradius are imported from iris-kinematics.
 
+// Numeric f-stop options (excludes Auto) used for the Default F-Stop dropdown.
+const FSTOP_OPTIONS = FSTOP_SEQUENCE.filter((f): f is number => f !== "A");
+
 function formatFStop(f: number): string {
   if (!isFinite(f) || f > 22) return "f/—";
   return `f/${f.toFixed(1)}`;
+}
+
+/** Reverse-compute the nearest FSTOP_OPTIONS value for a stored normalised t. */
+function tToNearestFStop(
+  t: number,
+  dc: IrisMechanismConfig,
+  range: { min: number; max: number },
+): number {
+  const theta  = range.min + t * (range.max - range.min);
+  const rOpen  = apertureInradius(range.min, dc);
+  if (rOpen <= 0) return 5.6;
+  const r = apertureInradius(theta, dc);
+  if (r <= 0.5) return 22;
+  const f = 1.4 * rOpen / r;
+  return FSTOP_OPTIONS.reduce((best, c) =>
+    Math.abs(Math.log2(c) - Math.log2(f)) < Math.abs(Math.log2(best) - Math.log2(f)) ? c : best
+  );
 }
 
 function findThetaForFStop(
@@ -426,12 +446,16 @@ export default function ApertureV2Lab() {
       v = await readFromBrand(key);
       if (!v) return;
     }
-    setConfig(buildDerivedConfig(v, R_HOUSING));
+    const tempDc  = buildDerivedConfig(v, R_HOUSING);
+    const tempMin = computeThetaOpen(tempDc, R_HOUSING);
+    const tempMax = thetaRange(tempDc).max;
+    setConfig(tempDc);
     // Restore appearance state from loaded config.
     if (v.bladeColor) setBladeGray(parseInt(v.bladeColor.slice(1, 3), 16));
     if (v.strokeColor) setStrokeGray(parseInt(v.strokeColor.slice(1, 3), 16));
     if (v.strokeWidth !== undefined) setStrokeWidth(v.strokeWidth);
     if (v.shadow !== undefined) setShadowOpacity(v.shadow ? 0.55 : 0);
+    setDefaultFStop(tToNearestFStop(v.t, tempDc, { min: tempMin, max: tempMax }));
     // Update production preview to reflect the loaded config at actual size.
     setPreviewConfig({ ...v, interactive: false });
     setIsPlaying(false);
@@ -442,7 +466,9 @@ export default function ApertureV2Lab() {
   async function handleExport() {
     setExportStatus("Saving…");
     const { min, max } = range;
-    const tExport = Math.max(0, Math.min(1, (theta - min) / (max - min)));
+    // t is derived from the Default F-Stop selection, not the current slider position.
+    const defaultTheta = findThetaForFStop(defaultFStop, derivedConfig, range);
+    const tExport = Math.max(0, Math.min(1, (defaultTheta - min) / (max - min)));
     const profileSize = selectedProfile === "production:hero" ? IRIS_HERO.size
       : selectedProfile === "production:nav" ? IRIS_NAV.size : 80;
     const stored: IrisConfig = {
@@ -475,11 +501,15 @@ export default function ApertureV2Lab() {
   useEffect(() => {
     readFromBrand("IRIS_HERO").then(v => {
       if (!v) return;
-      setConfig(buildDerivedConfig(v, R_HOUSING));
+      const tempDc  = buildDerivedConfig(v, R_HOUSING);
+      const tempMin = computeThetaOpen(tempDc, R_HOUSING);
+      const tempMax = thetaRange(tempDc).max;
+      setConfig(tempDc);
       if (v.bladeColor) setBladeGray(parseInt(v.bladeColor.slice(1, 3), 16));
       if (v.strokeColor) setStrokeGray(parseInt(v.strokeColor.slice(1, 3), 16));
       if (v.strokeWidth !== undefined) setStrokeWidth(v.strokeWidth);
       if (v.shadow !== undefined) setShadowOpacity(v.shadow ? 0.55 : 0);
+      setDefaultFStop(tToNearestFStop(v.t, tempDc, { min: tempMin, max: tempMax }));
       setPreviewConfig({ ...v, interactive: false });
     });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
@@ -512,6 +542,7 @@ export default function ApertureV2Lab() {
   const [showFStopRing, setShowFStopRing] = useState(false);
   const [fStopRingOuter, setFStopRingOuter] = useState(true);
   const [followMouse, setFollowMouse] = useState(false);
+  const [defaultFStop, setDefaultFStop] = useState(5.6);
   const [strokeWidth, setStrokeWidth] = useState(0.5);
   const [shadowOpacity, setShadowOpacity] = useState(0);
   const [bladeGray, setBladeGray] = useState(24);   // 0=black … 255=white; default ≈ zinc-900
@@ -600,12 +631,11 @@ export default function ApertureV2Lab() {
     : Infinity;
 
   // In Auto mode (openPct === 0) the ring stays pinned at "A" (ring angle 0 = f/1.0 position).
-  // The blades, however, render at the theta that corresponds to f/5.6.
-  const AUTO_FSTOP = 5.6;
+  // The blades render at the theta corresponding to defaultFStop (configurable, default f/5.6).
   const autoTheta = useMemo(
-    () => findThetaForFStop(AUTO_FSTOP, derivedConfig, range),
+    () => findThetaForFStop(defaultFStop, derivedConfig, range),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [AUTO_FSTOP, range.min, range.max, derivedConfig.N, derivedConfig.pivotRadius,
+    [defaultFStop, range.min, range.max, derivedConfig.N, derivedConfig.pivotRadius,
      derivedConfig.pinDistance, derivedConfig.slotOffset, derivedConfig.bladeLength,
      derivedConfig.bladeWidth, derivedConfig.bladeCurvature]
   );
@@ -620,7 +650,7 @@ export default function ApertureV2Lab() {
   // Ring shows "A" (ring angle 0 → position 0 → f=1.0 in the log-scale mapping)
   // so that the pointer stays at "A" instead of rotating to 5.6.
   const ringFStop = openPct === 0 ? 1.0 : fStop;
-  // Blades: use the f/5.6 theta in Auto mode so the aperture looks right.
+  // Blades: use the defaultFStop theta in Auto mode so the aperture looks right.
   const displayTheta = openPct === 0 ? autoTheta : theta;
 
   // Follow-mouse: global listener + RAF-based exponential smoothing.
@@ -945,6 +975,26 @@ export default function ApertureV2Lab() {
                 />
                 Follow Mouse
               </label>
+              {/* Default F-Stop — sets the static openness and the Auto-mode openness. */}
+              <div className="space-y-1">
+                <div className="flex justify-between text-xs text-zinc-500">
+                  <span>Default F-Stop</span>
+                  <span className="font-mono">{formatFStop(defaultFStop)}</span>
+                </div>
+                <select
+                  value={defaultFStop}
+                  onChange={(e) => setDefaultFStop(parseFloat(e.target.value))}
+                  style={{
+                    width: "100%", padding: "5px 8px", borderRadius: 4,
+                    border: "1px solid #d4d4d8", background: "#fff",
+                    color: "#3f3f46", fontSize: 12, fontFamily: "ui-monospace, monospace",
+                  }}
+                >
+                  {FSTOP_OPTIONS.map(f => (
+                    <option key={f} value={f}>{formatFStop(f)}</option>
+                  ))}
+                </select>
+              </div>
             </section>
 
             <section className="space-y-2">
