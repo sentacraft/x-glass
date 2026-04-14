@@ -141,10 +141,10 @@ export default function Iris({
         initAnimRef.current = requestAnimationFrame(sequenceTick);
       } else {
         initAnimRef.current = null;
-        // Snap immediately to defaultFStop once the sweep completes.
-        stopChase();
-        thetaRef.current = defaultThetaRef.current;
-        setTheta(defaultThetaRef.current);
+        // Redirect the running chase to DEFAULT_THETA — no hard snap.
+        // The chase exponential smoother eases from thetaMax to defaultFStop
+        // and self-terminates once converged (< 0.001 rad).
+        targetThetaRef.current = defaultThetaRef.current;
       }
     }
 
@@ -183,7 +183,14 @@ export default function Iris({
       const next = thetaRef.current + (targetThetaRef.current - thetaRef.current) * k;
       thetaRef.current = next;
       setTheta(next);
-      chaseRef.current = requestAnimationFrame(chaseTick);
+      // Stop once converged — avoids an idle RAF loop after init animation settles.
+      if (Math.abs(next - targetThetaRef.current) < 0.001) {
+        thetaRef.current = targetThetaRef.current;
+        setTheta(targetThetaRef.current);
+        chaseRef.current = null;
+      } else {
+        chaseRef.current = requestAnimationFrame(chaseTick);
+      }
     }
     chaseRef.current = requestAnimationFrame(chaseTick);
   }
