@@ -414,6 +414,7 @@ export default function ApertureV2Lab() {
     if (v.strokeColor) setStrokeGray(parseInt(v.strokeColor.slice(1, 3), 16));
     if (v.strokeWidth !== undefined) setStrokeWidth(v.strokeWidth);
     if (v.shadow !== undefined) setShadowOpacity(v.shadow ? 0.55 : 0);
+    setOpenFStop(v.openFStop ?? 1.4);
     setDefaultFStop(v.defaultFStop ?? 5.6);
     // Update production preview to reflect the loaded config at actual size.
     setPreviewConfig({ ...v, interactive: false });
@@ -432,6 +433,7 @@ export default function ApertureV2Lab() {
       slotOffset: config.slotOffset,
       bladeLength: config.bladeLength,
       bladeWidth: config.bladeWidth,
+      openFStop,
       defaultFStop,
       size: profileSize,
       bladeColor: grayHex(bladeGray),
@@ -461,6 +463,7 @@ export default function ApertureV2Lab() {
       if (v.strokeColor) setStrokeGray(parseInt(v.strokeColor.slice(1, 3), 16));
       if (v.strokeWidth !== undefined) setStrokeWidth(v.strokeWidth);
       if (v.shadow !== undefined) setShadowOpacity(v.shadow ? 0.55 : 0);
+      setOpenFStop(v.openFStop ?? 1.4);
       setDefaultFStop(v.defaultFStop ?? 5.6);
       setPreviewConfig({ ...v, interactive: false });
     });
@@ -494,6 +497,7 @@ export default function ApertureV2Lab() {
   const [showFStopRing, setShowFStopRing] = useState(false);
   const [fStopRingOuter, setFStopRingOuter] = useState(true);
   const [followMouse, setFollowMouse] = useState(false);
+  const [openFStop, setOpenFStop] = useState(1.4);
   const [defaultFStop, setDefaultFStop] = useState(5.6);
   const [strokeWidth, setStrokeWidth] = useState(0.5);
   const [shadowOpacity, setShadowOpacity] = useState(0);
@@ -579,23 +583,23 @@ export default function ApertureV2Lab() {
      derivedConfig.bladeCurvature]
   );
   const fStop = inradiusCurrent > 0.5
-    ? 1.4 * (inradiusOpen / inradiusCurrent)
+    ? openFStop * (inradiusOpen / inradiusCurrent)
     : Infinity;
 
   // In Auto mode (openPct === 0) the ring stays pinned at "A" (ring angle 0 = f/1.0 position).
   // The blades render at the theta corresponding to defaultFStop (configurable, default f/5.6).
   const autoTheta = useMemo(
-    () => findThetaForFStop(defaultFStop, derivedConfig, range),
+    () => findThetaForFStop(defaultFStop, derivedConfig, range, openFStop),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [defaultFStop, range.min, range.max, derivedConfig.N, derivedConfig.pivotRadius,
+    [defaultFStop, openFStop, range.min, range.max, derivedConfig.N, derivedConfig.pivotRadius,
      derivedConfig.pinDistance, derivedConfig.slotOffset, derivedConfig.bladeLength,
      derivedConfig.bladeWidth, derivedConfig.bladeCurvature]
   );
   // Theta corresponding to the far-closed end of the follow-mouse range (f/22).
   const thetaF22 = useMemo(
-    () => findThetaForFStop(22, derivedConfig, range),
+    () => findThetaForFStop(22, derivedConfig, range, openFStop),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [range.min, range.max, derivedConfig.N, derivedConfig.pivotRadius,
+    [openFStop, range.min, range.max, derivedConfig.N, derivedConfig.pivotRadius,
      derivedConfig.pinDistance, derivedConfig.slotOffset, derivedConfig.bladeLength,
      derivedConfig.bladeWidth, derivedConfig.bladeCurvature]
   );
@@ -715,7 +719,7 @@ export default function ApertureV2Lab() {
       // small-aperture end feels "slower" — matching a physical aperture ring.
       const t       = Math.max(0, Math.min(1, (e.clientX - hotLeft) / (hotRight - hotLeft)));
       const rOpen   = inradiusOpen;
-      const r22     = (1.4 * rOpen) / 22;
+      const r22     = (openFStop * rOpen) / 22;
       const targetR = rOpen + t * (r22 - rOpen); // linear in diameter
       const rawTarget = findThetaForInradius(targetR, derivedConfig, range);
 
@@ -740,7 +744,7 @@ export default function ApertureV2Lab() {
       wasInHotzoneRef.current = false;
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [followMouse, range.min, range.max, inradiusOpen, autoTheta, derivedConfig.bladeWidth,
+  }, [followMouse, openFStop, range.min, range.max, inradiusOpen, autoTheta, derivedConfig.bladeWidth,
       derivedConfig.N, derivedConfig.pivotRadius, derivedConfig.pinDistance,
       derivedConfig.slotOffset, derivedConfig.bladeLength, derivedConfig.bladeCurvature]);
 
@@ -927,6 +931,31 @@ export default function ApertureV2Lab() {
                 />
                 Follow Mouse
               </label>
+              {/* Open F-Stop — the f-stop at the fully-open (maximum aperture) position. */}
+              <div className="space-y-1">
+                <div className="flex justify-between text-xs text-zinc-500">
+                  <span>Open F-Stop</span>
+                  <span className="font-mono">{formatFStop(openFStop)}</span>
+                </div>
+                <select
+                  value={openFStop}
+                  onChange={(e) => {
+                    const v = parseFloat(e.target.value);
+                    setOpenFStop(v);
+                    // Clamp defaultFStop to be ≥ the new openFStop.
+                    if (defaultFStop < v) setDefaultFStop(v);
+                  }}
+                  style={{
+                    width: "100%", padding: "5px 8px", borderRadius: 4,
+                    border: "1px solid #d4d4d8", background: "#fff",
+                    color: "#3f3f46", fontSize: 12, fontFamily: "ui-monospace, monospace",
+                  }}
+                >
+                  {FSTOP_OPTIONS.map(f => (
+                    <option key={f} value={f}>{formatFStop(f)}</option>
+                  ))}
+                </select>
+              </div>
               {/* Default F-Stop — sets the static openness and the Auto-mode openness. */}
               <div className="space-y-1">
                 <div className="flex justify-between text-xs text-zinc-500">
@@ -942,7 +971,7 @@ export default function ApertureV2Lab() {
                     color: "#3f3f46", fontSize: 12, fontFamily: "ui-monospace, monospace",
                   }}
                 >
-                  {FSTOP_OPTIONS.map(f => (
+                  {FSTOP_OPTIONS.filter(f => f >= openFStop).map(f => (
                     <option key={f} value={f}>{formatFStop(f)}</option>
                   ))}
                 </select>

@@ -73,9 +73,9 @@ export default function Iris({
 
   // Convert defaultFStop → normalised t for state initialisation.
   const DEFAULT_T = useMemo(() => {
-    const thetaAtFStop = findThetaForFStop(config.defaultFStop, dc, { min: thetaOpen, max: thetaMax });
+    const thetaAtFStop = findThetaForFStop(config.defaultFStop, dc, { min: thetaOpen, max: thetaMax }, config.openFStop);
     return Math.max(0.02, Math.min(0.98, (thetaAtFStop - thetaOpen) / (thetaMax - thetaOpen)));
-  }, [config.defaultFStop, dc, thetaOpen, thetaMax]);
+  }, [config.defaultFStop, config.openFStop, dc, thetaOpen, thetaMax]);
 
   const [t, setT] = useState<number>(DEFAULT_T);
   const tRef = useRef<number>(DEFAULT_T);
@@ -144,7 +144,7 @@ export default function Iris({
   function posToDiameterT(clientX: number, rect: DOMRect): number {
     const rawPos = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
     if (inradiusOpen <= 0) return rawPos; // fallback: linear
-    const r22     = (1.4 * inradiusOpen) / 22;
+    const r22     = (config.openFStop * inradiusOpen) / 22;
     const targetR = inradiusOpen + rawPos * (r22 - inradiusOpen);
     const targetTheta = findThetaForInradius(targetR, dc, { min: thetaOpen, max: thetaMax });
     return Math.max(0.02, Math.min(0.98, (targetTheta - thetaOpen) / (thetaMax - thetaOpen)));

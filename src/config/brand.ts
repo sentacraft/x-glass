@@ -52,6 +52,7 @@ export const IRIS_HERO: IrisConfig = {
   slotOffset: 0.804533,
   bladeLength: 120,
   bladeWidth: 40,
+  openFStop: 1.4,
   defaultFStop: 5.6,
   // Size
   size: 208,
@@ -71,6 +72,7 @@ export const IRIS_NAV: IrisConfig = {
   slotOffset: 0.6283,
   bladeLength: 115,
   bladeWidth: 36,
+  openFStop: 1.4,
   defaultFStop: 5.6,
   // Size
   size: 26,

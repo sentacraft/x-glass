@@ -278,9 +278,15 @@ export interface StoredIrisParams {
   /** Blade body width at its widest point (px). */
   bladeWidth: number;
   /**
+   * F-stop at the fully-open (maximum aperture) position.
+   * Anchors the entire f-stop scale: f(r) = openFStop × (r_open / r).
+   * e.g. 1.4 for a fast prime, 2.8 for a standard zoom.
+   */
+  openFStop: number;
+  /**
    * Default aperture openness expressed as an f-stop number (e.g. 5.6).
-   * Used as the static / initial aperture position for non-interactive renders,
-   * and as the Auto-mode aperture in the Design Lab f-stop ring.
+   * Must be ≥ openFStop. Used as the static / initial aperture position for
+   * non-interactive renders, and as the Auto-mode aperture position.
    */
   defaultFStop: number;
 }
@@ -480,10 +486,11 @@ export function findThetaForFStop(
   targetFStop: number,
   dc: IrisMechanismConfig,
   range: { min: number; max: number },
+  openFStop = 1.4,
 ): number {
   const rOpen = apertureInradius(range.min, dc);
   if (rOpen <= 0) return range.min;
-  const targetR = (1.4 * rOpen) / targetFStop;
+  const targetR = (openFStop * rOpen) / targetFStop;
   let lo = range.min;
   let hi = range.max;
   for (let i = 0; i < 48; i++) {
