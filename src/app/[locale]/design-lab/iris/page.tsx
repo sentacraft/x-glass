@@ -28,6 +28,8 @@ function IrisStage({
   showMechanics,
   strokeWidth,
   shadowOpacity,
+  bladeColor,
+  strokeColor,
   uid,
 }: {
   config: IrisMechanismConfig;
@@ -35,6 +37,8 @@ function IrisStage({
   showMechanics: boolean;
   strokeWidth: number;
   shadowOpacity: number;
+  bladeColor: string;
+  strokeColor: string;
   uid: string;
 }) {
   const { N } = config;
@@ -158,7 +162,7 @@ function IrisStage({
         {Array.from({ length: N }, (_, i) => (
           <g key={i} transform={`rotate(${(stepDeg * i).toFixed(3)})`}>
             <g transform={b0Transform}>
-              <path d={shape} fill="#18181b" stroke="none" filter={shadowOpacity > 0 ? `url(#shadow-${uid})` : undefined} />
+              <path d={shape} fill={bladeColor} stroke="none" filter={shadowOpacity > 0 ? `url(#shadow-${uid})` : undefined} />
             </g>
           </g>
         ))}
@@ -167,7 +171,7 @@ function IrisStage({
           <g key={i} mask={`url(#mask-stroke-${i}-${uid})`}>
             <g transform={`rotate(${(stepDeg * i).toFixed(3)})`}>
               <g transform={b0Transform}>
-                <path d={shape} fill="none" stroke="#3f3f46" strokeWidth={strokeWidth} />
+                <path d={shape} fill="none" stroke={strokeColor} strokeWidth={strokeWidth} />
               </g>
             </g>
           </g>
@@ -337,6 +341,13 @@ export default function ApertureV2Lab() {
   const [showMechanics, setShowMechanics] = useState(false);
   const [strokeWidth, setStrokeWidth] = useState(0.5);
   const [shadowOpacity, setShadowOpacity] = useState(0);
+  const [bladeGray, setBladeGray] = useState(24);   // 0=black … 255=white; default ≈ zinc-900
+  const [strokeGray, setStrokeGray] = useState(63); // default ≈ zinc-700
+
+  function grayHex(v: number) {
+    const h = Math.round(v).toString(16).padStart(2, "0");
+    return `#${h}${h}${h}`;
+  }
 
   // Animation: theta oscillates between range.min and range.max
   const rafRef = useRef<number | undefined>(undefined);
@@ -424,6 +435,8 @@ export default function ApertureV2Lab() {
               showMechanics={showMechanics}
               strokeWidth={strokeWidth}
               shadowOpacity={shadowOpacity}
+              bladeColor={grayHex(bladeGray)}
+              strokeColor={grayHex(strokeGray)}
               uid="main"
             />
           </div>
@@ -613,9 +626,41 @@ export default function ApertureV2Lab() {
           <div className="space-y-5">
             <section className="space-y-2.5">
               <p className="text-sm font-semibold text-zinc-800 uppercase tracking-wide pt-3">Appearance</p>
+
+              {/* Blade fill gray */}
+              <div className="space-y-1">
+                <div className="flex justify-between text-xs items-center">
+                  <span className="text-zinc-500">Fill</span>
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-zinc-700 font-mono">{grayHex(bladeGray)}</span>
+                    <div style={{ width: 12, height: 12, borderRadius: 2, background: grayHex(bladeGray), border: "1px solid #d4d4d8" }} />
+                  </div>
+                </div>
+                <input type="range" min={0} max={255} step={1} value={bladeGray}
+                  onChange={(e) => setBladeGray(parseFloat(e.target.value))}
+                  className="w-full" style={{ accentColor: "#18181b" }}
+                />
+              </div>
+
+              {/* Blade stroke gray */}
+              <div className="space-y-1">
+                <div className="flex justify-between text-xs items-center">
+                  <span className="text-zinc-500">Stroke color</span>
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-zinc-700 font-mono">{grayHex(strokeGray)}</span>
+                    <div style={{ width: 12, height: 12, borderRadius: 2, background: grayHex(strokeGray), border: "1px solid #d4d4d8" }} />
+                  </div>
+                </div>
+                <input type="range" min={0} max={255} step={1} value={strokeGray}
+                  onChange={(e) => setStrokeGray(parseFloat(e.target.value))}
+                  className="w-full" style={{ accentColor: "#18181b" }}
+                />
+              </div>
+
+              {/* Stroke width */}
               <div className="space-y-1">
                 <div className="flex justify-between text-xs">
-                  <span className="text-zinc-500">Stroke</span>
+                  <span className="text-zinc-500">Stroke width</span>
                   <span className="text-zinc-700 font-mono">{strokeWidth.toFixed(1)} px</span>
                 </div>
                 <input type="range" min={0} max={3} step={0.1} value={strokeWidth}
@@ -623,6 +668,8 @@ export default function ApertureV2Lab() {
                   className="w-full" style={{ accentColor: "#18181b" }}
                 />
               </div>
+
+              {/* Shadow */}
               <div className="space-y-1">
                 <div className="flex justify-between text-xs">
                   <span className="text-zinc-500">Shadow</span>
