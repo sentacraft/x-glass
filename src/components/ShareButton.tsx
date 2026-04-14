@@ -83,13 +83,10 @@ export function ShareButton({ lenses, variant = "default", triggerClassName }: S
     const handler = (e: MediaQueryListEvent) => setIsDesktop(e.matches);
     mq.addEventListener("change", handler);
 
-    // Compute lightbox scale from window.innerWidth — avoids portal-ref timing
-    // issues where clientWidth reads 0 before the dialog has laid out.
-    // Card CSS: mobile = calc(100vw - 44px), desktop (sm+) = calc(100vw - 24px),
-    // both capped at max-w-[750px].
+    // Compute lightbox scale from window.innerWidth. Card CSS width is
+    // calc(100vw - 44px) capped at max-w-[750px], so we mirror that exactly.
     const updateLightboxScale = () => {
-      const margin = window.innerWidth >= 640 ? 24 : 44;
-      setLightboxScale(Math.min(1, (window.innerWidth - margin) / POSTER_W));
+      setLightboxScale(Math.min(1, (window.innerWidth - 44) / POSTER_W));
     };
     updateLightboxScale();
     window.addEventListener("resize", updateLightboxScale);
@@ -371,7 +368,7 @@ export function ShareButton({ lenses, variant = "default", triggerClassName }: S
               }}
             >
               {/* Wrapper: anchor for the mobile close button only; NOT the resize-observed element */}
-              <div className="relative w-[calc(100vw-44px)] max-w-[750px] sm:w-[calc(100vw-1.5rem)]">
+              <div className="relative w-[calc(100vw-44px)] max-w-[750px]">
                 {/* Mobile-only close button — center sits on the top-right corner of the card */}
                 <button
                   onClick={() => setLightboxOpen(false)}
