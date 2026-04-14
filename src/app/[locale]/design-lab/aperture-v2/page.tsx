@@ -330,7 +330,15 @@ function IrisVisualization({
 export default function ApertureV2Lab() {
   const [config, setConfig] = useState<IrisMechanismConfig>(DEFAULT_IRIS_CONFIG);
   const setField = (patch: Partial<IrisMechanismConfig>) => {
-    setConfig(prev => ({ ...prev, ...patch }));
+    setConfig(prev => {
+      const next = { ...prev, ...patch };
+      // Keep pinDistance inside [Rp, bladeLength − 1] after any change.
+      // Rp is derived from bladeWidth, so it shifts when bladeWidth changes.
+      const rp = R_HOUSING - next.bladeWidth / 2;
+      const dMax = next.bladeLength - 1;
+      next.pinDistance = Math.max(rp, Math.min(dMax, next.pinDistance));
+      return next;
+    });
     setIsPlaying(false);
     startRef.current = undefined;
   };
@@ -583,29 +591,44 @@ export default function ApertureV2Lab() {
                 <span className="text-zinc-700"> (auto)</span>
               </span>
             </div>
-            {(
-              [
-                { label: "Pin dist", field: "pinDistance" as const, min: 50,             max: 110,            step: 1,    fmt: (v: number) => v + " px" },
-                { label: "Slot δ",   field: "slotOffset"  as const, min: Math.PI / 18,  max: 7 * Math.PI / 18, step: 0.01, fmt: (v: number) => ((v * 180) / Math.PI).toFixed(0) + "°" },
-              ] as const
-            ).map(({ label, field, min, max, step, fmt }) => (
-              <div key={field} className="space-y-1">
-                <div className="flex justify-between text-xs">
-                  <span className="text-zinc-600">{label}</span>
-                  <span className="text-zinc-400 font-mono">{fmt(config[field])}</span>
-                </div>
-                <input
-                  type="range"
-                  min={min}
-                  max={max}
-                  step={step}
-                  value={config[field]}
-                  onChange={(e) => setField({ [field]: parseFloat(e.target.value) })}
-                  className="w-full"
-                  style={{ accentColor: "#52525b" }}
-                />
+            {/* Pin dist — bounds derived from [Rp, bladeLength − 1] */}
+            <div className="space-y-1">
+              <div className="flex justify-between text-xs">
+                <span className="text-zinc-600">Pin dist</span>
+                <span className="text-zinc-400 font-mono">{config.pinDistance} px</span>
               </div>
-            ))}
+              <input
+                type="range"
+                min={derivedConfig.pivotRadius}
+                max={config.bladeLength - 1}
+                step={1}
+                value={config.pinDistance}
+                onChange={(e) => setField({ pinDistance: parseFloat(e.target.value) })}
+                className="w-full"
+                style={{ accentColor: "#52525b" }}
+              />
+              <div className="flex justify-between text-xs text-zinc-700 font-mono">
+                <span>{Math.ceil(derivedConfig.pivotRadius)}</span>
+                <span>{config.bladeLength - 1}</span>
+              </div>
+            </div>
+            {/* Slot δ */}
+            <div className="space-y-1">
+              <div className="flex justify-between text-xs">
+                <span className="text-zinc-600">Slot δ</span>
+                <span className="text-zinc-400 font-mono">{((config.slotOffset * 180) / Math.PI).toFixed(0)}°</span>
+              </div>
+              <input
+                type="range"
+                min={Math.PI / 18}
+                max={7 * Math.PI / 18}
+                step={0.01}
+                value={config.slotOffset}
+                onChange={(e) => setField({ slotOffset: parseFloat(e.target.value) })}
+                className="w-full"
+                style={{ accentColor: "#52525b" }}
+              />
+            </div>
           </section>
 
           {/* Blade Shape */}
