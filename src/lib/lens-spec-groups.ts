@@ -207,8 +207,8 @@ export interface SpecGroupLabels {
   motorClass: Record<FocusMotorClass, string>;
 }
 
-function joinWithSub(primary: string, subValue: string | undefined): string {
-  return subValue ? `${primary}\n${subValue}` : primary;
+function joinParts(...parts: (string | undefined)[]): string {
+  return parts.filter(Boolean).join("\n");
 }
 
 /**
@@ -247,7 +247,7 @@ export function resolveSpecRow(
       note,
       boolValue,
       subValue,
-      plainText: joinWithSub(primaryText, subValue),
+      plainText: joinParts(primaryText, subValue, note),
     };
   }
 
@@ -271,7 +271,7 @@ export function resolveSpecRow(
       comparable: row.toComparable(lens),
       bestDir: row.bestDir,
       highlightFragment: row.getHighlightFragment?.(lens),
-      plainText: joinWithSub(primary, subValue),
+      plainText: joinParts(primary, subValue, note),
     };
   }
 
@@ -284,7 +284,7 @@ export function resolveSpecRow(
     note,
     displayValue,
     subValue,
-    plainText: joinWithSub(displayValue ?? labels.missing, subValue),
+    plainText: joinParts(displayValue ?? labels.missing, subValue, note),
   };
 }
 
