@@ -15,7 +15,7 @@ import {
   findThetaForFStop,
   type IrisMechanismConfig,
 } from "@/lib/iris-kinematics";
-import { readFromBrand, exportToBrand } from "./actions";
+import { readFromConfig, exportToConfig } from "./actions";
 import { IRIS_HERO, IRIS_NAV, IRIS_DEFAULTS, R_HOUSING } from "@/config/iris-config";
 import type { IrisConfig } from "@/config/iris-config";
 import Iris from "@/components/Iris";
@@ -400,7 +400,7 @@ export default function ApertureV2Lab() {
       v = labConfig;
     } else {
       const key = selectedProfile === "production:hero" ? "IRIS_HERO" : "IRIS_NAV";
-      v = await readFromBrand(key);
+      v = await readFromConfig(key);
       if (!v) return;
     }
     setConfig(buildDerivedConfig(v, R_HOUSING));
@@ -453,7 +453,7 @@ export default function ApertureV2Lab() {
       setTimeout(() => setExportStatus(null), 3000);
     } else {
       const key = selectedProfile === "production:hero" ? "IRIS_HERO" : "IRIS_NAV";
-      const res = await exportToBrand(key, stored);
+      const res = await exportToConfig(key, stored);
       setExportStatus(res.ok ? `✓ Written to ${key}` : `✗ ${res.error}`);
       if (res.ok) setTimeout(() => setExportStatus(null), 3000);
     }
@@ -461,7 +461,7 @@ export default function ApertureV2Lab() {
 
   // Seed the workspace from production:hero on first mount only.
   useEffect(() => {
-    readFromBrand("IRIS_HERO").then(v => {
+    readFromConfig("IRIS_HERO").then(v => {
       if (!v) return;
       setConfig(buildDerivedConfig(v, R_HOUSING));
       if (v.bladeColor) setBladeGray(parseInt(v.bladeColor.slice(1, 3), 16));
