@@ -367,11 +367,8 @@ export function ShareButton({ lenses, variant = "default", triggerClassName }: S
                 if (e.target === e.currentTarget) setLightboxOpen(false);
               }}
             >
-              {/* Wrapper: measures width for zoom scale; positions mobile close button outside overflow-hidden */}
-              <div
-                ref={lightboxContainerRef}
-                className="relative w-[calc(100vw-44px)] max-w-[750px] sm:w-[calc(100vw-1.5rem)]"
-              >
+              {/* Wrapper: anchor for the mobile close button only; NOT the resize-observed element */}
+              <div className="relative w-[calc(100vw-44px)] max-w-[750px] sm:w-[calc(100vw-1.5rem)]">
                 {/* Mobile-only close button — center sits on the top-right corner of the card */}
                 <button
                   onClick={() => setLightboxOpen(false)}
@@ -381,8 +378,10 @@ export function ShareButton({ lenses, variant = "default", triggerClassName }: S
                   <X className="size-3.5" />
                 </button>
 
-                {/* Poster card */}
+                {/* Poster card — ref here so ResizeObserver measures the card directly,
+                    unaffected by the absolute-positioned close button on the wrapper */}
                 <motion.div
+                  ref={lightboxContainerRef}
                   initial={{ opacity: 0, scale: 0.97 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.12, ease: "easeOut" }}
