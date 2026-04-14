@@ -34,7 +34,7 @@ export interface IrisConfig extends StoredIrisParams {
   bladeColor?: string;
   /** Blade gap stroke colour. Undefined = Tailwind dark/light automatic. */
   strokeColor?: string;
-  /** Blade gap stroke width in SVG units. Default 1.5. */
+  /** Blade gap stroke width in SVG units. */
   strokeWidth?: number;
 
   // ── Interactive ─────────────────────────────────────────────────────────────
@@ -48,22 +48,51 @@ export interface IrisConfig extends StoredIrisParams {
   /**
    * Hard stop for mouse interaction — the minimum aperture (maximum f-number)
    * the pointer can reach. Paired with openFStop which anchors the open end.
-   * Default 22.
    */
   closedFStop?: number;
   /**
    * Scale factor applied to the iris diameter to compute the mouse interaction
-   * hotzone (Design Lab follow-mouse mode). Default 1.5.
+   * hotzone (Design Lab follow-mouse mode).
    */
   hotzoneScale?: number;
 
   // ── Animation ────────────────────────────────────────────────────────────────
-  /** Exponential-smoothing time constant for follow-mouse chase (ms). Default 60. */
+  /** Exponential-smoothing time constant for follow-mouse chase (ms). */
   chaseTauMs?: number;
-  /** Duration of the cubic ease-out return after mouse leaves (ms). Default 700. */
+  /** Duration of the cubic ease-out return after mouse leaves (ms). */
   easeOutMs?: number;
-  /** Duration over which the entry jump-offset decays to zero (ms). Default 300. */
+  /** Duration over which the entry jump-offset decays to zero (ms). */
   catchupMs?: number;
+}
+
+// ── Defaults ──────────────────────────────────────────────────────────────────
+//
+// Default values for every optional IrisConfig field. bladeColor / strokeColor
+// are intentionally absent: their default is undefined (Tailwind auto switching).
+//
+// Use withIrisDefaults() to merge a partial config with these values so that
+// the component receives a fully-populated config with no ?? fallbacks.
+
+export const IRIS_DEFAULTS = {
+  strokeWidth:   1.5,
+  interactive:   false,
+  initAnimation: false,
+  closedFStop:   22,
+  hotzoneScale:  1.5,
+  chaseTauMs:    60,
+  easeOutMs:     700,
+  catchupMs:     300,
+} satisfies Partial<IrisConfig>;
+
+/**
+ * Merge an IrisConfig with IRIS_DEFAULTS. Optional fields not supplied in
+ * `config` are filled from IRIS_DEFAULTS; explicit values override the defaults.
+ *
+ * Use this when defining named configs (IRIS_HERO, IRIS_NAV) so that the
+ * objects passed to <Iris> always carry fully-populated configs.
+ */
+export function withIrisDefaults(config: IrisConfig): IrisConfig {
+  return { ...IRIS_DEFAULTS, ...config };
 }
 
 // ── Named configs ─────────────────────────────────────────────────────────────
@@ -72,10 +101,9 @@ export interface IrisConfig extends StoredIrisParams {
 //   IRIS_HERO  → homepage hero (large, interactive)
 //   IRIS_NAV   → navbar icon, OG image, apple icon (small / static renders)
 //
-// Pass the config directly to <Iris config={…} /> — no size-threshold logic
-// lives in the component itself.
+// Only fields that differ from IRIS_DEFAULTS need to be listed here.
 
-export const IRIS_HERO: IrisConfig = {
+export const IRIS_HERO: IrisConfig = withIrisDefaults({
   // Mechanical
   N: 7,
   pinDistance: 85,
@@ -90,18 +118,11 @@ export const IRIS_HERO: IrisConfig = {
   bladeColor: "#181818",
   strokeColor: "#b3b3b3",
   strokeWidth: 1.0,
-  // Interactive
+  // Interactive — non-default values only
   interactive: true,
-  initAnimation: false,
-  closedFStop: 22,
-  hotzoneScale: 1.5,
-  // Animation
-  chaseTauMs: 60,
-  easeOutMs: 700,
-  catchupMs: 300,
-};
+});
 
-export const IRIS_NAV: IrisConfig = {
+export const IRIS_NAV: IrisConfig = withIrisDefaults({
   // Mechanical
   N: 5,
   pinDistance: 88,
@@ -115,11 +136,7 @@ export const IRIS_NAV: IrisConfig = {
   // Appearance — explicit colour required for Satori (OG/apple-icon) which
   // cannot evaluate Tailwind classes.
   bladeColor: "#18181b",
-  strokeWidth: 1.5,
-  // Interactive
-  interactive: false,
-  initAnimation: false,
-};
+});
 
 // ── TODO: App name / tagline strings ─────────────────────────────────────────
 // TODO: Move appName, appDesc out of i18n if they need to appear in non-intl
