@@ -55,7 +55,7 @@ export default async function LocaleLayout({
             <Nav />
             <ScrollContainer>
               {/* offset fixed nav so content starts below it */}
-              <div className="pt-[var(--nav-height)]">
+              <div className="pt-[var(--nav-height)] h-full">
                 {TESTHOOK_ALLOWED ? (
                   <TestHookProvider>
                     {children}
