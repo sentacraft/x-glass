@@ -280,11 +280,12 @@ function IrisStage({
 
       {/* ── F-stop ring overlay ── */}
       {showFStopRing && (() => {
-        // Outer mode: ring sits outside the housing, in the gap between the housing ring
-        // (R_HOUSING+5) and the background edge. Labels go further outward.
-        // Inner mode: ring sits just inside the housing cover plate area. Labels go inward.
-        const ringR   = fStopRingOuter ? R_HOUSING + 10 : R_HOUSING - config.bladeWidth - FSTOP_RING_GAP;
-        const labelR  = fStopRingOuter ? ringR + 10 : ringR - 7;
+        // Outer mode: ring sits in the housing cover-plate annular zone — the cream ring
+        // between the dark iris body and the housing edge (R_HOUSING − bladeWidth … R_HOUSING).
+        // Ring circle near the outer edge of that zone; labels sit further inward on it.
+        // Inner mode: ring sits inside the iris cavity (inward of R_HOUSING − bladeWidth).
+        const ringR   = fStopRingOuter ? R_HOUSING - 5 : R_HOUSING - config.bladeWidth - FSTOP_RING_GAP;
+        const labelR  = fStopRingOuter ? ringR - 12 : ringR - 7;
         const tickOuter = ringR;
         const tickInner = ringR - 5;
 
@@ -295,11 +296,11 @@ function IrisStage({
         return (
           <g>
             {/* Fixed index mark at 12 o'clock.
-                Outer mode: marker sits above the labels (further from center).
+                Outer mode: marker spans from ring circle outward into housing zone.
                 Inner mode: marker sits just outside the ring circle. */}
             <line
-              x1="0" y1={fStopRingOuter ? -(labelR + 3) : -(ringR + 3)}
-              x2="0" y2={fStopRingOuter ? -(labelR + 11) : -(ringR + 11)}
+              x1="0" y1={fStopRingOuter ? -(ringR + 2) : -(ringR + 3)}
+              x2="0" y2={fStopRingOuter ? -(ringR + 10) : -(ringR + 11)}
               stroke="#52525b" strokeWidth="1.5" strokeLinecap="round"
             />
             {/* Rotating group: ring arc + ticks + labels */}
