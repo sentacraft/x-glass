@@ -116,41 +116,44 @@ export default function Iris({
     setTheta(DEFAULT_THETA);
   }, [DEFAULT_THETA, interactive]);
 
-  // Init animation: open → f/22 → defaultFStop over 1000 ms on mount.
-  // Drives targetThetaRef through keyframes; the existing chase RAF does smoothing.
+  // Init animation: two-phase sequence on mount.
+  //   Phase 1 (0–800 ms): sweep target from fully open → fully closed (thetaMax).
+  //   Phase 2 (800–1000 ms): linearly drive target from thetaMax → defaultFStop.
+  //   After 1000 ms: target pinned to defaultFStop; chase self-terminates once converged.
+  // Drives targetThetaRef through keyframes; the chase RAF provides exponential smoothing.
   useEffect(() => {
     if (!initAnimation) return;
 
-    const INIT_DURATION_MS = 1000;
+    const SWEEP_MS = 800;
+    const TOTAL_MS = 1000;
 
     // Jump to fully open immediately.
     thetaRef.current = thetaOpen;
     targetThetaRef.current = thetaOpen;
     setTheta(thetaOpen);
 
-    // Do NOT call startChase() here — target equals current, so the convergence
-    // check would terminate the chase on the very first tick. Start it on the
-    // first sequenceTick callback, by which point target has already moved.
+    // Safe to call startChase() immediately — hasMovedSignificantly inside the
+    // closure prevents the convergence stop from firing while delta is still ~0.
+    startChase();
 
     const startTime = performance.now();
     function sequenceTick(now: number) {
-      const p = Math.min(1, (now - startTime) / INIT_DURATION_MS);
+      const elapsed = now - startTime;
 
-      // Sweep from fully open (thetaOpen) → fully closed (thetaMax) over the full duration.
-      targetThetaRef.current = thetaOpen + p * (thetaMax - thetaOpen);
-
-      // Start the chase on the first tick so target has already advanced past thetaOpen,
-      // preventing the convergence-stop from firing immediately (delta > 0).
-      if (!chaseRef.current) startChase();
-
-      if (p < 1) {
+      if (elapsed < SWEEP_MS) {
+        // Phase 1: close from fully open to thetaMax.
+        const p = elapsed / SWEEP_MS;
+        targetThetaRef.current = thetaOpen + p * (thetaMax - thetaOpen);
+        initAnimRef.current = requestAnimationFrame(sequenceTick);
+      } else if (elapsed < TOTAL_MS) {
+        // Phase 2: ease target from thetaMax back toward defaultFStop.
+        const p2 = (elapsed - SWEEP_MS) / (TOTAL_MS - SWEEP_MS);
+        targetThetaRef.current = thetaMax + p2 * (defaultThetaRef.current - thetaMax);
         initAnimRef.current = requestAnimationFrame(sequenceTick);
       } else {
-        initAnimRef.current = null;
-        // Redirect the running chase to DEFAULT_THETA — no hard snap.
-        // The chase exponential smoother eases from thetaMax to defaultFStop
-        // and self-terminates once converged (< 0.001 rad).
+        // Done — pin target to defaultFStop and let the chase converge.
         targetThetaRef.current = defaultThetaRef.current;
+        initAnimRef.current = null;
       }
     }
 
@@ -182,6 +185,10 @@ export default function Iris({
   function startChase() {
     if (chaseRef.current) return;
     lastFrameRef.current = performance.now();
+    // hasMovedSignificantly: convergence stop is only armed after the chase
+    // has seen a non-trivial delta (> 0.01 rad). This prevents the stop from
+    // firing at t=0 when target === current (e.g. init animation start).
+    let hasMovedSignificantly = false;
     function chaseTick(now: number) {
       const dt   = Math.min(now - lastFrameRef.current, 64);
       lastFrameRef.current = now;
@@ -189,8 +196,10 @@ export default function Iris({
       const next = thetaRef.current + (targetThetaRef.current - thetaRef.current) * k;
       thetaRef.current = next;
       setTheta(next);
-      // Stop once converged — avoids an idle RAF loop after init animation settles.
-      if (Math.abs(next - targetThetaRef.current) < 0.001) {
+      const delta = Math.abs(next - targetThetaRef.current);
+      if (delta > 0.01) hasMovedSignificantly = true;
+      // Stop once converged — but only after meaningful movement has occurred.
+      if (hasMovedSignificantly && delta < 0.001) {
         thetaRef.current = targetThetaRef.current;
         setTheta(targetThetaRef.current);
         chaseRef.current = null;
