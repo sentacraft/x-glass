@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-import { Aperture } from "lucide-react";
+import { Aperture, Plus, Check } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { FEATURE_ICONS } from "@/lib/feature-icons";
 import { ACTION_PRIMARY_CLS, CARD_SELECTED_BORDER_CLS } from "@/lib/ui-tokens";
@@ -32,6 +32,7 @@ export default function LensCard({
   const equivDisplay = fmt.focalRangeDisplay(fmt.focalEquiv(lens.focalLengthMin), fmt.focalEquiv(lens.focalLengthMax));
   const mfdDisplay = lens.minFocusDistance ? `${lens.minFocusDistance.cm}cm` : "—";
   const filterDisplay = fmt.filterSizeDisplay(lens.filterMm);
+  const weightDisplay = fmt.weightDisplay(lens.weightG, "g") ?? "—";
   const badges = [
     lens.af
       ? {
@@ -66,7 +67,7 @@ export default function LensCard({
   return (
     <div
       {...hookAttr("card")}
-      className={`rounded-2xl border bg-white dark:bg-zinc-900 flex flex-col overflow-hidden transition-[border-color,box-shadow] ${
+      className={`rounded-2xl border bg-white dark:bg-zinc-900 flex flex-col overflow-hidden transition-[border-color,box-shadow] max-[499px]:relative ${
         isSelected
           ? CARD_SELECTED_BORDER_CLS
           : "border-zinc-200 dark:border-zinc-800"
@@ -75,15 +76,15 @@ export default function LensCard({
       {/* Clickable detail area */}
       <Link
         href={`/lenses/${lens.id}`}
-        className="flex-1 flex flex-col hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors"
+        className="flex-1 flex flex-col hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors max-[499px]:flex-row"
       >
         <div
           {...hookAttr("cardMedia")}
-          className="relative aspect-[3/2] overflow-hidden border-b border-zinc-100/80 bg-zinc-50/40 sm:aspect-[5/4] dark:border-zinc-800 dark:bg-zinc-900/40"
+          className="relative aspect-[3/2] overflow-hidden border-b border-zinc-100/80 bg-zinc-50/40 sm:aspect-[5/4] dark:border-zinc-800 dark:bg-zinc-900/40 max-[499px]:aspect-auto max-[499px]:w-28 max-[499px]:shrink-0 max-[499px]:self-stretch max-[499px]:border-b-0 max-[499px]:border-r"
         >
           <div
             {...hookAttr("cardMediaInner")}
-            className="absolute inset-0 p-3 sm:p-7"
+            className="absolute inset-0 p-3 sm:p-7 max-[499px]:p-2"
           >
             <div className="relative h-full w-full overflow-hidden rounded-xl">
               {lens.imageUrl ? (
@@ -91,7 +92,7 @@ export default function LensCard({
                   src={lens.imageUrl}
                   alt={lens.model}
                   fill
-                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
+                  sizes="(max-width: 499px) 112px, (max-width: 640px) 50vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
                   style={lensImageStyle}
                   className="object-contain"
                 />
@@ -137,7 +138,7 @@ export default function LensCard({
             <div className="min-w-0 truncate">
               {equivDisplay} {t("equivSuffix")}
             </div>
-            <div className="shrink-0">{lens.weightG}g</div>
+            <div className="shrink-0">{weightDisplay}</div>
           </dl>
 
           {/* Desktop: 2×2 data grid */}
@@ -147,15 +148,31 @@ export default function LensCard({
             <div className="min-w-0 truncate">
               {equivDisplay} {t("equivSuffix")}
             </div>
-            <div className="text-right">{lens.weightG}g</div>
+            <div className="text-right">{weightDisplay}</div>
           </dl>
         </div>
       </Link>
 
+      {/* Mobile-only icon compare toggle — absolute in top-right corner */}
+      <button
+        onClick={onToggle}
+        disabled={selectionDisabled}
+        aria-label={isSelected ? t("removeFromCompare") : t("addToCompare")}
+        className={`hidden max-[499px]:flex absolute top-2.5 right-2.5 z-10 items-center justify-center h-7 w-7 rounded-full transition-colors ${
+          isSelected
+            ? ACTION_PRIMARY_CLS
+            : selectionDisabled
+              ? "bg-zinc-100 dark:bg-zinc-800 text-zinc-400 dark:text-zinc-600 cursor-not-allowed"
+              : "bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-zinc-700"
+        }`}
+      >
+        {isSelected ? <Check className="h-3.5 w-3.5" /> : <Plus className="h-3.5 w-3.5" />}
+      </button>
+
       {/* Compare toggle */}
       <div
         {...hookAttr("cardFooter")}
-        className="mt-auto px-3 pb-3 sm:px-4 sm:pb-4"
+        className="mt-auto px-3 pb-3 sm:px-4 sm:pb-4 max-[499px]:hidden"
       >
         <Button
           size="sm"

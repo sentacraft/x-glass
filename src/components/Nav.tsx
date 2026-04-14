@@ -7,7 +7,7 @@ import LensSearchDialog from "@/components/LensSearchDialog";
 import Iris from "@/components/Iris";
 import { IRIS_NAV } from "@/config/iris-config";
 import { useCompare } from "@/context/CompareProvider";
-import { useScrollContainer } from "@/context/ScrollContainerContext";
+import { useScrollContainer, useNavLock } from "@/context/ScrollContainerContext";
 import { cn } from "@/lib/utils";
 
 export default function Nav() {
@@ -15,6 +15,7 @@ export default function Nav() {
   const pathname = usePathname();
   const { compareIds } = useCompare();
   const scrollContainer = useScrollContainer();
+  const { navLocked, lockNav } = useNavLock();
   const [hidden, setHidden] = useState(false);
   const lastScrollY = useRef(0);
 
@@ -35,11 +36,17 @@ export default function Nav() {
     return () => el.removeEventListener("scroll", onScroll);
   }, [scrollContainer]);
 
-  // Always reveal when navigating to a new page.
+  // Always reveal when navigating to a new page, and release any nav lock.
   useEffect(() => {
     setHidden(false);
     lastScrollY.current = 0;
-  }, [pathname]);
+    lockNav(false);
+  }, [pathname]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // When the nav lock is released, immediately snap nav back to visible.
+  useEffect(() => {
+    if (!navLocked) setHidden(false);
+  }, [navLocked]);
 
   const compareHref =
     compareIds.length > 0
@@ -51,7 +58,7 @@ export default function Nav() {
       className={cn(
         "fixed top-0 inset-x-0 border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-black z-30",
         "transition-transform duration-300 ease-in-out",
-        hidden && "-translate-y-full sm:translate-y-0"
+        (hidden || navLocked) && "-translate-y-full sm:translate-y-0"
       )}
     >
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 h-[var(--nav-height)] flex items-center justify-between">
