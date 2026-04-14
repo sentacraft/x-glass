@@ -60,7 +60,7 @@ export default function FeedbackDialog({
   const [status, setStatus] = useState<Status>("idle");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [submitAttempted, setSubmitAttempted] = useState(false);
-  const dialogContentRef = useRef<HTMLDivElement | null>(null);
+  const dialogLayerRef = useRef<HTMLDivElement | null>(null);
   const textareaId = useId();
   const correctionId = useId();
 
@@ -147,7 +147,7 @@ export default function FeedbackDialog({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
-        ref={dialogContentRef}
+        layerRef={dialogLayerRef}
         className="max-w-md"
       >
         <DialogHeader>
@@ -183,7 +183,7 @@ export default function FeedbackDialog({
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder={t("fieldPickerPlaceholder")} />
                   </SelectTrigger>
-                  <SelectContent portalContainer={dialogContentRef}>
+                  <SelectContent portalContainer={dialogLayerRef}>
                     {fields.map((f) => (
                       <SelectItem key={f.label} value={f.label}>
                         {f.label}
