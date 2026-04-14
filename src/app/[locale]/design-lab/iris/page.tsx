@@ -453,267 +453,207 @@ export default function ApertureV2Lab() {
           </div>
         </div>
 
-        {/* Controls */}
-        <div className="w-56 shrink-0 space-y-5 pt-1">
-          {/* Studio — brand.ts preset read/write */}
-          <section className="space-y-2.5">
-            <p className="text-xs text-zinc-600 uppercase tracking-wider">
-              Studio
-            </p>
-            <div className="flex gap-1.5">
-              {(["IRIS_LG", "IRIS_SM"] as const).map((preset) => (
+        {/* Controls — 3-column grid */}
+        <div className="shrink-0 grid grid-cols-3 gap-x-8 pt-1" style={{ width: 580 }}>
+
+          {/* ── Col 1: Playback & View ── */}
+          <div className="space-y-5">
+            <section className="space-y-2.5">
+              <p className="text-xs text-zinc-500 uppercase tracking-wider">Studio</p>
+              <div className="flex gap-1.5">
+                {(["IRIS_LG", "IRIS_SM"] as const).map((preset) => (
+                  <button
+                    key={preset}
+                    onClick={() => setSelectedPreset(preset)}
+                    className="flex-1 rounded py-1.5 text-xs font-mono font-medium transition-colors"
+                    style={selectedPreset === preset
+                      ? { background: "#18181b", color: "#fff", border: "1px solid #18181b" }
+                      : { background: "#fff", color: "#3f3f46", border: "1px solid #d4d4d8" }}
+                  >
+                    {preset === "IRIS_LG" ? "LG" : "SM"}
+                  </button>
+                ))}
+              </div>
+              <div className="flex gap-1.5">
                 <button
-                  key={preset}
-                  onClick={() => setSelectedPreset(preset)}
-                  className="flex-1 rounded py-1.5 text-xs font-mono font-medium transition-colors"
-                  style={{
-                    background: selectedPreset === preset ? "#3f3f46" : "#1c1c1c",
-                    color: selectedPreset === preset ? "#e4e4e7" : "#52525b",
-                    border: `1px solid ${selectedPreset === preset ? "#52525b" : "#222"}`,
-                  }}
+                  onClick={() => loadPreset(selectedPreset)}
+                  className="flex-1 rounded py-1.5 text-xs font-medium transition-colors"
+                  style={{ background: "#fff", color: "#3f3f46", border: "1px solid #d4d4d8" }}
                 >
-                  {preset === "IRIS_LG" ? "LG" : "SM"}
+                  Load
                 </button>
-              ))}
-            </div>
-            <div className="flex gap-1.5">
-              <button
-                onClick={() => loadPreset(selectedPreset)}
-                className="flex-1 rounded py-1.5 text-xs font-medium transition-colors"
-                style={{ background: "#1c1c1c", color: "#71717a", border: "1px solid #222" }}
-              >
-                Load
-              </button>
-              <button
-                onClick={handleExport}
-                className="flex-1 rounded py-1.5 text-xs font-medium transition-colors"
-                style={{ background: "#27272a", color: "#a1a1aa", border: "1px solid #3f3f46" }}
-              >
-                → Export
-              </button>
-            </div>
-            {exportStatus && (
-              <p className={`text-xs font-mono ${exportStatus.startsWith("✓") ? "text-green-500" : "text-red-400"}`}>
-                {exportStatus}
-              </p>
-            )}
-          </section>
-
-          {/* Animation */}
-          <section className="space-y-3">
-            <p className="text-xs text-zinc-600 uppercase tracking-wider">
-              Animation
-            </p>
-            <button
-              onClick={() => setIsPlaying((p) => !p)}
-              className="w-full rounded py-2 text-sm font-medium transition-colors"
-              style={{
-                background: isPlaying ? "#3f3f46" : "#27272a",
-                color: isPlaying ? "#e4e4e7" : "#71717a",
-              }}
-            >
-              {isPlaying ? "⏸ Pause" : "▶ Play"}
-            </button>
-            <div className="space-y-1">
-              <div className="flex justify-between text-xs text-zinc-600">
-                <span>Speed</span>
-                <span className="font-mono">{speed.toFixed(2)} Hz</span>
-              </div>
-              <input
-                type="range"
-                min={0.05}
-                max={1.5}
-                step={0.05}
-                value={speed}
-                onChange={(e) => setSpeed(parseFloat(e.target.value))}
-                className="w-full"
-                style={{ accentColor: "#52525b" }}
-              />
-            </div>
-          </section>
-
-          {/* Overlay */}
-          <section className="space-y-2">
-            <p className="text-xs text-zinc-600 uppercase tracking-wider">
-              Overlay
-            </p>
-            <button
-              onClick={() => setShowMechanics((v) => !v)}
-              className="w-full rounded py-2 text-sm font-medium text-left px-3 transition-colors"
-              style={{
-                background: "#1c1c1c",
-                color: showMechanics ? "#93c5fd" : "#52525b",
-                border: `1px solid ${showMechanics ? "#1e3a5c" : "#222"}`,
-              }}
-            >
-              {showMechanics ? "◆ " : "◇ "}
-              Mechanics
-            </button>
-          </section>
-
-          {/* Blades */}
-          <section className="space-y-2">
-            <p className="text-xs text-zinc-600 uppercase tracking-wider">
-              Blades
-            </p>
-            <div className="flex gap-1.5">
-              {[5, 6, 7, 9].map((n) => (
                 <button
-                  key={n}
-                  onClick={() => setField({ N: n })}
-                  className="flex-1 rounded py-1.5 text-sm font-mono font-medium transition-colors"
-                  style={{
-                    background: config.N === n ? "#3f3f46" : "#1c1c1c",
-                    color: config.N === n ? "#e4e4e7" : "#52525b",
-                    border: `1px solid ${config.N === n ? "#52525b" : "#222"}`,
-                  }}
+                  onClick={handleExport}
+                  className="flex-1 rounded py-1.5 text-xs font-medium transition-colors"
+                  style={{ background: "#18181b", color: "#fff", border: "1px solid #18181b" }}
                 >
-                  {n}
+                  → Export
                 </button>
-              ))}
-            </div>
-          </section>
+              </div>
+              {exportStatus && (
+                <p className={`text-xs font-mono ${exportStatus.startsWith("✓") ? "text-green-600" : "text-red-500"}`}>
+                  {exportStatus}
+                </p>
+              )}
+            </section>
 
-          {/* Mechanism */}
-          <section className="space-y-2.5">
-            <p className="text-xs text-zinc-600 uppercase tracking-wider">
-              Mechanism
-            </p>
-            {/* Pivot radius is derived: Rp = R_HOUSING − W/2 */}
-            <div className="flex justify-between text-xs">
-              <span className="text-zinc-700">Pivot r</span>
-              <span className="text-zinc-600 font-mono">
-                {derivedConfig.pivotRadius.toFixed(0)} px
-                <span className="text-zinc-700"> (auto)</span>
-              </span>
-            </div>
-            {/* Pin dist — bounds derived from [Rp, bladeLength − 1] */}
-            <div className="space-y-1">
-              <div className="flex justify-between text-xs">
-                <span className="text-zinc-600">Pin dist</span>
-                <span className="text-zinc-400 font-mono">{config.pinDistance} px</span>
-              </div>
-              <input
-                type="range"
-                min={derivedConfig.pivotRadius}
-                max={config.bladeLength - 1}
-                step={1}
-                value={config.pinDistance}
-                onChange={(e) => setField({ pinDistance: parseFloat(e.target.value) })}
-                className="w-full"
-                style={{ accentColor: "#52525b" }}
-              />
-              <div className="flex justify-between text-xs text-zinc-700 font-mono">
-                <span>{Math.ceil(derivedConfig.pivotRadius)}</span>
-                <span>{config.bladeLength - 1}</span>
-              </div>
-            </div>
-            {/* Slot δ */}
-            <div className="space-y-1">
-              <div className="flex justify-between text-xs">
-                <span className="text-zinc-600">Slot δ</span>
-                <span className="text-zinc-400 font-mono">{((config.slotOffset * 180) / Math.PI).toFixed(0)}°</span>
-              </div>
-              <input
-                type="range"
-                min={Math.PI / 18}
-                max={7 * Math.PI / 18}
-                step={0.01}
-                value={config.slotOffset}
-                onChange={(e) => setField({ slotOffset: parseFloat(e.target.value) })}
-                className="w-full"
-                style={{ accentColor: "#52525b" }}
-              />
-            </div>
-          </section>
-
-          {/* Blade Shape */}
-          <section className="space-y-2.5">
-            <p className="text-xs text-zinc-600 uppercase tracking-wider">
-              Blade Shape
-            </p>
-            {(
-              [
-                { label: "Length", field: "bladeLength" as const, min: 80, max: 160, step: 1, fmt: (v: number) => v + " px" },
-                { label: "Width",  field: "bladeWidth"  as const, min: 10, max: 45,  step: 1, fmt: (v: number) => v + " px" },
-              ] as const
-            ).map(({ label, field, min, max, step, fmt }) => (
-              <div key={field} className="space-y-1">
-                <div className="flex justify-between text-xs">
-                  <span className="text-zinc-600">{label}</span>
-                  <span className="text-zinc-400 font-mono">{fmt(config[field])}</span>
+            <section className="space-y-3">
+              <p className="text-xs text-zinc-500 uppercase tracking-wider">Animation</p>
+              <button
+                onClick={() => setIsPlaying((p) => !p)}
+                className="w-full rounded py-2 text-sm font-medium transition-colors"
+                style={isPlaying
+                  ? { background: "#18181b", color: "#fff", border: "1px solid #18181b" }
+                  : { background: "#fff", color: "#3f3f46", border: "1px solid #d4d4d8" }}
+              >
+                {isPlaying ? "⏸ Pause" : "▶ Play"}
+              </button>
+              <div className="space-y-1">
+                <div className="flex justify-between text-xs text-zinc-500">
+                  <span>Speed</span>
+                  <span className="font-mono">{speed.toFixed(2)} Hz</span>
                 </div>
-                <input
-                  type="range"
-                  min={min}
-                  max={max}
-                  step={step}
-                  value={config[field]}
-                  onChange={(e) => setField({ [field]: parseFloat(e.target.value) })}
-                  className="w-full"
-                  style={{ accentColor: "#52525b" }}
+                <input type="range" min={0.05} max={1.5} step={0.05} value={speed}
+                  onChange={(e) => setSpeed(parseFloat(e.target.value))}
+                  className="w-full" style={{ accentColor: "#18181b" }}
                 />
               </div>
-            ))}
-          </section>
+            </section>
 
-          {/* Appearance */}
-          <section className="space-y-2.5">
-            <p className="text-xs text-zinc-600 uppercase tracking-wider">
-              Appearance
-            </p>
-            <div className="space-y-1">
-              <div className="flex justify-between text-xs">
-                <span className="text-zinc-600">Stroke</span>
-                <span className="text-zinc-400 font-mono">{strokeWidth.toFixed(1)} px</span>
+            <section className="space-y-2">
+              <p className="text-xs text-zinc-500 uppercase tracking-wider">Overlay</p>
+              <button
+                onClick={() => setShowMechanics((v) => !v)}
+                className="w-full rounded py-2 text-sm font-medium text-left px-3 transition-colors"
+                style={showMechanics
+                  ? { background: "#18181b", color: "#fff", border: "1px solid #18181b" }
+                  : { background: "#fff", color: "#3f3f46", border: "1px solid #d4d4d8" }}
+              >
+                {showMechanics ? "◆ " : "◇ "}Mechanics
+              </button>
+            </section>
+          </div>
+
+          {/* ── Col 2: Mechanism ── */}
+          <div className="space-y-5">
+            <section className="space-y-2">
+              <p className="text-xs text-zinc-500 uppercase tracking-wider">Blades</p>
+              <div className="flex gap-1.5">
+                {[5, 6, 7, 9].map((n) => (
+                  <button
+                    key={n}
+                    onClick={() => setField({ N: n })}
+                    className="flex-1 rounded py-1.5 text-sm font-mono font-medium transition-colors"
+                    style={config.N === n
+                      ? { background: "#18181b", color: "#fff", border: "1px solid #18181b" }
+                      : { background: "#fff", color: "#3f3f46", border: "1px solid #d4d4d8" }}
+                  >
+                    {n}
+                  </button>
+                ))}
               </div>
-              <input
-                type="range"
-                min={0}
-                max={3}
-                step={0.1}
-                value={strokeWidth}
-                onChange={(e) => setStrokeWidth(parseFloat(e.target.value))}
-                className="w-full"
-                style={{ accentColor: "#52525b" }}
-              />
-            </div>
-            <div className="space-y-1">
+            </section>
+
+            <section className="space-y-2.5">
+              <p className="text-xs text-zinc-500 uppercase tracking-wider">Mechanism</p>
               <div className="flex justify-between text-xs">
-                <span className="text-zinc-600">Shadow</span>
-                <span className="text-zinc-400 font-mono">
-                  {shadowOpacity === 0 ? "off" : shadowOpacity.toFixed(2)}
+                <span className="text-zinc-500">Pivot r</span>
+                <span className="text-zinc-500 font-mono">
+                  {derivedConfig.pivotRadius.toFixed(0)} px
+                  <span className="text-zinc-400"> (auto)</span>
                 </span>
               </div>
-              <input
-                type="range"
-                min={0}
-                max={1}
-                step={0.01}
-                value={shadowOpacity}
-                onChange={(e) => setShadowOpacity(parseFloat(e.target.value))}
-                className="w-full"
-                style={{ accentColor: "#52525b" }}
-              />
-            </div>
-          </section>
+              <div className="space-y-1">
+                <div className="flex justify-between text-xs">
+                  <span className="text-zinc-500">Pin dist</span>
+                  <span className="text-zinc-700 font-mono">{config.pinDistance} px</span>
+                </div>
+                <input type="range"
+                  min={derivedConfig.pivotRadius} max={config.bladeLength - 1} step={1}
+                  value={config.pinDistance}
+                  onChange={(e) => setField({ pinDistance: parseFloat(e.target.value) })}
+                  className="w-full" style={{ accentColor: "#18181b" }}
+                />
+                <div className="flex justify-between text-xs text-zinc-400 font-mono">
+                  <span>{Math.ceil(derivedConfig.pivotRadius)}</span>
+                  <span>{config.bladeLength - 1}</span>
+                </div>
+              </div>
+              <div className="space-y-1">
+                <div className="flex justify-between text-xs">
+                  <span className="text-zinc-500">Slot δ</span>
+                  <span className="text-zinc-700 font-mono">{((config.slotOffset * 180) / Math.PI).toFixed(0)}°</span>
+                </div>
+                <input type="range"
+                  min={Math.PI / 18} max={7 * Math.PI / 18} step={0.01}
+                  value={config.slotOffset}
+                  onChange={(e) => setField({ slotOffset: parseFloat(e.target.value) })}
+                  className="w-full" style={{ accentColor: "#18181b" }}
+                />
+              </div>
+            </section>
+          </div>
 
-          {/* Reset */}
-          <button
-            onClick={() => {
-              setConfig(DEFAULT_IRIS_CONFIG);
-              setIsPlaying(false);
-              startRef.current = undefined;
-            }}
-            className="w-full rounded py-1.5 text-xs font-medium transition-colors"
-            style={{
-              background: "#1c1c1c",
-              color: "#52525b",
-              border: "1px solid #222",
-            }}
-          >
-            Reset defaults
-          </button>
+          {/* ── Col 3: Shape & Appearance ── */}
+          <div className="space-y-5">
+            <section className="space-y-2.5">
+              <p className="text-xs text-zinc-500 uppercase tracking-wider">Blade Shape</p>
+              {([
+                { label: "Length", field: "bladeLength" as const, min: 80, max: 160, step: 1, fmt: (v: number) => v + " px" },
+                { label: "Width",  field: "bladeWidth"  as const, min: 10, max: 45,  step: 1, fmt: (v: number) => v + " px" },
+              ] as const).map(({ label, field, min, max, step, fmt }) => (
+                <div key={field} className="space-y-1">
+                  <div className="flex justify-between text-xs">
+                    <span className="text-zinc-500">{label}</span>
+                    <span className="text-zinc-700 font-mono">{fmt(config[field])}</span>
+                  </div>
+                  <input type="range" min={min} max={max} step={step} value={config[field]}
+                    onChange={(e) => setField({ [field]: parseFloat(e.target.value) })}
+                    className="w-full" style={{ accentColor: "#18181b" }}
+                  />
+                </div>
+              ))}
+            </section>
+
+            <section className="space-y-2.5">
+              <p className="text-xs text-zinc-500 uppercase tracking-wider">Appearance</p>
+              <div className="space-y-1">
+                <div className="flex justify-between text-xs">
+                  <span className="text-zinc-500">Stroke</span>
+                  <span className="text-zinc-700 font-mono">{strokeWidth.toFixed(1)} px</span>
+                </div>
+                <input type="range" min={0} max={3} step={0.1} value={strokeWidth}
+                  onChange={(e) => setStrokeWidth(parseFloat(e.target.value))}
+                  className="w-full" style={{ accentColor: "#18181b" }}
+                />
+              </div>
+              <div className="space-y-1">
+                <div className="flex justify-between text-xs">
+                  <span className="text-zinc-500">Shadow</span>
+                  <span className="text-zinc-700 font-mono">
+                    {shadowOpacity === 0 ? "off" : shadowOpacity.toFixed(2)}
+                  </span>
+                </div>
+                <input type="range" min={0} max={1} step={0.01} value={shadowOpacity}
+                  onChange={(e) => setShadowOpacity(parseFloat(e.target.value))}
+                  className="w-full" style={{ accentColor: "#18181b" }}
+                />
+              </div>
+            </section>
+
+            <button
+              onClick={() => {
+                setConfig(DEFAULT_IRIS_CONFIG);
+                setIsPlaying(false);
+                startRef.current = undefined;
+              }}
+              className="w-full rounded py-1.5 text-xs font-medium transition-colors"
+              style={{ background: "#fff", color: "#71717a", border: "1px solid #d4d4d8" }}
+            >
+              Reset defaults
+            </button>
+          </div>
+
         </div>
       </div>
     </main>
