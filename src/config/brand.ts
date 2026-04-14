@@ -23,15 +23,15 @@ export const IRIS_LG: StoredIrisParams = {
   /** Number of aperture blades. */
   N: 7,
   /** Rigid pivot-to-guide-pin distance (px). Must satisfy Rp ≤ d < bladeLength. */
-  pinDistance: 88,
+  pinDistance: 85,
   /** Actuator slot angular offset δ (rad, decimal). π/5 ≈ 0.6283 ≈ 36°. */
-  slotOffset: 0.6283,
+  slotOffset: 0.804533,
   /** Blade length from pivot to tip (px). */
-  bladeLength: 115,
+  bladeLength: 120,
   /** Blade width at widest point (px). Also determines pivotRadius = 100 − W/2. */
-  bladeWidth: 30,
+  bladeWidth: 40,
   /** Default aperture openness: 0 = wide open, 1 = fully closed. */
-  t: 0.5,
+  t: 0.4917,
 };
 
 export const IRIS_SM: StoredIrisParams = {

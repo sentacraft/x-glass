@@ -280,14 +280,15 @@ function IrisStage({
 
       {/* ── F-stop ring overlay ── */}
       {showFStopRing && (() => {
-        // Outer mode: ring sits in the housing cover-plate annular zone — the cream ring
-        // between the dark iris body and the housing edge (R_HOUSING − bladeWidth … R_HOUSING).
-        // Ring circle near the outer edge of that zone; labels sit further inward on it.
-        // Inner mode: ring sits inside the iris cavity (inward of R_HOUSING − bladeWidth).
-        const ringR   = fStopRingOuter ? R_HOUSING - 5 : R_HOUSING - config.bladeWidth - FSTOP_RING_GAP;
-        const labelR  = fStopRingOuter ? ringR - 12 : ringR - 7;
-        const tickOuter = ringR;
-        const tickInner = ringR - 5;
+        // The boundary between the visible dark iris body and the cream cover-plate zone
+        // is the inner edge of the housing cover plate: R_HOUSING − bladeWidth.
+        //
+        // Outer mode: ring circle at that boundary; labels go OUTWARD into the cream zone.
+        // Inner mode: ring circle at that boundary; labels go INWARD into the dark blade zone.
+        // The housing ring position is irrelevant to either mode.
+        const blackEdge = R_HOUSING - config.bladeWidth;
+        const ringR     = blackEdge;
+        const labelR    = fStopRingOuter ? blackEdge + 11 : blackEdge - 10;
 
         const isValid = isFinite(fStop) && fStop >= 1;
         // Rotate ring so that the current f-stop lands at 12 o'clock (-90° in SVG).
@@ -296,14 +297,14 @@ function IrisStage({
         return (
           <g>
             {/* Fixed index mark at 12 o'clock.
-                Outer mode: marker spans from ring circle outward into housing zone.
-                Inner mode: marker sits just outside the ring circle. */}
+                Outer mode: marker is outward of the ring circle (in cream zone).
+                Inner mode: marker is inward of the ring circle (in dark zone). */}
             <line
-              x1="0" y1={fStopRingOuter ? -(ringR + 2) : -(ringR + 3)}
-              x2="0" y2={fStopRingOuter ? -(ringR + 10) : -(ringR + 11)}
+              x1="0" y1={-(ringR + (fStopRingOuter ? 2 : -2))}
+              x2="0" y2={-(ringR + (fStopRingOuter ? 10 : -10))}
               stroke="#52525b" strokeWidth="1.5" strokeLinecap="round"
             />
-            {/* Rotating group: ring arc + ticks + labels */}
+            {/* Rotating group: ring arc + labels */}
             <g transform={`rotate(${ringRotStr})`}>
               <circle r={ringR} fill="none" stroke="#d4d4d8" strokeWidth="0.6" />
               {FSTOP_SEQUENCE.map((f, i) => {
@@ -313,27 +314,22 @@ function IrisStage({
                 const sin = Math.sin(rad);
                 const lx = labelR * cos;
                 const ly = labelR * sin;
-                const t1x = tickInner * cos, t1y = tickInner * sin;
-                const t2x = tickOuter * cos, t2y = tickOuter * sin;
                 const isA = f === "A";
                 const label = isA ? "A"
                   : (f === 1.4 || f === 2.8 || f === 5.6) ? (f as number).toFixed(1)
                   : String(f);
-                // Counter-rotate each label so it stays upright in world frame.
+                // Radial orientation: text bottom faces the iris centre.
+                // deg=0 (12 o'clock within the rotating group) → rotate +90 = upright.
+                // Labels at the sides tilt to follow the arc curvature.
                 return (
                   <g key={label}>
-                    <line
-                      x1={t1x.toFixed(3)} y1={t1y.toFixed(3)}
-                      x2={t2x.toFixed(3)} y2={t2y.toFixed(3)}
-                      stroke={isA ? FSTOP_A_COLOR : "#a1a1aa"} strokeWidth="0.8"
-                    />
                     <text
                       x={lx.toFixed(3)} y={ly.toFixed(3)}
                       textAnchor="middle" dominantBaseline="central"
                       fontSize="8" fill={isA ? FSTOP_A_COLOR : "#71717a"}
                       fontWeight={isA ? "600" : "normal"}
                       fontFamily="ui-monospace, SFMono-Regular, monospace"
-                      transform={`rotate(${(-ringRot).toFixed(3)}, ${lx.toFixed(3)}, ${ly.toFixed(3)})`}
+                      transform={`rotate(${(deg + 90).toFixed(3)}, ${lx.toFixed(3)}, ${ly.toFixed(3)})`}
                     >
                       {label}
                     </text>
@@ -421,6 +417,35 @@ function apertureInradius(theta: number, dc: IrisMechanismConfig): number {
 function formatFStop(f: number): string {
   if (!isFinite(f) || f > 22) return "f/—";
   return `f/${f.toFixed(1)}`;
+}
+
+/**
+ * Binary-search for the theta value that produces a given target f-stop.
+ * Returns range.min (fully open) if the target is smaller than the open f-stop,
+ * or range.max (fully closed) if it cannot be reached.
+ */
+function findThetaForFStop(
+  targetFStop: number,
+  dc: IrisMechanismConfig,
+  range: { min: number; max: number },
+): number {
+  const rOpen = apertureInradius(range.min, dc);
+  if (rOpen <= 0) return range.min;
+  // f = 1.4 × (rOpen / r)  =>  r = 1.4 × rOpen / f
+  const targetR = (1.4 * rOpen) / targetFStop;
+
+  let lo = range.min;
+  let hi = range.max;
+  for (let i = 0; i < 48; i++) {
+    const mid = (lo + hi) / 2;
+    const r   = apertureInradius(mid, dc);
+    if (r > targetR) {
+      lo = mid; // aperture still too large → close more
+    } else {
+      hi = mid;
+    }
+  }
+  return (lo + hi) / 2;
 }
 
 // ── Page ──────────────────────────────────────────────────────────────────────
@@ -610,10 +635,21 @@ export default function ApertureV2Lab() {
     ? 1.4 * (inradiusOpen / inradiusCurrent)
     : Infinity;
 
-  // When the iris is fully open (Auto position), the effective f-stop is hardcoded to f/5.6.
-  // At any other position, use the physics-derived value.
+  // In Auto mode (openPct === 0) the ring stays pinned at "A" (ring angle 0 = f/1.0 position).
+  // The blades, however, render at the theta that corresponds to f/5.6.
   const AUTO_FSTOP = 5.6;
-  const ringFStop = openPct === 0 ? AUTO_FSTOP : fStop;
+  const autoTheta = useMemo(
+    () => findThetaForFStop(AUTO_FSTOP, derivedConfig, range),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [AUTO_FSTOP, range.min, range.max, derivedConfig.N, derivedConfig.pivotRadius,
+     derivedConfig.pinDistance, derivedConfig.slotOffset, derivedConfig.bladeLength,
+     derivedConfig.bladeWidth, derivedConfig.bladeCurvature]
+  );
+  // Ring shows "A" (ring angle 0 → position 0 → f=1.0 in the log-scale mapping)
+  // so that the pointer stays at "A" instead of rotating to 5.6.
+  const ringFStop = openPct === 0 ? 1.0 : fStop;
+  // Blades: use the f/5.6 theta in Auto mode so the aperture looks right.
+  const displayTheta = openPct === 0 ? autoTheta : theta;
 
   return (
     <main
@@ -641,7 +677,7 @@ export default function ApertureV2Lab() {
           <div style={{ width: 480, height: 480 }}>
             <IrisStage
               config={derivedConfig}
-              theta={theta}
+              theta={displayTheta}
               showMechanics={showMechanics}
               showFStopRing={showFStopRing}
               fStopRingOuter={fStopRingOuter}
