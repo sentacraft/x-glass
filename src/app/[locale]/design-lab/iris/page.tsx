@@ -371,9 +371,11 @@ export default function ApertureV2Lab() {
   type StudioProfile = "lab" | "production:hero" | "production:nav";
   const [selectedProfile, setSelectedProfile] = useState<StudioProfile>("production:hero");
   const [labConfig, setLabConfig] = useState<IrisConfig | null>(null);
-  // Production preview: shows the last-loaded profile rendered at its actual
-  // production size via the real Iris component. Updated on Load only.
-  const [previewConfig, setPreviewConfig] = useState<IrisConfig>({ ...IRIS_HERO, interactive: false });
+  // Production preview: tracks the production pixel size of the last-loaded profile.
+  // The full previewConfig is computed live as a useMemo below.
+  const [previewSize, setPreviewSize] = useState(IRIS_HERO.size);
+  // Incrementing this key forces the preview <Iris> to remount, replaying initAnimation.
+  const [previewAnimKey, setPreviewAnimKey] = useState(0);
   const [exportStatus, setExportStatus] = useState<string | null>(null);
 
   const setField = (patch: Partial<IrisMechanismConfig>) => {
@@ -409,8 +411,8 @@ export default function ApertureV2Lab() {
     setOpenFStop(v.openFStop ?? 1.4);
     setDefaultFStop(v.defaultFStop ?? 5.6);
     setInitAnimation(v.initAnimation ?? false);
-    // Update production preview to reflect the loaded config at actual size.
-    setPreviewConfig({ ...v, interactive: false });
+    // Track the production pixel size for the preview label.
+    setPreviewSize(v.size);
     setIsPlaying(false);
     startRef.current = undefined;
   }
@@ -458,7 +460,7 @@ export default function ApertureV2Lab() {
       setOpenFStop(v.openFStop ?? 1.4);
       setDefaultFStop(v.defaultFStop ?? 5.6);
       setInitAnimation(v.initAnimation ?? false);
-      setPreviewConfig({ ...v, interactive: false });
+      setPreviewSize(v.size);
     });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -501,6 +503,26 @@ export default function ApertureV2Lab() {
     const h = Math.round(v).toString(16).padStart(2, "0");
     return `#${h}${h}${h}`;
   }
+
+  // Live preview config — rebuilt from all current control state so the preview
+  // stays in sync with every slider/input change without requiring a Load.
+  const previewConfig = useMemo((): IrisConfig => ({
+    N: config.N,
+    pinDistance: config.pinDistance,
+    slotOffset: config.slotOffset,
+    bladeLength: config.bladeLength,
+    bladeWidth: config.bladeWidth,
+    openFStop,
+    defaultFStop,
+    size: previewSize,
+    bladeColor: grayHex(bladeGray),
+    strokeColor: grayHex(strokeGray),
+    strokeWidth,
+    interactive: false,
+    initAnimation,
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }), [config.N, config.pinDistance, config.slotOffset, config.bladeLength, config.bladeWidth,
+      openFStop, defaultFStop, previewSize, bladeGray, strokeGray, strokeWidth, initAnimation]);
 
   // Animation: theta oscillates between range.min and range.max
   const rafRef = useRef<number | undefined>(undefined);
@@ -813,13 +835,13 @@ export default function ApertureV2Lab() {
 
         </div>
 
-        {/* Production preview — renders the last-loaded config via the real
-            Iris component at its actual production pixel size. */}
+        {/* Production preview — renders the current config via the real Iris
+            component at its actual production pixel size. Stays live with controls. */}
         <div className="flex flex-col items-center gap-2" style={{ paddingTop: 4 }}>
           <span className="text-xs font-mono text-zinc-400">
             {previewConfig.size} px
           </span>
-          <Iris config={previewConfig} uid="lab-preview" />
+          <Iris key={previewAnimKey} config={previewConfig} uid="lab-preview" />
         </div>
 
         {/* Controls — 3-column grid */}
@@ -932,7 +954,11 @@ export default function ApertureV2Lab() {
                 <input
                   type="checkbox"
                   checked={initAnimation}
-                  onChange={(e) => setInitAnimation(e.target.checked)}
+                  onChange={(e) => {
+                    const checked = e.target.checked;
+                    setInitAnimation(checked);
+                    if (checked) setPreviewAnimKey(k => k + 1);
+                  }}
                   style={{ accentColor: "#18181b", width: 14, height: 14 }}
                 />
                 Init Animation
