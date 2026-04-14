@@ -570,6 +570,7 @@ export default function ApertureV2Lab() {
   const rafRef = useRef<number | undefined>(undefined);
   const startRef = useRef<number | undefined>(undefined);
   const thetaRef = useRef(theta);
+  const irisContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     thetaRef.current = theta;
@@ -652,11 +653,122 @@ export default function ApertureV2Lab() {
      derivedConfig.pinDistance, derivedConfig.slotOffset, derivedConfig.bladeLength,
      derivedConfig.bladeWidth, derivedConfig.bladeCurvature]
   );
+  // Theta corresponding to the far-closed end of the follow-mouse range (f/22).
+  const thetaF22 = useMemo(
+    () => findThetaForFStop(22, derivedConfig, range),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [range.min, range.max, derivedConfig.N, derivedConfig.pivotRadius,
+     derivedConfig.pinDistance, derivedConfig.slotOffset, derivedConfig.bladeLength,
+     derivedConfig.bladeWidth, derivedConfig.bladeCurvature]
+  );
   // Ring shows "A" (ring angle 0 → position 0 → f=1.0 in the log-scale mapping)
   // so that the pointer stays at "A" instead of rotating to 5.6.
   const ringFStop = openPct === 0 ? 1.0 : fStop;
   // Blades: use the f/5.6 theta in Auto mode so the aperture looks right.
   const displayTheta = openPct === 0 ? autoTheta : theta;
+
+  // Follow-mouse: global listener + non-linear easing (mirrors iris-pheno behaviour).
+  //
+  // Entry: offset captured on first frame, decays via (1-p)^2 quadratic ease-out
+  //        over 180 ms so rapid entry doesn't produce an abrupt jump.
+  // Leave: RAF-driven cubic ease-out back to autoTheta over 700 ms.
+  const followEntryOffsetRef = useRef(0);
+  const followEntryTimeRef   = useRef(0);
+  const wasInHotzoneRef      = useRef(false);
+  const followLeaveRafRef    = useRef<number | null>(null);
+
+  // Cleanup leave-animation when component unmounts or followMouse turns off.
+  useEffect(() => () => {
+    if (followLeaveRafRef.current) cancelAnimationFrame(followLeaveRafRef.current);
+  }, []);
+
+  useEffect(() => {
+    if (!followMouse) {
+      wasInHotzoneRef.current = false;
+      if (followLeaveRafRef.current) {
+        cancelAnimationFrame(followLeaveRafRef.current);
+        followLeaveRafRef.current = null;
+      }
+      return;
+    }
+
+    function handleMouseMove(e: MouseEvent) {
+      if (!irisContainerRef.current) return;
+      const rect = irisContainerRef.current.getBoundingClientRect();
+
+      // D = actual iris diameter in CSS px.
+      // SVG viewBox is 300 units wide; iris black body radius = R_HOUSING − bladeWidth.
+      const scale    = rect.width / 300;
+      const irisSVGR = R_HOUSING - derivedConfig.bladeWidth;
+      const D        = 2 * irisSVGR * scale;
+
+      const cx = rect.left + rect.width  / 2;
+      const cy = rect.top  + rect.height / 2;
+      const hotLeft   = cx - D * 1.5;
+      const hotRight  = cx + D * 1.5;
+      const hotTop    = cy - D;
+      const hotBottom = cy + D;
+
+      const inHot =
+        e.clientX >= hotLeft && e.clientX <= hotRight &&
+        e.clientY >= hotTop  && e.clientY <= hotBottom;
+
+      if (!inHot) {
+        if (wasInHotzoneRef.current) {
+          wasInHotzoneRef.current = false;
+          // Cubic ease-out back to autoTheta over 700 ms (mirrors iris-pheno lgMouseLeave)
+          if (followLeaveRafRef.current) cancelAnimationFrame(followLeaveRafRef.current);
+          const fromTheta = thetaRef.current;
+          const toTheta   = autoTheta;
+          const startMs   = performance.now();
+          function leaveTick(now: number) {
+            const p     = Math.min(1, (now - startMs) / 700);
+            const eased = 1 - (1 - p) ** 3;
+            const v     = fromTheta + (toTheta - fromTheta) * eased;
+            setTheta(v);
+            thetaRef.current = v;
+            if (p < 1) followLeaveRafRef.current = requestAnimationFrame(leaveTick);
+            else followLeaveRafRef.current = null;
+          }
+          followLeaveRafRef.current = requestAnimationFrame(leaveTick);
+        }
+        return;
+      }
+
+      // Cancel any in-progress leave animation
+      if (followLeaveRafRef.current) {
+        cancelAnimationFrame(followLeaveRafRef.current);
+        followLeaveRafRef.current = null;
+      }
+
+      // Map horizontal position within hotzone → [range.min, thetaF22]
+      const t           = Math.max(0, Math.min(1, (e.clientX - hotLeft) / (hotRight - hotLeft)));
+      const targetTheta = range.min + t * (thetaF22 - range.min);
+
+      if (!wasInHotzoneRef.current) {
+        // First frame: record entry offset for smooth catchup
+        followEntryOffsetRef.current = thetaRef.current - targetTheta;
+        followEntryTimeRef.current   = performance.now();
+        wasInHotzoneRef.current      = true;
+      }
+
+      // Quadratic ease-out on entry offset: (1-p)^2 over 180 ms
+      const p           = Math.min(1, (performance.now() - followEntryTimeRef.current) / 180);
+      const off         = followEntryOffsetRef.current * (1 - p) ** 2;
+      const smoothTheta = targetTheta + off;
+
+      setTheta(smoothTheta);
+      thetaRef.current = smoothTheta;
+      startRef.current = undefined;
+    }
+
+    document.addEventListener("mousemove", handleMouseMove);
+    return () => {
+      document.removeEventListener("mousemove", handleMouseMove);
+      wasInHotzoneRef.current = false;
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [followMouse, range.min, thetaF22, autoTheta, derivedConfig.bladeWidth]);
 
   return (
     <main
@@ -682,23 +794,8 @@ export default function ApertureV2Lab() {
         {/* Iris display */}
         <div className="flex flex-col items-center gap-5">
           <div
-            style={{ width: 480, height: 480, cursor: followMouse ? "none" : "default" }}
-            onMouseMove={(e) => {
-              if (!followMouse) return;
-              const rect = e.currentTarget.getBoundingClientRect();
-              const t = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
-              const v = range.min + t * (range.max - range.min);
-              setTheta(v);
-              thetaRef.current = v;
-              startRef.current = undefined;
-            }}
-            onMouseLeave={() => {
-              if (!followMouse) return;
-              // Snap back to fully open on leave
-              setTheta(range.min);
-              thetaRef.current = range.min;
-              startRef.current = undefined;
-            }}
+            ref={irisContainerRef}
+            style={{ width: 480, height: 480 }}
           >
             <IrisStage
               config={derivedConfig}
