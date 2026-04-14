@@ -832,16 +832,15 @@ export default function ApertureV2Lab() {
             </div>
           </div>
 
-          {/* Production preview — renders the last-loaded config via the real
-              Iris component at its actual production pixel size. */}
-          <div className="flex items-center gap-3 w-full" style={{ maxWidth: 480 }}>
-            <span className="text-xs font-mono text-zinc-400 shrink-0">
-              Production ({previewConfig.size} px)
-            </span>
-            <div className="flex items-center justify-center" style={{ width: previewConfig.size, height: previewConfig.size }}>
-              <Iris config={previewConfig} uid="lab-preview" />
-            </div>
-          </div>
+        </div>
+
+        {/* Production preview — renders the last-loaded config via the real
+            Iris component at its actual production pixel size. */}
+        <div className="flex flex-col items-center gap-2" style={{ paddingTop: 4 }}>
+          <span className="text-xs font-mono text-zinc-400">
+            {previewConfig.size} px
+          </span>
+          <Iris config={previewConfig} uid="lab-preview" />
         </div>
 
         {/* Controls — 3-column grid */}
