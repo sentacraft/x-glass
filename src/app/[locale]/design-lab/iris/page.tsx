@@ -17,6 +17,7 @@ import {
 import { readFromBrand, exportToBrand } from "./actions";
 import { IRIS_HERO, IRIS_NAV } from "@/config/brand";
 import type { IrisConfig } from "@/config/brand";
+import Iris from "@/components/Iris";
 
 // SVG coordinate space: origin at iris center, R_HOUSING = outer display radius.
 // viewBox is larger to accommodate the actuator ring sitting outside R_HOUSING.
@@ -395,6 +396,9 @@ export default function ApertureV2Lab() {
   type StudioProfile = "lab" | "production:hero" | "production:nav";
   const [selectedProfile, setSelectedProfile] = useState<StudioProfile>("production:hero");
   const [labConfig, setLabConfig] = useState<IrisConfig | null>(null);
+  // Production preview: shows the last-loaded profile rendered at its actual
+  // production size via the real Iris component. Updated on Load only.
+  const [previewConfig, setPreviewConfig] = useState<IrisConfig>({ ...IRIS_HERO, interactive: false });
   const [exportStatus, setExportStatus] = useState<string | null>(null);
 
   const setField = (patch: Partial<IrisMechanismConfig>) => {
@@ -428,6 +432,8 @@ export default function ApertureV2Lab() {
     if (v.strokeColor) setStrokeGray(parseInt(v.strokeColor.slice(1, 3), 16));
     if (v.strokeWidth !== undefined) setStrokeWidth(v.strokeWidth);
     if (v.shadow !== undefined) setShadowOpacity(v.shadow ? 0.55 : 0);
+    // Update production preview to reflect the loaded config at actual size.
+    setPreviewConfig({ ...v, interactive: false });
     setIsPlaying(false);
     startRef.current = undefined;
   }
@@ -474,6 +480,7 @@ export default function ApertureV2Lab() {
       if (v.strokeColor) setStrokeGray(parseInt(v.strokeColor.slice(1, 3), 16));
       if (v.strokeWidth !== undefined) setStrokeWidth(v.strokeWidth);
       if (v.shadow !== undefined) setShadowOpacity(v.shadow ? 0.55 : 0);
+      setPreviewConfig({ ...v, interactive: false });
     });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -822,6 +829,17 @@ export default function ApertureV2Lab() {
                 <span className="ml-2">{formatFStop(fStop)}</span>
               </span>
               <span className="text-zinc-500">closed</span>
+            </div>
+          </div>
+
+          {/* Production preview — renders the last-loaded config via the real
+              Iris component at its actual production pixel size. */}
+          <div className="flex items-center gap-3 w-full" style={{ maxWidth: 480 }}>
+            <span className="text-xs font-mono text-zinc-400 shrink-0">
+              Production ({previewConfig.size} px)
+            </span>
+            <div className="flex items-center justify-center" style={{ width: previewConfig.size, height: previewConfig.size }}>
+              <Iris config={previewConfig} uid="lab-preview" />
             </div>
           </div>
         </div>
