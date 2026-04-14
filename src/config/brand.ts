@@ -85,14 +85,20 @@ export const IRIS_DEFAULTS = {
 } satisfies Partial<IrisConfig>;
 
 /**
+ * IrisConfig with all IRIS_DEFAULTS fields guaranteed non-undefined.
+ * Returned by withIrisDefaults() so callers can destructure without fallbacks.
+ */
+export type FilledIrisConfig = IrisConfig & Required<Pick<IrisConfig, keyof typeof IRIS_DEFAULTS>>;
+
+/**
  * Merge an IrisConfig with IRIS_DEFAULTS. Optional fields not supplied in
  * `config` are filled from IRIS_DEFAULTS; explicit values override the defaults.
  *
  * Use this when defining named configs (IRIS_HERO, IRIS_NAV) so that the
  * objects passed to <Iris> always carry fully-populated configs.
  */
-export function withIrisDefaults(config: IrisConfig): IrisConfig {
-  return { ...IRIS_DEFAULTS, ...config };
+export function withIrisDefaults(config: IrisConfig): FilledIrisConfig {
+  return { ...IRIS_DEFAULTS, ...config } as FilledIrisConfig;
 }
 
 // ── Named configs ─────────────────────────────────────────────────────────────

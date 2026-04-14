@@ -21,7 +21,7 @@ import {
   findThetaForInradius,
   findThetaForFStop,
 } from "@/lib/iris-kinematics";
-import { IRIS_HERO, R_HOUSING, withIrisDefaults, type IrisConfig } from "@/config/brand";
+import { IRIS_HERO, R_HOUSING, withIrisDefaults, type IrisConfig, type FilledIrisConfig } from "@/config/brand";
 
 
 // ── Component ─────────────────────────────────────────────────────────────────
@@ -47,17 +47,18 @@ export default function Iris({
   uid = "logo",
   className,
 }: IrisProps) {
-  // Merge with IRIS_DEFAULTS so every optional field is guaranteed non-undefined.
-  const config = useMemo(() => withIrisDefaults(rawConfig), [rawConfig]);
+  // Merge with IRIS_DEFAULTS — returns FilledIrisConfig, guaranteeing all
+  // IRIS_DEFAULTS fields are non-undefined so destructuring needs no fallbacks.
+  const config = useMemo<FilledIrisConfig>(() => withIrisDefaults(rawConfig), [rawConfig]);
 
   const {
     size: configSize,
     interactive,
     initAnimation,
-    closedFStop = 22,
-    chaseTauMs = 60,
-    easeOutMs = 700,
-    catchupMs = 300,
+    closedFStop,
+    chaseTauMs,
+    easeOutMs,
+    catchupMs,
     bladeColor,
     strokeColor,
     strokeWidth,
