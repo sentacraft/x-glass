@@ -2,7 +2,8 @@
 
 import { useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
-import LogoMark from "@/components/LogoMark";
+import LensSearchDialog from "@/components/LensSearchDialog";
+import Iris from "@/components/Iris";
 
 export default function Nav() {
   const t = useTranslations("Nav");
@@ -15,7 +16,7 @@ export default function Nav() {
           href="/"
           className="flex items-center gap-2 font-bold text-zinc-900 dark:text-zinc-50 text-lg tracking-tight"
         >
-          <LogoMark size={26} uid="nav" />
+          <Iris size={26} uid="nav" />
           X-Glass
         </Link>
         <div className="flex items-center gap-3">

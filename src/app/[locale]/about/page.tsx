@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
-import LogoMark from "@/components/LogoMark";
+import Iris from "@/components/Iris";
 import { Flag, Mail } from "lucide-react";
 import FeedbackTrigger from "@/components/FeedbackTrigger";
 import type { FeedbackType } from "@/components/FeedbackDialog";
@@ -32,7 +32,7 @@ export default async function AboutPage() {
   return (
     <div className="w-full max-w-2xl mx-auto px-4 sm:px-6 py-12 flex flex-col gap-12">
       <div className="flex flex-col gap-4">
-        <LogoMark size={56} uid="about" />
+        <Iris size={56} uid="about" />
         <h1 className="text-2xl font-bold text-zinc-900 dark:text-zinc-50">
           {t("pageTitle")}
         </h1>

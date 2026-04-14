@@ -4,9 +4,9 @@
 // ── Animation ─────────────────────────────────────────────────────────────────
 
 export const ANIMATION = {
-  // LogoMark: ease-out return duration after mouse leaves (ms)
+  // Iris: ease-out return duration after mouse leaves (ms)
   logoEaseOutMs: 700,
-  // LogoMark: entry catch-up duration to eliminate jump on mouse enter (ms)
+  // Iris: entry catch-up duration to eliminate jump on mouse enter (ms)
   logoCatchupMs: 180,
 } as const;
 

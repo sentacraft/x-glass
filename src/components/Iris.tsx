@@ -26,7 +26,7 @@ const SHADOW_OPACITY = 0.55;
 
 // ── Component ─────────────────────────────────────────────────────────────────
 
-interface LogoMarkProps {
+interface IrisProps {
   /** Render size in px. Default 80. */
   size?: number;
   /** Must be unique per page — used as SVG def ID prefix. */
@@ -39,12 +39,12 @@ interface LogoMarkProps {
   interactive?: boolean;
 }
 
-export default function LogoMark({
+export default function Iris({
   size = 80,
   uid = "logo",
   className,
   interactive = false,
-}: LogoMarkProps) {
+}: IrisProps) {
   const preset = size < LOGO_SM_THRESHOLD ? BRAND_LOGO_SM : BRAND_LOGO;
   const DEFAULT_T = preset.t;
 

@@ -20,9 +20,9 @@ import { readFromBrand, exportToBrand } from "./actions";
 const R_HOUSING = 100;
 const VIEWBOX = "-150 -150 300 300";
 
-// ── IrisVisualization ─────────────────────────────────────────────────────────
+// ── IrisStage ─────────────────────────────────────────────────────────
 
-function IrisVisualization({
+function IrisStage({
   config,
   theta,
   showMechanics,
@@ -409,7 +409,7 @@ export default function ApertureV2Lab() {
         {/* Iris display */}
         <div className="flex flex-col items-center gap-5">
           <div style={{ width: 480, height: 480 }}>
-            <IrisVisualization
+            <IrisStage
               config={derivedConfig}
               theta={theta}
               showMechanics={showMechanics}

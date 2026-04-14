@@ -1,5 +1,5 @@
 // Pure aperture-mark geometry functions — no React, no hooks.
-// Shared between the interactive LogoMark component and server-side renderers
+// Shared between the interactive Iris component and server-side renderers
 // (OG image, apple-icon) that cannot use client components.
 
 export const R = 100;

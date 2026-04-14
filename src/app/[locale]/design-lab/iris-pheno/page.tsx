@@ -256,7 +256,7 @@ function ParamControls({
 
 // ── Page ──────────────────────────────────────────────────────────────────────
 
-export default function LogoMarkLab() {
+export default function IrisPhenoLab() {
   // ─ Large section (BRAND_LOGO) ─────────────────────────────────────────────
   const [lgN,           setLgN]           = useState(7);
   const [lgT,           setLgT]           = useState(0.3);

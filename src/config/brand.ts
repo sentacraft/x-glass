@@ -1,5 +1,5 @@
 // Brand identity configuration — single source of truth for the aperture mark.
-// All LogoMark instances (Navbar, About, OG image, Apple icon) read their
+// All Iris instances (Navbar, About, OG image, Apple icon) read their
 // defaults from here. Update these values via the Aperture V2 Parameter Studio
 // at /design-lab/iris and every static usage updates on next build.
 //
@@ -15,7 +15,7 @@ import type { StoredIrisParams } from "@/lib/iris-kinematics";
 //   BRAND_LOGO     → ≥ LOGO_SM_THRESHOLD px renders (hero, about page, OG image)
 //   BRAND_LOGO_SM  → <  LOGO_SM_THRESHOLD px renders (nav icon, favicon)
 //
-// LogoMark picks the preset automatically based on the `size` prop.
+// Iris picks the preset automatically based on the `size` prop.
 
 export const LOGO_SM_THRESHOLD = 40; // px
 
