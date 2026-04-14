@@ -54,7 +54,7 @@ export default function Nav() {
         hidden && "-translate-y-full sm:translate-y-0"
       )}
     >
-      <nav className="max-w-7xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
+      <nav className="max-w-7xl mx-auto px-4 sm:px-6 h-[var(--nav-height)] flex items-center justify-between">
         <Link
           href="/"
           className="flex items-center font-bold text-zinc-900 dark:text-zinc-50 text-lg tracking-tight"

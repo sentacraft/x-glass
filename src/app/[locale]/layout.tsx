@@ -54,8 +54,8 @@ export default async function LocaleLayout({
             <ConsoleEgg />
             <Nav />
             <ScrollContainer>
-              {/* pt-14 offsets the fixed nav (56px) so content starts below it */}
-              <div className="pt-14">
+              {/* offset fixed nav so content starts below it */}
+              <div className="pt-[var(--nav-height)]">
                 {TESTHOOK_ALLOWED ? (
                   <TestHookProvider>
                     {children}
