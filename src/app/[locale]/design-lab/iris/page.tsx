@@ -288,21 +288,27 @@ function IrisStage({
         // The housing ring position is irrelevant to either mode.
         const blackEdge = R_HOUSING - config.bladeWidth;
         const ringR     = blackEdge;
-        const labelR    = fStopRingOuter ? blackEdge + 11 : blackEdge - 10;
+        // Outer mode: labels hug the iris black edge, tick above the text.
+        // Inner mode: labels sit inward of the ring circle.
+        const labelR    = fStopRingOuter ? blackEdge + 4 : blackEdge - 10;
 
         const isValid = isFinite(fStop) && fStop >= 1;
         // Rotate ring so that the current f-stop lands at 12 o'clock (-90° in SVG).
         const ringRot = isValid ? -90 - fStopToRingAngle(fStop) : -90;
         const ringRotStr = ringRot.toFixed(3);
+
+        // Fixed index marker position.
+        // Outer: above the text (further from centre) — starts 2 px beyond labelR.
+        // Inner: inward of the ring circle (unchanged).
+        const markerNear = fStopRingOuter ? labelR + 2    : ringR - 2;
+        const markerFar  = fStopRingOuter ? labelR + 7.6  : ringR - 7.6;
         return (
           <g>
-            {/* Fixed index mark at 12 o'clock.
-                Outer mode: marker is outward of the ring circle (in cream zone).
-                Inner mode: marker is inward of the ring circle (in dark zone). */}
+            {/* Fixed index mark at 12 o'clock — white, 5.6 px (70 % of original 8 px). */}
             <line
-              x1="0" y1={-(ringR + (fStopRingOuter ? 2 : -2))}
-              x2="0" y2={-(ringR + (fStopRingOuter ? 10 : -10))}
-              stroke="#52525b" strokeWidth="1.5" strokeLinecap="round"
+              x1="0" y1={-markerNear}
+              x2="0" y2={-markerFar}
+              stroke="#ffffff" strokeWidth="1.5" strokeLinecap="round"
             />
             {/* Rotating group: ring arc + labels */}
             <g transform={`rotate(${ringRotStr})`}>
@@ -326,7 +332,7 @@ function IrisStage({
                     <text
                       x={lx.toFixed(3)} y={ly.toFixed(3)}
                       textAnchor="middle" dominantBaseline="central"
-                      fontSize="8" fill={isA ? FSTOP_A_COLOR : "#71717a"}
+                      fontSize="7" fill={isA ? FSTOP_A_COLOR : "#71717a"}
                       fontWeight={isA ? "600" : "normal"}
                       fontFamily="ui-monospace, SFMono-Regular, monospace"
                       transform={`rotate(${(deg + 90).toFixed(3)}, ${lx.toFixed(3)}, ${ly.toFixed(3)})`}
@@ -549,6 +555,7 @@ export default function ApertureV2Lab() {
   const [showMechanics, setShowMechanics] = useState(false);
   const [showFStopRing, setShowFStopRing] = useState(false);
   const [fStopRingOuter, setFStopRingOuter] = useState(true);
+  const [followMouse, setFollowMouse] = useState(false);
   const [strokeWidth, setStrokeWidth] = useState(0.5);
   const [shadowOpacity, setShadowOpacity] = useState(0);
   const [bladeGray, setBladeGray] = useState(24);   // 0=black … 255=white; default ≈ zinc-900
@@ -674,7 +681,25 @@ export default function ApertureV2Lab() {
       <div className="flex-1 flex px-8 pb-8 gap-8 items-start">
         {/* Iris display */}
         <div className="flex flex-col items-center gap-5">
-          <div style={{ width: 480, height: 480 }}>
+          <div
+            style={{ width: 480, height: 480, cursor: followMouse ? "none" : "default" }}
+            onMouseMove={(e) => {
+              if (!followMouse) return;
+              const rect = e.currentTarget.getBoundingClientRect();
+              const t = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+              const v = range.min + t * (range.max - range.min);
+              setTheta(v);
+              thetaRef.current = v;
+              startRef.current = undefined;
+            }}
+            onMouseLeave={() => {
+              if (!followMouse) return;
+              // Snap back to fully open on leave
+              setTheta(range.min);
+              thetaRef.current = range.min;
+              startRef.current = undefined;
+            }}
+          >
             <IrisStage
               config={derivedConfig}
               theta={displayTheta}
@@ -772,13 +797,18 @@ export default function ApertureV2Lab() {
             <section className="space-y-3">
               <p className="text-sm font-semibold text-zinc-800 uppercase tracking-wide pt-3">Animation</p>
               <button
-                onClick={() => setIsPlaying((p) => !p)}
+                onClick={() => {
+                  if (followMouse) return; // disabled in follow-mouse mode
+                  setIsPlaying((p) => !p);
+                }}
                 className="w-full rounded py-2 text-sm font-medium transition-colors"
-                style={isPlaying
-                  ? { background: "#18181b", color: "#fff", border: "1px solid #18181b" }
-                  : { background: "#fff", color: "#3f3f46", border: "1px solid #d4d4d8" }}
+                style={followMouse
+                  ? { background: "#fff", color: "#a1a1aa", border: "1px solid #e4e4e7", cursor: "not-allowed" }
+                  : isPlaying
+                    ? { background: "#18181b", color: "#fff", border: "1px solid #18181b" }
+                    : { background: "#fff", color: "#3f3f46", border: "1px solid #d4d4d8" }}
               >
-                {isPlaying ? "⏸ Pause" : "▶ Play"}
+                {isPlaying && !followMouse ? "⏸ Pause" : "▶ Play"}
               </button>
               <div className="space-y-1">
                 <div className="flex justify-between text-xs text-zinc-500">
@@ -790,6 +820,26 @@ export default function ApertureV2Lab() {
                   className="w-full" style={{ accentColor: "#18181b" }}
                 />
               </div>
+              {/* Follow Mouse toggle */}
+              <label
+                className="flex items-center gap-2 text-sm cursor-pointer select-none"
+                style={{ color: "#3f3f46" }}
+              >
+                <input
+                  type="checkbox"
+                  checked={followMouse}
+                  onChange={(e) => {
+                    const on = e.target.checked;
+                    setFollowMouse(on);
+                    if (on) {
+                      setIsPlaying(false);
+                      startRef.current = undefined;
+                    }
+                  }}
+                  style={{ accentColor: "#18181b", width: 14, height: 14 }}
+                />
+                Follow Mouse
+              </label>
             </section>
 
             <section className="space-y-2">
