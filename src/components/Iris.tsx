@@ -128,7 +128,9 @@ export default function Iris({
     targetThetaRef.current = thetaOpen;
     setTheta(thetaOpen);
 
-    startChase();
+    // Do NOT call startChase() here — target equals current, so the convergence
+    // check would terminate the chase on the very first tick. Start it on the
+    // first sequenceTick callback, by which point target has already moved.
 
     const startTime = performance.now();
     function sequenceTick(now: number) {
@@ -136,6 +138,10 @@ export default function Iris({
 
       // Sweep from fully open (thetaOpen) → fully closed (thetaMax) over the full duration.
       targetThetaRef.current = thetaOpen + p * (thetaMax - thetaOpen);
+
+      // Start the chase on the first tick so target has already advanced past thetaOpen,
+      // preventing the convergence-stop from firing immediately (delta > 0).
+      if (!chaseRef.current) startChase();
 
       if (p < 1) {
         initAnimRef.current = requestAnimationFrame(sequenceTick);
