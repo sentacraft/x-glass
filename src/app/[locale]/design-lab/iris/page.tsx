@@ -337,8 +337,11 @@ function formatFStop(f: number): string {
 export default function ApertureV2Lab() {
   const [config, setConfig] = useState<IrisMechanismConfig>(DEFAULT_IRIS_CONFIG);
 
-  // Studio state — preset selection and brand.ts read/write.
-  const [selectedPreset, setSelectedPreset] = useState<"IRIS_LG" | "IRIS_SM">("IRIS_LG");
+  // Studio profiles: "lab" is in-memory only; the two production profiles
+  // read/write brand.ts via server actions.
+  type StudioProfile = "lab" | "production:large" | "production:small";
+  const [selectedProfile, setSelectedProfile] = useState<StudioProfile>("production:large");
+  const [labConfig, setLabConfig] = useState<StoredIrisParams | null>(null);
   const [exportStatus, setExportStatus] = useState<string | null>(null);
 
   const setField = (patch: Partial<IrisMechanismConfig>) => {
@@ -355,17 +358,22 @@ export default function ApertureV2Lab() {
     startRef.current = undefined;
   };
 
-  // Load a preset from brand.ts into the config sliders.
-  async function loadPreset(preset: "IRIS_LG" | "IRIS_SM") {
-    const v = await readFromBrand(preset);
-    if (!v) return;
-    const dc = buildDerivedConfig(v, R_HOUSING);
-    setConfig(dc);
+  // Load the selected profile's params into the workspace.
+  async function handleLoad() {
+    if (selectedProfile === "lab") {
+      if (!labConfig) return;
+      setConfig(buildDerivedConfig(labConfig, R_HOUSING));
+    } else {
+      const key = selectedProfile === "production:large" ? "IRIS_LG" : "IRIS_SM";
+      const v = await readFromBrand(key);
+      if (!v) return;
+      setConfig(buildDerivedConfig(v, R_HOUSING));
+    }
     setIsPlaying(false);
     startRef.current = undefined;
   }
 
-  // Export current config + current t value back to brand.ts.
+  // Export current workspace params to the selected profile.
   async function handleExport() {
     setExportStatus("Saving…");
     const { min, max } = range;
@@ -378,16 +386,25 @@ export default function ApertureV2Lab() {
       bladeWidth: config.bladeWidth,
       t: tExport,
     };
-    const res = await exportToBrand(selectedPreset, stored);
-    setExportStatus(res.ok ? `✓ Written to ${selectedPreset}` : `✗ ${res.error}`);
-    if (res.ok) setTimeout(() => setExportStatus(null), 3000);
+    if (selectedProfile === "lab") {
+      setLabConfig(stored);
+      setExportStatus("✓ Saved to Lab");
+      setTimeout(() => setExportStatus(null), 3000);
+    } else {
+      const key = selectedProfile === "production:large" ? "IRIS_LG" : "IRIS_SM";
+      const res = await exportToBrand(key, stored);
+      setExportStatus(res.ok ? `✓ Written to ${key}` : `✗ ${res.error}`);
+      if (res.ok) setTimeout(() => setExportStatus(null), 3000);
+    }
   }
 
-  // Load IRIS_LG on first mount.
-  useEffect(() => { loadPreset("IRIS_LG"); }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
-  // Reload when preset selector changes.
-  useEffect(() => { loadPreset(selectedPreset); }, [selectedPreset]); // eslint-disable-line react-hooks/exhaustive-deps
+  // Seed the workspace from production:large on first mount only.
+  useEffect(() => {
+    readFromBrand("IRIS_LG").then(v => {
+      if (!v) return;
+      setConfig(buildDerivedConfig(v, R_HOUSING));
+    });
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Derive geometry-constrained parameters via the shared helper.
   const derivedConfig = useMemo(
@@ -572,25 +589,31 @@ export default function ApertureV2Lab() {
           <div className="space-y-5">
             <section className="space-y-2.5">
               <p className="text-sm font-semibold text-zinc-800 uppercase tracking-wide pt-3">Studio</p>
+              {/* Profile selector — switching does not load; only Load/Export act */}
               <div className="flex gap-1.5">
-                {(["IRIS_LG", "IRIS_SM"] as const).map((preset) => (
+                {(["lab", "production:large", "production:small"] as const).map((profile) => (
                   <button
-                    key={preset}
-                    onClick={() => setSelectedPreset(preset)}
+                    key={profile}
+                    onClick={() => setSelectedProfile(profile)}
                     className="flex-1 rounded py-1.5 text-xs font-mono font-medium transition-colors"
-                    style={selectedPreset === preset
+                    style={selectedProfile === profile
                       ? { background: "#18181b", color: "#fff", border: "1px solid #18181b" }
                       : { background: "#fff", color: "#3f3f46", border: "1px solid #d4d4d8" }}
                   >
-                    {preset === "IRIS_LG" ? "LG" : "SM"}
+                    {profile === "lab" ? "Lab"
+                      : profile === "production:large" ? "Prod LG"
+                      : "Prod SM"}
                   </button>
                 ))}
               </div>
               <div className="flex gap-1.5">
                 <button
-                  onClick={() => loadPreset(selectedPreset)}
+                  onClick={handleLoad}
+                  disabled={selectedProfile === "lab" && labConfig === null}
                   className="flex-1 rounded py-1.5 text-xs font-medium transition-colors"
-                  style={{ background: "#fff", color: "#3f3f46", border: "1px solid #d4d4d8" }}
+                  style={selectedProfile === "lab" && labConfig === null
+                    ? { background: "#fff", color: "#a1a1aa", border: "1px solid #e4e4e7", cursor: "not-allowed" }
+                    : { background: "#fff", color: "#3f3f46", border: "1px solid #d4d4d8" }}
                 >
                   Load
                 </button>
