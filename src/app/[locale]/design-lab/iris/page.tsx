@@ -260,22 +260,71 @@ function IrisStage({
 // ── F-stop helpers ────────────────────────────────────────────────────────────
 
 /**
- * Map openness percentage (0 = fully open, 100 = fully closed) to an f-stop
- * value on the standard photographic scale.
+ * Compute the aperture inradius by finding where two adjacent blades' inner
+ * arcs intersect. That intersection point is the corner of the aperture polygon;
+ * its distance from the iris centre equals the inscribed-circle radius.
  *
- * Uses a logarithmic (half-stop) mapping so the progression feels natural:
- *   0%  → f/1.4  (1.4 × (√2)^0)
- *   50% → f/5.6  (1.4 × (√2)^3.5)
- *  100% → f/16   (1.4 × (√2)^7)
+ * Each blade has a circular inner arc of radius Ri = R − hw centred at local
+ * (cx, cy_local). We transform both blade-0 and blade-1 arc centres to world
+ * frame, then solve the two-equal-radius circle intersection. The nearer of the
+ * two solutions to the iris centre is the aperture vertex.
  *
- * Why not derive from blade geometry: the logo-iris blade geometry is optimised
- * for visual appearance, not for optics. Its physical aperture inradius only
- * varies ~3× across the full range (not the 11× needed for f/1.4→f/16), so a
- * geometry-derived value would display misleadingly low f-numbers.
+ * This is the only correct approach: blade-tip or perpendicular-to-centreline
+ * approximations both fail because the blade tip crosses the iris centre during
+ * closure and the inner-arc curvature is not captured by a straight-line proxy.
  */
-function openPctToFStop(openPct: number): number {
-  // 7 half-stop steps span f/1.4 → f/16 (1.4 × 2^(7/2) ≈ 15.8)
-  return 1.4 * Math.pow(Math.SQRT2, (openPct / 100) * 7);
+function apertureInradius(theta: number, dc: IrisMechanismConfig): number {
+  const blades = solveAllBlades(theta, dc);
+  if (blades.length < 2) return 0;
+
+  const { bladeLength: L, bladeWidth: W, bladeCurvature: C } = dc;
+  const hw = W / 2;
+  const cx = L / 2;
+
+  if (C < 0.005) return 0;
+
+  const s    = C * hw * 1.2;
+  const R    = (cx * cx + s * s) / (2 * s);
+  const cyL  = R - s;   // inner-arc centre y in local frame (positive = below chord)
+  const Ri   = R - hw;  // inner-arc radius
+
+  if (Ri <= 0) return 0;
+
+  // World-frame inner-arc centre for blade b
+  function arcCenter(b: (typeof blades)[0]) {
+    const ca = Math.cos(b.bladeAngle), sa = Math.sin(b.bladeAngle);
+    return {
+      x: b.pivotPos.x + cx * ca - cyL * sa,
+      y: b.pivotPos.y + cx * sa + cyL * ca,
+    };
+  }
+
+  const c0 = arcCenter(blades[0]);
+  const c1 = arcCenter(blades[1]);
+
+  const dx = c1.x - c0.x;
+  const dy = c1.y - c0.y;
+  const d  = Math.sqrt(dx * dx + dy * dy);
+
+  // When arc centers coincide (d ≈ 0), all inner arcs are concentric at the
+  // iris origin — this is the fully-open state where Ro = R_HOUSING forces every
+  // arc centre to land exactly at origin. The aperture is then the inner-arc
+  // circle itself, so inradius = Ri.
+  if (d < 0.001) return Ri;
+  if (d >= 2 * Ri) return 0;
+
+  // Midpoint + perpendicular offset for equal-radius circle intersection
+  const mx = (c0.x + c1.x) / 2;
+  const my = (c0.y + c1.y) / 2;
+  const h  = Math.sqrt(Math.max(0, Ri * Ri - (d / 2) * (d / 2)));
+
+  const px = (-dy / d) * h;
+  const py = ( dx / d) * h;
+
+  const r1 = Math.hypot(mx + px, my + py);
+  const r2 = Math.hypot(mx - px, my - py);
+
+  return Math.min(r1, r2);
 }
 
 function formatFStop(f: number): string {
@@ -431,8 +480,25 @@ export default function ApertureV2Lab() {
     ((theta - range.min) / (range.max - range.min)) * 100
   );
 
-  // F-stop: calibrated so fully-open = f/1.4. Uses inscribed-circle approximation.
-  const fStop = openPctToFStop(openPct);
+  // F-stop: physics-derived from the arc-arc intersection aperture inradius.
+  // f = 1.4 × (r_open / r_current). Displays f/— when r_current < 0.5 px.
+  const inradiusCurrent = useMemo(
+    () => apertureInradius(theta, derivedConfig),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [theta, derivedConfig.N, derivedConfig.pivotRadius, derivedConfig.pinDistance,
+     derivedConfig.slotOffset, derivedConfig.bladeLength, derivedConfig.bladeWidth,
+     derivedConfig.bladeCurvature]
+  );
+  const inradiusOpen = useMemo(
+    () => apertureInradius(range.min, derivedConfig),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [range.min, derivedConfig.N, derivedConfig.pivotRadius, derivedConfig.pinDistance,
+     derivedConfig.slotOffset, derivedConfig.bladeLength, derivedConfig.bladeWidth,
+     derivedConfig.bladeCurvature]
+  );
+  const fStop = inradiusCurrent > 0.5
+    ? 1.4 * (inradiusOpen / inradiusCurrent)
+    : Infinity;
 
   return (
     <main
