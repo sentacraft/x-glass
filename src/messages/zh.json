@@ -163,7 +163,6 @@
     "partial": "部分",
     "unknown": "N/A",
     "missing": "-",
-    "backToLenses": "返回列表",
     "addToCompare": "加入对比",
     "removeFromCompare": "移除",
     "officialSite": "官网",
@@ -181,7 +180,6 @@
   },
   "Compare": {
     "title": "对比",
-    "backToLenses": "返回列表",
     "officialSite": "官网",
     "addLens": "添加镜头",
     "selectFirst": "添加镜头",

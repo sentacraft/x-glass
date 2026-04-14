@@ -12,6 +12,7 @@ import { ExternalLink } from "@/components/ui/external-link";
 import { LensPlaceholderIcon } from "@/components/ui/lens-placeholder-icon";
 import { Link } from "@/i18n/navigation";
 import AddToCompareButton from "@/components/AddToCompareButton";
+import BackButton from "@/components/BackButton";
 import { ShareButton } from "@/components/ShareButton";
 import FeedbackTrigger from "@/components/FeedbackTrigger";
 import { ACTION_OUTLINE_CLS } from "@/lib/ui-tokens";
@@ -223,13 +224,8 @@ export default async function LensDetailPage({ params }: { params: Params }) {
 
   return (
     <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 py-8 flex flex-col gap-8">
-      {/* Back link */}
-      <Link
-        href="/lenses"
-        className="self-start text-sm text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 transition-colors"
-      >
-        ← {t("backToLenses")}
-      </Link>
+      {/* Back button */}
+      <BackButton fallbackHref="/lenses" />
 
       {/* Main content */}
       <div className="flex flex-col sm:flex-row gap-8">

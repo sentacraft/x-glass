@@ -28,6 +28,16 @@ export const LIST_ITEM_ACTIVE_CLS =
 export const ACTIVE_DOT_CLS = "bg-zinc-900 dark:bg-zinc-100";
 
 /**
+ * Square icon button for navigation actions (e.g. back).
+ * Transparent background by default; hover shows a subtle fill.
+ * Add a size class (e.g. `h-8 w-8`) per usage site.
+ */
+export const ICON_NAV_BTN_CLS =
+  "inline-flex shrink-0 items-center justify-center rounded-lg transition-colors " +
+  "text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 active:bg-zinc-100 active:text-zinc-900 " +
+  "dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100 dark:active:bg-zinc-800 dark:active:text-zinc-100";
+
+/**
  * Circular dismiss / close icon button.
  * Normal state is transparent; hover/active shows a red fill + icon.
  * Add a size class (e.g. `h-8 w-8`) per usage site.

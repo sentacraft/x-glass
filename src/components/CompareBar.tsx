@@ -2,7 +2,7 @@
 
 import { useMemo } from "react";
 import { useTranslations } from "next-intl";
-import { useRouter } from "@/i18n/navigation";
+import { useRouter, usePathname } from "@/i18n/navigation";
 import { allLenses } from "@/lib/lens";
 import { useCompare } from "@/context/CompareProvider";
 import { motion, AnimatePresence } from "motion/react";
@@ -17,6 +17,7 @@ export default function CompareBar() {
   const tBrand = useTranslations("Brands");
   const tCompare = useTranslations("Compare");
   const router = useRouter();
+  const pathname = usePathname();
   const { compareIds, toggleCompare, clearCompare } = useCompare();
 
   const selectedLenses = useMemo(
@@ -27,9 +28,16 @@ export default function CompareBar() {
     [compareIds]
   );
 
+  // Extract lens ID if currently on a lens detail page (/lenses/[id])
+  const currentLensId = useMemo(() => {
+    const match = pathname.match(/\/lenses\/(?!compare\b)([^/]+)$/);
+    return match?.[1] ?? null;
+  }, [pathname]);
+
   function handleCompare() {
     const ids = selectedLenses.map((l) => l.id).join(",");
-    router.push(`/lenses/compare?ids=${ids}`);
+    const fromParam = currentLensId ? `&from=lens&lensId=${currentLensId}` : "";
+    router.push(`/lenses/compare?ids=${ids}${fromParam}`);
   }
 
   return (
@@ -89,7 +97,6 @@ export default function CompareBar() {
               </button>
               <button
                 onClick={handleCompare}
-                disabled={selectedLenses.length < 2}
                 className={`shrink-0 text-sm font-medium px-4 py-2 rounded-xl ${ACTION_PRIMARY_CLS}`}
               >
                 {t("goCompare", { count: selectedLenses.length })}

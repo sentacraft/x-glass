@@ -1,36 +1,30 @@
 "use client";
 
+import { ChevronLeft } from "lucide-react";
 import { useRouter } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
+import { ICON_NAV_BTN_CLS } from "@/lib/ui-tokens";
 
 interface BackButtonProps {
   fallbackHref: string;
-  label: string;
   className?: string;
 }
 
 /**
- * Navigates back in browser history when the previous page was within the same
- * origin. Falls back to `fallbackHref` when opened from an external link or
- * directly (no same-origin referrer).
+ * Navigates to `fallbackHref`. The destination is determined by the caller —
+ * use URL `?from=` params to pass context-aware targets.
  */
-export default function BackButton({ fallbackHref, label, className }: BackButtonProps) {
+export default function BackButton({ fallbackHref, className }: BackButtonProps) {
   const router = useRouter();
 
-  function handleBack() {
-    const sameOrigin =
-      document.referrer !== "" &&
-      new URL(document.referrer).origin === window.location.origin;
-    if (sameOrigin) {
-      router.back();
-    } else {
-      router.push(fallbackHref);
-    }
-  }
-
   return (
-    <button type="button" onClick={handleBack} className={cn(className)}>
-      {label}
+    <button
+      type="button"
+      onClick={() => router.push(fallbackHref)}
+      className={cn(ICON_NAV_BTN_CLS, "h-8 w-8", className)}
+      aria-label="Go back"
+    >
+      <ChevronLeft className="h-4 w-4" />
     </button>
   );
 }

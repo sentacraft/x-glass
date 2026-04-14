@@ -11,11 +11,12 @@ import type { Lens } from "@/lib/types";
 
 interface Props {
   lenses: Lens[];
+  fallbackHref: string;
   /** Matches CompareTable minColumns — button is hidden while empty slot columns are visible. */
   minColumns?: number;
 }
 
-export default function ComparePageHeader({ lenses, minColumns = 0 }: Props) {
+export default function ComparePageHeader({ lenses, fallbackHref, minColumns = 0 }: Props) {
   const t = useTranslations("Compare");
   const headerRef = useRef<HTMLDivElement>(null);
   const [showFab, setShowFab] = useState(false);
@@ -36,11 +37,7 @@ export default function ComparePageHeader({ lenses, minColumns = 0 }: Props) {
   return (
     <>
       <div ref={headerRef} className="flex items-center gap-3">
-        <BackButton
-          fallbackHref="/lenses"
-          label="←"
-          className="text-sm text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 transition-colors"
-        />
+        <BackButton fallbackHref={fallbackHref} />
         <h1 className="hidden sm:block text-2xl font-bold text-zinc-900 dark:text-zinc-50">
           {t("title")}
         </h1>
