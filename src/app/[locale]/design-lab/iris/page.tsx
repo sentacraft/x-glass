@@ -260,25 +260,22 @@ function IrisStage({
 // ── F-stop helpers ────────────────────────────────────────────────────────────
 
 /**
- * Estimate the aperture inradius (inscribed-circle radius) at a given theta.
+ * Map openness percentage (0 = fully open, 100 = fully closed) to an f-stop
+ * value on the standard photographic scale.
  *
- * Approximation: blade 0's inner-arc midpoint is at local (bladeLength/2, 0).
- * Its world-frame distance from the iris centre equals the inradius of the
- * regular N-gon aperture polygon (all blades are symmetric, so blade 0 is
- * representative).
+ * Uses a logarithmic (half-stop) mapping so the progression feels natural:
+ *   0%  → f/1.4  (1.4 × (√2)^0)
+ *   50% → f/5.6  (1.4 × (√2)^3.5)
+ *  100% → f/16   (1.4 × (√2)^7)
+ *
+ * Why not derive from blade geometry: the logo-iris blade geometry is optimised
+ * for visual appearance, not for optics. Its physical aperture inradius only
+ * varies ~3× across the full range (not the 11× needed for f/1.4→f/16), so a
+ * geometry-derived value would display misleadingly low f-numbers.
  */
-function apertureInradius(theta: number, dc: IrisMechanismConfig): number {
-  const blades = solveAllBlades(theta, dc);
-  if (blades.length === 0) return 0;
-  const b = blades[0];
-  // Use blade TIP (full bladeLength) — the inner edges of the N blades form an
-  // approximate regular N-gon whose circumradius equals the tip distance from
-  // center. Convert to inradius: r_in = R_v * cos(π/N).
-  const L = dc.bladeLength;
-  const x = b.pivotPos.x + L * Math.cos(b.bladeAngle);
-  const y = b.pivotPos.y + L * Math.sin(b.bladeAngle);
-  const tipDist = Math.sqrt(x * x + y * y);
-  return tipDist * Math.cos(Math.PI / dc.N);
+function openPctToFStop(openPct: number): number {
+  // 7 half-stop steps span f/1.4 → f/16 (1.4 × 2^(7/2) ≈ 15.8)
+  return 1.4 * Math.pow(Math.SQRT2, (openPct / 100) * 7);
 }
 
 function formatFStop(f: number): string {
@@ -435,21 +432,7 @@ export default function ApertureV2Lab() {
   );
 
   // F-stop: calibrated so fully-open = f/1.4. Uses inscribed-circle approximation.
-  const inradiusCurrent = useMemo(
-    () => apertureInradius(theta, derivedConfig),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [theta, derivedConfig.N, derivedConfig.pivotRadius, derivedConfig.pinDistance,
-     derivedConfig.slotOffset, derivedConfig.bladeLength]
-  );
-  const inradiusMax = useMemo(
-    () => apertureInradius(range.min, derivedConfig),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [range.min, derivedConfig.N, derivedConfig.pivotRadius, derivedConfig.pinDistance,
-     derivedConfig.slotOffset, derivedConfig.bladeLength]
-  );
-  const fStop = inradiusCurrent > 0.5
-    ? 1.4 * (inradiusMax / inradiusCurrent)
-    : Infinity;
+  const fStop = openPctToFStop(openPct);
 
   return (
     <main
