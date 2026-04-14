@@ -111,17 +111,20 @@ export async function exportToConfig(
     let body = content.slice(bodyStart, bodyEnd - 1);
 
     // Helpers: replace the field if it exists; insert it before the closing brace if not.
+    // NOTE: use .test() to detect presence rather than comparing strings before/after replace —
+    // when the new value equals the old value the strings are identical and the comparison
+    // would incorrectly fall through to the append branch, creating duplicate keys.
     function patchNum(b: string, key: string, val: number): string {
-      const next = b.replace(new RegExp(`(\\b${key}:\\s*)[\\d.]+`), `$1${val}`);
-      return next !== b ? next : b.trimEnd() + `\n  ${key}: ${val},\n`;
+      const re = new RegExp(`(\\b${key}:\\s*)[\\d.]+`);
+      return re.test(b) ? b.replace(re, `$1${val}`) : b.trimEnd() + `\n  ${key}: ${val},\n`;
     }
     function patchStr(b: string, key: string, val: string): string {
-      const next = b.replace(new RegExp(`(\\b${key}:\\s*)"[^"]*"`), `$1"${val}"`);
-      return next !== b ? next : b.trimEnd() + `\n  ${key}: "${val}",\n`;
+      const re = new RegExp(`(\\b${key}:\\s*)"[^"]*"`);
+      return re.test(b) ? b.replace(re, `$1"${val}"`) : b.trimEnd() + `\n  ${key}: "${val}",\n`;
     }
     function patchBool(b: string, key: string, val: boolean): string {
-      const next = b.replace(new RegExp(`(\\b${key}:\\s*)(true|false)`), `$1${val}`);
-      return next !== b ? next : b.trimEnd() + `\n  ${key}: ${val},\n`;
+      const re = new RegExp(`(\\b${key}:\\s*)(true|false)`);
+      return re.test(b) ? b.replace(re, `$1${val}`) : b.trimEnd() + `\n  ${key}: ${val},\n`;
     }
 
     // Patch all fields — insert if absent, replace if present.
