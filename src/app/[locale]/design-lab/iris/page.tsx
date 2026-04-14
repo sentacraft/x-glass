@@ -753,7 +753,7 @@ export default function ApertureV2Lab() {
       }
 
       // Quadratic ease-out on entry offset: (1-p)^2 over 180 ms
-      const p           = Math.min(1, (performance.now() - followEntryTimeRef.current) / 180);
+      const p           = Math.min(1, (performance.now() - followEntryTimeRef.current) / 300);
       const off         = followEntryOffsetRef.current * (1 - p) ** 2;
       const smoothTheta = targetTheta + off;
 
