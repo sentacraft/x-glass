@@ -106,9 +106,9 @@ function IrisStage({
       </defs>
 
       {/* ── Background ── */}
-      <circle r="150" fill="#090909" />
-      {/* Inner cavity (slightly lighter than outer background) */}
-      <circle r={R_HOUSING} fill="#0d0d0d" />
+      <circle r="150" fill="#f5f5f4" />
+      {/* Inner cavity — slightly warmer tone to differentiate aperture opening */}
+      <circle r={R_HOUSING} fill="#ede9e4" />
 
       {/* ── Mechanics overlay: base plate (fixed) ── */}
       {showMechanics && (
@@ -158,7 +158,7 @@ function IrisStage({
         {Array.from({ length: N }, (_, i) => (
           <g key={i} transform={`rotate(${(stepDeg * i).toFixed(3)})`}>
             <g transform={b0Transform}>
-              <path d={shape} fill="#1d1d1d" stroke="none" filter={shadowOpacity > 0 ? `url(#shadow-${uid})` : undefined} />
+              <path d={shape} fill="#18181b" stroke="none" filter={shadowOpacity > 0 ? `url(#shadow-${uid})` : undefined} />
             </g>
           </g>
         ))}
@@ -167,7 +167,7 @@ function IrisStage({
           <g key={i} mask={`url(#mask-stroke-${i}-${uid})`}>
             <g transform={`rotate(${(stepDeg * i).toFixed(3)})`}>
               <g transform={b0Transform}>
-                <path d={shape} fill="none" stroke="#303030" strokeWidth={strokeWidth} />
+                <path d={shape} fill="none" stroke="#3f3f46" strokeWidth={strokeWidth} />
               </g>
             </g>
           </g>
@@ -231,7 +231,7 @@ function IrisStage({
         <circle
           r={R_HOUSING - config.bladeWidth / 2}
           fill="none"
-          stroke="#101010"
+          stroke="#f5f5f4"
           strokeWidth={config.bladeWidth + 1}
         />
       )}
@@ -240,13 +240,13 @@ function IrisStage({
       <circle
         r={R_HOUSING}
         fill="none"
-        stroke="#252525"
+        stroke="#d6d3d1"
         strokeWidth="0.8"
       />
       <circle
         r={R_HOUSING + 5}
         fill="none"
-        stroke="#1a1a1a"
+        stroke="#e7e5e4"
         strokeWidth="2"
       />
     </svg>
@@ -396,7 +396,7 @@ export default function ApertureV2Lab() {
 
   return (
     <main
-      style={{ background: "#080808", minHeight: "100vh" }}
+      style={{ background: "#f5f5f4", minHeight: "100vh" }}
       className="flex flex-col"
     >
       {/* Header */}
@@ -404,7 +404,7 @@ export default function ApertureV2Lab() {
         <div className="text-xs text-zinc-600 uppercase tracking-wider mb-1">
           Design Lab
         </div>
-        <h1 className="text-xl font-semibold text-zinc-200 tracking-tight">
+        <h1 className="text-xl font-semibold text-zinc-900 tracking-tight">
           Iris — Kinematic Parameter Studio
         </h1>
         <p className="text-sm text-zinc-500 mt-1">
