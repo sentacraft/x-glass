@@ -97,7 +97,6 @@ export default function CompareBar() {
               </button>
               <button
                 onClick={handleCompare}
-                disabled={selectedLenses.length < 2}
                 className={`shrink-0 text-sm font-medium px-4 py-2 rounded-xl ${ACTION_PRIMARY_CLS}`}
               >
                 {t("goCompare", { count: selectedLenses.length })}
