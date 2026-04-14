@@ -25,8 +25,8 @@ import { useCompare } from "@/context/CompareProvider";
 import { allLenses, getLensUrl, MAX_COMPARE } from "@/lib/lens";
 import LensSearchDialog from "@/components/LensSearchDialog";
 import { lensImageStyle } from "@/lib/lens-image";
-import { buildSpecGroups, getSpecRowPlainTextValue } from "@/lib/lens-spec-groups";
-import type { SpecRow, SpecGroup, StructuredLine } from "@/lib/lens-spec-groups";
+import { buildSpecGroups, resolveSpecRow } from "@/lib/lens-spec-groups";
+import type { StructuredLine, ResolvedSpecRow } from "@/lib/lens-spec-groups";
 import type { Lens } from "@/lib/types";
 
 // --- LensHeaderContent: shared inner card content ---
@@ -317,6 +317,23 @@ export default function CompareTable({ lenses: initialLenses, minColumns = 0 }: 
     [td]
   );
 
+  // Resolve all row values once per (lens, row) pair — single source of truth
+  // for both the rendered cells and the Report Dialog's field list.
+  const resolvedPerLens = useMemo(() => {
+    const map = new Map<string, Map<string, ResolvedSpecRow>>();
+    for (const lens of orderedLenses) {
+      const rowMap = new Map<string, ResolvedSpecRow>();
+      for (const group of allGroups) {
+        for (const row of group.rows) {
+          const resolved = resolveSpecRow(row, lens, valueCellLabels);
+          if (resolved) rowMap.set(row.label, resolved);
+        }
+      }
+      map.set(lens.id, rowMap);
+    }
+    return map;
+  }, [allGroups, orderedLenses, valueCellLabels]);
+
   // Per-view suppression: hide rows where no compared lens has data.
   const visibleGroups = useMemo(
     () =>
@@ -324,28 +341,31 @@ export default function CompareTable({ lenses: initialLenses, minColumns = 0 }: 
         .map((group) => ({
           ...group,
           rows: group.rows.filter((row) =>
-            orderedLenses.some((l) => row.hasData(l))
+            orderedLenses.some((l) => resolvedPerLens.get(l.id)?.has(row.label))
           ),
         }))
         .filter((group) => group.rows.length > 0),
-    [allGroups, orderedLenses]
+    [allGroups, orderedLenses, resolvedPerLens]
   );
 
-  // Per-lens reportable fields: only rows visible for each specific lens.
+  // Per-lens Report Dialog fields — derived from resolved values, identical to
+  // what is rendered in the table cells.
   const lensFields = useMemo(() => {
     const map = new Map<string, FeedbackField[]>();
     for (const lens of orderedLenses) {
-      const fields = allGroups
-        .flatMap((group) => group.rows)
-        .filter((row) => row.hasData(lens))
-        .map((row) => {
-          const currentValue = getSpecRowPlainTextValue(row, lens, valueCellLabels);
-          return { label: row.label, currentValue };
-        });
+      const rowMap = resolvedPerLens.get(lens.id);
+      if (!rowMap) continue;
+      const fields: FeedbackField[] = [];
+      for (const group of allGroups) {
+        for (const row of group.rows) {
+          const resolved = rowMap.get(row.label);
+          if (resolved) fields.push({ label: resolved.label, currentValue: resolved.plainText });
+        }
+      }
       map.set(lens.id, fields);
     }
     return map;
-  }, [allGroups, orderedLenses, valueCellLabels]);
+  }, [resolvedPerLens, allGroups, orderedLenses]);
 
   const totalColSpan = orderedLenses.length + 1 + emptySlotCount;
   const scrollContainer = useScrollContainer();
@@ -513,11 +533,14 @@ export default function CompareTable({ lenses: initialLenses, minColumns = 0 }: 
 
                 {/* Data rows */}
                 {group.rows.map((row) => {
-                  // Compute best value for numeric rows
+                  // Compute best value for numeric rows using pre-resolved comparables.
                   let bestVal: number | null = null;
                   if (row.kind === "numeric" && row.bestDir) {
                     const vals = orderedLenses
-                      .map(row.toComparable)
+                      .map((l) => {
+                        const r = resolvedPerLens.get(l.id)?.get(row.label);
+                        return r?.kind === "numeric" ? r.comparable : undefined;
+                      })
                       .filter((v): v is number => v !== undefined);
                     if (vals.length > 1) {
                       bestVal =
@@ -539,12 +562,21 @@ export default function CompareTable({ lenses: initialLenses, minColumns = 0 }: 
 
                       {/* Value cells — filled lenses */}
                       {orderedLenses.map((lens) => {
-                        const fieldNote =
-                          (row.fieldNoteKey ? lens.fieldNotes?.[row.fieldNoteKey] : undefined) ??
-                          row.getNote?.(lens);
+                        const resolved = resolvedPerLens.get(lens.id)?.get(row.label);
 
-                        if (row.kind === "bool") {
-                          const subVal = row.getSubValue?.(lens);
+                        // Lens has no data for this row — render empty cell.
+                        if (!resolved) {
+                          return (
+                            <td
+                              key={lens.id}
+                              className="px-3 py-3 text-center text-zinc-400 dark:text-zinc-600"
+                            >
+                              {valueCellLabels.missing}
+                            </td>
+                          );
+                        }
+
+                        if (resolved.kind === "bool") {
                           return (
                             <td
                               key={lens.id}
@@ -553,38 +585,31 @@ export default function CompareTable({ lenses: initialLenses, minColumns = 0 }: 
                               <div className="flex items-center justify-center gap-1">
                                 <div>
                                   <BoolCell
-                                  value={row.getValue(lens)}
-                                  yes={valueCellLabels.yes}
-                                  no={valueCellLabels.no}
-                                  partial={valueCellLabels.partial}
-                                  unknown={valueCellLabels.missing}
-                                />
-                                  {subVal && (
+                                    value={resolved.boolValue}
+                                    yes={valueCellLabels.yes}
+                                    no={valueCellLabels.no}
+                                    partial={valueCellLabels.partial}
+                                    unknown={valueCellLabels.missing}
+                                  />
+                                  {resolved.subValue && (
                                     <p className="mt-0.5 text-[11px] leading-relaxed font-normal text-zinc-400 dark:text-zinc-500">
-                                      {subVal}
+                                      {resolved.subValue}
                                     </p>
                                   )}
                                 </div>
-                                {fieldNote && (
-                                  <FieldNotePopover note={fieldNote} />
-                                )}
+                                {resolved.note && <FieldNotePopover note={resolved.note} />}
                               </div>
                             </td>
                           );
                         }
 
-                        if (row.kind === "numeric") {
-                          const comparable = row.toComparable(lens);
+                        if (resolved.kind === "numeric") {
                           const isBest =
-                            bestVal !== null && comparable === bestVal;
-                          const fragment = isBest
-                            ? row.getHighlightFragment?.(lens)
-                            : undefined;
-                          const subVal = row.getSubValue?.(lens);
-                          const structuredLines = row.getStructuredLines?.(lens);
+                            bestVal !== null && resolved.comparable === bestVal;
+                          const fragment = isBest ? resolved.highlightFragment : undefined;
 
                           // --- Structured multi-line rendering ---
-                          if (structuredLines && structuredLines.length > 0) {
+                          if (resolved.structuredLines && resolved.structuredLines.length > 0) {
                             return (
                               <td
                                 key={lens.id}
@@ -592,7 +617,7 @@ export default function CompareTable({ lenses: initialLenses, minColumns = 0 }: 
                               >
                                 <div className="flex items-center justify-center gap-1">
                                   <div className="flex flex-col items-center gap-0.5">
-                                    {structuredLines.map(
+                                    {resolved.structuredLines.map(
                                       (line: StructuredLine, i: number) => {
                                         const lineHighlighted =
                                           isBest && fragment === line.value;
@@ -618,22 +643,20 @@ export default function CompareTable({ lenses: initialLenses, minColumns = 0 }: 
                                         );
                                       }
                                     )}
-                                    {subVal && (
+                                    {resolved.subValue && (
                                       <p className="mt-0.5 whitespace-pre-line text-[11px] leading-relaxed font-normal text-zinc-400 dark:text-zinc-500">
-                                        {subVal}
+                                        {resolved.subValue}
                                       </p>
                                     )}
                                   </div>
-                                  {fieldNote && (
-                                    <FieldNotePopover note={fieldNote} />
-                                  )}
+                                  {resolved.note && <FieldNotePopover note={resolved.note} />}
                                 </div>
                               </td>
                             );
                           }
 
                           // --- Plain string rendering ---
-                          const displayVal = row.getDisplayValue(lens);
+                          const displayVal = resolved.displayValue;
                           const usePartialHighlight =
                             isBest &&
                             fragment !== undefined &&
@@ -689,23 +712,19 @@ export default function CompareTable({ lenses: initialLenses, minColumns = 0 }: 
                                   <span className="whitespace-pre-line">
                                     {primaryNode}
                                   </span>
-                                  {subVal && (
+                                  {resolved.subValue && (
                                     <p className="mt-0.5 whitespace-pre-line text-[11px] leading-relaxed font-normal text-zinc-400 dark:text-zinc-500">
-                                      {subVal}
+                                      {resolved.subValue}
                                     </p>
                                   )}
                                 </div>
-                                {fieldNote && (
-                                  <FieldNotePopover note={fieldNote} />
-                                )}
+                                {resolved.note && <FieldNotePopover note={resolved.note} />}
                               </div>
                             </td>
                           );
                         }
 
                         // text row
-                        const displayVal = row.getDisplayValue(lens);
-                        const subVal = row.getSubValue?.(lens);
                         return (
                           <td
                             key={lens.id}
@@ -714,17 +733,15 @@ export default function CompareTable({ lenses: initialLenses, minColumns = 0 }: 
                             <div className="flex items-center justify-center gap-1">
                               <div>
                                 <span className="whitespace-pre-line">
-                                  {displayVal ?? valueCellLabels.missing}
+                                  {resolved.displayValue ?? valueCellLabels.missing}
                                 </span>
-                                {subVal && (
+                                {resolved.subValue && (
                                   <p className="mt-0.5 whitespace-pre-line text-[11px] leading-relaxed text-zinc-400 dark:text-zinc-500">
-                                    {subVal}
+                                    {resolved.subValue}
                                   </p>
                                 )}
                               </div>
-                              {fieldNote && (
-                                <FieldNotePopover note={fieldNote} />
-                              )}
+                              {resolved.note && <FieldNotePopover note={resolved.note} />}
                             </div>
                           </td>
                         );

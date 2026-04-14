@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { buildSpecGroups, getSpecRowPlainTextValue } from "@/lib/lens-spec-groups";
+import { buildSpecGroups, resolveSpecRow } from "@/lib/lens-spec-groups";
 import type { Lens } from "@/lib/types";
 
 const labels = {
@@ -106,12 +106,12 @@ function getRow(label: string) {
   return row!;
 }
 
-describe("getSpecRowPlainTextValue", () => {
+describe("resolveSpecRow — plainText", () => {
   it("includes secondary text for bool rows", () => {
     const lens = makeLens({ ois: true, oisStops: 5 });
     const row = getRow("OIS");
 
-    expect(getSpecRowPlainTextValue(row, lens, valueLabels)).toBe("Yes\n5 stops");
+    expect(resolveSpecRow(row, lens, valueLabels)?.plainText).toBe("Yes\n5 stops");
   });
 
   it("serializes structured numeric rows and macro details", () => {
@@ -124,7 +124,7 @@ describe("getSpecRowPlainTextValue", () => {
     });
     const row = getRow("Min Focus Distance");
 
-    expect(getSpecRowPlainTextValue(row, lens, valueLabels)).toBe(
+    expect(resolveSpecRow(row, lens, valueLabels)?.plainText).toBe(
       "15cm (Wide)\n30cm (Tele)\nMacro: 12cm"
     );
   });
@@ -136,7 +136,7 @@ describe("getSpecRowPlainTextValue", () => {
     });
     const row = getRow("Dimensions");
 
-    expect(getSpecRowPlainTextValue(row, lens, valueLabels)).toBe(
+    expect(resolveSpecRow(row, lens, valueLabels)?.plainText).toBe(
       "⌀65 × 71mm\nRetracted 60mm\nTele 89mm"
     );
   });
