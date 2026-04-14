@@ -39,6 +39,14 @@ interface IrisProps {
    * logo (left = closed, right = open) and eases back to default on leave.
    */
   interactive?: boolean;
+  /** Blade fill colour. Overrides the default Tailwind dark/light class. */
+  bladeColor?: string;
+  /** Blade gap stroke colour. Overrides the default Tailwind dark/light class. */
+  strokeColor?: string;
+  /** Blade gap stroke width in SVG units. Default 1.5. */
+  strokeWidth?: number;
+  /** Show blade drop-shadow. Default true. */
+  shadow?: boolean;
 }
 
 export default function Iris({
@@ -46,6 +54,10 @@ export default function Iris({
   uid = "logo",
   className,
   interactive = false,
+  bladeColor,
+  strokeColor,
+  strokeWidth = 1.5,
+  shadow = true,
 }: IrisProps) {
   const preset = size < LOGO_SM_THRESHOLD ? IRIS_SM : IRIS_LG;
   const DEFAULT_T = preset.t;
@@ -215,9 +227,10 @@ export default function Iris({
             <g transform={b0Transform}>
               <path
                 d={shape}
-                className="fill-zinc-900 dark:fill-zinc-100"
+                className={bladeColor ? undefined : "fill-zinc-900 dark:fill-zinc-100"}
+                fill={bladeColor}
                 stroke="none"
-                filter={`url(#${uid}-shadow)`}
+                filter={shadow ? `url(#${uid}-shadow)` : undefined}
               />
             </g>
           </g>
@@ -230,8 +243,9 @@ export default function Iris({
                 <path
                   d={shape}
                   fill="none"
-                  className="stroke-stone-100 dark:stroke-zinc-950"
-                  strokeWidth={1.5}
+                  className={strokeColor ? undefined : "stroke-stone-100 dark:stroke-zinc-950"}
+                  stroke={strokeColor}
+                  strokeWidth={strokeWidth}
                 />
               </g>
             </g>
@@ -243,7 +257,8 @@ export default function Iris({
       <circle
         r={R_HOUSING - dc.bladeWidth / 2}
         fill="none"
-        className="stroke-stone-100 dark:stroke-zinc-950"
+        className={strokeColor ? undefined : "stroke-stone-100 dark:stroke-zinc-950"}
+        stroke={strokeColor}
         strokeWidth={dc.bladeWidth + 1}
       />
     </svg>
