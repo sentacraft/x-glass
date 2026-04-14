@@ -140,9 +140,7 @@ export default function LensSearchDialog({
             : triggerVariant === "button"
               ? "inline-flex h-11 items-center justify-center gap-2 rounded-2xl border border-zinc-200 bg-white px-4 text-sm font-medium text-zinc-700 transition-colors hover:border-zinc-300 hover:text-zinc-950 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-200 dark:hover:border-zinc-700 dark:hover:text-zinc-50"
               : triggerVariant === "slot"
-                // Slot: no justify-center — icon lives in a flex-1 zone so both
-                // slots' icons align regardless of label text length.
-                ? "flex w-full flex-col items-center rounded-[28px] border border-dashed border-zinc-300 bg-zinc-50/60 text-center text-zinc-500 transition-colors hover:border-zinc-400 hover:bg-zinc-100/70 hover:text-zinc-900 dark:border-zinc-800 dark:bg-zinc-950/60 dark:text-zinc-400 dark:hover:border-zinc-700 dark:hover:bg-zinc-900 dark:hover:text-zinc-50"
+                ? "flex w-full flex-col items-center justify-center gap-2 rounded-[28px] border border-dashed border-zinc-300 bg-zinc-50/60 text-center text-zinc-500 transition-colors hover:border-zinc-400 hover:bg-zinc-100/70 hover:text-zinc-900 dark:border-zinc-800 dark:bg-zinc-950/60 dark:text-zinc-400 dark:hover:border-zinc-700 dark:hover:bg-zinc-900 dark:hover:text-zinc-50"
                 : "flex w-full flex-col items-center justify-center gap-3 rounded-[28px] border border-dashed border-zinc-300 bg-zinc-50/60 px-6 py-8 text-center text-zinc-500 transition-colors hover:border-zinc-400 hover:bg-zinc-100/70 hover:text-zinc-900 dark:border-zinc-800 dark:bg-zinc-950/60 dark:text-zinc-400 dark:hover:border-zinc-700 dark:hover:bg-zinc-900 dark:hover:text-zinc-50",
           triggerClassName
         )}
@@ -168,13 +166,9 @@ export default function LensSearchDialog({
           </>
         )}
         {triggerVariant === "slot" && (
-          // Two-zone: icon floats in flex-1 area so both slots' icons land at
-          // the same vertical position regardless of label length.
           <>
-            <div className="flex flex-1 items-center justify-center">
-              <Search className="h-7 w-7" />
-            </div>
-            <span className="pb-4 text-sm font-medium text-zinc-700 dark:text-zinc-200">
+            <Search className="h-5 w-5" />
+            <span className="text-sm font-medium text-zinc-700 dark:text-zinc-200">
               {triggerLabel ?? t("addLens")}
             </span>
           </>

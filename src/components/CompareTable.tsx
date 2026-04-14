@@ -149,7 +149,7 @@ function EmptyLensHeader({
         getResultState={getResultState}
         triggerVariant="slot"
         triggerLabel={addLensLabel}
-        triggerClassName="h-full w-full rounded-2xl"
+        triggerClassName="h-full w-full min-h-[110px] rounded-2xl"
       />
     </th>
   );
