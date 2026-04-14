@@ -34,6 +34,11 @@ export interface IrisConfig extends StoredIrisParams {
   // ── Interactive ─────────────────────────────────────────────────────────────
   /** When true, aperture openness tracks horizontal mouse position. */
   interactive?: boolean;
+  /**
+   * When true, plays an entry animation on mount: open → f/22 → defaultFStop
+   * over 1 second, using the same exponential-smoothing chase as follow-mouse.
+   */
+  initAnimation?: boolean;
 }
 
 // ── Named configs ─────────────────────────────────────────────────────────────
@@ -63,6 +68,7 @@ export const IRIS_HERO: IrisConfig = {
   shadow: false,
   // Interactive
   interactive: true,
+  initAnimation: false,
 };
 
 export const IRIS_NAV: IrisConfig = {
@@ -81,6 +87,7 @@ export const IRIS_NAV: IrisConfig = {
   shadow: true,
   // Interactive
   interactive: false,
+  initAnimation: false,
 };
 
 // ── TODO: App name / tagline strings ─────────────────────────────────────────

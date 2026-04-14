@@ -416,6 +416,7 @@ export default function ApertureV2Lab() {
     if (v.shadow !== undefined) setShadowOpacity(v.shadow ? 0.55 : 0);
     setOpenFStop(v.openFStop ?? 1.4);
     setDefaultFStop(v.defaultFStop ?? 5.6);
+    setInitAnimation(v.initAnimation ?? false);
     // Update production preview to reflect the loaded config at actual size.
     setPreviewConfig({ ...v, interactive: false });
     setIsPlaying(false);
@@ -441,6 +442,7 @@ export default function ApertureV2Lab() {
       strokeWidth: strokeWidth,
       shadow: shadowOpacity > 0,
       interactive: selectedProfile === "production:hero",
+      initAnimation,
     };
     if (selectedProfile === "lab") {
       setLabConfig(stored);
@@ -465,6 +467,7 @@ export default function ApertureV2Lab() {
       if (v.shadow !== undefined) setShadowOpacity(v.shadow ? 0.55 : 0);
       setOpenFStop(v.openFStop ?? 1.4);
       setDefaultFStop(v.defaultFStop ?? 5.6);
+      setInitAnimation(v.initAnimation ?? false);
       setPreviewConfig({ ...v, interactive: false });
     });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
@@ -497,6 +500,7 @@ export default function ApertureV2Lab() {
   const [showFStopRing, setShowFStopRing] = useState(false);
   const [fStopRingOuter, setFStopRingOuter] = useState(true);
   const [followMouse, setFollowMouse] = useState(false);
+  const [initAnimation, setInitAnimation] = useState(false);
   const [openFStop, setOpenFStop] = useState(1.4);
   const [defaultFStop, setDefaultFStop] = useState(5.6);
   const [strokeWidth, setStrokeWidth] = useState(0.5);
@@ -930,6 +934,19 @@ export default function ApertureV2Lab() {
                   style={{ accentColor: "#18181b", width: 14, height: 14 }}
                 />
                 Follow Mouse
+              </label>
+              {/* Init Animation toggle */}
+              <label
+                className="flex items-center gap-2 text-sm cursor-pointer select-none"
+                style={{ color: "#3f3f46" }}
+              >
+                <input
+                  type="checkbox"
+                  checked={initAnimation}
+                  onChange={(e) => setInitAnimation(e.target.checked)}
+                  style={{ accentColor: "#18181b", width: 14, height: 14 }}
+                />
+                Init Animation
               </label>
               {/* Open F-Stop — the f-stop at the fully-open (maximum aperture) position. */}
               <div className="space-y-1">

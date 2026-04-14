@@ -55,6 +55,7 @@ export default function Iris({
   const {
     size: configSize,
     interactive = false,
+    initAnimation = false,
     bladeColor,
     strokeColor,
     strokeWidth = 1.5,
@@ -81,10 +82,14 @@ export default function Iris({
   const tRef = useRef<number>(DEFAULT_T);
   const animRef    = useRef<number | null>(null); // leave ease-out RAF
   const chaseRef   = useRef<number | null>(null); // follow-mouse chase RAF
-  const targetTRef = useRef<number>(DEFAULT_T);  // raw desired t written by mousemove
+  const initAnimRef = useRef<number | null>(null); // init animation sequencer RAF
+  const targetTRef = useRef<number>(DEFAULT_T);  // raw desired t written by mousemove/init
   const lastFrameRef = useRef<number>(0);
   const entryOffsetRef = useRef(0);
   const entryTimeRef = useRef(0);
+  // Keep DEFAULT_T accessible to the mount-only init animation effect.
+  const defaultTRef = useRef(DEFAULT_T);
+  defaultTRef.current = DEFAULT_T;
 
   // Per-frame: convert t → theta → blade states.
   const theta = tNormToTheta(t, thetaOpen, thetaMax);
@@ -97,9 +102,59 @@ export default function Iris({
 
   // Cancel all pending animations on unmount.
   useEffect(() => () => {
-    if (animRef.current)  cancelAnimationFrame(animRef.current);
-    if (chaseRef.current) cancelAnimationFrame(chaseRef.current);
+    if (animRef.current)     cancelAnimationFrame(animRef.current);
+    if (chaseRef.current)    cancelAnimationFrame(chaseRef.current);
+    if (initAnimRef.current) cancelAnimationFrame(initAnimRef.current);
   }, []);
+
+  // Init animation: open → f/22 → defaultFStop over 1000 ms on mount.
+  // Drives targetTRef through keyframes; the existing chase RAF does smoothing.
+  useEffect(() => {
+    if (!initAnimation) return;
+
+    const INIT_DURATION_MS = 1000;
+
+    // Jump to fully open immediately.
+    tRef.current = 0.02;
+    targetTRef.current = 0.02;
+    setT(0.02);
+
+    startChase();
+
+    const startTime = performance.now();
+    function sequenceTick(now: number) {
+      const p = Math.min(1, (now - startTime) / INIT_DURATION_MS);
+
+      let keyframeT: number;
+      if (p < 0.5) {
+        // Phase 1: fully open → f/22
+        keyframeT = p / 0.5;
+      } else {
+        // Phase 2: f/22 → defaultFStop
+        keyframeT = 1 + ((p - 0.5) / 0.5) * (defaultTRef.current - 1);
+      }
+
+      targetTRef.current = Math.max(0.02, Math.min(0.98, keyframeT));
+
+      if (p < 1) {
+        initAnimRef.current = requestAnimationFrame(sequenceTick);
+      } else {
+        initAnimRef.current = null;
+        // Chase has had 500 ms to converge (τ=60 ms → error ≈ 0.02 %); stop cleanly.
+        stopChase();
+        tRef.current = defaultTRef.current;
+        setT(defaultTRef.current);
+      }
+    }
+
+    initAnimRef.current = requestAnimationFrame(sequenceTick);
+
+    return () => {
+      if (initAnimRef.current) { cancelAnimationFrame(initAnimRef.current); initAnimRef.current = null; }
+      stopChase();
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // mount-only
 
   const { N } = dc;
   const stepDeg = 360 / N;
@@ -152,7 +207,8 @@ export default function Iris({
 
   function handleMouseEnter(e: React.MouseEvent<SVGSVGElement>) {
     if (!interactive) return;
-    if (animRef.current) { cancelAnimationFrame(animRef.current); animRef.current = null; }
+    if (animRef.current)     { cancelAnimationFrame(animRef.current);     animRef.current = null; }
+    if (initAnimRef.current) { cancelAnimationFrame(initAnimRef.current); initAnimRef.current = null; }
     const rect = e.currentTarget.getBoundingClientRect();
     entryOffsetRef.current = tRef.current - posToDiameterT(e.clientX, rect);
     entryTimeRef.current   = performance.now();
