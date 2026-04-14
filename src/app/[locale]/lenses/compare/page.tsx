@@ -45,8 +45,9 @@ export default async function ComparePage({
       {/* Table — minColumns=2 ensures cold start always shows 2 search-trigger columns */}
       <CompareTable lenses={lenses} minColumns={2} />
 
-      {/* Back button */}
-      <BackButton fallbackHref={fallbackHref} />
+      {lenses.length > 0 && (
+        <BackButton fallbackHref={fallbackHref} />
+      )}
     </div>
   );
 }
