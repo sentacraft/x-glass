@@ -107,6 +107,15 @@ export default function Iris({
     if (initAnimRef.current) cancelAnimationFrame(initAnimRef.current);
   }, []);
 
+  // Sync theta to DEFAULT_THETA when config changes (non-interactive static display).
+  // Interactive instances own their theta via mouse/animation; static previews should
+  // always reflect the resting position implied by the current config props.
+  useEffect(() => {
+    if (interactive) return;
+    thetaRef.current = DEFAULT_THETA;
+    setTheta(DEFAULT_THETA);
+  }, [DEFAULT_THETA, interactive]);
+
   // Init animation: open → f/22 → defaultFStop over 1000 ms on mount.
   // Drives targetThetaRef through keyframes; the existing chase RAF does smoothing.
   useEffect(() => {
