@@ -104,6 +104,50 @@ export interface SpecValueTextLabels {
 }
 
 // ---------------------------------------------------------------------------
+// Resolved row types — all formatter functions already called, values are plain data
+// ---------------------------------------------------------------------------
+
+export interface ResolvedTextRow {
+  kind: "text";
+  label: string;
+  /** Resolved note for the ⓘ popover, if any. */
+  note?: string;
+  displayValue?: string;
+  subValue?: string;
+  /** Plain-text representation of the visible cell — single source of truth for the Report Dialog. */
+  plainText: string;
+}
+
+export interface ResolvedNumericRow {
+  kind: "numeric";
+  label: string;
+  note?: string;
+  displayValue?: string;
+  subValue?: string;
+  structuredLines?: StructuredLine[];
+  comparable?: number;
+  bestDir?: "min" | "max";
+  highlightFragment?: string;
+  plainText: string;
+}
+
+export interface ResolvedBoolRow {
+  kind: "bool";
+  label: string;
+  note?: string;
+  boolValue: boolean | "partial" | undefined;
+  subValue?: string;
+  plainText: string;
+}
+
+export type ResolvedSpecRow = ResolvedTextRow | ResolvedNumericRow | ResolvedBoolRow;
+
+export interface ResolvedSpecGroup {
+  label: string;
+  rows: ResolvedSpecRow[];
+}
+
+// ---------------------------------------------------------------------------
 // Labels interface — caller passes all pre-translated strings
 // ---------------------------------------------------------------------------
 
@@ -163,51 +207,104 @@ export interface SpecGroupLabels {
   motorClass: Record<FocusMotorClass, string>;
 }
 
-function appendSubValue(primary: string | undefined, subValue: string | undefined) {
-  if (!primary && !subValue) return undefined;
-  if (!subValue) return primary;
-  return primary ? `${primary}\n${subValue}` : subValue;
-}
-
-function structuredLinesToText(lines: StructuredLine[] | undefined) {
-  if (!lines || lines.length === 0) return undefined;
-  return lines
-    .map((line) => (line.label ? `${line.value} (${line.label})` : line.value))
-    .join("\n");
+function joinWithSub(primary: string, subValue: string | undefined): string {
+  return subValue ? `${primary}\n${subValue}` : primary;
 }
 
 /**
- * Returns the plain-text value as closely as possible to what the user sees in
- * the spec table, including structured lines and secondary text.
+ * Resolves a single spec row for a specific lens, calling all formatter functions
+ * exactly once. Returns null when this lens has no data for the row (caller should
+ * omit the row from the visible set for this lens).
+ *
+ * The returned `plainText` field is the single source of truth for the Report
+ * Dialog's "current value" — identical to what is rendered in the spec table.
  */
-export function getSpecRowPlainTextValue(
+export function resolveSpecRow(
   row: SpecRow,
   lens: Lens,
   labels: SpecValueTextLabels
-): string | undefined {
+): ResolvedSpecRow | null {
+  if (!row.hasData(lens)) return null;
+
+  const note =
+    (row.fieldNoteKey ? lens.fieldNotes?.[row.fieldNoteKey] : undefined) ??
+    row.getNote?.(lens);
+
   if (row.kind === "bool") {
-    const value = row.getValue(lens);
-    const primary =
-      value === true
+    const boolValue = row.getValue(lens);
+    const subValue = row.getSubValue?.(lens);
+    const primaryText =
+      boolValue === true
         ? labels.yes
-        : value === "partial"
+        : boolValue === "partial"
           ? labels.partial
-          : value === false
+          : boolValue === false
             ? labels.no
             : labels.unknown;
-    return appendSubValue(primary, row.getSubValue?.(lens));
+    return {
+      kind: "bool",
+      label: row.label,
+      note,
+      boolValue,
+      subValue,
+      plainText: joinWithSub(primaryText, subValue),
+    };
   }
 
   if (row.kind === "numeric") {
+    const structuredLines = row.getStructuredLines?.(lens);
+    const displayValue = row.getDisplayValue(lens);
+    const subValue = row.getSubValue?.(lens);
     const primary =
-      structuredLinesToText(row.getStructuredLines?.(lens)) ??
-      row.getDisplayValue(lens) ??
-      labels.missing;
-    return appendSubValue(primary, row.getSubValue?.(lens));
+      structuredLines && structuredLines.length > 0
+        ? structuredLines
+            .map((l) => (l.label ? `${l.value} (${l.label})` : l.value))
+            .join("\n")
+        : (displayValue ?? labels.missing);
+    return {
+      kind: "numeric",
+      label: row.label,
+      note,
+      displayValue,
+      subValue,
+      structuredLines,
+      comparable: row.toComparable(lens),
+      bestDir: row.bestDir,
+      highlightFragment: row.getHighlightFragment?.(lens),
+      plainText: joinWithSub(primary, subValue),
+    };
   }
 
-  const primary = row.getDisplayValue(lens) ?? labels.missing;
-  return appendSubValue(primary, row.getSubValue?.(lens));
+  // text
+  const displayValue = row.getDisplayValue(lens);
+  const subValue = row.getSubValue?.(lens);
+  return {
+    kind: "text",
+    label: row.label,
+    note,
+    displayValue,
+    subValue,
+    plainText: joinWithSub(displayValue ?? labels.missing, subValue),
+  };
+}
+
+/**
+ * Resolves all spec groups for a single lens, filtering out rows and groups
+ * where the lens has no data. Use on the detail page or any single-lens view.
+ */
+export function resolveSpecGroups(
+  groups: SpecGroup[],
+  lens: Lens,
+  labels: SpecValueTextLabels
+): ResolvedSpecGroup[] {
+  return groups
+    .map((group) => ({
+      label: group.label,
+      rows: group.rows
+        .map((row) => resolveSpecRow(row, lens, labels))
+        .filter((r): r is ResolvedSpecRow => r !== null),
+    }))
+    .filter((group) => group.rows.length > 0);
 }
 
 // ---------------------------------------------------------------------------

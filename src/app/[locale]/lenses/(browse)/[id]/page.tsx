@@ -5,9 +5,8 @@ import { getTranslations } from "next-intl/server";
 import { Flag } from "lucide-react";
 import { allLenses, getLensUrl } from "@/lib/lens";
 import { lensImageStyle } from "@/lib/lens-image";
-import { buildSpecGroups, getSpecRowPlainTextValue } from "@/lib/lens-spec-groups";
-import type { SpecRow, StructuredLine } from "@/lib/lens-spec-groups";
-import type { Lens } from "@/lib/types";
+import { buildSpecGroups, resolveSpecGroups } from "@/lib/lens-spec-groups";
+import type { ResolvedSpecRow, StructuredLine } from "@/lib/lens-spec-groups";
 import { ExternalLink } from "@/components/ui/external-link";
 import { LensPlaceholderIcon } from "@/components/ui/lens-placeholder-icon";
 import { Link } from "@/i18n/navigation";
@@ -55,50 +54,46 @@ function StructuredLines({ lines }: { lines: StructuredLine[] }) {
 }
 
 function renderRowValue(
-  row: SpecRow,
-  lens: Lens,
-  labels: { yes: string; no: string; partial: string; unknown: string; missing: string }
+  resolved: ResolvedSpecRow,
+  labels: { yes: string; no: string; partial: string; unknown: string; missing: string },
 ) {
-  if (row.kind === "bool") {
-    const subVal = row.getSubValue?.(lens);
+  if (resolved.kind === "bool") {
     return (
       <div>
         <BoolCell
-          value={row.getValue(lens)}
+          value={resolved.boolValue}
           yes={labels.yes}
           no={labels.no}
           partial={labels.partial}
           unknown={labels.unknown}
         />
-        {subVal && (
+        {resolved.subValue && (
           <p className="mt-0.5 text-[11px] leading-relaxed text-zinc-400 dark:text-zinc-500">
-            {subVal}
+            {resolved.subValue}
           </p>
         )}
       </div>
     );
   }
-  const structuredLines = row.kind === "numeric" ? row.getStructuredLines?.(lens) : undefined;
-  const sub = row.getSubValue?.(lens);
-  if (structuredLines && structuredLines.length > 0) {
+  if (resolved.kind === "numeric" && resolved.structuredLines && resolved.structuredLines.length > 0) {
     return (
       <div>
-        <StructuredLines lines={structuredLines} />
-        {sub && (
+        <StructuredLines lines={resolved.structuredLines} />
+        {resolved.subValue && (
           <p className="mt-0.5 whitespace-pre-line text-[11px] leading-relaxed text-zinc-400 dark:text-zinc-500">
-            {sub}
+            {resolved.subValue}
           </p>
         )}
       </div>
     );
   }
-  const primary = row.getDisplayValue(lens);
+  // resolved is ResolvedTextRow here
   return (
     <div>
-      <span className="whitespace-pre-line">{primary ?? labels.missing}</span>
-      {sub && (
+      <span className="whitespace-pre-line">{resolved.displayValue ?? labels.missing}</span>
+      {resolved.subValue && (
         <p className="mt-0.5 whitespace-pre-line text-[11px] leading-relaxed text-zinc-400 dark:text-zinc-500">
-          {sub}
+          {resolved.subValue}
         </p>
       )}
     </div>
@@ -117,7 +112,7 @@ export default async function LensDetailPage({ params }: { params: Params }) {
   const tBrand = await getTranslations("Brands");
   const url = getLensUrl(lens);
 
-  const groups = buildSpecGroups({
+  const specGroups = buildSpecGroups({
     groupOptics: t("groupOptics"),
     groupFocus: t("groupFocus"),
     groupStabilization: t("groupStabilization"),
@@ -186,13 +181,6 @@ export default async function LensDetailPage({ params }: { params: Params }) {
   });
 
   // Per-view suppression: hide rows where this lens has no data.
-  const visibleGroups = groups
-    .map((group) => ({
-      ...group,
-      rows: group.rows.filter((row) => row.hasData(lens)),
-    }))
-    .filter((group) => group.rows.length > 0);
-
   const valueCellLabels = {
     yes: t("yes"),
     no: t("no"),
@@ -201,12 +189,14 @@ export default async function LensDetailPage({ params }: { params: Params }) {
     missing: t("missing"),
   };
 
-  // Field options for the feedback dialog — mirrors exactly what the user sees in the spec table.
-  const reportableFields = visibleGroups.flatMap((group) =>
-    group.rows.map((row) => {
-      const currentValue = getSpecRowPlainTextValue(row, lens, valueCellLabels);
-      return { label: row.label, currentValue };
-    })
+  // Resolve all row values once. This is the single source of truth for both
+  // the rendered spec table and the Report Dialog's field list.
+  const resolvedGroups = resolveSpecGroups(specGroups, lens, valueCellLabels);
+
+  // Field options for the Report Dialog — taken directly from resolved values,
+  // identical to what is rendered in the spec table below.
+  const reportableFields = resolvedGroups.flatMap((group) =>
+    group.rows.map((row) => ({ label: row.label, currentValue: row.plainText }))
   );
 
   return (
@@ -273,7 +263,7 @@ export default async function LensDetailPage({ params }: { params: Params }) {
 
           {/* Grouped spec table */}
           <div className="rounded-xl border border-zinc-200 dark:border-zinc-800 overflow-hidden">
-            {visibleGroups.map((group, groupIdx) => (
+            {resolvedGroups.map((group, groupIdx) => (
               <div
                 key={group.label}
                 className={groupIdx > 0 ? "border-t border-zinc-200 dark:border-zinc-800" : ""}
@@ -288,23 +278,18 @@ export default async function LensDetailPage({ params }: { params: Params }) {
                 {/* Rows */}
                 <table className="w-full text-sm">
                   <tbody>
-                    {group.rows.map((row) => (
+                    {group.rows.map((resolved) => (
                       <tr
-                        key={row.label}
+                        key={resolved.label}
                         className="border-b border-zinc-100 dark:border-zinc-800/60 last:border-0"
                       >
                         <td className="px-4 py-2.5 text-xs font-medium text-zinc-500 dark:text-zinc-400 bg-zinc-50/60 dark:bg-zinc-900/30 w-40 whitespace-nowrap align-top">
-                          {row.label}
+                          {resolved.label}
                         </td>
                         <td className="px-4 py-2.5 text-zinc-700 dark:text-zinc-300">
                           <div className="flex items-center gap-1.5">
-                            {renderRowValue(row, lens, valueCellLabels)}
-                            {(() => {
-                              const note =
-                                (row.fieldNoteKey ? lens.fieldNotes?.[row.fieldNoteKey] : undefined) ??
-                                row.getNote?.(lens);
-                              return note ? <FieldNotePopover note={note} /> : null;
-                            })()}
+                            {renderRowValue(resolved, valueCellLabels)}
+                            {resolved.note && <FieldNotePopover note={resolved.note} />}
                           </div>
                         </td>
                       </tr>
