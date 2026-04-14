@@ -190,6 +190,7 @@
     "addToCompareAction": "Add to compare",
     "alreadyAdded": "Already added",
     "compareFull": "Compare full",
+    "compareFullHint": "All slots are filled. Remove a lens to add another.",
     "removeLens": "Remove {model}",
     "reportIssue": "Report",
     "shiftLeft": "Move left",

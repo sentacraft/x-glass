@@ -190,6 +190,7 @@
     "addToCompareAction": "加入对比",
     "alreadyAdded": "已在对比中",
     "compareFull": "对比已满",
+    "compareFullHint": "已达到最大数量，请先移除一个镜头再添加。",
     "removeLens": "移除 {model}",
     "reportIssue": "反馈",
     "shiftLeft": "左移",
