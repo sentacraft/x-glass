@@ -252,7 +252,7 @@ export default function ApertureV2Lab() {
   const [config, setConfig] = useState<IrisMechanismConfig>(DEFAULT_IRIS_CONFIG);
 
   // Studio state — preset selection and brand.ts read/write.
-  const [selectedPreset, setSelectedPreset] = useState<"BRAND_LOGO" | "BRAND_LOGO_SM">("BRAND_LOGO");
+  const [selectedPreset, setSelectedPreset] = useState<"IRIS_LG" | "IRIS_SM">("IRIS_LG");
   const [exportStatus, setExportStatus] = useState<string | null>(null);
 
   const setField = (patch: Partial<IrisMechanismConfig>) => {
@@ -270,7 +270,7 @@ export default function ApertureV2Lab() {
   };
 
   // Load a preset from brand.ts into the config sliders.
-  async function loadPreset(preset: "BRAND_LOGO" | "BRAND_LOGO_SM") {
+  async function loadPreset(preset: "IRIS_LG" | "IRIS_SM") {
     const v = await readFromBrand(preset);
     if (!v) return;
     const dc = buildDerivedConfig(v, R_HOUSING);
@@ -297,8 +297,8 @@ export default function ApertureV2Lab() {
     if (res.ok) setTimeout(() => setExportStatus(null), 3000);
   }
 
-  // Load BRAND_LOGO on first mount.
-  useEffect(() => { loadPreset("BRAND_LOGO"); }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  // Load IRIS_LG on first mount.
+  useEffect(() => { loadPreset("IRIS_LG"); }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Reload when preset selector changes.
   useEffect(() => { loadPreset(selectedPreset); }, [selectedPreset]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -450,7 +450,7 @@ export default function ApertureV2Lab() {
               Studio
             </p>
             <div className="flex gap-1.5">
-              {(["BRAND_LOGO", "BRAND_LOGO_SM"] as const).map((preset) => (
+              {(["IRIS_LG", "IRIS_SM"] as const).map((preset) => (
                 <button
                   key={preset}
                   onClick={() => setSelectedPreset(preset)}
@@ -461,7 +461,7 @@ export default function ApertureV2Lab() {
                     border: `1px solid ${selectedPreset === preset ? "#52525b" : "#222"}`,
                   }}
                 >
-                  {preset === "BRAND_LOGO" ? "LG" : "SM"}
+                  {preset === "IRIS_LG" ? "LG" : "SM"}
                 </button>
               ))}
             </div>

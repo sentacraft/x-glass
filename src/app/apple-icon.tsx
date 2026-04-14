@@ -7,7 +7,7 @@ import {
   computeThetaOpen,
   tNormToTheta,
 } from "@/lib/iris-kinematics";
-import { BRAND_LOGO } from "@/config/brand";
+import { IRIS_LG } from "@/config/brand";
 
 export const size = { width: 180, height: 180 };
 export const contentType = "image/png";
@@ -15,9 +15,9 @@ export const contentType = "image/png";
 // Pre-compute at module level (runs once per server render).
 // Satori constraint: no SVG mask or filter elements — fill pass only.
 const R_HOUSING = 100;
-const dc = buildDerivedConfig(BRAND_LOGO, R_HOUSING);
+const dc = buildDerivedConfig(IRIS_LG, R_HOUSING);
 const thetaOpen = computeThetaOpen(dc, R_HOUSING);
-const theta = tNormToTheta(BRAND_LOGO.t, thetaOpen, thetaRange(dc).max);
+const theta = tNormToTheta(IRIS_LG.t, thetaOpen, thetaRange(dc).max);
 const blades = solveAllBlades(theta, dc);
 const shape = bladeShapePath(dc);
 const N = dc.N;

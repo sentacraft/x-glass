@@ -2,7 +2,7 @@
 
 import { useState, useRef, useMemo, useEffect } from "react";
 import { bladePath, coverPoints, R } from "@/lib/iris-pheno-kinematics";
-import type { ApertureParams } from "@/lib/iris-pheno-kinematics";
+import type { IrisPhenoParams } from "@/lib/iris-pheno-kinematics";
 import { LOGO_SM_THRESHOLD } from "@/config/brand";
 
 // ── ApertureMark ─────────────────────────────────────────────────────────────
@@ -15,7 +15,7 @@ function ApertureMark({
   twist: number; shadowIntensity: number; bladeStroke: number;
   fill: string; gap: string; size: number; uid: string;
 }) {
-  const params: ApertureParams = { N, halfSpread, overlap, curve, twist };
+  const params: IrisPhenoParams = { N, halfSpread, overlap, curve, twist };
   const stepDeg = 360 / N;
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -257,7 +257,7 @@ function ParamControls({
 // ── Page ──────────────────────────────────────────────────────────────────────
 
 export default function IrisPhenoLab() {
-  // ─ Large section (BRAND_LOGO) ─────────────────────────────────────────────
+  // ─ Large section (IRIS_LG) ─────────────────────────────────────────────
   const [lgN,           setLgN]           = useState(7);
   const [lgT,           setLgT]           = useState(0.3);
   const [lgHalfSpread,  setLgHalfSpread]  = useState(0.6);
@@ -325,7 +325,7 @@ export default function IrisPhenoLab() {
     lgEaseRaf.current = requestAnimationFrame(tick);
   }
 
-  // ─ Small section (BRAND_LOGO_SM) ─────────────────────────────────────────
+  // ─ Small section (IRIS_SM) ─────────────────────────────────────────
   const [smN,           setSmN]           = useState(5);
   const [smT,           setSmT]           = useState(0.35);
   const [smHalfSpread,  setSmHalfSpread]  = useState(0.6);
@@ -364,10 +364,10 @@ export default function IrisPhenoLab() {
         </p>
       </div>
 
-      {/* ── Section 1: Large / BRAND_LOGO ──────────────────────────────────── */}
+      {/* ── Section 1: Large / IRIS_LG ──────────────────────────────────── */}
       <section>
         <h2 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-5">
-          Large size — <span className="font-mono">BRAND_LOGO</span>
+          Large size — <span className="font-mono">IRIS_LG</span>
           <span className="ml-2 font-normal normal-case text-gray-400">(≥{LOGO_SM_THRESHOLD}px)</span>
         </h2>
         <div className="flex gap-6 items-start">
@@ -405,10 +405,10 @@ export default function IrisPhenoLab() {
         </div>
       </section>
 
-      {/* ── Section 2: Favicon / BRAND_LOGO_SM ─────────────────────────────── */}
+      {/* ── Section 2: Favicon / IRIS_SM ─────────────────────────────── */}
       <section>
         <h2 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-5">
-          Favicon / icon size preview — <span className="font-mono">BRAND_LOGO_SM</span>
+          Favicon / icon size preview — <span className="font-mono">IRIS_SM</span>
           <span className="ml-2 font-normal normal-case text-gray-400">(&lt;{LOGO_SM_THRESHOLD}px)</span>
         </h2>
         <div className="flex gap-6 items-start">

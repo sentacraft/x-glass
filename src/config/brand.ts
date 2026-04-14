@@ -12,14 +12,14 @@ import type { StoredIrisParams } from "@/lib/iris-kinematics";
 // ── Optical size presets ──────────────────────────────────────────────────────
 //
 // Two presets — analogous to font optical sizing:
-//   BRAND_LOGO     → ≥ LOGO_SM_THRESHOLD px renders (hero, about page, OG image)
-//   BRAND_LOGO_SM  → <  LOGO_SM_THRESHOLD px renders (nav icon, favicon)
+//   IRIS_LG     → ≥ LOGO_SM_THRESHOLD px renders (hero, about page, OG image)
+//   IRIS_SM  → <  LOGO_SM_THRESHOLD px renders (nav icon, favicon)
 //
 // Iris picks the preset automatically based on the `size` prop.
 
 export const LOGO_SM_THRESHOLD = 40; // px
 
-export const BRAND_LOGO: StoredIrisParams = {
+export const IRIS_LG: StoredIrisParams = {
   /** Number of aperture blades. */
   N: 7,
   /** Rigid pivot-to-guide-pin distance (px). Must satisfy Rp ≤ d < bladeLength. */
@@ -34,7 +34,7 @@ export const BRAND_LOGO: StoredIrisParams = {
   t: 0.5,
 };
 
-export const BRAND_LOGO_SM: StoredIrisParams = {
+export const IRIS_SM: StoredIrisParams = {
   N: 5,
   pinDistance: 88,
   slotOffset: 0.6283,

@@ -3,7 +3,7 @@
 // Aperture mark component — renders the X-Glass logo using the physical
 // iris kinematic model (iris-kinematics.ts).
 //
-// Automatically selects BRAND_LOGO_SM for sizes below LOGO_SM_THRESHOLD so
+// Automatically selects IRIS_SM for sizes below LOGO_SM_THRESHOLD so
 // the blade gap remains legible at small render sizes (nav, favicon, etc.).
 //
 // Theming via Tailwind fill-*/stroke-* utilities (light/dark automatic).
@@ -17,7 +17,7 @@ import {
   computeThetaOpen,
   tNormToTheta,
 } from "@/lib/iris-kinematics";
-import { BRAND_LOGO, BRAND_LOGO_SM, LOGO_SM_THRESHOLD } from "@/config/brand";
+import { IRIS_LG, IRIS_SM, LOGO_SM_THRESHOLD } from "@/config/brand";
 import { ANIMATION } from "@/config/ui";
 
 const R_HOUSING = 100;
@@ -45,7 +45,7 @@ export default function Iris({
   className,
   interactive = false,
 }: IrisProps) {
-  const preset = size < LOGO_SM_THRESHOLD ? BRAND_LOGO_SM : BRAND_LOGO;
+  const preset = size < LOGO_SM_THRESHOLD ? IRIS_SM : IRIS_LG;
   const DEFAULT_T = preset.t;
 
   const [t, setT] = useState<number>(DEFAULT_T);

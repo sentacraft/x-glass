@@ -42,7 +42,7 @@ export interface BrandExportValues {
  * in brand.ts. Returns null if the preset cannot be found or parsed.
  */
 export async function readFromBrand(
-  presetName: "BRAND_LOGO" | "BRAND_LOGO_SM",
+  presetName: "IRIS_LG" | "IRIS_SM",
 ): Promise<BrandExportValues | null> {
   try {
     const content = await readFile(BRAND_PATH, "utf-8");
@@ -83,10 +83,10 @@ export async function readFromBrand(
 /**
  * Patch numeric values inside a named `export const <presetName> = { … }` block
  * in brand.ts. Uses string replacement scoped to that object's body so
- * BRAND_LOGO and BRAND_LOGO_SM don't interfere with each other.
+ * IRIS_LG and IRIS_SM don't interfere with each other.
  */
 export async function exportToBrand(
-  presetName: "BRAND_LOGO" | "BRAND_LOGO_SM",
+  presetName: "IRIS_LG" | "IRIS_SM",
   values: BrandExportValues,
 ): Promise<{ ok: boolean; error?: string }> {
   try {
