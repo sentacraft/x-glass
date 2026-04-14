@@ -141,7 +141,9 @@ function IrisVisualization({
       style={{ display: "block", width: "100%", height: "100%" }}
     >
       <defs>
-        {/* Housing clip — blades stay inside R_HOUSING */}
+        {/* Housing clip — blades stay inside R_HOUSING. The cover plate
+            then masks the outer annular ring (R_HOUSING−bladeWidth → R_HOUSING)
+            where the blade roots and pivot mechanism sit. */}
         <clipPath id={`clip-${uid}`}>
           <circle r={R_HOUSING} />
         </clipPath>
@@ -289,6 +291,21 @@ function IrisVisualization({
             />
           ))}
         </g>
+      )}
+
+      {/*
+        ── Housing cover plate ──
+        Physical ring that covers the blade-root / pivot zone:
+        inner edge at R_HOUSING − bladeWidth, outer edge at R_HOUSING.
+        Hidden when showMechanics is true so the internals are visible.
+      */}
+      {!showMechanics && (
+        <circle
+          r={R_HOUSING - config.bladeWidth / 2}
+          fill="none"
+          stroke="#101010"
+          strokeWidth={config.bladeWidth + 1}
+        />
       )}
 
       {/* ── Housing ring ── */}
