@@ -49,7 +49,7 @@ export default function Nav() {
   return (
     <header
       className={cn(
-        "shrink-0 border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-black z-30",
+        "fixed top-0 inset-x-0 border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-black z-30",
         "transition-transform duration-300 ease-in-out",
         hidden && "-translate-y-full sm:translate-y-0"
       )}

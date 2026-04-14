@@ -54,14 +54,17 @@ export default async function LocaleLayout({
             <ConsoleEgg />
             <Nav />
             <ScrollContainer>
-              {TESTHOOK_ALLOWED ? (
-                <TestHookProvider>
-                  {children}
-                  <TestHookPanel />
-                </TestHookProvider>
-              ) : (
-                children
-              )}
+              {/* pt-14 offsets the fixed nav (56px) so content starts below it */}
+              <div className="pt-14">
+                {TESTHOOK_ALLOWED ? (
+                  <TestHookProvider>
+                    {children}
+                    <TestHookPanel />
+                  </TestHookProvider>
+                ) : (
+                  children
+                )}
+              </div>
             </ScrollContainer>
           </ScrollContainerProvider>
         </CompareProvider>
