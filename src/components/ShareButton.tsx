@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useState, useCallback, useRef } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { Popover } from "@base-ui/react/popover";
 import { Drawer } from "@base-ui/react/drawer";
 import { Tabs } from "@base-ui/react/tabs";
@@ -59,22 +59,6 @@ export function ShareButton({ lenses, variant = "default", triggerClassName }: S
   const [hasScrolled, setHasScrolled] = useState(false);
   const [isScrollable, setIsScrollable] = useState(false);
   const lightboxScrollRef = useRef<HTMLDivElement | null>(null);
-  const lightboxCardRef = useRef<HTMLDivElement | null>(null);
-  const lightboxRoRef = useRef<ResizeObserver | null>(null);
-
-  // useLayoutEffect fires synchronously after DOM mutations, before paint —
-  // clientWidth is guaranteed correct here, unlike a callback ref on mobile Chrome
-  // where the portal layout may not be committed yet when the ref fires.
-  useLayoutEffect(() => {
-    const el = lightboxCardRef.current;
-    if (!lightboxOpen || !el) return;
-    const updateScale = () => setLightboxScale(Math.min(1, el.clientWidth / POSTER_W));
-    updateScale();
-    const ro = new ResizeObserver(updateScale);
-    lightboxRoRef.current = ro;
-    ro.observe(el);
-    return () => { ro.disconnect(); lightboxRoRef.current = null; };
-  }, [lightboxOpen]);
 
   // Filename slug
   const slugRef = useRef("");
@@ -98,7 +82,22 @@ export function ShareButton({ lenses, variant = "default", triggerClassName }: S
     setIsDesktop(mq.matches);
     const handler = (e: MediaQueryListEvent) => setIsDesktop(e.matches);
     mq.addEventListener("change", handler);
-    return () => mq.removeEventListener("change", handler);
+
+    // Compute lightbox scale from window.innerWidth — avoids portal-ref timing
+    // issues where clientWidth reads 0 before the dialog has laid out.
+    // Card CSS: mobile = calc(100vw - 44px), desktop (sm+) = calc(100vw - 24px),
+    // both capped at max-w-[750px].
+    const updateLightboxScale = () => {
+      const margin = window.innerWidth >= 640 ? 24 : 44;
+      setLightboxScale(Math.min(1, (window.innerWidth - margin) / POSTER_W));
+    };
+    updateLightboxScale();
+    window.addEventListener("resize", updateLightboxScale);
+
+    return () => {
+      mq.removeEventListener("change", handler);
+      window.removeEventListener("resize", updateLightboxScale);
+    };
   }, []);
 
   // Detect whether the lightbox poster is scrollable; reset scroll hint state on close
@@ -382,9 +381,8 @@ export function ShareButton({ lenses, variant = "default", triggerClassName }: S
                   <X className="size-3.5" />
                 </button>
 
-                {/* Poster card — ref drives the useLayoutEffect scale measurement */}
+                {/* Poster card */}
                 <motion.div
-                  ref={lightboxCardRef}
                   initial={{ opacity: 0, scale: 0.97 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.12, ease: "easeOut" }}
