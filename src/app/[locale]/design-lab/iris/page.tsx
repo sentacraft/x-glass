@@ -430,6 +430,26 @@ function formatFStop(f: number): string {
  * Returns range.min (fully open) if the target is smaller than the open f-stop,
  * or range.max (fully closed) if it cannot be reached.
  */
+/**
+ * Binary-search for the theta value that produces a given aperture inradius.
+ * Mirrors findThetaForFStop but works in the radius domain directly,
+ * avoiding the need to convert back to f-stop at the call site.
+ */
+function findThetaForInradius(
+  targetR: number,
+  dc: IrisMechanismConfig,
+  range: { min: number; max: number },
+): number {
+  let lo = range.min;
+  let hi = range.max;
+  for (let i = 0; i < 48; i++) {
+    const mid = (lo + hi) / 2;
+    if (apertureInradius(mid, dc) > targetR) lo = mid;
+    else hi = mid;
+  }
+  return (lo + hi) / 2;
+}
+
 function findThetaForFStop(
   targetFStop: number,
   dc: IrisMechanismConfig,
@@ -771,9 +791,15 @@ export default function ApertureV2Lab() {
       if (followLeaveRafRef.current) { cancelAnimationFrame(followLeaveRafRef.current); followLeaveRafRef.current = null; }
       startChase();
 
-      // Map horizontal position within hotzone → [range.min, thetaF22]
-      const t           = Math.max(0, Math.min(1, (e.clientX - hotLeft) / (hotRight - hotLeft)));
-      const rawTarget   = range.min + t * (thetaF22 - range.min);
+      // Map horizontal position within hotzone → aperture diameter (inradius) linearly.
+      // Left = max open (rOpen), right = r at f/22. Then binary-search for theta.
+      // This is a log transform in f-stop space: large-aperture end feels "faster",
+      // small-aperture end feels "slower" — matching a physical aperture ring.
+      const t       = Math.max(0, Math.min(1, (e.clientX - hotLeft) / (hotRight - hotLeft)));
+      const rOpen   = inradiusOpen;
+      const r22     = (1.4 * rOpen) / 22;
+      const targetR = rOpen + t * (r22 - rOpen); // linear in diameter
+      const rawTarget = findThetaForInradius(targetR, derivedConfig, range);
 
       if (!wasInHotzoneRef.current) {
         // First frame: record entry offset for smooth catchup
@@ -796,7 +822,9 @@ export default function ApertureV2Lab() {
       wasInHotzoneRef.current = false;
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [followMouse, range.min, thetaF22, autoTheta, derivedConfig.bladeWidth]);
+  }, [followMouse, range.min, range.max, inradiusOpen, autoTheta, derivedConfig.bladeWidth,
+      derivedConfig.N, derivedConfig.pivotRadius, derivedConfig.pinDistance,
+      derivedConfig.slotOffset, derivedConfig.bladeLength, derivedConfig.bladeCurvature]);
 
   return (
     <main
