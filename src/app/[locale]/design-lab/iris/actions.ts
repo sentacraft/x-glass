@@ -1,9 +1,9 @@
 "use server";
 
 // Server actions for reading and writing iris configs in iris-config.ts.
-// The regex patcher relies on numeric fields being plain decimal literals
-// (e.g. slotOffset: 0.6283, not Math.PI / 5) and string fields being
-// double-quoted literals (e.g. bladeColor: "#181818").
+// exportToConfig does a full replacement of the preset body — no regex patching.
+// The only constraint: numeric fields must be plain decimal literals so that
+// readFromConfig can parse them back with a simple regex.
 
 import { writeFile, readFile } from "fs/promises";
 import { exec } from "child_process";
@@ -15,10 +15,52 @@ const execAsync = promisify(exec);
 
 const CONFIG_PATH = path.join(process.cwd(), "src/config/iris-config.ts");
 
+/** Find the body of `withIrisDefaults({ … })` for a named preset. */
+function findPresetBody(content: string, presetName: string): { bodyStart: number; bodyEnd: number } | null {
+  const startPattern = new RegExp(`export const ${presetName}[^{]*\\{`);
+  const startMatch = startPattern.exec(content);
+  if (!startMatch) return null;
+
+  const bodyStart = startMatch.index + startMatch[0].length;
+  let depth = 1, bodyEnd = bodyStart;
+  while (bodyEnd < content.length && depth > 0) {
+    if (content[bodyEnd] === "{") depth++;
+    if (content[bodyEnd] === "}") depth--;
+    bodyEnd++;
+  }
+  return { bodyStart, bodyEnd: bodyEnd - 1 };
+}
+
+/** Serialize an IrisConfig into a tidy object-literal body (indented with 2 spaces). */
+function serializeBody(v: IrisConfig): string {
+  const lines: string[] = [];
+  const add = (key: string, val: string) => lines.push(`  ${key}: ${val},`);
+
+  add("N",            String(v.N));
+  add("pinDistance",  String(v.pinDistance));
+  add("slotOffset",   v.slotOffset.toFixed(6));
+  add("bladeLength",  String(v.bladeLength));
+  add("bladeWidth",   String(v.bladeWidth));
+  add("openFStop",    v.openFStop.toFixed(1));
+  add("defaultFStop", v.defaultFStop.toFixed(1));
+  add("size",         String(v.size));
+  if (v.strokeWidth  !== undefined) add("strokeWidth",  v.strokeWidth.toFixed(2));
+  if (v.closedFStop  !== undefined) add("closedFStop",  String(v.closedFStop));
+  if (v.hotzoneScale !== undefined) add("hotzoneScale", v.hotzoneScale.toFixed(2));
+  if (v.chaseTauMs   !== undefined) add("chaseTauMs",   String(v.chaseTauMs));
+  if (v.easeOutMs    !== undefined) add("easeOutMs",    String(v.easeOutMs));
+  if (v.catchupMs    !== undefined) add("catchupMs",    String(v.catchupMs));
+  if (v.bladeColor   !== undefined) add("bladeColor",   `"${v.bladeColor}"`);
+  if (v.strokeColor  !== undefined) add("strokeColor",  `"${v.strokeColor}"`);
+  if (v.interactive  !== undefined) add("interactive",  String(v.interactive));
+  if (v.initAnimation !== undefined) add("initAnimation", String(v.initAnimation));
+
+  return "\n" + lines.join("\n") + "\n";
+}
+
 /**
- * Read the current values from a named `export const <presetName> = { … }`
- * block in iris-config.ts. Fields not explicitly listed in the block fall back
- * to IRIS_DEFAULTS, matching the behaviour of withIrisDefaults() at runtime.
+ * Read the current values from a named preset in iris-config.ts.
+ * Fields absent from the block fall back to IRIS_DEFAULTS.
  * Returns null if the preset cannot be found or parsed.
  */
 export async function readFromConfig(
@@ -26,22 +68,11 @@ export async function readFromConfig(
 ): Promise<IrisConfig | null> {
   try {
     const content = await readFile(CONFIG_PATH, "utf-8");
+    const range = findPresetBody(content, presetName);
+    if (!range) return null;
 
-    // Match up to the first `{` so `withIrisDefaults({` works as well as plain `= {`.
-    const startPattern = new RegExp(`export const ${presetName}[^{]*\\{`);
-    const startMatch = startPattern.exec(content);
-    if (!startMatch) return null;
+    const body = content.slice(range.bodyStart, range.bodyEnd);
 
-    const bodyStart = startMatch.index + startMatch[0].length;
-    let depth = 1, bodyEnd = bodyStart;
-    while (bodyEnd < content.length && depth > 0) {
-      if (content[bodyEnd] === "{") depth++;
-      if (content[bodyEnd] === "}") depth--;
-      bodyEnd++;
-    }
-    const body = content.slice(bodyStart, bodyEnd - 1);
-
-    // extractNum: reads from the config body; if absent, falls back to IRIS_DEFAULTS.
     function extractNum(key: string): number | undefined {
       const m = new RegExp(`\\b${key}:\\s*([\\d.]+)`).exec(body);
       if (m) return parseFloat(m[1]);
@@ -52,7 +83,6 @@ export async function readFromConfig(
       const m = new RegExp(`\\b${key}:\\s*"([^"]*)"`) .exec(body);
       return m ? m[1] : undefined;
     }
-    // extractBool: reads from the config body; falls back to IRIS_DEFAULTS.
     function extractBool(key: string): boolean | undefined {
       const m = new RegExp(`\\b${key}:\\s*(true|false)`).exec(body);
       if (m) return m[1] === "true";
@@ -86,10 +116,9 @@ export async function readFromConfig(
 }
 
 /**
- * Patch values inside a named `export const <presetName> = { … }` block in
- * iris-config.ts. Supports numeric, string, and boolean field types.
- * Only fields that already exist in the block are updated; missing fields
- * are left unchanged (no insertions).
+ * Overwrite the body of a named preset in iris-config.ts with the given values.
+ * The entire `{ … }` block is replaced — no field-level patching.
+ * Runs tsc --noEmit after writing; restores the original on failure.
  */
 export async function exportToConfig(
   presetName: "IRIS_HERO" | "IRIS_NAV",
@@ -97,71 +126,21 @@ export async function exportToConfig(
 ): Promise<{ ok: boolean; error?: string }> {
   try {
     const originalContent = await readFile(CONFIG_PATH, "utf-8");
-    let content = originalContent;
+    const range = findPresetBody(originalContent, presetName);
+    if (!range) return { ok: false, error: `${presetName} not found in iris-config.ts` };
 
-    // Match up to the first `{` so `withIrisDefaults({` works as well as plain `= {`.
-    const startPattern = new RegExp(`export const ${presetName}[^{]*\\{`);
-    const startMatch = startPattern.exec(content);
-    if (!startMatch) return { ok: false, error: `${presetName} not found in iris-config.ts` };
+    const newContent =
+      originalContent.slice(0, range.bodyStart) +
+      serializeBody(values) +
+      originalContent.slice(range.bodyEnd);
 
-    const bodyStart = startMatch.index + startMatch[0].length;
-    let depth = 1;
-    let bodyEnd = bodyStart;
-    while (bodyEnd < content.length && depth > 0) {
-      if (content[bodyEnd] === "{") depth++;
-      if (content[bodyEnd] === "}") depth--;
-      bodyEnd++;
-    }
+    await writeFile(CONFIG_PATH, newContent, "utf-8");
 
-    let body = content.slice(bodyStart, bodyEnd - 1);
-
-    // Helpers: replace the field if it exists; insert it before the closing brace if not.
-    // NOTE: use .test() to detect presence rather than comparing strings before/after replace —
-    // when the new value equals the old value the strings are identical and the comparison
-    // would incorrectly fall through to the append branch, creating duplicate keys.
-    function patchNum(b: string, key: string, val: number): string {
-      const re = new RegExp(`(\\b${key}:\\s*)[\\d.]+`);
-      return re.test(b) ? b.replace(re, `$1${val}`) : b.trimEnd() + `\n  ${key}: ${val},\n`;
-    }
-    function patchStr(b: string, key: string, val: string): string {
-      const re = new RegExp(`(\\b${key}:\\s*)"[^"]*"`);
-      return re.test(b) ? b.replace(re, `$1"${val}"`) : b.trimEnd() + `\n  ${key}: "${val}",\n`;
-    }
-    function patchBool(b: string, key: string, val: boolean): string {
-      const re = new RegExp(`(\\b${key}:\\s*)(true|false)`);
-      return re.test(b) ? b.replace(re, `$1${val}`) : b.trimEnd() + `\n  ${key}: ${val},\n`;
-    }
-
-    // Patch all fields — insert if absent, replace if present.
-    body = patchNum(body, "N",            values.N);
-    body = patchNum(body, "pinDistance",  values.pinDistance);
-    body = patchNum(body, "slotOffset",   parseFloat(values.slotOffset.toFixed(6)));
-    body = patchNum(body, "bladeLength",  values.bladeLength);
-    body = patchNum(body, "bladeWidth",   values.bladeWidth);
-    body = patchNum(body, "openFStop",    parseFloat(values.openFStop.toFixed(1)));
-    body = patchNum(body, "defaultFStop", parseFloat(values.defaultFStop.toFixed(1)));
-    body = patchNum(body, "size",         values.size);
-    if (values.strokeWidth  !== undefined) body = patchNum (body, "strokeWidth",  parseFloat(values.strokeWidth.toFixed(2)));
-    if (values.closedFStop  !== undefined) body = patchNum (body, "closedFStop",  values.closedFStop);
-    if (values.hotzoneScale !== undefined) body = patchNum (body, "hotzoneScale", parseFloat(values.hotzoneScale.toFixed(2)));
-    if (values.chaseTauMs   !== undefined) body = patchNum (body, "chaseTauMs",   values.chaseTauMs);
-    if (values.easeOutMs    !== undefined) body = patchNum (body, "easeOutMs",    values.easeOutMs);
-    if (values.catchupMs    !== undefined) body = patchNum (body, "catchupMs",    values.catchupMs);
-    if (values.bladeColor   !== undefined) body = patchStr (body, "bladeColor",   values.bladeColor);
-    if (values.strokeColor  !== undefined) body = patchStr (body, "strokeColor",  values.strokeColor);
-    if (values.interactive  !== undefined) body = patchBool(body, "interactive",  values.interactive);
-    if (values.initAnimation !== undefined) body = patchBool(body, "initAnimation", values.initAnimation);
-
-    content = content.slice(0, bodyStart) + body + content.slice(bodyEnd - 1);
-    await writeFile(CONFIG_PATH, content, "utf-8");
-
-    // Type-check the patched file to catch any malformed output early.
+    // Type-check the written file; restore on failure.
     try {
       await execAsync("npx tsc --noEmit", { cwd: process.cwd() });
     } catch (tscErr: unknown) {
-      // Restore original content so the project stays in a compilable state.
       await writeFile(CONFIG_PATH, originalContent, "utf-8");
-      // tsc writes errors to stdout; use || (not ??) to fall through empty strings.
       const e = tscErr as { stderr?: string; stdout?: string };
       const output = e.stdout || e.stderr || String(tscErr);
       return { ok: false, error: `TypeScript error after export:\n${output}` };
