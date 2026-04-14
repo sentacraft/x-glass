@@ -3,7 +3,6 @@ import { getTranslations } from "next-intl/server";
 import { parseLensIds } from "@/lib/lens";
 import CompareTable from "@/components/CompareTable";
 import ComparePageHeader from "@/components/ComparePageHeader";
-import CompareAddLensButton from "@/components/CompareAddLensButton";
 import BackButton from "@/components/BackButton";
 
 export async function generateMetadata({
@@ -38,18 +37,12 @@ export default async function ComparePage({
   return (
     <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-8 flex flex-col gap-3 sm:gap-4">
       {/* Header */}
-      <ComparePageHeader lenses={lenses} />
+      <ComparePageHeader lenses={lenses} minColumns={2} />
 
       {/* Table — minColumns=2 ensures cold start always shows 2 search-trigger columns */}
       <CompareTable lenses={lenses} minColumns={2} />
 
-      {/* Bottom add-lens entry — visible when scrolled to bottom of a long table */}
-      <CompareAddLensButton
-        lenses={lenses}
-        triggerClassName="flex w-full items-center justify-center gap-2 rounded-xl border border-dashed border-zinc-300 py-3 text-sm text-zinc-500 transition-colors hover:border-zinc-400 hover:text-zinc-700 dark:border-zinc-700 dark:text-zinc-400 dark:hover:border-zinc-500 dark:hover:text-zinc-300"
-      />
-
-      {/* Back link */}
+{/* Back link */}
       <BackButton
         fallbackHref="/lenses"
         label={`← ${t("backToLenses")}`}
