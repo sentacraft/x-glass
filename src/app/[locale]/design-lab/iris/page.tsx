@@ -1250,7 +1250,7 @@ export default function ApertureV2Lab() {
                   <span className="text-zinc-500">Stroke width</span>
                   <span className="text-zinc-700 font-mono">{strokeWidth.toFixed(1)} px</span>
                 </div>
-                <input type="range" min={0} max={3} step={0.1} value={strokeWidth}
+                <input type="range" min={0} max={10} step={0.1} value={strokeWidth}
                   onChange={(e) => setStrokeWidth(parseFloat(e.target.value))}
                   className="w-full" style={{ accentColor: "#18181b" }}
                 />
