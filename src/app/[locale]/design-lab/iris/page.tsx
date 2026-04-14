@@ -20,12 +20,26 @@ import { readFromBrand, exportToBrand } from "./actions";
 const R_HOUSING = 100;
 const VIEWBOX = "-150 -150 300 300";
 
+// ── F-stop ring constants ─────────────────────────────────────────────────────
+const FSTOP_RING_R = 120;                                    // ring circle radius (SVG units)
+const FSTOP_LABEL_R = 130;                                   // label radius (outside ring)
+const FSTOP_SEQUENCE = [1, 1.4, 2, 2.8, 4, 5.6, 8, 11, 16, 22];
+const FSTOP_ANGLE_STEP = 360 / FSTOP_SEQUENCE.length;       // 36° per stop
+
+// Continuous angle (degrees) in ring frame for a given f-stop value.
+// f/1 → 0°, f/1.4 → 36°, f/2 → 72°, …, f/22 → ~324°
+function fStopToRingAngle(f: number): number {
+  return Math.log2(Math.max(0.5, f)) * 2 * FSTOP_ANGLE_STEP;
+}
+
 // ── IrisStage ─────────────────────────────────────────────────────────
 
 function IrisStage({
   config,
   theta,
   showMechanics,
+  showFStopRing = false,
+  fStop = 1.4,
   strokeWidth,
   shadowOpacity,
   bladeColor,
@@ -35,6 +49,8 @@ function IrisStage({
   config: IrisMechanismConfig;
   theta: number;
   showMechanics: boolean;
+  showFStopRing?: boolean;
+  fStop?: number;
   strokeWidth: number;
   shadowOpacity: number;
   bladeColor: string;
@@ -253,6 +269,62 @@ function IrisStage({
         stroke="#e7e5e4"
         strokeWidth="2"
       />
+
+      {/* ── F-stop ring overlay ── */}
+      {showFStopRing && (() => {
+        const isValid = isFinite(fStop) && fStop >= 1;
+        // Rotate ring so that the current f-stop lands at 12 o'clock (-90° in SVG).
+        const ringRot = isValid ? -90 - fStopToRingAngle(fStop) : -90;
+        const ringRotStr = ringRot.toFixed(3);
+        return (
+          <g>
+            {/* Fixed index mark at 12 o'clock, just outside the ring */}
+            <line
+              x1="0" y1={-(FSTOP_RING_R + 3)}
+              x2="0" y2={-(FSTOP_RING_R + 13)}
+              stroke="#52525b" strokeWidth="1.5" strokeLinecap="round"
+            />
+            {/* Rotating group: ring circle + ticks + labels */}
+            <g transform={`rotate(${ringRotStr})`}>
+              <circle r={FSTOP_RING_R} fill="none" stroke="#d4d4d8" strokeWidth="0.6" />
+              {FSTOP_SEQUENCE.map((f, i) => {
+                const deg = i * FSTOP_ANGLE_STEP;
+                const rad = (deg * Math.PI) / 180;
+                const cos = Math.cos(rad);
+                const sin = Math.sin(rad);
+                const tx = FSTOP_LABEL_R * cos;
+                const ty = FSTOP_LABEL_R * sin;
+                const t1x = (FSTOP_RING_R - 6) * cos;
+                const t1y = (FSTOP_RING_R - 6) * sin;
+                const t2x = FSTOP_RING_R * cos;
+                const t2y = FSTOP_RING_R * sin;
+                // Counter-rotate each label so it stays upright in world frame.
+                const label = f === 1.4 || f === 2.8 || f === 5.6
+                  ? f.toFixed(1)
+                  : String(f);
+                return (
+                  <g key={f}>
+                    <line
+                      x1={t1x.toFixed(3)} y1={t1y.toFixed(3)}
+                      x2={t2x.toFixed(3)} y2={t2y.toFixed(3)}
+                      stroke="#a1a1aa" strokeWidth="0.8"
+                    />
+                    <text
+                      x={tx.toFixed(3)} y={ty.toFixed(3)}
+                      textAnchor="middle" dominantBaseline="central"
+                      fontSize="8.5" fill="#71717a"
+                      fontFamily="ui-monospace, SFMono-Regular, monospace"
+                      transform={`rotate(${(-ringRot).toFixed(3)}, ${tx.toFixed(3)}, ${ty.toFixed(3)})`}
+                    >
+                      {label}
+                    </text>
+                  </g>
+                );
+              })}
+            </g>
+          </g>
+        );
+      })()}
     </svg>
   );
 }
@@ -431,6 +503,7 @@ export default function ApertureV2Lab() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [speed, setSpeed] = useState(0.35); // Hz
   const [showMechanics, setShowMechanics] = useState(false);
+  const [showFStopRing, setShowFStopRing] = useState(false);
   const [strokeWidth, setStrokeWidth] = useState(0.5);
   const [shadowOpacity, setShadowOpacity] = useState(0);
   const [bladeGray, setBladeGray] = useState(24);   // 0=black … 255=white; default ≈ zinc-900
@@ -545,6 +618,8 @@ export default function ApertureV2Lab() {
               config={derivedConfig}
               theta={theta}
               showMechanics={showMechanics}
+              showFStopRing={showFStopRing}
+              fStop={fStop}
               strokeWidth={strokeWidth}
               shadowOpacity={shadowOpacity}
               bladeColor={grayHex(bladeGray)}
@@ -665,6 +740,15 @@ export default function ApertureV2Lab() {
                   : { background: "#fff", color: "#3f3f46", border: "1px solid #d4d4d8" }}
               >
                 {showMechanics ? "◆ " : "◇ "}Mechanics
+              </button>
+              <button
+                onClick={() => setShowFStopRing((v) => !v)}
+                className="w-full rounded py-2 text-sm font-medium text-left px-3 transition-colors"
+                style={showFStopRing
+                  ? { background: "#18181b", color: "#fff", border: "1px solid #18181b" }
+                  : { background: "#fff", color: "#3f3f46", border: "1px solid #d4d4d8" }}
+              >
+                {showFStopRing ? "◆ " : "◇ "}F-stop Ring
               </button>
             </section>
           </div>
