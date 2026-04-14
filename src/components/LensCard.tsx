@@ -32,6 +32,7 @@ export default function LensCard({
   const equivDisplay = fmt.focalRangeDisplay(fmt.focalEquiv(lens.focalLengthMin), fmt.focalEquiv(lens.focalLengthMax));
   const mfdDisplay = lens.minFocusDistance ? `${lens.minFocusDistance.cm}cm` : "—";
   const filterDisplay = fmt.filterSizeDisplay(lens.filterMm);
+  const weightDisplay = fmt.weightDisplay(lens.weightG, "g") ?? "—";
   const badges = [
     lens.af
       ? {
@@ -137,7 +138,7 @@ export default function LensCard({
             <div className="min-w-0 truncate">
               {equivDisplay} {t("equivSuffix")}
             </div>
-            <div className="shrink-0">{lens.weightG}g</div>
+            <div className="shrink-0">{weightDisplay}</div>
           </dl>
 
           {/* Desktop: 2×2 data grid */}
@@ -147,7 +148,7 @@ export default function LensCard({
             <div className="min-w-0 truncate">
               {equivDisplay} {t("equivSuffix")}
             </div>
-            <div className="text-right">{lens.weightG}g</div>
+            <div className="text-right">{weightDisplay}</div>
           </dl>
         </div>
       </Link>
