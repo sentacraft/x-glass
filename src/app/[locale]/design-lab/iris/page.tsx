@@ -459,7 +459,7 @@ export default function ApertureV2Lab() {
           {/* ── Col 1: Playback & View ── */}
           <div className="space-y-5">
             <section className="space-y-2.5">
-              <p className="text-xs text-zinc-500 uppercase tracking-wider">Studio</p>
+              <p className="text-sm font-semibold text-zinc-800 uppercase tracking-wide pt-3">Studio</p>
               <div className="flex gap-1.5">
                 {(["IRIS_LG", "IRIS_SM"] as const).map((preset) => (
                   <button
@@ -498,7 +498,7 @@ export default function ApertureV2Lab() {
             </section>
 
             <section className="space-y-3">
-              <p className="text-xs text-zinc-500 uppercase tracking-wider">Animation</p>
+              <p className="text-sm font-semibold text-zinc-800 uppercase tracking-wide pt-3">Animation</p>
               <button
                 onClick={() => setIsPlaying((p) => !p)}
                 className="w-full rounded py-2 text-sm font-medium transition-colors"
@@ -521,7 +521,7 @@ export default function ApertureV2Lab() {
             </section>
 
             <section className="space-y-2">
-              <p className="text-xs text-zinc-500 uppercase tracking-wider">Overlay</p>
+              <p className="text-sm font-semibold text-zinc-800 uppercase tracking-wide pt-3">Overlay</p>
               <button
                 onClick={() => setShowMechanics((v) => !v)}
                 className="w-full rounded py-2 text-sm font-medium text-left px-3 transition-colors"
@@ -537,7 +537,7 @@ export default function ApertureV2Lab() {
           {/* ── Col 2: Mechanism ── */}
           <div className="space-y-5">
             <section className="space-y-2">
-              <p className="text-xs text-zinc-500 uppercase tracking-wider">Blades</p>
+              <p className="text-sm font-semibold text-zinc-800 uppercase tracking-wide pt-3">Blades</p>
               <div className="flex gap-1.5">
                 {[5, 6, 7, 9].map((n) => (
                   <button
@@ -555,7 +555,7 @@ export default function ApertureV2Lab() {
             </section>
 
             <section className="space-y-2.5">
-              <p className="text-xs text-zinc-500 uppercase tracking-wider">Mechanism</p>
+              <p className="text-sm font-semibold text-zinc-800 uppercase tracking-wide pt-3">Mechanism</p>
               <div className="flex justify-between text-xs">
                 <span className="text-zinc-500">Pivot r</span>
                 <span className="text-zinc-500 font-mono">
@@ -597,7 +597,7 @@ export default function ApertureV2Lab() {
           {/* ── Col 3: Shape & Appearance ── */}
           <div className="space-y-5">
             <section className="space-y-2.5">
-              <p className="text-xs text-zinc-500 uppercase tracking-wider">Blade Shape</p>
+              <p className="text-sm font-semibold text-zinc-800 uppercase tracking-wide pt-3">Blade Shape</p>
               {([
                 { label: "Length", field: "bladeLength" as const, min: 80, max: 160, step: 1, fmt: (v: number) => v + " px" },
                 { label: "Width",  field: "bladeWidth"  as const, min: 10, max: 45,  step: 1, fmt: (v: number) => v + " px" },
@@ -616,7 +616,7 @@ export default function ApertureV2Lab() {
             </section>
 
             <section className="space-y-2.5">
-              <p className="text-xs text-zinc-500 uppercase tracking-wider">Appearance</p>
+              <p className="text-sm font-semibold text-zinc-800 uppercase tracking-wide pt-3">Appearance</p>
               <div className="space-y-1">
                 <div className="flex justify-between text-xs">
                   <span className="text-zinc-500">Stroke</span>
