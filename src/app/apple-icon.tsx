@@ -6,7 +6,7 @@ import {
   buildDerivedConfig,
   computeThetaOpen,
   tNormToTheta,
-} from "@/lib/iris-mechanism";
+} from "@/lib/iris-kinematics";
 import { BRAND_LOGO } from "@/config/brand";
 
 export const size = { width: 180, height: 180 };

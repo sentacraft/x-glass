@@ -12,7 +12,7 @@ import {
   DEFAULT_IRIS_CONFIG,
   type IrisMechanismConfig,
   type StoredIrisParams,
-} from "@/lib/iris-mechanism";
+} from "@/lib/iris-kinematics";
 import { readFromBrand, exportToBrand } from "./actions";
 
 // SVG coordinate space: origin at iris center, R_HOUSING = outer display radius.

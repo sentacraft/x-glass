@@ -1,13 +1,13 @@
 // Brand identity configuration — single source of truth for the aperture mark.
 // All LogoMark instances (Navbar, About, OG image, Apple icon) read their
 // defaults from here. Update these values via the Aperture V2 Parameter Studio
-// at /design-lab/aperture-v2 and every static usage updates on next build.
+// at /design-lab/iris and every static usage updates on next build.
 //
 // Stored fields are the "free parameters" of the iris kinematic model.
 // Derived parameters (pivotRadius, bladeCurvature) are always computed at
 // render time by buildDerivedConfig() and are never persisted here.
 
-import type { StoredIrisParams } from "@/lib/iris-mechanism";
+import type { StoredIrisParams } from "@/lib/iris-kinematics";
 
 // ── Optical size presets ──────────────────────────────────────────────────────
 //

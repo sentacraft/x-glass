@@ -8,7 +8,7 @@ import {
   buildDerivedConfig,
   computeThetaOpen,
   tNormToTheta,
-} from "@/lib/iris-mechanism";
+} from "@/lib/iris-kinematics";
 import { BRAND_LOGO } from "@/config/brand";
 
 /** Walk up directory tree until node_modules/<pkg>/<relPath> is found. */

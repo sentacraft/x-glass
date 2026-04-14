@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useRef, useMemo, useEffect } from "react";
-import { bladePath, coverPoints, R } from "@/lib/aperture";
-import type { ApertureParams } from "@/lib/aperture";
+import { bladePath, coverPoints, R } from "@/lib/iris-pheno-kinematics";
+import type { ApertureParams } from "@/lib/iris-pheno-kinematics";
 import { LOGO_SM_THRESHOLD } from "@/config/brand";
 
 // ── ApertureMark ─────────────────────────────────────────────────────────────

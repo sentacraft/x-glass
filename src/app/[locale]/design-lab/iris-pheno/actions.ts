@@ -5,7 +5,7 @@ import path from "path";
 
 const PRESET_PATH = path.join(
   process.cwd(),
-  "src/app/[locale]/design-lab/logo-mark/preset.json",
+  "src/app/[locale]/design-lab/iris-pheno/preset.json",
 );
 
 const BRAND_PATH = path.join(process.cwd(), "src/config/brand.ts");

@@ -10,7 +10,7 @@
 //
 // Key distinction from src/lib/aperture.ts:
 //   aperture.ts  — parametric / physical-approximation model for the logo mark.
-//   iris-mechanism.ts — full 3-body kinematic model: base plate (fixed) +
+//   iris-kinematics.ts — full 3-body kinematic model: base plate (fixed) +
 //                       actuator ring (rotates) + N rigid blades (constrained).
 
 // ── Types ─────────────────────────────────────────────────────────────────────

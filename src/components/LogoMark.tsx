@@ -1,7 +1,7 @@
 "use client";
 
 // Aperture mark component — renders the X-Glass logo using the physical
-// iris kinematic model (iris-mechanism.ts).
+// iris kinematic model (iris-kinematics.ts).
 //
 // Automatically selects BRAND_LOGO_SM for sizes below LOGO_SM_THRESHOLD so
 // the blade gap remains legible at small render sizes (nav, favicon, etc.).
@@ -16,7 +16,7 @@ import {
   buildDerivedConfig,
   computeThetaOpen,
   tNormToTheta,
-} from "@/lib/iris-mechanism";
+} from "@/lib/iris-kinematics";
 import { BRAND_LOGO, BRAND_LOGO_SM, LOGO_SM_THRESHOLD } from "@/config/brand";
 import { ANIMATION } from "@/config/ui";
 
@@ -147,7 +147,7 @@ export default function LogoMark({
         <filter id={`${uid}-shadow`} x="-25%" y="-25%" width="150%" height="150%">
           <feDropShadow dx={0} dy={0} stdDeviation={SHADOW_STD} floodColor="black" floodOpacity={SHADOW_OPACITY} />
         </filter>
-        {/* Stroke masks — cyclic forward-half masking (same as aperture-v2). */}
+        {/* Stroke masks — cyclic forward-half masking (same as iris). */}
         {Array.from({ length: N }, (_, i) => (
           <mask id={`${uid}-sm-${i}`} key={i}>
             <rect x="-120" y="-120" width="240" height="240" fill="white" />
