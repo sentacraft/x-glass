@@ -271,10 +271,14 @@ function apertureInradius(theta: number, dc: IrisMechanismConfig): number {
   const blades = solveAllBlades(theta, dc);
   if (blades.length === 0) return 0;
   const b = blades[0];
-  const halfL = dc.bladeLength / 2;
-  const x = b.pivotPos.x + halfL * Math.cos(b.bladeAngle);
-  const y = b.pivotPos.y + halfL * Math.sin(b.bladeAngle);
-  return Math.sqrt(x * x + y * y);
+  // Use blade TIP (full bladeLength) — the inner edges of the N blades form an
+  // approximate regular N-gon whose circumradius equals the tip distance from
+  // center. Convert to inradius: r_in = R_v * cos(π/N).
+  const L = dc.bladeLength;
+  const x = b.pivotPos.x + L * Math.cos(b.bladeAngle);
+  const y = b.pivotPos.y + L * Math.sin(b.bladeAngle);
+  const tipDist = Math.sqrt(x * x + y * y);
+  return tipDist * Math.cos(Math.PI / dc.N);
 }
 
 function formatFStop(f: number): string {
