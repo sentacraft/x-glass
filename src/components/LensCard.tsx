@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-import { Aperture } from "lucide-react";
+import { Aperture, Plus, Check } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { FEATURE_ICONS } from "@/lib/feature-icons";
 import { ACTION_PRIMARY_CLS, CARD_SELECTED_BORDER_CLS } from "@/lib/ui-tokens";
@@ -67,7 +67,7 @@ export default function LensCard({
   return (
     <div
       {...hookAttr("card")}
-      className={`rounded-2xl border bg-white dark:bg-zinc-900 flex flex-col overflow-hidden transition-[border-color,box-shadow] ${
+      className={`rounded-2xl border bg-white dark:bg-zinc-900 flex flex-col overflow-hidden transition-[border-color,box-shadow] max-[499px]:relative ${
         isSelected
           ? CARD_SELECTED_BORDER_CLS
           : "border-zinc-200 dark:border-zinc-800"
@@ -153,10 +153,26 @@ export default function LensCard({
         </div>
       </Link>
 
+      {/* Mobile-only icon compare toggle — absolute in top-right corner */}
+      <button
+        onClick={onToggle}
+        disabled={selectionDisabled}
+        aria-label={isSelected ? t("removeFromCompare") : t("addToCompare")}
+        className={`hidden max-[499px]:flex absolute top-2.5 right-2.5 z-10 items-center justify-center h-7 w-7 rounded-full transition-colors ${
+          isSelected
+            ? ACTION_PRIMARY_CLS
+            : selectionDisabled
+              ? "bg-zinc-100 dark:bg-zinc-800 text-zinc-400 dark:text-zinc-600 cursor-not-allowed"
+              : "bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-zinc-700"
+        }`}
+      >
+        {isSelected ? <Check className="h-3.5 w-3.5" /> : <Plus className="h-3.5 w-3.5" />}
+      </button>
+
       {/* Compare toggle */}
       <div
         {...hookAttr("cardFooter")}
-        className="mt-auto px-3 pb-3 sm:px-4 sm:pb-4"
+        className="mt-auto px-3 pb-3 sm:px-4 sm:pb-4 max-[499px]:hidden"
       >
         <Button
           size="sm"
