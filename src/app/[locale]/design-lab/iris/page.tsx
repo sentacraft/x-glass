@@ -776,7 +776,7 @@ export default function ApertureV2Lab() {
       className="flex flex-col"
     >
       {/* Header */}
-      <div className="px-8 pt-8 pb-4">
+      <div className="pt-8 pb-4" style={{ paddingLeft: 100, paddingRight: 100 }}>
         <div className="text-xs text-zinc-600 uppercase tracking-wider mb-1">
           Design Lab
         </div>
@@ -790,7 +790,7 @@ export default function ApertureV2Lab() {
       </div>
 
       {/* Body */}
-      <div className="flex-1 flex px-8 pb-8 gap-8 items-start">
+      <div className="flex-1 flex pb-8 gap-8 items-start" style={{ paddingLeft: 100, paddingRight: 100 }}>
         {/* Iris display */}
         <div className="flex flex-col items-center gap-5">
           <div
