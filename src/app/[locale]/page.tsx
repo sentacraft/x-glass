@@ -3,7 +3,7 @@ import { Link } from "@/i18n/navigation";
 import DataInfo from "@/components/DataFooter";
 import Tagline from "@/components/Tagline";
 import Iris from "@/components/Iris";
-import { IRIS_HERO } from "@/config/brand";
+import { IRIS_HERO } from "@/config/iris-config";
 
 export default function Home() {
   const t = useTranslations("Common");

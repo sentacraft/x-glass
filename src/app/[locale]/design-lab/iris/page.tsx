@@ -16,8 +16,8 @@ import {
   type IrisMechanismConfig,
 } from "@/lib/iris-kinematics";
 import { readFromBrand, exportToBrand } from "./actions";
-import { IRIS_HERO, IRIS_NAV, R_HOUSING } from "@/config/brand";
-import type { IrisConfig } from "@/config/brand";
+import { IRIS_HERO, IRIS_NAV, IRIS_DEFAULTS, R_HOUSING } from "@/config/iris-config";
+import type { IrisConfig } from "@/config/iris-config";
 import Iris from "@/components/Iris";
 
 // SVG coordinate space: origin at iris center, R_HOUSING = outer display radius.
@@ -408,14 +408,14 @@ export default function ApertureV2Lab() {
     if (v.bladeColor) setBladeGray(parseInt(v.bladeColor.slice(1, 3), 16));
     if (v.strokeColor) setStrokeGray(parseInt(v.strokeColor.slice(1, 3), 16));
     if (v.strokeWidth !== undefined) setStrokeWidth(v.strokeWidth);
-    setOpenFStop(v.openFStop ?? 1.4);
-    setDefaultFStop(v.defaultFStop ?? 5.6);
-    setInitAnimation(v.initAnimation ?? false);
-    setClosedFStop(v.closedFStop ?? 22);
-    setChaseTauMs(v.chaseTauMs ?? 60);
-    setEaseOutMs(v.easeOutMs ?? 700);
-    setCatchupMs(v.catchupMs ?? 300);
-    setHotzoneScale(v.hotzoneScale ?? 1.5);
+    setOpenFStop(v.openFStop);
+    setDefaultFStop(v.defaultFStop);
+    setInitAnimation(v.initAnimation ?? IRIS_DEFAULTS.initAnimation);
+    setClosedFStop(v.closedFStop ?? IRIS_DEFAULTS.closedFStop);
+    setChaseTauMs(v.chaseTauMs ?? IRIS_DEFAULTS.chaseTauMs);
+    setEaseOutMs(v.easeOutMs ?? IRIS_DEFAULTS.easeOutMs);
+    setCatchupMs(v.catchupMs ?? IRIS_DEFAULTS.catchupMs);
+    setHotzoneScale(v.hotzoneScale ?? IRIS_DEFAULTS.hotzoneScale);
     // Track the production pixel size for the preview label.
     setPreviewSize(v.size);
     setIsPlaying(false);
@@ -467,14 +467,14 @@ export default function ApertureV2Lab() {
       if (v.bladeColor) setBladeGray(parseInt(v.bladeColor.slice(1, 3), 16));
       if (v.strokeColor) setStrokeGray(parseInt(v.strokeColor.slice(1, 3), 16));
       if (v.strokeWidth !== undefined) setStrokeWidth(v.strokeWidth);
-      setOpenFStop(v.openFStop ?? 1.4);
-      setDefaultFStop(v.defaultFStop ?? 5.6);
-      setInitAnimation(v.initAnimation ?? false);
-      setClosedFStop(v.closedFStop ?? 22);
-      setChaseTauMs(v.chaseTauMs ?? 60);
-      setEaseOutMs(v.easeOutMs ?? 700);
-      setCatchupMs(v.catchupMs ?? 300);
-      setHotzoneScale(v.hotzoneScale ?? 1.5);
+      setOpenFStop(v.openFStop);
+      setDefaultFStop(v.defaultFStop);
+      setInitAnimation(v.initAnimation ?? IRIS_DEFAULTS.initAnimation);
+      setClosedFStop(v.closedFStop ?? IRIS_DEFAULTS.closedFStop);
+      setChaseTauMs(v.chaseTauMs ?? IRIS_DEFAULTS.chaseTauMs);
+      setEaseOutMs(v.easeOutMs ?? IRIS_DEFAULTS.easeOutMs);
+      setCatchupMs(v.catchupMs ?? IRIS_DEFAULTS.catchupMs);
+      setHotzoneScale(v.hotzoneScale ?? IRIS_DEFAULTS.hotzoneScale);
       setPreviewSize(v.size);
     });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps

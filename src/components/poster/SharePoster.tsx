@@ -3,7 +3,7 @@
 import type { Ref } from "react";
 import QRCode from "react-qr-code";
 import Iris from "@/components/Iris";
-import { IRIS_NAV } from "@/config/brand";
+import { IRIS_NAV } from "@/config/iris-config";
 import { FEATURE_ICONS } from "@/lib/feature-icons";
 import type { Lens } from "@/lib/types";
 import { cn } from "@/lib/utils";

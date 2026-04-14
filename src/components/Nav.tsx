@@ -4,7 +4,7 @@ import { useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
 import LensSearchDialog from "@/components/LensSearchDialog";
 import Iris from "@/components/Iris";
-import { IRIS_NAV } from "@/config/brand";
+import { IRIS_NAV } from "@/config/iris-config";
 
 export default function Nav() {
   const t = useTranslations("Nav");

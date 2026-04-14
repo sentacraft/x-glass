@@ -21,7 +21,7 @@ import {
   findThetaForInradius,
   findThetaForFStop,
 } from "@/lib/iris-kinematics";
-import { IRIS_HERO, R_HOUSING, withIrisDefaults, type IrisConfig, type FilledIrisConfig } from "@/config/brand";
+import { IRIS_HERO, R_HOUSING, withIrisDefaults, type IrisConfig, type FilledIrisConfig } from "@/config/iris-config";
 
 
 // ── Component ─────────────────────────────────────────────────────────────────

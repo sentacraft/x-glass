@@ -9,7 +9,7 @@ import {
   computeThetaOpen,
   findThetaForFStop,
 } from "@/lib/iris-kinematics";
-import { IRIS_NAV, R_HOUSING } from "@/config/brand";
+import { IRIS_NAV, R_HOUSING } from "@/config/iris-config";
 
 /** Walk up directory tree until node_modules/<pkg>/<relPath> is found. */
 function resolvePackageFile(pkg: string, relPath: string): string {
