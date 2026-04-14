@@ -5,7 +5,7 @@ import { Popover } from "@base-ui/react/popover";
 import { Drawer } from "@base-ui/react/drawer";
 import { Tabs } from "@base-ui/react/tabs";
 import { useTranslations } from "next-intl";
-import { Share2, Copy, Check, Download, Loader2, Expand, SlidersHorizontal, ChevronDown } from "lucide-react";
+import { Share2, Copy, Check, Download, Loader2, Expand, SlidersHorizontal, ChevronDown, X } from "lucide-react";
 import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
 import { Z } from "@/config/ui";
@@ -367,33 +367,47 @@ export function ShareButton({ lenses, variant = "default", triggerClassName }: S
                 if (e.target === e.currentTarget) setLightboxOpen(false);
               }}
             >
-              {/* Poster card — click outside (on DialogContent) to close */}
-              <motion.div
+              {/* Wrapper: measures width for zoom scale; positions mobile close button outside overflow-hidden */}
+              <div
                 ref={lightboxContainerRef}
-                initial={{ opacity: 0, scale: 0.97 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.12, ease: "easeOut" }}
-                className="relative w-[calc(100vw-1.5rem)] max-w-[750px] overflow-hidden rounded-2xl bg-white shadow-[0_8px_40px_rgba(0,0,0,0.22),0_0_0_1px_rgba(0,0,0,0.06)]"
+                className="relative w-[calc(100vw-1.5rem-6px)] max-w-[750px] sm:w-[calc(100vw-1.5rem)]"
               >
-                {/* Scrollable poster at full (fit-scaled) width */}
-                <div
-                  ref={lightboxScrollRef}
-                  className="max-h-[calc(100svh-3rem)] overflow-y-auto overflow-x-hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-                  onScroll={() => { if (!hasScrolled) setHasScrolled(true); }}
+                {/* Mobile-only close button — center sits on the top-right corner of the card */}
+                <button
+                  onClick={() => setLightboxOpen(false)}
+                  className="absolute right-0 top-0 z-10 flex h-8 w-8 -translate-y-1/2 translate-x-1/2 cursor-pointer items-center justify-center rounded-full bg-white text-zinc-500 shadow-md transition-colors hover:text-zinc-900 sm:hidden"
+                  aria-label={t("close")}
                 >
-                  <div style={{ width: POSTER_W, zoom: lightboxScale }}>
-                    <SharePoster lenses={lenses} labels={posterLabels} custom={posterCustom} shareUrl={shareUrl} />
-                  </div>
-                </div>
+                  <X className="size-3.5" />
+                </button>
 
-                {/* Scroll hint: bottom gradient + double chevron, disappears on first scroll */}
-                {isScrollable && !hasScrolled && (
-                  <div className="pointer-events-none absolute inset-x-0 bottom-0 flex h-20 flex-col items-center justify-end bg-gradient-to-t from-white to-transparent pb-3">
-                    <ChevronDown className="size-5 -mb-1.5 text-zinc-400 opacity-60" />
-                    <ChevronDown className="size-5 text-zinc-400" />
+                {/* Poster card */}
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.97 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.12, ease: "easeOut" }}
+                  className="relative w-full overflow-hidden rounded-2xl bg-white shadow-[0_8px_40px_rgba(0,0,0,0.22),0_0_0_1px_rgba(0,0,0,0.06)]"
+                >
+                  {/* Scrollable poster at full (fit-scaled) width */}
+                  <div
+                    ref={lightboxScrollRef}
+                    className="max-h-[calc(100svh-3rem-10px)] overflow-y-auto overflow-x-hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:max-h-[calc(100svh-3rem)]"
+                    onScroll={() => { if (!hasScrolled) setHasScrolled(true); }}
+                  >
+                    <div style={{ width: POSTER_W, zoom: lightboxScale }}>
+                      <SharePoster lenses={lenses} labels={posterLabels} custom={posterCustom} shareUrl={shareUrl} />
+                    </div>
                   </div>
-                )}
-              </motion.div>
+
+                  {/* Scroll hint: bottom gradient + double chevron, disappears on first scroll */}
+                  {isScrollable && !hasScrolled && (
+                    <div className="pointer-events-none absolute inset-x-0 bottom-0 flex h-28 flex-col items-center justify-end bg-[linear-gradient(to_top,white_30%,rgba(255,255,255,0.85)_60%,transparent)] pb-4">
+                      <ChevronDown className="size-6 -mb-2 text-zinc-600" />
+                      <ChevronDown className="size-6 text-zinc-600" />
+                    </div>
+                  )}
+                </motion.div>
+              </div>
             </DialogContent>
           </Dialog>
 
