@@ -171,17 +171,40 @@ export default function CompareTable({ lenses: initialLenses, minColumns = 0 }: 
   const td = useTranslations("LensDetail");
   const tBrand = useTranslations("Brands");
   const router = useRouter();
-  const { replaceCompare } = useCompare();
+  const { compareIds, replaceCompare } = useCompare();
   const initialLensIds = useMemo(
     () => initialLenses.map((lens) => lens.id),
     [initialLenses]
   );
   const [orderedIds, setOrderedIds] = useState(initialLensIds);
 
+  // Keep a ref to the latest compareIds so the init effect can read the
+  // current context value without re-running every time it changes.
+  const compareIdsRef = useRef(compareIds);
+  useEffect(() => { compareIdsRef.current = compareIds; }, [compareIds]);
+
   useEffect(() => {
-    replaceCompare(initialLensIds);
-    setOrderedIds(initialLensIds);
-  }, [initialLensIds, replaceCompare]);
+    if (initialLensIds.length > 0) {
+      // URL has IDs — URL is the source of truth.
+      replaceCompare(initialLensIds);
+      setOrderedIds(initialLensIds);
+    } else {
+      const existing = compareIdsRef.current;
+      if (existing.length > 0) {
+        // URL has no IDs but context does (e.g. user navigated via a bare
+        // /compare link). Restore from context and sync the URL so the
+        // server can hydrate the correct lenses.
+        setOrderedIds(existing);
+        startTransition(() => {
+          router.replace(`/lenses/compare?ids=${existing.join(",")}`);
+        });
+      } else {
+        // Genuine cold start — nothing to restore.
+        replaceCompare([]);
+        setOrderedIds([]);
+      }
+    }
+  }, [initialLensIds, replaceCompare, router]);
 
   const orderedLenses = orderedIds
     .map((id) => allLenses.find((lens) => lens.id === id))
@@ -515,8 +538,34 @@ export default function CompareTable({ lenses: initialLenses, minColumns = 0 }: 
           </tr>
         </thead>
 
-        {orderedLenses.length > 0 && <tbody>
-          {visibleGroups.map((group) => {
+        <tbody>
+          {/* Cold-start skeleton: show all spec dimensions with placeholder cells */}
+          {orderedLenses.length === 0 && allGroups.map((group) => (
+            <React.Fragment key={group.label}>
+              <tr className="border-b border-zinc-100 bg-zinc-100/80 dark:border-zinc-800/60 dark:bg-zinc-800/60">
+                <td colSpan={totalColSpan} className="h-8 text-center">
+                  <span className="text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+                    {group.label}
+                  </span>
+                </td>
+              </tr>
+              {group.rows.map((row) => (
+                <tr key={row.label} className="border-b border-zinc-100 dark:border-zinc-800/60 last:border-0">
+                  <td className="sticky left-0 z-10 px-3 py-3 text-right text-xs font-medium text-zinc-500 dark:text-zinc-400 bg-zinc-50 dark:bg-zinc-900 break-words">
+                    {row.label}
+                  </td>
+                  {Array.from({ length: emptySlotCount }).map((_, i) => (
+                    <td key={i} className="px-3 py-3 text-center text-xs text-zinc-200 dark:text-zinc-800">
+                      —
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </React.Fragment>
+          ))}
+
+          {/* Populated table: only rendered when at least one lens is selected */}
+          {orderedLenses.length > 0 && visibleGroups.map((group) => {
             return (
               <React.Fragment key={group.label}>
                 {/* Group header row.
@@ -759,7 +808,7 @@ export default function CompareTable({ lenses: initialLenses, minColumns = 0 }: 
               </React.Fragment>
             );
           })}
-        </tbody>}
+        </tbody>
 
         {orderedLenses.length > 0 && <tfoot>
           {/* Footer row: official site + report links per lens */}

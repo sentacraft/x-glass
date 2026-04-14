@@ -55,7 +55,8 @@ export function ShareButton({ lenses, variant = "default", triggerClassName }: S
 
   // Full-size lightbox
   const [lightboxOpen, setLightboxOpen] = useState(false);
-  const [lightboxScale, setLightboxScale] = useState(1);
+  const [lightboxImageUrl, setLightboxImageUrl] = useState<string | null>(null);
+  const [lightboxImageLoading, setLightboxImageLoading] = useState(false);
   const [hasScrolled, setHasScrolled] = useState(false);
   const [isScrollable, setIsScrollable] = useState(false);
   const lightboxScrollRef = useRef<HTMLDivElement | null>(null);
@@ -83,35 +84,17 @@ export function ShareButton({ lenses, variant = "default", triggerClassName }: S
     const handler = (e: MediaQueryListEvent) => setIsDesktop(e.matches);
     mq.addEventListener("change", handler);
 
-    // Compute lightbox scale from window.innerWidth — avoids portal-ref timing
-    // issues where clientWidth reads 0 before the dialog has laid out.
-    // Card CSS: mobile = calc(100vw - 44px), desktop (sm+) = calc(100vw - 24px),
-    // both capped at max-w-[750px].
-    const updateLightboxScale = () => {
-      const margin = window.innerWidth >= 640 ? 24 : 44;
-      setLightboxScale(Math.min(1, (window.innerWidth - margin) / POSTER_W));
-    };
-    updateLightboxScale();
-    window.addEventListener("resize", updateLightboxScale);
-
     return () => {
       mq.removeEventListener("change", handler);
-      window.removeEventListener("resize", updateLightboxScale);
     };
   }, []);
 
-  // Detect whether the lightbox poster is scrollable; reset scroll hint state on close
+  // Reset scroll hint state when lightbox closes
   useEffect(() => {
     if (!lightboxOpen) {
       setHasScrolled(false);
       setIsScrollable(false);
-      return;
     }
-    const id = requestAnimationFrame(() => {
-      const el = lightboxScrollRef.current;
-      if (el) setIsScrollable(el.scrollHeight > el.clientHeight + 1);
-    });
-    return () => cancelAnimationFrame(id);
   }, [lightboxOpen]);
 
   // Keep shareUrl in sync when panel opens
@@ -229,6 +212,20 @@ export function ShareButton({ lenses, variant = "default", triggerClassName }: S
     }
   }, [lenses]);
 
+  const handleOpenLightbox = useCallback(async () => {
+    setLightboxOpen(true);
+    if (!posterRef.current) return;
+    setLightboxImageLoading(true);
+    try {
+      const url = await rasterizePoster(posterRef.current);
+      setLightboxImageUrl(url);
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setLightboxImageLoading(false);
+    }
+  }, []);
+
   const truncatedUrl =
     shareUrl.length > 56 ? shareUrl.slice(0, 56) + "…" : shareUrl;
 
@@ -320,7 +317,7 @@ export function ShareButton({ lenses, variant = "default", triggerClassName }: S
           <div
             className="group relative -mx-4 cursor-zoom-in overflow-hidden"
             style={{ height: PREVIEW_H }}
-            onClick={() => setLightboxOpen(true)}
+            onClick={handleOpenLightbox}
           >
             {/* Scale wrapper: absolute so it doesn't affect flow height */}
             <div
@@ -358,7 +355,10 @@ export function ShareButton({ lenses, variant = "default", triggerClassName }: S
             open={lightboxOpen}
             onOpenChange={(open) => {
               setLightboxOpen(open);
-              if (!open) { setHasScrolled(false); setIsScrollable(false); }
+              if (!open) {
+                setLightboxImageUrl(null);
+                setLightboxImageLoading(false);
+              }
             }}
           >
             <DialogContent
@@ -371,7 +371,7 @@ export function ShareButton({ lenses, variant = "default", triggerClassName }: S
               }}
             >
               {/* Wrapper: anchor for the mobile close button only; NOT the resize-observed element */}
-              <div className="relative w-[calc(100vw-44px)] max-w-[750px] sm:w-[calc(100vw-1.5rem)]">
+              <div className="relative w-[calc(100vw-44px)] max-w-[750px]">
                 {/* Mobile-only close button — center sits on the top-right corner of the card */}
                 <button
                   onClick={() => setLightboxOpen(false)}
@@ -388,15 +388,27 @@ export function ShareButton({ lenses, variant = "default", triggerClassName }: S
                   transition={{ duration: 0.12, ease: "easeOut" }}
                   className="relative w-full overflow-hidden rounded-2xl bg-white shadow-[0_8px_40px_rgba(0,0,0,0.22),0_0_0_1px_rgba(0,0,0,0.06)]"
                 >
-                  {/* Scrollable poster at full (fit-scaled) width */}
+                  {/* Rasterized poster image — naturally scales to card width, no zoom math needed */}
                   <div
                     ref={lightboxScrollRef}
-                    className="max-h-[calc(100svh-3rem-10px)] overflow-y-auto overflow-x-hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:max-h-[calc(100svh-3rem)]"
+                    className="max-h-[calc(100svh-3rem-10px)] overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:max-h-[calc(100svh-3rem)]"
                     onScroll={() => { if (!hasScrolled) setHasScrolled(true); }}
                   >
-                    <div style={{ width: POSTER_W, zoom: lightboxScale }}>
-                      <SharePoster lenses={lenses} labels={posterLabels} custom={posterCustom} shareUrl={shareUrl} />
-                    </div>
+                    {lightboxImageLoading ? (
+                      <div className="flex h-48 items-center justify-center">
+                        <Loader2 className="size-6 animate-spin text-zinc-400" />
+                      </div>
+                    ) : lightboxImageUrl ? (
+                      <img
+                        src={lightboxImageUrl}
+                        alt=""
+                        className="w-full"
+                        onLoad={() => {
+                          const el = lightboxScrollRef.current;
+                          if (el) setIsScrollable(el.scrollHeight > el.clientHeight + 1);
+                        }}
+                      />
+                    ) : null}
                   </div>
 
                   {/* Scroll hint: bottom gradient + double chevron, disappears on first scroll */}
@@ -547,7 +559,7 @@ export function ShareButton({ lenses, variant = "default", triggerClassName }: S
         {/* When the lightbox is open its own backdrop (z-60) covers everything;
             suppress the Drawer backdrop to avoid double-darkening the top half. */}
         <Drawer.Backdrop className={cn(
-          `fixed inset-0 ${Z.overlay} duration-150 data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0`,
+          `fixed inset-0 ${Z.overlay} transition-colors duration-200 data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0`,
           lightboxOpen ? "bg-transparent" : "bg-black/40"
         )} />
         <Drawer.Popup className={`fixed inset-x-0 bottom-0 ${Z.overlay} max-h-[85svh] flex flex-col rounded-t-2xl bg-white pb-[env(safe-area-inset-bottom,0px)] ring-1 ring-zinc-200 duration-200 data-open:animate-in data-open:slide-in-from-bottom data-closed:animate-out data-closed:slide-out-to-bottom dark:bg-zinc-900 dark:ring-zinc-800`}>
