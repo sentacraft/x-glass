@@ -1,10 +1,10 @@
 // Pure aperture-mark geometry functions — no React, no hooks.
-// Shared between the interactive LogoMark component and server-side renderers
+// Shared between the interactive Iris component and server-side renderers
 // (OG image, apple-icon) that cannot use client components.
 
 export const R = 100;
 
-export interface ApertureParams {
+export interface IrisPhenoParams {
   N: number;
   /**
    * Half-spread of the two inner blade tips around the arc midpoint.
@@ -34,7 +34,7 @@ function fmt(x: number, y: number) {
 }
 
 /** SVG path string for a single aperture blade at openness t ∈ [0, 1]. */
-export function bladePath(t: number, p: ApertureParams): string {
+export function bladePath(t: number, p: IrisPhenoParams): string {
   const { N, halfSpread, overlap: OVERLAP, curve: CURVE, twist: TWIST } = p;
   const step = (2 * Math.PI) / N;
   const rInner = R * (0.08 + 0.72 * t);
@@ -296,7 +296,7 @@ export function physicalCoverPath(t: number, p: PhysicalIrisParams): string {
 }
 
 /** Space-separated x,y pairs for the center cover polygon at openness t. */
-export function coverPoints(t: number, p: ApertureParams): string {
+export function coverPoints(t: number, p: IrisPhenoParams): string {
   const { N, halfSpread, twist: TWIST } = p;
   const step = (2 * Math.PI) / N;
   const rInner = R * (0.08 + 0.72 * t);

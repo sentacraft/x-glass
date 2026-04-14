@@ -1,14 +1,6 @@
-// UI constants — animation timings, z-index layers, and layout breakpoints.
-// Centralises magic numbers that are currently scattered across components.
-
-// ── Animation ─────────────────────────────────────────────────────────────────
-
-export const ANIMATION = {
-  // LogoMark: ease-out return duration after mouse leaves (ms)
-  logoEaseOutMs: 700,
-  // LogoMark: entry catch-up duration to eliminate jump on mouse enter (ms)
-  logoCatchupMs: 180,
-} as const;
+// UI constants — z-index layers and layout breakpoints.
+// Animation params that belong to a specific component live in that
+// component's config (e.g. Iris animation params are in IrisConfig in brand.ts).
 
 // ── Z-index layers ────────────────────────────────────────────────────────────
 //
