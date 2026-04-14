@@ -8,7 +8,7 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { useScrollContainer } from "@/context/ScrollContainerContext";
+import { useScrollContainer, useNavLock } from "@/context/ScrollContainerContext";
 import Image from "next/image";
 import { ExternalLink } from "@/components/ui/external-link";
 import { useTranslations } from "next-intl";
@@ -392,6 +392,7 @@ export default function CompareTable({ lenses: initialLenses, minColumns = 0 }: 
 
   const totalColSpan = orderedLenses.length + 1 + emptySlotCount;
   const scrollContainer = useScrollContainer();
+  const { lockNav } = useNavLock();
 
   // --- Phantom sticky header ---
   const theadRef = useRef<HTMLTableSectionElement>(null);
@@ -410,6 +411,12 @@ export default function CompareTable({ lenses: initialLenses, minColumns = 0 }: 
     observer.observe(thead);
     return () => observer.disconnect();
   }, [scrollContainer]);
+
+  // Lock the nav hidden while the phantom header is active so only one
+  // top-chrome element occupies the screen at a time on mobile.
+  useEffect(() => {
+    lockNav(showPhantom);
+  }, [showPhantom]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     const container = containerRef.current;
