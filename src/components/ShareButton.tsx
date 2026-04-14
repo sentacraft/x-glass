@@ -55,7 +55,8 @@ export function ShareButton({ lenses, variant = "default", triggerClassName }: S
 
   // Full-size lightbox
   const [lightboxOpen, setLightboxOpen] = useState(false);
-  const [lightboxScale, setLightboxScale] = useState(1);
+  const [lightboxImageUrl, setLightboxImageUrl] = useState<string | null>(null);
+  const [lightboxImageLoading, setLightboxImageLoading] = useState(false);
   const [hasScrolled, setHasScrolled] = useState(false);
   const [isScrollable, setIsScrollable] = useState(false);
   const lightboxScrollRef = useRef<HTMLDivElement | null>(null);
@@ -83,32 +84,17 @@ export function ShareButton({ lenses, variant = "default", triggerClassName }: S
     const handler = (e: MediaQueryListEvent) => setIsDesktop(e.matches);
     mq.addEventListener("change", handler);
 
-    // Compute lightbox scale from window.innerWidth. Card CSS width is
-    // calc(100vw - 44px) capped at max-w-[750px], so we mirror that exactly.
-    const updateLightboxScale = () => {
-      setLightboxScale(Math.min(1, (window.innerWidth - 44) / POSTER_W));
-    };
-    updateLightboxScale();
-    window.addEventListener("resize", updateLightboxScale);
-
     return () => {
       mq.removeEventListener("change", handler);
-      window.removeEventListener("resize", updateLightboxScale);
     };
   }, []);
 
-  // Detect whether the lightbox poster is scrollable; reset scroll hint state on close
+  // Reset scroll hint state when lightbox closes
   useEffect(() => {
     if (!lightboxOpen) {
       setHasScrolled(false);
       setIsScrollable(false);
-      return;
     }
-    const id = requestAnimationFrame(() => {
-      const el = lightboxScrollRef.current;
-      if (el) setIsScrollable(el.scrollHeight > el.clientHeight + 1);
-    });
-    return () => cancelAnimationFrame(id);
   }, [lightboxOpen]);
 
   // Keep shareUrl in sync when panel opens
@@ -226,6 +212,20 @@ export function ShareButton({ lenses, variant = "default", triggerClassName }: S
     }
   }, [lenses]);
 
+  const handleOpenLightbox = useCallback(async () => {
+    setLightboxOpen(true);
+    if (!posterRef.current) return;
+    setLightboxImageLoading(true);
+    try {
+      const url = await rasterizePoster(posterRef.current);
+      setLightboxImageUrl(url);
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setLightboxImageLoading(false);
+    }
+  }, []);
+
   const truncatedUrl =
     shareUrl.length > 56 ? shareUrl.slice(0, 56) + "…" : shareUrl;
 
@@ -317,7 +317,7 @@ export function ShareButton({ lenses, variant = "default", triggerClassName }: S
           <div
             className="group relative -mx-4 cursor-zoom-in overflow-hidden"
             style={{ height: PREVIEW_H }}
-            onClick={() => setLightboxOpen(true)}
+            onClick={handleOpenLightbox}
           >
             {/* Scale wrapper: absolute so it doesn't affect flow height */}
             <div
@@ -355,7 +355,10 @@ export function ShareButton({ lenses, variant = "default", triggerClassName }: S
             open={lightboxOpen}
             onOpenChange={(open) => {
               setLightboxOpen(open);
-              if (!open) { setHasScrolled(false); setIsScrollable(false); }
+              if (!open) {
+                setLightboxImageUrl(null);
+                setLightboxImageLoading(false);
+              }
             }}
           >
             <DialogContent
@@ -385,15 +388,27 @@ export function ShareButton({ lenses, variant = "default", triggerClassName }: S
                   transition={{ duration: 0.12, ease: "easeOut" }}
                   className="relative w-full overflow-hidden rounded-2xl bg-white shadow-[0_8px_40px_rgba(0,0,0,0.22),0_0_0_1px_rgba(0,0,0,0.06)]"
                 >
-                  {/* Scrollable poster at full (fit-scaled) width */}
+                  {/* Rasterized poster image — naturally scales to card width, no zoom math needed */}
                   <div
                     ref={lightboxScrollRef}
-                    className="max-h-[calc(100svh-3rem-10px)] overflow-y-auto overflow-x-hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:max-h-[calc(100svh-3rem)]"
+                    className="max-h-[calc(100svh-3rem-10px)] overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:max-h-[calc(100svh-3rem)]"
                     onScroll={() => { if (!hasScrolled) setHasScrolled(true); }}
                   >
-                    <div style={{ width: POSTER_W, zoom: lightboxScale }}>
-                      <SharePoster lenses={lenses} labels={posterLabels} custom={posterCustom} shareUrl={shareUrl} />
-                    </div>
+                    {lightboxImageLoading ? (
+                      <div className="flex h-48 items-center justify-center">
+                        <Loader2 className="size-6 animate-spin text-zinc-400" />
+                      </div>
+                    ) : lightboxImageUrl ? (
+                      <img
+                        src={lightboxImageUrl}
+                        alt=""
+                        className="w-full"
+                        onLoad={() => {
+                          const el = lightboxScrollRef.current;
+                          if (el) setIsScrollable(el.scrollHeight > el.clientHeight + 1);
+                        }}
+                      />
+                    ) : null}
                   </div>
 
                   {/* Scroll hint: bottom gradient + double chevron, disappears on first scroll */}
