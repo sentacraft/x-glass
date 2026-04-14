@@ -124,9 +124,8 @@ export const IRIS_HERO: IrisConfig = withIrisDefaults({
   bladeColor: "#181818",
   strokeColor: "#b3b3b3",
   strokeWidth: 1,
-  // Interactive
+  // Interactive — non-default values only
   interactive: true,
-  initAnimation: false,
 });
 
 export const IRIS_NAV: IrisConfig = withIrisDefaults({
