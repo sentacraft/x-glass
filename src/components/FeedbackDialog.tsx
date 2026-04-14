@@ -179,7 +179,10 @@ export default function FeedbackDialog({
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder={t("fieldPickerPlaceholder")} />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent
+                    positionerClassName="z-[70]"
+                    className="z-[70]"
+                  >
                     {fields.map((f) => (
                       <SelectItem key={f.label} value={f.label}>
                         {f.label}
