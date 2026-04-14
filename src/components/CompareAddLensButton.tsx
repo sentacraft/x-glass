@@ -70,7 +70,7 @@ export default function CompareAddLensButton({ lenses, triggerClassName }: Props
         </Popover.Trigger>
         <Popover.Portal>
           <Popover.Positioner side="bottom" align="start" sideOffset={8}>
-            <Popover.Popup className="max-w-[220px] rounded-xl border border-zinc-200 bg-white px-3 py-2 text-xs text-zinc-600 shadow-md dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300">
+            <Popover.Popup className="max-w-[220px] origin-(--transform-origin) rounded-xl border border-zinc-200 bg-white px-3 py-2 text-xs text-zinc-600 shadow-md duration-150 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300">
               {t("compareFullHint")}
             </Popover.Popup>
           </Popover.Positioner>
