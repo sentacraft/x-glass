@@ -117,15 +117,16 @@ export const IRIS_HERO: IrisConfig = withIrisDefaults({
   bladeLength: 120,
   bladeWidth: 40,
   openFStop: 1.4,
-  defaultFStop: 5.6,
+  defaultFStop: 4,
   // Size
   size: 208,
   // Appearance
   bladeColor: "#181818",
   strokeColor: "#b3b3b3",
-  strokeWidth: 1.0,
-  // Interactive — non-default values only
+  strokeWidth: 1,
+  // Interactive
   interactive: true,
+  initAnimation: false,
 });
 
 export const IRIS_NAV: IrisConfig = withIrisDefaults({
