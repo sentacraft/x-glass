@@ -52,7 +52,7 @@ export const IRIS_HERO: IrisConfig = {
   slotOffset: 0.804533,
   bladeLength: 120,
   bladeWidth: 40,
-  t: 0.4917,
+  defaultFStop: 5.6,
   // Size
   size: 208,
   // Appearance
@@ -71,7 +71,7 @@ export const IRIS_NAV: IrisConfig = {
   slotOffset: 0.6283,
   bladeLength: 115,
   bladeWidth: 36,
-  t: 0.45,
+  defaultFStop: 5.6,
   // Size
   size: 26,
   // Appearance: Tailwind dark/light automatic (no colour overrides)

@@ -7,7 +7,7 @@ import {
   thetaRange,
   buildDerivedConfig,
   computeThetaOpen,
-  tNormToTheta,
+  findThetaForFStop,
 } from "@/lib/iris-kinematics";
 import { IRIS_HERO } from "@/config/brand";
 
@@ -32,7 +32,7 @@ export const contentType = "image/png";
 const R_HOUSING = 100;
 const dc = buildDerivedConfig(IRIS_HERO, R_HOUSING);
 const thetaOpen = computeThetaOpen(dc, R_HOUSING);
-const theta = tNormToTheta(IRIS_HERO.t, thetaOpen, thetaRange(dc).max);
+const theta = findThetaForFStop(IRIS_HERO.defaultFStop, dc, { min: thetaOpen, max: thetaRange(dc).max });
 const blades = solveAllBlades(theta, dc);
 const shape = bladeShapePath(dc);
 const N = dc.N;

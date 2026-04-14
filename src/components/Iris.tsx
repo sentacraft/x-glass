@@ -20,6 +20,7 @@ import {
   tNormToTheta,
   apertureInradius,
   findThetaForInradius,
+  findThetaForFStop,
 } from "@/lib/iris-kinematics";
 import { IRIS_HERO, type IrisConfig } from "@/config/brand";
 import { ANIMATION } from "@/config/ui";
@@ -60,7 +61,21 @@ export default function Iris({
     shadow = true,
   } = config;
   const size = sizeProp ?? configSize;
-  const DEFAULT_T = config.t;
+
+  // Kinematic derivation — must come before DEFAULT_T so the f-stop → theta
+  // conversion is available when initialising state.
+  const dc = useMemo(() => buildDerivedConfig(config, R_HOUSING), [config]);
+  const thetaOpen = useMemo(() => computeThetaOpen(dc, R_HOUSING), [dc]);
+  const thetaMax  = useMemo(() => thetaRange(dc).max, [dc]);
+
+  // Aperture inradius at fully-open position — used for diameter-linear mapping.
+  const inradiusOpen = useMemo(() => apertureInradius(thetaOpen, dc), [thetaOpen, dc]);
+
+  // Convert defaultFStop → normalised t for state initialisation.
+  const DEFAULT_T = useMemo(() => {
+    const thetaAtFStop = findThetaForFStop(config.defaultFStop, dc, { min: thetaOpen, max: thetaMax });
+    return Math.max(0.02, Math.min(0.98, (thetaAtFStop - thetaOpen) / (thetaMax - thetaOpen)));
+  }, [config.defaultFStop, dc, thetaOpen, thetaMax]);
 
   const [t, setT] = useState<number>(DEFAULT_T);
   const tRef = useRef<number>(DEFAULT_T);
@@ -70,14 +85,6 @@ export default function Iris({
   const lastFrameRef = useRef<number>(0);
   const entryOffsetRef = useRef(0);
   const entryTimeRef = useRef(0);
-
-  // Kinematic derivation — recomputed only when preset changes (size threshold cross).
-  const dc = useMemo(() => buildDerivedConfig(config, R_HOUSING), [config]);
-  const thetaOpen = useMemo(() => computeThetaOpen(dc, R_HOUSING), [dc]);
-  const thetaMax  = useMemo(() => thetaRange(dc).max, [dc]);
-
-  // Aperture inradius at fully-open position — used for diameter-linear mapping.
-  const inradiusOpen = useMemo(() => apertureInradius(thetaOpen, dc), [thetaOpen, dc]);
 
   // Per-frame: convert t → theta → blade states.
   const theta = tNormToTheta(t, thetaOpen, thetaMax);

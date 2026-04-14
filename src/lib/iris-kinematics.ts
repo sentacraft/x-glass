@@ -278,10 +278,11 @@ export interface StoredIrisParams {
   /** Blade body width at its widest point (px). */
   bladeWidth: number;
   /**
-   * Default aperture openness for static / initial renders.
-   * 0 = fully open (blades at housing wall), 1 = fully closed (minimum aperture).
+   * Default aperture openness expressed as an f-stop number (e.g. 5.6).
+   * Used as the static / initial aperture position for non-interactive renders,
+   * and as the Auto-mode aperture in the Design Lab f-stop ring.
    */
-  t: number;
+  defaultFStop: number;
 }
 
 /**
@@ -458,6 +459,31 @@ export function findThetaForInradius(
   dc: IrisMechanismConfig,
   range: { min: number; max: number },
 ): number {
+  let lo = range.min;
+  let hi = range.max;
+  for (let i = 0; i < 48; i++) {
+    const mid = (lo + hi) / 2;
+    if (apertureInradius(mid, dc) > targetR) lo = mid;
+    else hi = mid;
+  }
+  return (lo + hi) / 2;
+}
+
+/**
+ * Find the actuator angle theta that produces the given f-stop.
+ *
+ * Uses the relationship  f = f_ref × (r_open / r)  where f_ref = 1.4 (f/1.4 at
+ * maximum open) and r_open is the inradius at the fully-open position.
+ * Solves by binary search over [range.min, range.max].
+ */
+export function findThetaForFStop(
+  targetFStop: number,
+  dc: IrisMechanismConfig,
+  range: { min: number; max: number },
+): number {
+  const rOpen = apertureInradius(range.min, dc);
+  if (rOpen <= 0) return range.min;
+  const targetR = (1.4 * rOpen) / targetFStop;
   let lo = range.min;
   let hi = range.max;
   for (let i = 0; i < 48; i++) {

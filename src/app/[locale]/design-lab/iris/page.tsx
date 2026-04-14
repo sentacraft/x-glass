@@ -12,6 +12,7 @@ import {
   DEFAULT_IRIS_CONFIG,
   apertureInradius,
   findThetaForInradius,
+  findThetaForFStop,
   type IrisMechanismConfig,
 } from "@/lib/iris-kinematics";
 import { readFromBrand, exportToBrand } from "./actions";
@@ -365,46 +366,7 @@ function formatFStop(f: number): string {
   return `f/${f.toFixed(1)}`;
 }
 
-/** Reverse-compute the nearest FSTOP_OPTIONS value for a stored normalised t. */
-function tToNearestFStop(
-  t: number,
-  dc: IrisMechanismConfig,
-  range: { min: number; max: number },
-): number {
-  const theta  = range.min + t * (range.max - range.min);
-  const rOpen  = apertureInradius(range.min, dc);
-  if (rOpen <= 0) return 5.6;
-  const r = apertureInradius(theta, dc);
-  if (r <= 0.5) return 22;
-  const f = 1.4 * rOpen / r;
-  return FSTOP_OPTIONS.reduce((best, c) =>
-    Math.abs(Math.log2(c) - Math.log2(f)) < Math.abs(Math.log2(best) - Math.log2(f)) ? c : best
-  );
-}
 
-function findThetaForFStop(
-  targetFStop: number,
-  dc: IrisMechanismConfig,
-  range: { min: number; max: number },
-): number {
-  const rOpen = apertureInradius(range.min, dc);
-  if (rOpen <= 0) return range.min;
-  // f = 1.4 × (rOpen / r)  =>  r = 1.4 × rOpen / f
-  const targetR = (1.4 * rOpen) / targetFStop;
-
-  let lo = range.min;
-  let hi = range.max;
-  for (let i = 0; i < 48; i++) {
-    const mid = (lo + hi) / 2;
-    const r   = apertureInradius(mid, dc);
-    if (r > targetR) {
-      lo = mid; // aperture still too large → close more
-    } else {
-      hi = mid;
-    }
-  }
-  return (lo + hi) / 2;
-}
 
 // ── Page ──────────────────────────────────────────────────────────────────────
 
@@ -446,16 +408,13 @@ export default function ApertureV2Lab() {
       v = await readFromBrand(key);
       if (!v) return;
     }
-    const tempDc  = buildDerivedConfig(v, R_HOUSING);
-    const tempMin = computeThetaOpen(tempDc, R_HOUSING);
-    const tempMax = thetaRange(tempDc).max;
-    setConfig(tempDc);
+    setConfig(buildDerivedConfig(v, R_HOUSING));
     // Restore appearance state from loaded config.
     if (v.bladeColor) setBladeGray(parseInt(v.bladeColor.slice(1, 3), 16));
     if (v.strokeColor) setStrokeGray(parseInt(v.strokeColor.slice(1, 3), 16));
     if (v.strokeWidth !== undefined) setStrokeWidth(v.strokeWidth);
     if (v.shadow !== undefined) setShadowOpacity(v.shadow ? 0.55 : 0);
-    setDefaultFStop(tToNearestFStop(v.t, tempDc, { min: tempMin, max: tempMax }));
+    setDefaultFStop(v.defaultFStop ?? 5.6);
     // Update production preview to reflect the loaded config at actual size.
     setPreviewConfig({ ...v, interactive: false });
     setIsPlaying(false);
@@ -465,10 +424,6 @@ export default function ApertureV2Lab() {
   // Export current workspace params to the selected profile.
   async function handleExport() {
     setExportStatus("Saving…");
-    const { min, max } = range;
-    // t is derived from the Default F-Stop selection, not the current slider position.
-    const defaultTheta = findThetaForFStop(defaultFStop, derivedConfig, range);
-    const tExport = Math.max(0, Math.min(1, (defaultTheta - min) / (max - min)));
     const profileSize = selectedProfile === "production:hero" ? IRIS_HERO.size
       : selectedProfile === "production:nav" ? IRIS_NAV.size : 80;
     const stored: IrisConfig = {
@@ -477,7 +432,7 @@ export default function ApertureV2Lab() {
       slotOffset: config.slotOffset,
       bladeLength: config.bladeLength,
       bladeWidth: config.bladeWidth,
-      t: tExport,
+      defaultFStop,
       size: profileSize,
       bladeColor: grayHex(bladeGray),
       strokeColor: grayHex(strokeGray),
@@ -501,15 +456,12 @@ export default function ApertureV2Lab() {
   useEffect(() => {
     readFromBrand("IRIS_HERO").then(v => {
       if (!v) return;
-      const tempDc  = buildDerivedConfig(v, R_HOUSING);
-      const tempMin = computeThetaOpen(tempDc, R_HOUSING);
-      const tempMax = thetaRange(tempDc).max;
-      setConfig(tempDc);
+      setConfig(buildDerivedConfig(v, R_HOUSING));
       if (v.bladeColor) setBladeGray(parseInt(v.bladeColor.slice(1, 3), 16));
       if (v.strokeColor) setStrokeGray(parseInt(v.strokeColor.slice(1, 3), 16));
       if (v.strokeWidth !== undefined) setStrokeWidth(v.strokeWidth);
       if (v.shadow !== undefined) setShadowOpacity(v.shadow ? 0.55 : 0);
-      setDefaultFStop(tToNearestFStop(v.t, tempDc, { min: tempMin, max: tempMax }));
+      setDefaultFStop(v.defaultFStop ?? 5.6);
       setPreviewConfig({ ...v, interactive: false });
     });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
