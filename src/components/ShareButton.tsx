@@ -5,10 +5,9 @@ import { Popover } from "@base-ui/react/popover";
 import { Drawer } from "@base-ui/react/drawer";
 import { Tabs } from "@base-ui/react/tabs";
 import { useTranslations } from "next-intl";
-import { Share2, Copy, Check, Download, Loader2, Expand, SlidersHorizontal, Maximize2, Minimize2, X } from "lucide-react";
+import { Share2, Copy, Check, Download, Loader2, Expand, SlidersHorizontal, ChevronDown } from "lucide-react";
 import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
-import { ICON_CLOSE_BTN_CLS } from "@/lib/ui-tokens";
 import { Z } from "@/config/ui";
 import type { Lens } from "@/lib/types";
 import { rasterizePoster } from "@/lib/share-image";
@@ -56,17 +55,14 @@ export function ShareButton({ lenses, variant = "default", triggerClassName }: S
 
   // Full-size lightbox
   const [lightboxOpen, setLightboxOpen] = useState(false);
-  const [posterZoomed, setPosterZoomed] = useState(false);
   const [lightboxScale, setLightboxScale] = useState(1);
-  // Locked card height: captured just before entering zoom mode so the card
-  // doesn't resize when the poster switches from fit-scale to zoom:1.
-  const [lockedCardHeight, setLockedCardHeight] = useState<number | undefined>(undefined);
-  const cardElRef = useRef<HTMLDivElement | null>(null);
+  const [hasScrolled, setHasScrolled] = useState(false);
+  const [isScrollable, setIsScrollable] = useState(false);
+  const lightboxScrollRef = useRef<HTMLDivElement | null>(null);
   // Callback ref: fires as soon as the portal element mounts, avoiding the
   // race condition where useEffect runs before the portal has attached the ref.
   const lightboxRoRef = useRef<ResizeObserver | null>(null);
   const lightboxContainerRef = useCallback((el: HTMLDivElement | null) => {
-    cardElRef.current = el;
     lightboxRoRef.current?.disconnect();
     lightboxRoRef.current = null;
     if (!el) return;
@@ -100,6 +96,20 @@ export function ShareButton({ lenses, variant = "default", triggerClassName }: S
     mq.addEventListener("change", handler);
     return () => mq.removeEventListener("change", handler);
   }, []);
+
+  // Detect whether the lightbox poster is scrollable; reset scroll hint state on close
+  useEffect(() => {
+    if (!lightboxOpen) {
+      setHasScrolled(false);
+      setIsScrollable(false);
+      return;
+    }
+    const id = requestAnimationFrame(() => {
+      const el = lightboxScrollRef.current;
+      if (el) setIsScrollable(el.scrollHeight > el.clientHeight + 1);
+    });
+    return () => cancelAnimationFrame(id);
+  }, [lightboxOpen]);
 
   // Keep shareUrl in sync when panel opens
   useEffect(() => {
@@ -345,7 +355,7 @@ export function ShareButton({ lenses, variant = "default", triggerClassName }: S
             open={lightboxOpen}
             onOpenChange={(open) => {
               setLightboxOpen(open);
-              if (!open) { setPosterZoomed(false); setLockedCardHeight(undefined); }
+              if (!open) { setHasScrolled(false); setIsScrollable(false); }
             }}
           >
             <DialogContent
@@ -357,70 +367,33 @@ export function ShareButton({ lenses, variant = "default", triggerClassName }: S
                 if (e.target === e.currentTarget) setLightboxOpen(false);
               }}
             >
-              {/* Wrapper: sized like the card so the close button can sit outside it */}
-              <div className="relative w-[calc(100vw-1.5rem)] max-w-[750px]">
-                {/* Close — floats above the top-right corner of the card */}
-                <button
-                  onClick={() => setLightboxOpen(false)}
-                  className={cn(
-                    ICON_CLOSE_BTN_CLS,
-                    "absolute -top-10 right-0 sm:-top-4 sm:-right-4 z-10 h-9 w-9 bg-white/90 shadow-sm backdrop-blur-sm dark:bg-zinc-800/90"
-                  )}
-                  aria-label={t("close")}
+              {/* Poster card — click outside (on DialogContent) to close */}
+              <motion.div
+                ref={lightboxContainerRef}
+                initial={{ opacity: 0, scale: 0.97 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.12, ease: "easeOut" }}
+                className="relative w-[calc(100vw-1.5rem)] max-w-[750px] overflow-hidden rounded-2xl bg-white shadow-[0_8px_40px_rgba(0,0,0,0.22),0_0_0_1px_rgba(0,0,0,0.06)]"
+              >
+                {/* Scrollable poster at full (fit-scaled) width */}
+                <div
+                  ref={lightboxScrollRef}
+                  className="max-h-[calc(100svh-3rem)] overflow-y-auto overflow-x-hidden [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+                  onScroll={() => { if (!hasScrolled) setHasScrolled(true); }}
                 >
-                  <X className="size-4" />
-                </button>
-
-                {/* Poster card */}
-                <motion.div
-                  ref={lightboxContainerRef}
-                  initial={{ opacity: 0, scale: 0.97 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.12, ease: "easeOut" }}
-                  className="relative w-full max-h-[calc(100svh-5rem)] overflow-hidden rounded-2xl bg-white shadow-[0_8px_40px_rgba(0,0,0,0.22),0_0_0_1px_rgba(0,0,0,0.06)]"
-                  style={lockedCardHeight !== undefined ? { height: lockedCardHeight } : undefined}
-                >
-                  {/* Scrollable poster — in zoom mode fill the locked card height exactly
-                      so the scroll container matches the visible area */}
-                  <div
-                    className={cn(
-                      "[scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
-                      posterZoomed
-                        ? "h-full overflow-auto"
-                        : "max-h-[calc(100svh-5rem)] overflow-y-auto overflow-x-hidden"
-                    )}
-                  >
-                    {/* transition-[zoom] animates the zoom switch on browsers that support it */}
-                    <div
-                      className="transition-[zoom] duration-200 ease-out"
-                      style={{ width: POSTER_W, zoom: posterZoomed ? 1 : lightboxScale }}
-                    >
-                      <SharePoster lenses={lenses} labels={posterLabels} custom={posterCustom} shareUrl={shareUrl} />
-                    </div>
+                  <div style={{ width: POSTER_W, zoom: lightboxScale }}>
+                    <SharePoster lenses={lenses} labels={posterLabels} custom={posterCustom} shareUrl={shareUrl} />
                   </div>
+                </div>
 
-                  {/* Zoom toggle — only useful when the card is smaller than the poster */}
-                  {lightboxScale < 1 && (
-                    <button
-                      onClick={() => {
-                        setPosterZoomed((z) => {
-                          if (!z && cardElRef.current) {
-                            // Lock card height before zooming so the card doesn't resize
-                            setLockedCardHeight(cardElRef.current.offsetHeight);
-                          } else {
-                            setLockedCardHeight(undefined);
-                          }
-                          return !z;
-                        });
-                      }}
-                      className="absolute bottom-3 right-3 inline-flex h-8 w-8 items-center justify-center rounded-full bg-black/30 text-white backdrop-blur-sm transition-colors hover:bg-black/50"
-                      aria-label={posterZoomed ? t("posterZoomOut") : t("posterZoomHint")}
-                    >
-                      {posterZoomed ? <Minimize2 className="size-3.5" /> : <Maximize2 className="size-3.5" />}
-                    </button>
-                  )}
-                </motion.div>
-              </div>
+                {/* Scroll hint: bottom gradient + double chevron, disappears on first scroll */}
+                {isScrollable && !hasScrolled && (
+                  <div className="pointer-events-none absolute inset-x-0 bottom-0 flex h-20 flex-col items-center justify-end bg-gradient-to-t from-white to-transparent pb-3">
+                    <ChevronDown className="size-5 -mb-1.5 text-zinc-400 opacity-60" />
+                    <ChevronDown className="size-5 text-zinc-400" />
+                  </div>
+                )}
+              </motion.div>
             </DialogContent>
           </Dialog>
 
