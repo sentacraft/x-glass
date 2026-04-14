@@ -21,10 +21,14 @@ const IMAGE_TTL_S = 30 * 24 * 60 * 60; // 30 days
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE.shell).then((cache) => cache.addAll(PRECACHE_URLS))
+    caches
+      .open(CACHE.shell)
+      .then((cache) => cache.addAll(PRECACHE_URLS))
+      // Non-fatal: pre-cache may fail on protected preview deployments.
+      // The offline page will be cached on the user's first normal visit.
+      .catch(() => {})
+      .then(() => self.skipWaiting())
   );
-  // Activate immediately — don't wait for existing tabs to close.
-  self.skipWaiting();
 });
 
 self.addEventListener('activate', (event) => {
