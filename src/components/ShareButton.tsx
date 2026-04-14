@@ -370,7 +370,7 @@ export function ShareButton({ lenses, variant = "default", triggerClassName }: S
               {/* Wrapper: measures width for zoom scale; positions mobile close button outside overflow-hidden */}
               <div
                 ref={lightboxContainerRef}
-                className="relative w-[calc(100vw-1.5rem-6px)] max-w-[750px] sm:w-[calc(100vw-1.5rem)]"
+                className="relative w-[calc(100vw-44px)] max-w-[750px] sm:w-[calc(100vw-1.5rem)]"
               >
                 {/* Mobile-only close button — center sits on the top-right corner of the card */}
                 <button
