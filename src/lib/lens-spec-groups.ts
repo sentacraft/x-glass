@@ -247,7 +247,7 @@ export function resolveSpecRow(
       note,
       boolValue,
       subValue,
-      plainText: joinParts(primaryText, subValue, note),
+      plainText: joinParts(primaryText, subValue, note && `(${note})`),
     };
   }
 
@@ -271,7 +271,7 @@ export function resolveSpecRow(
       comparable: row.toComparable(lens),
       bestDir: row.bestDir,
       highlightFragment: row.getHighlightFragment?.(lens),
-      plainText: joinParts(primary, subValue, note),
+      plainText: joinParts(primary, subValue, note && `(${note})`),
     };
   }
 
@@ -284,7 +284,7 @@ export function resolveSpecRow(
     note,
     displayValue,
     subValue,
-    plainText: joinParts(displayValue ?? labels.missing, subValue, note),
+    plainText: joinParts(displayValue ?? labels.missing, subValue, note && `(${note})`),
   };
 }
 
