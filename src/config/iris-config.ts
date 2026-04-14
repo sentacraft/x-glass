@@ -152,12 +152,6 @@ export const IRIS_NAV: IrisConfig = withIrisDefaults({
   strokeWidth: 5,
 });
 
-// ── TODO: App name / tagline strings ─────────────────────────────────────────
-// TODO: Move appName, appDesc out of i18n if they need to appear in non-intl
-// contexts (e.g. OG image generation, metadata).
-
-// ── TODO: OG / social metadata ───────────────────────────────────────────────
-// TODO: canonical site URL, OG image dimensions, Twitter card type, etc.
-
-// ── TODO: Favicon / PWA manifest params ──────────────────────────────────────
-// TODO: theme color, background color, display mode
+// Site-level metadata (name, description, theme color, PWA display mode, etc.)
+// lives in src/config/site.ts — not here. This file is scoped to Iris rendering
+// parameters only.
