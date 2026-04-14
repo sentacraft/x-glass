@@ -37,7 +37,7 @@ export default async function ComparePage({
   return (
     <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-8 flex flex-col gap-3 sm:gap-4">
       {/* Header */}
-      <ComparePageHeader lenses={lenses} />
+      <ComparePageHeader lenses={lenses} minColumns={2} />
 
       {/* Table — minColumns=2 ensures cold start always shows 2 search-trigger columns */}
       <CompareTable lenses={lenses} minColumns={2} />

@@ -11,9 +11,11 @@ import type { Lens } from "@/lib/types";
 
 interface Props {
   lenses: Lens[];
+  /** Matches CompareTable minColumns — button is hidden while empty slot columns are visible. */
+  minColumns?: number;
 }
 
-export default function ComparePageHeader({ lenses }: Props) {
+export default function ComparePageHeader({ lenses, minColumns = 0 }: Props) {
   const t = useTranslations("Compare");
   const headerRef = useRef<HTMLDivElement>(null);
   const [showFab, setShowFab] = useState(false);
@@ -42,7 +44,7 @@ export default function ComparePageHeader({ lenses }: Props) {
         <h1 className="hidden sm:block text-2xl font-bold text-zinc-900 dark:text-zinc-50">
           {t("title")}
         </h1>
-        <CompareAddLensButton lenses={lenses} />
+        {lenses.length >= minColumns && <CompareAddLensButton lenses={lenses} />}
         {lenses.length >= 1 && (
           <div className="ml-auto">
             <ShareButton lenses={lenses} />
