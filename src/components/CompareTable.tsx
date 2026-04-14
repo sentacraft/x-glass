@@ -25,7 +25,7 @@ import { useCompare } from "@/context/CompareProvider";
 import { allLenses, getLensUrl, MAX_COMPARE } from "@/lib/lens";
 import LensSearchDialog from "@/components/LensSearchDialog";
 import { lensImageStyle } from "@/lib/lens-image";
-import { buildSpecGroups } from "@/lib/lens-spec-groups";
+import { buildSpecGroups, getSpecRowPlainTextValue } from "@/lib/lens-spec-groups";
 import type { SpecRow, SpecGroup, StructuredLine } from "@/lib/lens-spec-groups";
 import type { Lens } from "@/lib/types";
 
@@ -339,20 +339,7 @@ export default function CompareTable({ lenses: initialLenses, minColumns = 0 }: 
         .flatMap((group) => group.rows)
         .filter((row) => row.hasData(lens))
         .map((row) => {
-          let currentValue: string | undefined;
-          if (row.kind === "bool") {
-            const v = row.getValue(lens);
-            currentValue =
-              v === true
-                ? valueCellLabels.yes
-                : v === "partial"
-                  ? valueCellLabels.partial
-                  : v === false
-                    ? valueCellLabels.no
-                    : valueCellLabels.missing;
-          } else {
-            currentValue = row.getDisplayValue(lens) ?? undefined;
-          }
+          const currentValue = getSpecRowPlainTextValue(row, lens, valueCellLabels);
           return { label: row.label, currentValue };
         });
       map.set(lens.id, fields);

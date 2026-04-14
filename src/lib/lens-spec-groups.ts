@@ -95,6 +95,14 @@ export interface SpecGroup {
   rows: SpecRow[];
 }
 
+export interface SpecValueTextLabels {
+  yes: string;
+  no: string;
+  partial: string;
+  unknown: string;
+  missing: string;
+}
+
 // ---------------------------------------------------------------------------
 // Labels interface — caller passes all pre-translated strings
 // ---------------------------------------------------------------------------
@@ -153,6 +161,53 @@ export interface SpecGroupLabels {
 
   // Focus motor canonical class labels
   motorClass: Record<FocusMotorClass, string>;
+}
+
+function appendSubValue(primary: string | undefined, subValue: string | undefined) {
+  if (!primary && !subValue) return undefined;
+  if (!subValue) return primary;
+  return primary ? `${primary}\n${subValue}` : subValue;
+}
+
+function structuredLinesToText(lines: StructuredLine[] | undefined) {
+  if (!lines || lines.length === 0) return undefined;
+  return lines
+    .map((line) => (line.label ? `${line.value} (${line.label})` : line.value))
+    .join("\n");
+}
+
+/**
+ * Returns the plain-text value as closely as possible to what the user sees in
+ * the spec table, including structured lines and secondary text.
+ */
+export function getSpecRowPlainTextValue(
+  row: SpecRow,
+  lens: Lens,
+  labels: SpecValueTextLabels
+): string | undefined {
+  if (row.kind === "bool") {
+    const value = row.getValue(lens);
+    const primary =
+      value === true
+        ? labels.yes
+        : value === "partial"
+          ? labels.partial
+          : value === false
+            ? labels.no
+            : labels.unknown;
+    return appendSubValue(primary, row.getSubValue?.(lens));
+  }
+
+  if (row.kind === "numeric") {
+    const primary =
+      structuredLinesToText(row.getStructuredLines?.(lens)) ??
+      row.getDisplayValue(lens) ??
+      labels.missing;
+    return appendSubValue(primary, row.getSubValue?.(lens));
+  }
+
+  const primary = row.getDisplayValue(lens) ?? labels.missing;
+  return appendSubValue(primary, row.getSubValue?.(lens));
 }
 
 // ---------------------------------------------------------------------------
