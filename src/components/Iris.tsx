@@ -125,22 +125,14 @@ export default function Iris({
     function sequenceTick(now: number) {
       const p = Math.min(1, (now - startTime) / INIT_DURATION_MS);
 
-      let keyframeT: number;
-      if (p < 0.5) {
-        // Phase 1: fully open → f/22
-        keyframeT = p / 0.5;
-      } else {
-        // Phase 2: f/22 → defaultFStop
-        keyframeT = 1 + ((p - 0.5) / 0.5) * (defaultTRef.current - 1);
-      }
-
-      targetTRef.current = Math.max(0.02, Math.min(0.98, keyframeT));
+      // Sweep from fully open (t≈0) → f/22 (t≈1) over the full duration.
+      targetTRef.current = Math.max(0.02, Math.min(0.98, p));
 
       if (p < 1) {
         initAnimRef.current = requestAnimationFrame(sequenceTick);
       } else {
         initAnimRef.current = null;
-        // Chase has had 500 ms to converge (τ=60 ms → error ≈ 0.02 %); stop cleanly.
+        // Snap immediately to defaultFStop once the sweep completes.
         stopChase();
         tRef.current = defaultTRef.current;
         setT(defaultTRef.current);
