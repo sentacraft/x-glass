@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback, useRef } from "react";
+import { useEffect, useLayoutEffect, useState, useCallback, useRef } from "react";
 import { Popover } from "@base-ui/react/popover";
 import { Drawer } from "@base-ui/react/drawer";
 import { Tabs } from "@base-ui/react/tabs";
@@ -59,18 +59,22 @@ export function ShareButton({ lenses, variant = "default", triggerClassName }: S
   const [hasScrolled, setHasScrolled] = useState(false);
   const [isScrollable, setIsScrollable] = useState(false);
   const lightboxScrollRef = useRef<HTMLDivElement | null>(null);
-  // Callback ref: fires as soon as the portal element mounts, avoiding the
-  // race condition where useEffect runs before the portal has attached the ref.
+  const lightboxCardRef = useRef<HTMLDivElement | null>(null);
   const lightboxRoRef = useRef<ResizeObserver | null>(null);
-  const lightboxContainerRef = useCallback((el: HTMLDivElement | null) => {
-    lightboxRoRef.current?.disconnect();
-    lightboxRoRef.current = null;
-    if (!el) return;
+
+  // useLayoutEffect fires synchronously after DOM mutations, before paint —
+  // clientWidth is guaranteed correct here, unlike a callback ref on mobile Chrome
+  // where the portal layout may not be committed yet when the ref fires.
+  useLayoutEffect(() => {
+    const el = lightboxCardRef.current;
+    if (!lightboxOpen || !el) return;
     const updateScale = () => setLightboxScale(Math.min(1, el.clientWidth / POSTER_W));
     updateScale();
-    lightboxRoRef.current = new ResizeObserver(updateScale);
-    lightboxRoRef.current.observe(el);
-  }, []);
+    const ro = new ResizeObserver(updateScale);
+    lightboxRoRef.current = ro;
+    ro.observe(el);
+    return () => { ro.disconnect(); lightboxRoRef.current = null; };
+  }, [lightboxOpen]);
 
   // Filename slug
   const slugRef = useRef("");
@@ -378,10 +382,9 @@ export function ShareButton({ lenses, variant = "default", triggerClassName }: S
                   <X className="size-3.5" />
                 </button>
 
-                {/* Poster card — ref here so ResizeObserver measures the card directly,
-                    unaffected by the absolute-positioned close button on the wrapper */}
+                {/* Poster card — ref drives the useLayoutEffect scale measurement */}
                 <motion.div
-                  ref={lightboxContainerRef}
+                  ref={lightboxCardRef}
                   initial={{ opacity: 0, scale: 0.97 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.12, ease: "easeOut" }}
