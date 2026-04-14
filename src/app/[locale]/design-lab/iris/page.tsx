@@ -411,6 +411,11 @@ export default function ApertureV2Lab() {
     setOpenFStop(v.openFStop ?? 1.4);
     setDefaultFStop(v.defaultFStop ?? 5.6);
     setInitAnimation(v.initAnimation ?? false);
+    setClosedFStop(v.closedFStop ?? 22);
+    setChaseTauMs(v.chaseTauMs ?? 60);
+    setEaseOutMs(v.easeOutMs ?? 700);
+    setCatchupMs(v.catchupMs ?? 300);
+    setHotzoneScale(v.hotzoneScale ?? 1.5);
     // Track the production pixel size for the preview label.
     setPreviewSize(v.size);
     setIsPlaying(false);
@@ -436,6 +441,11 @@ export default function ApertureV2Lab() {
       strokeWidth: strokeWidth,
       interactive: selectedProfile === "production:hero",
       initAnimation,
+      closedFStop,
+      chaseTauMs,
+      easeOutMs,
+      catchupMs,
+      hotzoneScale,
     };
     if (selectedProfile === "lab") {
       setLabConfig(stored);
@@ -460,6 +470,11 @@ export default function ApertureV2Lab() {
       setOpenFStop(v.openFStop ?? 1.4);
       setDefaultFStop(v.defaultFStop ?? 5.6);
       setInitAnimation(v.initAnimation ?? false);
+      setClosedFStop(v.closedFStop ?? 22);
+      setChaseTauMs(v.chaseTauMs ?? 60);
+      setEaseOutMs(v.easeOutMs ?? 700);
+      setCatchupMs(v.catchupMs ?? 300);
+      setHotzoneScale(v.hotzoneScale ?? 1.5);
       setPreviewSize(v.size);
     });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
@@ -495,6 +510,11 @@ export default function ApertureV2Lab() {
   const [initAnimation, setInitAnimation] = useState(false);
   const [openFStop, setOpenFStop] = useState(1.4);
   const [defaultFStop, setDefaultFStop] = useState(5.6);
+  const [closedFStop, setClosedFStop] = useState(22);
+  const [chaseTauMs, setChaseTauMs] = useState(60);
+  const [easeOutMs, setEaseOutMs] = useState(700);
+  const [catchupMs, setCatchupMs] = useState(300);
+  const [hotzoneScale, setHotzoneScale] = useState(1.5);
   const [strokeWidth, setStrokeWidth] = useState(0.5);
   const [bladeGray, setBladeGray] = useState(24);   // 0=black … 255=white; default ≈ zinc-900
   const [strokeGray, setStrokeGray] = useState(63); // default ≈ zinc-700
@@ -520,9 +540,15 @@ export default function ApertureV2Lab() {
     strokeWidth,
     interactive: false,
     initAnimation,
+    closedFStop,
+    chaseTauMs,
+    easeOutMs,
+    catchupMs,
+    hotzoneScale,
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }), [config.N, config.pinDistance, config.slotOffset, config.bladeLength, config.bladeWidth,
-      openFStop, defaultFStop, previewSize, bladeGray, strokeGray, strokeWidth, initAnimation]);
+      openFStop, defaultFStop, closedFStop, chaseTauMs, easeOutMs, catchupMs, hotzoneScale,
+      previewSize, bladeGray, strokeGray, strokeWidth, initAnimation]);
 
   // Animation: theta oscillates between range.min and range.max
   const rafRef = useRef<number | undefined>(undefined);
@@ -636,7 +662,7 @@ export default function ApertureV2Lab() {
   //
   // Entry:  offset recorded on first hotzone frame, decays (1-p)^2 over 300 ms.
   // Leave:  cubic ease-out back to autoTheta over 700 ms.
-  const FOLLOW_TAU_MS = 60; // exponential smoothing time constant (ms); lower = snappier
+  // chaseTauMs / easeOutMs / catchupMs / hotzoneScale / closedFStop come from state (controls).
   const followTargetRef      = useRef(0);
   const followEntryOffsetRef = useRef(0);
   const followEntryTimeRef   = useRef(0);
@@ -666,7 +692,7 @@ export default function ApertureV2Lab() {
       function chaseTick(now: number) {
         const dt = Math.min(now - followLastFrameRef.current, 64); // cap at ~4 frames
         followLastFrameRef.current = now;
-        const k    = 1 - Math.exp(-dt / FOLLOW_TAU_MS);
+        const k    = 1 - Math.exp(-dt / chaseTauMs);
         const cur  = thetaRef.current;
         const next = cur + (followTargetRef.current - cur) * k;
         setTheta(next);
@@ -692,7 +718,6 @@ export default function ApertureV2Lab() {
 
       const cx = rect.left + rect.width  / 2;
       const cy = rect.top  + rect.height / 2;
-      const hotzoneScale = IRIS_HERO.hotzoneScale ?? 1.5;
       const hotLeft   = cx - D * hotzoneScale;
       const hotRight  = cx + D * hotzoneScale;
       const hotTop    = cy - D;
@@ -706,13 +731,13 @@ export default function ApertureV2Lab() {
         if (wasInHotzoneRef.current) {
           wasInHotzoneRef.current = false;
           stopChase();
-          // Cubic ease-out back to autoTheta over 700 ms
+          // Cubic ease-out back to autoTheta over easeOutMs
           if (followLeaveRafRef.current) cancelAnimationFrame(followLeaveRafRef.current);
           const fromTheta = thetaRef.current;
           const toTheta   = autoTheta;
           const startMs   = performance.now();
           function leaveTick(now: number) {
-            const p     = Math.min(1, (now - startMs) / 700);
+            const p     = Math.min(1, (now - startMs) / easeOutMs);
             const eased = 1 - (1 - p) ** 3;
             const v     = fromTheta + (toTheta - fromTheta) * eased;
             setTheta(v);
@@ -735,7 +760,7 @@ export default function ApertureV2Lab() {
       // small-aperture end feels "slower" — matching a physical aperture ring.
       const t       = Math.max(0, Math.min(1, (e.clientX - hotLeft) / (hotRight - hotLeft)));
       const rOpen   = inradiusOpen;
-      const r22     = (openFStop * rOpen) / (IRIS_HERO.closedFStop ?? 22);
+      const r22     = (openFStop * rOpen) / closedFStop;
       const targetR = rOpen + t * (r22 - rOpen); // linear in diameter
       const rawTarget = findThetaForInradius(targetR, derivedConfig, range);
 
@@ -746,8 +771,8 @@ export default function ApertureV2Lab() {
         wasInHotzoneRef.current      = true;
       }
 
-      // Quadratic ease-out on entry offset: (1-p)^2 over 300 ms
-      const p                  = Math.min(1, (performance.now() - followEntryTimeRef.current) / 300);
+      // Quadratic ease-out on entry offset: (1-p)^2 over catchupMs
+      const p                  = Math.min(1, (performance.now() - followEntryTimeRef.current) / catchupMs);
       const off                = followEntryOffsetRef.current * (1 - p) ** 2;
       followTargetRef.current  = rawTarget + off; // chase RAF reads this every frame
       startRef.current         = undefined;
@@ -760,7 +785,8 @@ export default function ApertureV2Lab() {
       wasInHotzoneRef.current = false;
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [followMouse, openFStop, range.min, range.max, inradiusOpen, autoTheta, derivedConfig.bladeWidth,
+  }, [followMouse, openFStop, closedFStop, chaseTauMs, easeOutMs, catchupMs, hotzoneScale,
+      range.min, range.max, inradiusOpen, autoTheta, derivedConfig.bladeWidth,
       derivedConfig.N, derivedConfig.pivotRadius, derivedConfig.pinDistance,
       derivedConfig.slotOffset, derivedConfig.bladeLength, derivedConfig.bladeCurvature]);
 
@@ -1007,6 +1033,70 @@ export default function ApertureV2Lab() {
                     <option key={f} value={f}>{formatFStop(f)}</option>
                   ))}
                 </select>
+              </div>
+              {/* Closed F-Stop — minimum aperture (maximum f-number) for interactive range. */}
+              <div className="space-y-1">
+                <div className="flex justify-between text-xs text-zinc-500">
+                  <span>Closed F-Stop</span>
+                  <span className="font-mono">{formatFStop(closedFStop)}</span>
+                </div>
+                <select
+                  value={closedFStop}
+                  onChange={(e) => setClosedFStop(parseFloat(e.target.value))}
+                  style={{
+                    width: "100%", padding: "5px 8px", borderRadius: 4,
+                    border: "1px solid #d4d4d8", background: "#fff",
+                    color: "#3f3f46", fontSize: 12, fontFamily: "ui-monospace, monospace",
+                  }}
+                >
+                  {FSTOP_OPTIONS.filter(f => f > openFStop).map(f => (
+                    <option key={f} value={f}>{formatFStop(f)}</option>
+                  ))}
+                </select>
+              </div>
+              {/* Chase τ — exponential-smoothing time constant for follow-mouse (ms). */}
+              <div className="space-y-1">
+                <div className="flex justify-between text-xs">
+                  <span className="text-zinc-500">Chase τ</span>
+                  <span className="text-zinc-700 font-mono">{chaseTauMs} ms</span>
+                </div>
+                <input type="range" min={10} max={200} step={5} value={chaseTauMs}
+                  onChange={(e) => setChaseTauMs(parseFloat(e.target.value))}
+                  className="w-full" style={{ accentColor: "#18181b" }}
+                />
+              </div>
+              {/* Ease Out — cubic ease-out return duration after mouse leaves (ms). */}
+              <div className="space-y-1">
+                <div className="flex justify-between text-xs">
+                  <span className="text-zinc-500">Ease Out</span>
+                  <span className="text-zinc-700 font-mono">{easeOutMs} ms</span>
+                </div>
+                <input type="range" min={100} max={2000} step={50} value={easeOutMs}
+                  onChange={(e) => setEaseOutMs(parseFloat(e.target.value))}
+                  className="w-full" style={{ accentColor: "#18181b" }}
+                />
+              </div>
+              {/* Catchup — entry offset decay duration (ms). */}
+              <div className="space-y-1">
+                <div className="flex justify-between text-xs">
+                  <span className="text-zinc-500">Catchup</span>
+                  <span className="text-zinc-700 font-mono">{catchupMs} ms</span>
+                </div>
+                <input type="range" min={50} max={1000} step={10} value={catchupMs}
+                  onChange={(e) => setCatchupMs(parseFloat(e.target.value))}
+                  className="w-full" style={{ accentColor: "#18181b" }}
+                />
+              </div>
+              {/* Hotzone Scale — multiplier on iris diameter for follow-mouse hotzone. */}
+              <div className="space-y-1">
+                <div className="flex justify-between text-xs">
+                  <span className="text-zinc-500">Hotzone Scale</span>
+                  <span className="text-zinc-700 font-mono">{hotzoneScale.toFixed(1)}×</span>
+                </div>
+                <input type="range" min={0.5} max={3} step={0.1} value={hotzoneScale}
+                  onChange={(e) => setHotzoneScale(parseFloat(e.target.value))}
+                  className="w-full" style={{ accentColor: "#18181b" }}
+                />
               </div>
             </section>
 
