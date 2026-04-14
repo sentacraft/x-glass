@@ -3,6 +3,7 @@ import { Link } from "@/i18n/navigation";
 import DataInfo from "@/components/DataFooter";
 import Tagline from "@/components/Tagline";
 import Iris from "@/components/Iris";
+import { IRIS_HERO } from "@/config/brand";
 
 export default function Home() {
   const t = useTranslations("Common");
@@ -12,9 +13,7 @@ export default function Home() {
     <div className="flex flex-col bg-stone-100 dark:bg-zinc-950 h-full">
       {/* Hero */}
       <section className="flex flex-col items-center justify-center text-center px-4 py-16 flex-1">
-        <Iris size={208} uid="hero" className="mb-6" interactive
-          bladeColor="#181818" strokeColor="#b3b3b3" strokeWidth={1.0} shadow={false}
-        />
+        <Iris config={IRIS_HERO} uid="hero" className="mb-6" />
         <h1 className="text-5xl sm:text-6xl font-bold tracking-tight text-zinc-800 dark:text-zinc-50">
           {t("appName")}
         </h1>

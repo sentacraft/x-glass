@@ -13,9 +13,10 @@ import {
   apertureInradius,
   findThetaForInradius,
   type IrisMechanismConfig,
-  type StoredIrisParams,
 } from "@/lib/iris-kinematics";
 import { readFromBrand, exportToBrand } from "./actions";
+import { IRIS_HERO, IRIS_NAV } from "@/config/brand";
+import type { IrisConfig } from "@/config/brand";
 
 // SVG coordinate space: origin at iris center, R_HOUSING = outer display radius.
 // viewBox is larger to accommodate the actuator ring sitting outside R_HOUSING.
@@ -391,9 +392,9 @@ export default function ApertureV2Lab() {
 
   // Studio profiles: "lab" is in-memory only; the two production profiles
   // read/write brand.ts via server actions.
-  type StudioProfile = "lab" | "production:large" | "production:small";
-  const [selectedProfile, setSelectedProfile] = useState<StudioProfile>("production:large");
-  const [labConfig, setLabConfig] = useState<StoredIrisParams | null>(null);
+  type StudioProfile = "lab" | "production:hero" | "production:nav";
+  const [selectedProfile, setSelectedProfile] = useState<StudioProfile>("production:hero");
+  const [labConfig, setLabConfig] = useState<IrisConfig | null>(null);
   const [exportStatus, setExportStatus] = useState<string | null>(null);
 
   const setField = (patch: Partial<IrisMechanismConfig>) => {
@@ -412,15 +413,21 @@ export default function ApertureV2Lab() {
 
   // Load the selected profile's params into the workspace.
   async function handleLoad() {
+    let v: IrisConfig | null = null;
     if (selectedProfile === "lab") {
       if (!labConfig) return;
-      setConfig(buildDerivedConfig(labConfig, R_HOUSING));
+      v = labConfig;
     } else {
-      const key = selectedProfile === "production:large" ? "IRIS_LG" : "IRIS_SM";
-      const v = await readFromBrand(key);
+      const key = selectedProfile === "production:hero" ? "IRIS_HERO" : "IRIS_NAV";
+      v = await readFromBrand(key);
       if (!v) return;
-      setConfig(buildDerivedConfig(v, R_HOUSING));
     }
+    setConfig(buildDerivedConfig(v, R_HOUSING));
+    // Restore appearance state from loaded config.
+    if (v.bladeColor) setBladeGray(parseInt(v.bladeColor.slice(1, 3), 16));
+    if (v.strokeColor) setStrokeGray(parseInt(v.strokeColor.slice(1, 3), 16));
+    if (v.strokeWidth !== undefined) setStrokeWidth(v.strokeWidth);
+    if (v.shadow !== undefined) setShadowOpacity(v.shadow ? 0.55 : 0);
     setIsPlaying(false);
     startRef.current = undefined;
   }
@@ -430,31 +437,43 @@ export default function ApertureV2Lab() {
     setExportStatus("Saving…");
     const { min, max } = range;
     const tExport = Math.max(0, Math.min(1, (theta - min) / (max - min)));
-    const stored: StoredIrisParams = {
+    const profileSize = selectedProfile === "production:hero" ? IRIS_HERO.size
+      : selectedProfile === "production:nav" ? IRIS_NAV.size : 80;
+    const stored: IrisConfig = {
       N: config.N,
       pinDistance: config.pinDistance,
       slotOffset: config.slotOffset,
       bladeLength: config.bladeLength,
       bladeWidth: config.bladeWidth,
       t: tExport,
+      size: profileSize,
+      bladeColor: grayHex(bladeGray),
+      strokeColor: grayHex(strokeGray),
+      strokeWidth: strokeWidth,
+      shadow: shadowOpacity > 0,
+      interactive: selectedProfile === "production:hero",
     };
     if (selectedProfile === "lab") {
       setLabConfig(stored);
       setExportStatus("✓ Saved to Lab");
       setTimeout(() => setExportStatus(null), 3000);
     } else {
-      const key = selectedProfile === "production:large" ? "IRIS_LG" : "IRIS_SM";
+      const key = selectedProfile === "production:hero" ? "IRIS_HERO" : "IRIS_NAV";
       const res = await exportToBrand(key, stored);
       setExportStatus(res.ok ? `✓ Written to ${key}` : `✗ ${res.error}`);
       if (res.ok) setTimeout(() => setExportStatus(null), 3000);
     }
   }
 
-  // Seed the workspace from production:large on first mount only.
+  // Seed the workspace from production:hero on first mount only.
   useEffect(() => {
-    readFromBrand("IRIS_LG").then(v => {
+    readFromBrand("IRIS_HERO").then(v => {
       if (!v) return;
       setConfig(buildDerivedConfig(v, R_HOUSING));
+      if (v.bladeColor) setBladeGray(parseInt(v.bladeColor.slice(1, 3), 16));
+      if (v.strokeColor) setStrokeGray(parseInt(v.strokeColor.slice(1, 3), 16));
+      if (v.strokeWidth !== undefined) setStrokeWidth(v.strokeWidth);
+      if (v.shadow !== undefined) setShadowOpacity(v.shadow ? 0.55 : 0);
     });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -816,7 +835,7 @@ export default function ApertureV2Lab() {
               <p className="text-sm font-semibold text-zinc-800 uppercase tracking-wide pt-3">Studio</p>
               {/* Profile selector — switching does not load; only Load/Export act */}
               <div className="flex gap-1.5">
-                {(["lab", "production:large", "production:small"] as const).map((profile) => (
+                {(["lab", "production:hero", "production:nav"] as const).map((profile) => (
                   <button
                     key={profile}
                     onClick={() => setSelectedProfile(profile)}
@@ -826,8 +845,8 @@ export default function ApertureV2Lab() {
                       : { background: "#fff", color: "#3f3f46", border: "1px solid #d4d4d8" }}
                   >
                     {profile === "lab" ? "Lab"
-                      : profile === "production:large" ? "Prod LG"
-                      : "Prod SM"}
+                      : profile === "production:hero" ? "Hero"
+                      : "Nav"}
                   </button>
                 ))}
               </div>
@@ -853,6 +872,12 @@ export default function ApertureV2Lab() {
               {exportStatus && (
                 <p className={`text-xs font-mono ${exportStatus.startsWith("✓") ? "text-green-600" : "text-red-500"}`}>
                   {exportStatus}
+                </p>
+              )}
+              {/* Production size indicator */}
+              {selectedProfile !== "lab" && (
+                <p className="text-xs font-mono text-zinc-400">
+                  {selectedProfile === "production:hero" ? IRIS_HERO.size : IRIS_NAV.size} px production
                 </p>
               )}
             </section>

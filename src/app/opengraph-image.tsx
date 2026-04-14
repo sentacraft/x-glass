@@ -9,7 +9,7 @@ import {
   computeThetaOpen,
   tNormToTheta,
 } from "@/lib/iris-kinematics";
-import { IRIS_LG } from "@/config/brand";
+import { IRIS_HERO } from "@/config/brand";
 
 /** Walk up directory tree until node_modules/<pkg>/<relPath> is found. */
 function resolvePackageFile(pkg: string, relPath: string): string {
@@ -30,9 +30,9 @@ export const contentType = "image/png";
 // Pre-compute at module level (runs once per server render).
 // Satori constraint: no SVG mask or filter elements — fill pass only.
 const R_HOUSING = 100;
-const dc = buildDerivedConfig(IRIS_LG, R_HOUSING);
+const dc = buildDerivedConfig(IRIS_HERO, R_HOUSING);
 const thetaOpen = computeThetaOpen(dc, R_HOUSING);
-const theta = tNormToTheta(IRIS_LG.t, thetaOpen, thetaRange(dc).max);
+const theta = tNormToTheta(IRIS_HERO.t, thetaOpen, thetaRange(dc).max);
 const blades = solveAllBlades(theta, dc);
 const shape = bladeShapePath(dc);
 const N = dc.N;

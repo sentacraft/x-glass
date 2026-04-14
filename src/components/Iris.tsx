@@ -3,10 +3,12 @@
 // Aperture mark component — renders the X-Glass logo using the physical
 // iris kinematic model (iris-kinematics.ts).
 //
-// Automatically selects IRIS_SM for sizes below LOGO_SM_THRESHOLD so
-// the blade gap remains legible at small render sizes (nav, favicon, etc.).
+// Accepts a single IrisConfig (from brand.ts) covering kinematic params,
+// render size, appearance, and interactive behaviour. Two named configs are
+// exported from brand.ts: IRIS_HERO (homepage, OG) and IRIS_NAV (navbar).
 //
-// Theming via Tailwind fill-*/stroke-* utilities (light/dark automatic).
+// Theming: bladeColor/strokeColor in the config override the Tailwind
+// fill-*/stroke-* utilities used for automatic light/dark switching.
 
 import { useState, useRef, useEffect, useMemo } from "react";
 import {
@@ -19,7 +21,7 @@ import {
   apertureInradius,
   findThetaForInradius,
 } from "@/lib/iris-kinematics";
-import { IRIS_LG, IRIS_SM, LOGO_SM_THRESHOLD } from "@/config/brand";
+import { IRIS_HERO, type IrisConfig } from "@/config/brand";
 import { ANIMATION } from "@/config/ui";
 
 const R_HOUSING = 100;
@@ -29,38 +31,36 @@ const SHADOW_OPACITY = 0.55;
 // ── Component ─────────────────────────────────────────────────────────────────
 
 interface IrisProps {
-  /** Render size in px. Default 80. */
+  /** Full config: kinematic params + size + appearance + interactive settings. */
+  config?: IrisConfig;
+  /**
+   * Render size override in px. Falls back to config.size when omitted.
+   * Use this only when you need a one-off size that differs from the named
+   * config (e.g. about page, poster). For the standard hero/nav sizes, rely
+   * on config.size.
+   */
   size?: number;
   /** Must be unique per page — used as SVG def ID prefix. */
   uid?: string;
   className?: string;
-  /**
-   * When true, aperture openness tracks horizontal mouse position over the
-   * logo (left = closed, right = open) and eases back to default on leave.
-   */
-  interactive?: boolean;
-  /** Blade fill colour. Overrides the default Tailwind dark/light class. */
-  bladeColor?: string;
-  /** Blade gap stroke colour. Overrides the default Tailwind dark/light class. */
-  strokeColor?: string;
-  /** Blade gap stroke width in SVG units. Default 1.5. */
-  strokeWidth?: number;
-  /** Show blade drop-shadow. Default true. */
-  shadow?: boolean;
 }
 
 export default function Iris({
-  size = 80,
+  config = IRIS_HERO,
+  size: sizeProp,
   uid = "logo",
   className,
-  interactive = false,
-  bladeColor,
-  strokeColor,
-  strokeWidth = 1.5,
-  shadow = true,
 }: IrisProps) {
-  const preset = size < LOGO_SM_THRESHOLD ? IRIS_SM : IRIS_LG;
-  const DEFAULT_T = preset.t;
+  const {
+    size: configSize,
+    interactive = false,
+    bladeColor,
+    strokeColor,
+    strokeWidth = 1.5,
+    shadow = true,
+  } = config;
+  const size = sizeProp ?? configSize;
+  const DEFAULT_T = config.t;
 
   const [t, setT] = useState<number>(DEFAULT_T);
   const tRef = useRef<number>(DEFAULT_T);
@@ -72,7 +72,7 @@ export default function Iris({
   const entryTimeRef = useRef(0);
 
   // Kinematic derivation — recomputed only when preset changes (size threshold cross).
-  const dc = useMemo(() => buildDerivedConfig(preset, R_HOUSING), [preset]);
+  const dc = useMemo(() => buildDerivedConfig(config, R_HOUSING), [config]);
   const thetaOpen = useMemo(() => computeThetaOpen(dc, R_HOUSING), [dc]);
   const thetaMax  = useMemo(() => thetaRange(dc).max, [dc]);
 

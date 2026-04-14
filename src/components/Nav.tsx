@@ -4,6 +4,7 @@ import { useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
 import LensSearchDialog from "@/components/LensSearchDialog";
 import Iris from "@/components/Iris";
+import { IRIS_NAV } from "@/config/brand";
 
 export default function Nav() {
   const t = useTranslations("Nav");
@@ -16,7 +17,7 @@ export default function Nav() {
           href="/"
           className="flex items-center gap-2 font-bold text-zinc-900 dark:text-zinc-50 text-lg tracking-tight"
         >
-          <Iris size={26} uid="nav" />
+          <Iris config={IRIS_NAV} uid="nav" />
           X-Glass
         </Link>
         <div className="flex items-center gap-3">

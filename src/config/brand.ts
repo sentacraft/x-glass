@@ -9,39 +9,76 @@
 
 import type { StoredIrisParams } from "@/lib/iris-kinematics";
 
-// ── Optical size presets ──────────────────────────────────────────────────────
+// ── IrisConfig ────────────────────────────────────────────────────────────────
 //
-// Two presets — analogous to font optical sizing:
-//   IRIS_LG     → ≥ LOGO_SM_THRESHOLD px renders (hero, about page, OG image)
-//   IRIS_SM  → <  LOGO_SM_THRESHOLD px renders (nav icon, favicon)
+// Full configuration for an Iris component instance. Extends the kinematic
+// StoredIrisParams with size, appearance, and interaction settings. Named
+// configs below are the single source of truth — the component does not carry
+// separate defaults for these properties.
+
+export interface IrisConfig extends StoredIrisParams {
+  // ── Size ────────────────────────────────────────────────────────────────────
+  /** Render size in px. */
+  size: number;
+
+  // ── Appearance ──────────────────────────────────────────────────────────────
+  /** Blade fill colour. Undefined = Tailwind dark/light automatic. */
+  bladeColor?: string;
+  /** Blade gap stroke colour. Undefined = Tailwind dark/light automatic. */
+  strokeColor?: string;
+  /** Blade gap stroke width in SVG units. Default 1.5. */
+  strokeWidth?: number;
+  /** Show blade drop-shadow. Default true. */
+  shadow?: boolean;
+
+  // ── Interactive ─────────────────────────────────────────────────────────────
+  /** When true, aperture openness tracks horizontal mouse position. */
+  interactive?: boolean;
+}
+
+// ── Named configs ─────────────────────────────────────────────────────────────
 //
-// Iris picks the preset automatically based on the `size` prop.
+// Two optical-size tiers — analogous to font optical sizing:
+//   IRIS_HERO  → large renders: homepage hero, OG image, apple icon
+//   IRIS_NAV   → small renders: navbar icon, favicon
+//
+// Pass the config directly to <Iris config={…} /> — no size-threshold logic
+// lives in the component itself.
 
-export const LOGO_SM_THRESHOLD = 40; // px
-
-export const IRIS_LG: StoredIrisParams = {
-  /** Number of aperture blades. */
+export const IRIS_HERO: IrisConfig = {
+  // Mechanical
   N: 7,
-  /** Rigid pivot-to-guide-pin distance (px). Must satisfy Rp ≤ d < bladeLength. */
   pinDistance: 85,
-  /** Actuator slot angular offset δ (rad, decimal). π/5 ≈ 0.6283 ≈ 36°. */
   slotOffset: 0.804533,
-  /** Blade length from pivot to tip (px). */
   bladeLength: 120,
-  /** Blade width at widest point (px). Also determines pivotRadius = 100 − W/2. */
   bladeWidth: 40,
-  /** Default aperture openness: 0 = wide open, 1 = fully closed. */
   t: 0.4917,
+  // Size
+  size: 208,
+  // Appearance
+  bladeColor: "#181818",
+  strokeColor: "#b3b3b3",
+  strokeWidth: 1.0,
+  shadow: false,
+  // Interactive
+  interactive: true,
 };
 
-export const IRIS_SM: StoredIrisParams = {
+export const IRIS_NAV: IrisConfig = {
+  // Mechanical
   N: 5,
   pinDistance: 88,
   slotOffset: 0.6283,
   bladeLength: 115,
-  /** Wider blades (36 vs 30) — fewer, chunkier blades read better below 40 px. */
   bladeWidth: 36,
   t: 0.45,
+  // Size
+  size: 26,
+  // Appearance: Tailwind dark/light automatic (no colour overrides)
+  strokeWidth: 1.5,
+  shadow: true,
+  // Interactive
+  interactive: false,
 };
 
 // ── TODO: App name / tagline strings ─────────────────────────────────────────
