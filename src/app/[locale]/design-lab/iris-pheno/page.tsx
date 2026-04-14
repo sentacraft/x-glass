@@ -357,7 +357,7 @@ export default function IrisPhenoLab() {
       {/* Header */}
       <div>
         <div className="mb-1 text-xs text-gray-400 tracking-wide uppercase">Design Lab</div>
-        <h1 className="text-2xl font-semibold tracking-tight">Logo Mark — Legacy Parametric Model (demo)</h1>
+        <h1 className="text-2xl font-semibold tracking-tight">Iris Pheno — Phenomenokinematic Model (demo)</h1>
         <p className="mt-1 text-sm text-gray-500">
           Two optical presets, analogous to font optical sizing.
           Large for hero renders (≥{LOGO_SM_THRESHOLD}px), SM for nav and favicon.

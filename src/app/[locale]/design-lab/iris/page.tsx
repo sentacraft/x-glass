@@ -396,7 +396,7 @@ export default function ApertureV2Lab() {
           Design Lab
         </div>
         <h1 className="text-xl font-semibold text-zinc-200 tracking-tight">
-          Aperture v2 — Physical Iris Mechanism
+          Iris — Kinematic Parameter Studio
         </h1>
         <p className="text-sm text-zinc-500 mt-1">
           3-body kinematic model · base plate + actuator ring + {config.N}{" "}
