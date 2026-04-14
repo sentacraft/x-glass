@@ -21,7 +21,7 @@ const clipR = R_HOUSING - dc.bladeWidth; // e.g. 100 - 45 = 55
 
 // Padding as a fraction of the icon size (0.10 = ~10%, equivalent to ~3px on each
 // side of a 32px icon — matches the breathing room most major brand favicons use).
-const ICON_PADDING = 0.10;
+const ICON_PADDING = 0.06;
 const padR = clipR / (1 - ICON_PADDING * 2); // expand viewBox so iris = (1 - 2*pad) of canvas
 const VIEWBOX = `${-padR} ${-padR} ${padR * 2} ${padR * 2}`;
 
