@@ -32,6 +32,7 @@ test.describe("Lens detail page", () => {
       .first();
     await firstCard.click();
     await page.goBack();
+    await page.waitForURL(/\/en\/lenses/);
     await expect(page).toHaveURL(/\/en\/lenses/);
   });
 });

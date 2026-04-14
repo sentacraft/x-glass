@@ -14,13 +14,25 @@ export default defineConfig({
   },
 
   projects: [
+    // Desktop
     {
       name: "chromium",
       use: { ...devices["Desktop Chrome"] },
     },
+    // Android Chrome (Chromium engine)
     {
-      name: "mobile",
+      name: "android",
       use: { ...devices["Pixel 5"] },
+    },
+    // iOS Safari (WebKit engine — same engine as iOS Chrome due to Apple's policy)
+    {
+      name: "ios-safari",
+      use: { ...devices["iPhone 15"] },
+    },
+    // iOS landscape — catches layout issues in horizontal orientation
+    {
+      name: "ios-safari-landscape",
+      use: { ...devices["iPhone 15 landscape"] },
     },
   ],
 
