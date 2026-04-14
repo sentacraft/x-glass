@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 import { Popover } from "@base-ui/react/popover";
@@ -43,13 +43,26 @@ export default function CompareAddLensButton({ lenses, triggerClassName }: Props
     [currentIds, t]
   );
 
+  const [hintOpen, setHintOpen] = useState(false);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Auto-dismiss after 1.5 s; clear timer on unmount
+  useEffect(() => {
+    if (hintOpen) {
+      timerRef.current = setTimeout(() => setHintOpen(false), 1500);
+    }
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+    };
+  }, [hintOpen]);
+
   const btnClass =
     triggerClassName ??
     "h-9 whitespace-nowrap rounded-full border px-3.5 text-sm transition-colors";
 
   if (!canAddMore) {
     return (
-      <Popover.Root>
+      <Popover.Root open={hintOpen} onOpenChange={setHintOpen}>
         <Popover.Trigger
           className={`${btnClass} border-zinc-200 bg-white text-zinc-400 cursor-not-allowed dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-600`}
         >
