@@ -196,7 +196,9 @@ export default function Iris({
     >
       <defs>
         <clipPath id={`${uid}-clip`}>
-          <circle r={R_HOUSING} />
+          {/* Clip radius shrunk to R_HOUSING - bladeWidth to hide blade roots without
+              relying on a background-colour cover plate. Works on any background. */}
+          <circle r={R_HOUSING - dc.bladeWidth} />
         </clipPath>
         <filter id={`${uid}-shadow`} x="-25%" y="-25%" width="150%" height="150%">
           <feDropShadow dx={0} dy={0} stdDeviation={SHADOW_STD} floodColor="black" floodOpacity={SHADOW_OPACITY} />
@@ -253,14 +255,8 @@ export default function Iris({
         ))}
       </g>
 
-      {/* Housing cover plate — hides blade roots (R_HOUSING−bladeWidth → R_HOUSING). */}
-      <circle
-        r={R_HOUSING - dc.bladeWidth / 2}
-        fill="none"
-        className={strokeColor ? undefined : "stroke-stone-100 dark:stroke-zinc-950"}
-        stroke={strokeColor}
-        strokeWidth={dc.bladeWidth + 1}
-      />
+
+
     </svg>
   );
 }
