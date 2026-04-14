@@ -50,8 +50,8 @@ export default function Nav() {
     <header
       className={cn(
         "shrink-0 border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-black z-30",
-        "transition-[margin-top] duration-300 ease-in-out",
-        hidden && "-mt-14 sm:mt-0"
+        "transition-transform duration-300 ease-in-out",
+        hidden && "-translate-y-full sm:translate-y-0"
       )}
     >
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
