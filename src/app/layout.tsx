@@ -3,6 +3,7 @@ import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import RegisterSW from "@/components/RegisterSW";
 
 export const metadata: Metadata = {
   metadataBase: process.env.VERCEL_URL
@@ -19,6 +20,7 @@ export default function RootLayout({
     <html className={`${GeistSans.variable} ${GeistMono.variable} font-sans antialiased`}>
       <body>
         {children}
+        <RegisterSW />
         <Analytics />
         <SpeedInsights />
       </body>
