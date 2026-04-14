@@ -21,13 +21,19 @@ const R_HOUSING = 100;
 const VIEWBOX = "-150 -150 300 300";
 
 // ── F-stop ring constants ─────────────────────────────────────────────────────
-const FSTOP_RING_R = 120;                                    // ring circle radius (SVG units)
-const FSTOP_LABEL_R = 130;                                   // label radius (outside ring)
-const FSTOP_SEQUENCE = [1, 1.4, 2, 2.8, 4, 5.6, 8, 11, 16, 22];
-const FSTOP_ANGLE_STEP = 360 / FSTOP_SEQUENCE.length;       // 36° per stop
+// Ring sits just inside the housing cover plate: inner radius = R_HOUSING − bladeWidth.
+// Ring radius is computed dynamically from bladeWidth in IrisStage.
+const FSTOP_RING_GAP = 4;                                    // inset from inner housing edge (SVG units)
+
+// Sequence: "A" (Auto) replaces f/1 and is drawn in red.
+// Arc spans 125° total across 9 equal steps (10 values → 9 gaps → 125/9 ≈ 13.9° per step).
+const FSTOP_SEQUENCE: (number | "A")[] = ["A", 1.4, 2, 2.8, 4, 5.6, 8, 11, 16, 22];
+const FSTOP_ARC_SPAN = 125;                                  // degrees
+const FSTOP_ANGLE_STEP = FSTOP_ARC_SPAN / (FSTOP_SEQUENCE.length - 1);  // ~13.9° per step
+const FSTOP_A_COLOR = "#C0452D";                             // Auto marker red
 
 // Continuous angle (degrees) in ring frame for a given f-stop value.
-// f/1 → 0°, f/1.4 → 36°, f/2 → 72°, …, f/22 → ~324°
+// Uses the same log₂ scale as the sequence: f/1→0°, f/1.4→STEP, …, f/22→ARC_SPAN.
 function fStopToRingAngle(f: number): number {
   return Math.log2(Math.max(0.5, f)) * 2 * FSTOP_ANGLE_STEP;
 }
@@ -39,6 +45,7 @@ function IrisStage({
   theta,
   showMechanics,
   showFStopRing = false,
+  fStopRingOuter = true,
   fStop = 1.4,
   strokeWidth,
   shadowOpacity,
@@ -50,6 +57,7 @@ function IrisStage({
   theta: number;
   showMechanics: boolean;
   showFStopRing?: boolean;
+  fStopRingOuter?: boolean;
   fStop?: number;
   strokeWidth: number;
   shadowOpacity: number;
@@ -272,49 +280,59 @@ function IrisStage({
 
       {/* ── F-stop ring overlay ── */}
       {showFStopRing && (() => {
+        // Outer mode: ring sits outside the housing, in the gap between the housing ring
+        // (R_HOUSING+5) and the background edge. Labels go further outward.
+        // Inner mode: ring sits just inside the housing cover plate area. Labels go inward.
+        const ringR   = fStopRingOuter ? R_HOUSING + 10 : R_HOUSING - config.bladeWidth - FSTOP_RING_GAP;
+        const labelR  = fStopRingOuter ? ringR + 10 : ringR - 7;
+        const tickOuter = ringR;
+        const tickInner = ringR - 5;
+
         const isValid = isFinite(fStop) && fStop >= 1;
         // Rotate ring so that the current f-stop lands at 12 o'clock (-90° in SVG).
         const ringRot = isValid ? -90 - fStopToRingAngle(fStop) : -90;
         const ringRotStr = ringRot.toFixed(3);
         return (
           <g>
-            {/* Fixed index mark at 12 o'clock, just outside the ring */}
+            {/* Fixed index mark at 12 o'clock.
+                Outer mode: marker sits above the labels (further from center).
+                Inner mode: marker sits just outside the ring circle. */}
             <line
-              x1="0" y1={-(FSTOP_RING_R + 3)}
-              x2="0" y2={-(FSTOP_RING_R + 13)}
+              x1="0" y1={fStopRingOuter ? -(labelR + 3) : -(ringR + 3)}
+              x2="0" y2={fStopRingOuter ? -(labelR + 11) : -(ringR + 11)}
               stroke="#52525b" strokeWidth="1.5" strokeLinecap="round"
             />
-            {/* Rotating group: ring circle + ticks + labels */}
+            {/* Rotating group: ring arc + ticks + labels */}
             <g transform={`rotate(${ringRotStr})`}>
-              <circle r={FSTOP_RING_R} fill="none" stroke="#d4d4d8" strokeWidth="0.6" />
+              <circle r={ringR} fill="none" stroke="#d4d4d8" strokeWidth="0.6" />
               {FSTOP_SEQUENCE.map((f, i) => {
                 const deg = i * FSTOP_ANGLE_STEP;
                 const rad = (deg * Math.PI) / 180;
                 const cos = Math.cos(rad);
                 const sin = Math.sin(rad);
-                const tx = FSTOP_LABEL_R * cos;
-                const ty = FSTOP_LABEL_R * sin;
-                const t1x = (FSTOP_RING_R - 6) * cos;
-                const t1y = (FSTOP_RING_R - 6) * sin;
-                const t2x = FSTOP_RING_R * cos;
-                const t2y = FSTOP_RING_R * sin;
-                // Counter-rotate each label so it stays upright in world frame.
-                const label = f === 1.4 || f === 2.8 || f === 5.6
-                  ? f.toFixed(1)
+                const lx = labelR * cos;
+                const ly = labelR * sin;
+                const t1x = tickInner * cos, t1y = tickInner * sin;
+                const t2x = tickOuter * cos, t2y = tickOuter * sin;
+                const isA = f === "A";
+                const label = isA ? "A"
+                  : (f === 1.4 || f === 2.8 || f === 5.6) ? (f as number).toFixed(1)
                   : String(f);
+                // Counter-rotate each label so it stays upright in world frame.
                 return (
-                  <g key={f}>
+                  <g key={label}>
                     <line
                       x1={t1x.toFixed(3)} y1={t1y.toFixed(3)}
                       x2={t2x.toFixed(3)} y2={t2y.toFixed(3)}
-                      stroke="#a1a1aa" strokeWidth="0.8"
+                      stroke={isA ? FSTOP_A_COLOR : "#a1a1aa"} strokeWidth="0.8"
                     />
                     <text
-                      x={tx.toFixed(3)} y={ty.toFixed(3)}
+                      x={lx.toFixed(3)} y={ly.toFixed(3)}
                       textAnchor="middle" dominantBaseline="central"
-                      fontSize="8.5" fill="#71717a"
+                      fontSize="8" fill={isA ? FSTOP_A_COLOR : "#71717a"}
+                      fontWeight={isA ? "600" : "normal"}
                       fontFamily="ui-monospace, SFMono-Regular, monospace"
-                      transform={`rotate(${(-ringRot).toFixed(3)}, ${tx.toFixed(3)}, ${ty.toFixed(3)})`}
+                      transform={`rotate(${(-ringRot).toFixed(3)}, ${lx.toFixed(3)}, ${ly.toFixed(3)})`}
                     >
                       {label}
                     </text>
@@ -504,6 +522,7 @@ export default function ApertureV2Lab() {
   const [speed, setSpeed] = useState(0.35); // Hz
   const [showMechanics, setShowMechanics] = useState(false);
   const [showFStopRing, setShowFStopRing] = useState(false);
+  const [fStopRingOuter, setFStopRingOuter] = useState(true);
   const [strokeWidth, setStrokeWidth] = useState(0.5);
   const [shadowOpacity, setShadowOpacity] = useState(0);
   const [bladeGray, setBladeGray] = useState(24);   // 0=black … 255=white; default ≈ zinc-900
@@ -590,6 +609,11 @@ export default function ApertureV2Lab() {
     ? 1.4 * (inradiusOpen / inradiusCurrent)
     : Infinity;
 
+  // When the iris is fully open (Auto position), the effective f-stop is hardcoded to f/5.6.
+  // At any other position, use the physics-derived value.
+  const AUTO_FSTOP = 5.6;
+  const ringFStop = openPct === 0 ? AUTO_FSTOP : fStop;
+
   return (
     <main
       style={{ background: "#f5f5f4", minHeight: "100vh" }}
@@ -619,7 +643,8 @@ export default function ApertureV2Lab() {
               theta={theta}
               showMechanics={showMechanics}
               showFStopRing={showFStopRing}
-              fStop={fStop}
+              fStopRingOuter={fStopRingOuter}
+              fStop={ringFStop}
               strokeWidth={strokeWidth}
               shadowOpacity={shadowOpacity}
               bladeColor={grayHex(bladeGray)}
@@ -750,6 +775,17 @@ export default function ApertureV2Lab() {
               >
                 {showFStopRing ? "◆ " : "◇ "}F-stop Ring
               </button>
+              {showFStopRing && (
+                <button
+                  onClick={() => setFStopRingOuter((v) => !v)}
+                  className="w-full rounded py-1.5 text-xs font-medium text-left px-3 transition-colors"
+                  style={fStopRingOuter
+                    ? { background: "#18181b", color: "#fff", border: "1px solid #18181b" }
+                    : { background: "#fff", color: "#3f3f46", border: "1px solid #d4d4d8" }}
+                >
+                  {fStopRingOuter ? "● " : "○ "}Outer
+                </button>
+              )}
             </section>
           </div>
 
