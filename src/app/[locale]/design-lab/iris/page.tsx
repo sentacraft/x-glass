@@ -536,7 +536,7 @@ export default function ApertureV2Lab() {
 
           {/* ── Col 2: Mechanism ── */}
           <div className="space-y-5">
-            <section className="space-y-2">
+            <section className="space-y-2.5">
               <p className="text-sm font-semibold text-zinc-800 uppercase tracking-wide pt-3">Blades</p>
               <div className="flex gap-1.5">
                 {[5, 6, 7, 9].map((n) => (
@@ -552,6 +552,21 @@ export default function ApertureV2Lab() {
                   </button>
                 ))}
               </div>
+              {([
+                { label: "Length", field: "bladeLength" as const, min: 80, max: 160, step: 1, fmt: (v: number) => v + " px" },
+                { label: "Width",  field: "bladeWidth"  as const, min: 10, max: 45,  step: 1, fmt: (v: number) => v + " px" },
+              ] as const).map(({ label, field, min, max, step, fmt }) => (
+                <div key={field} className="space-y-1">
+                  <div className="flex justify-between text-xs">
+                    <span className="text-zinc-500">{label}</span>
+                    <span className="text-zinc-700 font-mono">{fmt(config[field])}</span>
+                  </div>
+                  <input type="range" min={min} max={max} step={step} value={config[field]}
+                    onChange={(e) => setField({ [field]: parseFloat(e.target.value) })}
+                    className="w-full" style={{ accentColor: "#18181b" }}
+                  />
+                </div>
+              ))}
             </section>
 
             <section className="space-y-2.5">
@@ -596,25 +611,6 @@ export default function ApertureV2Lab() {
 
           {/* ── Col 3: Shape & Appearance ── */}
           <div className="space-y-5">
-            <section className="space-y-2.5">
-              <p className="text-sm font-semibold text-zinc-800 uppercase tracking-wide pt-3">Blade Shape</p>
-              {([
-                { label: "Length", field: "bladeLength" as const, min: 80, max: 160, step: 1, fmt: (v: number) => v + " px" },
-                { label: "Width",  field: "bladeWidth"  as const, min: 10, max: 45,  step: 1, fmt: (v: number) => v + " px" },
-              ] as const).map(({ label, field, min, max, step, fmt }) => (
-                <div key={field} className="space-y-1">
-                  <div className="flex justify-between text-xs">
-                    <span className="text-zinc-500">{label}</span>
-                    <span className="text-zinc-700 font-mono">{fmt(config[field])}</span>
-                  </div>
-                  <input type="range" min={min} max={max} step={step} value={config[field]}
-                    onChange={(e) => setField({ [field]: parseFloat(e.target.value) })}
-                    className="w-full" style={{ accentColor: "#18181b" }}
-                  />
-                </div>
-              ))}
-            </section>
-
             <section className="space-y-2.5">
               <p className="text-sm font-semibold text-zinc-800 uppercase tracking-wide pt-3">Appearance</p>
               <div className="space-y-1">
