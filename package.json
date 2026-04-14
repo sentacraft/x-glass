@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "nukedev": "rm -rf .next && next dev",
+    "gen:icons": "tsx scripts/gen-icons.tsx",
     "validate:lenses": "node --experimental-strip-types scripts/validate-lenses.mts",
     "build": "npm run validate:lenses && next build",
     "start": "next start",
@@ -34,6 +35,7 @@
     "zod": "^4.3.6"
   },
   "devDependencies": {
+    "@resvg/resvg-js": "^2.6.2",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
@@ -43,6 +45,7 @@
     "eslint-config-prettier": "^10.1.8",
     "prettier": "^3.8.1",
     "tailwindcss": "^4",
+    "tsx": "^4.21.0",
     "typescript": "^5",
     "vitest": "^4.1.1"
   }
