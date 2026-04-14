@@ -6,7 +6,7 @@ import Nav from "@/components/Nav";
 import ConsoleEgg from "@/components/ConsoleEgg";
 import TestHookPanel from "@/components/TestHookPanel";
 import { CompareProvider } from "@/context/CompareProvider";
-import { ScrollContainer } from "@/context/ScrollContainerContext";
+import { ScrollContainer, ScrollContainerProvider } from "@/context/ScrollContainerContext";
 import { TestHookProvider } from "@/context/TestHookProvider";
 import { TESTHOOK_ALLOWED } from "@/lib/testhook";
 import "../globals.css";
@@ -50,18 +50,23 @@ export default async function LocaleLayout({
     >
       <NextIntlClientProvider messages={messages}>
         <CompareProvider>
-          <ConsoleEgg />
-          <Nav />
-          <ScrollContainer>
-            {TESTHOOK_ALLOWED ? (
-              <TestHookProvider>
-                {children}
-                <TestHookPanel />
-              </TestHookProvider>
-            ) : (
-              children
-            )}
-          </ScrollContainer>
+          <ScrollContainerProvider>
+            <ConsoleEgg />
+            <Nav />
+            <ScrollContainer>
+              {/* offset fixed nav so content starts below it */}
+              <div className="pt-[var(--nav-height)]">
+                {TESTHOOK_ALLOWED ? (
+                  <TestHookProvider>
+                    {children}
+                    <TestHookPanel />
+                  </TestHookProvider>
+                ) : (
+                  children
+                )}
+              </div>
+            </ScrollContainer>
+          </ScrollContainerProvider>
         </CompareProvider>
       </NextIntlClientProvider>
     </div>
