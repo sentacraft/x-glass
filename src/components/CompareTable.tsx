@@ -490,7 +490,11 @@ export default function CompareTable({ lenses: initialLenses, minColumns = 0 }: 
             {Array.from({ length: emptySlotCount }).map((_, i) => (
               <EmptyLensHeader
                 key={`empty-header-${i}`}
-                addLensLabel={t("addLens")}
+                addLensLabel={
+                  orderedLenses.length === 0 && i === 0
+                    ? t("selectFirst")
+                    : t("addLens")
+                }
                 onSelectLens={handleAddLens}
                 getResultState={getAddResultState}
               />
