@@ -5,7 +5,7 @@ import { getTranslations } from "next-intl/server";
 import { Flag } from "lucide-react";
 import { allLenses, getLensUrl } from "@/lib/lens";
 import { lensImageStyle } from "@/lib/lens-image";
-import { buildSpecGroups } from "@/lib/lens-spec-groups";
+import { buildSpecGroups, getSpecRowPlainTextValue } from "@/lib/lens-spec-groups";
 import type { SpecRow, StructuredLine } from "@/lib/lens-spec-groups";
 import type { Lens } from "@/lib/types";
 import { ExternalLink } from "@/components/ui/external-link";
@@ -204,20 +204,7 @@ export default async function LensDetailPage({ params }: { params: Params }) {
   // Field options for the feedback dialog — mirrors exactly what the user sees in the spec table.
   const reportableFields = visibleGroups.flatMap((group) =>
     group.rows.map((row) => {
-      let currentValue: string | undefined;
-      if (row.kind === "bool") {
-        const v = row.getValue(lens);
-        currentValue =
-          v === true
-            ? valueCellLabels.yes
-            : v === "partial"
-              ? valueCellLabels.partial
-              : v === false
-                ? valueCellLabels.no
-                : valueCellLabels.unknown;
-      } else {
-        currentValue = row.getDisplayValue(lens) ?? undefined;
-      }
+      const currentValue = getSpecRowPlainTextValue(row, lens, valueCellLabels);
       return { label: row.label, currentValue };
     })
   );

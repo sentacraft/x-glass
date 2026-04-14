@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useId, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import {
   Dialog,
@@ -60,6 +60,7 @@ export default function FeedbackDialog({
   const [status, setStatus] = useState<Status>("idle");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [submitAttempted, setSubmitAttempted] = useState(false);
+  const dialogLayerRef = useRef<HTMLDivElement | null>(null);
   const textareaId = useId();
   const correctionId = useId();
 
@@ -145,7 +146,10 @@ export default function FeedbackDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md">
+      <DialogContent
+        layerRef={dialogLayerRef}
+        className="max-w-md"
+      >
         <DialogHeader>
           <DialogTitle>{t(titleKey)}</DialogTitle>
           {status !== "success" && <DialogDescription>{t(descriptionKey)}</DialogDescription>}
@@ -179,7 +183,7 @@ export default function FeedbackDialog({
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder={t("fieldPickerPlaceholder")} />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent portalContainer={dialogLayerRef}>
                     {fields.map((f) => (
                       <SelectItem key={f.label} value={f.label}>
                         {f.label}

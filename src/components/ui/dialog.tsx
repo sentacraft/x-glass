@@ -1,5 +1,6 @@
 "use client";
 
+import * as React from "react";
 import { Dialog as DialogPrimitive } from "@base-ui/react/dialog";
 import { X } from "lucide-react";
 
@@ -55,7 +56,7 @@ function DialogBackdrop({ className, ...props }: React.HTMLAttributes<HTMLDivEle
       data-slot="dialog-backdrop"
       aria-hidden="true"
       className={cn(
-        `fixed inset-0 ${Z.dialog} bg-zinc-950/55 backdrop-blur-sm`,
+        "absolute inset-0 bg-zinc-950/55 backdrop-blur-sm",
         className
       )}
       {...props}
@@ -63,52 +64,63 @@ function DialogBackdrop({ className, ...props }: React.HTMLAttributes<HTMLDivEle
   );
 }
 
-function DialogContent({
-  className,
-  backdropClassName,
-  children,
-  showCloseButton = true,
-  showOverlayCloseButton = false,
-  noDefaultPositioning = false,
-  ...props
-}: DialogPrimitive.Popup.Props & {
-  backdropClassName?: string;
-  showCloseButton?: boolean;
-  /** Renders the close button outside the popup at the card's top-right corner (-right-4 -top-4).
-   *  Requires the popup to NOT have overflow-hidden (move it to inner content instead). */
-  showOverlayCloseButton?: boolean;
-  /** Omits the default centered positioning (left-1/2 top-1/2 max-w-2xl -translate-*) so the
-   *  caller can supply custom fixed inset classes without Tailwind class conflicts. */
-  noDefaultPositioning?: boolean;
-}) {
+const DialogContent = React.forwardRef<
+  HTMLDivElement,
+  DialogPrimitive.Popup.Props & {
+    backdropClassName?: string;
+    layerRef?: React.Ref<HTMLDivElement>;
+    showCloseButton?: boolean;
+    /** Renders the close button outside the popup at the card's top-right corner (-right-4 -top-4).
+     *  Requires the popup to NOT have overflow-hidden (move it to inner content instead). */
+    showOverlayCloseButton?: boolean;
+    /** Omits the default centered positioning (left-1/2 top-1/2 max-w-2xl -translate-*) so the
+     *  caller can supply custom fixed inset classes without Tailwind class conflicts. */
+    noDefaultPositioning?: boolean;
+  }
+>(function DialogContent(
+  {
+    className,
+    backdropClassName,
+    children,
+    layerRef,
+    showCloseButton = true,
+    showOverlayCloseButton = false,
+    noDefaultPositioning = false,
+    ...props
+  },
+  ref
+) {
   return (
     <DialogPortal>
-      <DialogBackdrop className={backdropClassName} />
-      <DialogPrimitive.Popup
-        data-slot="dialog-content"
-        className={cn(
-          `fixed ${Z.dialog} rounded-2xl border border-zinc-200 bg-white p-0 shadow-2xl dark:border-zinc-800 dark:bg-zinc-950`,
-          !noDefaultPositioning && "left-1/2 top-1/2 w-full max-w-2xl -translate-x-1/2 -translate-y-1/2",
-          "origin-[var(--transform-origin)] duration-200 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-90 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-90",
-          className
-        )}
-        {...props}
-      >
-        {children}
-        {showCloseButton && (
-          <DialogPrimitive.Close className={cn(ICON_CLOSE_BTN_CLS, "absolute right-4 top-4 z-10 h-9 w-9 bg-white/90 shadow-sm backdrop-blur-sm dark:bg-zinc-800/90")}>
-            <X className="h-4 w-4" />
-          </DialogPrimitive.Close>
-        )}
-        {showOverlayCloseButton && (
-          <DialogPrimitive.Close className="absolute -right-4 -top-4 z-10 inline-flex h-9 w-9 items-center justify-center rounded-full bg-black/50 text-white backdrop-blur-md transition-colors hover:bg-black/70">
-            <X className="h-4 w-4" />
-          </DialogPrimitive.Close>
-        )}
-      </DialogPrimitive.Popup>
+      <div ref={layerRef} className={cn("fixed inset-0", Z.dialog)}>
+        <DialogBackdrop className={backdropClassName} />
+        <DialogPrimitive.Popup
+          ref={ref}
+          data-slot="dialog-content"
+          className={cn(
+            `fixed ${Z.local} rounded-2xl border border-zinc-200 bg-white p-0 shadow-2xl dark:border-zinc-800 dark:bg-zinc-950`,
+            !noDefaultPositioning && "left-1/2 top-1/2 w-full max-w-2xl -translate-x-1/2 -translate-y-1/2",
+            "origin-[var(--transform-origin)] duration-200 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-90 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-90",
+            className
+          )}
+          {...props}
+        >
+          {children}
+          {showCloseButton && (
+            <DialogPrimitive.Close className={cn(ICON_CLOSE_BTN_CLS, "absolute right-4 top-4 z-10 h-9 w-9 bg-white/90 shadow-sm backdrop-blur-sm dark:bg-zinc-800/90")}>
+              <X className="h-4 w-4" />
+            </DialogPrimitive.Close>
+          )}
+          {showOverlayCloseButton && (
+            <DialogPrimitive.Close className="absolute -right-4 -top-4 z-10 inline-flex h-9 w-9 items-center justify-center rounded-full bg-black/50 text-white backdrop-blur-md transition-colors hover:bg-black/70">
+              <X className="h-4 w-4" />
+            </DialogPrimitive.Close>
+          )}
+        </DialogPrimitive.Popup>
+      </div>
     </DialogPortal>
   );
-}
+});
 
 function DialogHeader({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   return (
