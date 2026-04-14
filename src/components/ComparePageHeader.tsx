@@ -37,11 +37,7 @@ export default function ComparePageHeader({ lenses, fallbackHref, minColumns = 0
   return (
     <>
       <div ref={headerRef} className="flex items-center gap-3">
-        <BackButton
-          fallbackHref={fallbackHref}
-          label="←"
-          className="text-sm text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 transition-colors"
-        />
+        <BackButton fallbackHref={fallbackHref} />
         <h1 className="hidden sm:block text-2xl font-bold text-zinc-900 dark:text-zinc-50">
           {t("title")}
         </h1>

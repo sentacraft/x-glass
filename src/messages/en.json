@@ -163,7 +163,6 @@
     "partial": "Partial",
     "unknown": "N/A",
     "missing": "-",
-    "backToLenses": "Back to Lenses",
     "addToCompare": "Add to Compare",
     "removeFromCompare": "Remove",
     "officialSite": "Official site",
@@ -181,7 +180,6 @@
   },
   "Compare": {
     "title": "Compare",
-    "backToLenses": "Back to Lenses",
     "officialSite": "Official site",
     "addLens": "Add lens",
     "selectFirst": "Add lens",
