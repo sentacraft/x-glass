@@ -50,7 +50,10 @@
 }
 
 :root {
-  --nav-height: 3.5rem; /* 56px / h-14 — update here to resize nav globally */
+  /* In WCO mode the title bar overlaps the top of the viewport; add that
+     height so the nav and all content offsets account for it automatically.
+     env() falls back to 0px in non-WCO contexts so layout is unchanged. */
+  --nav-height: calc(3.5rem + env(titlebar-area-height, 0px));
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
@@ -118,6 +121,12 @@
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
 }
+
+/* Window Controls Overlay drag regions.
+   The header background extends into the WCO title bar area; the strip
+   above the nav links acts as a drag handle for moving the window. */
+.wco-drag   { -webkit-app-region: drag;    app-region: drag;    }
+.wco-no-drag { -webkit-app-region: no-drag; app-region: no-drag; }
 
 @layer base {
   * {

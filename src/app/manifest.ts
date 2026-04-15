@@ -11,6 +11,10 @@ export default function manifest(): MetadataRoute.Manifest {
     start_url: "/",
     scope: "/",
     display: SITE.display,
+    // Prefer WCO on capable desktop browsers so the Nav background extends
+    // into the title bar area. Falls back to standalone on unsupported platforms.
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- display_override not yet in Next.js MetadataRoute.Manifest typings
+    display_override: ["window-controls-overlay", "standalone"] as any,
     background_color: SITE.backgroundColor,
     // Manifest theme_color is a static fallback used in install dialogs and the
     // splash screen chrome. Use light so the install prompt looks natural on
