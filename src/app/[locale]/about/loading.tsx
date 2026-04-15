@@ -1,6 +1,6 @@
 export default function AboutLoading() {
   return (
-    <div className="w-full max-w-2xl mx-auto px-4 sm:px-6 pt-4 sm:pt-12 pb-12 flex flex-col gap-12">
+    <div className="w-full max-w-2xl mx-auto px-4 sm:px-6 pt-4 sm:pt-12 pb-12 flex flex-col gap-6">
       {/* Logo + title */}
       <div className="flex items-center gap-3">
         <div className="w-11 h-11 rounded-full bg-zinc-100 dark:bg-zinc-800 animate-pulse shrink-0" />
