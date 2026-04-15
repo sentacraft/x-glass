@@ -2,66 +2,81 @@
 
 // Lightweight aperture strip for mobile touch interaction.
 // Renders a horizontally scrollable row of f-stop labels with feathered edges,
-// mimicking the visible portion of a physical aperture ring. Drives an IrisHandle
-// imperatively on each pointer frame — no React state updates on move events.
+// mimicking the visible portion of a physical aperture ring. Drives the parent
+// Iris component via callbacks on each pointer frame — no React state on move.
 //
-// Design principles:
-//   - No background — floats over the page
-//   - Feathered left/right edges (CSS mask gradient)
-//   - Auto-hides after inactivity; reappears on touch
-//   - Snaps to nearest f-stop on release
+// "A" (Auto) is the leftmost mark. Snapping to it calls onRelease() so the
+// iris eases back to its defaultFStop resting position, then the strip returns
+// to centre (showing defaultFStop again).
 
-import { useRef, useState, useEffect, type RefObject } from "react";
-import type { IrisHandle } from "@/components/Iris";
+import { useRef, useState, useEffect } from "react";
 
-// ── F-stop marks ──────────────────────────────────────────────────────────────
+// ── Marks ─────────────────────────────────────────────────────────────────────
 
-const FSTOP_MARKS = [1.4, 2, 2.8, 4, 5.6, 8, 11, 16, 22] as const;
-type FStop = typeof FSTOP_MARKS[number];
+type Mark = number | "A";
+
+// "A" at index 0 is the Auto stop. All other marks are numeric f-stops.
+const MARKS: Mark[] = ["A", 1.4, 2, 2.8, 4, 5.6, 8, 11, 16, 22];
 
 // Pixel spacing between consecutive marks. Chosen so ~3 marks are visible in
-// the unfeathered centre zone of a 208px container.
+// the unfeathered centre zone.
 const SPACING = 48;
 
-function nearestMarkIndex(fStop: number): number {
-  return FSTOP_MARKS.reduce(
-    (best, v, i) => (Math.abs(v - fStop) < Math.abs(FSTOP_MARKS[best] - fStop) ? i : best),
-    0,
-  );
+// Index of the nearest numeric mark to a given f-stop value.
+function nearestNumericIndex(fStop: number): number {
+  let best = 1;
+  for (let i = 2; i < MARKS.length; i++) {
+    if (Math.abs((MARKS[i] as number) - fStop) < Math.abs((MARKS[best] as number) - fStop)) {
+      best = i;
+    }
+  }
+  return best;
 }
 
-// Map a strip scroll offset (px) to a continuous f-stop value.
-// Positive offset = strip moved right = smaller f-number (more open).
-function offsetToFStop(offset: number, defaultIdx: number): number {
-  const continuous = defaultIdx - offset / SPACING;
-  const clamped    = Math.max(0, Math.min(FSTOP_MARKS.length - 1, continuous));
-  const lo         = Math.floor(clamped);
-  const hi         = Math.min(lo + 1, FSTOP_MARKS.length - 1);
-  return FSTOP_MARKS[lo] + (FSTOP_MARKS[hi] - FSTOP_MARKS[lo]) * (clamped - lo);
+// Continuous mark index for a given scroll offset.
+// Positive offset = strip moved right = lower index (toward A).
+function offsetToIndex(offset: number, defaultIdx: number): number {
+  return Math.max(0, Math.min(MARKS.length - 1, defaultIdx - offset / SPACING));
+}
+
+// Interpolated f-stop value for a continuous index ≥ 1 (numeric zone).
+function indexToFStop(idx: number): number {
+  const lo = Math.max(1, Math.floor(idx));
+  const hi = Math.min(MARKS.length - 1, lo + 1);
+  return (MARKS[lo] as number) + ((MARKS[hi] as number) - (MARKS[lo] as number)) * (idx - lo);
+}
+
+function formatMark(mark: Mark): string {
+  if (mark === "A") return "A";
+  return (mark === 1.4 || mark === 2.8 || mark === 5.6)
+    ? (mark as number).toFixed(1)
+    : String(mark);
 }
 
 // ── Component ─────────────────────────────────────────────────────────────────
 
 interface ApertureStripProps {
-  /** Ref to the Iris instance this strip controls. */
-  irisRef: RefObject<IrisHandle | null>;
-  /** F-stop the iris rests at (defines strip centre). */
+  /** F-stop the iris rests at — defines the strip centre (offset = 0). */
   defaultFStop: number;
-  /** Delay before first appearance (ms). Use initAnimation.totalMs + buffer. */
+  /** Delay before first appearance (ms). */
   showDelay?: number;
   /** Inactivity duration before auto-hide (ms). */
   hideAfterMs?: number;
-  className?: string;
+  /** Called on every pointer-move frame with the current f-stop. */
+  onDrive: (fStop: number) => void;
+  /** Called when the user snaps to "A" — iris should ease back to defaultFStop. */
+  onRelease: () => void;
 }
 
 export default function ApertureStrip({
-  irisRef,
   defaultFStop,
   showDelay = 0,
   hideAfterMs = 3500,
-  className,
+  onDrive,
+  onRelease,
 }: ApertureStripProps) {
-  const defaultIdx = nearestMarkIndex(defaultFStop);
+  // defaultIdx: the mark index that sits at centre when offset = 0.
+  const defaultIdx = nearestNumericIndex(defaultFStop);
 
   const [visible,  setVisible]  = useState(false);
   const [offset,   setOffset]   = useState(0);
@@ -70,9 +85,9 @@ export default function ApertureStrip({
   const dragRef      = useRef<{ startX: number; startOffset: number } | null>(null);
   const hideTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Clamp limits so the strip can't scroll past f/1.4 or f/22.
+  // Clamp limits: rightmost = "A" at index 0, leftmost = f/22 at last index.
   const maxOffset =  defaultIdx * SPACING;
-  const minOffset = -(FSTOP_MARKS.length - 1 - defaultIdx) * SPACING;
+  const minOffset = -(MARKS.length - 1 - defaultIdx) * SPACING;
 
   function scheduleHide() {
     if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
@@ -84,7 +99,6 @@ export default function ApertureStrip({
     scheduleHide();
   }
 
-  // Initial appearance after showDelay.
   useEffect(() => {
     const t = setTimeout(bringIntoView, showDelay);
     return () => {
@@ -106,116 +120,92 @@ export default function ApertureStrip({
     const raw     = dragRef.current.startOffset + (e.clientX - dragRef.current.startX);
     const clamped = Math.max(minOffset, Math.min(maxOffset, raw));
     setOffset(clamped);
-    irisRef.current?.driveToFStop(offsetToFStop(clamped, defaultIdx));
+    const idx = offsetToIndex(clamped, defaultIdx);
+    // In the A zone (index < 0.5) don't drive — let snap handle it.
+    if (idx >= 0.5) onDrive(indexToFStop(idx));
   }
 
   function onPointerUp(e: React.PointerEvent<HTMLDivElement>) {
     if (!dragRef.current) return;
-    const raw     = dragRef.current.startOffset + (e.clientX - dragRef.current.startX);
+    const raw = dragRef.current.startOffset + (e.clientX - dragRef.current.startX);
     dragRef.current = null;
 
-    // Snap to nearest mark.
-    const continuous  = defaultIdx - Math.max(minOffset, Math.min(maxOffset, raw)) / SPACING;
-    const nearestIdx  = Math.max(0, Math.min(FSTOP_MARKS.length - 1, Math.round(continuous)));
-    const snappedOff  = (defaultIdx - nearestIdx) * SPACING;
-    const snappedFStop: FStop = FSTOP_MARKS[nearestIdx];
+    const clamped    = Math.max(minOffset, Math.min(maxOffset, raw));
+    const continuous = offsetToIndex(clamped, defaultIdx);
+    const nearestIdx = Math.round(continuous);
 
     setSnapping(true);
-    setOffset(snappedOff);
     setTimeout(() => setSnapping(false), 220);
 
-    if (snappedFStop === defaultFStop) {
-      irisRef.current?.releaseControl();
+    if (nearestIdx === 0) {
+      // Snapped to A — strip returns to centre (defaultFStop), iris releases.
+      setOffset(0);
+      onRelease();
     } else {
-      irisRef.current?.driveToFStop(snappedFStop);
+      setOffset((defaultIdx - nearestIdx) * SPACING);
+      onDrive(MARKS[nearestIdx] as number);
     }
   }
 
   // Total pixel width of the marks row.
-  const rowWidth = FSTOP_MARKS.length * SPACING;
-  // Left edge of the row so that mark[defaultIdx] sits at the container centre
-  // when offset = 0: centre_x - (defaultIdx + 0.5) * SPACING.
-  const rowLeft = `calc(50% - ${(defaultIdx + 0.5) * SPACING}px)`;
+  const rowWidth = MARKS.length * SPACING;
+  // Left edge so that mark[defaultIdx] sits at container centre when offset = 0.
+  const rowLeft  = `calc(50% - ${(defaultIdx + 0.5) * SPACING}px)`;
 
   return (
     <div
-      className={className}
+      className="relative"
       style={{
-        position: "relative",
-        opacity:  visible ? 1 : 0,
-        transition: "opacity 0.6s ease",
-        // Block pointer events while hidden so the invisible strip doesn't
-        // intercept taps on elements below it.
+        opacity:       visible ? 1 : 0,
+        transition:    "opacity 0.6s ease",
         pointerEvents: visible ? "auto" : "none",
       }}
     >
-      {/* Centre indicator — a subtle tick above the scrolling labels */}
+      {/* Centre indicator tick */}
       <div
         aria-hidden="true"
-        className="text-zinc-500 dark:text-zinc-400"
-        style={{
-          position:  "absolute",
-          left:      "50%",
-          top:       0,
-          transform: "translateX(-50%)",
-          width:     1,
-          height:    8,
-          background: "currentColor",
-          opacity:   0.5,
-        }}
+        className="absolute left-1/2 top-0 -translate-x-1/2 w-px h-2 bg-current opacity-50 text-zinc-500 dark:text-zinc-400"
       />
 
-      {/* Scrollable label track */}
+      {/* Scrollable label track — overflow clips the marks row */}
       <div
-        className="cursor-grab active:cursor-grabbing"
+        className="mt-2.5 h-7 overflow-hidden cursor-grab active:cursor-grabbing touch-pan-y select-none text-zinc-500 dark:text-zinc-400"
         style={{
-          marginTop:  10,
-          height:     28,
-          overflow:   "hidden",
-          // Feathered edges — recreates the "visible section of a curved ring"
-          // effect: only the central portion of the strip is fully opaque.
-          maskImage:
-            "linear-gradient(to right, transparent 0%, black 22%, black 78%, transparent 100%)",
-          WebkitMaskImage:
-            "linear-gradient(to right, transparent 0%, black 22%, black 78%, transparent 100%)",
-          // Allow vertical page scroll but capture horizontal drags.
-          touchAction: "pan-y",
-          userSelect:  "none",
+          maskImage:       "linear-gradient(to right, transparent 0%, black 22%, black 78%, transparent 100%)",
+          WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 22%, black 78%, transparent 100%)",
         }}
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
         onPointerUp={onPointerUp}
         onPointerCancel={onPointerUp}
       >
+        {/* Marks row — absolutely positioned so the overflow clip works */}
         <div
-          className="text-zinc-500 dark:text-zinc-400"
+          className="absolute flex items-center h-full will-change-transform"
           style={{
-            position:   "absolute",
-            display:    "flex",
-            alignItems: "center",
-            height:     "100%",
             width:      rowWidth,
             left:       rowLeft,
             transform:  `translateX(${offset}px)`,
             transition: snapping ? "transform 0.22s ease-out" : "none",
-            willChange: "transform",
           }}
         >
-          {FSTOP_MARKS.map((f) => (
-            <div
-              key={f}
-              style={{
-                width:             SPACING,
-                textAlign:         "center",
-                fontSize:          12,
-                fontWeight:        500,
-                letterSpacing:     "0.03em",
-                fontVariantNumeric: "tabular-nums",
-                opacity:           0.6,
-              }}
-            >
-              {f}
-            </div>
+          {MARKS.map((mark, i) => (
+            mark === "A" ? (
+              <div
+                key={i}
+                className="w-12 text-center text-xs font-semibold tracking-[0.03em]"
+                style={{ opacity: 0.85, color: "#C0452D" }}
+              >
+                A
+              </div>
+            ) : (
+              <div
+                key={i}
+                className="w-12 text-center text-xs font-medium tracking-[0.03em] tabular-nums opacity-60"
+              >
+                {formatMark(mark)}
+              </div>
+            )
           ))}
         </div>
       </div>

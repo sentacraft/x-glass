@@ -56,6 +56,12 @@ export interface IrisConfig extends StoredIrisParams {
   /** When true, aperture openness tracks horizontal mouse position. */
   interactive?: boolean;
   /**
+   * When true, renders a mobile aperture-ring strip below the iris (hidden on
+   * md+ screens). Lets touch users drag through f-stops; "A" snaps back to
+   * defaultFStop via releaseControl.
+   */
+  apertureStrip?: boolean;
+  /**
    * When present, plays an entry animation on mount: open → closedFStop →
    * defaultFStop, using the exponential-smoothing chase. The object value
    * controls the two-phase timing. Absence (undefined) disables the animation.
@@ -116,6 +122,7 @@ export const IRIS_HERO: IrisConfig = {
   strokeWidth: 1,
   // Interactive
   interactive: true,
+  apertureStrip: true,
   initAnimation: { sweepMs: 800, totalMs: 1000 },
   closedFStop: 22,
   hotzoneScaleH: 1.5,
