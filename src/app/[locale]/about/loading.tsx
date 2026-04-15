@@ -1,9 +1,9 @@
 export default function AboutLoading() {
   return (
-    <div className="w-full max-w-2xl mx-auto px-4 sm:px-6 py-12 flex flex-col gap-12">
+    <div className="w-full max-w-2xl mx-auto px-4 sm:px-6 pt-4 sm:pt-12 pb-12 flex flex-col gap-12">
       {/* Logo + title */}
-      <div className="flex flex-col gap-4">
-        <div className="w-14 h-14 rounded-full bg-zinc-100 dark:bg-zinc-800 animate-pulse" />
+      <div className="flex items-center gap-3">
+        <div className="w-11 h-11 rounded-full bg-zinc-100 dark:bg-zinc-800 animate-pulse shrink-0" />
         <div className="h-8 w-48 rounded-lg bg-zinc-100 dark:bg-zinc-800 animate-pulse" />
       </div>
 
