@@ -9,7 +9,7 @@ import { writeFile, readFile } from "fs/promises";
 import { exec } from "child_process";
 import { promisify } from "util";
 import path from "path";
-import { IRIS_DEFAULTS, type IrisConfig } from "@/config/iris-config";
+import { IRIS_DEFAULTS, type IrisConfig, type IrisInitAnimation } from "@/config/iris-config";
 
 const execAsync = promisify(exec);
 
@@ -52,8 +52,8 @@ function serializeBody(v: IrisConfig): string {
   if (v.catchupMs    !== undefined) add("catchupMs",    String(v.catchupMs));
   if (v.bladeColor   !== undefined) add("bladeColor",   `"${v.bladeColor}"`);
   if (v.strokeColor  !== undefined) add("strokeColor",  `"${v.strokeColor}"`);
-  if (v.interactive  !== undefined) add("interactive",  String(v.interactive));
-  if (v.initAnimation !== undefined) add("initAnimation", String(v.initAnimation));
+  if (v.interactive   !== undefined) add("interactive",  String(v.interactive));
+  if (v.initAnimation !== undefined) add("initAnimation", `{ sweepMs: ${v.initAnimation.sweepMs}, totalMs: ${v.initAnimation.totalMs} }`);
 
   return "\n" + lines.join("\n") + "\n";
 }
@@ -89,6 +89,11 @@ export async function readFromConfig(
       const d = IRIS_DEFAULTS[key as keyof typeof IRIS_DEFAULTS];
       return typeof d === "boolean" ? d : undefined;
     }
+    function extractInitAnim(): IrisInitAnimation | undefined {
+      const m = /\binitAnimation:\s*\{\s*sweepMs:\s*(\d+),\s*totalMs:\s*(\d+)\s*\}/.exec(body);
+      if (m) return { sweepMs: parseInt(m[1]), totalMs: parseInt(m[2]) };
+      return undefined;
+    }
 
     return {
       N:             Math.round(extractNum("N") ?? 0),
@@ -103,7 +108,7 @@ export async function readFromConfig(
       bladeColor:    extractStr("bladeColor"),
       strokeColor:   extractStr("strokeColor"),
       interactive:   extractBool("interactive"),
-      initAnimation: extractBool("initAnimation"),
+      initAnimation: extractInitAnim(),
       closedFStop:   extractNum("closedFStop"),
       hotzoneScale:  extractNum("hotzoneScale"),
       chaseTauMs:    extractNum("chaseTauMs"),

@@ -118,15 +118,15 @@ export default function Iris({
   }, [DEFAULT_THETA, interactive]);
 
   // Init animation: two-phase sequence on mount.
-  //   Phase 1 (0–800 ms): sweep target from fully open → fully closed (thetaMax).
-  //   Phase 2 (800–1000 ms): linearly drive target from thetaMax → defaultFStop.
-  //   After 1000 ms: target pinned to defaultFStop; chase self-terminates once converged.
+  //   Phase 1 (0 → sweepMs):       sweep target from fully open → fully closed (thetaMax).
+  //   Phase 2 (sweepMs → totalMs): linearly drive target from thetaMax → defaultFStop.
+  //   After totalMs: target pinned to defaultFStop; chase self-terminates once converged.
+  // Timing comes from config.initAnimation; absence of the field disables the animation.
   // Drives targetThetaRef through keyframes; the chase RAF provides exponential smoothing.
   useEffect(() => {
     if (!initAnimation) return;
 
-    const SWEEP_MS = 800;
-    const TOTAL_MS = 1000;
+    const { sweepMs: SWEEP_MS, totalMs: TOTAL_MS } = initAnimation;
 
     // Jump to fully open immediately.
     thetaRef.current = thetaOpen;

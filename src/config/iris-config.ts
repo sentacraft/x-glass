@@ -17,6 +17,28 @@ import type { StoredIrisParams } from "@/lib/iris-kinematics";
 
 export const R_HOUSING = 100;
 
+// ── IrisInitAnimation ─────────────────────────────────────────────────────────
+//
+// Timing config for the two-phase mount animation:
+//   Phase 1 (0 → sweepMs):       open → closedFStop  (linear target drive)
+//   Phase 2 (sweepMs → totalMs): closedFStop → defaultFStop  (linear, chase smooths it)
+//
+// Presence of this object on IrisConfig enables the animation; absence disables it.
+// Use DEFAULT_INIT_ANIMATION for the standard 800/1000 ms timing.
+
+export interface IrisInitAnimation {
+  /** Duration of the open → closed sweep (ms). */
+  sweepMs: number;
+  /** Total duration including the closed → defaultFStop ease-back (ms). */
+  totalMs: number;
+}
+
+/** Standard init-animation timing. Reference this instead of hardcoding values. */
+export const DEFAULT_INIT_ANIMATION: IrisInitAnimation = {
+  sweepMs: 800,
+  totalMs: 1000,
+};
+
 // ── IrisConfig ────────────────────────────────────────────────────────────────
 //
 // Full configuration for an Iris component instance. Extends the kinematic
@@ -41,10 +63,11 @@ export interface IrisConfig extends StoredIrisParams {
   /** When true, aperture openness tracks horizontal mouse position. */
   interactive?: boolean;
   /**
-   * When true, plays an entry animation on mount: open → closedFStop →
-   * defaultFStop over 1 second, using the exponential-smoothing chase.
+   * When present, plays an entry animation on mount: open → closedFStop →
+   * defaultFStop, using the exponential-smoothing chase. The object value
+   * controls the two-phase timing. Absence (undefined) disables the animation.
    */
-  initAnimation?: boolean;
+  initAnimation?: IrisInitAnimation;
   /**
    * Hard stop for mouse interaction — the minimum aperture (maximum f-number)
    * the pointer can reach. Paired with openFStop which anchors the open end.
@@ -74,14 +97,13 @@ export interface IrisConfig extends StoredIrisParams {
 // the component receives a fully-populated config with no ?? fallbacks.
 
 export const IRIS_DEFAULTS = {
-  strokeWidth:   1.5,
-  interactive:   false,
-  initAnimation: false,
-  closedFStop:   22,
-  hotzoneScale:  1.5,
-  chaseTauMs:    60,
-  easeOutMs:     700,
-  catchupMs:     300,
+  strokeWidth:  1.5,
+  interactive:  false,
+  closedFStop:  22,
+  hotzoneScale: 1.5,
+  chaseTauMs:   60,
+  easeOutMs:    700,
+  catchupMs:    300,
 } satisfies Partial<IrisConfig>;
 
 /**
@@ -126,7 +148,7 @@ export const IRIS_HERO: IrisConfig = withIrisDefaults({
   strokeWidth: 1,
   // Interactive — non-default values only
   interactive: true,
-  initAnimation: true,
+  initAnimation: DEFAULT_INIT_ANIMATION,
   closedFStop: 22,
   hotzoneScale: 1.5,
   chaseTauMs: 60,

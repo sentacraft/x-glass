@@ -16,7 +16,7 @@ import {
   type IrisMechanismConfig,
 } from "@/lib/iris-kinematics";
 import { readFromConfig, exportToConfig } from "./actions";
-import { IRIS_HERO, IRIS_NAV, IRIS_DEFAULTS, R_HOUSING } from "@/config/iris-config";
+import { IRIS_HERO, IRIS_NAV, IRIS_DEFAULTS, R_HOUSING, DEFAULT_INIT_ANIMATION } from "@/config/iris-config";
 import type { IrisConfig } from "@/config/iris-config";
 import Iris from "@/components/Iris";
 
@@ -410,7 +410,7 @@ export default function ApertureV2Lab() {
     if (v.strokeWidth !== undefined) setStrokeWidth(v.strokeWidth);
     setOpenFStop(v.openFStop);
     setDefaultFStop(v.defaultFStop);
-    setInitAnimation(v.initAnimation ?? IRIS_DEFAULTS.initAnimation);
+    setInitAnimation(!!v.initAnimation);
     setClosedFStop(v.closedFStop ?? IRIS_DEFAULTS.closedFStop);
     setChaseTauMs(v.chaseTauMs ?? IRIS_DEFAULTS.chaseTauMs);
     setEaseOutMs(v.easeOutMs ?? IRIS_DEFAULTS.easeOutMs);
@@ -440,7 +440,7 @@ export default function ApertureV2Lab() {
       strokeColor: grayHex(strokeGray),
       strokeWidth: strokeWidth,
       interactive: selectedProfile === "production:hero",
-      initAnimation,
+      initAnimation: initAnimation ? DEFAULT_INIT_ANIMATION : undefined,
       closedFStop,
       chaseTauMs,
       easeOutMs,
@@ -469,7 +469,7 @@ export default function ApertureV2Lab() {
       if (v.strokeWidth !== undefined) setStrokeWidth(v.strokeWidth);
       setOpenFStop(v.openFStop);
       setDefaultFStop(v.defaultFStop);
-      setInitAnimation(v.initAnimation ?? IRIS_DEFAULTS.initAnimation);
+      setInitAnimation(!!v.initAnimation);
       setClosedFStop(v.closedFStop ?? IRIS_DEFAULTS.closedFStop);
       setChaseTauMs(v.chaseTauMs ?? IRIS_DEFAULTS.chaseTauMs);
       setEaseOutMs(v.easeOutMs ?? IRIS_DEFAULTS.easeOutMs);
@@ -539,7 +539,7 @@ export default function ApertureV2Lab() {
     strokeColor: grayHex(strokeGray),
     strokeWidth,
     interactive: false,
-    initAnimation,
+    initAnimation: initAnimation ? DEFAULT_INIT_ANIMATION : undefined,
     closedFStop,
     chaseTauMs,
     easeOutMs,
