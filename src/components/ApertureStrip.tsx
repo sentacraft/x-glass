@@ -83,6 +83,11 @@ interface ApertureStripProps {
    * user's first interaction (e.g. during init animation). Ignored after first touch.
    */
   fStop?: number;
+  /**
+   * True while the parent Iris is running its init animation. When this
+   * transitions to false, the strip snaps to the A mark (resting position).
+   */
+  animating?: boolean;
   /** Delay before first appearance (ms). */
   showDelay?: number;
   /** Called on snap or drag with the target f-stop value. */
@@ -92,6 +97,7 @@ interface ApertureStripProps {
 export default function ApertureStrip({
   defaultFStop,
   fStop,
+  animating = false,
   showDelay = 0,
   onDrive,
 }: ApertureStripProps) {
@@ -117,19 +123,22 @@ export default function ApertureStrip({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Sync offset from external fStop — only when no animation or interaction.
-  // When fStop ≈ defaultFStop, map to the A mark (index 0) rather than the
-  // numeric equivalent, since A is the canonical resting position.
+  // Sync offset from external fStop — only while animating and before user touch.
   useEffect(() => {
-    if (fStop === undefined || userHasInteractedRef.current || dragRef.current || snappingRef.current) return;
-    if (Math.abs(fStop - defaultFStop) < 0.05) {
-      setOffset(maxOffset);
-      return;
-    }
+    if (!animating || fStop === undefined || userHasInteractedRef.current || dragRef.current || snappingRef.current) return;
     const idx    = fStopToIndex(fStop);
     const target = Math.max(minOffset, Math.min(maxOffset, (defaultIdx - idx) * SPACING));
     setOffset(target);
-  }, [fStop, defaultFStop, defaultIdx, minOffset, maxOffset]);
+  }, [animating, fStop, defaultIdx, minOffset, maxOffset]);
+
+  // When init animation ends, snap back to A (resting position).
+  const prevAnimatingRef = useRef(animating);
+  useEffect(() => {
+    if (prevAnimatingRef.current && !animating && !userHasInteractedRef.current) {
+      setOffset(maxOffset);
+    }
+    prevAnimatingRef.current = animating;
+  }, [animating, maxOffset]);
 
   // Resolve the f-stop value for a given mark index.
   // A (idx 0) maps to defaultFStop; all others map to their numeric value.

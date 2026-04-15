@@ -79,6 +79,7 @@ export default function Iris({
   [rawConfig.defaultFStop, rawConfig.openFStop, dc, thetaOpen, thetaMax]);
 
   const [theta, setTheta] = useState<number>(DEFAULT_THETA);
+  const [initAnimating, setInitAnimating] = useState(!!initAnimation);
   const thetaRef    = useRef<number>(DEFAULT_THETA);
   const animRef     = useRef<number | null>(null);
   const chaseRef    = useRef<number | null>(null);
@@ -135,6 +136,7 @@ export default function Iris({
       } else {
         targetThetaRef.current = defaultThetaRef.current;
         initAnimRef.current = null;
+        setInitAnimating(false);
       }
     }
     initAnimRef.current = requestAnimationFrame(tick);
@@ -354,6 +356,7 @@ export default function Iris({
           <ApertureStrip
             defaultFStop={rawConfig.defaultFStop}
             fStop={currentFStop}
+            animating={initAnimating}
             onDrive={driveToFStop}
           />
         </div>
