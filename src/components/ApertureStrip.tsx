@@ -4,10 +4,13 @@
 // Renders a horizontally scrollable row of f-stop labels with feathered edges,
 // mimicking the visible portion of a physical aperture ring.
 //
-// Semi-controlled: the external `fStop` prop drives the display position when
-// the user is not actively dragging (e.g. during init animation or after snap).
-// During drag, the strip manages its own offset from pointer delta and fires
-// onDrive/onRelease to report the user's intent to the parent Iris component.
+// Semi-controlled: the external `fStop` prop drives the display position before
+// the user's first interaction (e.g. during init animation). Once the user
+// touches the strip, it becomes fully self-managed — snap positions are
+// authoritative and the external prop is ignored.
+//
+// Every mark maps to an f-stop value: numeric marks map to themselves, the "A"
+// mark maps to defaultFStop. All marks share identical snap/drive logic.
 
 import { useRef, useState, useEffect } from "react";
 
@@ -15,7 +18,7 @@ import { useRef, useState, useEffect } from "react";
 
 type Mark = number | "A";
 
-// "A" at index 0 is the Auto stop. All other marks are numeric f-stops.
+// "A" at index 0 maps to defaultFStop. All other marks are numeric f-stops.
 const MARKS: Mark[] = ["A", 1.4, 2, 2.8, 4, 5.6, 8, 11, 16, 22];
 
 // Pixel spacing between consecutive marks. Chosen so ~3 marks are visible in
@@ -70,16 +73,14 @@ interface ApertureStripProps {
   /** F-stop the iris rests at — defines the strip centre (offset = 0). */
   defaultFStop: number;
   /**
-   * Current f-stop from the parent Iris. Drives the strip position when the
-   * user is not actively dragging. Undefined = strip stays at its last position.
+   * Current f-stop from the parent Iris. Drives the strip position before the
+   * user's first interaction (init animation sync). Ignored after first touch.
    */
   fStop?: number;
   /** Delay before first appearance (ms). */
   showDelay?: number;
-  /** Called on every pointer-move frame with the current f-stop. */
+  /** Called on snap or drag with the target f-stop value. */
   onDrive: (fStop: number) => void;
-  /** Called when the user snaps to "A" — iris should ease back to defaultFStop. */
-  onRelease: () => void;
 }
 
 export default function ApertureStrip({
@@ -87,7 +88,6 @@ export default function ApertureStrip({
   fStop,
   showDelay = 0,
   onDrive,
-  onRelease,
 }: ApertureStripProps) {
   // defaultIdx: the mark index that sits at centre when offset = 0.
   const defaultIdx = nearestNumericIndex(defaultFStop);
@@ -96,10 +96,10 @@ export default function ApertureStrip({
   const [offset,   setOffset]   = useState(0);
   const [snapping, setSnapping] = useState(false);
 
-  const dragRef           = useRef<{ startX: number; startOffset: number } | null>(null);
-  const lastValidOffsetRef = useRef(0);
-  const snappingRef        = useRef(false);
-  const lockedAtARef       = useRef(false);
+  const dragRef              = useRef<{ startX: number; startOffset: number } | null>(null);
+  const lastValidOffsetRef   = useRef(0);
+  const snappingRef          = useRef(false);
+  const userHasInteractedRef = useRef(false);
 
   // Clamp limits: rightmost = "A" at index 0, leftmost = f/22 at last index.
   const maxOffset =  defaultIdx * SPACING;
@@ -111,18 +111,24 @@ export default function ApertureStrip({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Sync offset from external fStop when not dragging, snapping, or locked at A.
+  // Sync offset from external fStop — only before the user's first interaction.
   useEffect(() => {
-    if (fStop === undefined || dragRef.current || snappingRef.current || lockedAtARef.current) return;
+    if (fStop === undefined || userHasInteractedRef.current || dragRef.current || snappingRef.current) return;
     const idx    = fStopToIndex(fStop);
     const target = Math.max(minOffset, Math.min(maxOffset, (defaultIdx - idx) * SPACING));
     setOffset(target);
   }, [fStop, defaultIdx, minOffset, maxOffset]);
 
+  // Resolve the f-stop value for a given mark index.
+  // A (idx 0) maps to defaultFStop; all others map to their numeric value.
+  function markFStopValue(idx: number): number {
+    return idx === 0 ? defaultFStop : MARKS[idx] as number;
+  }
+
   function onPointerDown(e: React.PointerEvent<HTMLDivElement>) {
     e.currentTarget.setPointerCapture(e.pointerId);
     dragRef.current = { startX: e.clientX, startOffset: offset };
-    lockedAtARef.current = false;
+    userHasInteractedRef.current = true;
     setSnapping(false);
   }
 
@@ -133,7 +139,8 @@ export default function ApertureStrip({
     lastValidOffsetRef.current = clamped;
     setOffset(clamped);
     const idx = offsetToIndex(clamped, defaultIdx);
-    // In the A zone (index < 0.5) don't drive — let snap handle it.
+    // In the A zone (index < 0.5) don't interpolate — the A-to-1.4 transition
+    // is non-monotonic in f-stop space. Snap handles A on release.
     if (idx >= 0.5) onDrive(indexToFStop(idx));
   }
 
@@ -143,15 +150,8 @@ export default function ApertureStrip({
     setSnapping(true);
     snappingRef.current = true;
     setTimeout(() => { setSnapping(false); snappingRef.current = false; }, 220);
-    // (defaultIdx - nearestIdx) * SPACING positions nearestIdx at the centre
-    // indicator; this formula is correct for all marks including A (idx=0).
     setOffset((defaultIdx - nearestIdx) * SPACING);
-    if (nearestIdx === 0) {
-      lockedAtARef.current = true;
-      onRelease();
-    } else {
-      onDrive(MARKS[nearestIdx] as number);
-    }
+    onDrive(markFStopValue(nearestIdx));
   }
 
   function onPointerUp(e: React.PointerEvent<HTMLDivElement>) {
@@ -164,7 +164,6 @@ export default function ApertureStrip({
   function onPointerCancel() {
     if (!dragRef.current) return;
     dragRef.current = null;
-    // clientX is unreliable on cancel — snap using the last valid pointer position.
     snapToNearest(lastValidOffsetRef.current);
   }
 

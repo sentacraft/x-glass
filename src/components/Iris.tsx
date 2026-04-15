@@ -160,23 +160,6 @@ export default function Iris({
     startChase();
   }
 
-  function releaseControl() {
-    stopChase();
-    const fromTheta = thetaRef.current;
-    const toTheta   = DEFAULT_THETA;
-    const startMs   = performance.now();
-    function tick(now: number) {
-      const p     = Math.min(1, (now - startMs) / easeOutMs);
-      const eased = 1 - (1 - p) ** 3;
-      const v     = fromTheta + (toTheta - fromTheta) * eased;
-      thetaRef.current = v;
-      setTheta(v);
-      if (p < 1) animRef.current = requestAnimationFrame(tick);
-      else animRef.current = null;
-    }
-    animRef.current = requestAnimationFrame(tick);
-  }
-
   // ── Derived geometry ──────────────────────────────────────────────────────
 
   const { N } = dc;
@@ -373,7 +356,6 @@ export default function Iris({
             defaultFStop={rawConfig.defaultFStop}
             fStop={currentFStop}
             onDrive={driveToFStop}
-            onRelease={releaseControl}
           />
         </div>
       )}
