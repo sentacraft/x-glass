@@ -112,26 +112,27 @@ export default function Iris({
   }, [DEFAULT_THETA, interactive]);
 
   // ── Init animation ────────────────────────────────────────────────────────
-  // Two-phase sweep on mount: open → closed → default. Directly drives
-  // targetThetaRef — same chase loop as mouse hover and strip drag.
+  // Two-phase sweep on mount: closed → open → default. Starts at f/22,
+  // sweeps to f/1.4, then eases to defaultFStop. The strip follows via
+  // fStop sync, ending near f/1.4 before snapping to A — no visual jump.
   useEffect(() => {
     if (!initAnimation) return;
     const { sweepMs, totalMs } = initAnimation;
 
-    thetaRef.current = thetaOpen;
-    targetThetaRef.current = thetaOpen;
-    setTheta(thetaOpen);
+    thetaRef.current = thetaMax;
+    targetThetaRef.current = thetaMax;
+    setTheta(thetaMax);
     startChase();
 
     const startTime = performance.now();
     function tick(now: number) {
       const elapsed = now - startTime;
       if (elapsed < sweepMs) {
-        targetThetaRef.current = thetaOpen + (elapsed / sweepMs) * (thetaMax - thetaOpen);
+        targetThetaRef.current = thetaMax + (elapsed / sweepMs) * (thetaOpen - thetaMax);
         initAnimRef.current = requestAnimationFrame(tick);
       } else if (elapsed < totalMs) {
         const p2 = (elapsed - sweepMs) / (totalMs - sweepMs);
-        targetThetaRef.current = thetaMax + p2 * (defaultThetaRef.current - thetaMax);
+        targetThetaRef.current = thetaOpen + p2 * (defaultThetaRef.current - thetaOpen);
         initAnimRef.current = requestAnimationFrame(tick);
       } else {
         targetThetaRef.current = defaultThetaRef.current;
