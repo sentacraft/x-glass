@@ -350,7 +350,7 @@ export default function Iris({
 
       {/* Aperture strip — mobile only, hidden on md+ */}
       {apertureStrip && (
-        <div className="md:hidden mt-1" style={{ width: size }}>
+        <div className="mt-1" style={{ width: size }}>
           <ApertureStrip
             defaultFStop={rawConfig.defaultFStop}
             fStop={currentFStop}
