@@ -30,7 +30,6 @@
       "Nikon Z"
     ],
     "lensMaterial": "Metal",
-    "imageUrl": "/lenses/7artisans-af-10mm-f28-xf.webp",
     "filterMm": 62,
     "lensConfiguration": {
       "groups": 10,
@@ -78,7 +77,6 @@
       "Fujifilm X"
     ],
     "lensMaterial": "Metal",
-    "imageUrl": "/lenses/7artisans-af-25mm-f18-xf.webp",
     "filterMm": 52,
     "lensConfiguration": {
       "groups": 5,
@@ -116,7 +114,6 @@
     "angleOfViewCalc": 55.3,
     "apertureBladeCount": 6,
     "lensMaterial": "Metal",
-    "imageUrl": "/lenses/7artisans-af-27mm-f28-xf.webp",
     "filterMm": 39,
     "lensConfiguration": {
       "groups": 5,
@@ -153,7 +150,6 @@
     "angleOfViewCalc": 44,
     "apertureBladeCount": 7,
     "lensMaterial": "Metal",
-    "imageUrl": "/lenses/7artisans-af-35mm-f14-xf.webp",
     "filterMm": 62,
     "lensConfiguration": {
       "groups": 5,
@@ -197,7 +193,6 @@
       "Fujifilm X"
     ],
     "lensMaterial": "Metal",
-    "imageUrl": "/lenses/7artisans-af-35mm-f18-xf.webp",
     "filterMm": 46,
     "lensConfiguration": {
       "groups": 5,
@@ -239,7 +234,6 @@
       "Fujifilm X"
     ],
     "lensMaterial": "Metal",
-    "imageUrl": "/lenses/7artisans-af-50mm-f18-xf.webp",
     "filterMm": 46,
     "lensConfiguration": {
       "groups": 5,
@@ -279,7 +273,6 @@
       "Canon EF-M"
     ],
     "lensMaterial": "Metal",
-    "imageUrl": "/lenses/7artisans-4mm-f28-xf.webp",
     "filterMm": "N/A",
     "lensConfiguration": {
       "groups": 8,
@@ -322,7 +315,6 @@
       "Nikon Z"
     ],
     "lensMaterial": "Metal",
-    "imageUrl": "/lenses/7artisans-6mm-f2-xf.webp",
     "filterMm": "N/A",
     "lensConfiguration": {
       "groups": 8,
@@ -367,7 +359,6 @@
       "Micro Four Thirds"
     ],
     "lensMaterial": "Metal",
-    "imageUrl": "/lenses/7artisans-10mm-f35-xf.webp",
     "filterMm": 37,
     "lensConfiguration": {
       "groups": 7,
@@ -413,7 +404,6 @@
       "Canon RF"
     ],
     "lensMaterial": "Metal",
-    "imageUrl": "/lenses/7artisans-12mm-f28-xf.webp",
     "filterMm": 67,
     "lensConfiguration": {
       "groups": 10,
@@ -455,7 +445,6 @@
       "Micro Four Thirds"
     ],
     "lensMaterial": "Metal",
-    "imageUrl": "/lenses/7artisans-18mm-f63-xf.webp",
     "filterMm": "N/A",
     "lensConfiguration": {
       "groups": 5,
@@ -501,7 +490,6 @@
       "Micro Four Thirds"
     ],
     "lensMaterial": "Metal",
-    "imageUrl": "/lenses/7artisans-25mm-f18-xf.webp",
     "filterMm": 46,
     "lensConfiguration": {
       "groups": 5,
@@ -546,7 +534,6 @@
       "Canon EF-M"
     ],
     "lensMaterial": "Metal",
-    "imageUrl": "/lenses/7artisans-35mm-f12-xf.webp",
     "filterMm": 46,
     "lensConfiguration": {
       "groups": 5,
@@ -591,7 +578,6 @@
       "Nikon Z"
     ],
     "lensMaterial": "Metal",
-    "imageUrl": "/lenses/7artisans-35mm-f14-xf.webp",
     "filterMm": 49,
     "lensConfiguration": {
       "groups": 5,
@@ -636,7 +622,6 @@
       "Micro Four Thirds"
     ],
     "lensMaterial": "Metal",
-    "imageUrl": "/lenses/7artisans-50mm-f14-ts-xf.webp",
     "filterMm": 46,
     "lensConfiguration": {
       "groups": 6,
@@ -679,7 +664,6 @@
       "Micro Four Thirds"
     ],
     "lensMaterial": "Metal",
-    "imageUrl": "/lenses/7artisans-50mm-f18-xf.webp",
     "filterMm": 52,
     "lensConfiguration": {
       "groups": 5,
@@ -717,7 +701,6 @@
       "Canon EF-M",
       "Micro Four Thirds"
     ],
-    "imageUrl": "/lenses/7artisans-55mm-f14-xf.webp",
     "filterMm": 49,
     "lensConfiguration": {
       "groups": 5,
@@ -766,7 +749,6 @@
       "Canon EF-M"
     ],
     "lensMaterial": "Metal",
-    "imageUrl": "/lenses/7artisans-60mm-f28-xf.webp",
     "filterMm": 39,
     "lensConfiguration": {
       "groups": 7,
@@ -806,7 +788,6 @@
       "Sony E",
       "Fujifilm X"
     ],
-    "imageUrl": "/lenses/brightinstar-af-50mm-f14-xf.webp",
     "filterMm": 58,
     "lensConfiguration": {
       "groups": 8,
@@ -853,7 +834,6 @@
       "Nikon Z",
       "Micro Four Thirds"
     ],
-    "imageUrl": "/lenses/brightinstar-mf-7p5mm-f28-xf.webp",
     "filterMm": "N/A",
     "lensConfiguration": {
       "groups": 9,
@@ -899,7 +879,6 @@
       "Canon RF",
       "Nikon Z"
     ],
-    "imageUrl": "/lenses/brightinstar-mf-10mm-f56-xf.webp",
     "filterMm": "N/A",
     "lensConfiguration": {
       "groups": 5,
@@ -944,7 +923,6 @@
       "Micro Four Thirds",
       "Canon RF"
     ],
-    "imageUrl": "/lenses/brightinstar-mf-10mm-f56-pro-xf.webp",
     "filterMm": "N/A",
     "lensConfiguration": {
       "groups": 5,
@@ -983,7 +961,6 @@
     "angleOfView": 97,
     "angleOfViewCalc": 99.4,
     "apertureBladeCount": 10,
-    "imageUrl": "/lenses/brightinstar-mf-12mm-f20-xf.webp",
     "filterMm": 62,
     "lensConfiguration": {
       "groups": 9,
@@ -1027,7 +1004,6 @@
       "Fujifilm X",
       "Micro Four Thirds"
     ],
-    "imageUrl": "/lenses/brightinstar-mf-25mm-f18-xf.webp",
     "filterMm": 43,
     "lensConfiguration": {
       "groups": 5,
@@ -1070,7 +1046,6 @@
       "Fujifilm X",
       "Micro Four Thirds"
     ],
-    "imageUrl": "/lenses/brightinstar-mf-35mm-f095-xf.webp",
     "filterMm": 52,
     "lensConfiguration": {
       "groups": 8,
@@ -1108,7 +1083,6 @@
     "angleOfViewCalc": 44,
     "apertureBladeCount": 10,
     "lensMaterial": "Metal",
-    "imageUrl": "/lenses/brightinstar-mf-35mm-f12-xf.webp",
     "filterMm": 43,
     "lensConfiguration": {
       "groups": 5,
@@ -1144,7 +1118,6 @@
     "angleOfViewCalc": 44,
     "apertureBladeCount": 10,
     "lensMaterial": "Metal",
-    "imageUrl": "/lenses/brightinstar-mf-35mm-f17-xf.webp",
     "filterMm": 43,
     "lensConfiguration": {
       "groups": 4,
@@ -1188,7 +1161,6 @@
       "Fujifilm X",
       "Micro Four Thirds"
     ],
-    "imageUrl": "/lenses/brightinstar-mf-50mm-f095-xf.webp",
     "filterMm": 62,
     "lensConfiguration": {
       "groups": 5,
@@ -1227,7 +1199,6 @@
     "angleOfView": 29.5,
     "angleOfViewCalc": 31.6,
     "apertureBladeCount": 9,
-    "imageUrl": "/lenses/brightinstar-mf-50mm-f14-xf.webp",
     "filterMm": 55,
     "lensConfiguration": {
       "groups": 5,
@@ -1272,7 +1243,6 @@
       "Fujifilm X",
       "Canon EF-M"
     ],
-    "imageUrl": "/lenses/brightinstar-mf-50mm-f18-xf.webp",
     "filterMm": 43,
     "lensConfiguration": {
       "groups": 4,
@@ -1334,7 +1304,6 @@
       "Lens hood",
       "Wrapping cloth"
     ],
-    "imageUrl": "/lenses/fujifilm-mkx-18-55mmt29-xf.webp",
     "filterMm": 82,
     "lensConfiguration": {
       "groups": 17,
@@ -1399,7 +1368,6 @@
       "Lens hood",
       "Wrapping cloth"
     ],
-    "imageUrl": "/lenses/fujifilm-mkx-50-135mmt29-xf.webp",
     "filterMm": 82,
     "lensConfiguration": {
       "groups": 17,
@@ -1469,7 +1437,6 @@
       "Lens cap FLCP-52II",
       "Lens rear cap"
     ],
-    "imageUrl": "/lenses/fujifilm-xc-15-45mmf35-56-ois-pz-xf.webp",
     "filterMm": 52,
     "lensConfiguration": {
       "groups": 9,
@@ -1517,7 +1484,6 @@
     "accessories": [
       "Lens cap FLCP-43"
     ],
-    "imageUrl": "/lenses/fujifilm-xc-35mmf2-xf.webp",
     "filterMm": 43,
     "lensConfiguration": {
       "groups": 6,
@@ -1587,7 +1553,6 @@
       "Lens cap",
       "Lens hood"
     ],
-    "imageUrl": "/lenses/fujifilm-xc-50-230mmf45-67-ois-ii-xf.webp",
     "filterMm": 58,
     "lensConfiguration": {
       "groups": 10,
@@ -1645,7 +1610,6 @@
       "Lens rear cap RLCP-001",
       "Wrapping cloth"
     ],
-    "imageUrl": "/lenses/fujifilm-xf-8-16mmf28-r-lm-wr-xf.webp",
     "filterMm": "N/A",
     "lensConfiguration": {
       "groups": 13,
@@ -1697,7 +1661,6 @@
       "Lens hood",
       "Lens wrapping cloth"
     ],
-    "imageUrl": "/lenses/fujifilm-xf-8mmf35-r-wr-xf.webp",
     "filterMm": 62,
     "lensConfiguration": {
       "groups": 9,
@@ -1751,7 +1714,6 @@
       61
     ],
     "apertureBladeCount": 7,
-    "imageUrl": "/lenses/fujifilm-xf-10-24mmf4-r-ois-wr-xf.webp",
     "filterMm": 72,
     "lensConfiguration": {
       "groups": 10,
@@ -1795,7 +1757,6 @@
     "angleOfView": 90.8,
     "angleOfViewCalc": 90.6,
     "apertureBladeCount": 7,
-    "imageUrl": "/lenses/fujifilm-xf-14mmf28-r-xf.webp",
     "filterMm": 58,
     "lensConfiguration": {
       "groups": 7,
@@ -1854,7 +1815,6 @@
       "Lens hood",
       "Lens wrapping cloth"
     ],
-    "imageUrl": "/lenses/fujifilm-xf-16-50mmf28-48-r-lm-wr-xf.webp",
     "filterMm": 58,
     "lensConfiguration": {
       "groups": 9,
@@ -1916,7 +1876,6 @@
       28.9
     ],
     "apertureBladeCount": 9,
-    "imageUrl": "/lenses/fujifilm-xf-16-55mmf28-r-lm-wr-xf.webp",
     "filterMm": 77,
     "lensConfiguration": {
       "groups": 12,
@@ -1978,7 +1937,6 @@
       "Lens hood",
       "Lens wrapping cloth"
     ],
-    "imageUrl": "/lenses/fujifilm-xf-16-55mmf28-r-lm-wr-ii-xf.webp",
     "filterMm": 72,
     "lensConfiguration": {
       "groups": 11,
@@ -2044,7 +2002,6 @@
       "Lens hood",
       "Wrapping cloth"
     ],
-    "imageUrl": "/lenses/fujifilm-xf-16-80mmf4-r-ois-wr-xf.webp",
     "filterMm": 72,
     "lensConfiguration": {
       "groups": 12,
@@ -2092,7 +2049,6 @@
     "accessories": [
       "Lens hood LH-XF16"
     ],
-    "imageUrl": "/lenses/fujifilm-xf-16mmf14-r-wr-xf.webp",
     "filterMm": 67,
     "lensConfiguration": {
       "groups": 11,
@@ -2144,7 +2100,6 @@
       "Wrapping cloth",
       "PRF-49"
     ],
-    "imageUrl": "/lenses/fujifilm-xf-16mmf28-r-wr-xf.webp",
     "filterMm": 49,
     "lensConfiguration": {
       "groups": 8,
@@ -2209,7 +2164,6 @@
       28.9
     ],
     "apertureBladeCount": 7,
-    "imageUrl": "/lenses/fujifilm-xf-18-55mmf28-4-r-lm-ois-xf.webp",
     "filterMm": 58,
     "lensConfiguration": {
       "groups": 10,
@@ -2263,7 +2217,6 @@
       13.5
     ],
     "apertureBladeCount": 7,
-    "imageUrl": "/lenses/fujifilm-xf-18-120mmf4-lm-pz-wr-xf.webp",
     "filterMm": 72,
     "lensConfiguration": {
       "groups": 12,
@@ -2325,7 +2278,6 @@
       12
     ],
     "apertureBladeCount": 7,
-    "imageUrl": "/lenses/fujifilm-xf-18-135mmf35-56-r-lm-ois-wr-xf.webp",
     "filterMm": 67,
     "lensConfiguration": {
       "groups": 12,
@@ -2373,7 +2325,6 @@
     "accessories": [
       "Lens hood LH-XF18"
     ],
-    "imageUrl": "/lenses/fujifilm-xf-18mmf14-r-lm-wr-xf.webp",
     "filterMm": 62,
     "lensConfiguration": {
       "groups": 9,
@@ -2417,7 +2368,6 @@
     "angleOfView": 76.5,
     "angleOfViewCalc": 76.3,
     "apertureBladeCount": 7,
-    "imageUrl": "/lenses/fujifilm-xf-18mmf2-r-xf.webp",
     "filterMm": 52,
     "lensConfiguration": {
       "groups": 7,
@@ -2461,7 +2411,6 @@
     "angleOfView": 63.4,
     "angleOfViewCalc": 63.2,
     "apertureBladeCount": 9,
-    "imageUrl": "/lenses/fujifilm-xf-23mmf14-r-lm-wr-xf.webp",
     "filterMm": 58,
     "lensConfiguration": {
       "groups": 10,
@@ -2512,7 +2461,6 @@
       "Lens hood",
       "Wrapping cloth"
     ],
-    "imageUrl": "/lenses/fujifilm-xf-23mmf2-r-wr-xf.webp",
     "filterMm": 43,
     "lensConfiguration": {
       "groups": 6,
@@ -2554,7 +2502,6 @@
     "angleOfView": 55.5,
     "angleOfViewCalc": 55.3,
     "apertureBladeCount": 7,
-    "imageUrl": "/lenses/fujifilm-xf-27mmf28-r-wr-xf.webp",
     "filterMm": 39,
     "lensConfiguration": {
       "groups": 5,
@@ -2601,7 +2548,6 @@
     "angleOfView": 50.7,
     "angleOfViewCalc": 50.5,
     "apertureBladeCount": 9,
-    "imageUrl": "/lenses/fujifilm-xf-30mmf28-r-lm-wr-macro-xf.webp",
     "filterMm": 43,
     "lensConfiguration": {
       "groups": 9,
@@ -2646,7 +2592,6 @@
     "angleOfView": 46.6,
     "angleOfViewCalc": 46.4,
     "apertureBladeCount": 9,
-    "imageUrl": "/lenses/fujifilm-xf-33mmf14-r-lm-wr-xf.webp",
     "filterMm": 58,
     "lensConfiguration": {
       "groups": 10,
@@ -2696,7 +2641,6 @@
       "Lens hood",
       "Lens hood cap"
     ],
-    "imageUrl": "/lenses/fujifilm-xf-35mmf14-r-xf.webp",
     "filterMm": 52,
     "lensConfiguration": {
       "groups": 6,
@@ -2748,7 +2692,6 @@
       "Lens hood",
       "Wrapping cloth"
     ],
-    "imageUrl": "/lenses/fujifilm-xf-35mmf2-r-wr-xf.webp",
     "filterMm": 43,
     "lensConfiguration": {
       "groups": 6,
@@ -2810,7 +2753,6 @@
       "Shoulder strap",
       "Wrapping cloth"
     ],
-    "imageUrl": "/lenses/fujifilm-xf-50-140mmf28-r-lm-ois-wr-xf.webp",
     "filterMm": 72,
     "lensConfiguration": {
       "groups": 16,
@@ -2855,7 +2797,6 @@
     "angleOfView": 31.7,
     "angleOfViewCalc": 31.6,
     "apertureBladeCount": 9,
-    "imageUrl": "/lenses/fujifilm-xf-50mmf10-r-wr-xf.webp",
     "filterMm": 77,
     "lensConfiguration": {
       "groups": 9,
@@ -2906,7 +2847,6 @@
       "Lens hood",
       "Wrapping cloth"
     ],
-    "imageUrl": "/lenses/fujifilm-xf-50mmf2-r-wr-xf.webp",
     "filterMm": 46,
     "lensConfiguration": {
       "groups": 7,
@@ -2968,7 +2908,6 @@
       8.1
     ],
     "apertureBladeCount": 7,
-    "imageUrl": "/lenses/fujifilm-xf-55-200mmf35-48-r-lm-ois-xf.webp",
     "filterMm": 62,
     "lensConfiguration": {
       "groups": 10,
@@ -3020,7 +2959,6 @@
       "Lens hood",
       "Lens wrapping cloth"
     ],
-    "imageUrl": "/lenses/fujifilm-xf-56mmf12-r-wr-xf.webp",
     "filterMm": 67,
     "lensConfiguration": {
       "groups": 8,
@@ -3067,7 +3005,6 @@
     "angleOfView": 26.6,
     "angleOfViewCalc": 26.5,
     "apertureBladeCount": 9,
-    "imageUrl": "/lenses/fujifilm-xf-60mmf24-r-macro-xf.webp",
     "filterMm": 39,
     "lensConfiguration": {
       "groups": 8,
@@ -3130,7 +3067,6 @@
       5.4
     ],
     "apertureBladeCount": 9,
-    "imageUrl": "/lenses/fujifilm-xf-70-300mmf4-56-r-lm-ois-wr-xf.webp",
     "filterMm": 67,
     "lensConfiguration": {
       "groups": 12,
@@ -3186,7 +3122,6 @@
       "Lens pouch",
       "Wrapping cloth"
     ],
-    "imageUrl": "/lenses/fujifilm-xf-80mmf28-r-lm-ois-wr-macro-xf.webp",
     "filterMm": 62,
     "lensConfiguration": {
       "groups": 12,
@@ -3231,7 +3166,6 @@
     "angleOfView": 17.9,
     "angleOfViewCalc": 17.9,
     "apertureBladeCount": 7,
-    "imageUrl": "/lenses/fujifilm-xf-90mmf2-r-lm-wr-xf.webp",
     "filterMm": 62,
     "lensConfiguration": {
       "groups": 8,
@@ -3291,7 +3225,6 @@
       4.1
     ],
     "apertureBladeCount": 9,
-    "imageUrl": "/lenses/fujifilm-xf-100-400mmf45-56-r-lm-ois-wr-xf.webp",
     "filterMm": 77,
     "lensConfiguration": {
       "groups": 14,
@@ -3357,7 +3290,6 @@
       "Tripod collar foot",
       "Shuolder strap"
     ],
-    "imageUrl": "/lenses/fujifilm-xf-150-600mmf56-8-r-lm-ois-wr-xf.webp",
     "filterMm": 82,
     "lensConfiguration": {
       "groups": 17,
@@ -3410,7 +3342,6 @@
       "Shoulder strap",
       "Lens case"
     ],
-    "imageUrl": "/lenses/fujifilm-xf-200mmf2-r-lm-ois-wr-xf.webp",
     "filterMm": 105,
     "lensConfiguration": {
       "groups": 14,
@@ -3463,7 +3394,6 @@
       "Lens pouch",
       "Shoulder strap"
     ],
-    "imageUrl": "/lenses/fujifilm-xf-500mmf56-r-lm-ois-wr-xf.webp",
     "filterMm": 95,
     "lensConfiguration": {
       "groups": 14,
@@ -3512,7 +3442,6 @@
       "Nikon Z"
     ],
     "lensMaterial": "Metal",
-    "imageUrl": "/lenses/sgimage-af-25mm-f18-aps-c-mirrorless-lens-xf.webp",
     "filterMm": 52,
     "lensConfiguration": {
       "groups": 5,
@@ -3559,7 +3488,6 @@
       "Leica L"
     ],
     "lensMaterial": "Metal",
-    "imageUrl": "/lenses/sgimage-mf-7p5mm-f28-aps-c-fisheye-lens-xf.webp",
     "filterMm": "N/A",
     "lensConfiguration": {
       "groups": 9,
@@ -3604,7 +3532,6 @@
       "Nikon Z"
     ],
     "lensMaterial": "Metal",
-    "imageUrl": "/lenses/sgimage-mf-18mm-f63-aps-c-ultra-slim-pancake-lens-xf.webp",
     "filterMm": 37,
     "lensConfiguration": {
       "groups": 4,
@@ -3653,7 +3580,6 @@
       "Nikon Z"
     ],
     "lensMaterial": "Metal",
-    "imageUrl": "/lenses/sgimage-mf-25mm-f18-aps-c-lens-xf.webp",
     "filterMm": 43,
     "lensConfiguration": {
       "groups": 5,
@@ -3700,7 +3626,6 @@
       "Nikon Z"
     ],
     "lensMaterial": "Metal",
-    "imageUrl": "/lenses/sgimage-mf-35mm-f095-ultra-bright-aps-c-lens-xf.webp",
     "filterMm": 52,
     "lensConfiguration": {
       "groups": 9,
@@ -3746,7 +3671,6 @@
       "Nikon Z"
     ],
     "lensMaterial": "Metal",
-    "imageUrl": "/lenses/sgimage-mf-35mm-f12-aps-c-lens-xf.webp",
     "filterMm": 46,
     "lensConfiguration": {
       "groups": 5,
@@ -3793,7 +3717,6 @@
       "Nikon Z"
     ],
     "lensMaterial": "Metal",
-    "imageUrl": "/lenses/sgimage-mf-50mm-f14-aps-c-lens-xf.webp",
     "filterMm": 49,
     "lensConfiguration": {
       "groups": 6,
@@ -3860,7 +3783,6 @@
       "Front cap LCF-67mm III",
       "Rear cap LCR II"
     ],
-    "imageUrl": "/lenses/sigma-contemporary-10-18mm-f28-dc-dn-xf.webp",
     "filterMm": 67,
     "lensConfiguration": {
       "groups": 10,
@@ -3917,7 +3839,6 @@
       "Front cap LCF-62 IV",
       "Rear cap LCR III"
     ],
-    "imageUrl": "/lenses/sigma-contemporary-12mm-f14-dc-xf.webp",
     "filterMm": 62,
     "lensConfiguration": {
       "groups": 12,
@@ -3975,7 +3896,6 @@
       "Front cap LCF-58 IV",
       "Rear cap LCR III"
     ],
-    "imageUrl": "/lenses/sigma-contemporary-15mm-f14-dc-xf.webp",
     "filterMm": 58,
     "lensConfiguration": {
       "groups": 11,
@@ -4057,7 +3977,6 @@
       "Front cap LCF-67 IV",
       "Rear cap LCR III"
     ],
-    "imageUrl": "/lenses/sigma-contemporary-16-300mm-f35-67-dc-os-xf.webp",
     "filterMm": 67,
     "lensConfiguration": {
       "groups": 14,
@@ -4119,7 +4038,6 @@
       "Front cap LCF-67mm III",
       "Rear cap LCR II"
     ],
-    "imageUrl": "/lenses/sigma-contemporary-16mm-f14-dc-dn-xf.webp",
     "filterMm": 67,
     "lensConfiguration": {
       "groups": 13,
@@ -4182,7 +4100,6 @@
       "Front cap LCF-67 IV",
       "Rear cap LCR III"
     ],
-    "imageUrl": "/lenses/sigma-art-17-40mm-f18-dc-xf.webp",
     "filterMm": 67,
     "lensConfiguration": {
       "groups": 11,
@@ -4254,7 +4171,6 @@
       "Front cap LCF-55mm III",
       "Rear cap LCR II"
     ],
-    "imageUrl": "/lenses/sigma-contemporary-18-50mm-f28-dc-dn-xf.webp",
     "filterMm": 55,
     "lensConfiguration": {
       "groups": 10,
@@ -4309,7 +4225,6 @@
       "Front cap LCF-52 III",
       "Rear cap LCR II"
     ],
-    "imageUrl": "/lenses/sigma-contemporary-23mm-f14-dc-dn-xf.webp",
     "filterMm": 52,
     "lensConfiguration": {
       "groups": 10,
@@ -4367,7 +4282,6 @@
       "Front cap LCF-52mm III",
       "Rear cap LCR II"
     ],
-    "imageUrl": "/lenses/sigma-contemporary-30mm-f14-dc-dn-xf.webp",
     "filterMm": 52,
     "lensConfiguration": {
       "groups": 7,
@@ -4423,7 +4337,6 @@
       "Front cap LCF-55mm III",
       "Rear cap LCR II"
     ],
-    "imageUrl": "/lenses/sigma-contemporary-56mm-f14-dc-dn-xf.webp",
     "filterMm": 55,
     "lensConfiguration": {
       "groups": 6,
@@ -4492,7 +4405,6 @@
       "Front cap LCF-67mm III",
       "Rear cap LCR II"
     ],
-    "imageUrl": "/lenses/sigma-contemporary-100-400mm-f5-63-dg-dn-os-xf.webp",
     "filterMm": 67,
     "lensConfiguration": {
       "groups": 16,
@@ -4561,7 +4473,6 @@
       "Front cap",
       "Rear cap"
     ],
-    "imageUrl": "/lenses/tamron-11-20mm-f28-di-iii-a-rxd-xf.webp",
     "filterMm": 67,
     "lensConfiguration": {
       "groups": 10,
@@ -4628,7 +4539,6 @@
       "Front cap",
       "Rear cap"
     ],
-    "imageUrl": "/lenses/tamron-17-70mm-f28-di-iii-a-vc-rxd-xf.webp",
     "filterMm": 67,
     "lensConfiguration": {
       "groups": 12,
@@ -4703,7 +4613,6 @@
       "Front cap",
       "Rear cap"
     ],
-    "imageUrl": "/lenses/tamron-18-300mm-f35-63-di-iii-a-vc-vxd-xf.webp",
     "filterMm": 67,
     "lensConfiguration": {
       "groups": 15,
@@ -4773,7 +4682,6 @@
       "Rear cap",
       "Tripod mount"
     ],
-    "imageUrl": "/lenses/tamron-150-500mm-f5-67-di-iii-vc-vxd-x-xf.webp",
     "filterMm": 82,
     "lensConfiguration": {
       "groups": 16,
@@ -4823,7 +4731,6 @@
       "Leica L"
     ],
     "lensMaterial": "Metal",
-    "imageUrl": "/lenses/ttartisan-35mm-t21-xf.webp",
     "filterMm": 82,
     "lensConfiguration": {
       "groups": 7,
@@ -4872,7 +4779,6 @@
       "Rear cap"
     ],
     "lensMaterial": "Metal",
-    "imageUrl": "/lenses/ttartisan-af-23mm-f18-xf.webp",
     "filterMm": 52,
     "lensConfiguration": {
       "groups": 9,
@@ -4918,7 +4824,6 @@
       "Nikon Z"
     ],
     "lensMaterial": "Metal",
-    "imageUrl": "/lenses/ttartisan-af-27mm-f28-xf.webp",
     "filterMm": 39,
     "lensConfiguration": {
       "groups": 5,
@@ -4972,7 +4877,6 @@
       "Rear cap"
     ],
     "lensMaterial": "Metal",
-    "imageUrl": "/lenses/ttartisan-af-35mm-f18-ii-xf.webp",
     "filterMm": 52,
     "lensConfiguration": {
       "groups": 7,
@@ -5027,7 +4931,6 @@
       "Rear cap"
     ],
     "lensMaterial": "Metal",
-    "imageUrl": "/lenses/ttartisan-af-56mm-f18-xf.webp",
     "filterMm": 52,
     "lensConfiguration": {
       "groups": 9,
@@ -5082,7 +4985,6 @@
       "Micro Four Thirds"
     ],
     "lensMaterial": "Metal",
-    "imageUrl": "/lenses/ttartisan-aps-c-7p5mm-f2-fisheye-xf.webp",
     "filterMm": "N/A",
     "lensConfiguration": {
       "groups": 8,
@@ -5132,7 +5034,6 @@
       "Micro Four Thirds"
     ],
     "lensMaterial": "Metal",
-    "imageUrl": "/lenses/ttartisan-aps-c-10mm-f20-asph-xf.webp",
     "filterMm": 72,
     "lensConfiguration": {
       "groups": 10,
@@ -5185,7 +5086,6 @@
       "Micro Four Thirds"
     ],
     "lensMaterial": "Metal",
-    "imageUrl": "/lenses/ttartisan-aps-c-23mm-f14-xf.webp",
     "filterMm": 43,
     "lensConfiguration": {
       "groups": 6,
@@ -5237,7 +5137,6 @@
       "Micro Four Thirds"
     ],
     "lensMaterial": "Metal",
-    "imageUrl": "/lenses/ttartisan-aps-c-25mm-f2-xf.webp",
     "filterMm": 43,
     "lensConfiguration": {
       "groups": 5,
@@ -5286,7 +5185,6 @@
       "Leica L"
     ],
     "lensMaterial": "Metal",
-    "imageUrl": "/lenses/ttartisan-aps-c-35mm-f095-xf.webp",
     "filterMm": 52,
     "lensConfiguration": {
       "groups": 5,
@@ -5334,7 +5232,6 @@
       "Micro Four Thirds"
     ],
     "lensMaterial": "Metal",
-    "imageUrl": "/lenses/ttartisan-aps-c-35mm-f14-xf.webp",
     "filterMm": 39,
     "lensConfiguration": {
       "groups": 6,
@@ -5387,7 +5284,6 @@
       "Micro Four Thirds"
     ],
     "lensMaterial": "Metal",
-    "imageUrl": "/lenses/ttartisan-aps-c-40mm-f28-macro-xf.webp",
     "filterMm": 52,
     "lensConfiguration": {
       "groups": 7,
@@ -5435,7 +5331,6 @@
       "Micro Four Thirds"
     ],
     "lensMaterial": "Metal",
-    "imageUrl": "/lenses/ttartisan-aps-c-50mm-f095-xf.webp",
     "filterMm": 58,
     "lensConfiguration": {
       "groups": 6,
@@ -5481,7 +5376,6 @@
       "Micro Four Thirds"
     ],
     "lensMaterial": "Metal",
-    "imageUrl": "/lenses/ttartisan-aps-c-50mm-f12-xf.webp",
     "filterMm": 52,
     "lensConfiguration": {
       "groups": 5,
@@ -5531,7 +5425,6 @@
       "Micro Four Thirds"
     ],
     "lensMaterial": "Metal",
-    "imageUrl": "/lenses/ttartisan-tilt-aps-c-35mm-f14-xf.webp",
     "filterMm": 52,
     "lensConfiguration": {
       "groups": 6,
@@ -5574,7 +5467,6 @@
       "Nikon Z",
       "Fujifilm X"
     ],
-    "imageUrl": "/lenses/viltrox-af-9mm-f28-air-xf.webp",
     "filterMm": 58,
     "lensConfiguration": {
       "groups": 11,
@@ -5625,7 +5517,6 @@
       "Rear cap",
       "Pouch"
     ],
-    "imageUrl": "/lenses/viltrox-af-13mm-f14-xf.webp",
     "filterMm": 67,
     "lensConfiguration": {
       "groups": 11,
@@ -5668,7 +5559,6 @@
       "Nikon Z",
       "Fujifilm X"
     ],
-    "imageUrl": "/lenses/viltrox-af-15mm-f17-air-xf.webp",
     "filterMm": 58,
     "lensConfiguration": {
       "groups": 10,
@@ -5724,7 +5614,6 @@
       "Rear cap",
       "Pouch"
     ],
-    "imageUrl": "/lenses/viltrox-af-23mm-f14-xf.webp",
     "filterMm": 52,
     "lensConfiguration": {
       "groups": 10,
@@ -5773,7 +5662,6 @@
       "Nikon Z",
       "Fujifilm X"
     ],
-    "imageUrl": "/lenses/viltrox-af-25mm-f17-air-xf.webp",
     "filterMm": 52,
     "lensConfiguration": {
       "groups": 10,
@@ -5820,7 +5708,6 @@
       "Nikon Z",
       "Fujifilm X"
     ],
-    "imageUrl": "/lenses/viltrox-af-27mm-f12-pro-xf.webp",
     "filterMm": 67,
     "lensConfiguration": {
       "groups": 11,
@@ -5860,7 +5747,6 @@
     "angleOfView": 52.07,
     "angleOfViewCalc": 53.6,
     "lensMaterial": "Metal",
-    "imageUrl": "/lenses/viltrox-af-28mm-f45-xf.webp",
     "filterMm": "N/A",
     "lensConfiguration": {
       "groups": 6,
@@ -5911,7 +5797,6 @@
       "Canon EF-M",
       "Nikon Z"
     ],
-    "imageUrl": "/lenses/viltrox-af-33mm-f14-xf.webp",
     "filterMm": 52,
     "lensConfiguration": {
       "groups": 9,
@@ -5957,7 +5842,6 @@
       "Nikon Z",
       "Fujifilm X"
     ],
-    "imageUrl": "/lenses/viltrox-af-35mm-f17-air-xf.webp",
     "filterMm": 52,
     "lensConfiguration": {
       "groups": 9,
@@ -6000,7 +5884,6 @@
       "Sony E",
       "Fujifilm X"
     ],
-    "imageUrl": "/lenses/viltrox-af-56mm-f12-pro-xf.webp",
     "filterMm": 67,
     "lensConfiguration": {
       "groups": 8,
@@ -6048,7 +5931,6 @@
       "Nikon Z",
       "Canon EF-M"
     ],
-    "imageUrl": "/lenses/viltrox-af-56mm-f14-xf.webp",
     "filterMm": 52,
     "lensConfiguration": {
       "groups": 9,
@@ -6094,7 +5976,6 @@
       "Fujifilm X",
       "Nikon Z"
     ],
-    "imageUrl": "/lenses/viltrox-af-56mm-f17-air-xf.webp",
     "filterMm": 52,
     "lensConfiguration": {
       "groups": 9,
@@ -6144,7 +6025,6 @@
       "Front cap",
       "Rear cap"
     ],
-    "imageUrl": "/lenses/viltrox-af-75mm-f12-pro-xf.webp",
     "filterMm": 77,
     "lensConfiguration": {
       "groups": 11,
@@ -6180,7 +6060,6 @@
     },
     "angleOfViewCalc": 18.9,
     "lensMaterial": "Metal",
-    "imageUrl": "/lenses/viltrox-af-85mm-f18-ii-xf.webp",
     "filterMm": 72,
     "lensConfiguration": {
       "groups": 7,
