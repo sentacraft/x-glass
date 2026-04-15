@@ -12,7 +12,11 @@ export default function manifest(): MetadataRoute.Manifest {
     scope: "/",
     display: SITE.display,
     background_color: SITE.backgroundColor,
-    theme_color: SITE.themeColor.dark,
+    // Manifest theme_color is a static fallback used in install dialogs and the
+    // splash screen chrome. Use light so the install prompt looks natural on
+    // light-mode systems. In-app adaptive theming is handled by the <meta
+    // name="theme-color" media="..."> tags in the locale layout viewport export.
+    theme_color: SITE.themeColor.light,
     screenshots: [
       {
         src: "/screenshots/screenshot-mobile.png",

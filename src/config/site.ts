@@ -26,7 +26,7 @@ export const SITE: SiteConfig = {
   name: "X-Glass",
   shortName: "X-Glass",
   description:
-    "Not a recommendation engine — a structured lens comparison tool for Fujifilm X users. All brands. One dataset.",
+    "An independent tool for browsing and comparing Fujifilm X-mount lenses across all brands.",
   themeColor: {
     light: "#ffffff",
     dark: "#0a0a0a",
