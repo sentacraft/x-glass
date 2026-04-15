@@ -16,8 +16,8 @@ import {
   type IrisMechanismConfig,
 } from "@/lib/iris-kinematics";
 import { readFromConfig, exportToConfig } from "./actions";
-import { IRIS_HERO, IRIS_NAV, IRIS_DEFAULTS, R_HOUSING, DEFAULT_INIT_ANIMATION } from "@/config/iris-config";
-import type { IrisConfig } from "@/config/iris-config";
+import { IRIS_HERO, IRIS_NAV, IRIS_LAB, R_HOUSING } from "@/config/iris-config";
+import type { IrisConfig, IrisInitAnimation } from "@/config/iris-config";
 import Iris from "@/components/Iris";
 
 // SVG coordinate space: origin at iris center, R_HOUSING = outer display radius.
@@ -366,14 +366,13 @@ function formatFStop(f: number): string {
 export default function ApertureV2Lab() {
   const [config, setConfig] = useState<IrisMechanismConfig>(DEFAULT_IRIS_CONFIG);
 
-  // Studio profiles: "lab" is in-memory only; the two production profiles
-  // read/write brand.ts via server actions.
+  // Studio profiles: all three read/write iris-config.ts via server actions.
+  // The workspace seeds from IRIS_LAB on mount.
   type StudioProfile = "lab" | "production:hero" | "production:nav";
-  const [selectedProfile, setSelectedProfile] = useState<StudioProfile>("production:hero");
-  const [labConfig, setLabConfig] = useState<IrisConfig | null>(null);
-  // Production preview: tracks the production pixel size of the last-loaded profile.
+  const [selectedProfile, setSelectedProfile] = useState<StudioProfile>("lab");
+  // Preview: tracks the pixel size of the last-loaded profile.
   // The full previewConfig is computed live as a useMemo below.
-  const [previewSize, setPreviewSize] = useState(IRIS_HERO.size);
+  const [previewSize, setPreviewSize] = useState(IRIS_LAB.size);
   // Incrementing this key forces the preview <Iris> to remount, replaying initAnimation.
   const [previewAnimKey, setPreviewAnimKey] = useState(0);
   const [exportStatus, setExportStatus] = useState<string | null>(null);
@@ -394,29 +393,29 @@ export default function ApertureV2Lab() {
 
   // Load the selected profile's params into the workspace.
   async function handleLoad() {
-    let v: IrisConfig | null = null;
-    if (selectedProfile === "lab") {
-      if (!labConfig) return;
-      v = labConfig;
-    } else {
-      const key = selectedProfile === "production:hero" ? "IRIS_HERO" : "IRIS_NAV";
-      v = await readFromConfig(key);
-      if (!v) return;
-    }
+    const key = selectedProfile === "production:hero" ? "IRIS_HERO"
+      : selectedProfile === "production:nav" ? "IRIS_NAV" : "IRIS_LAB";
+    const v = await readFromConfig(key);
+    if (!v) return;
+    applyConfig(v);
+  }
+
+  // Apply a loaded IrisConfig to all workspace state variables.
+  function applyConfig(v: IrisConfig) {
     setConfig(buildDerivedConfig(v, R_HOUSING));
-    // Restore appearance state from loaded config.
-    if (v.bladeColor) setBladeGray(parseInt(v.bladeColor.slice(1, 3), 16));
+    if (v.bladeColor)  setBladeGray(parseInt(v.bladeColor.slice(1, 3), 16));
     if (v.strokeColor) setStrokeGray(parseInt(v.strokeColor.slice(1, 3), 16));
     if (v.strokeWidth !== undefined) setStrokeWidth(v.strokeWidth);
     setOpenFStop(v.openFStop);
     setDefaultFStop(v.defaultFStop);
-    setInitAnimation(!!v.initAnimation);
-    setClosedFStop(v.closedFStop ?? IRIS_DEFAULTS.closedFStop);
-    setChaseTauMs(v.chaseTauMs ?? IRIS_DEFAULTS.chaseTauMs);
-    setEaseOutMs(v.easeOutMs ?? IRIS_DEFAULTS.easeOutMs);
-    setCatchupMs(v.catchupMs ?? IRIS_DEFAULTS.catchupMs);
-    setHotzoneScale(v.hotzoneScale ?? IRIS_DEFAULTS.hotzoneScale);
-    // Track the production pixel size for the preview label.
+    setInteractive(v.interactive ?? false);
+    setInitAnimation(v.initAnimation);
+    setClosedFStop(v.closedFStop ?? 22);
+    setChaseTauMs(v.chaseTauMs ?? 60);
+    setEaseOutMs(v.easeOutMs ?? 700);
+    setCatchupMs(v.catchupMs ?? 300);
+    setHotzoneScaleH(v.hotzoneScaleH ?? 1.5);
+    setHotzoneScaleV(v.hotzoneScaleV ?? 1.0);
     setPreviewSize(v.size);
     setIsPlaying(false);
     startRef.current = undefined;
@@ -426,7 +425,7 @@ export default function ApertureV2Lab() {
   async function handleExport() {
     setExportStatus("Saving…");
     const profileSize = selectedProfile === "production:hero" ? IRIS_HERO.size
-      : selectedProfile === "production:nav" ? IRIS_NAV.size : 80;
+      : selectedProfile === "production:nav" ? IRIS_NAV.size : IRIS_LAB.size;
     const stored: IrisConfig = {
       N: config.N,
       pinDistance: config.pinDistance,
@@ -438,45 +437,26 @@ export default function ApertureV2Lab() {
       size: profileSize,
       bladeColor: grayHex(bladeGray),
       strokeColor: grayHex(strokeGray),
-      strokeWidth: strokeWidth,
-      interactive: selectedProfile === "production:hero",
-      initAnimation: initAnimation ? DEFAULT_INIT_ANIMATION : undefined,
+      strokeWidth,
+      interactive,
+      initAnimation,
       closedFStop,
       chaseTauMs,
       easeOutMs,
       catchupMs,
-      hotzoneScale,
+      hotzoneScaleH,
+      hotzoneScaleV,
     };
-    if (selectedProfile === "lab") {
-      setLabConfig(stored);
-      setExportStatus("✓ Saved to Lab");
-      setTimeout(() => setExportStatus(null), 3000);
-    } else {
-      const key = selectedProfile === "production:hero" ? "IRIS_HERO" : "IRIS_NAV";
-      const res = await exportToConfig(key, stored);
-      setExportStatus(res.ok ? `✓ Written to ${key}` : `✗ ${res.error}`);
-      if (res.ok) setTimeout(() => setExportStatus(null), 3000);
-    }
+    const key = selectedProfile === "production:hero" ? "IRIS_HERO"
+      : selectedProfile === "production:nav" ? "IRIS_NAV" : "IRIS_LAB";
+    const res = await exportToConfig(key, stored);
+    setExportStatus(res.ok ? `✓ Written to ${key}` : `✗ ${res.error}`);
+    if (res.ok) setTimeout(() => setExportStatus(null), 3000);
   }
 
-  // Seed the workspace from production:hero on first mount only.
+  // Seed the workspace from IRIS_LAB on first mount.
   useEffect(() => {
-    readFromConfig("IRIS_HERO").then(v => {
-      if (!v) return;
-      setConfig(buildDerivedConfig(v, R_HOUSING));
-      if (v.bladeColor) setBladeGray(parseInt(v.bladeColor.slice(1, 3), 16));
-      if (v.strokeColor) setStrokeGray(parseInt(v.strokeColor.slice(1, 3), 16));
-      if (v.strokeWidth !== undefined) setStrokeWidth(v.strokeWidth);
-      setOpenFStop(v.openFStop);
-      setDefaultFStop(v.defaultFStop);
-      setInitAnimation(!!v.initAnimation);
-      setClosedFStop(v.closedFStop ?? IRIS_DEFAULTS.closedFStop);
-      setChaseTauMs(v.chaseTauMs ?? IRIS_DEFAULTS.chaseTauMs);
-      setEaseOutMs(v.easeOutMs ?? IRIS_DEFAULTS.easeOutMs);
-      setCatchupMs(v.catchupMs ?? IRIS_DEFAULTS.catchupMs);
-      setHotzoneScale(v.hotzoneScale ?? IRIS_DEFAULTS.hotzoneScale);
-      setPreviewSize(v.size);
-    });
+    readFromConfig("IRIS_LAB").then(v => { if (v) applyConfig(v); });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Derive geometry-constrained parameters via the shared helper.
@@ -506,15 +486,16 @@ export default function ApertureV2Lab() {
   const [showMechanics, setShowMechanics] = useState(false);
   const [showFStopRing, setShowFStopRing] = useState(false);
   const [fStopRingOuter, setFStopRingOuter] = useState(true);
-  const [followMouse, setFollowMouse] = useState(false);
-  const [initAnimation, setInitAnimation] = useState(false);
+  const [interactive, setInteractive] = useState(false);
+  const [initAnimation, setInitAnimation] = useState<IrisInitAnimation | undefined>(undefined);
   const [openFStop, setOpenFStop] = useState(1.4);
   const [defaultFStop, setDefaultFStop] = useState(5.6);
   const [closedFStop, setClosedFStop] = useState(22);
   const [chaseTauMs, setChaseTauMs] = useState(60);
   const [easeOutMs, setEaseOutMs] = useState(700);
   const [catchupMs, setCatchupMs] = useState(300);
-  const [hotzoneScale, setHotzoneScale] = useState(1.5);
+  const [hotzoneScaleH, setHotzoneScaleH] = useState(1.5);
+  const [hotzoneScaleV, setHotzoneScaleV] = useState(1.0);
   const [strokeWidth, setStrokeWidth] = useState(0.5);
   const [bladeGray, setBladeGray] = useState(24);   // 0=black … 255=white; default ≈ zinc-900
   const [strokeGray, setStrokeGray] = useState(63); // default ≈ zinc-700
@@ -526,6 +507,8 @@ export default function ApertureV2Lab() {
 
   // Live preview config — rebuilt from all current control state so the preview
   // stays in sync with every slider/input change without requiring a Load.
+  // The small right-panel preview renders as non-interactive (interactive: false)
+  // to avoid mouse-follow in a thumbnail; the full-size DL stage handles that.
   const previewConfig = useMemo((): IrisConfig => ({
     N: config.N,
     pinDistance: config.pinDistance,
@@ -539,16 +522,17 @@ export default function ApertureV2Lab() {
     strokeColor: grayHex(strokeGray),
     strokeWidth,
     interactive: false,
-    initAnimation: initAnimation ? DEFAULT_INIT_ANIMATION : undefined,
+    initAnimation,
     closedFStop,
     chaseTauMs,
     easeOutMs,
     catchupMs,
-    hotzoneScale,
+    hotzoneScaleH,
+    hotzoneScaleV,
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }), [config.N, config.pinDistance, config.slotOffset, config.bladeLength, config.bladeWidth,
-      openFStop, defaultFStop, closedFStop, chaseTauMs, easeOutMs, catchupMs, hotzoneScale,
-      previewSize, bladeGray, strokeGray, strokeWidth, initAnimation]);
+      openFStop, defaultFStop, closedFStop, chaseTauMs, easeOutMs, catchupMs,
+      hotzoneScaleH, hotzoneScaleV, previewSize, bladeGray, strokeGray, strokeWidth, initAnimation]);
 
   // Animation: theta oscillates between range.min and range.max
   const rafRef = useRef<number | undefined>(undefined);
@@ -678,7 +662,7 @@ export default function ApertureV2Lab() {
   }, []);
 
   useEffect(() => {
-    if (!followMouse) {
+    if (!interactive) {
       wasInHotzoneRef.current = false;
       if (followChaseRafRef.current) { cancelAnimationFrame(followChaseRafRef.current); followChaseRafRef.current = null; }
       if (followLeaveRafRef.current) { cancelAnimationFrame(followLeaveRafRef.current); followLeaveRafRef.current = null; }
@@ -718,10 +702,10 @@ export default function ApertureV2Lab() {
 
       const cx = rect.left + rect.width  / 2;
       const cy = rect.top  + rect.height / 2;
-      const hotLeft   = cx - D * hotzoneScale;
-      const hotRight  = cx + D * hotzoneScale;
-      const hotTop    = cy - D;
-      const hotBottom = cy + D;
+      const hotLeft   = cx - D * hotzoneScaleH;
+      const hotRight  = cx + D * hotzoneScaleH;
+      const hotTop    = cy - D * hotzoneScaleV;
+      const hotBottom = cy + D * hotzoneScaleV;
 
       const inHot =
         e.clientX >= hotLeft && e.clientX <= hotRight &&
@@ -785,7 +769,7 @@ export default function ApertureV2Lab() {
       wasInHotzoneRef.current = false;
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [followMouse, openFStop, closedFStop, chaseTauMs, easeOutMs, catchupMs, hotzoneScale,
+  }, [interactive, openFStop, closedFStop, chaseTauMs, easeOutMs, catchupMs, hotzoneScaleH, hotzoneScaleV,
       range.min, range.max, inradiusOpen, autoTheta, derivedConfig.bladeWidth,
       derivedConfig.N, derivedConfig.pivotRadius, derivedConfig.pinDistance,
       derivedConfig.slotOffset, derivedConfig.bladeLength, derivedConfig.bladeCurvature]);
@@ -897,11 +881,8 @@ export default function ApertureV2Lab() {
               <div className="flex gap-1.5">
                 <button
                   onClick={handleLoad}
-                  disabled={selectedProfile === "lab" && labConfig === null}
                   className="flex-1 rounded py-1.5 text-xs font-medium transition-colors"
-                  style={selectedProfile === "lab" && labConfig === null
-                    ? { background: "#fff", color: "#a1a1aa", border: "1px solid #e4e4e7", cursor: "not-allowed" }
-                    : { background: "#fff", color: "#3f3f46", border: "1px solid #d4d4d8" }}
+                  style={{ background: "#fff", color: "#3f3f46", border: "1px solid #d4d4d8" }}
                 >
                   Load
                 </button>
@@ -934,17 +915,17 @@ export default function ApertureV2Lab() {
               <p className="text-sm font-semibold text-zinc-800 uppercase tracking-wide pt-3">Animation</p>
               <button
                 onClick={() => {
-                  if (followMouse) return; // disabled in follow-mouse mode
+                  if (interactive) return; // disabled in follow-mouse mode
                   setIsPlaying((p) => !p);
                 }}
                 className="w-full rounded py-2 text-sm font-medium transition-colors"
-                style={followMouse
+                style={interactive
                   ? { background: "#fff", color: "#a1a1aa", border: "1px solid #e4e4e7", cursor: "not-allowed" }
                   : isPlaying
                     ? { background: "#18181b", color: "#fff", border: "1px solid #18181b" }
                     : { background: "#fff", color: "#3f3f46", border: "1px solid #d4d4d8" }}
               >
-                {isPlaying && !followMouse ? "⏸ Pause" : "▶ Play"}
+                {isPlaying && !interactive ? "⏸ Pause" : "▶ Play"}
               </button>
               <div className="space-y-1">
                 <div className="flex justify-between text-xs text-zinc-500">
@@ -956,17 +937,17 @@ export default function ApertureV2Lab() {
                   className="w-full" style={{ accentColor: "#18181b" }}
                 />
               </div>
-              {/* Follow Mouse toggle */}
+              {/* Interactive (follow mouse) toggle */}
               <label
                 className="flex items-center gap-2 text-sm cursor-pointer select-none"
                 style={{ color: "#3f3f46" }}
               >
                 <input
                   type="checkbox"
-                  checked={followMouse}
+                  checked={interactive}
                   onChange={(e) => {
                     const on = e.target.checked;
-                    setFollowMouse(on);
+                    setInteractive(on);
                     if (on) {
                       setIsPlaying(false);
                       startRef.current = undefined;
@@ -974,25 +955,59 @@ export default function ApertureV2Lab() {
                   }}
                   style={{ accentColor: "#18181b", width: 14, height: 14 }}
                 />
-                Follow Mouse
+                Interactive (follow mouse)
               </label>
-              {/* Init Animation toggle */}
+              {/* Init Animation toggle + timing sliders */}
               <label
                 className="flex items-center gap-2 text-sm cursor-pointer select-none"
                 style={{ color: "#3f3f46" }}
               >
                 <input
                   type="checkbox"
-                  checked={initAnimation}
+                  checked={initAnimation !== undefined}
                   onChange={(e) => {
                     const checked = e.target.checked;
-                    setInitAnimation(checked);
+                    setInitAnimation(checked ? { sweepMs: 800, totalMs: 1000 } : undefined);
                     if (checked) setPreviewAnimKey(k => k + 1);
                   }}
                   style={{ accentColor: "#18181b", width: 14, height: 14 }}
                 />
                 Init Animation
               </label>
+              {initAnimation !== undefined && (
+                <>
+                  <div className="space-y-1">
+                    <div className="flex justify-between text-xs">
+                      <span className="text-zinc-500">Sweep</span>
+                      <span className="text-zinc-700 font-mono">{initAnimation.sweepMs} ms</span>
+                    </div>
+                    <input type="range" min={200} max={2000} step={50} value={initAnimation.sweepMs}
+                      onChange={(e) => {
+                        const sweepMs = parseFloat(e.target.value);
+                        setInitAnimation(prev => prev ? { ...prev, sweepMs } : prev);
+                        setPreviewAnimKey(k => k + 1);
+                      }}
+                      className="w-full" style={{ accentColor: "#18181b" }}
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <div className="flex justify-between text-xs">
+                      <span className="text-zinc-500">Total</span>
+                      <span className="text-zinc-700 font-mono">{initAnimation.totalMs} ms</span>
+                    </div>
+                    <input type="range"
+                      min={initAnimation.sweepMs + 100} max={3000} step={50}
+                      value={initAnimation.totalMs}
+                      onChange={(e) => {
+                        const totalMs = parseFloat(e.target.value);
+                        setInitAnimation(prev => prev ? { ...prev, totalMs } : prev);
+                        setPreviewAnimKey(k => k + 1);
+                      }}
+                      className="w-full" style={{ accentColor: "#18181b" }}
+                    />
+                  </div>
+                </>
+              )}
               {/* Open F-Stop — the f-stop at the fully-open (maximum aperture) position. */}
               <div className="space-y-1">
                 <div className="flex justify-between text-xs text-zinc-500">
@@ -1091,14 +1106,25 @@ export default function ApertureV2Lab() {
                   className="w-full" style={{ accentColor: "#18181b" }}
                 />
               </div>
-              {/* Hotzone Scale — multiplier on iris diameter for follow-mouse hotzone. */}
+              {/* Hotzone Scale H — horizontal multiplier on iris diameter. */}
               <div className="space-y-1">
                 <div className="flex justify-between text-xs">
-                  <span className="text-zinc-500">Hotzone Scale</span>
-                  <span className="text-zinc-700 font-mono">{hotzoneScale.toFixed(1)}×</span>
+                  <span className="text-zinc-500">Hotzone H</span>
+                  <span className="text-zinc-700 font-mono">{hotzoneScaleH.toFixed(1)}×</span>
                 </div>
-                <input type="range" min={0.5} max={3} step={0.1} value={hotzoneScale}
-                  onChange={(e) => setHotzoneScale(parseFloat(e.target.value))}
+                <input type="range" min={0.5} max={3} step={0.1} value={hotzoneScaleH}
+                  onChange={(e) => setHotzoneScaleH(parseFloat(e.target.value))}
+                  className="w-full" style={{ accentColor: "#18181b" }}
+                />
+              </div>
+              {/* Hotzone Scale V — vertical multiplier on iris diameter. */}
+              <div className="space-y-1">
+                <div className="flex justify-between text-xs">
+                  <span className="text-zinc-500">Hotzone V</span>
+                  <span className="text-zinc-700 font-mono">{hotzoneScaleV.toFixed(1)}×</span>
+                </div>
+                <input type="range" min={0.5} max={3} step={0.1} value={hotzoneScaleV}
+                  onChange={(e) => setHotzoneScaleV(parseFloat(e.target.value))}
                   className="w-full" style={{ accentColor: "#18181b" }}
                 />
               </div>

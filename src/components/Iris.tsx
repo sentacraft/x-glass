@@ -3,12 +3,16 @@
 // Aperture mark component — renders the X-Glass logo using the physical
 // iris kinematic model (iris-kinematics.ts).
 //
-// Accepts a single IrisConfig (from brand.ts) covering kinematic params,
-// render size, appearance, and interactive behaviour. Two named configs are
-// exported from brand.ts: IRIS_HERO (homepage, OG) and IRIS_NAV (navbar).
+// Accepts a single IrisConfig (from iris-config.ts) covering kinematic params,
+// render size, appearance, and interactive behaviour. Three named configs are
+// exported from iris-config.ts: IRIS_HERO, IRIS_NAV, IRIS_LAB.
 //
 // Theming: bladeColor/strokeColor in the config override the Tailwind
 // fill-*/stroke-* utilities used for automatic light/dark switching.
+//
+// Hotzone: when interactive is true, a transparent wrapper div sized to
+// size*hotzoneScaleH × size*hotzoneScaleV captures mouse events, giving the
+// iris a wider/taller interactive area than its rendered footprint.
 
 import { useState, useRef, useEffect, useMemo, forwardRef, useImperativeHandle } from "react";
 import {
@@ -21,7 +25,7 @@ import {
   findThetaForInradius,
   findThetaForFStop,
 } from "@/lib/iris-kinematics";
-import { IRIS_HERO, R_HOUSING, withIrisDefaults, type IrisConfig, type FilledIrisConfig } from "@/config/iris-config";
+import { IRIS_HERO, R_HOUSING, type IrisConfig } from "@/config/iris-config";
 
 
 // ── IrisHandle ────────────────────────────────────────────────────────────────
@@ -60,27 +64,25 @@ const Iris = forwardRef<IrisHandle, IrisProps>(function Iris({
   uid = "logo",
   className,
 }: IrisProps, ref) {
-  // Merge with IRIS_DEFAULTS — returns FilledIrisConfig, guaranteeing all
-  // IRIS_DEFAULTS fields are non-undefined so destructuring needs no fallbacks.
-  const config = useMemo<FilledIrisConfig>(() => withIrisDefaults(rawConfig), [rawConfig]);
-
   const {
     size: configSize,
-    interactive,
+    interactive = false,
     initAnimation,
-    closedFStop,
-    chaseTauMs,
-    easeOutMs,
-    catchupMs,
+    closedFStop = 22,
+    hotzoneScaleH = 1,
+    hotzoneScaleV = 1,
+    chaseTauMs = 60,
+    easeOutMs = 700,
+    catchupMs = 300,
     bladeColor,
     strokeColor,
     strokeWidth,
-  } = config;
+  } = rawConfig;
   const size = sizeProp ?? configSize;
 
   // Kinematic derivation — must come before DEFAULT_THETA so the f-stop → theta
   // conversion is available when initialising state.
-  const dc = useMemo(() => buildDerivedConfig(config, R_HOUSING), [config]);
+  const dc = useMemo(() => buildDerivedConfig(rawConfig, R_HOUSING), [rawConfig]);
   const thetaOpen = useMemo(() => computeThetaOpen(dc, R_HOUSING), [dc]);
   const thetaMax  = useMemo(() => thetaRange(dc).max, [dc]);
 
@@ -89,8 +91,8 @@ const Iris = forwardRef<IrisHandle, IrisProps>(function Iris({
 
   // Theta at defaultFStop — the resting position for state initialisation and leave ease-out.
   const DEFAULT_THETA = useMemo(() =>
-    findThetaForFStop(config.defaultFStop, dc, { min: thetaOpen, max: thetaMax }, config.openFStop),
-  [config.defaultFStop, config.openFStop, dc, thetaOpen, thetaMax]);
+    findThetaForFStop(rawConfig.defaultFStop, dc, { min: thetaOpen, max: thetaMax }, rawConfig.openFStop),
+  [rawConfig.defaultFStop, rawConfig.openFStop, dc, thetaOpen, thetaMax]);
 
   // State is theta directly — no normalised-t layer.
   const [theta, setTheta] = useState<number>(DEFAULT_THETA);
@@ -188,7 +190,7 @@ const Iris = forwardRef<IrisHandle, IrisProps>(function Iris({
     driveToFStop(fStop: number) {
       if (animRef.current)     { cancelAnimationFrame(animRef.current);     animRef.current = null; }
       if (initAnimRef.current) { cancelAnimationFrame(initAnimRef.current); initAnimRef.current = null; }
-      const t = findThetaForFStop(fStop, dc, { min: thetaOpen, max: thetaMax }, config.openFStop);
+      const t = findThetaForFStop(fStop, dc, { min: thetaOpen, max: thetaMax }, rawConfig.openFStop);
       targetThetaRef.current = Math.max(thetaOpen, Math.min(thetaMax, t));
       startChase();
     },
@@ -210,7 +212,7 @@ const Iris = forwardRef<IrisHandle, IrisProps>(function Iris({
       animRef.current = requestAnimationFrame(tick);
     },
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }), [dc, thetaOpen, thetaMax, config.openFStop, DEFAULT_THETA, easeOutMs]);
+  }), [dc, thetaOpen, thetaMax, rawConfig.openFStop, DEFAULT_THETA, easeOutMs]);
 
   const { N } = dc;
   const stepDeg = 360 / N;
@@ -223,10 +225,13 @@ const Iris = forwardRef<IrisHandle, IrisProps>(function Iris({
   const b0Transform = `translate(${b0.pivotPos.x.toFixed(3)},${b0.pivotPos.y.toFixed(3)}) rotate(${b0AngleDeg.toFixed(3)})`;
 
   // ── Mouse interaction ──────────────────────────────────────────────────────
-  // Architecture mirrors the Design Lab iris:
+  // Architecture:
   //   mousemove  → writes targetThetaRef (raw desired theta, with entry-offset applied)
   //   chase RAF  → each frame exponentially approaches targetThetaRef (τ = chaseTauMs)
   //   leave RAF  → cubic ease-out back to DEFAULT_THETA over easeOutMs
+  //
+  // Events fire on the wrapper div (sized by hotzoneScaleH/V), not the SVG,
+  // so the interactive area can extend beyond the rendered iris footprint.
 
   function startChase() {
     if (chaseRef.current) return;
@@ -260,17 +265,17 @@ const Iris = forwardRef<IrisHandle, IrisProps>(function Iris({
     if (chaseRef.current) { cancelAnimationFrame(chaseRef.current); chaseRef.current = null; }
   }
 
-  // Map raw horizontal position to theta using diameter-linear scaling.
-  // Left = most open (thetaOpen), right = f/22. Log transform in f-stop space.
+  // Map raw horizontal position within the wrapper rect to theta using
+  // diameter-linear aperture scaling. Left = most open, right = f/closedFStop.
   function posToDiameterTheta(clientX: number, rect: DOMRect): number {
     const rawPos = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
     if (inradiusOpen <= 0) return thetaOpen + rawPos * (thetaMax - thetaOpen); // fallback: linear
-    const r22     = (config.openFStop * inradiusOpen) / closedFStop;
+    const r22     = (rawConfig.openFStop * inradiusOpen) / closedFStop;
     const targetR = inradiusOpen + rawPos * (r22 - inradiusOpen);
     return findThetaForInradius(targetR, dc, { min: thetaOpen, max: thetaMax });
   }
 
-  function handleMouseEnter(e: React.MouseEvent<SVGSVGElement>) {
+  function handleMouseEnter(e: React.MouseEvent<HTMLDivElement>) {
     if (!interactive) return;
     if (animRef.current)     { cancelAnimationFrame(animRef.current);     animRef.current = null; }
     if (initAnimRef.current) { cancelAnimationFrame(initAnimRef.current); initAnimRef.current = null; }
@@ -280,7 +285,7 @@ const Iris = forwardRef<IrisHandle, IrisProps>(function Iris({
     startChase();
   }
 
-  function handleMouseMove(e: React.MouseEvent<SVGSVGElement>) {
+  function handleMouseMove(e: React.MouseEvent<HTMLDivElement>) {
     if (!interactive) return;
     const rect   = e.currentTarget.getBoundingClientRect();
     const target = posToDiameterTheta(e.clientX, rect);
@@ -309,79 +314,94 @@ const Iris = forwardRef<IrisHandle, IrisProps>(function Iris({
   }
 
   // ── Render ─────────────────────────────────────────────────────────────────
+  //
+  // When interactive, a transparent wrapper div sized to the hotzone captures
+  // mouse events. The SVG is centered within it. When not interactive, the
+  // wrapper collapses to the SVG size (no extra hit area).
+
+  const wrapperW = interactive ? size * hotzoneScaleH : size;
+  const wrapperH = interactive ? size * hotzoneScaleV : size;
 
   return (
-    <svg
-      viewBox="-112 -112 224 224"
-      width={size}
-      height={size}
+    <div
       className={className}
-      style={{ display: "block", flexShrink: 0 }}
-      aria-hidden="true"
+      style={{
+        width: wrapperW,
+        height: wrapperH,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        flexShrink: 0,
+      }}
       onMouseEnter={handleMouseEnter}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
     >
-      <defs>
-        <clipPath id={`${uid}-clip`}>
-          {/* Clip radius shrunk to R_HOUSING - bladeWidth to hide blade roots without
-              relying on a background-colour cover plate. Works on any background. */}
-          <circle r={R_HOUSING - dc.bladeWidth} />
-        </clipPath>
-        {/* Stroke masks — cyclic forward-half masking (same as iris). */}
-        {Array.from({ length: N }, (_, i) => (
-          <mask id={`${uid}-sm-${i}`} key={i}>
-            <rect x="-120" y="-120" width="240" height="240" fill="white" />
-            {Array.from({ length: maskCount }, (_, k) => {
-              const j = (i + 1 + k) % N;
-              return (
-                <g key={j} transform={`rotate(${(stepDeg * j).toFixed(3)})`}>
-                  <g transform={b0Transform}>
-                    <path d={shape} fill="black" />
+      <svg
+        viewBox="-112 -112 224 224"
+        width={size}
+        height={size}
+        style={{ display: "block", flexShrink: 0, pointerEvents: "none" }}
+        aria-hidden="true"
+      >
+        <defs>
+          <clipPath id={`${uid}-clip`}>
+            {/* Clip radius shrunk to R_HOUSING - bladeWidth to hide blade roots without
+                relying on a background-colour cover plate. Works on any background. */}
+            <circle r={R_HOUSING - dc.bladeWidth} />
+          </clipPath>
+          {/* Stroke masks — cyclic forward-half masking (same as iris). */}
+          {Array.from({ length: N }, (_, i) => (
+            <mask id={`${uid}-sm-${i}`} key={i}>
+              <rect x="-120" y="-120" width="240" height="240" fill="white" />
+              {Array.from({ length: maskCount }, (_, k) => {
+                const j = (i + 1 + k) % N;
+                return (
+                  <g key={j} transform={`rotate(${(stepDeg * j).toFixed(3)})`}>
+                    <g transform={b0Transform}>
+                      <path d={shape} fill="black" />
+                    </g>
                   </g>
-                </g>
-              );
-            })}
-          </mask>
-        ))}
-      </defs>
+                );
+              })}
+            </mask>
+          ))}
+        </defs>
 
-      {/* Aperture blades — fill pass (flat, no masks) + stroke pass (cyclic). */}
-      <g clipPath={`url(#${uid}-clip)`}>
-        {/* Fill pass */}
-        {Array.from({ length: N }, (_, i) => (
-          <g key={i} transform={`rotate(${(stepDeg * i).toFixed(3)})`}>
-            <g transform={b0Transform}>
-              <path
-                d={shape}
-                className={bladeColor ? undefined : "fill-zinc-900 dark:fill-zinc-100"}
-                fill={bladeColor}
-                stroke="none"
-              />
-            </g>
-          </g>
-        ))}
-        {/* Stroke pass — cyclic masks produce the blade-gap lines */}
-        {Array.from({ length: N }, (_, i) => (
-          <g key={i} mask={`url(#${uid}-sm-${i})`}>
-            <g transform={`rotate(${(stepDeg * i).toFixed(3)})`}>
+        {/* Aperture blades — fill pass (flat, no masks) + stroke pass (cyclic). */}
+        <g clipPath={`url(#${uid}-clip)`}>
+          {/* Fill pass */}
+          {Array.from({ length: N }, (_, i) => (
+            <g key={i} transform={`rotate(${(stepDeg * i).toFixed(3)})`}>
               <g transform={b0Transform}>
                 <path
                   d={shape}
-                  fill="none"
-                  className={strokeColor ? undefined : "stroke-stone-100 dark:stroke-zinc-950"}
-                  stroke={strokeColor}
-                  strokeWidth={strokeWidth}
+                  className={bladeColor ? undefined : "fill-zinc-900 dark:fill-zinc-100"}
+                  fill={bladeColor}
+                  stroke="none"
                 />
               </g>
             </g>
-          </g>
-        ))}
-      </g>
-
-
-
-    </svg>
+          ))}
+          {/* Stroke pass — cyclic masks produce the blade-gap lines */}
+          {Array.from({ length: N }, (_, i) => (
+            <g key={i} mask={`url(#${uid}-sm-${i})`}>
+              <g transform={`rotate(${(stepDeg * i).toFixed(3)})`}>
+                <g transform={b0Transform}>
+                  <path
+                    d={shape}
+                    fill="none"
+                    className={strokeColor ? undefined : "stroke-stone-100 dark:stroke-zinc-950"}
+                    stroke={strokeColor}
+                    strokeWidth={strokeWidth}
+                  />
+                </g>
+              </g>
+            </g>
+          ))}
+        </g>
+      </svg>
+    </div>
   );
 });
 
