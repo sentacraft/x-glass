@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { getTranslations } from "next-intl/server";
 import { parseLensIds } from "@/lib/lens";
 import CompareTable from "@/components/CompareTable";
 import ComparePageHeader from "@/components/ComparePageHeader";
@@ -30,8 +29,6 @@ export default async function ComparePage({
   searchParams: Promise<{ ids?: string; from?: string; lensId?: string }>;
 }) {
   const { ids, from, lensId } = await searchParams;
-  const t = await getTranslations("Compare");
-
   const lenses = parseLensIds(ids);
 
   // Determine back destination: lens detail page if navigated from one, else lens list
