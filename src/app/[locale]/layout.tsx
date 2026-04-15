@@ -28,9 +28,14 @@ export const metadata: Metadata = {
     template: "%s | X-Glass",
   },
   description: SITE.description,
-  // Explicit apple-touch-icon with white background baked in.
-  // The manifest icons use transparent backgrounds which iOS renders as black.
-  icons: { apple: "/apple-touch-icon.png" },
+  // Explicit icon declarations — setting `icons` in metadata disables Next.js
+  // file-convention auto-discovery, so both `icon` and `apple` must be listed.
+  icons: {
+    icon: [
+      { url: "/icon.png", sizes: "32x32", type: "image/png" },
+    ],
+    apple: "/apple-touch-icon.png",
+  },
   appleWebApp: {
     capable: true,
     title: SITE.shortName,
