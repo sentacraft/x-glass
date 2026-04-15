@@ -99,7 +99,7 @@ export default function ApertureStrip({
   const defaultIdx = nearestNumericIndex(defaultFStop);
 
   const [visible,  setVisible]  = useState(false);
-  const [offset,   setOffset]   = useState(0);
+  const [offset,   setOffset]   = useState(() => defaultIdx * SPACING); // start at A
   const [snapping, setSnapping] = useState(false);
 
   const dragRef              = useRef<{ startX: number; startOffset: number } | null>(null);
@@ -118,12 +118,18 @@ export default function ApertureStrip({
   }, []);
 
   // Sync offset from external fStop — only when no animation or interaction.
+  // When fStop ≈ defaultFStop, map to the A mark (index 0) rather than the
+  // numeric equivalent, since A is the canonical resting position.
   useEffect(() => {
     if (fStop === undefined || userHasInteractedRef.current || dragRef.current || snappingRef.current) return;
+    if (Math.abs(fStop - defaultFStop) < 0.05) {
+      setOffset(maxOffset);
+      return;
+    }
     const idx    = fStopToIndex(fStop);
     const target = Math.max(minOffset, Math.min(maxOffset, (defaultIdx - idx) * SPACING));
     setOffset(target);
-  }, [fStop, defaultIdx, minOffset, maxOffset]);
+  }, [fStop, defaultFStop, defaultIdx, minOffset, maxOffset]);
 
   // Resolve the f-stop value for a given mark index.
   // A (idx 0) maps to defaultFStop; all others map to their numeric value.
