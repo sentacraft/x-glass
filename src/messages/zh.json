@@ -330,5 +330,28 @@
     "close": "关闭",
     "success": "感谢反馈！我们已收到，稍后会查看。",
     "error": "提交出错了，请稍后再试。"
+  },
+  "Install": {
+    "pageTitle": "安装应用",
+    "headline": "将 X-Glass 添加到主屏幕",
+    "subheadline": "一键直达，全屏体验，支持离线使用。",
+
+    "installedTitle": "已完成安装",
+    "installedBody": "X-Glass 已安装在此设备上。",
+    "openApp": "打开 X-Glass",
+
+    "promptTitle": "安装 X-Glass",
+    "promptBody": "添加到主屏幕或应用启动台，随时一键打开。",
+    "installButton": "安装",
+
+    "iosTitle": "添加到主屏幕",
+    "iosSubtitle": "在 Safari 中按以下步骤操作：",
+    "iosStep1": "点击 Safari 底部的「分享」按钮（方框加箭头图标）",
+    "iosStep2": "向下滑动，点击「添加到主屏幕」",
+    "iosStep3": "点击右上角的「添加」",
+    "iosNotSafari": "请在 Safari 中打开此页面以完成安装。",
+
+    "genericTitle": "添加到主屏幕",
+    "genericBody": "打开浏览器菜单，寻找「添加到主屏幕」或「安装应用」选项。"
   }
 }
