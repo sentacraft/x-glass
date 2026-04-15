@@ -1,6 +1,4 @@
-"use client";
-
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 import { Flag, Mail } from "lucide-react";
 import Iris from "@/components/Iris";
 import FeedbackTrigger from "@/components/FeedbackTrigger";
@@ -23,8 +21,8 @@ function Section({
   );
 }
 
-export default function AboutContent() {
-  const t = useTranslations("About");
+export default async function AboutContent() {
+  const t = await getTranslations("About");
 
   const faqItems = [
     { q: t("faq1Q"), a: t("faq1A") },
