@@ -28,6 +28,16 @@ export const metadata: Metadata = {
     template: "%s | X-Glass",
   },
   description: SITE.description,
+  // Explicit icon declarations — setting `icons` in metadata disables Next.js
+  // file-convention auto-discovery, so both `icon` and `apple` must be listed.
+  // Safari requires an explicit favicon.ico link tag; it won't auto-discover it.
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "32x32", type: "image/x-icon" },
+      { url: "/icon.png", sizes: "32x32", type: "image/png" },
+    ],
+    apple: "/apple-touch-icon.png",
+  },
   appleWebApp: {
     capable: true,
     title: SITE.shortName,
@@ -65,8 +75,10 @@ export default async function LocaleLayout({
             <ConsoleEgg />
             <Nav />
             <ScrollContainer>
-              {/* offset fixed nav so content starts below it */}
-              <div className="pt-[var(--nav-height)] h-full">
+              {/* Offset fixed nav at top; respect home indicator at bottom.
+                  safe-area-inset-bottom prevents content from sitting in the
+                  iOS gesture zone in standalone PWA mode (falls back to 0px). */}
+              <div className="pt-[var(--nav-height)] pb-[env(safe-area-inset-bottom,0px)] h-full">
                 {TESTHOOK_ALLOWED ? (
                   <TestHookProvider>
                     {children}

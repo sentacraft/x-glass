@@ -57,12 +57,19 @@ export default function Nav() {
     <header
       data-hidden={String(hidden || navLocked)}
       className={cn(
+        "wco-drag",
         "fixed top-0 inset-x-0 border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-black z-30",
         "transition-transform duration-300 ease-in-out",
         (hidden || navLocked) && "-translate-y-full sm:translate-y-0"
       )}
+      // Pad header down by the combined top insets:
+      // - safe-area-inset-top: iOS notch / Dynamic Island (standalone PWA)
+      // - titlebar-area-height: desktop WCO zone
+      // Both fall back to 0px outside their respective contexts.
+      style={{ paddingTop: "calc(env(safe-area-inset-top, 0px) + env(titlebar-area-height, 0px))" }}
     >
-      <nav className="max-w-7xl mx-auto px-4 sm:px-6 h-[var(--nav-height)] flex items-center justify-between">
+      {/* wco-no-drag: nav links must remain clickable inside the drag region */}
+      <nav className="wco-no-drag max-w-7xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
         <Link
           href="/"
           className="flex items-center font-bold text-zinc-900 dark:text-zinc-50 text-lg tracking-tight"

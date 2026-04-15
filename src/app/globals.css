@@ -50,7 +50,12 @@
 }
 
 :root {
-  --nav-height: 3.5rem; /* 56px / h-14 — update here to resize nav globally */
+  /* nav-height combines three possible top insets:
+     - safe-area-inset-top: iOS notch / Dynamic Island / status bar (standalone PWA)
+     - titlebar-area-height: desktop WCO title bar
+     Both env() values fall back to 0px outside their respective contexts,
+     so this expression is safe in all other environments. */
+  --nav-height: calc(3.5rem + env(safe-area-inset-top, 0px) + env(titlebar-area-height, 0px));
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
@@ -118,6 +123,12 @@
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
 }
+
+/* Window Controls Overlay drag regions.
+   The header background extends into the WCO title bar area; the strip
+   above the nav links acts as a drag handle for moving the window. */
+.wco-drag   { -webkit-app-region: drag;    app-region: drag;    }
+.wco-no-drag { -webkit-app-region: no-drag; app-region: no-drag; }
 
 @layer base {
   * {

@@ -330,5 +330,28 @@
     "close": "Close",
     "success": "Thanks — your feedback was received. We'll take a look shortly.",
     "error": "Something went wrong. Please try again in a moment."
+  },
+  "Install": {
+    "pageTitle": "Get the App",
+    "headline": "Add X-Glass to your home screen",
+    "subheadline": "Faster access, full-screen experience, works offline.",
+
+    "installedTitle": "You're all set",
+    "installedBody": "X-Glass is already installed on this device.",
+    "openApp": "Open X-Glass",
+
+    "promptTitle": "Install X-Glass",
+    "promptBody": "Add it to your home screen or app launcher for one-tap access.",
+    "installButton": "Install",
+
+    "iosTitle": "Add to Home Screen",
+    "iosSubtitle": "Follow these steps in Safari:",
+    "iosStep1": "Tap the Share button (the square with an arrow) at the bottom of Safari",
+    "iosStep2": "Scroll down and tap \"Add to Home Screen\"",
+    "iosStep3": "Tap \"Add\" in the top-right corner",
+    "iosNotSafari": "For the full standalone experience, open this page in Safari. You can still add it from your current browser.",
+
+    "genericTitle": "Add to Home Screen",
+    "genericBody": "Open your browser menu and look for \"Add to Home Screen\" or \"Install app\"."
   }
 }

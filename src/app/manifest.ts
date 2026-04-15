@@ -11,8 +11,36 @@ export default function manifest(): MetadataRoute.Manifest {
     start_url: "/",
     scope: "/",
     display: SITE.display,
+    // Prefer WCO on capable desktop browsers so the Nav background extends
+    // into the title bar area. Falls back to standalone on unsupported platforms.
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- display_override not yet in Next.js MetadataRoute.Manifest typings
+    display_override: ["window-controls-overlay", "standalone"] as any,
     background_color: SITE.backgroundColor,
-    theme_color: SITE.themeColor.dark,
+    // Manifest theme_color is a static fallback used in install dialogs and the
+    // splash screen chrome. Use light so the install prompt looks natural on
+    // light-mode systems. In-app adaptive theming is handled by the <meta
+    // name="theme-color" media="..."> tags in the locale layout viewport export.
+    theme_color: SITE.themeColor.light,
+    // Shortcuts appear on long-press of the home screen icon (Android) and
+    // right-click of the taskbar icon (desktop Chrome/Edge).
+    // URLs use un-prefixed paths — the i18n middleware redirects to the
+    // correct locale automatically.
+    shortcuts: [
+      {
+        name: "Browse Lenses",
+        short_name: "Browse",
+        description: "Browse and filter all X-mount lenses",
+        url: "/lenses",
+        icons: [{ src: "/icons/icon-192.png", sizes: "192x192" }],
+      },
+      {
+        name: "Compare Lenses",
+        short_name: "Compare",
+        description: "Compare lenses side by side",
+        url: "/lenses/compare",
+        icons: [{ src: "/icons/icon-192.png", sizes: "192x192" }],
+      },
+    ],
     screenshots: [
       {
         src: "/screenshots/screenshot-mobile.png",
@@ -31,14 +59,30 @@ export default function manifest(): MetadataRoute.Manifest {
     ],
     icons: [
       {
+        // White-background variant — used by Chrome on iOS for "Add to Home
+        // Screen" shortcuts, which render transparent icons on a gray fill.
+        src: "/icons/icon-192-white.png",
+        sizes: "192x192",
+        type: "image/png",
+        purpose: "any",
+      },
+      {
         src: "/icons/icon-192.png",
         sizes: "192x192",
         type: "image/png",
         purpose: "any",
       },
       {
-        src: "/icons/icon-512.png",
+        src: "/icons/icon-512-white.png",
         sizes: "512x512",
+        type: "image/png",
+        purpose: "any",
+      },
+      {
+        // 1024px for Retina macOS Dock — Chrome PWA picks the largest "any"
+        // icon, and @2x displays need 1024px physical pixels for crisp rendering.
+        src: "/icons/icon-1024-white.png",
+        sizes: "1024x1024",
         type: "image/png",
         purpose: "any",
       },
