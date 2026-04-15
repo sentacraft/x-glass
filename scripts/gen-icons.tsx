@@ -1,11 +1,12 @@
 #!/usr/bin/env tsx
 // Generates static icon PNGs from the live <Iris> component.
 // Uses react-dom/server to render the SVG, then resvg-js to convert to PNG.
-// Run after changing IRIS_NAV: npm run gen:icons
+// Run automatically before every build via the "build" npm script,
+// or manually: npm run gen:icons
 
 import { renderToStaticMarkup } from "react-dom/server";
 import { createElement } from "react";
-import { writeFileSync } from "node:fs";
+import { writeFileSync, mkdirSync } from "node:fs";
 import { resolve } from "node:path";
 import { Resvg } from "@resvg/resvg-js";
 
@@ -13,25 +14,45 @@ import Iris from "../src/components/Iris.tsx";
 import { IRIS_NAV, R_HOUSING } from "../src/config/iris-config.ts";
 import { buildDerivedConfig } from "../src/lib/iris-kinematics.ts";
 
-// Compute the clip radius so we can tighten the viewBox to fill the icon.
-// The Iris component clips blades to (R_HOUSING - bladeWidth); anything outside
-// that circle is transparent padding that makes the icon look undersized in browser tabs.
+// ── ViewBox computation ───────────────────────────────────────────────────────
+//
+// The Iris component renders with a default viewBox of
+//   `-R_HOUSING -R_HOUSING R_HOUSING*2 R_HOUSING*2`
+// but blades are clipped to a circle of radius (R_HOUSING - bladeWidth), so
+// the visible iris mark is smaller than the full viewBox. We replace the
+// viewBox to zoom in and add a controlled amount of padding around the mark.
+//
+// padding: fraction of the total canvas width reserved as breathing room on
+// each side. E.g. 0.06 means the iris occupies 88% of the canvas width.
+
 const dc = buildDerivedConfig(IRIS_NAV, R_HOUSING);
-const clipR = R_HOUSING - dc.bladeWidth; // e.g. 100 - 45 = 55
+const clipR = R_HOUSING - dc.bladeWidth; // visible iris radius
 
-// Padding as a fraction of the icon size (0.10 = ~10%, equivalent to ~3px on each
-// side of a 32px icon — matches the breathing room most major brand favicons use).
-const ICON_PADDING = 0.06;
-const padR = clipR / (1 - ICON_PADDING * 2); // expand viewBox so iris = (1 - 2*pad) of canvas
-const VIEWBOX = `${-padR} ${-padR} ${padR * 2} ${padR * 2}`;
+// Derived from R_HOUSING so it stays correct if R_HOUSING ever changes.
+const originalViewBox = `viewBox="${-R_HOUSING} ${-R_HOUSING} ${R_HOUSING * 2} ${R_HOUSING * 2}"`;
 
-function irisToSvg(size: number): string {
+const PADDING = {
+  // Standard icons: minimal breathing room, consistent with major brand favicons.
+  standard: 0.06,
+  // Maskable icons: larger safe zone so the mark stays within the Android
+  // adaptive icon's inner circle (40% of canvas on each axis).
+  maskable: 0.15,
+} as const;
+
+function paddedViewBox(padding: number): string {
+  const padR = clipR / (1 - padding * 2);
+  return `viewBox="${-padR} ${-padR} ${padR * 2} ${padR * 2}"`;
+}
+
+// ── Rendering helpers ─────────────────────────────────────────────────────────
+
+function irisToSvg(size: number, padding: number): string {
   const svg = renderToStaticMarkup(
     createElement(Iris, { config: IRIS_NAV, uid: "gen", size })
   );
   return svg
     .replace("<svg ", `<svg xmlns="http://www.w3.org/2000/svg" `)
-    .replace('viewBox="-112 -112 224 224"', `viewBox="${VIEWBOX}"`);
+    .replace(originalViewBox, paddedViewBox(padding));
 }
 
 function svgToPng(svg: string, size: number): Buffer {
@@ -39,14 +60,31 @@ function svgToPng(svg: string, size: number): Buffer {
   return Buffer.from(resvg.render().asPng());
 }
 
-const out = resolve("src/app");
+// ── Output definitions ────────────────────────────────────────────────────────
 
-// icon.png — browser tab favicon
-writeFileSync(`${out}/icon.png`, svgToPng(irisToSvg(32), 32));
-console.log("✓ src/app/icon.png (32×32)");
+const appDir  = resolve("src/app");
+const iconsDir = resolve("public/icons");
+mkdirSync(iconsDir, { recursive: true });
 
-// apple-icon.png — iOS home screen / Safari
-writeFileSync(`${out}/apple-icon.png`, svgToPng(irisToSvg(180), 180));
-console.log("✓ src/app/apple-icon.png (180×180)");
+const outputs: Array<{
+  path: string;
+  size: number;
+  padding: number;
+}> = [
+  // Next.js file-convention icons (browser tab + Apple touch)
+  { path: `${appDir}/icon.png`,        size: 32,  padding: PADDING.standard },
+  { path: `${appDir}/apple-icon.png`,  size: 180, padding: PADDING.standard },
+  // PWA manifest icons
+  { path: `${iconsDir}/icon-192.png`,           size: 192, padding: PADDING.standard },
+  { path: `${iconsDir}/icon-512.png`,           size: 512, padding: PADDING.standard },
+  { path: `${iconsDir}/icon-maskable-192.png`,  size: 192, padding: PADDING.maskable },
+  { path: `${iconsDir}/icon-maskable-512.png`,  size: 512, padding: PADDING.maskable },
+];
 
-console.log("\nDone. Delete icon.tsx and apple-icon.tsx if they exist.");
+for (const { path, size, padding } of outputs) {
+  writeFileSync(path, svgToPng(irisToSvg(size, padding), size));
+  const label = path.replace(resolve(".") + "/", "");
+  console.log(`✓ ${label} (${size}×${size})`);
+}
+
+console.log("\nDone.");

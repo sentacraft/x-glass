@@ -84,7 +84,7 @@ export default function LensCard({
         >
           <div
             {...hookAttr("cardMediaInner")}
-            className="absolute inset-0 p-3 sm:p-7 max-[499px]:p-0"
+            className="absolute inset-0 p-3 sm:p-7 max-[499px]:p-2"
           >
             <div className="relative h-full w-full overflow-hidden rounded-xl">
               {lens.imageUrl ? (

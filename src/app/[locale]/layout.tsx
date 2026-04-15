@@ -9,10 +9,17 @@ import { CompareProvider } from "@/context/CompareProvider";
 import { ScrollContainer, ScrollContainerProvider } from "@/context/ScrollContainerContext";
 import { TestHookProvider } from "@/context/TestHookProvider";
 import { TESTHOOK_ALLOWED } from "@/lib/testhook";
+import { SITE } from "@/config/site";
 import "../globals.css";
 
 export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
   viewportFit: "cover",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: SITE.themeColor.light },
+    { media: "(prefers-color-scheme: dark)",  color: SITE.themeColor.dark  },
+  ],
 };
 
 export const metadata: Metadata = {
@@ -20,10 +27,14 @@ export const metadata: Metadata = {
     default: "X-Glass | Fujifilm X Mount Lens Comparison Tool",
     template: "%s | X-Glass",
   },
-  description:
-    "Not a recommendation engine — a structured lens comparison tool for Fujifilm X users. All brands. One dataset.",
+  description: SITE.description,
+  appleWebApp: {
+    capable: true,
+    title: SITE.shortName,
+    statusBarStyle: "black-translucent",
+  },
   openGraph: {
-    siteName: "X-Glass",
+    siteName: SITE.name,
     type: "website",
     images: [{ url: "/opengraph-image", width: 1200, height: 630 }],
   },

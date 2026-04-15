@@ -7,7 +7,7 @@
     "nukedev": "rm -rf .next && next dev",
     "gen:icons": "tsx scripts/gen-icons.tsx",
     "validate:lenses": "node --experimental-strip-types scripts/validate-lenses.mts",
-    "build": "npm run validate:lenses && next build",
+    "build": "npm run gen:icons && npm run validate:lenses && next build",
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
