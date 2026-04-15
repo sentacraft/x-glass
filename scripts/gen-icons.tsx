@@ -46,13 +46,23 @@ function paddedViewBox(padding: number): string {
 
 // ── Rendering helpers ─────────────────────────────────────────────────────────
 
-function irisToSvg(size: number, padding: number): string {
+function irisToSvg(size: number, padding: number, background?: string): string {
   const svg = renderToStaticMarkup(
     createElement(Iris, { config: IRIS_NAV, uid: "gen", size })
   );
-  return svg
+  let result = svg
     .replace("<svg ", `<svg xmlns="http://www.w3.org/2000/svg" `)
     .replace(originalViewBox, paddedViewBox(padding));
+  // Inject a background rect as the first child of <svg> when needed.
+  // Used for platforms that render transparent icons on an undesirable fill
+  // (e.g. Chrome on iOS "Add to Home Screen" shortcut uses a gray background).
+  if (background) {
+    result = result.replace(
+      /(<svg[^>]*>)/,
+      `$1<rect width="100%" height="100%" fill="${background}"/>`
+    );
+  }
+  return result;
 }
 
 function svgToPng(svg: string, size: number): Buffer {
@@ -70,19 +80,25 @@ const outputs: Array<{
   path: string;
   size: number;
   padding: number;
+  background?: string;
 }> = [
   // Next.js file-convention icons (browser tab + Apple touch)
   { path: `${appDir}/icon.png`,        size: 32,  padding: PADDING.standard },
   { path: `${appDir}/apple-icon.png`,  size: 180, padding: PADDING.standard },
-  // PWA manifest icons
-  { path: `${iconsDir}/icon-192.png`,           size: 192, padding: PADDING.standard },
-  { path: `${iconsDir}/icon-512.png`,           size: 512, padding: PADDING.standard },
-  { path: `${iconsDir}/icon-maskable-192.png`,  size: 192, padding: PADDING.maskable },
-  { path: `${iconsDir}/icon-maskable-512.png`,  size: 512, padding: PADDING.maskable },
+  // PWA manifest icons — transparent background (purpose: any / maskable)
+  { path: `${iconsDir}/icon-192.png`,           size: 192,  padding: PADDING.standard },
+  { path: `${iconsDir}/icon-512.png`,           size: 512,  padding: PADDING.standard },
+  { path: `${iconsDir}/icon-1024.png`,          size: 1024, padding: PADDING.standard },
+  { path: `${iconsDir}/icon-maskable-192.png`,  size: 192,  padding: PADDING.maskable },
+  { path: `${iconsDir}/icon-maskable-512.png`,  size: 512,  padding: PADDING.maskable },
+  // White-background variants — for platforms that render transparent icons
+  // on an undesirable fill (iOS Chrome shortcuts, macOS Dock fallback, etc.)
+  { path: resolve("public/apple-touch-icon.png"),   size: 180, padding: PADDING.standard, background: "white" },
+  { path: `${iconsDir}/icon-192-white.png`,         size: 192, padding: PADDING.standard, background: "white" },
 ];
 
-for (const { path, size, padding } of outputs) {
-  writeFileSync(path, svgToPng(irisToSvg(size, padding), size));
+for (const { path, size, padding, background } of outputs) {
+  writeFileSync(path, svgToPng(irisToSvg(size, padding, background), size));
   const label = path.replace(resolve(".") + "/", "");
   console.log(`✓ ${label} (${size}×${size})`);
 }
