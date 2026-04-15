@@ -82,7 +82,6 @@ export default function Iris({
   const thetaRef    = useRef<number>(DEFAULT_THETA);
   const animRef     = useRef<number | null>(null);
   const chaseRef    = useRef<number | null>(null);
-  const initAnimRef = useRef<number | null>(null);
   const targetThetaRef = useRef<number>(DEFAULT_THETA);
   const lastFrameRef   = useRef<number>(0);
   const entryOffsetRef = useRef(0);
@@ -99,9 +98,8 @@ export default function Iris({
   const shape = useMemo(() => bladeShapePath(dc), [dc]);
 
   useEffect(() => () => {
-    if (animRef.current)     cancelAnimationFrame(animRef.current);
-    if (chaseRef.current)    cancelAnimationFrame(chaseRef.current);
-    if (initAnimRef.current) cancelAnimationFrame(initAnimRef.current);
+    if (animRef.current)  cancelAnimationFrame(animRef.current);
+    if (chaseRef.current) cancelAnimationFrame(chaseRef.current);
   }, []);
 
   useEffect(() => {
@@ -110,53 +108,12 @@ export default function Iris({
     setTheta(DEFAULT_THETA);
   }, [DEFAULT_THETA, interactive]);
 
-  // Init animation: two-phase sequence on mount.
-  // When apertureStrip is enabled, the strip drives the init animation via
-  // onDrive — identical to a user drag. The iris just follows.
-  useEffect(() => {
-    if (!initAnimation || apertureStrip) return;
-
-    const { sweepMs: SWEEP_MS, totalMs: TOTAL_MS } = initAnimation;
-
-    thetaRef.current = thetaOpen;
-    targetThetaRef.current = thetaOpen;
-    setTheta(thetaOpen);
-    startChase();
-
-    const startTime = performance.now();
-    function sequenceTick(now: number) {
-      const elapsed = now - startTime;
-      if (elapsed < SWEEP_MS) {
-        const p = elapsed / SWEEP_MS;
-        targetThetaRef.current = thetaOpen + p * (thetaMax - thetaOpen);
-        initAnimRef.current = requestAnimationFrame(sequenceTick);
-      } else if (elapsed < TOTAL_MS) {
-        const p2 = (elapsed - SWEEP_MS) / (TOTAL_MS - SWEEP_MS);
-        targetThetaRef.current = thetaMax + p2 * (defaultThetaRef.current - thetaMax);
-        initAnimRef.current = requestAnimationFrame(sequenceTick);
-      } else {
-        targetThetaRef.current = defaultThetaRef.current;
-        initAnimRef.current = null;
-      }
-    }
-
-    initAnimRef.current = requestAnimationFrame(sequenceTick);
-
-    return () => {
-      if (initAnimRef.current) { cancelAnimationFrame(initAnimRef.current); initAnimRef.current = null; }
-      stopChase();
-    };
-  // eslint-disable-next-line react-hooks/exhaustive-deps -- mount-only init effect;
-  // thetaOpen/thetaMax are intentionally read through refs to avoid stale closures.
-  }, []);
-
   // ── Imperative controls (used by ApertureStrip) ───────────────────────────
   // startChase / stopChase are function declarations hoisted to the top of
   // this render function — accessible here even though defined below.
 
   function driveToFStop(fStop: number) {
-    if (animRef.current)     { cancelAnimationFrame(animRef.current);     animRef.current = null; }
-    if (initAnimRef.current) { cancelAnimationFrame(initAnimRef.current); initAnimRef.current = null; }
+    if (animRef.current) { cancelAnimationFrame(animRef.current); animRef.current = null; }
     const t = findThetaForFStop(fStop, dc, { min: thetaOpen, max: thetaMax }, rawConfig.openFStop);
     targetThetaRef.current = Math.max(thetaOpen, Math.min(thetaMax, t));
     startChase();
@@ -221,8 +178,7 @@ export default function Iris({
 
   function handleMouseEnter(e: React.MouseEvent<HTMLDivElement>) {
     if (!interactive) return;
-    if (animRef.current)     { cancelAnimationFrame(animRef.current);     animRef.current = null; }
-    if (initAnimRef.current) { cancelAnimationFrame(initAnimRef.current); initAnimRef.current = null; }
+    if (animRef.current) { cancelAnimationFrame(animRef.current); animRef.current = null; }
     const rect = e.currentTarget.getBoundingClientRect();
     entryOffsetRef.current = thetaRef.current - posToDiameterTheta(e.clientX, rect);
     entryTimeRef.current   = performance.now();
