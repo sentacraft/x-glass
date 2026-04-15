@@ -60,8 +60,6 @@ interface ApertureStripProps {
   defaultFStop: number;
   /** Delay before first appearance (ms). */
   showDelay?: number;
-  /** Inactivity duration before auto-hide (ms). */
-  hideAfterMs?: number;
   /** Called on every pointer-move frame with the current f-stop. */
   onDrive: (fStop: number) => void;
   /** Called when the user snaps to "A" — iris should ease back to defaultFStop. */
@@ -71,7 +69,6 @@ interface ApertureStripProps {
 export default function ApertureStrip({
   defaultFStop,
   showDelay = 0,
-  hideAfterMs = 3500,
   onDrive,
   onRelease,
 }: ApertureStripProps) {
@@ -82,29 +79,16 @@ export default function ApertureStrip({
   const [offset,   setOffset]   = useState(0);
   const [snapping, setSnapping] = useState(false);
 
-  const dragRef      = useRef<{ startX: number; startOffset: number } | null>(null);
-  const hideTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const dragRef           = useRef<{ startX: number; startOffset: number } | null>(null);
+  const lastValidOffsetRef = useRef(0);
 
   // Clamp limits: rightmost = "A" at index 0, leftmost = f/22 at last index.
   const maxOffset =  defaultIdx * SPACING;
   const minOffset = -(MARKS.length - 1 - defaultIdx) * SPACING;
 
-  function scheduleHide() {
-    if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
-    hideTimerRef.current = setTimeout(() => setVisible(false), hideAfterMs);
-  }
-
-  function bringIntoView() {
-    setVisible(true);
-    scheduleHide();
-  }
-
   useEffect(() => {
-    const t = setTimeout(bringIntoView, showDelay);
-    return () => {
-      clearTimeout(t);
-      if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
-    };
+    const t = setTimeout(() => setVisible(true), showDelay);
+    return () => clearTimeout(t);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -112,39 +96,45 @@ export default function ApertureStrip({
     e.currentTarget.setPointerCapture(e.pointerId);
     dragRef.current = { startX: e.clientX, startOffset: offset };
     setSnapping(false);
-    bringIntoView();
   }
 
   function onPointerMove(e: React.PointerEvent<HTMLDivElement>) {
     if (!dragRef.current) return;
     const raw     = dragRef.current.startOffset + (e.clientX - dragRef.current.startX);
     const clamped = Math.max(minOffset, Math.min(maxOffset, raw));
+    lastValidOffsetRef.current = clamped;
     setOffset(clamped);
     const idx = offsetToIndex(clamped, defaultIdx);
     // In the A zone (index < 0.5) don't drive — let snap handle it.
     if (idx >= 0.5) onDrive(indexToFStop(idx));
   }
 
-  function onPointerUp(e: React.PointerEvent<HTMLDivElement>) {
-    if (!dragRef.current) return;
-    const raw = dragRef.current.startOffset + (e.clientX - dragRef.current.startX);
-    dragRef.current = null;
-
-    const clamped    = Math.max(minOffset, Math.min(maxOffset, raw));
+  function snapToNearest(clamped: number) {
     const continuous = offsetToIndex(clamped, defaultIdx);
     const nearestIdx = Math.round(continuous);
-
     setSnapping(true);
     setTimeout(() => setSnapping(false), 220);
-
     if (nearestIdx === 0) {
-      // Snapped to A — strip returns to centre (defaultFStop), iris releases.
       setOffset(0);
       onRelease();
     } else {
       setOffset((defaultIdx - nearestIdx) * SPACING);
       onDrive(MARKS[nearestIdx] as number);
     }
+  }
+
+  function onPointerUp(e: React.PointerEvent<HTMLDivElement>) {
+    if (!dragRef.current) return;
+    const raw = dragRef.current.startOffset + (e.clientX - dragRef.current.startX);
+    dragRef.current = null;
+    snapToNearest(Math.max(minOffset, Math.min(maxOffset, raw)));
+  }
+
+  function onPointerCancel() {
+    if (!dragRef.current) return;
+    dragRef.current = null;
+    // clientX is unreliable on cancel — snap using the last valid pointer position.
+    snapToNearest(lastValidOffsetRef.current);
   }
 
   // Total pixel width of the marks row.
@@ -169,7 +159,7 @@ export default function ApertureStrip({
 
       {/* Scrollable label track — overflow clips the marks row */}
       <div
-        className="mt-2.5 h-7 overflow-hidden cursor-grab active:cursor-grabbing touch-pan-y select-none text-zinc-500 dark:text-zinc-400"
+        className="mt-2.5 h-7 overflow-hidden cursor-grab active:cursor-grabbing touch-none select-none text-zinc-500 dark:text-zinc-400"
         style={{
           maskImage:       "linear-gradient(to right, transparent 0%, black 22%, black 78%, transparent 100%)",
           WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 22%, black 78%, transparent 100%)",
@@ -177,7 +167,7 @@ export default function ApertureStrip({
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
         onPointerUp={onPointerUp}
-        onPointerCancel={onPointerUp}
+        onPointerCancel={onPointerCancel}
       >
         {/* Marks row — absolutely positioned so the overflow clip works */}
         <div

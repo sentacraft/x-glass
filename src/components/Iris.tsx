@@ -364,7 +364,6 @@ export default function Iris({
           <ApertureStrip
             defaultFStop={rawConfig.defaultFStop}
             showDelay={stripShowDelay}
-            hideAfterMs={3500}
             onDrive={driveToFStop}
             onRelease={releaseControl}
           />
