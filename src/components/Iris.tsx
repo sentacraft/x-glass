@@ -235,6 +235,7 @@ export default function Iris({
     const p      = Math.min(1, (performance.now() - entryTimeRef.current) / catchupMs);
     const offset = entryOffsetRef.current * (1 - p) ** 2;
     targetThetaRef.current = Math.max(thetaOpen, Math.min(thetaMax, target + offset));
+    startChase(); // restart if chase converged and stopped
   }
 
   function handleMouseLeave() {
