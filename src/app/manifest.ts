@@ -21,6 +21,26 @@ export default function manifest(): MetadataRoute.Manifest {
     // light-mode systems. In-app adaptive theming is handled by the <meta
     // name="theme-color" media="..."> tags in the locale layout viewport export.
     theme_color: SITE.themeColor.light,
+    // Shortcuts appear on long-press of the home screen icon (Android) and
+    // right-click of the taskbar icon (desktop Chrome/Edge).
+    // URLs use un-prefixed paths — the i18n middleware redirects to the
+    // correct locale automatically.
+    shortcuts: [
+      {
+        name: "Browse Lenses",
+        short_name: "Browse",
+        description: "Browse and filter all X-mount lenses",
+        url: "/lenses",
+        icons: [{ src: "/icons/icon-192.png", sizes: "192x192" }],
+      },
+      {
+        name: "Compare Lenses",
+        short_name: "Compare",
+        description: "Compare lenses side by side",
+        url: "/lenses/compare",
+        icons: [{ src: "/icons/icon-192.png", sizes: "192x192" }],
+      },
+    ],
     screenshots: [
       {
         src: "/screenshots/screenshot-mobile.png",
