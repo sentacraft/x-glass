@@ -95,7 +95,8 @@ export default function Iris({
 
   const blades = useMemo(
     () => solveAllBlades(theta, dc),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- solveAllBlades is a pure
+    // function imported from a stable module; adding it to deps would be noise.
     [theta, dc]
   );
   const shape = useMemo(() => bladeShapePath(dc), [dc]);
@@ -163,8 +164,9 @@ export default function Iris({
       if (initAnimRef.current) { cancelAnimationFrame(initAnimRef.current); initAnimRef.current = null; }
       stopChase();
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // mount-only — thetaOpen/thetaMax captured via refs
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- mount-only init effect;
+  // thetaOpen/thetaMax are intentionally read through refs to avoid stale closures.
+  }, []);
 
   const { N } = dc;
   const stepDeg = 360 / N;

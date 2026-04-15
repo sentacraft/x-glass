@@ -326,7 +326,11 @@ export function SharePoster({ lenses, labels, custom, shareUrl, ref }: SharePost
                     justifyContent: "center",
                   }}
                 >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  {/*
+                    * eslint-disable-next-line @next/next/no-img-element
+                    * Must use native <img> here — canvas capture libraries (html2canvas etc.)
+                    * cannot handle Next.js <Image>'s wrapper divs and srcset attributes.
+                    */}
                   <img
                     src={getLensImageUrl(lens.id)}
                     alt={lens.model}
