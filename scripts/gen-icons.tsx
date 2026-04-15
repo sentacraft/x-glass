@@ -42,8 +42,13 @@ if (!_vbMatch) throw new Error("Could not find viewBox in Iris SVG output");
 const originalViewBox = `viewBox="${_vbMatch[1]}"`;
 
 const PADDING = {
-  standard: 0.175,
-  maskable: 0.225,
+  // favicon: maximise fill for small sizes (32px tab icon) where breathing
+  // room is imperceptible and the icon must compete with other tab favicons.
+  favicon:  0.05,   // → ~90% fill
+  // standard: comfortable breathing room for large transparent-bg PWA icons.
+  standard: 0.175,  // → ~65% fill
+  // maskable: keeps the mark inside Android's safe zone (inner 80% circle).
+  maskable: 0.225,  // → ~55% fill
 } as const;
 
 function paddedViewBox(padding: number): string {
@@ -90,8 +95,8 @@ const outputs: Array<{
   background?: string;
 }> = [
   // Next.js file-convention icons (browser tab + Apple touch)
-  { path: `${appDir}/icon.png`,        size: 32,  padding: PADDING.standard },
-  { path: `${appDir}/apple-icon.png`,  size: 180, padding: PADDING.standard },
+  { path: `${appDir}/icon.png`,        size: 32,  padding: PADDING.favicon   },
+  { path: `${appDir}/apple-icon.png`,  size: 180, padding: PADDING.standard  },
   // PWA manifest icons — transparent background (purpose: any / maskable)
   { path: `${iconsDir}/icon-192.png`,           size: 192,  padding: PADDING.standard },
   { path: `${iconsDir}/icon-512.png`,           size: 512,  padding: PADDING.standard },
