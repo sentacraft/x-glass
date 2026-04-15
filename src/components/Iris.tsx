@@ -218,6 +218,12 @@ const Iris = forwardRef<IrisHandle, IrisProps>(function Iris({
   const stepDeg = 360 / N;
   const maskCount = Math.floor((N - 1) / 2);
 
+  // ViewBox is tight around the visible blade area (clipped at R_HOUSING − bladeWidth)
+  // rather than the Design Lab's wider canvas that accommodates the actuator ring.
+  // A 2-unit pad prevents subpixel fringing at the clip boundary.
+  const vbHalf = R_HOUSING - dc.bladeWidth + 2;
+  const viewBox = `${-vbHalf} ${-vbHalf} ${vbHalf * 2} ${vbHalf * 2}`;
+
   if (blades.length === 0) return null;
 
   const b0 = blades[0];
@@ -338,7 +344,7 @@ const Iris = forwardRef<IrisHandle, IrisProps>(function Iris({
       onMouseLeave={handleMouseLeave}
     >
       <svg
-        viewBox="-112 -112 224 224"
+        viewBox={viewBox}
         width={size}
         height={size}
         style={{ display: "block", flexShrink: 0, pointerEvents: "none" }}

@@ -108,8 +108,8 @@ export const IRIS_HERO: IrisConfig = {
   bladeWidth: 40,
   openFStop: 1.4,
   defaultFStop: 4,
-  // Size
-  size: 208,
+  // Size — matches the tight viewBox: visible iris ≈ 116 px at this render size
+  size: 120,
   // Appearance
   bladeColor: "#181818",
   strokeColor: "#b3b3b3",
@@ -152,8 +152,8 @@ export const IRIS_LAB: IrisConfig = {
   bladeWidth: 40,
   openFStop: 1.4,
   defaultFStop: 4,
-  // Size
-  size: 208,
+  // Size — matches IRIS_HERO
+  size: 120,
   // Appearance
   bladeColor: "#181818",
   strokeColor: "#b3b3b3",
