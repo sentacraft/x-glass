@@ -270,13 +270,21 @@ export default function Iris({
     animRef.current = requestAnimationFrame(tick);
   }
 
+  // ── Current f-stop (for ApertureStrip sync) ────────────────────────────────
+  // Derived from theta so the strip can mirror the iris position during init
+  // animation and after release easing. Uses f = f_open × (r_open / r).
+
+  const currentFStop = useMemo(() => {
+    if (!apertureStrip) return undefined;
+    const r = apertureInradius(theta, dc);
+    if (r <= 0 || inradiusOpen <= 0) return closedFStop;
+    return Math.min(closedFStop, rawConfig.openFStop * inradiusOpen / r);
+  }, [apertureStrip, theta, dc, inradiusOpen, closedFStop, rawConfig.openFStop]);
+
   // ── Render ─────────────────────────────────────────────────────────────────
 
   const wrapperW = interactive ? size * hotzoneScaleH : size;
   const wrapperH = interactive ? size * hotzoneScaleV : size;
-
-  // Delay before the strip first appears: after init animation settles + buffer.
-  const stripShowDelay = initAnimation ? initAnimation.totalMs + 400 : 400;
 
   return (
     <div
@@ -363,7 +371,7 @@ export default function Iris({
         <div className="md:hidden mt-1" style={{ width: size }}>
           <ApertureStrip
             defaultFStop={rawConfig.defaultFStop}
-            showDelay={stripShowDelay}
+            fStop={currentFStop}
             onDrive={driveToFStop}
             onRelease={releaseControl}
           />
