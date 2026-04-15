@@ -105,11 +105,7 @@ export default function ApertureStrip({
   const defaultIdx = nearestNumericIndex(defaultFStop);
 
   const [visible,  setVisible]  = useState(false);
-  // Start at f/22 (leftmost) when animating, otherwise at A (resting).
-  const [offset,   setOffset]   = useState(() =>
-    animating ? -(MARKS.length - 1 - nearestNumericIndex(defaultFStop)) * SPACING
-              : nearestNumericIndex(defaultFStop) * SPACING
-  );
+  const [offset,   setOffset]   = useState(() => defaultIdx * SPACING); // start at A
   const [snapping, setSnapping] = useState(false);
 
   const dragRef              = useRef<{ startX: number; startOffset: number } | null>(null);
