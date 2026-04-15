@@ -30,8 +30,10 @@ export const metadata: Metadata = {
   description: SITE.description,
   // Explicit icon declarations — setting `icons` in metadata disables Next.js
   // file-convention auto-discovery, so both `icon` and `apple` must be listed.
+  // Safari requires an explicit favicon.ico link tag; it won't auto-discover it.
   icons: {
     icon: [
+      { url: "/favicon.ico", sizes: "32x32", type: "image/x-icon" },
       { url: "/icon.png", sizes: "32x32", type: "image/png" },
     ],
     apple: "/apple-touch-icon.png",
