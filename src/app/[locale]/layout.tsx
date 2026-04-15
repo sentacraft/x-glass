@@ -68,8 +68,10 @@ export default async function LocaleLayout({
             <ConsoleEgg />
             <Nav />
             <ScrollContainer>
-              {/* offset fixed nav so content starts below it */}
-              <div className="pt-[var(--nav-height)] h-full">
+              {/* Offset fixed nav at top; respect home indicator at bottom.
+                  safe-area-inset-bottom prevents content from sitting in the
+                  iOS gesture zone in standalone PWA mode (falls back to 0px). */}
+              <div className="pt-[var(--nav-height)] pb-[env(safe-area-inset-bottom,0px)] h-full">
                 {TESTHOOK_ALLOWED ? (
                   <TestHookProvider>
                     {children}

@@ -59,6 +59,14 @@ export default function manifest(): MetadataRoute.Manifest {
     ],
     icons: [
       {
+        // White-background variant — used by Chrome on iOS for "Add to Home
+        // Screen" shortcuts, which render transparent icons on a gray fill.
+        src: "/icons/icon-192-white.png",
+        sizes: "192x192",
+        type: "image/png",
+        purpose: "any",
+      },
+      {
         src: "/icons/icon-192.png",
         sizes: "192x192",
         type: "image/png",
