@@ -132,18 +132,13 @@ const outputs: Array<{
   padding: number;
   background?: string;
 }> = [
-  // Next.js file-convention icons (browser tab + Apple touch)
+  // Next.js file-convention icon (browser tab favicon)
   { path: `${appDir}/icon.png`,        size: 32,  padding: PADDING.favicon   },
-  { path: `${appDir}/apple-icon.png`,  size: 180, padding: PADDING.standard  },
-  // PWA manifest icons — transparent background (purpose: any / maskable)
-  { path: `${iconsDir}/icon-192.png`,           size: 192,  padding: PADDING.standard },
-  { path: `${iconsDir}/icon-512.png`,           size: 512,  padding: PADDING.standard },
-  { path: `${iconsDir}/icon-1024.png`,          size: 1024, padding: PADDING.standard },
+  // PWA manifest icons — maskable (Android safe zone)
   { path: `${iconsDir}/icon-maskable-192.png`,  size: 192,  padding: PADDING.maskable },
   { path: `${iconsDir}/icon-maskable-512.png`,  size: 512,  padding: PADDING.maskable },
-  // White-background variants — for platforms that render transparent icons
-  // on an undesirable fill (iOS Chrome shortcuts, macOS Dock fallback, etc.)
-  { path: resolve("public/apple-touch-icon.png"),   size: 180, padding: PADDING.standard, background: "white" },
+  // PWA manifest icons — white-background (purpose: any)
+  // Used by Safari "Add to Home Screen" (via manifest fallback) and install UI.
   { path: `${iconsDir}/icon-192-white.png`,         size: 192, padding: PADDING.standard, background: "white" },
   { path: `${iconsDir}/icon-512-white.png`,         size: 512, padding: PADDING.standard, background: "white" },
   { path: `${iconsDir}/icon-1024-white.png`,        size: 1024, padding: PADDING.standard, background: "white" },

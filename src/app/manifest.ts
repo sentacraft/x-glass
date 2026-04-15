@@ -31,14 +31,14 @@ export default function manifest(): MetadataRoute.Manifest {
         short_name: "Browse",
         description: "Browse and filter all X-mount lenses",
         url: "/lenses",
-        icons: [{ src: "/icons/icon-192.png", sizes: "192x192" }],
+        icons: [{ src: "/icons/icon-192-white.png", sizes: "192x192" }],
       },
       {
         name: "Compare Lenses",
         short_name: "Compare",
         description: "Compare lenses side by side",
         url: "/lenses/compare",
-        icons: [{ src: "/icons/icon-192.png", sizes: "192x192" }],
+        icons: [{ src: "/icons/icon-192-white.png", sizes: "192x192" }],
       },
     ],
     screenshots: [
@@ -59,15 +59,7 @@ export default function manifest(): MetadataRoute.Manifest {
     ],
     icons: [
       {
-        // White-background variant — used by Chrome on iOS for "Add to Home
-        // Screen" shortcuts, which render transparent icons on a gray fill.
         src: "/icons/icon-192-white.png",
-        sizes: "192x192",
-        type: "image/png",
-        purpose: "any",
-      },
-      {
-        src: "/icons/icon-192.png",
         sizes: "192x192",
         type: "image/png",
         purpose: "any",
