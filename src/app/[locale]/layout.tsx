@@ -28,6 +28,9 @@ export const metadata: Metadata = {
     template: "%s | X-Glass",
   },
   description: SITE.description,
+  // Explicit apple-touch-icon with white background baked in.
+  // The manifest icons use transparent backgrounds which iOS renders as black.
+  icons: { apple: "/apple-touch-icon.png" },
   appleWebApp: {
     capable: true,
     title: SITE.shortName,
