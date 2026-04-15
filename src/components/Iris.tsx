@@ -61,7 +61,6 @@ export default function Iris({
     hotzoneScaleV = 1,
     chaseTauMs = 60,
     easeOutMs = 700,
-    catchupMs = 300,
     bladeColor,
     strokeColor,
     strokeWidth,
@@ -86,8 +85,6 @@ export default function Iris({
   const initAnimRef = useRef<number | null>(null);
   const targetThetaRef = useRef<number>(DEFAULT_THETA);
   const lastFrameRef   = useRef<number>(0);
-  const entryOffsetRef = useRef(0);
-  const entryTimeRef   = useRef(0);
   const defaultThetaRef = useRef(DEFAULT_THETA);
   defaultThetaRef.current = DEFAULT_THETA;
 
@@ -223,19 +220,15 @@ export default function Iris({
     if (animRef.current)     { cancelAnimationFrame(animRef.current);     animRef.current = null; }
     if (initAnimRef.current) { cancelAnimationFrame(initAnimRef.current); initAnimRef.current = null; }
     const rect = e.currentTarget.getBoundingClientRect();
-    entryOffsetRef.current = thetaRef.current - posToDiameterTheta(e.clientX, rect);
-    entryTimeRef.current   = performance.now();
+    targetThetaRef.current = posToDiameterTheta(e.clientX, rect);
     startChase();
   }
 
   function handleMouseMove(e: React.MouseEvent<HTMLDivElement>) {
     if (!interactive) return;
-    const rect   = e.currentTarget.getBoundingClientRect();
-    const target = posToDiameterTheta(e.clientX, rect);
-    const p      = Math.min(1, (performance.now() - entryTimeRef.current) / catchupMs);
-    const offset = entryOffsetRef.current * (1 - p) ** 2;
-    targetThetaRef.current = Math.max(thetaOpen, Math.min(thetaMax, target + offset));
-    startChase(); // restart if chase converged and stopped
+    const rect = e.currentTarget.getBoundingClientRect();
+    targetThetaRef.current = posToDiameterTheta(e.clientX, rect);
+    startChase();
   }
 
   function handleMouseLeave() {
