@@ -11,14 +11,17 @@ export default function Home() {
 
   return (
     <div
-      className="flex flex-col bg-stone-100 dark:bg-zinc-950"
+      className="flex flex-col bg-stone-100 dark:bg-zinc-950 pb-[env(safe-area-inset-bottom,0px)]"
       style={{
-        // h-full only fills the layout wrapper's content area (height − safe-area-inset-bottom
-        // padding). On iOS PWA the remaining safe-area strip has no background, leaving a white
-        // gap. Extending height into the padding zone covers it; the equal pb keeps content above
-        // the home indicator (mirrors the existing safe-area padding on the layout wrapper).
-        height: "calc(100% + env(safe-area-inset-bottom, 0px))",
-        paddingBottom: "env(safe-area-inset-bottom, 0px)",
+        // `h-full` / `height: 100%` breaks inside overflow-y:auto on iOS Safari:
+        // the flex-computed height of the scroll container is not treated as a
+        // "specified" height, so percentage heights resolve to `auto`. Using
+        // viewport units (100svh) bypasses the parent-percentage chain entirely
+        // and always gives the correct absolute height.
+        // Subtracting --nav-height (fixed header + safe-area-top) fills exactly
+        // the space below the nav. pb-[safe-area-inset-bottom] above keeps content
+        // clear of the home indicator while the background still covers that zone.
+        height: "calc(100svh - var(--nav-height))",
       }}
     >
       {/* Hero */}
