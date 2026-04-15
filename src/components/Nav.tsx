@@ -55,6 +55,7 @@ export default function Nav() {
 
   return (
     <header
+      data-hidden={String(hidden || navLocked)}
       className={cn(
         "fixed top-0 inset-x-0 border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-black z-30",
         "transition-transform duration-300 ease-in-out",

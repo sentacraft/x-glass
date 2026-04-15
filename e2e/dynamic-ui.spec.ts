@@ -53,52 +53,74 @@ test.describe("Nav auto-hide (mobile only)", () => {
     expect(isOnScreen).toBe(true);
   });
 
-  // SKIPPED: The nav hide/reappear behavior depends on the React scroll listener
-  // receiving scroll events from the custom div.overflow-y-auto container.
-  //
-  // Diagnosis confirmed that scrollBy() does fire scroll events (event count = 1
-  // in isolation), but the Nav component's addEventListener('scroll') handler
-  // does not reliably trigger in Playwright's mobile emulation context —
-  // possibly due to how the headless browser processes synthetic scroll events
-  // vs. real touch-driven momentum scrolling.
-  //
-  // IntersectionObserver-based tests (the FAB suite below) are unaffected
-  // because IntersectionObserver recalculates from layout state, not scroll events.
-  //
-  // TODO: Revisit when Playwright adds first-class touch-swipe gesture support,
-  // or when the Nav component exposes a data attribute reflecting hidden state
-  // (e.g. data-hidden="true") that can be asserted without relying on CSS transitions.
-  test.skip("nav hides after scrolling down past threshold", async ({ page }) => {
+  test("nav hides after scrolling down past threshold", async ({ page }) => {
     await scrollBy(page, 300);
-    await page.waitForFunction(
-      () => document.querySelector("header")?.getBoundingClientRect().bottom <= 0,
-      undefined,
-      { timeout: 3000 }
-    );
+    // Assert on data-hidden (React state) rather than getBoundingClientRect — avoids
+    // waiting for the 300ms CSS transition and is unaffected by Playwright's synthetic
+    // scroll event timing in mobile emulation.
     const header = page.locator("header").first();
-    const isOffScreen = await header.evaluate((el) => el.getBoundingClientRect().bottom <= 0);
-    expect(isOffScreen).toBe(true);
+    await expect(header).toHaveAttribute("data-hidden", "true", { timeout: 3000 });
   });
 
-  test.skip("nav reappears after scrolling back up", async ({ page }) => {
-    await scrollBy(page, 300);
-    await page.waitForFunction(
-      () => document.querySelector("header")?.getBoundingClientRect().bottom <= 0,
-      undefined,
-      { timeout: 3000 }
-    );
-    await scrollBy(page, -400);
-    await page.waitForFunction(
-      () => {
-        const rect = document.querySelector("header")?.getBoundingClientRect();
-        return rect ? rect.bottom > 0 : false;
-      },
-      undefined,
-      { timeout: 3000 }
-    );
+  test("nav reappears after scrolling back up", async ({ page }) => {
     const header = page.locator("header").first();
-    const isOnScreen = await header.evaluate((el) => el.getBoundingClientRect().bottom > 0);
-    expect(isOnScreen).toBe(true);
+
+    await scrollBy(page, 300);
+    await expect(header).toHaveAttribute("data-hidden", "true", { timeout: 3000 });
+
+    await scrollBy(page, -400);
+    await expect(header).toHaveAttribute("data-hidden", "false", { timeout: 3000 });
+  });
+});
+
+test.describe("Compare table phantom header", () => {
+  // The phantom header is a sticky h-0 div that mirrors column names and floats
+  // up once the real <thead> scrolls out of view. It also locks the nav hidden
+  // (via lockNav) so two top-chrome elements never compete on mobile.
+  test.beforeEach(async ({ page }) => {
+    await page.goto(`/en/lenses/compare?ids=${LENS_A},${LENS_B}`);
+    await page.locator('[data-testid="compare-phantom-header"]').waitFor({ state: "attached" });
+    await waitForScrollable(page, 200);
+  });
+
+  test("phantom header is hidden when at the top of the page", async ({ page }) => {
+    const phantom = page.locator('[data-testid="compare-phantom-header"]');
+    await expect(phantom).toHaveAttribute("data-visible", "false");
+  });
+
+  test("phantom header appears after scrolling the table header out of view", async ({
+    page,
+  }) => {
+    await scrollBy(page, 400);
+    const phantom = page.locator('[data-testid="compare-phantom-header"]');
+    await expect(phantom).toHaveAttribute("data-visible", "true", { timeout: 3000 });
+  });
+
+  test("phantom header hides again after scrolling back to top", async ({ page }) => {
+    const phantom = page.locator('[data-testid="compare-phantom-header"]');
+
+    await scrollBy(page, 400);
+    await expect(phantom).toHaveAttribute("data-visible", "true", { timeout: 3000 });
+
+    await scrollToTop(page);
+    await expect(phantom).toHaveAttribute("data-visible", "false", { timeout: 3000 });
+  });
+
+  test("nav is locked hidden while phantom header is visible", async ({ page }) => {
+    // On mobile, the phantom header locks the nav so they don't both occupy the top
+    const viewport = page.viewportSize();
+    if (!viewport || viewport.width >= 640) {
+      // Nav auto-hide only applies on mobile — skip on desktop
+      test.skip();
+      return;
+    }
+
+    await scrollBy(page, 400);
+    const phantom = page.locator('[data-testid="compare-phantom-header"]');
+    await expect(phantom).toHaveAttribute("data-visible", "true", { timeout: 3000 });
+
+    const header = page.locator("header").first();
+    await expect(header).toHaveAttribute("data-hidden", "true", { timeout: 3000 });
   });
 });
 

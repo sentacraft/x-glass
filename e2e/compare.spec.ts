@@ -56,4 +56,49 @@ test.describe("Compare flow", () => {
     // Should render, not throw 500
     await expect(page.locator("body")).toBeVisible();
   });
+
+  test("removing a lens from the compare bar decrements count", async ({ page }) => {
+    await page.goto("/en/lenses");
+
+    const addButtons = page.getByRole("button", { name: /Add to Compare/i });
+    await addButtons.nth(0).click();
+    await addButtons.nth(1).click();
+    await expect(page.getByRole("button", { name: /Compare \(2\)/i })).toBeVisible();
+
+    // Click the X button on the first chip in the compare bar
+    const removeBtn = page.getByRole("button", { name: /^Remove /i }).first();
+    await removeBtn.click();
+
+    await expect(page.getByRole("button", { name: /Compare \(1\)/i })).toBeVisible();
+  });
+
+  test("clear compare button dismisses the compare bar", async ({ page }) => {
+    await page.goto("/en/lenses");
+
+    const addButtons = page.getByRole("button", { name: /Add to Compare/i });
+    await addButtons.nth(0).click();
+    await addButtons.nth(1).click();
+    await expect(page.getByRole("button", { name: /Compare \(2\)/i })).toBeVisible();
+
+    await page.getByRole("button", { name: /Clear/i }).click();
+
+    // Compare bar should disappear entirely
+    await expect(page.getByRole("button", { name: /Compare \(/i })).not.toBeVisible();
+  });
+
+  test("adding from detail page then navigating to compare includes that lens", async ({
+    page,
+  }) => {
+    await page.goto(`/en/lenses/${LENS_A}`);
+
+    await page.getByRole("button", { name: /Add to Compare/i }).click();
+
+    // Navigate to compare page via the bar
+    await page.getByRole("button", { name: /Compare \(1\)/i }).waitFor();
+
+    // Go to the compare page URL that includes LENS_A
+    await page.goto(`/en/lenses/compare?ids=${LENS_A},${LENS_B}`);
+
+    await expect(page.getByText(LENS_A_MODEL).first()).toBeVisible();
+  });
 });

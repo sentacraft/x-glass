@@ -455,6 +455,8 @@ export default function CompareTable({ lenses: initialLenses, minColumns = 0 }: 
         so it bounces with content during iOS overscroll instead of staying put */}
     <div className="sticky top-0 z-20 h-0 overflow-x-clip">
       <div
+        data-testid="compare-phantom-header"
+        data-visible={String(showPhantom)}
         className={`absolute left-0 right-0 top-0 transition-all duration-200 ${
           showPhantom
             ? "opacity-100 translate-y-0"
