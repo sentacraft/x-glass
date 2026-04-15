@@ -16,27 +16,34 @@ import { buildDerivedConfig } from "../src/lib/iris-kinematics.ts";
 
 // ── ViewBox computation ───────────────────────────────────────────────────────
 //
-// The Iris component renders with a default viewBox of
-//   `-R_HOUSING -R_HOUSING R_HOUSING*2 R_HOUSING*2`
-// but blades are clipped to a circle of radius (R_HOUSING - bladeWidth), so
-// the visible iris mark is smaller than the full viewBox. We replace the
-// viewBox to zoom in and add a controlled amount of padding around the mark.
+// The Iris component has a hardcoded viewBox larger than R_HOUSING*2 so the
+// blades have room to breathe. We read the actual viewBox from a test render
+// instead of computing it from R_HOUSING, then replace it with a padded one
+// that gives the desired logo fill ratio on the final canvas.
 //
-// padding: fraction of the total canvas width reserved as breathing room on
-// each side. E.g. 0.06 means the iris occupies 88% of the canvas width.
+// padding: fraction of the canvas width added as breathing room on each side
+// relative to clipR, the visible iris radius.
+//   fill_ratio = clipR / padR = 1 - 2 * padding
+//
+// Industry references:
+//   standard  0.175 → 65 % fill — prominent on transparent bg, matches major
+//                      app icons (Chrome, WhatsApp, etc.)
+//   maskable  0.225 → 55 % fill — comfortably inside Android's safe zone
+//                      (inner 80 % circle = 40 % radius from centre)
 
 const dc = buildDerivedConfig(IRIS_NAV, R_HOUSING);
-const clipR = R_HOUSING - dc.bladeWidth; // visible iris radius
+const clipR = R_HOUSING - dc.bladeWidth; // visible iris radius in SVG units
 
-// Derived from R_HOUSING so it stays correct if R_HOUSING ever changes.
-const originalViewBox = `viewBox="${-R_HOUSING} ${-R_HOUSING} ${R_HOUSING * 2} ${R_HOUSING * 2}"`;
+// Read the real viewBox from a sample render so this stays correct even if
+// the Iris component's internal viewBox ever changes.
+const _sampleSvg = renderToStaticMarkup(createElement(Iris, { config: IRIS_NAV, uid: "sample", size: 64 }));
+const _vbMatch = _sampleSvg.match(/viewBox="([^"]+)"/);
+if (!_vbMatch) throw new Error("Could not find viewBox in Iris SVG output");
+const originalViewBox = `viewBox="${_vbMatch[1]}"`;
 
 const PADDING = {
-  // Standard icons: minimal breathing room, consistent with major brand favicons.
-  standard: 0.06,
-  // Maskable icons: larger safe zone so the mark stays within the Android
-  // adaptive icon's inner circle (40% of canvas on each axis).
-  maskable: 0.15,
+  standard: 0.175,
+  maskable: 0.225,
 } as const;
 
 function paddedViewBox(padding: number): string {
