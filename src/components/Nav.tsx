@@ -72,9 +72,9 @@ export default function Nav() {
       <nav className="wco-no-drag max-w-7xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
         <Link
           href="/"
-          className="flex items-center font-bold text-zinc-900 dark:text-zinc-50 text-lg tracking-tight"
+          className="flex items-center gap-1.5 font-bold text-zinc-900 dark:text-zinc-50 text-lg tracking-tight"
         >
-          <Iris config={IRIS_NAV} uid="nav" />
+          <Iris config={IRIS_NAV} uid="nav" size={16} />
           X-Glass
         </Link>
         <div className="flex items-center gap-3">

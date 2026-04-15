@@ -9,13 +9,13 @@ import { writeFile, readFile } from "fs/promises";
 import { exec } from "child_process";
 import { promisify } from "util";
 import path from "path";
-import { IRIS_DEFAULTS, type IrisConfig } from "@/config/iris-config";
+import { type IrisConfig, type IrisInitAnimation } from "@/config/iris-config";
 
 const execAsync = promisify(exec);
 
 const CONFIG_PATH = path.join(process.cwd(), "src/config/iris-config.ts");
 
-/** Find the body of `withIrisDefaults({ … })` for a named preset. */
+/** Find the body of the named preset object literal `export const NAME: IrisConfig = { … }`. */
 function findPresetBody(content: string, presetName: string): { bodyStart: number; bodyEnd: number } | null {
   const startPattern = new RegExp(`export const ${presetName}[^{]*\\{`);
   const startMatch = startPattern.exec(content);
@@ -36,35 +36,36 @@ function serializeBody(v: IrisConfig): string {
   const lines: string[] = [];
   const add = (key: string, val: string) => lines.push(`  ${key}: ${val},`);
 
-  add("N",            String(v.N));
-  add("pinDistance",  String(v.pinDistance));
-  add("slotOffset",   v.slotOffset.toFixed(6));
-  add("bladeLength",  String(v.bladeLength));
-  add("bladeWidth",   String(v.bladeWidth));
-  add("openFStop",    v.openFStop.toFixed(1));
-  add("defaultFStop", v.defaultFStop.toFixed(1));
-  add("size",         String(v.size));
-  if (v.strokeWidth  !== undefined) add("strokeWidth",  v.strokeWidth.toFixed(2));
-  if (v.closedFStop  !== undefined) add("closedFStop",  String(v.closedFStop));
-  if (v.hotzoneScale !== undefined) add("hotzoneScale", v.hotzoneScale.toFixed(2));
-  if (v.chaseTauMs   !== undefined) add("chaseTauMs",   String(v.chaseTauMs));
-  if (v.easeOutMs    !== undefined) add("easeOutMs",    String(v.easeOutMs));
-  if (v.catchupMs    !== undefined) add("catchupMs",    String(v.catchupMs));
-  if (v.bladeColor   !== undefined) add("bladeColor",   `"${v.bladeColor}"`);
-  if (v.strokeColor  !== undefined) add("strokeColor",  `"${v.strokeColor}"`);
-  if (v.interactive  !== undefined) add("interactive",  String(v.interactive));
-  if (v.initAnimation !== undefined) add("initAnimation", String(v.initAnimation));
+  add("N",             String(v.N));
+  add("pinDistance",   String(v.pinDistance));
+  add("slotOffset",    v.slotOffset.toFixed(6));
+  add("bladeLength",   String(v.bladeLength));
+  add("bladeWidth",    String(v.bladeWidth));
+  add("openFStop",     v.openFStop.toFixed(1));
+  add("defaultFStop",  v.defaultFStop.toFixed(1));
+  add("size",          String(v.size));
+  if (v.strokeWidth   !== undefined) add("strokeWidth",   v.strokeWidth.toFixed(2));
+  if (v.bladeColor    !== undefined) add("bladeColor",    `"${v.bladeColor}"`);
+  if (v.strokeColor   !== undefined) add("strokeColor",   `"${v.strokeColor}"`);
+  if (v.interactive   !== undefined) add("interactive",   String(v.interactive));
+  if (v.initAnimation !== undefined) add("initAnimation", `{ sweepMs: ${v.initAnimation.sweepMs}, totalMs: ${v.initAnimation.totalMs} }`);
+  if (v.closedFStop   !== undefined) add("closedFStop",   String(v.closedFStop));
+  if (v.hotzoneScaleH !== undefined) add("hotzoneScaleH", v.hotzoneScaleH.toFixed(2));
+  if (v.hotzoneScaleV !== undefined) add("hotzoneScaleV", v.hotzoneScaleV.toFixed(2));
+  if (v.chaseTauMs    !== undefined) add("chaseTauMs",    String(v.chaseTauMs));
+  if (v.easeOutMs     !== undefined) add("easeOutMs",     String(v.easeOutMs));
+  if (v.catchupMs     !== undefined) add("catchupMs",     String(v.catchupMs));
 
   return "\n" + lines.join("\n") + "\n";
 }
 
 /**
  * Read the current values from a named preset in iris-config.ts.
- * Fields absent from the block fall back to IRIS_DEFAULTS.
+ * Optional fields absent from the block are returned as undefined.
  * Returns null if the preset cannot be found or parsed.
  */
 export async function readFromConfig(
-  presetName: "IRIS_HERO" | "IRIS_NAV",
+  presetName: "IRIS_HERO" | "IRIS_NAV" | "IRIS_LAB",
 ): Promise<IrisConfig | null> {
   try {
     const content = await readFile(CONFIG_PATH, "utf-8");
@@ -75,9 +76,7 @@ export async function readFromConfig(
 
     function extractNum(key: string): number | undefined {
       const m = new RegExp(`\\b${key}:\\s*([\\d.]+)`).exec(body);
-      if (m) return parseFloat(m[1]);
-      const d = IRIS_DEFAULTS[key as keyof typeof IRIS_DEFAULTS];
-      return typeof d === "number" ? d : undefined;
+      return m ? parseFloat(m[1]) : undefined;
     }
     function extractStr(key: string): string | undefined {
       const m = new RegExp(`\\b${key}:\\s*"([^"]*)"`) .exec(body);
@@ -85,27 +84,47 @@ export async function readFromConfig(
     }
     function extractBool(key: string): boolean | undefined {
       const m = new RegExp(`\\b${key}:\\s*(true|false)`).exec(body);
-      if (m) return m[1] === "true";
-      const d = IRIS_DEFAULTS[key as keyof typeof IRIS_DEFAULTS];
-      return typeof d === "boolean" ? d : undefined;
+      return m ? m[1] === "true" : undefined;
+    }
+    function extractInitAnim(): IrisInitAnimation | undefined {
+      const m = /\binitAnimation:\s*\{\s*sweepMs:\s*(\d+),\s*totalMs:\s*(\d+)\s*\}/.exec(body);
+      if (m) return { sweepMs: parseInt(m[1]), totalMs: parseInt(m[2]) };
+      return undefined;
+    }
+
+    const N = extractNum("N");
+    const pinDistance = extractNum("pinDistance");
+    const slotOffset  = extractNum("slotOffset");
+    const bladeLength = extractNum("bladeLength");
+    const bladeWidth  = extractNum("bladeWidth");
+    const openFStop   = extractNum("openFStop");
+    const defaultFStop = extractNum("defaultFStop");
+    const size        = extractNum("size");
+
+    // Required fields — return null if any are missing.
+    if (N === undefined || pinDistance === undefined || slotOffset === undefined ||
+        bladeLength === undefined || bladeWidth === undefined || openFStop === undefined ||
+        defaultFStop === undefined || size === undefined) {
+      return null;
     }
 
     return {
-      N:             Math.round(extractNum("N") ?? 0),
-      pinDistance:   extractNum("pinDistance") ?? 0,
-      slotOffset:    extractNum("slotOffset")  ?? 0,
-      bladeLength:   extractNum("bladeLength") ?? 0,
-      bladeWidth:    extractNum("bladeWidth")  ?? 0,
-      openFStop:     extractNum("openFStop")   ?? 1.4,
-      defaultFStop:  extractNum("defaultFStop") ?? 5.6,
-      size:          Math.round(extractNum("size") ?? 0),
+      N:             Math.round(N),
+      pinDistance,
+      slotOffset,
+      bladeLength,
+      bladeWidth,
+      openFStop,
+      defaultFStop,
+      size:          Math.round(size),
       strokeWidth:   extractNum("strokeWidth"),
       bladeColor:    extractStr("bladeColor"),
       strokeColor:   extractStr("strokeColor"),
       interactive:   extractBool("interactive"),
-      initAnimation: extractBool("initAnimation"),
+      initAnimation: extractInitAnim(),
       closedFStop:   extractNum("closedFStop"),
-      hotzoneScale:  extractNum("hotzoneScale"),
+      hotzoneScaleH: extractNum("hotzoneScaleH"),
+      hotzoneScaleV: extractNum("hotzoneScaleV"),
       chaseTauMs:    extractNum("chaseTauMs"),
       easeOutMs:     extractNum("easeOutMs"),
       catchupMs:     extractNum("catchupMs"),
@@ -121,7 +140,7 @@ export async function readFromConfig(
  * Runs tsc --noEmit after writing; restores the original on failure.
  */
 export async function exportToConfig(
-  presetName: "IRIS_HERO" | "IRIS_NAV",
+  presetName: "IRIS_HERO" | "IRIS_NAV" | "IRIS_LAB",
   values: IrisConfig,
 ): Promise<{ ok: boolean; error?: string }> {
   try {

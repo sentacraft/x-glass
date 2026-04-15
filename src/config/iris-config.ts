@@ -17,6 +17,21 @@ import type { StoredIrisParams } from "@/lib/iris-kinematics";
 
 export const R_HOUSING = 100;
 
+// ── IrisInitAnimation ─────────────────────────────────────────────────────────
+//
+// Timing config for the two-phase mount animation:
+//   Phase 1 (0 → sweepMs):       open → closedFStop  (linear target drive)
+//   Phase 2 (sweepMs → totalMs): closedFStop → defaultFStop  (linear, chase smooths it)
+//
+// Presence of this object on IrisConfig enables the animation; absence disables it.
+
+export interface IrisInitAnimation {
+  /** Duration of the open → closed sweep (ms). */
+  sweepMs: number;
+  /** Total duration including the closed → defaultFStop ease-back (ms). */
+  totalMs: number;
+}
+
 // ── IrisConfig ────────────────────────────────────────────────────────────────
 //
 // Full configuration for an Iris component instance. Extends the kinematic
@@ -41,20 +56,34 @@ export interface IrisConfig extends StoredIrisParams {
   /** When true, aperture openness tracks horizontal mouse position. */
   interactive?: boolean;
   /**
-   * When true, plays an entry animation on mount: open → closedFStop →
-   * defaultFStop over 1 second, using the exponential-smoothing chase.
+   * When true, renders a mobile aperture-ring strip below the iris (hidden on
+   * md+ screens). Lets touch users drag through f-stops; "A" snaps back to
+   * defaultFStop via releaseControl.
    */
-  initAnimation?: boolean;
+  apertureStrip?: boolean;
+  /**
+   * When present, plays an entry animation on mount: open → closedFStop →
+   * defaultFStop, using the exponential-smoothing chase. The object value
+   * controls the two-phase timing. Absence (undefined) disables the animation.
+   */
+  initAnimation?: IrisInitAnimation;
   /**
    * Hard stop for mouse interaction — the minimum aperture (maximum f-number)
    * the pointer can reach. Paired with openFStop which anchors the open end.
+   * Only relevant when interactive is true.
    */
   closedFStop?: number;
   /**
-   * Scale factor applied to the iris diameter to compute the mouse interaction
-   * hotzone (Design Lab follow-mouse mode).
+   * Horizontal scale factor applied to the iris diameter to compute the width
+   * of the mouse interaction hotzone. Values > 1 widen the area, making the
+   * control less sensitive. Only relevant when interactive is true.
    */
-  hotzoneScale?: number;
+  hotzoneScaleH?: number;
+  /**
+   * Vertical scale factor applied to the iris diameter to compute the height
+   * of the mouse interaction hotzone. Only relevant when interactive is true.
+   */
+  hotzoneScaleV?: number;
 
   // ── Animation ────────────────────────────────────────────────────────────────
   /** Exponential-smoothing time constant for follow-mouse chase (ms). */
@@ -65,51 +94,18 @@ export interface IrisConfig extends StoredIrisParams {
   catchupMs?: number;
 }
 
-// ── Defaults ──────────────────────────────────────────────────────────────────
-//
-// Default values for every optional IrisConfig field. bladeColor / strokeColor
-// are intentionally absent: their default is undefined (Tailwind auto switching).
-//
-// Use withIrisDefaults() to merge a partial config with these values so that
-// the component receives a fully-populated config with no ?? fallbacks.
-
-export const IRIS_DEFAULTS = {
-  strokeWidth:   1.5,
-  interactive:   false,
-  initAnimation: false,
-  closedFStop:   22,
-  hotzoneScale:  1.5,
-  chaseTauMs:    60,
-  easeOutMs:     700,
-  catchupMs:     300,
-} satisfies Partial<IrisConfig>;
-
-/**
- * IrisConfig with all IRIS_DEFAULTS fields guaranteed non-undefined.
- * Returned by withIrisDefaults() so callers can destructure without fallbacks.
- */
-export type FilledIrisConfig = IrisConfig & Required<Pick<IrisConfig, keyof typeof IRIS_DEFAULTS>>;
-
-/**
- * Merge an IrisConfig with IRIS_DEFAULTS. Optional fields not supplied in
- * `config` are filled from IRIS_DEFAULTS; explicit values override the defaults.
- *
- * Use this when defining named configs (IRIS_HERO, IRIS_NAV) so that the
- * objects passed to <Iris> always carry fully-populated configs.
- */
-export function withIrisDefaults(config: IrisConfig): FilledIrisConfig {
-  return { ...IRIS_DEFAULTS, ...config } as FilledIrisConfig;
-}
-
 // ── Named configs ─────────────────────────────────────────────────────────────
 //
-// Two optical-size tiers — analogous to font optical sizing:
+// Three optical-size tiers:
 //   IRIS_HERO  → homepage hero (large, interactive)
 //   IRIS_NAV   → navbar icon, OG image, apple icon (small / static renders)
+//   IRIS_LAB   → Design Lab workspace (tunable copy of IRIS_HERO)
 //
-// Only fields that differ from IRIS_DEFAULTS need to be listed here.
+// Every field used by the component must be listed explicitly — there is no
+// global defaults object. Optional fields absent from a config (e.g. IRIS_NAV
+// has no interactive fields) are handled by the component with inline fallbacks.
 
-export const IRIS_HERO: IrisConfig = withIrisDefaults({
+export const IRIS_HERO: IrisConfig = {
   // Mechanical
   N: 7,
   pinDistance: 85,
@@ -118,23 +114,25 @@ export const IRIS_HERO: IrisConfig = withIrisDefaults({
   bladeWidth: 40,
   openFStop: 1.4,
   defaultFStop: 4,
-  // Size
-  size: 208,
+  // Size — matches the tight viewBox: visible iris ≈ 116 px at this render size
+  size: 120,
   // Appearance
   bladeColor: "#181818",
   strokeColor: "#b3b3b3",
   strokeWidth: 1,
-  // Interactive — non-default values only
+  // Interactive
   interactive: true,
-  initAnimation: true,
+  apertureStrip: true,
+  initAnimation: { sweepMs: 800, totalMs: 1000 },
   closedFStop: 22,
-  hotzoneScale: 1.5,
+  hotzoneScaleH: 1.5,
+  hotzoneScaleV: 1.0,
   chaseTauMs: 60,
   easeOutMs: 700,
   catchupMs: 300,
-});
+};
 
-export const IRIS_NAV: IrisConfig = withIrisDefaults({
+export const IRIS_NAV: IrisConfig = {
   // Mechanical
   N: 5,
   pinDistance: 88,
@@ -150,7 +148,33 @@ export const IRIS_NAV: IrisConfig = withIrisDefaults({
   bladeColor: "#181818",
   strokeColor: "#ffffff",
   strokeWidth: 5,
-});
+};
+
+export const IRIS_LAB: IrisConfig = {
+  // Mechanical
+  N: 7,
+  pinDistance: 85,
+  slotOffset: 0.804533,
+  bladeLength: 120,
+  bladeWidth: 40,
+  openFStop: 1.4,
+  defaultFStop: 4,
+  // Size — matches IRIS_HERO
+  size: 120,
+  // Appearance
+  bladeColor: "#181818",
+  strokeColor: "#b3b3b3",
+  strokeWidth: 1,
+  // Interactive
+  interactive: true,
+  initAnimation: { sweepMs: 800, totalMs: 1000 },
+  closedFStop: 22,
+  hotzoneScaleH: 1.5,
+  hotzoneScaleV: 1.0,
+  chaseTauMs: 60,
+  easeOutMs: 700,
+  catchupMs: 300,
+};
 
 // Site-level metadata (name, description, theme color, PWA display mode, etc.)
 // lives in src/config/site.ts — not here. This file is scoped to Iris rendering
