@@ -105,7 +105,7 @@ function buildIco(pngs: Buffer[]): Buffer {
   for (const png of pngs) {
     // Read dimensions from the PNG IHDR chunk (bytes 16–23).
     const w = png.readUInt32BE(16);
-    const h = png.readUInt32BE(18);
+    const h = png.readUInt32BE(20);
     const entry = Buffer.alloc(dirEntrySize);
     entry.writeUInt8(w >= 256 ? 0 : w, 0);  // width  (0 = 256)
     entry.writeUInt8(h >= 256 ? 0 : h, 1);  // height (0 = 256)
