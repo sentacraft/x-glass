@@ -87,39 +87,37 @@ function svgToPng(svg: string, size: number): Buffer {
   return Buffer.from(resvg.render().asPng());
 }
 
-// Build a multi-size ICO file from individual PNG buffers.
-// ICO format: 6-byte header + 16-byte directory entry per image + concatenated PNG data.
-function buildIco(pngs: Buffer[]): Buffer {
+// Build a multi-size ICO file by embedding PNG data directly.
+// Modern ICO (Vista+) supports PNG payloads, so we don't need to convert
+// to BMP DIB format. The caller provides each image's size explicitly,
+// avoiding fragile manual parsing of PNG binary headers.
+function buildIco(images: Array<{ size: number; png: Buffer }>): Buffer {
   const headerSize = 6;
   const dirEntrySize = 16;
-  const dirSize = dirEntrySize * pngs.length;
-  let dataOffset = headerSize + dirSize;
+  let dataOffset = headerSize + dirEntrySize * images.length;
 
   // Header: reserved(2) + type=1(2) + count(2)
   const header = Buffer.alloc(headerSize);
-  header.writeUInt16LE(0, 0);           // reserved
-  header.writeUInt16LE(1, 2);           // type: 1 = ICO
-  header.writeUInt16LE(pngs.length, 4); // image count
+  header.writeUInt16LE(0, 0);
+  header.writeUInt16LE(1, 2);
+  header.writeUInt16LE(images.length, 4);
 
   const dirEntries: Buffer[] = [];
-  for (const png of pngs) {
-    // Read dimensions from the PNG IHDR chunk (bytes 16–23).
-    const w = png.readUInt32BE(16);
-    const h = png.readUInt32BE(20);
+  for (const { size, png } of images) {
     const entry = Buffer.alloc(dirEntrySize);
-    entry.writeUInt8(w >= 256 ? 0 : w, 0);  // width  (0 = 256)
-    entry.writeUInt8(h >= 256 ? 0 : h, 1);  // height (0 = 256)
-    entry.writeUInt8(0, 2);                  // colour palette
-    entry.writeUInt8(0, 3);                  // reserved
-    entry.writeUInt16LE(1, 4);               // colour planes
-    entry.writeUInt16LE(32, 6);              // bits per pixel
-    entry.writeUInt32LE(png.length, 8);      // data size
-    entry.writeUInt32LE(dataOffset, 12);     // data offset
+    entry.writeUInt8(size >= 256 ? 0 : size, 0); // width  (0 = 256)
+    entry.writeUInt8(size >= 256 ? 0 : size, 1); // height (0 = 256)
+    entry.writeUInt8(0, 2);                       // colour palette
+    entry.writeUInt8(0, 3);                       // reserved
+    entry.writeUInt16LE(1, 4);                    // colour planes
+    entry.writeUInt16LE(32, 6);                   // bits per pixel
+    entry.writeUInt32LE(png.length, 8);           // data size
+    entry.writeUInt32LE(dataOffset, 12);          // data offset
     dirEntries.push(entry);
     dataOffset += png.length;
   }
 
-  return Buffer.concat([header, ...dirEntries, ...pngs]);
+  return Buffer.concat([header, ...dirEntries, ...images.map((i) => i.png)]);
 }
 
 // ── Output definitions ────────────────────────────────────────────────────────
@@ -162,10 +160,11 @@ for (const { path, size, padding, background } of outputs) {
 // padding, so every pixel is rendered at native resolution — no downscaling.
 
 const faviconSizes = [16, 32, 48];
-const faviconPngs = faviconSizes.map((s) =>
-  svgToPng(irisToSvg(s, PADDING.favicon), s)
-);
-writeFileSync(resolve("public/favicon.ico"), buildIco(faviconPngs));
+const faviconImages = faviconSizes.map((size) => ({
+  size,
+  png: svgToPng(irisToSvg(size, PADDING.favicon), size),
+}));
+writeFileSync(resolve("public/favicon.ico"), buildIco(faviconImages));
 console.log(`✓ public/favicon.ico (${faviconSizes.join("+")}px)`);
 
 console.log("\nDone.");
