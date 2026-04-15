@@ -218,6 +218,7 @@ export default async function LensDetailPage({ params }: { params: Params }) {
                   sizes="224px"
                   style={lensImageStyle}
                   className="object-contain"
+                  priority
                 />
               </div>
             ) : (

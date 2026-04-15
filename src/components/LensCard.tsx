@@ -18,6 +18,7 @@ interface Props {
   isSelected: boolean;
   selectionDisabled: boolean;
   onToggle: () => void;
+  priority?: boolean;
 }
 
 export default function LensCard({
@@ -25,6 +26,7 @@ export default function LensCard({
   isSelected,
   selectionDisabled,
   onToggle,
+  priority = false,
 }: Props) {
   const t = useTranslations("LensList");
   const tBrand = useTranslations("Brands");
@@ -95,6 +97,7 @@ export default function LensCard({
                   sizes="(max-width: 499px) 112px, (max-width: 640px) 50vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
                   style={lensImageStyle}
                   className="object-contain"
+                  priority={priority}
                 />
               ) : (
                 <div className="flex h-full items-center justify-center overflow-hidden rounded-xl bg-white/80 dark:bg-zinc-950/70">

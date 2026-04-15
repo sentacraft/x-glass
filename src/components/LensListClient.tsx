@@ -205,13 +205,14 @@ export default function LensListClient({ lenses }: Props) {
               transition={{ duration: 0.18, ease: "easeOut" }}
               className="grid grid-cols-1 gap-4 min-[500px]:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
             >
-              {displayed.map((lens) => (
+              {displayed.map((lens, i) => (
                 <LensCard
                   key={lens.id}
                   lens={lens}
                   isSelected={compareIds.includes(lens.id)}
                   selectionDisabled={!canToggle(lens.id)}
                   onToggle={() => toggleCompare(lens.id)}
+                  priority={i < 8}
                 />
               ))}
             </motion.div>
