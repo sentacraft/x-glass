@@ -96,6 +96,7 @@ export default function LensCard({
                 style={lensImageStyle}
                 className="object-contain"
                 priority={priority}
+                loading={priority ? undefined : "eager"}
               />
             </div>
           </div>

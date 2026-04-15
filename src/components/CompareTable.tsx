@@ -48,6 +48,7 @@ function LensHeaderContent({
             sizes="(min-width: 640px) 160px, 80px"
             style={lensImageStyle}
             className="object-contain"
+            priority
           />
         </div>
       </div>
