@@ -87,6 +87,41 @@ function svgToPng(svg: string, size: number): Buffer {
   return Buffer.from(resvg.render().asPng());
 }
 
+// Build a multi-size ICO file from individual PNG buffers.
+// ICO format: 6-byte header + 16-byte directory entry per image + concatenated PNG data.
+function buildIco(pngs: Buffer[]): Buffer {
+  const headerSize = 6;
+  const dirEntrySize = 16;
+  const dirSize = dirEntrySize * pngs.length;
+  let dataOffset = headerSize + dirSize;
+
+  // Header: reserved(2) + type=1(2) + count(2)
+  const header = Buffer.alloc(headerSize);
+  header.writeUInt16LE(0, 0);           // reserved
+  header.writeUInt16LE(1, 2);           // type: 1 = ICO
+  header.writeUInt16LE(pngs.length, 4); // image count
+
+  const dirEntries: Buffer[] = [];
+  for (const png of pngs) {
+    // Read dimensions from the PNG IHDR chunk (bytes 16–23).
+    const w = png.readUInt32BE(16);
+    const h = png.readUInt32BE(18);
+    const entry = Buffer.alloc(dirEntrySize);
+    entry.writeUInt8(w >= 256 ? 0 : w, 0);  // width  (0 = 256)
+    entry.writeUInt8(h >= 256 ? 0 : h, 1);  // height (0 = 256)
+    entry.writeUInt8(0, 2);                  // colour palette
+    entry.writeUInt8(0, 3);                  // reserved
+    entry.writeUInt16LE(1, 4);               // colour planes
+    entry.writeUInt16LE(32, 6);              // bits per pixel
+    entry.writeUInt32LE(png.length, 8);      // data size
+    entry.writeUInt32LE(dataOffset, 12);     // data offset
+    dirEntries.push(entry);
+    dataOffset += png.length;
+  }
+
+  return Buffer.concat([header, ...dirEntries, ...pngs]);
+}
+
 // ── Output definitions ────────────────────────────────────────────────────────
 
 const appDir  = resolve("src/app");
@@ -121,5 +156,16 @@ for (const { path, size, padding, background } of outputs) {
   const label = path.replace(resolve(".") + "/", "");
   console.log(`✓ ${label} (${size}×${size})`);
 }
+
+// ── Favicon ICO ──────────────────────────────────────────────────────────────
+// Generated directly from SVG at each target size (16/32/48) with tight
+// padding, so every pixel is rendered at native resolution — no downscaling.
+
+const faviconSizes = [16, 32, 48];
+const faviconPngs = faviconSizes.map((s) =>
+  svgToPng(irisToSvg(s, PADDING.favicon), s)
+);
+writeFileSync(resolve("public/favicon.ico"), buildIco(faviconPngs));
+console.log(`✓ public/favicon.ico (${faviconSizes.join("+")}px)`);
 
 console.log("\nDone.");
