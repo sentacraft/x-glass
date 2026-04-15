@@ -34,12 +34,10 @@ import { buildDerivedConfig } from "../src/lib/iris-kinematics.ts";
 const dc = buildDerivedConfig(IRIS_NAV, R_HOUSING);
 const clipR = R_HOUSING - dc.bladeWidth; // visible iris radius in SVG units
 
-// Read the real viewBox from a sample render so this stays correct even if
-// the Iris component's internal viewBox ever changes.
-const _sampleSvg = renderToStaticMarkup(createElement(Iris, { config: IRIS_NAV, uid: "sample", size: 64 }));
-const _vbMatch = _sampleSvg.match(/viewBox="([^"]+)"/);
-if (!_vbMatch) throw new Error("Could not find viewBox in Iris SVG output");
-const originalViewBox = `viewBox="${_vbMatch[1]}"`;
+// The tight viewBox written by Iris.tsx: ±(clipR + 2) with a 2-unit pad.
+// This must stay in sync with the vbHalf formula in Iris.tsx.
+const vbHalf = clipR + 2;
+const tightViewBox = `viewBox="${-vbHalf} ${-vbHalf} ${vbHalf * 2} ${vbHalf * 2}"`;
 
 const PADDING = {
   // favicon: maximise fill for small sizes (32px tab icon) where breathing
@@ -63,12 +61,15 @@ function paddedViewBox(padding: number): string {
 // ── Rendering helpers ─────────────────────────────────────────────────────────
 
 function irisToSvg(size: number, padding: number, background?: string): string {
-  const svg = renderToStaticMarkup(
+  // Iris renders a wrapper div; extract just the inner <svg> element.
+  const html = renderToStaticMarkup(
     createElement(Iris, { config: IRIS_NAV, uid: "gen", size })
   );
-  let result = svg
+  const match = html.match(/<svg[\s\S]*<\/svg>/);
+  if (!match) throw new Error("gen-icons: no <svg> found in rendered Iris output");
+  let result = match[0]
     .replace("<svg ", `<svg xmlns="http://www.w3.org/2000/svg" `)
-    .replace(originalViewBox, paddedViewBox(padding));
+    .replace(tightViewBox, paddedViewBox(padding));
   // Inject a background rect as the first child of <svg> when needed.
   // Uses absolute viewBox coordinates instead of percentages because resvg
   // does not resolve "100%" correctly when the viewBox has negative origins.
