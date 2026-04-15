@@ -10,7 +10,17 @@ export default function Home() {
   const h = useTranslations("Home");
 
   return (
-    <div className="flex flex-col bg-stone-100 dark:bg-zinc-950 h-full">
+    <div
+      className="flex flex-col bg-stone-100 dark:bg-zinc-950"
+      style={{
+        // h-full only fills the layout wrapper's content area (height − safe-area-inset-bottom
+        // padding). On iOS PWA the remaining safe-area strip has no background, leaving a white
+        // gap. Extending height into the padding zone covers it; the equal pb keeps content above
+        // the home indicator (mirrors the existing safe-area padding on the layout wrapper).
+        height: "calc(100% + env(safe-area-inset-bottom, 0px))",
+        paddingBottom: "env(safe-area-inset-bottom, 0px)",
+      }}
+    >
       {/* Hero */}
       <section className="flex flex-col items-center justify-center text-center px-4 py-16 flex-1">
         <Iris config={IRIS_HERO} uid="hero" />
