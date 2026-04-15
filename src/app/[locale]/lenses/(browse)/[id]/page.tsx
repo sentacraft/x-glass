@@ -25,9 +25,10 @@ export async function generateMetadata({
   params: Params;
 }): Promise<Metadata> {
   const { id } = await params;
+  const t = await getTranslations("LensDetail");
   const lens = allLenses.find((l) => l.id === id);
   if (!lens) {
-    return { title: "Lens Not Found" };
+    return { title: t("notFoundTitle") };
   }
   return {
     title: lens.model,

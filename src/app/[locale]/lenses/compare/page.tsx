@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
 import { parseLensIds } from "@/lib/lens";
 import CompareTable from "@/components/CompareTable";
 import ComparePageHeader from "@/components/ComparePageHeader";
@@ -9,11 +10,12 @@ export async function generateMetadata({
 }: {
   searchParams: Promise<{ ids?: string }>;
 }): Promise<Metadata> {
+  const t = await getTranslations("Compare");
   const { ids } = await searchParams;
   const lenses = parseLensIds(ids);
 
   if (lenses.length < 2) {
-    return { title: "Compare" };
+    return { title: t("title") };
   }
 
   const title = lenses.map((l) => l.model).join(" vs ");

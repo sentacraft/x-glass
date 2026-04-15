@@ -2,17 +2,20 @@
 
 import { Popover } from "@base-ui/react/popover";
 import { Info } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 interface Props {
   note: string;
 }
 
 export function FieldNotePopover({ note }: Props) {
+  const t = useTranslations("Common");
+
   return (
     <Popover.Root>
       <Popover.Trigger
         className="inline-flex shrink-0 items-center justify-center rounded-full text-zinc-400 outline-none transition-colors hover:text-zinc-600 focus-visible:ring-2 focus-visible:ring-zinc-400 dark:text-zinc-500 dark:hover:text-zinc-300"
-        aria-label="Additional information"
+        aria-label={t("additionalInfo")}
       >
         <Info className="size-3.5" />
       </Popover.Trigger>

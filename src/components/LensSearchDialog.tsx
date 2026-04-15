@@ -209,7 +209,7 @@ export default function LensSearchDialog({
               {query && (
                 <button
                   type="button"
-                  aria-label="Clear search"
+                  aria-label={t("clear")}
                   onClick={() => {
                     setQuery("");
                     setActiveIndex(0);

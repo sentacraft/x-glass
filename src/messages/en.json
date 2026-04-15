@@ -1,7 +1,10 @@
 {
   "Common": {
     "appName": "X-Glass",
-    "appDesc": "Lens data, normalized."
+    "appDesc": "A clearer way to browse and compare Fujifilm X-mount lenses.",
+    "goBack": "Go back",
+    "backToTop": "Back to top",
+    "additionalInfo": "Additional information"
   },
   "Nav": {
     "lenses": "Browse",
@@ -12,27 +15,28 @@
     "open": "Open lens search",
     "close": "Close search",
     "title": "Search Lenses",
-    "description": "Search by model, brand, or series to quickly jump to a lens page.",
+    "description": "Search by model, brand, or series to jump straight to the lens you want.",
     "addLens": "Add lens",
     "add": "Add",
-    "cardHint": "Search by model name and add another lens to the current comparison.",
-    "placeholder": "Search by model, brand, or series, for example XF35mm, Sigma, or XF",
-    "emptyTitle": "Type a lens model to begin",
-    "emptyDescription": "Auto-suggest will appear as soon as you enter a few characters.",
-    "noResults": "No matching lenses found",
-    "noResultsHint": "Try a shorter model fragment, brand name, or series keyword.",
-    "suggestLens": "Don't see the lens you're looking for?",
+    "cardHint": "Search by model name, then add another lens to this comparison.",
+    "placeholder": "Search by model, brand, or series, like XF35mm, Sigma, or XF",
+    "emptyTitle": "Start typing to search",
+    "emptyDescription": "Suggestions will appear once you've entered a few characters.",
+    "noResults": "No matching lenses yet",
+    "noResultsHint": "Try a shorter model name, a brand, or a series keyword.",
+    "suggestLens": "Still can't find your lens?",
     "suggestLensLink": "Tell us",
     "results": "Lens search results",
+    "clear": "Clear search",
     "view": "Open",
     "generation": "Gen {value}"
   },
   "Home": {
     "cta": "Browse Lenses",
     "ctaCompare": "Compare",
-    "dataSnapshot": "lens.json loaded ✓",
-    "dataSnapshotCount": "{count} lenses · {brands} brands · 0 hallucination",
-    "dataTooltip": "Verified from manufacturer data. No AI-generated specs."
+    "dataSnapshot": "Data pipeline synced",
+    "dataSnapshotCount": "{count} lenses · {brands} brands · zero AI-made specs",
+    "dataTooltip": "Specs are checked against manufacturer sources, not invented by AI."
   },
   "LensList": {
     "title": "Lenses",
@@ -166,7 +170,8 @@
     "addToCompare": "Add to Compare",
     "removeFromCompare": "Remove",
     "officialSite": "Official site",
-    "reportIssue": "Report an issue"
+    "reportIssue": "Report a data issue",
+    "notFoundTitle": "Lens Not Found"
   },
   "Brands": {
     "7artisans": "7Artisans",
@@ -184,7 +189,7 @@
     "addLens": "Add lens",
     "selectFirst": "Add lens",
     "addMore": "Add lens",
-    "emptyHint": "Compare up to {count} lenses",
+    "emptyHint": "Compare up to {count} lenses side by side",
     "addToCompareAction": "Add to compare",
     "alreadyAdded": "Already added",
     "compareFull": "Compare full",
@@ -198,7 +203,7 @@
     "button": "Share",
     "title": "Share this comparison",
     "titleSingle": "Share this lens",
-    "description": "This link preserves the current lens selection and column order.",
+    "description": "This link keeps the current lens selection and column order intact.",
     "copyLink": "Copy Link",
     "copied": "Copied!",
     "nativeShare": "Share",
@@ -260,30 +265,30 @@
     "pageTitle": "About X-Glass",
 
     "backgroundTitle": "Background",
-    "backgroundBody": "X-Glass is an independent tool for browsing and comparing Fujifilm X-mount lenses across all brands. It was built to fill a gap: no single tool offered a unified, cross-brand X-mount database with interactive side-by-side comparison.",
+    "backgroundBody": "X-Glass is an independent tool for browsing and comparing Fujifilm X-mount lenses across brands. It exists to fill a gap: there wasn't a single place that combined full X-mount coverage with clean, side-by-side comparison.",
 
     "coverageTitle": "Lens Coverage",
-    "coverageBody": "X-Glass covers all commercially available lenses natively compatible with the Fujifilm X-mount, including Fujifilm's own XF, XC, and MK series, as well as third-party brands. Multiple generations of the same focal length are listed separately. Adapted lenses from other mounts are out of scope.",
+    "coverageBody": "X-Glass aims to cover every commercially available lens made natively for the Fujifilm X-mount, including Fujifilm's XF, XC, and MK lines as well as third-party brands. Different generations of the same focal length are listed separately. Adapted lenses from other mounts are outside the current scope.",
     "coverageBrands": "Currently indexed brands",
     "coverageBrandList": "Fujifilm · Sigma · Tamron · Viltrox · TTArtisan · 7Artisans · Brightin Star · SG Image",
 
     "dataTitle": "Data Maintenance",
-    "dataBody": "Lens data is collected and structured through an automated pipeline, with human review before each release. Updates are published when new lenses launch or when corrections are made.",
-    "dataVersionNote": "The version number and last-updated timestamp in the footer reflect the most recent data release.",
+    "dataBody": "Lens data is gathered and structured through an automated pipeline, then reviewed by hand before release. Updates go out when new lenses launch or when we correct existing data.",
+    "dataVersionNote": "The version number and last-updated timestamp in the footer reflect the latest published data release.",
 
     "faqTitle": "FAQ",
     "faq1Q": "A lens I'm looking for isn't here. Why?",
-    "faq1A": "We aim for complete X-mount coverage, but the database grows incrementally and some lenses may not have been added yet. Use the feedback links at the bottom of this page to suggest a missing lens — that's the fastest way to get it on our radar.",
+    "faq1A": "We're working toward complete X-mount coverage, but the database grows incrementally and some lenses may still be missing. Use the feedback links at the bottom of this page to suggest one. That's the fastest way to put it on our radar.",
     "faq2Q": "A spec doesn't match the manufacturer's page. Which is correct?",
-    "faq2A": "Always treat the manufacturer's official page as the source of truth. Our data may contain errors or lag behind spec revisions. If you spot a discrepancy, use the \"Report an issue\" link on the lens detail page.",
+    "faq2A": "Always treat the manufacturer's official page as the source of truth. Our data can contain mistakes or lag behind spec revisions. If you spot a mismatch, use the \"Report a data issue\" link on the lens detail page.",
     "faq3Q": "Is X-Glass affiliated with Fujifilm or any lens brand?",
     "faq3A": "No. X-Glass is an independent project with no affiliation to Fujifilm or any other manufacturer. Lens names and brand marks are the property of their respective owners.",
     "faq4Q": "Why do some fields show \"—\"?",
-    "faq4A": "A dash means the data hasn't been collected yet, or the manufacturer hasn't publicly disclosed that spec. We continuously work to fill in gaps.",
+    "faq4A": "A dash means we haven't collected the data yet, or the manufacturer hasn't publicly published that spec. We're gradually filling in those gaps.",
 
     "disclaimerTitle": "Disclaimer & Data Sources",
     "disclaimerSources": "Specifications are sourced primarily from manufacturer official websites and product pages.",
-    "disclaimerAccuracy": "Data may contain errors and specs can change without notice. Always verify critical specifications directly with the manufacturer before making a purchase decision.",
+    "disclaimerAccuracy": "Data can contain errors, and specs may change without notice. Always verify important details directly with the manufacturer before making a purchase decision.",
     "disclaimerLiability": "X-Glass is not responsible for any decisions made based on information presented here.",
 
     "privacyTitle": "Privacy",
@@ -294,42 +299,42 @@
     "changelogPlaceholder": "Coming soon",
 
     "feedbackTitle": "Feedback & Contact",
-    "feedbackBody": "Spotted incorrect data or a missing lens? Reports go directly to the maintainer.",
+    "feedbackBody": "Spotted incorrect data or a missing lens? Your report goes straight to the maintainer.",
     "feedbackReport": "Report a data issue",
     "feedbackSuggest": "Suggest a missing lens",
     "feedbackGeneral": "General feedback"
   },
   "Footer": {
     "updatedPrefix": "Updated",
-    "tagline1": "Data over opinions",
-    "tagline2": "Glass matters",
-    "tagline3": "aperture ring > mode dial",
-    "tagline4": "f/2 feels right"
+    "tagline1": "Data first, opinions second",
+    "tagline2": "Great glass matters",
+    "tagline3": "Aperture ring > mode dial",
+    "tagline4": "f/2 just feels right"
   },
   "Feedback": {
     "titleDataIssue": "Report a data issue",
     "titleMissingLens": "Suggest a missing lens",
     "titleGeneral": "Send feedback",
-    "descriptionDataIssue": "Tell us what's wrong — wrong spec, broken image, typo, anything. It goes straight to the maintainer.",
-    "descriptionMissingLens": "Know an X-mount lens we're missing? Let us know and we'll add it to the queue.",
-    "descriptionGeneral": "Thoughts, bug reports, feature ideas — all welcome.",
+    "descriptionDataIssue": "Wrong spec, broken image, typo, weird detail — tell us what you found. It goes straight to the maintainer.",
+    "descriptionMissingLens": "Know an X-mount lens we're missing? Send it over and we'll add it to the queue.",
+    "descriptionGeneral": "Thoughts, bug reports, and feature ideas are all welcome.",
     "contextLens": "About: {model}",
     "contextQuery": "Search query: {query}",
     "fieldPickerLabel": "Affected field",
-    "fieldPickerPlaceholder": "Select a field…",
+    "fieldPickerPlaceholder": "Choose a field…",
     "currentValueLabel": "Current value:",
     "suggestedCorrectionLabel": "Suggested correction",
-    "suggestedCorrectionPlaceholder": "e.g. 55mm, f/1.8, Yes…",
+    "suggestedCorrectionPlaceholder": "For example: 55mm, f/1.8, Yes…",
     "descriptionLabel": "Description",
     "descriptionOptional": "optional",
-    "contentRequired": "Please provide a suggested correction or a description.",
-    "descriptionPlaceholder": "Describe the issue in as much detail as you like…",
+    "contentRequired": "Add either a suggested correction or a description.",
+    "descriptionPlaceholder": "Describe the issue with as much detail as you'd like…",
     "submit": "Submit",
     "submitting": "Submitting…",
     "cancel": "Cancel",
     "close": "Close",
-    "success": "Thanks — your feedback was received. We'll take a look shortly.",
-    "error": "Something went wrong. Please try again in a moment."
+    "success": "Thanks, your feedback is in. We'll take a look soon.",
+    "error": "Something went wrong. Please try again in a bit."
   },
   "Install": {
     "pageTitle": "Get the App",
