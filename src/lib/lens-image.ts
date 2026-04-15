@@ -6,3 +6,6 @@
 export const lensImageStyle = {
   objectPosition: "center",
 } as const;
+
+/** Derives the lens image URL from its ID following the /lenses/{id}.webp convention. */
+export const getLensImageUrl = (id: string) => `/lenses/${id}.webp`;
