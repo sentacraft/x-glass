@@ -8,6 +8,7 @@ import { FEATURE_ICONS } from "@/lib/feature-icons";
 import type { Lens } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { classifyFocusMotor } from "@/lib/lens";
+import { getLensImageUrl } from "@/lib/lens-image";
 import {
   apertureDisplay,
   weightDisplay,
@@ -325,24 +326,17 @@ export function SharePoster({ lenses, labels, custom, shareUrl, ref }: SharePost
                     justifyContent: "center",
                   }}
                 >
-                  {lens.imageUrl ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={lens.imageUrl}
-                      alt={lens.model}
-                      crossOrigin="anonymous"
-                      style={{ maxWidth: "100%", maxHeight: "100%", objectFit: "contain" }}
-                    />
-                  ) : (
-                    <div
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        background: "#f4f4f5",
-                        borderRadius: 8,
-                      }}
-                    />
-                  )}
+                  {/*
+                    * eslint-disable-next-line @next/next/no-img-element
+                    * Must use native <img> here — canvas capture libraries (html2canvas etc.)
+                    * cannot handle Next.js <Image>'s wrapper divs and srcset attributes.
+                    */}
+                  <img
+                    src={getLensImageUrl(lens.id)}
+                    alt={lens.model}
+                    crossOrigin="anonymous"
+                    style={{ maxWidth: "100%", maxHeight: "100%", objectFit: "contain" }}
+                  />
                 </div>
                 {/* Brand */}
                 <div

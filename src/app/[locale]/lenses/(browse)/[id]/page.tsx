@@ -4,11 +4,10 @@ import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { Flag } from "lucide-react";
 import { allLenses, getLensUrl } from "@/lib/lens";
-import { lensImageStyle } from "@/lib/lens-image";
+import { lensImageStyle, getLensImageUrl } from "@/lib/lens-image";
 import { buildSpecGroups, resolveSpecGroups } from "@/lib/lens-spec-groups";
 import type { ResolvedSpecRow, StructuredLine } from "@/lib/lens-spec-groups";
 import { ExternalLink } from "@/components/ui/external-link";
-import { LensPlaceholderIcon } from "@/components/ui/lens-placeholder-icon";
 import { Link } from "@/i18n/navigation";
 import AddToCompareButton from "@/components/AddToCompareButton";
 import BackButton from "@/components/BackButton";
@@ -209,21 +208,17 @@ export default async function LensDetailPage({ params }: { params: Params }) {
         {/* Image */}
         <div className="w-full max-w-56 mx-auto sm:mx-0 shrink-0 sm:w-56">
           <div className="flex aspect-square items-center justify-center overflow-hidden rounded-2xl border border-zinc-100 bg-zinc-50/70 p-5 dark:border-zinc-800 dark:bg-zinc-900/50">
-            {lens.imageUrl ? (
-              <div className="relative aspect-square w-full overflow-hidden">
-                <Image
-                  src={lens.imageUrl}
-                  alt={lens.model}
-                  fill
-                  sizes="224px"
-                  style={lensImageStyle}
-                  className="object-contain"
-                  priority
-                />
-              </div>
-            ) : (
-              <LensPlaceholderIcon className="h-20 w-20 text-zinc-300 dark:text-zinc-600" />
-            )}
+            <div className="relative aspect-square w-full overflow-hidden">
+              <Image
+                src={getLensImageUrl(lens.id)}
+                alt={lens.model}
+                fill
+                sizes="224px"
+                style={lensImageStyle}
+                className="object-contain"
+                priority
+              />
+            </div>
           </div>
         </div>
 

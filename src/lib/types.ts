@@ -651,11 +651,6 @@ export interface Lens {
    */
   officialLinks: LensOfficialLinks;
 
-  /**
-   * Main product image URL, ideally a clean front or three-quarter product shot.
-   * @example "https://example.com/images/xf35mm-f14-r.png"
-   */
-  imageUrl: string;
 }
 
 /**

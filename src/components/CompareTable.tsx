@@ -15,7 +15,6 @@ import { useTranslations } from "next-intl";
 import { ChevronLeft, ChevronRight, Flag, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ICON_CLOSE_BTN_CLS } from "@/lib/ui-tokens";
-import { LensPlaceholderIcon } from "@/components/ui/lens-placeholder-icon";
 import { BoolCell } from "@/components/ui/bool-cell";
 import { FieldNotePopover } from "@/components/ui/field-note-popover";
 import { useRouter } from "@/i18n/navigation";
@@ -24,7 +23,7 @@ import type { FeedbackField } from "@/components/FeedbackDialog";
 import { useCompare } from "@/context/CompareProvider";
 import { allLenses, getLensUrl, MAX_COMPARE } from "@/lib/lens";
 import LensSearchDialog from "@/components/LensSearchDialog";
-import { lensImageStyle } from "@/lib/lens-image";
+import { lensImageStyle, getLensImageUrl } from "@/lib/lens-image";
 import { buildSpecGroups, resolveSpecRow } from "@/lib/lens-spec-groups";
 import type { StructuredLine, ResolvedSpecRow } from "@/lib/lens-spec-groups";
 import type { Lens } from "@/lib/types";
@@ -41,20 +40,17 @@ function LensHeaderContent({
   return (
     <>
       <div className="mb-1 flex w-full max-w-[80px] items-center justify-center overflow-hidden rounded-xl bg-zinc-50/70 p-1.5 sm:mb-2 sm:max-w-[160px] sm:p-3 dark:bg-zinc-900/50">
-        {lens.imageUrl ? (
-          <div className="relative aspect-square w-full overflow-hidden">
-            <Image
-              src={lens.imageUrl}
-              alt={lens.model}
-              fill
-              sizes="(min-width: 640px) 160px, 80px"
-              style={lensImageStyle}
-              className="object-contain"
-            />
-          </div>
-        ) : (
-          <LensPlaceholderIcon className="h-10 w-10 sm:h-20 sm:w-20 text-zinc-300 dark:text-zinc-600" />
-        )}
+        <div className="relative aspect-square w-full overflow-hidden">
+          <Image
+            src={getLensImageUrl(lens.id)}
+            alt={lens.model}
+            fill
+            sizes="(min-width: 640px) 160px, 80px"
+            style={lensImageStyle}
+            className="object-contain"
+            priority
+          />
+        </div>
       </div>
 
       <p className="text-center text-xs font-normal text-zinc-500 dark:text-zinc-400">
@@ -416,7 +412,7 @@ export default function CompareTable({ lenses: initialLenses, minColumns = 0 }: 
   // top-chrome element occupies the screen at a time on mobile.
   useEffect(() => {
     lockNav(showPhantom);
-  }, [showPhantom]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [showPhantom, lockNav]);
 
   useEffect(() => {
     const container = containerRef.current;

@@ -6,9 +6,8 @@ import { Aperture, Plus, Check } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { FEATURE_ICONS } from "@/lib/feature-icons";
 import { ACTION_PRIMARY_CLS, CARD_SELECTED_BORDER_CLS } from "@/lib/ui-tokens";
-import { LensPlaceholderIcon } from "@/components/ui/lens-placeholder-icon";
 import type { Lens } from "@/lib/types";
-import { lensImageStyle } from "@/lib/lens-image";
+import { lensImageStyle, getLensImageUrl } from "@/lib/lens-image";
 import { useUiHookAttr } from "@/context/TestHookProvider";
 import * as fmt from "@/lib/lens.format";
 import { Button } from "@/components/ui/button";
@@ -89,21 +88,16 @@ export default function LensCard({
             className="absolute inset-0 p-3 sm:p-7 max-[499px]:p-2"
           >
             <div className="relative h-full w-full overflow-hidden rounded-xl">
-              {lens.imageUrl ? (
-                <Image
-                  src={lens.imageUrl}
-                  alt={lens.model}
-                  fill
-                  sizes="(max-width: 499px) 112px, (max-width: 640px) 50vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
-                  style={lensImageStyle}
-                  className="object-contain"
-                  priority={priority}
-                />
-              ) : (
-                <div className="flex h-full items-center justify-center overflow-hidden rounded-xl bg-white/80 dark:bg-zinc-950/70">
-                  <LensPlaceholderIcon className="h-16 w-16 text-zinc-300 dark:text-zinc-600" />
-                </div>
-              )}
+              <Image
+                src={getLensImageUrl(lens.id)}
+                alt={lens.model}
+                fill
+                sizes="(max-width: 499px) 112px, (max-width: 640px) 50vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
+                style={lensImageStyle}
+                className="object-contain"
+                priority={priority}
+                loading={priority ? undefined : "eager"}
+              />
             </div>
           </div>
         </div>

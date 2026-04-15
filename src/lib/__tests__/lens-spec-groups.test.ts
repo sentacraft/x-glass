@@ -84,7 +84,6 @@ function makeLens(overrides: Partial<Lens> = {}): Lens {
     brand: "fujifilm",
     model: "Test Lens",
     officialLinks: {},
-    imageUrl: "",
     focalLengthMin: 18,
     focalLengthMax: 55,
     maxAperture: [2.8, 4],

@@ -6,10 +6,6 @@ import type { ApertureValue, Lens } from "./types.ts";
 const positiveNumberSchema = z.number().positive();
 const nonEmptyStringSchema = z.string().trim().min(1);
 const optionalNonEmptyStringSchema = nonEmptyStringSchema.optional();
-const lensImagePathSchema = z
-  .string()
-  .regex(/^\/lenses\/[a-z0-9]+(?:-[a-z0-9]+)*\.webp$/);
-
 function createApertureSchema(fieldName: "maxAperture" | "minAperture" | "maxTStop" | "minTStop") {
   return z.union([
     positiveNumberSchema,
@@ -104,7 +100,6 @@ const lensBaseShape = {
   compatibleMounts: z.array(nonEmptyStringSchema).min(1).optional(),
   accessories: z.array(nonEmptyStringSchema).min(1).optional(),
   lensMaterial: optionalNonEmptyStringSchema,
-  imageUrl: lensImagePathSchema,
 } as const;
 
 export const specNaSchema = z.literal(SPEC_NA);
@@ -236,7 +231,6 @@ function applyLensBusinessRules(
     minAperture?: ApertureValue;
     maxTStop?: ApertureValue;
     minTStop?: ApertureValue;
-    imageUrl?: string;
   },
   ctx: z.RefinementCtx
 ): void {
@@ -292,7 +286,6 @@ const KNOWN_DISTINCT_SPEC_PAIRS = new Set([
 
 export const lensCatalogSchema = z.array(lensSchema).superRefine((lenses, ctx) => {
   const seenIds = new Map<string, number>();
-  const seenImageUrls = new Map<string, number>();
   const seenCnLinks = new Map<string, number>();
   const seenGlobalLinks = new Map<string, number>();
   const seenBrandModels = new Map<string, number>();
@@ -310,17 +303,6 @@ export const lensCatalogSchema = z.array(lensSchema).superRefine((lenses, ctx) =
     }
 
     seenIds.set(lens.id, index);
-
-    const previousImageUrlIndex = seenImageUrls.get(lens.imageUrl);
-    if (previousImageUrlIndex !== undefined) {
-      ctx.addIssue({
-        code: "custom",
-        message: `Duplicate imageUrl also appears at index ${previousImageUrlIndex}`,
-        path: [index, "imageUrl"],
-      });
-    } else {
-      seenImageUrls.set(lens.imageUrl, index);
-    }
 
     if (lens.officialLinks.cn) {
       const previousCnIndex = seenCnLinks.get(lens.officialLinks.cn);
