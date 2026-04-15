@@ -121,7 +121,7 @@ export const IRIS_HERO: IrisConfig = {
   strokeColor: "#b3b3b3",
   strokeWidth: 1,
   // Interactive
-  interactive: true,
+  interactive: false,
   apertureStrip: true,
   initAnimation: { sweepMs: 800, totalMs: 1000 },
   closedFStop: 22,
