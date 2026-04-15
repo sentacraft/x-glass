@@ -14,7 +14,7 @@ export default function Home() {
       {/* Hero */}
       <section className="flex flex-col items-center justify-center text-center px-4 py-16 flex-1">
         <Iris config={IRIS_HERO} uid="hero" />
-        <h1 className="text-5xl sm:text-6xl font-bold tracking-tight text-zinc-800 dark:text-zinc-50">
+        <h1 className="mt-8 text-5xl sm:text-6xl font-bold tracking-tight text-zinc-800 dark:text-zinc-50">
           {t("appName")}
         </h1>
         <p className="mt-4 text-lg text-zinc-500 dark:text-zinc-400 max-w-sm">

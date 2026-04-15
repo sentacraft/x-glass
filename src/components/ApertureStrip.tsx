@@ -114,11 +114,12 @@ export default function ApertureStrip({
     const nearestIdx = Math.round(continuous);
     setSnapping(true);
     setTimeout(() => setSnapping(false), 220);
+    // (defaultIdx - nearestIdx) * SPACING positions nearestIdx at the centre
+    // indicator; this formula is correct for all marks including A (idx=0).
+    setOffset((defaultIdx - nearestIdx) * SPACING);
     if (nearestIdx === 0) {
-      setOffset(0);
       onRelease();
     } else {
-      setOffset((defaultIdx - nearestIdx) * SPACING);
       onDrive(MARKS[nearestIdx] as number);
     }
   }
