@@ -73,7 +73,7 @@ export default function manifest(): MetadataRoute.Manifest {
         purpose: "any",
       },
       {
-        src: "/icons/icon-512.png",
+        src: "/icons/icon-512-white.png",
         sizes: "512x512",
         type: "image/png",
         purpose: "any",
@@ -81,7 +81,7 @@ export default function manifest(): MetadataRoute.Manifest {
       {
         // 1024px for Retina macOS Dock — Chrome PWA picks the largest "any"
         // icon, and @2x displays need 1024px physical pixels for crisp rendering.
-        src: "/icons/icon-1024.png",
+        src: "/icons/icon-1024-white.png",
         sizes: "1024x1024",
         type: "image/png",
         purpose: "any",

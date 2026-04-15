@@ -51,9 +51,13 @@ const PADDING = {
   maskable: 0.225,  // → ~55% fill
 } as const;
 
+function padR(padding: number): number {
+  return clipR / (1 - padding * 2);
+}
+
 function paddedViewBox(padding: number): string {
-  const padR = clipR / (1 - padding * 2);
-  return `viewBox="${-padR} ${-padR} ${padR * 2} ${padR * 2}"`;
+  const r = padR(padding);
+  return `viewBox="${-r} ${-r} ${r * 2} ${r * 2}"`;
 }
 
 // ── Rendering helpers ─────────────────────────────────────────────────────────
@@ -66,12 +70,13 @@ function irisToSvg(size: number, padding: number, background?: string): string {
     .replace("<svg ", `<svg xmlns="http://www.w3.org/2000/svg" `)
     .replace(originalViewBox, paddedViewBox(padding));
   // Inject a background rect as the first child of <svg> when needed.
-  // Used for platforms that render transparent icons on an undesirable fill
-  // (e.g. Chrome on iOS "Add to Home Screen" shortcut uses a gray background).
+  // Uses absolute viewBox coordinates instead of percentages because resvg
+  // does not resolve "100%" correctly when the viewBox has negative origins.
   if (background) {
+    const r = padR(padding);
     result = result.replace(
       /(<svg[^>]*>)/,
-      `$1<rect width="100%" height="100%" fill="${background}"/>`
+      `$1<rect x="${-r}" y="${-r}" width="${r * 2}" height="${r * 2}" fill="${background}"/>`
     );
   }
   return result;
@@ -107,6 +112,8 @@ const outputs: Array<{
   // on an undesirable fill (iOS Chrome shortcuts, macOS Dock fallback, etc.)
   { path: resolve("public/apple-touch-icon.png"),   size: 180, padding: PADDING.standard, background: "white" },
   { path: `${iconsDir}/icon-192-white.png`,         size: 192, padding: PADDING.standard, background: "white" },
+  { path: `${iconsDir}/icon-512-white.png`,         size: 512, padding: PADDING.standard, background: "white" },
+  { path: `${iconsDir}/icon-1024-white.png`,        size: 1024, padding: PADDING.standard, background: "white" },
 ];
 
 for (const { path, size, padding, background } of outputs) {
