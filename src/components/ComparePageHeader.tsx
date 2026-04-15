@@ -51,6 +51,7 @@ export default function ComparePageHeader({ lenses, fallbackHref, minColumns = 0
 
       {/* Floating share FAB — slides up when the header share button is out of view */}
       <div
+        data-testid="compare-share-fab"
         className={`fixed bottom-6 right-4 ${Z.fixed} transition-all duration-200 sm:right-6 ${
           showFab
             ? "opacity-100 translate-y-0 pointer-events-auto"
