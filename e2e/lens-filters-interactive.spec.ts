@@ -11,7 +11,7 @@ test.describe("Focal range filter", () => {
     const totalCount = parseInt(countText!.match(/\d+/)![0], 10);
 
     // "Standard" (24–50mm) is a stable focal category chip label
-    await page.getByRole("button", { name: "Standard", exact: true }).click();
+    await page.getByRole("button", { name: /^Standard/ }).click();
 
     const filteredText = await page.getByText(/\d+ lenses/).textContent();
     const filteredCount = parseInt(filteredText!.match(/\d+/)![0], 10);
@@ -24,7 +24,7 @@ test.describe("Focal range filter", () => {
     const sigmaText = await page.getByText(/\d+ lenses/).textContent();
     const sigmaCount = parseInt(sigmaText!.match(/\d+/)![0], 10);
 
-    await page.getByRole("button", { name: "Standard", exact: true }).click();
+    await page.getByRole("button", { name: /^Standard/ }).click();
     const combinedText = await page.getByText(/\d+ lenses/).textContent();
     const combinedCount = parseInt(combinedText!.match(/\d+/)![0], 10);
 
