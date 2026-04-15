@@ -5,7 +5,7 @@
 // mimicking the visible portion of a physical aperture ring.
 //
 // Semi-controlled: the external `fStop` prop drives the display position before
-// the user's first interaction (e.g. during init animation). Once the user
+// the user's first interaction (e.g. during init animation sync). Once the user
 // touches the strip, it becomes fully self-managed — snap positions are
 // authoritative and the external prop is ignored.
 //
@@ -80,15 +80,9 @@ interface ApertureStripProps {
   defaultFStop: number;
   /**
    * Current f-stop from the parent Iris. Drives the strip position before the
-   * user's first interaction (init animation sync). Ignored after first touch.
+   * user's first interaction (e.g. during init animation). Ignored after first touch.
    */
   fStop?: number;
-  /**
-   * When present, the strip runs its own sweep animation on mount, using the
-   * same two-phase timing as the parent Iris's init animation. Phase 1 sweeps
-   * A → f/22, phase 2 sweeps f/22 → A. Overrides fStop sync while running.
-   */
-  initAnimation?: { sweepMs: number; totalMs: number };
   /** Delay before first appearance (ms). */
   showDelay?: number;
   /** Called on snap or drag with the target f-stop value. */
@@ -98,7 +92,6 @@ interface ApertureStripProps {
 export default function ApertureStrip({
   defaultFStop,
   fStop,
-  initAnimation,
   showDelay = 0,
   onDrive,
 }: ApertureStripProps) {
@@ -113,7 +106,6 @@ export default function ApertureStrip({
   const lastValidOffsetRef   = useRef(0);
   const snappingRef          = useRef(false);
   const userHasInteractedRef = useRef(false);
-  const initAnimRef          = useRef<number | null>(null);
 
   // Clamp limits: rightmost = "A" at index 0, leftmost = f/22 at last index.
   const maxOffset =  defaultIdx * SPACING;
@@ -125,42 +117,9 @@ export default function ApertureStrip({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Strip's own init animation: A → f/22 → A, driving the iris via onDrive
-  // on every frame — identical code path to a user drag.
-  useEffect(() => {
-    if (!initAnimation) return;
-    const { sweepMs, totalMs } = initAnimation;
-    const startTime = performance.now();
-    setOffset(maxOffset); // start at A
-    onDrive(defaultFStop); // initial drive: A = defaultFStop
-
-    function tick(now: number) {
-      const elapsed = now - startTime;
-      let currentOffset: number;
-      if (elapsed < sweepMs) {
-        const p = elapsed / sweepMs;
-        currentOffset = maxOffset + p * (minOffset - maxOffset);
-      } else if (elapsed < totalMs) {
-        const p2 = (elapsed - sweepMs) / (totalMs - sweepMs);
-        currentOffset = minOffset + p2 * (maxOffset - minOffset);
-      } else {
-        setOffset(maxOffset);
-        onDrive(defaultFStop); // land on A
-        initAnimRef.current = null;
-        return;
-      }
-      setOffset(currentOffset);
-      onDrive(indexToFStop(offsetToIndex(currentOffset, defaultIdx), defaultFStop));
-      initAnimRef.current = requestAnimationFrame(tick);
-    }
-    initAnimRef.current = requestAnimationFrame(tick);
-    return () => { if (initAnimRef.current) cancelAnimationFrame(initAnimRef.current); };
-  // eslint-disable-next-line react-hooks/exhaustive-deps -- mount-only
-  }, []);
-
   // Sync offset from external fStop — only when no animation or interaction.
   useEffect(() => {
-    if (fStop === undefined || userHasInteractedRef.current || dragRef.current || snappingRef.current || initAnimRef.current) return;
+    if (fStop === undefined || userHasInteractedRef.current || dragRef.current || snappingRef.current) return;
     const idx    = fStopToIndex(fStop);
     const target = Math.max(minOffset, Math.min(maxOffset, (defaultIdx - idx) * SPACING));
     setOffset(target);

@@ -82,6 +82,7 @@ export default function Iris({
   const thetaRef    = useRef<number>(DEFAULT_THETA);
   const animRef     = useRef<number | null>(null);
   const chaseRef    = useRef<number | null>(null);
+  const initAnimRef = useRef<number | null>(null);
   const targetThetaRef = useRef<number>(DEFAULT_THETA);
   const lastFrameRef   = useRef<number>(0);
   const entryOffsetRef = useRef(0);
@@ -98,8 +99,9 @@ export default function Iris({
   const shape = useMemo(() => bladeShapePath(dc), [dc]);
 
   useEffect(() => () => {
-    if (animRef.current)  cancelAnimationFrame(animRef.current);
-    if (chaseRef.current) cancelAnimationFrame(chaseRef.current);
+    if (animRef.current)     cancelAnimationFrame(animRef.current);
+    if (chaseRef.current)    cancelAnimationFrame(chaseRef.current);
+    if (initAnimRef.current) cancelAnimationFrame(initAnimRef.current);
   }, []);
 
   useEffect(() => {
@@ -108,12 +110,50 @@ export default function Iris({
     setTheta(DEFAULT_THETA);
   }, [DEFAULT_THETA, interactive]);
 
+  // ── Init animation ────────────────────────────────────────────────────────
+  // Two-phase sweep on mount: open → closed → default. Directly drives
+  // targetThetaRef — same chase loop as mouse hover and strip drag.
+  useEffect(() => {
+    if (!initAnimation) return;
+    const { sweepMs, totalMs } = initAnimation;
+
+    thetaRef.current = thetaOpen;
+    targetThetaRef.current = thetaOpen;
+    setTheta(thetaOpen);
+    startChase();
+
+    const startTime = performance.now();
+    function tick(now: number) {
+      const elapsed = now - startTime;
+      if (elapsed < sweepMs) {
+        targetThetaRef.current = thetaOpen + (elapsed / sweepMs) * (thetaMax - thetaOpen);
+        initAnimRef.current = requestAnimationFrame(tick);
+      } else if (elapsed < totalMs) {
+        const p2 = (elapsed - sweepMs) / (totalMs - sweepMs);
+        targetThetaRef.current = thetaMax + p2 * (defaultThetaRef.current - thetaMax);
+        initAnimRef.current = requestAnimationFrame(tick);
+      } else {
+        targetThetaRef.current = defaultThetaRef.current;
+        initAnimRef.current = null;
+      }
+    }
+    initAnimRef.current = requestAnimationFrame(tick);
+
+    return () => {
+      if (initAnimRef.current) { cancelAnimationFrame(initAnimRef.current); initAnimRef.current = null; }
+      stopChase();
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- mount-only init effect;
+  // thetaOpen/thetaMax read at mount time, stable for the component's lifetime.
+  }, []);
+
   // ── Imperative controls (used by ApertureStrip) ───────────────────────────
   // startChase / stopChase are function declarations hoisted to the top of
   // this render function — accessible here even though defined below.
 
   function driveToFStop(fStop: number) {
-    if (animRef.current) { cancelAnimationFrame(animRef.current); animRef.current = null; }
+    if (animRef.current)     { cancelAnimationFrame(animRef.current);     animRef.current = null; }
+    if (initAnimRef.current) { cancelAnimationFrame(initAnimRef.current); initAnimRef.current = null; }
     const t = findThetaForFStop(fStop, dc, { min: thetaOpen, max: thetaMax }, rawConfig.openFStop);
     targetThetaRef.current = Math.max(thetaOpen, Math.min(thetaMax, t));
     startChase();
@@ -178,7 +218,8 @@ export default function Iris({
 
   function handleMouseEnter(e: React.MouseEvent<HTMLDivElement>) {
     if (!interactive) return;
-    if (animRef.current) { cancelAnimationFrame(animRef.current); animRef.current = null; }
+    if (animRef.current)     { cancelAnimationFrame(animRef.current);     animRef.current = null; }
+    if (initAnimRef.current) { cancelAnimationFrame(initAnimRef.current); initAnimRef.current = null; }
     const rect = e.currentTarget.getBoundingClientRect();
     entryOffsetRef.current = thetaRef.current - posToDiameterTheta(e.clientX, rect);
     entryTimeRef.current   = performance.now();
@@ -313,7 +354,6 @@ export default function Iris({
           <ApertureStrip
             defaultFStop={rawConfig.defaultFStop}
             fStop={currentFStop}
-            initAnimation={initAnimation}
             onDrive={driveToFStop}
           />
         </div>
