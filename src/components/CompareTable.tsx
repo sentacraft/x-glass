@@ -412,9 +412,7 @@ export default function CompareTable({ lenses: initialLenses, minColumns = 0 }: 
   // top-chrome element occupies the screen at a time on mobile.
   useEffect(() => {
     lockNav(showPhantom);
-  // eslint-disable-next-line react-hooks/exhaustive-deps -- lockNav is a stable context
-  // setter; listing it would cause unnecessary re-runs without changing behavior.
-  }, [showPhantom]);
+  }, [showPhantom, lockNav]);
 
   useEffect(() => {
     const container = containerRef.current;

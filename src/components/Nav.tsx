@@ -41,9 +41,7 @@ export default function Nav() {
     setHidden(false);
     lastScrollY.current = 0;
     lockNav(false);
-  // eslint-disable-next-line react-hooks/exhaustive-deps -- setHidden/lockNav are stable context
-  // setters; omitting them is intentional to avoid re-runs on every render.
-  }, [pathname]);
+  }, [pathname, setHidden, lockNav]);
 
   // When the nav lock is released, immediately snap nav back to visible.
   useEffect(() => {
