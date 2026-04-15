@@ -42,9 +42,15 @@ function offsetToIndex(offset: number, defaultIdx: number): number {
   return Math.max(0, Math.min(MARKS.length - 1, defaultIdx - offset / SPACING));
 }
 
-// Interpolated f-stop value for a continuous index ≥ 1 (numeric zone).
-function indexToFStop(idx: number): number {
-  const lo = Math.max(1, Math.floor(idx));
+// Interpolated f-stop value for a continuous index.
+// idx 0–1 interpolates between defaultFStop (A) and MARKS[1] (f/1.4).
+// idx ≥ 1 interpolates between adjacent numeric marks as before.
+function indexToFStop(idx: number, defaultFStop: number): number {
+  if (idx < 1) {
+    const frac = Math.max(0, idx);
+    return defaultFStop + ((MARKS[1] as number) - defaultFStop) * frac;
+  }
+  const lo = Math.floor(idx);
   const hi = Math.min(MARKS.length - 1, lo + 1);
   return (MARKS[lo] as number) + ((MARKS[hi] as number) - (MARKS[lo] as number)) * (idx - lo);
 }
@@ -119,27 +125,33 @@ export default function ApertureStrip({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Strip's own init animation: A → f/22 → A, synchronized with Iris timing.
+  // Strip's own init animation: A → f/22 → A, driving the iris via onDrive
+  // on every frame — identical code path to a user drag.
   useEffect(() => {
     if (!initAnimation) return;
     const { sweepMs, totalMs } = initAnimation;
     const startTime = performance.now();
     setOffset(maxOffset); // start at A
+    onDrive(defaultFStop); // initial drive: A = defaultFStop
 
     function tick(now: number) {
       const elapsed = now - startTime;
+      let currentOffset: number;
       if (elapsed < sweepMs) {
         const p = elapsed / sweepMs;
-        setOffset(maxOffset + p * (minOffset - maxOffset));
-        initAnimRef.current = requestAnimationFrame(tick);
+        currentOffset = maxOffset + p * (minOffset - maxOffset);
       } else if (elapsed < totalMs) {
         const p2 = (elapsed - sweepMs) / (totalMs - sweepMs);
-        setOffset(minOffset + p2 * (maxOffset - minOffset));
-        initAnimRef.current = requestAnimationFrame(tick);
+        currentOffset = minOffset + p2 * (maxOffset - minOffset);
       } else {
-        setOffset(maxOffset); // land on A
+        setOffset(maxOffset);
+        onDrive(defaultFStop); // land on A
         initAnimRef.current = null;
+        return;
       }
+      setOffset(currentOffset);
+      onDrive(indexToFStop(offsetToIndex(currentOffset, defaultIdx), defaultFStop));
+      initAnimRef.current = requestAnimationFrame(tick);
     }
     initAnimRef.current = requestAnimationFrame(tick);
     return () => { if (initAnimRef.current) cancelAnimationFrame(initAnimRef.current); };
@@ -173,10 +185,7 @@ export default function ApertureStrip({
     const clamped = Math.max(minOffset, Math.min(maxOffset, raw));
     lastValidOffsetRef.current = clamped;
     setOffset(clamped);
-    const idx = offsetToIndex(clamped, defaultIdx);
-    // In the A zone (index < 0.5) don't interpolate — the A-to-1.4 transition
-    // is non-monotonic in f-stop space. Snap handles A on release.
-    if (idx >= 0.5) onDrive(indexToFStop(idx));
+    onDrive(indexToFStop(offsetToIndex(clamped, defaultIdx), defaultFStop));
   }
 
   function snapToNearest(clamped: number) {

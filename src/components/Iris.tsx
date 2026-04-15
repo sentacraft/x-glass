@@ -111,8 +111,10 @@ export default function Iris({
   }, [DEFAULT_THETA, interactive]);
 
   // Init animation: two-phase sequence on mount.
+  // When apertureStrip is enabled, the strip drives the init animation via
+  // onDrive — identical to a user drag. The iris just follows.
   useEffect(() => {
-    if (!initAnimation) return;
+    if (!initAnimation || apertureStrip) return;
 
     const { sweepMs: SWEEP_MS, totalMs: TOTAL_MS } = initAnimation;
 
