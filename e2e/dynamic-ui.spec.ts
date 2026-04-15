@@ -73,6 +73,57 @@ test.describe("Nav auto-hide (mobile only)", () => {
   });
 });
 
+test.describe("Compare table phantom header", () => {
+  // The phantom header is a sticky h-0 div that mirrors column names and floats
+  // up once the real <thead> scrolls out of view. It also locks the nav hidden
+  // (via lockNav) so two top-chrome elements never compete on mobile.
+  test.beforeEach(async ({ page }) => {
+    await page.goto(`/en/lenses/compare?ids=${LENS_A},${LENS_B}`);
+    await page.locator('[data-testid="compare-phantom-header"]').waitFor({ state: "attached" });
+    await waitForScrollable(page, 200);
+  });
+
+  test("phantom header is hidden when at the top of the page", async ({ page }) => {
+    const phantom = page.locator('[data-testid="compare-phantom-header"]');
+    await expect(phantom).toHaveAttribute("data-visible", "false");
+  });
+
+  test("phantom header appears after scrolling the table header out of view", async ({
+    page,
+  }) => {
+    await scrollBy(page, 400);
+    const phantom = page.locator('[data-testid="compare-phantom-header"]');
+    await expect(phantom).toHaveAttribute("data-visible", "true", { timeout: 3000 });
+  });
+
+  test("phantom header hides again after scrolling back to top", async ({ page }) => {
+    const phantom = page.locator('[data-testid="compare-phantom-header"]');
+
+    await scrollBy(page, 400);
+    await expect(phantom).toHaveAttribute("data-visible", "true", { timeout: 3000 });
+
+    await scrollToTop(page);
+    await expect(phantom).toHaveAttribute("data-visible", "false", { timeout: 3000 });
+  });
+
+  test("nav is locked hidden while phantom header is visible", async ({ page }) => {
+    // On mobile, the phantom header locks the nav so they don't both occupy the top
+    const viewport = page.viewportSize();
+    if (!viewport || viewport.width >= 640) {
+      // Nav auto-hide only applies on mobile — skip on desktop
+      test.skip();
+      return;
+    }
+
+    await scrollBy(page, 400);
+    const phantom = page.locator('[data-testid="compare-phantom-header"]');
+    await expect(phantom).toHaveAttribute("data-visible", "true", { timeout: 3000 });
+
+    const header = page.locator("header").first();
+    await expect(header).toHaveAttribute("data-hidden", "true", { timeout: 3000 });
+  });
+});
+
 test.describe("Compare page share FAB", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto(`/en/lenses/compare?ids=${LENS_A},${LENS_B}`);
