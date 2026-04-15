@@ -99,6 +99,7 @@ export default function ApertureStrip({
   const dragRef           = useRef<{ startX: number; startOffset: number } | null>(null);
   const lastValidOffsetRef = useRef(0);
   const snappingRef        = useRef(false);
+  const lockedAtARef       = useRef(false);
 
   // Clamp limits: rightmost = "A" at index 0, leftmost = f/22 at last index.
   const maxOffset =  defaultIdx * SPACING;
@@ -110,9 +111,9 @@ export default function ApertureStrip({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Sync offset from external fStop when not dragging or snapping.
+  // Sync offset from external fStop when not dragging, snapping, or locked at A.
   useEffect(() => {
-    if (fStop === undefined || dragRef.current || snappingRef.current) return;
+    if (fStop === undefined || dragRef.current || snappingRef.current || lockedAtARef.current) return;
     const idx    = fStopToIndex(fStop);
     const target = Math.max(minOffset, Math.min(maxOffset, (defaultIdx - idx) * SPACING));
     setOffset(target);
@@ -121,6 +122,7 @@ export default function ApertureStrip({
   function onPointerDown(e: React.PointerEvent<HTMLDivElement>) {
     e.currentTarget.setPointerCapture(e.pointerId);
     dragRef.current = { startX: e.clientX, startOffset: offset };
+    lockedAtARef.current = false;
     setSnapping(false);
   }
 
@@ -145,6 +147,7 @@ export default function ApertureStrip({
     // indicator; this formula is correct for all marks including A (idx=0).
     setOffset((defaultIdx - nearestIdx) * SPACING);
     if (nearestIdx === 0) {
+      lockedAtARef.current = true;
       onRelease();
     } else {
       onDrive(MARKS[nearestIdx] as number);
