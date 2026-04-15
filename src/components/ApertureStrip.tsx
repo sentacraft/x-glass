@@ -23,7 +23,7 @@ const MARKS: Mark[] = ["A", 1.4, 2, 2.8, 4, 5.6, 8, 11, 16, 22];
 
 // Pixel spacing between consecutive marks. Chosen so ~3 marks are visible in
 // the unfeathered centre zone.
-const SPACING = 48;
+const SPACING = 34; // reduced 30% from original 48
 
 // Index of the nearest numeric mark to a given f-stop value.
 function nearestNumericIndex(fStop: number): number {
@@ -231,15 +231,16 @@ export default function ApertureStrip({
             mark === "A" ? (
               <div
                 key={i}
-                className="w-12 text-center text-xs font-semibold tracking-[0.03em]"
-                style={{ opacity: 0.85, color: "#C0452D" }}
+                className="flex-shrink-0 text-center text-xs font-semibold tracking-[0.03em]"
+                style={{ width: SPACING, opacity: 0.85, color: "#C0452D" }}
               >
                 A
               </div>
             ) : (
               <div
                 key={i}
-                className="w-12 text-center text-xs font-medium tracking-[0.03em] tabular-nums opacity-60"
+                className="flex-shrink-0 text-center text-xs font-medium tracking-[0.03em] tabular-nums opacity-60"
+                style={{ width: SPACING }}
               >
                 {formatMark(mark)}
               </div>
