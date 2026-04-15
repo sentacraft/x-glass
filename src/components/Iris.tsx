@@ -10,7 +10,7 @@
 // Theming: bladeColor/strokeColor in the config override the Tailwind
 // fill-*/stroke-* utilities used for automatic light/dark switching.
 
-import { useState, useRef, useEffect, useMemo } from "react";
+import { useState, useRef, useEffect, useMemo, forwardRef, useImperativeHandle } from "react";
 import {
   solveAllBlades,
   bladeShapePath,
@@ -23,6 +23,19 @@ import {
 } from "@/lib/iris-kinematics";
 import { IRIS_HERO, R_HOUSING, withIrisDefaults, type IrisConfig, type FilledIrisConfig } from "@/config/iris-config";
 
+
+// ── IrisHandle ────────────────────────────────────────────────────────────────
+//
+// Imperative handle exposed via forwardRef. Lets external controls (e.g. the
+// mobile ApertureStrip) drive the iris without triggering React re-renders on
+// every pointer event frame.
+
+export interface IrisHandle {
+  /** Drive iris to this f-stop using the exponential-smoothing chase. */
+  driveToFStop: (fStop: number) => void;
+  /** Release external control and ease-out back to defaultFStop. */
+  releaseControl: () => void;
+}
 
 // ── Component ─────────────────────────────────────────────────────────────────
 
@@ -41,12 +54,12 @@ interface IrisProps {
   className?: string;
 }
 
-export default function Iris({
+const Iris = forwardRef<IrisHandle, IrisProps>(function Iris({
   config: rawConfig = IRIS_HERO,
   size: sizeProp,
   uid = "logo",
   className,
-}: IrisProps) {
+}: IrisProps, ref) {
   // Merge with IRIS_DEFAULTS — returns FilledIrisConfig, guaranteeing all
   // IRIS_DEFAULTS fields are non-undefined so destructuring needs no fallbacks.
   const config = useMemo<FilledIrisConfig>(() => withIrisDefaults(rawConfig), [rawConfig]);
@@ -167,6 +180,37 @@ export default function Iris({
   // eslint-disable-next-line react-hooks/exhaustive-deps -- mount-only init effect;
   // thetaOpen/thetaMax are intentionally read through refs to avoid stale closures.
   }, []);
+
+  // Imperative handle for external controls (e.g. mobile ApertureStrip).
+  // startChase / stopChase are function declarations and are hoisted to the top
+  // of this render function — accessible here even though defined below.
+  useImperativeHandle(ref, () => ({
+    driveToFStop(fStop: number) {
+      if (animRef.current)     { cancelAnimationFrame(animRef.current);     animRef.current = null; }
+      if (initAnimRef.current) { cancelAnimationFrame(initAnimRef.current); initAnimRef.current = null; }
+      const t = findThetaForFStop(fStop, dc, { min: thetaOpen, max: thetaMax }, config.openFStop);
+      targetThetaRef.current = Math.max(thetaOpen, Math.min(thetaMax, t));
+      startChase();
+    },
+    releaseControl() {
+      stopChase();
+      const fromTheta = thetaRef.current;
+      const toTheta   = DEFAULT_THETA;
+      const startMs   = performance.now();
+      const duration  = easeOutMs;
+      function tick(now: number) {
+        const p     = Math.min(1, (now - startMs) / duration);
+        const eased = 1 - (1 - p) ** 3;
+        const v     = fromTheta + (toTheta - fromTheta) * eased;
+        thetaRef.current = v;
+        setTheta(v);
+        if (p < 1) animRef.current = requestAnimationFrame(tick);
+        else animRef.current = null;
+      }
+      animRef.current = requestAnimationFrame(tick);
+    },
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }), [dc, thetaOpen, thetaMax, config.openFStop, DEFAULT_THETA, easeOutMs]);
 
   const { N } = dc;
   const stepDeg = 360 / N;
@@ -339,4 +383,6 @@ export default function Iris({
 
     </svg>
   );
-}
+});
+
+export default Iris;
