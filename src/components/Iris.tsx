@@ -355,6 +355,7 @@ export default function Iris({
           <ApertureStrip
             defaultFStop={rawConfig.defaultFStop}
             fStop={currentFStop}
+            initAnimation={initAnimation}
             onDrive={driveToFStop}
           />
         </div>

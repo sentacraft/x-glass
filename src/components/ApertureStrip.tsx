@@ -77,6 +77,12 @@ interface ApertureStripProps {
    * user's first interaction (init animation sync). Ignored after first touch.
    */
   fStop?: number;
+  /**
+   * When present, the strip runs its own sweep animation on mount, using the
+   * same two-phase timing as the parent Iris's init animation. Phase 1 sweeps
+   * A → f/22, phase 2 sweeps f/22 → A. Overrides fStop sync while running.
+   */
+  initAnimation?: { sweepMs: number; totalMs: number };
   /** Delay before first appearance (ms). */
   showDelay?: number;
   /** Called on snap or drag with the target f-stop value. */
@@ -86,6 +92,7 @@ interface ApertureStripProps {
 export default function ApertureStrip({
   defaultFStop,
   fStop,
+  initAnimation,
   showDelay = 0,
   onDrive,
 }: ApertureStripProps) {
@@ -100,6 +107,7 @@ export default function ApertureStrip({
   const lastValidOffsetRef   = useRef(0);
   const snappingRef          = useRef(false);
   const userHasInteractedRef = useRef(false);
+  const initAnimRef          = useRef<number | null>(null);
 
   // Clamp limits: rightmost = "A" at index 0, leftmost = f/22 at last index.
   const maxOffset =  defaultIdx * SPACING;
@@ -111,9 +119,36 @@ export default function ApertureStrip({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Sync offset from external fStop — only before the user's first interaction.
+  // Strip's own init animation: A → f/22 → A, synchronized with Iris timing.
   useEffect(() => {
-    if (fStop === undefined || userHasInteractedRef.current || dragRef.current || snappingRef.current) return;
+    if (!initAnimation) return;
+    const { sweepMs, totalMs } = initAnimation;
+    const startTime = performance.now();
+    setOffset(maxOffset); // start at A
+
+    function tick(now: number) {
+      const elapsed = now - startTime;
+      if (elapsed < sweepMs) {
+        const p = elapsed / sweepMs;
+        setOffset(maxOffset + p * (minOffset - maxOffset));
+        initAnimRef.current = requestAnimationFrame(tick);
+      } else if (elapsed < totalMs) {
+        const p2 = (elapsed - sweepMs) / (totalMs - sweepMs);
+        setOffset(minOffset + p2 * (maxOffset - minOffset));
+        initAnimRef.current = requestAnimationFrame(tick);
+      } else {
+        setOffset(maxOffset); // land on A
+        initAnimRef.current = null;
+      }
+    }
+    initAnimRef.current = requestAnimationFrame(tick);
+    return () => { if (initAnimRef.current) cancelAnimationFrame(initAnimRef.current); };
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- mount-only
+  }, []);
+
+  // Sync offset from external fStop — only when no animation or interaction.
+  useEffect(() => {
+    if (fStop === undefined || userHasInteractedRef.current || dragRef.current || snappingRef.current || initAnimRef.current) return;
     const idx    = fStopToIndex(fStop);
     const target = Math.max(minOffset, Math.min(maxOffset, (defaultIdx - idx) * SPACING));
     setOffset(target);
