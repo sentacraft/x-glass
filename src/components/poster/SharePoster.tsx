@@ -252,7 +252,7 @@ export function SharePoster({ lenses, labels, custom, shareUrl, ref }: SharePost
       <div style={{ padding: `24px ${POSTER_PX}px 20px`, display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
         {/* Left: logo mark + title + optional slogan */}
         <div>
-          <Iris config={IRIS_NAV} size={32} uid="poster" className="mb-[10px]" />
+          <Iris config={IRIS_NAV} size={20} uid="poster" className="mb-[6px]" />
           <div
             style={{
               fontSize: slogan ? 22 : 36,
