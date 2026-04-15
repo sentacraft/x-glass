@@ -155,7 +155,7 @@ const fieldNotesSchema = z.strictObject({
   focusMotor: nonEmptyStringSchema.optional(),
 });
 
-const lensObjectSchema = z.object({
+const lensObjectSchema = z.strictObject({
   ...lensBaseShape,
   filterMm: z.union([positiveNumberSchema, specNaSchema]).optional(),
   lensConfiguration: lensConfigurationSchema.optional(),
