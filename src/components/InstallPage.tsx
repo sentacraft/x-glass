@@ -80,9 +80,9 @@ export default function InstallPage() {
   return (
     <div className="flex flex-col items-center justify-center min-h-full px-6 py-16 bg-stone-100 dark:bg-zinc-950 text-center">
       {/* App icon — shows the user exactly what will appear on their home screen */}
-      {/* eslint-disable-next-line @next/next/no-img-element -- apple-touch-icon is a static asset, not an optimized image */}
+      {/* eslint-disable-next-line @next/next/no-img-element -- PWA icon is a static asset, not an optimized image */}
       <img
-        src="/apple-touch-icon.png"
+        src="/icons/icon-192-white.png"
         alt="X-Glass"
         className="w-20 h-20 rounded-[22%] shadow-lg mb-8"
       />
