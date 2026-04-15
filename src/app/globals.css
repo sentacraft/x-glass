@@ -50,10 +50,12 @@
 }
 
 :root {
-  /* In WCO mode the title bar overlaps the top of the viewport; add that
-     height so the nav and all content offsets account for it automatically.
-     env() falls back to 0px in non-WCO contexts so layout is unchanged. */
-  --nav-height: calc(3.5rem + env(titlebar-area-height, 0px));
+  /* nav-height combines three possible top insets:
+     - safe-area-inset-top: iOS notch / Dynamic Island / status bar (standalone PWA)
+     - titlebar-area-height: desktop WCO title bar
+     Both env() values fall back to 0px outside their respective contexts,
+     so this expression is safe in all other environments. */
+  --nav-height: calc(3.5rem + env(safe-area-inset-top, 0px) + env(titlebar-area-height, 0px));
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);

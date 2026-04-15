@@ -62,9 +62,11 @@ export default function Nav() {
         "transition-transform duration-300 ease-in-out",
         (hidden || navLocked) && "-translate-y-full sm:translate-y-0"
       )}
-      // Pad header down by titlebar-area-height so the nav content sits below
-      // the WCO zone. Falls back to 0px in non-WCO contexts.
-      style={{ paddingTop: "env(titlebar-area-height, 0px)" }}
+      // Pad header down by the combined top insets:
+      // - safe-area-inset-top: iOS notch / Dynamic Island (standalone PWA)
+      // - titlebar-area-height: desktop WCO zone
+      // Both fall back to 0px outside their respective contexts.
+      style={{ paddingTop: "calc(env(safe-area-inset-top, 0px) + env(titlebar-area-height, 0px))" }}
     >
       {/* wco-no-drag: nav links must remain clickable inside the drag region */}
       <nav className="wco-no-drag max-w-7xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">

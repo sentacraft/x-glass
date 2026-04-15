@@ -124,8 +124,26 @@ export default function InstallPage() {
           </h1>
 
           {platform === "ios-other" ? (
-            // Chrome/Firefox on iOS cannot install PWAs — direct user to Safari.
-            <p className="mt-4 text-zinc-500 dark:text-zinc-400 text-sm">{t("iosNotSafari")}</p>
+            // Chrome/Firefox on iOS can add to home screen, but it creates a
+            // bookmark shortcut rather than a standalone PWA. Recommend Safari
+            // for the full experience, but still show the steps since they work.
+            <>
+              <p className="mt-3 text-zinc-500 dark:text-zinc-400 text-sm">{t("iosNotSafari")}</p>
+              <p className="mt-2 text-zinc-400 dark:text-zinc-500 text-sm">{t("iosSubtitle")}</p>
+              <ol className="mt-6 space-y-3 text-left">
+                {IOS_STEPS.map((key, i) => (
+                  <li
+                    key={key}
+                    className="flex items-start gap-4 bg-white dark:bg-zinc-900 rounded-xl px-4 py-3"
+                  >
+                    <span className="shrink-0 w-6 h-6 rounded-full bg-zinc-800 dark:bg-zinc-50 text-zinc-50 dark:text-zinc-900 text-xs font-bold flex items-center justify-center mt-0.5">
+                      {i + 1}
+                    </span>
+                    <span className="text-sm text-zinc-700 dark:text-zinc-300">{t(key)}</span>
+                  </li>
+                ))}
+              </ol>
+            </>
           ) : (
             <>
               <p className="mt-3 text-zinc-500 dark:text-zinc-400 text-sm">{t("iosSubtitle")}</p>

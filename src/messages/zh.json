@@ -349,7 +349,7 @@
     "iosStep1": "点击 Safari 底部的「分享」按钮（方框加箭头图标）",
     "iosStep2": "向下滑动，点击「添加到主屏幕」",
     "iosStep3": "点击右上角的「添加」",
-    "iosNotSafari": "请在 Safari 中打开此页面以完成安装。",
+    "iosNotSafari": "在 Safari 中打开可获得完整的独立应用体验；当前浏览器也支持添加到主屏幕。",
 
     "genericTitle": "添加到主屏幕",
     "genericBody": "打开浏览器菜单，寻找「添加到主屏幕」或「安装应用」选项。"
