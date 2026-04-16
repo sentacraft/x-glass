@@ -23,7 +23,7 @@ const MARKS: Mark[] = ["A", 1.4, 2, 2.8, 4, 5.6, 8, 11, 16, 22];
 
 // Pixel spacing between consecutive marks. Chosen so ~3 marks are visible in
 // the unfeathered centre zone.
-const SPACING = 34; // reduced 30% from original 48
+const SPACING = 31; // reduced 30% from original 48, then an additional 10%
 
 // Index of the nearest numeric mark to a given f-stop value.
 function nearestNumericIndex(fStop: number): number {
@@ -219,7 +219,7 @@ export default function ApertureStrip({
 
       {/* Scrollable label track — overflow clips the marks row */}
       <div
-        className="mt-2.5 h-7 overflow-hidden cursor-grab active:cursor-grabbing touch-none select-none text-zinc-500 dark:text-zinc-400"
+        className="mt-2.5 h-[25px] overflow-hidden cursor-grab active:cursor-grabbing touch-none select-none text-zinc-500 dark:text-zinc-400"
         style={{
           maskImage:       "linear-gradient(to right, transparent 0%, black 22%, black 78%, transparent 100%)",
           WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 22%, black 78%, transparent 100%)",
