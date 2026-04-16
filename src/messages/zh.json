@@ -171,6 +171,8 @@
     "removeFromCompare": "移除",
     "officialSite": "官网页面",
     "reportIssue": "反馈参数问题",
+    "fieldOfficialLink": "官方链接",
+    "fieldLensImage": "镜头图片",
     "notFoundTitle": "未找到这支镜头"
   },
   "Brands": {
@@ -196,6 +198,8 @@
     "compareFullHint": "已达到最大数量，请先移除一个镜头再添加。",
     "removeLens": "移除 {model}",
     "reportIssue": "反馈问题",
+    "fieldOfficialLink": "官方链接",
+    "fieldLensImage": "镜头图片",
     "shiftLeft": "左移一列",
     "shiftRight": "右移一列"
   },

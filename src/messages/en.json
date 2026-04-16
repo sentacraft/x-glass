@@ -171,6 +171,8 @@
     "removeFromCompare": "Remove",
     "officialSite": "Official site",
     "reportIssue": "Report a data issue",
+    "fieldOfficialLink": "Official Link",
+    "fieldLensImage": "Lens Image",
     "notFoundTitle": "Lens Not Found"
   },
   "Brands": {
@@ -196,6 +198,8 @@
     "compareFullHint": "All slots are filled. Remove a lens to add another.",
     "removeLens": "Remove {model}",
     "reportIssue": "Report",
+    "fieldOfficialLink": "Official Link",
+    "fieldLensImage": "Lens Image",
     "shiftLeft": "Move left",
     "shiftRight": "Move right"
   },

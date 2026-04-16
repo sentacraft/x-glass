@@ -381,10 +381,13 @@ export default function CompareTable({ lenses: initialLenses, minColumns = 0 }: 
           if (resolved) fields.push({ label: resolved.label, currentValue: resolved.plainText });
         }
       }
+      const url = getLensUrl(lens);
+      if (url) fields.push({ label: t("fieldOfficialLink"), currentValue: url });
+      fields.push({ label: t("fieldLensImage"), currentValue: getLensImageUrl(lens.id) });
       map.set(lens.id, fields);
     }
     return map;
-  }, [resolvedPerLens, allGroups, orderedLenses]);
+  }, [resolvedPerLens, allGroups, orderedLenses, t]);
 
   const totalColSpan = orderedLenses.length + 1 + emptySlotCount;
   const { lockNav } = useNavLock();

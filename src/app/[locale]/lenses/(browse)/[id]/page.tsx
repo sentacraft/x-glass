@@ -195,9 +195,13 @@ export default async function LensDetailPage({ params }: { params: Params }) {
 
   // Field options for the Report Dialog — taken directly from resolved values,
   // identical to what is rendered in the spec table below.
-  const reportableFields = resolvedGroups.flatMap((group) =>
-    group.rows.map((row) => ({ label: row.label, currentValue: row.plainText }))
-  );
+  const reportableFields = [
+    ...resolvedGroups.flatMap((group) =>
+      group.rows.map((row) => ({ label: row.label, currentValue: row.plainText }))
+    ),
+    ...(url ? [{ label: t("fieldOfficialLink"), currentValue: url }] : []),
+    { label: t("fieldLensImage"), currentValue: getLensImageUrl(lens.id) },
+  ];
 
   return (
     <div className="bg-background w-full max-w-4xl mx-auto px-4 sm:px-6 py-8 flex flex-col gap-8">
