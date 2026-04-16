@@ -70,8 +70,11 @@ export default async function LocaleLayout({
           <ScrollContainerProvider>
             <ConsoleEgg />
             <Nav />
-            {/* Offset fixed nav; respect home indicator in PWA mode. */}
-            <div className="pt-[var(--nav-height)] pb-[env(safe-area-inset-bottom,0px)] bg-background">
+            {/* Offset fixed nav; respect home indicator in PWA mode.
+                No background here — body stone-100 shows through the bottom
+                padding zone, so safe-area always matches the page canvas color
+                regardless of whether the page content is short or non-scrolling. */}
+            <div className="pt-[var(--nav-height)] pb-[env(safe-area-inset-bottom,0px)]">
               {TESTHOOK_ALLOWED ? (
                 <TestHookProvider>
                   {children}

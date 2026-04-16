@@ -136,11 +136,11 @@
   }
   body {
     @apply text-foreground;
-    /* stone-100 fills the canvas visible behind iOS Safari's transparent
-       bottom toolbar. The layout wrapper sets bg-background (white) for
-       page content, so only the narrow toolbar zone shows this color.
-       overflow-x: hidden clips horizontal overflow without creating a
-       vertical scroll container (unlike overflow-x: hidden on a div). */
+    /* stone-100 fills the safe-area zones visible in iOS Safari (bottom toolbar)
+       and iOS PWA standalone (home indicator zone). The layout wrapper has no
+       background, so stone-100 shows through the pt/pb padding zones regardless
+       of whether the page content is short or non-scrolling. Each page that
+       needs white sets bg-background on its own root element. */
     @apply bg-stone-100;
     /* clip avoids the CSS spec side effect where overflow-x: hidden promotes
        overflow-y to auto, turning body into a scroll container. clip trims
