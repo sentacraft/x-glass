@@ -17,7 +17,7 @@ import {
 } from "@/lib/iris-kinematics";
 import { readFromConfig, exportToConfig } from "./actions";
 import { IRIS_HERO, IRIS_NAV, IRIS_LAB, R_HOUSING } from "@/config/iris-config";
-import type { IrisConfig, IrisInitAnimation } from "@/config/iris-config";
+import type { IrisConfig, IrisAnimation } from "@/config/iris-config";
 import Iris from "@/components/Iris";
 
 // SVG coordinate space: origin at iris center, R_HOUSING = outer display radius.
@@ -408,14 +408,15 @@ export default function ApertureV2Lab() {
     if (v.strokeWidth !== undefined) setStrokeWidth(v.strokeWidth);
     setOpenFStop(v.openFStop);
     setDefaultFStop(v.defaultFStop);
-    setInteractive(v.interactive ?? false);
-    setInitAnimation(v.initAnimation);
+    const hc = v.interactive?.type === "hover" ? v.interactive : null;
+    setInteractive(hc !== null);
+    setOnMount(v.onMount);
     setClosedFStop(v.closedFStop ?? 22);
     setChaseTauMs(v.chaseTauMs ?? 60);
-    setEaseOutMs(v.easeOutMs ?? 700);
-    setCatchupMs(v.catchupMs ?? 300);
-    setHotzoneScaleH(v.hotzoneScaleH ?? 1.5);
-    setHotzoneScaleV(v.hotzoneScaleV ?? 1.0);
+    setEaseOutMs(hc?.easeOutMs ?? 700);
+    setCatchupMs(hc?.catchupMs ?? 300);
+    setHotzoneScaleH(hc?.hotzoneScaleH ?? 1.5);
+    setHotzoneScaleV(hc?.hotzoneScaleV ?? 1.0);
     setPreviewSize(v.size);
     setIsPlaying(false);
     startRef.current = undefined;
@@ -438,14 +439,16 @@ export default function ApertureV2Lab() {
       bladeColor: grayHex(bladeGray),
       strokeColor: grayHex(strokeGray),
       strokeWidth,
-      interactive,
-      initAnimation,
+      interactive: interactive ? {
+        type: "hover" as const,
+        hotzoneScaleH,
+        hotzoneScaleV,
+        easeOutMs,
+        catchupMs,
+      } : undefined,
+      onMount,
       closedFStop,
       chaseTauMs,
-      easeOutMs,
-      catchupMs,
-      hotzoneScaleH,
-      hotzoneScaleV,
     };
     const key = selectedProfile === "production:hero" ? "IRIS_HERO"
       : selectedProfile === "production:nav" ? "IRIS_NAV" : "IRIS_LAB";
@@ -487,7 +490,7 @@ export default function ApertureV2Lab() {
   const [showFStopRing, setShowFStopRing] = useState(false);
   const [fStopRingOuter, setFStopRingOuter] = useState(true);
   const [interactive, setInteractive] = useState(false);
-  const [initAnimation, setInitAnimation] = useState<IrisInitAnimation | undefined>(undefined);
+  const [onMount, setOnMount] = useState<IrisAnimation | undefined>(undefined);
   const [openFStop, setOpenFStop] = useState(1.4);
   const [defaultFStop, setDefaultFStop] = useState(5.6);
   const [closedFStop, setClosedFStop] = useState(22);
@@ -521,18 +524,14 @@ export default function ApertureV2Lab() {
     bladeColor: grayHex(bladeGray),
     strokeColor: grayHex(strokeGray),
     strokeWidth,
-    interactive: false,
-    initAnimation,
+    interactive: undefined,
+    onMount,
     closedFStop,
     chaseTauMs,
-    easeOutMs,
-    catchupMs,
-    hotzoneScaleH,
-    hotzoneScaleV,
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }), [config.N, config.pinDistance, config.slotOffset, config.bladeLength, config.bladeWidth,
-      openFStop, defaultFStop, closedFStop, chaseTauMs, easeOutMs, catchupMs,
-      hotzoneScaleH, hotzoneScaleV, previewSize, bladeGray, strokeGray, strokeWidth, initAnimation]);
+      openFStop, defaultFStop, closedFStop, chaseTauMs,
+      previewSize, bladeGray, strokeGray, strokeWidth, onMount]);
 
   // Animation: theta oscillates between range.min and range.max
   const rafRef = useRef<number | undefined>(undefined);
@@ -964,27 +963,27 @@ export default function ApertureV2Lab() {
               >
                 <input
                   type="checkbox"
-                  checked={initAnimation !== undefined}
+                  checked={onMount !== undefined}
                   onChange={(e) => {
                     const checked = e.target.checked;
-                    setInitAnimation(checked ? { sweepMs: 800, totalMs: 1000 } : undefined);
+                    setOnMount(checked ? { type: "sweep", sweepMs: 800, totalMs: 1000 } : undefined);
                     if (checked) setPreviewAnimKey(k => k + 1);
                   }}
                   style={{ accentColor: "#18181b", width: 14, height: 14 }}
                 />
                 Init Animation
               </label>
-              {initAnimation !== undefined && (
+              {onMount !== undefined && onMount.type === "sweep" && (
                 <>
                   <div className="space-y-1">
                     <div className="flex justify-between text-xs">
                       <span className="text-zinc-500">Sweep</span>
-                      <span className="text-zinc-700 font-mono">{initAnimation.sweepMs} ms</span>
+                      <span className="text-zinc-700 font-mono">{onMount.sweepMs} ms</span>
                     </div>
-                    <input type="range" min={200} max={2000} step={50} value={initAnimation.sweepMs}
+                    <input type="range" min={200} max={2000} step={50} value={onMount.sweepMs}
                       onChange={(e) => {
                         const sweepMs = parseFloat(e.target.value);
-                        setInitAnimation(prev => prev ? { ...prev, sweepMs } : prev);
+                        setOnMount((prev): IrisAnimation | undefined => prev ? { ...prev, sweepMs } : prev);
                         setPreviewAnimKey(k => k + 1);
                       }}
                       className="w-full" style={{ accentColor: "#18181b" }}
@@ -993,14 +992,14 @@ export default function ApertureV2Lab() {
                   <div className="space-y-1">
                     <div className="flex justify-between text-xs">
                       <span className="text-zinc-500">Total</span>
-                      <span className="text-zinc-700 font-mono">{initAnimation.totalMs} ms</span>
+                      <span className="text-zinc-700 font-mono">{onMount.totalMs} ms</span>
                     </div>
                     <input type="range"
-                      min={initAnimation.sweepMs + 100} max={3000} step={50}
-                      value={initAnimation.totalMs}
+                      min={onMount.sweepMs + 100} max={3000} step={50}
+                      value={onMount.totalMs}
                       onChange={(e) => {
                         const totalMs = parseFloat(e.target.value);
-                        setInitAnimation(prev => prev ? { ...prev, totalMs } : prev);
+                        setOnMount((prev): IrisAnimation | undefined => prev ? { ...prev, totalMs } : prev);
                         setPreviewAnimKey(k => k + 1);
                       }}
                       className="w-full" style={{ accentColor: "#18181b" }}

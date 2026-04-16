@@ -155,6 +155,13 @@ export default function ApertureStrip({
 
   function onPointerMove(e: React.PointerEvent<HTMLDivElement>) {
     if (!dragRef.current) return;
+    // If the button was released outside the browser window, pointerup never
+    // fired — detect this here and end the drag cleanly.
+    if (e.buttons === 0) {
+      dragRef.current = null;
+      snapToNearest(lastValidOffsetRef.current);
+      return;
+    }
     const raw     = dragRef.current.startOffset + (e.clientX - dragRef.current.startX);
     const clamped = Math.max(minOffset, Math.min(maxOffset, raw));
     lastValidOffsetRef.current = clamped;

@@ -17,20 +17,55 @@ import type { StoredIrisParams } from "@/lib/iris-kinematics";
 
 export const R_HOUSING = 100;
 
-// ── IrisInitAnimation ─────────────────────────────────────────────────────────
+// ── IrisAnimation ─────────────────────────────────────────────────────────────
 //
-// Timing config for the two-phase mount animation:
+// Animations are identified by a `type` discriminant so new variants can be
+// added to the union without touching existing callsites.
+//
+// Currently the only variant is "sweep": a two-phase aperture sweep:
 //   Phase 1 (0 → sweepMs):       open → closedFStop  (linear target drive)
-//   Phase 2 (sweepMs → totalMs): closedFStop → defaultFStop  (linear, chase smooths it)
-//
-// Presence of this object on IrisConfig enables the animation; absence disables it.
+//   Phase 2 (sweepMs → totalMs): closedFStop → defaultFStop  (chase-smoothed)
 
-export interface IrisInitAnimation {
+export interface IrisSweepAnimation {
+  type: "sweep";
   /** Duration of the open → closed sweep (ms). */
   sweepMs: number;
   /** Total duration including the closed → defaultFStop ease-back (ms). */
   totalMs: number;
 }
+
+// Extend this union when new animation types are added.
+export type IrisAnimation = IrisSweepAnimation;
+
+// ── IrisInteractiveMode ───────────────────────────────────────────────────────
+//
+// Discriminated union controlling how users interact with an Iris instance.
+// The two modes are mutually exclusive — an instance is either hover-driven
+// or tap-driven, never both.
+
+export interface IrisHoverMode {
+  type: "hover";
+  /**
+   * Horizontal scale factor applied to the iris diameter to compute the width
+   * of the mouse interaction hotzone. Values > 1 widen the area, making the
+   * control less sensitive.
+   */
+  hotzoneScaleH?: number;
+  /** Vertical scale factor applied to the iris diameter for the hotzone height. */
+  hotzoneScaleV?: number;
+  /** Duration of the cubic ease-out return after the pointer leaves (ms). */
+  easeOutMs?: number;
+  /** Duration over which the entry jump-offset decays to zero (ms). */
+  catchupMs?: number;
+}
+
+export interface IrisTapMode {
+  type: "tap";
+  /** Animation to play when the iris is clicked (desktop) or tapped (mobile). */
+  animation: IrisAnimation;
+}
+
+export type IrisInteractiveMode = IrisHoverMode | IrisTapMode;
 
 // ── IrisConfig ────────────────────────────────────────────────────────────────
 //
@@ -52,54 +87,49 @@ export interface IrisConfig extends StoredIrisParams {
   /** Blade gap stroke width in SVG units. */
   strokeWidth?: number;
 
-  // ── Interactive ─────────────────────────────────────────────────────────────
-  /** When true, aperture openness tracks horizontal mouse position. */
-  interactive?: boolean;
+  // ── Aperture limits ──────────────────────────────────────────────────────────
+  /**
+   * Hard stop for aperture — the minimum opening (maximum f-number) reachable
+   * by any interaction or animation. Applies globally: hover drag, tap animation
+   * end-point, and aperture strip. Defaults to 22 when absent.
+   */
+  closedFStop?: number;
+
+  // ── Interaction ─────────────────────────────────────────────────────────────
+  /**
+   * Interaction mode. Absent = no interaction.
+   * "hover" — aperture tracks horizontal mouse position across the hotzone.
+   * "tap"   — clicking (desktop) or touching (mobile) plays an animation.
+   * The two modes are mutually exclusive.
+   */
+  interactive?: IrisInteractiveMode;
   /**
    * When true, renders a mobile aperture-ring strip below the iris (hidden on
    * md+ screens). Lets touch users drag through f-stops; "A" snaps back to
    * defaultFStop via releaseControl.
    */
   apertureStrip?: boolean;
-  /**
-   * When present, plays an entry animation on mount: open → closedFStop →
-   * defaultFStop, using the exponential-smoothing chase. The object value
-   * controls the two-phase timing. Absence (undefined) disables the animation.
-   */
-  initAnimation?: IrisInitAnimation;
-  /**
-   * Hard stop for mouse interaction — the minimum aperture (maximum f-number)
-   * the pointer can reach. Paired with openFStop which anchors the open end.
-   * Only relevant when interactive is true.
-   */
-  closedFStop?: number;
-  /**
-   * Horizontal scale factor applied to the iris diameter to compute the width
-   * of the mouse interaction hotzone. Values > 1 widen the area, making the
-   * control less sensitive. Only relevant when interactive is true.
-   */
-  hotzoneScaleH?: number;
-  /**
-   * Vertical scale factor applied to the iris diameter to compute the height
-   * of the mouse interaction hotzone. Only relevant when interactive is true.
-   */
-  hotzoneScaleV?: number;
 
   // ── Animation ────────────────────────────────────────────────────────────────
-  /** Exponential-smoothing time constant for follow-mouse chase (ms). */
+  /**
+   * Animation to play on component mount. Absence disables the mount animation.
+   * Independent of the interaction mode — any Iris can have a mount animation
+   * regardless of whether it is interactive.
+   */
+  onMount?: IrisAnimation;
+  /**
+   * Exponential-smoothing time constant for the chase loop (ms). Shared by all
+   * animation systems: mount animation, hover tracking, and aperture strip drag.
+   */
   chaseTauMs?: number;
-  /** Duration of the cubic ease-out return after mouse leaves (ms). */
-  easeOutMs?: number;
-  /** Duration over which the entry jump-offset decays to zero (ms). */
-  catchupMs?: number;
 }
 
 // ── Named configs ─────────────────────────────────────────────────────────────
 //
 // Three optical-size tiers:
-//   IRIS_HERO  → homepage hero (large, interactive)
+//   IRIS_HERO  → homepage hero (large, mount animation + aperture strip)
 //   IRIS_NAV   → navbar icon, OG image, apple icon (small / static renders)
-//   IRIS_LAB   → Design Lab workspace (tunable copy of IRIS_HERO)
+//   IRIS_LAB   → Design Lab workspace (tunable copy of IRIS_HERO, hover mode)
 //
 // Every field used by the component must be listed explicitly — there is no
 // global defaults object. Optional fields absent from a config (e.g. IRIS_NAV
@@ -120,16 +150,17 @@ export const IRIS_HERO: IrisConfig = {
   bladeColor: "#181818",
   strokeColor: "#b3b3b3",
   strokeWidth: 1,
-  // Interactive
-  interactive: false,
-  apertureStrip: true,
-  initAnimation: { sweepMs: 800, totalMs: 1000 },
+  // Aperture limits
   closedFStop: 22,
-  hotzoneScaleH: 2,
-  hotzoneScaleV: 1.0,
+  // Interaction — tap triggers a sweep animation; hover is disabled on the homepage
+  interactive: {
+    type: "tap",
+    animation: { type: "sweep", sweepMs: 800, totalMs: 1000 },
+  },
+  apertureStrip: true,
+  // Animation
+  onMount: { type: "sweep", sweepMs: 800, totalMs: 1000 },
   chaseTauMs: 60,
-  easeOutMs: 700,
-  catchupMs: 300,
 };
 
 export const IRIS_NAV: IrisConfig = {
@@ -143,7 +174,7 @@ export const IRIS_NAV: IrisConfig = {
   defaultFStop: 4,
   // Size
   size: 26,
-  // Appearance — explicit colour required for Satori (OG/apple-icon) which
+  // Appearance — explicit colour required for resvg (OG/apple-icon) which
   // cannot evaluate Tailwind classes.
   bladeColor: "#181818",
   strokeColor: "#ffffff",
@@ -165,15 +196,19 @@ export const IRIS_LAB: IrisConfig = {
   bladeColor: "#181818",
   strokeColor: "#b3b3b3",
   strokeWidth: 1,
-  // Interactive
-  interactive: true,
-  initAnimation: { sweepMs: 800, totalMs: 1000 },
+  // Aperture limits
   closedFStop: 22,
-  hotzoneScaleH: 2,
-  hotzoneScaleV: 1.0,
+  // Interaction — hover mode for the Design Lab scrubbing experience
+  interactive: {
+    type: "hover",
+    hotzoneScaleH: 2,
+    hotzoneScaleV: 1.0,
+    easeOutMs: 700,
+    catchupMs: 300,
+  },
+  // Animation
+  onMount: { type: "sweep", sweepMs: 800, totalMs: 1000 },
   chaseTauMs: 60,
-  easeOutMs: 700,
-  catchupMs: 300,
 };
 
 // Site-level metadata (name, description, theme color, PWA display mode, etc.)
