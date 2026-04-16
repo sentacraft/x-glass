@@ -8,7 +8,7 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { useScrollContainer, useNavLock } from "@/context/ScrollContainerContext";
+import { useNavLock } from "@/context/ScrollContainerContext";
 import Image from "next/image";
 import { ExternalLink } from "@/components/ui/external-link";
 import { useTranslations } from "next-intl";
@@ -387,7 +387,6 @@ export default function CompareTable({ lenses: initialLenses, minColumns = 0 }: 
   }, [resolvedPerLens, allGroups, orderedLenses]);
 
   const totalColSpan = orderedLenses.length + 1 + emptySlotCount;
-  const scrollContainer = useScrollContainer();
   const { lockNav } = useNavLock();
 
   // --- Phantom sticky header ---
@@ -402,11 +401,11 @@ export default function CompareTable({ lenses: initialLenses, minColumns = 0 }: 
     if (!thead) return;
     const observer = new IntersectionObserver(
       ([entry]) => setShowPhantom(!entry.isIntersecting),
-      { root: scrollContainer, rootMargin: "0px", threshold: 0 },
+      { root: null, rootMargin: "0px", threshold: 0 },
     );
     observer.observe(thead);
     return () => observer.disconnect();
-  }, [scrollContainer]);
+  }, []);
 
   // Lock the nav hidden while the phantom header is active so only one
   // top-chrome element occupies the screen at a time on mobile.
