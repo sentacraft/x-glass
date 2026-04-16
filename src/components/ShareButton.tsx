@@ -15,9 +15,22 @@ import { rasterizePoster } from "@/lib/share-image";
 
 // ── Poster title / slogan auto-generation ────────────────────────────────────
 
-/** Focal-summary title for comparison, full model name for single lens. */
-function computePosterTitle(lenses: Lens[]): string {
+/** Brand + focal title for 2–3 lenses, focal summary for 4+, model name for single. */
+function computePosterTitle(lenses: Lens[], tBrand: (key: string) => string): string {
   if (lenses.length === 1) return lenses[0].model;
+  if (lenses.length <= 3) {
+    // Show brand + focal for each lens so the title is meaningful
+    return lenses
+      .map((l) => {
+        const focal =
+          l.focalLengthMin === l.focalLengthMax
+            ? `${l.focalLengthMin}mm`
+            : `${l.focalLengthMin}–${l.focalLengthMax}mm`;
+        return `${tBrand(l.brand)} ${focal}`;
+      })
+      .join(" · ");
+  }
+  // 4+ lenses: focal summary only (brand info lives in slogan)
   const parts = lenses.map((l) =>
     l.focalLengthMin === l.focalLengthMax
       ? `${l.focalLengthMin}`
@@ -26,8 +39,16 @@ function computePosterTitle(lenses: Lens[]): string {
   return [...new Set(parts)].join(" · ") + "mm";
 }
 
-/** Brand combination + "X-Mount" context line. */
+/** Mount context line, adapts based on lens count. */
 function computePosterSlogan(lenses: Lens[], tBrand: (key: string) => string): string {
+  if (lenses.length === 1) {
+    return `${tBrand(lenses[0].brand)} · X-Mount`;
+  }
+  if (lenses.length <= 3) {
+    // Brand already shown in title — slogan is just mount context
+    return "X-Mount";
+  }
+  // 4+ lenses: brand info back in slogan since title is focal summary
   const brands = [...new Set(lenses.map((l) => l.brand))].map(tBrand);
   const brandStr =
     brands.length === 1
@@ -134,7 +155,7 @@ export function ShareButton({ lenses, variant = "default", triggerClassName }: S
   }, [open, lenses]);
 
   // Auto-compute poster title and slogan from lens data
-  const computedPosterTitle = computePosterTitle(lenses);
+  const computedPosterTitle = computePosterTitle(lenses, tBrand);
   const computedPosterSlogan = computePosterSlogan(lenses, tBrand);
 
   // Build poster labels from i18n
