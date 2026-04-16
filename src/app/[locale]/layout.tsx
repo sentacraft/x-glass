@@ -44,9 +44,6 @@ export async function generateMetadata({
         { url: "/favicon.ico", sizes: "32x32", type: "image/x-icon" },
         { url: "/icon.png", sizes: "32x32", type: "image/png" },
       ],
-      // Required for iOS PWA: Safari uses this for the home screen icon and to
-      // construct the launch splash screen when startup images aren't provided.
-      apple: [{ url: "/icons/icon-192-white.png", sizes: "192x192", type: "image/png" }],
     },
     appleWebApp: {
       capable: true,
