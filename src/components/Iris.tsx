@@ -9,9 +9,15 @@
 // Theming: bladeColor/strokeColor in the config override the Tailwind
 // fill-*/stroke-* utilities used for automatic light/dark switching.
 //
-// Hotzone: when interactive is true, a transparent wrapper div sized to
-// size*hotzoneScaleH × size*hotzoneScaleV captures mouse events, giving the
-// iris a wider/taller interactive area than its rendered footprint.
+// Interaction modes (mutually exclusive, set via config.interactive):
+//   "hover" — aperture tracks horizontal mouse position across a hotzone div
+//             sized by hotzoneScaleH/V.
+//   "tap"   — clicking (desktop) or touching (mobile) plays the configured
+//             animation. Shows a pointer cursor.
+//   absent  — no interaction; iris sits at defaultFStop.
+//
+// Animations: config.onMount plays on mount; interactive.type === "tap" plays
+// on click/touch. Both share the same playAnimation() engine and chase loop.
 //
 // ApertureStrip: when apertureStrip is true in the config, a mobile-only
 // touch strip is rendered below the iris (hidden on md+ screens).
@@ -27,7 +33,7 @@ import {
   findThetaForInradius,
   findThetaForFStop,
 } from "@/lib/iris-kinematics";
-import { R_HOUSING, type IrisConfig } from "@/config/iris-config";
+import { R_HOUSING, type IrisConfig, type IrisAnimation } from "@/config/iris-config";
 import ApertureStrip from "@/components/ApertureStrip";
 
 // ── Component ─────────────────────────────────────────────────────────────────
@@ -53,19 +59,24 @@ export default function Iris({
 }: IrisProps) {
   const {
     size: configSize,
-    interactive = false,
+    interactive,
     apertureStrip = false,
-    initAnimation,
+    onMount,
     closedFStop = 22,
-    hotzoneScaleH = 1,
-    hotzoneScaleV = 1,
     chaseTauMs = 60,
-    easeOutMs = 700,
     bladeColor,
     strokeColor,
     strokeWidth,
   } = rawConfig;
   const size = sizeProp ?? configSize;
+
+  // Derive interaction mode flags and hover-specific config.
+  const isHover     = interactive?.type === "hover";
+  const isTap       = interactive?.type === "tap";
+  const hoverConfig = isHover ? interactive : null;
+  const hotzoneScaleH = hoverConfig?.hotzoneScaleH ?? 1;
+  const hotzoneScaleV = hoverConfig?.hotzoneScaleV ?? 1;
+  const easeOutMs     = hoverConfig?.easeOutMs     ?? 700;
 
   const dc = useMemo(() => buildDerivedConfig(rawConfig, R_HOUSING), [rawConfig]);
   const thetaOpen = useMemo(() => computeThetaOpen(dc, R_HOUSING), [dc]);
@@ -78,11 +89,11 @@ export default function Iris({
   [rawConfig.defaultFStop, rawConfig.openFStop, dc, thetaOpen, thetaMax]);
 
   const [theta, setTheta] = useState<number>(DEFAULT_THETA);
-  const [initAnimating, setInitAnimating] = useState(!!initAnimation);
-  const thetaRef    = useRef<number>(DEFAULT_THETA);
-  const animRef     = useRef<number | null>(null);
-  const chaseRef    = useRef<number | null>(null);
-  const initAnimRef = useRef<number | null>(null);
+  const [isAnimating, setIsAnimating] = useState(!!onMount);
+  const thetaRef       = useRef<number>(DEFAULT_THETA);
+  const animRef        = useRef<number | null>(null);
+  const chaseRef       = useRef<number | null>(null);
+  const initAnimRef    = useRef<number | null>(null);
   const targetThetaRef = useRef<number>(DEFAULT_THETA);
   const lastFrameRef   = useRef<number>(0);
   const defaultThetaRef = useRef(DEFAULT_THETA);
@@ -102,22 +113,31 @@ export default function Iris({
     if (initAnimRef.current) cancelAnimationFrame(initAnimRef.current);
   }, []);
 
+  // When not in hover mode, keep theta in sync with DEFAULT_THETA so the iris
+  // reflects any config change (e.g. Design Lab parameter tuning).
   useEffect(() => {
-    if (interactive) return;
+    if (isHover) return;
     thetaRef.current = DEFAULT_THETA;
     setTheta(DEFAULT_THETA);
-  }, [DEFAULT_THETA, interactive]);
+  }, [DEFAULT_THETA, isHover]);
 
-  // ── Init animation ────────────────────────────────────────────────────────
-  // Two-phase sweep on mount: open → closed → default. Directly drives
-  // targetThetaRef — same chase loop as mouse hover and strip drag.
-  useEffect(() => {
-    if (!initAnimation) return;
-    const { sweepMs, totalMs } = initAnimation;
+  // ── Animation engine ──────────────────────────────────────────────────────
+  // Shared by mount animation and tap interaction. Cancels any in-flight
+  // animations before starting, so the two triggers can never overlap.
+  // startChase / stopChase are function declarations hoisted to the top of
+  // this render function — accessible here even though defined below.
+
+  function playAnimation(anim: IrisAnimation) {
+    if (anim.type !== "sweep") return;
+    const { sweepMs, totalMs } = anim;
+
+    if (animRef.current)     { cancelAnimationFrame(animRef.current);     animRef.current = null; }
+    if (initAnimRef.current) { cancelAnimationFrame(initAnimRef.current); initAnimRef.current = null; }
 
     thetaRef.current = thetaOpen;
     targetThetaRef.current = thetaOpen;
     setTheta(thetaOpen);
+    setIsAnimating(true);
     startChase();
 
     const startTime = performance.now();
@@ -133,11 +153,16 @@ export default function Iris({
       } else {
         targetThetaRef.current = defaultThetaRef.current;
         initAnimRef.current = null;
-        setInitAnimating(false);
+        setIsAnimating(false);
       }
     }
     initAnimRef.current = requestAnimationFrame(tick);
+  }
 
+  // ── Mount animation ───────────────────────────────────────────────────────
+  useEffect(() => {
+    if (!onMount) return;
+    playAnimation(onMount);
     return () => {
       if (initAnimRef.current) { cancelAnimationFrame(initAnimRef.current); initAnimRef.current = null; }
       stopChase();
@@ -147,8 +172,6 @@ export default function Iris({
   }, []);
 
   // ── Imperative controls (used by ApertureStrip) ───────────────────────────
-  // startChase / stopChase are function declarations hoisted to the top of
-  // this render function — accessible here even though defined below.
 
   function driveToFStop(fStop: number) {
     if (animRef.current)     { cancelAnimationFrame(animRef.current);     animRef.current = null; }
@@ -175,9 +198,7 @@ export default function Iris({
   const vbHalf  = R_HOUSING - dc.bladeWidth + 2;
   const viewBox = `${-vbHalf} ${-vbHalf} ${vbHalf * 2} ${vbHalf * 2}`;
 
-  // ── Mouse interaction ──────────────────────────────────────────────────────
-  // Events fire on the hotzone wrapper div (sized by hotzoneScaleH/V), not
-  // the SVG itself, so the interactive area can extend beyond the iris footprint.
+  // ── Chase loop ────────────────────────────────────────────────────────────
 
   function startChase() {
     if (chaseRef.current) return;
@@ -207,6 +228,10 @@ export default function Iris({
     if (chaseRef.current) { cancelAnimationFrame(chaseRef.current); chaseRef.current = null; }
   }
 
+  // ── Hover interaction ─────────────────────────────────────────────────────
+  // Events fire on the hotzone wrapper div (sized by hotzoneScaleH/V), not
+  // the SVG itself, so the interactive area can extend beyond the iris footprint.
+
   function posToDiameterTheta(clientX: number, rect: DOMRect): number {
     const rawPos = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
     if (inradiusOpen <= 0) return thetaOpen + rawPos * (thetaMax - thetaOpen);
@@ -216,7 +241,7 @@ export default function Iris({
   }
 
   function handleMouseEnter(e: React.MouseEvent<HTMLDivElement>) {
-    if (!interactive) return;
+    if (!isHover) return;
     if (animRef.current)     { cancelAnimationFrame(animRef.current);     animRef.current = null; }
     if (initAnimRef.current) { cancelAnimationFrame(initAnimRef.current); initAnimRef.current = null; }
     const rect = e.currentTarget.getBoundingClientRect();
@@ -225,14 +250,14 @@ export default function Iris({
   }
 
   function handleMouseMove(e: React.MouseEvent<HTMLDivElement>) {
-    if (!interactive) return;
+    if (!isHover) return;
     const rect = e.currentTarget.getBoundingClientRect();
     targetThetaRef.current = posToDiameterTheta(e.clientX, rect);
     startChase();
   }
 
   function handleMouseLeave() {
-    if (!interactive) return;
+    if (!isHover) return;
     stopChase();
     const startTheta = thetaRef.current;
     const startTime  = performance.now();
@@ -248,8 +273,15 @@ export default function Iris({
     animRef.current = requestAnimationFrame(tick);
   }
 
+  // ── Tap interaction ───────────────────────────────────────────────────────
+
+  function handleClick() {
+    if (interactive?.type !== "tap") return;
+    playAnimation(interactive.animation);
+  }
+
   // ── Current f-stop (for ApertureStrip sync) ────────────────────────────────
-  // Derived from theta so the strip can mirror the iris position during init
+  // Derived from theta so the strip can mirror the iris position during any
   // animation and after release easing. Uses f = f_open × (r_open / r).
 
   const currentFStop = useMemo(() => {
@@ -261,26 +293,28 @@ export default function Iris({
 
   // ── Render ─────────────────────────────────────────────────────────────────
 
-  const wrapperW = interactive ? size * hotzoneScaleH : size;
-  const wrapperH = interactive ? size * hotzoneScaleV : size;
+  const wrapperW = isHover ? size * hotzoneScaleH : size;
+  const wrapperH = isHover ? size * hotzoneScaleV : size;
 
   return (
     <div
       className={className}
       style={{ display: "inline-flex", flexDirection: "column", alignItems: "center", flexShrink: 0 }}
     >
-      {/* Hotzone wrapper — captures mouse events */}
+      {/* Hotzone wrapper — captures mouse/tap events */}
       <div
         style={{
-          width:           wrapperW,
-          height:          wrapperH,
-          display:         "flex",
-          alignItems:      "center",
-          justifyContent:  "center",
+          width:          wrapperW,
+          height:         wrapperH,
+          display:        "flex",
+          alignItems:     "center",
+          justifyContent: "center",
+          cursor:         isTap ? "pointer" : undefined,
         }}
-        onMouseEnter={handleMouseEnter}
-        onMouseMove={handleMouseMove}
-        onMouseLeave={handleMouseLeave}
+        onMouseEnter={isHover ? handleMouseEnter : undefined}
+        onMouseMove={isHover ? handleMouseMove : undefined}
+        onMouseLeave={isHover ? handleMouseLeave : undefined}
+        onClick={isTap ? handleClick : undefined}
       >
         <svg
           viewBox={viewBox}
@@ -350,7 +384,7 @@ export default function Iris({
           <ApertureStrip
             defaultFStop={rawConfig.defaultFStop}
             fStop={currentFStop}
-            animating={initAnimating}
+            animating={isAnimating}
             onDrive={driveToFStop}
           />
         </div>
