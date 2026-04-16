@@ -17,7 +17,7 @@ function Section({
   children: React.ReactNode;
 }) {
   return (
-    <section id={id} className="flex flex-col gap-3 scroll-mt-6">
+    <section id={id} className="flex flex-col gap-3 scroll-mt-20">
       <h2 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
         {title}
       </h2>
