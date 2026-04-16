@@ -11,7 +11,7 @@ import React, {
 import { useNavLock } from "@/context/ScrollContainerContext";
 import Image from "next/image";
 import { ExternalLink } from "@/components/ui/external-link";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { ChevronLeft, ChevronRight, Flag, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ICON_CLOSE_BTN_CLS } from "@/lib/ui-tokens";
@@ -166,6 +166,7 @@ export default function CompareTable({ lenses: initialLenses, minColumns = 0 }: 
   const t = useTranslations("Compare");
   const td = useTranslations("LensDetail");
   const tBrand = useTranslations("Brands");
+  const locale = useLocale();
   const router = useRouter();
   const { compareIds, replaceCompare } = useCompare();
   const initialLensIds = useMemo(
@@ -382,7 +383,7 @@ export default function CompareTable({ lenses: initialLenses, minColumns = 0 }: 
           if (resolved) fields.push({ label: resolved.label, currentValue: resolved.plainText, group: group.label });
         }
       }
-      const url = getLensUrl(lens);
+      const url = getLensUrl(lens, locale);
       if (url) fields.push({ label: td("fieldOfficialLink"), currentValue: url, group: mediaGroupLabel });
       fields.push({ label: td("fieldLensImage"), currentValue: getLensImageUrl(lens.id), group: mediaGroupLabel, hideCurrentValue: true });
       map.set(lens.id, fields);
@@ -823,18 +824,22 @@ export default function CompareTable({ lenses: initialLenses, minColumns = 0 }: 
           <tr className="border-t border-zinc-200 bg-zinc-100/80 dark:border-zinc-800 dark:bg-zinc-800/60">
             <td className="sticky left-0 z-10 bg-zinc-100 px-3 py-2 dark:bg-zinc-800" />
             {orderedLenses.map((lens) => {
-              const url = getLensUrl(lens);
+              const url = getLensUrl(lens, locale);
               const fields = lensFields.get(lens.id);
               return (
                 <td key={lens.id} className="px-3 py-2">
                   <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1">
-                    {url && (
+                    {url ? (
                       <ExternalLink
                         href={url}
                         className="inline-flex items-center gap-1 text-xs text-blue-500 transition-colors hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300"
                       >
                         {t("officialSite")}
                       </ExternalLink>
+                    ) : (
+                      <span className="inline-flex cursor-not-allowed items-center gap-1 text-xs text-zinc-300 dark:text-zinc-600">
+                        {t("officialSite")}
+                      </span>
                     )}
                     <FeedbackTrigger
                       type="data_issue"

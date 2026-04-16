@@ -101,7 +101,7 @@ function renderRowValue(
 }
 
 export default async function LensDetailPage({ params }: { params: Params }) {
-  const { id } = await params;
+  const { id, locale } = await params;
   const lens = allLenses.find((l) => l.id === id);
 
   if (!lens) {
@@ -110,7 +110,7 @@ export default async function LensDetailPage({ params }: { params: Params }) {
 
   const t = await getTranslations("LensDetail");
   const tBrand = await getTranslations("Brands");
-  const url = getLensUrl(lens);
+  const url = getLensUrl(lens, locale);
 
   const specGroups = buildSpecGroups({
     groupOptics: t("groupOptics"),
@@ -245,10 +245,14 @@ export default async function LensDetailPage({ params }: { params: Params }) {
           <div className="flex flex-col gap-2">
             <div className="flex flex-wrap gap-3">
               <AddToCompareButton lensId={lens.id} />
-              {url && (
+              {url ? (
                 <ExternalLink href={url} className={ACTION_OUTLINE_CLS}>
                   {t("officialSite")}
                 </ExternalLink>
+              ) : (
+                <span className={ACTION_OUTLINE_CLS + " cursor-not-allowed opacity-40"}>
+                  {t("officialSite")}
+                </span>
               )}
               <ShareButton lenses={[lens]} triggerClassName={ACTION_OUTLINE_CLS} />
             </div>
