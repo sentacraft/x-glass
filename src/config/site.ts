@@ -26,7 +26,7 @@ export const SITE: SiteConfig = {
   name: "X-Glass",
   shortName: "X-Glass",
   pwaDescription:
-    "Your pocket database for X-Mount lenses. Instantly lookup and compare normalized lens specifications on the go. Pure data, zero noise.",
+    "Your pocket database for X-Mount lenses — specs normalized, offline-ready, zero noise.",
   themeColor: {
     light: "#ffffff",
     dark: "#0a0a0a",

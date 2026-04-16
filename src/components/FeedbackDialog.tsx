@@ -14,7 +14,9 @@ import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
+  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
@@ -26,11 +28,16 @@ export interface FeedbackField {
   label: string;
   /** Current display value for this field on this lens, shown read-only after selection. */
   currentValue?: string;
+  /** Group label for the dropdown. Fields with the same group are rendered together. */
+  group?: string;
+  /** When true, the current value is not shown to the user (e.g. internal image paths). */
+  hideCurrentValue?: boolean;
 }
 
 export interface FeedbackContext {
   lensId?: string;
   lensModel?: string;
+  lensBrand?: string;
   searchQuery?: string;
   field?: string;
 }
@@ -68,6 +75,24 @@ export default function FeedbackDialog({
 
   const selectedField = fields?.find((f) => f.label === selectedFieldLabel);
 
+  // Group fields by their `group` property, preserving insertion order.
+  const groupedFields = showFieldPicker
+    ? (() => {
+        const groups: { label: string; fields: FeedbackField[] }[] = [];
+        const index = new Map<string, number>();
+        for (const f of fields) {
+          const key = f.group ?? "";
+          if (!index.has(key)) {
+            index.set(key, groups.length);
+            groups.push({ label: key, fields: [f] });
+          } else {
+            groups[index.get(key)!].fields.push(f);
+          }
+        }
+        return groups;
+      })()
+    : [];
+
   useEffect(() => {
     if (!open) {
       setDescription("");
@@ -92,12 +117,17 @@ export default function FeedbackDialog({
         ? "descriptionMissingLens"
         : "descriptionGeneral";
 
-  const contextLine =
+  // Prominent lens header shown for data_issue when a specific lens is known.
+  const lensHeader =
     type === "data_issue" && context?.lensModel
-      ? t("contextLens", { model: context.lensModel })
-      : type === "missing_lens" && context?.searchQuery
-        ? t("contextQuery", { query: context.searchQuery })
-        : null;
+      ? { brand: context.lensBrand ?? "", model: context.lensModel }
+      : null;
+
+  // Subtle context note for other cases (e.g. missing_lens with a search query).
+  const contextLine =
+    type === "missing_lens" && context?.searchQuery
+      ? t("contextQuery", { query: context.searchQuery })
+      : null;
 
   async function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
@@ -161,6 +191,24 @@ export default function FeedbackDialog({
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="flex flex-col gap-3 px-5 pb-2">
+            {lensHeader && (
+              <div className="flex flex-col gap-0.5 border-b border-zinc-200 dark:border-zinc-800 pb-3">
+                <span className="text-[11px] font-medium uppercase tracking-wide text-zinc-400 dark:text-zinc-500">
+                  {t("affectedLensLabel")}
+                </span>
+                <div className="flex items-baseline gap-1.5">
+                  {lensHeader.brand && (
+                    <span className="text-sm text-zinc-500 dark:text-zinc-400">
+                      {lensHeader.brand}
+                    </span>
+                  )}
+                  <span className="text-sm font-semibold text-zinc-900 dark:text-zinc-50">
+                    {lensHeader.model}
+                  </span>
+                </div>
+              </div>
+            )}
+
             {contextLine && (
               <div className="rounded-lg bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 px-3 py-2 text-xs text-zinc-600 dark:text-zinc-400">
                 {contextLine}
@@ -184,17 +232,22 @@ export default function FeedbackDialog({
                     <SelectValue placeholder={t("fieldPickerPlaceholder")} />
                   </SelectTrigger>
                   <SelectContent portalContainer={dialogLayerRef}>
-                    {fields.map((f) => (
-                      <SelectItem key={f.label} value={f.label}>
-                        {f.label}
-                      </SelectItem>
+                    {groupedFields.map((group) => (
+                      <SelectGroup key={group.label}>
+                        {group.label && <SelectLabel>{group.label}</SelectLabel>}
+                        {group.fields.map((f) => (
+                          <SelectItem key={f.label} value={f.label}>
+                            {f.label}
+                          </SelectItem>
+                        ))}
+                      </SelectGroup>
                     ))}
                   </SelectContent>
                 </Select>
 
                 {selectedField && (
                   <div className="flex flex-col gap-2 rounded-lg bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 px-3 py-2.5">
-                    {selectedField.currentValue && (
+                    {selectedField.currentValue && !selectedField.hideCurrentValue && (
                       <div className="flex items-baseline gap-2">
                         <span className="shrink-0 text-xs text-zinc-400 dark:text-zinc-500">
                           {t("currentValueLabel")}

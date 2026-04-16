@@ -7,7 +7,8 @@
     "additionalInfo": "补充说明"
   },
   "Metadata": {
-    "seoDescription": "纯粹、规范化的富士 X 卡口镜头数据库。无主观评测，提供跨品牌镜头硬核参数的标准化对比。数据胜于观点。"
+    "seoTitle": "X-Glass | 富士 X 卡口镜头参数库",
+    "seoDescription": "富士 X 卡口镜头数据库，收录富士 XF / XC / MK、适马、腾龙、唯卓仕、铭匠光学、七工匠、星耀光学、深光影像全品牌参数。规格统一标准，支持跨品牌横向对比。"
   },
   "Nav": {
     "lenses": "镜头库",
@@ -17,11 +18,11 @@
   "Search": {
     "open": "打开镜头搜索",
     "title": "找镜头",
-    "description": "按型号、品牌或系列搜索，直接跳到你想看的镜头。",
+    "description": "输入型号、品牌或系列，直接找到那支镜头。",
     "addLens": "添加镜头",
     "add": "添加",
     "placeholder": "搜索型号、品牌或系列，比如 XF35mm、Sigma 或 XF",
-    "emptyTitle": "输入型号、品牌或系列开始搜索",
+    "emptyTitle": "搜个型号或品牌试试",
     "emptyDescription": "输入几个字后，这里会显示匹配结果。",
     "noResults": "没找到匹配的镜头",
     "noResultsHint": "试试更短的型号，或者换个品牌名、系列关键词。",
@@ -37,7 +38,7 @@
     "ctaCompare": "对比",
     "dataSnapshot": "lens.json loaded ✓",
     "dataSnapshotCount": "{count} 支镜头 · {brands} 个品牌 · 0 hallucination",
-    "dataTooltip": "数据来源于制造商官方规格，非 AI 生成。"
+    "dataTooltip": "数据直接来自厂商官方规格，不靠 AI 猜。"
   },
   "LensList": {
     "title": "镜头库",
@@ -100,7 +101,7 @@
     "goCompare": "查看对比（{count}）",
     "clearCompare": "清空",
     "resultsCount": "{count} 支镜头",
-    "noResults": "没有符合当前筛选条件的镜头。",
+    "noResults": "没有符合筛选条件的镜头",
     "suggestLens": "没找到你要的镜头？",
     "suggestLensLink": "告诉我们",
     "equivSuffix": "等效"
@@ -171,6 +172,9 @@
     "removeFromCompare": "移除",
     "officialSite": "官网页面",
     "reportIssue": "反馈参数问题",
+    "fieldOfficialLink": "官方链接",
+    "fieldLensImage": "镜头图片",
+    "fieldGroupMedia": "媒体与链接",
     "notFoundTitle": "未找到这支镜头"
   },
   "Brands": {
@@ -196,6 +200,8 @@
     "compareFullHint": "已达到最大数量，请先移除一个镜头再添加。",
     "removeLens": "移除 {model}",
     "reportIssue": "反馈问题",
+    "fieldOfficialLink": "官方链接",
+    "fieldLensImage": "镜头图片",
     "shiftLeft": "左移一列",
     "shiftRight": "右移一列"
   },
@@ -256,15 +262,32 @@
     "pageTitle": "关于 X-Glass",
 
     "backgroundTitle": "项目缘起",
-    "backgroundBody": "X-Glass 建立在一个简单的理念之上：Data over opinions。在充斥着主观评测与玄学讨论的摄影圈，以及各家厂商参数口径不一的现状下，我们决定打造一个纯粹的、规范化的富士 X 卡口镜头数据库。通过将原厂及所有第三方镜头的参数进行深度标准化对齐，X-Glass 致力于剔除一切主观噪音，让客观数据自己说话。",
+    "backgroundBody1": "富士 X 卡口的镜头生态，已经从早年的原厂主导，成长为如今数十个品牌、上百颗镜头并存的繁荣局面。然而，镜头参数散落在各品牌官网与各类平台之间，格式不一，横向对比极其低效。X-Glass 的初衷，正是把这些碎片化的信息汇聚到一处，建立一个规范化、可横向对比的数据库，让选镜头这件事回归客观数据本身。",
+    "backgroundBody2": "我是一名 Web 前端工程师，X-Glass 目前完全由我一人开发并维护。对打造一个在工程质量，用户体验和美学设计上都不妥协的产品，我一直有很强的执念与热情——这份热情，同样是这个项目得以实现的重要驱动力之一。",
 
     "coverageTitle": "收录范围",
-    "coverageBody": "X-Glass 的目标，是尽量收齐所有原生支持富士 X 卡口、目前仍在市场流通的镜头，包括富士自家的 XF、XC、MK 系列，以及各家第三方品牌。同焦段的不同代际会分开列出。其他卡口的转接镜头暂不在当前范围内。",
+    "coverageBody": "X-Glass 的愿景是收录富士 X 卡口有史以来的所有镜头，包括已经停产的型号。由于 data pipeline 的巨大工作量，目前以各品牌官网的在列镜头为索引起点，部分已下架的停产型号暂未纳入。当前已收录 8 个头部品牌；扩充更多活跃品牌的计划已列入 roadmap，将在后续阶段推进。其他卡口的转接镜头暂不在收录范围内。",
     "coverageBrands": "当前收录品牌",
     "coverageBrandList": "富士 · 适马 · 腾龙 · 唯卓仕 · 铭匠光学 · 七工匠 · 星耀光学 · 深光影像",
 
-    "dataTitle": "数据维护",
-    "dataBody": "镜头数据会先通过自动化 Pipeline 采集、整理，再在发布前做人工审阅。新镜头上市，或者已有数据需要修正时，我们都会更新。",
+    "dataAccuracyTitle": "数据与准确性",
+    "dataAccuracyIntro": "对于以客观信息为核心的数据库，准确性不是加分项，而是一切的根基。一旦用户对数据失去信任，网站本身便失去了存在的意义。",
+    "dataPrinciple1Title": "数据来源于厂商官方发布的信息",
+    "dataPrinciple1Body": "数据库中的所有内容，均来源于厂商官方渠道。AI Agent 在信息采集和结构化解析阶段提供辅助，但每一步都有人工参与。Pipeline 遵循严格的步骤隔离：每一步只能基于前一步已确认的事实来源，模型不会做任何主观推断。",
+    "dataPrinciple2Title": "能用确定逻辑实现的，绝不交给自然语言",
+    "dataPrinciple2Body": "大模型能处理一切自然语言输入，这既是优势，也是风险。对于严谨性要求极高的数据库，即使极低的出错概率也不可接受。因此，所有能通过脚本规则直接计算的字段，一律用代码完成；只有必须依赖语义理解的部分，才会交给模型处理。",
+    "dataPipelineIntro": "X-Glass 的数据通过一套分阶段的 pipeline 生产：",
+    "pipeline0Label": "镜头发现",
+    "pipeline0Desc": "脚本从各品牌官网索引镜头列表",
+    "pipeline1Label": "数据召回",
+    "pipeline1Desc": "AI Agent 采集厂商官方发布的镜头描述与规格文本",
+    "pipeline2Label": "结构化推导",
+    "pipeline2Desc": "脚本规则计算确定性字段；AI Agent 推导语义字段",
+    "pipelineRLabel": "人工审阅",
+    "pipelineRDesc": "维护者逐条审阅，并进行必要的修正",
+    "pipelinePLabel": "发布门控",
+    "pipelinePDesc": "数据合法性校验、归一化、合并写入",
+    "dataUpdateNote": "新镜头上市或已有数据需要修正时，数据库将随之更新。",
     "dataVersionNote": "页面底部显示的版本号和更新时间，对应的是最近一次正式发布的数据版本。",
 
     "faqTitle": "常见问题",
@@ -275,7 +298,9 @@
     "faq3Q": "X-Glass 和富士或其他品牌有关系吗？",
     "faq3A": "没有。X-Glass 是完全独立的个人项目，与富士或任何镜头厂商均无关联。镜头名称和品牌标识归各自所有者所有。",
     "faq4Q": "为什么有些字段显示「—」？",
-    "faq4A": "「—」表示这项数据暂时还没采集到，或者厂商没有公开。我们会持续把这些空缺补上。",
+    "faq4A": "「—」表示这项数据暂时还没采集到，或者厂商没有公开。",
+    "faq5Q": "为什么没有价格信息？",
+    "faq5A": "价格数据的准确性很难保证：各地区经销商网络复杂，平台促销活动频繁，实际成交价与标价往往相差悬殊，而且价格本身也在持续变动。我的原则是——对某个字段的数据质量没有足够的把握，宁可不放。标注不准确的价格，比没有价格更容易误导用户，也会动摇整个数据库的可信度。",
 
     "disclaimerTitle": "免责声明与数据来源",
     "disclaimerSources": "规格数据主要来源于厂商官方网站和产品页面。",
@@ -285,12 +310,21 @@
     "privacyTitle": "隐私",
     "privacyBody": "X-Glass 不要求用户注册，也不收集任何个人信息。",
 
-    "changelogTitle": "更新日志",
-    "changelogBody": "我们计划提供公开的数据更新和修正记录。",
-    "changelogPlaceholder": "即将推出",
+    "donationTitle": "捐赠与支持",
+    "donationBody": "X-Glass 是完全免费的独立项目，不会向用户收费。数据管线的搭建，维护以及数据的人工校准都需要大量时间和精力。如果它对你有所帮助，欢迎通过以下方式支持项目的持续维护。",
+    "donationGitHubSponsors": "GitHub Sponsors",
+    "donationBMC": "Buy Me a Coffee",
+    "donationAfdian": "爱发电",
+
+    "ackTitle": "致谢",
+    "ackBody": "过去的这一年，大语言模型涌现出了超凡的能力。凭一己之力，我过去不敢想象能做出这样规模的项目，更别说在不到一个月内实现。如果没有大语言模型和 AI Coding Agent，这个项目可能永远都无法完成。感谢这个时代的技术进步，让那些曾经只是灵感火花的想法，能够在一位个人开发者手中真正变成现实。",
+    "ackClaudeArchitect": "首席架构师",
+    "ackClaudeEngineer": "首席工程师",
+    "ackGeminiDesigner": "首席 UX 设计师",
+    "ackClosing": "向在这个项目开发过程中给予了决定性帮助的 AI Coding Agent，致以最诚挚的感激。",
 
     "feedbackTitle": "反馈与联系",
-    "feedbackBody": "如果你发现数据有误，或者想补充缺失镜头，可以直接在这里告诉我们。反馈会直接送达维护者。",
+    "feedbackBody": "如果你发现数据有误，或者想补充缺失镜头，可以直接在这里告诉我们。",
     "feedbackReport": "反馈数据问题",
     "feedbackSuggest": "推荐缺失镜头",
     "feedbackGeneral": "其他反馈"
@@ -306,10 +340,10 @@
     "titleDataIssue": "反馈数据问题",
     "titleMissingLens": "推荐缺失镜头",
     "titleGeneral": "提交反馈",
-    "descriptionDataIssue": "参数不对、图片不对、文案有误，都可以在这里告诉我们。你的反馈会直接发给维护者。",
+    "descriptionDataIssue": "参数不对、图片有问题、哪里写错了，都可以反馈给我们。",
     "descriptionMissingLens": "如果你发现有漏收录的 X 卡口镜头，发给我们，我们会加入处理队列。",
     "descriptionGeneral": "有想法、发现 Bug，或者想提功能建议，都欢迎。",
-    "contextLens": "相关镜头：{model}",
+    "affectedLensLabel": "相关镜头",
     "contextQuery": "搜索词：{query}",
     "fieldPickerLabel": "问题字段",
     "fieldPickerPlaceholder": "请选择字段…",
@@ -319,7 +353,7 @@
     "descriptionLabel": "补充说明",
     "descriptionOptional": "选填",
     "contentRequired": "请至少填写“建议改成”或“补充说明”中的一项。",
-    "descriptionPlaceholder": "把你发现的问题尽量说清楚一点…",
+    "descriptionPlaceholder": "你可以在这里提供更多细节，这有助于我们更快更准确地处理你的反馈。",
     "submit": "提交",
     "submitting": "提交中…",
     "cancel": "取消",
@@ -330,22 +364,22 @@
   "Install": {
     "pageTitle": "安装应用",
     "headline": "将 X-Glass 添加到主屏幕",
-    "subheadline": "一键直达，全屏体验，支持离线使用。",
+    "subheadline": "像 App 一样打开，全屏体验，支持离线使用。",
 
     "installedTitle": "已完成安装",
     "installedBody": "X-Glass 已安装在此设备上。",
     "openApp": "打开 X-Glass",
 
     "promptTitle": "安装 X-Glass",
-    "promptBody": "添加到主屏幕或应用启动台，随时一键打开。",
+    "promptBody": "把 X-Glass 加到手机主屏幕，以后直接像 App 一样打开——不用找浏览器，也不用记网址。",
     "installButton": "安装",
 
     "iosTitle": "添加到主屏幕",
     "iosSubtitle": "在 Safari 中按以下步骤操作：",
-    "iosStep1": "点击 Safari 底部的「分享」按钮（方框加箭头图标）",
+    "iosStep1": "点击 Safari 菜单中的「分享」按钮",
     "iosStep2": "向下滑动，点击「添加到主屏幕」",
     "iosStep3": "点击右上角的「添加」",
-    "iosNotSafari": "在 Safari 中打开可获得完整的独立应用体验；当前浏览器也支持添加到主屏幕。",
+    "iosNotSafari": "推荐在 Safari 中打开可获得完整的独立应用体验；当前浏览器也支持添加到主屏幕。",
 
     "genericTitle": "添加到主屏幕",
     "genericBody": "打开浏览器菜单，寻找「添加到主屏幕」或「安装应用」选项。"

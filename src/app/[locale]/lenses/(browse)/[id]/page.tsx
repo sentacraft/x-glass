@@ -195,9 +195,14 @@ export default async function LensDetailPage({ params }: { params: Params }) {
 
   // Field options for the Report Dialog — taken directly from resolved values,
   // identical to what is rendered in the spec table below.
-  const reportableFields = resolvedGroups.flatMap((group) =>
-    group.rows.map((row) => ({ label: row.label, currentValue: row.plainText }))
-  );
+  const mediaGroupLabel = t("fieldGroupMedia");
+  const reportableFields = [
+    ...resolvedGroups.flatMap((group) =>
+      group.rows.map((row) => ({ label: row.label, currentValue: row.plainText, group: group.label }))
+    ),
+    ...(url ? [{ label: t("fieldOfficialLink"), currentValue: url, group: mediaGroupLabel }] : []),
+    { label: t("fieldLensImage"), currentValue: getLensImageUrl(lens.id), group: mediaGroupLabel, hideCurrentValue: true },
+  ];
 
   return (
     <div className="bg-background w-full max-w-4xl mx-auto px-4 sm:px-6 py-8 flex flex-col gap-8">
@@ -249,7 +254,7 @@ export default async function LensDetailPage({ params }: { params: Params }) {
             </div>
             <FeedbackTrigger
               type="data_issue"
-              context={{ lensId: lens.id, lensModel: lens.model }}
+              context={{ lensId: lens.id, lensModel: lens.model, lensBrand: tBrand(lens.brand) }}
               fields={reportableFields}
               className="inline-flex items-center gap-1 text-xs text-zinc-400 dark:text-zinc-500 hover:text-zinc-600 dark:hover:text-zinc-300 transition-colors self-start"
             >
