@@ -133,9 +133,9 @@ interface SharePosterProps {
 export function SharePoster({ lenses, labels, custom, shareUrl, ref }: SharePosterProps) {
   const n = lenses.length;
   const titleLines: string[] = custom?.title?.trim()
-    ? [custom.title.trim()]
+    ? custom.title.split("\n").map((l) => l.trim()).filter(Boolean)
     : labels.comparison;
-  const titleFontSize = titleLines.length <= 1 ? 28 : titleLines.length === 2 ? 22 : 17;
+  const titleFontSize = titleLines.length <= 1 ? 32 : titleLines.length === 2 ? 22 : 17;
   const slogan = custom?.slogan?.trim();
 
   // Hero font sizes — scale down as more lenses are added
