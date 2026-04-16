@@ -7,7 +7,8 @@
     "additionalInfo": "Additional information"
   },
   "Metadata": {
-    "seoDescription": "An objective, normalized database for Fujifilm X-Mount lenses. Compare raw specs across brands with zero bias. Data over opinions."
+    "seoTitle": "X-Glass | Fujifilm X-Mount Lens Database & Comparison",
+    "seoDescription": "Every Fujifilm X-Mount lens, normalized and ready to compare — XF, XC, MK, Sigma, Tamron, Viltrox, TTArtisan, 7Artisans, Brightin Star, SG Image. One database, zero bias."
   },
   "Nav": {
     "lenses": "Browse",
@@ -69,8 +70,8 @@
     "featureApertureRing": "Aperture Ring",
     "featurePowerZoom": "Power Zoom",
     "featureAutofocusDesc": "Supports autofocus.",
-    "featureOisDesc": "Includes optical image stabilization.",
-    "featureWrDesc": "Has weather-resistant sealing.",
+    "featureOisDesc": "Built-in optical image stabilization.",
+    "featureWrDesc": "Weather-resistant construction.",
     "featureApertureRingDesc": "Has a physical aperture ring.",
     "sortBy": "Sort",
     "sortFocalLength": "Focal Length",
