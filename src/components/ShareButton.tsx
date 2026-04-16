@@ -15,48 +15,24 @@ import { rasterizePoster } from "@/lib/share-image";
 
 // ── Poster title / slogan auto-generation ────────────────────────────────────
 
-/** Brand + focal title for 2–3 lenses, focal summary for 4+, model name for single. */
+/** Brand + focal title per lens (2–3), or full model name for single. */
 function computePosterTitle(lenses: Lens[], tBrand: (key: string) => string): string {
   if (lenses.length === 1) return lenses[0].model;
-  if (lenses.length <= 3) {
-    // Show brand + focal for each lens so the title is meaningful
-    return lenses
-      .map((l) => {
-        const focal =
-          l.focalLengthMin === l.focalLengthMax
-            ? `${l.focalLengthMin}mm`
-            : `${l.focalLengthMin}–${l.focalLengthMax}mm`;
-        return `${tBrand(l.brand)} ${focal}`;
-      })
-      .join(" · ");
-  }
-  // 4+ lenses: focal summary only (brand info lives in slogan)
-  const parts = lenses.map((l) =>
-    l.focalLengthMin === l.focalLengthMax
-      ? `${l.focalLengthMin}`
-      : `${l.focalLengthMin}–${l.focalLengthMax}`
-  );
-  return [...new Set(parts)].join(" · ") + "mm";
+  return lenses
+    .map((l) => {
+      const focal =
+        l.focalLengthMin === l.focalLengthMax
+          ? `${l.focalLengthMin}mm`
+          : `${l.focalLengthMin}–${l.focalLengthMax}mm`;
+      return `${tBrand(l.brand)} ${focal}`;
+    })
+    .join(" · ");
 }
 
-/** Mount context line, adapts based on lens count. */
+/** Mount context line. Brand in slogan for single lens; title carries brand for comparisons. */
 function computePosterSlogan(lenses: Lens[], tBrand: (key: string) => string): string {
-  if (lenses.length === 1) {
-    return `${tBrand(lenses[0].brand)} · X-Mount`;
-  }
-  if (lenses.length <= 3) {
-    // Brand already shown in title — slogan is just mount context
-    return "X-Mount";
-  }
-  // 4+ lenses: brand info back in slogan since title is focal summary
-  const brands = [...new Set(lenses.map((l) => l.brand))].map(tBrand);
-  const brandStr =
-    brands.length === 1
-      ? brands[0]
-      : brands.length === 2
-      ? `${brands[0]} × ${brands[1]}`
-      : brands.join(" · ");
-  return `${brandStr} · X-Mount`;
+  if (lenses.length === 1) return `${tBrand(lenses[0].brand)} · X-Mount`;
+  return "X-Mount";
 }
 import { SharePoster, type PosterLabels } from "@/components/poster/SharePoster";
 import {
