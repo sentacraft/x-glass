@@ -10,6 +10,7 @@ import { ScrollContainerProvider } from "@/context/ScrollContainerContext";
 import { TestHookProvider } from "@/context/TestHookProvider";
 import { TESTHOOK_ALLOWED } from "@/lib/testhook";
 import { SITE } from "@/config/site";
+import { SPLASH_DEVICES, splashUrl, splashMedia } from "@/config/splash";
 import "../globals.css";
 
 export const viewport: Viewport = {
@@ -49,6 +50,14 @@ export async function generateMetadata({
       capable: true,
       title: SITE.shortName,
       statusBarStyle: "black-translucent",
+      // One PNG per device × color-scheme so iOS shows a branded launch image
+      // instead of a white flash during the WebKit startup gap.
+      startupImage: SPLASH_DEVICES.flatMap((device) =>
+        (["light", "dark"] as const).map((scheme) => ({
+          url:   splashUrl(device.label, scheme),
+          media: splashMedia(device, scheme),
+        }))
+      ),
     },
     openGraph: {
       siteName: SITE.name,

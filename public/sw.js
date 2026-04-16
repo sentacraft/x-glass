@@ -1,7 +1,7 @@
 // X-Glass Service Worker
 // Bump CACHE_VERSION whenever the caching logic changes to force all clients to
 // pick up the new worker and discard stale caches.
-const CACHE_VERSION = 'v1';
+const CACHE_VERSION = 'v2';
 
 const CACHE = {
   shell:  `x-glass-shell-${CACHE_VERSION}`,   // offline page + navigation
@@ -12,7 +12,9 @@ const CACHE = {
 const ALL_CACHES = Object.values(CACHE);
 
 // Pages to pre-cache on install so they're available offline immediately.
-const PRECACHE_URLS = ['/offline'];
+// Including the locale home pages means the app works even on the very first
+// offline launch, before the user has browsed any pages while online.
+const PRECACHE_URLS = ['/offline', '/en/', '/zh/'];
 
 // How long (seconds) lens images stay in the cache before a background refresh.
 const IMAGE_TTL_S = 30 * 24 * 60 * 60; // 30 days
@@ -66,11 +68,12 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Lens photos and PWA icons — cache first, refresh in background after TTL.
+  // Lens photos, PWA icons, and splash screens — cache first, refresh after TTL.
   if (
     url.pathname.startsWith('/lenses/') ||
     url.pathname.startsWith('/icons/') ||
-    url.pathname.startsWith('/screenshots/')
+    url.pathname.startsWith('/screenshots/') ||
+    url.pathname.startsWith('/splash/')
   ) {
     event.respondWith(cacheFirst(request, CACHE.images, IMAGE_TTL_S));
     return;
@@ -138,6 +141,14 @@ async function networkFirstWithOfflineFallback(request) {
   } catch {
     const cached = await cache.match(request);
     if (cached) return cached;
+    // When the PWA is launched via the home screen icon (start_url = '/'), the
+    // locale middleware can't run offline so there's no cached entry for '/'.
+    // Fall back to the precached English home page so the app is usable.
+    const url = new URL(request.url);
+    if (url.pathname === '/') {
+      const home = await cache.match('/en/');
+      if (home) return home;
+    }
     return (await cache.match('/offline')) ?? new Response('Offline', { status: 503 });
   }
 }

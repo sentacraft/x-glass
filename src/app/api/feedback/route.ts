@@ -77,7 +77,9 @@ function buildIssue(payload: FeedbackPayload): {
     lines.push(`**Type:** General feedback`);
   }
 
-  lines.push("", "---", "", description);
+  if (description.trim()) {
+    lines.push("", "---", "", description);
+  }
 
   let title: string;
   if (type === "data_issue") {
@@ -118,13 +120,19 @@ export async function POST(req: Request) {
   if (!payload?.type || !validTypes.includes(payload.type)) {
     return NextResponse.json({ error: "invalid_type" }, { status: 400 });
   }
-  if (
-    typeof payload.description !== "string" ||
-    payload.description.trim().length === 0
-  ) {
+  const descriptionPresent =
+    typeof payload.description === "string" &&
+    payload.description.trim().length > 0;
+  const correctionPresent =
+    typeof payload.context?.suggestedCorrection === "string" &&
+    payload.context.suggestedCorrection.trim().length > 0;
+  if (!descriptionPresent && !correctionPresent) {
     return NextResponse.json({ error: "empty_description" }, { status: 400 });
   }
-  if (payload.description.length > MAX_DESCRIPTION_LENGTH) {
+  if (
+    typeof payload.description === "string" &&
+    payload.description.length > MAX_DESCRIPTION_LENGTH
+  ) {
     return NextResponse.json(
       { error: "description_too_long" },
       { status: 400 }

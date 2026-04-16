@@ -1,5 +1,4 @@
 import { getTranslations, getLocale } from "next-intl/server";
-import Image from "next/image";
 import { Flag, Mail, Heart } from "lucide-react";
 import FeedbackTrigger from "@/components/FeedbackTrigger";
 import { ExternalLink } from "@/components/ui/external-link";
@@ -282,13 +281,16 @@ export default async function AboutContent() {
                   {roles.join(" · ")}
                 </p>
               </div>
-              {/* Logo — center */}
-              <Image
+              {/* Logo — center. Native img ensures SVG is served as a vector
+                  without Next.js image optimization potentially rasterizing it. */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
                 src={logo}
                 alt={logoAlt}
                 width={logoSize}
                 height={logoSize}
                 className={`flex-shrink-0 ${logoClassName}`}
+                loading="lazy"
               />
               {/* Brand — left-aligned */}
               <div className="flex-1 flex flex-col gap-0.5">
