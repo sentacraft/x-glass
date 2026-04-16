@@ -263,10 +263,10 @@
 
     "backgroundTitle": "Background",
     "backgroundBody1": "The Fujifilm X-mount lens ecosystem has grown from a handful of native options in its early days to today's landscape of dozens of brands and hundreds of lenses. Yet specs are scattered across brand websites and various platforms in inconsistent formats, making meaningful comparison a slow and frustrating exercise. X-Glass was built to pull all of that fragmented information into one place — a normalized, comparable database that lets the data speak for itself.",
-    "backgroundBody2": "X-Glass was created by a former software engineer at a major tech company. A deep conviction about engineering quality and user experience has always been a driving force — and that same conviction is part of what made this project possible.",
+    "backgroundBody2": "I'm a web front-end engineer, and X-Glass is a project I develop and maintain entirely on my own. I've always had a strong conviction and passion for building products that don't compromise on engineering quality, user experience, or aesthetic design — and that drive is one of the key forces behind why this project exists.",
 
     "coverageTitle": "Lens Coverage",
-    "coverageBody": "X-Glass aims to cover every X-mount lens ever made, including discontinued models. Due to the scale of the data pipeline, the current index starts from lenses listed on each brand's official website, so some discontinued lenses no longer featured there are temporarily missing. Eight major brands are covered in this first release; expanding to more active brands is on the roadmap for a future phase. Adapted lenses from other mounts are outside the current scope.",
+    "coverageBody": "X-Glass's vision is to cover every X-mount lens ever made, including discontinued models. Due to the enormous scale of the data pipeline, the current index starts from lenses listed on each brand's official website, so some discontinued lenses no longer featured there are temporarily missing. Eight major brands are covered in this first release; expanding to more active brands is on the roadmap for a future phase. Adapted lenses from other mounts are outside the current scope.",
     "coverageBrands": "Currently indexed brands",
     "coverageBrandList": "Fujifilm · Sigma · Tamron · Viltrox · TTArtisan · 7Artisans · Brightin Star · SG Image",
 
@@ -279,14 +279,14 @@
     "dataPipelineIntro": "X-Glass lens data is produced through a multi-stage pipeline:",
     "pipeline0Label": "Discovery",
     "pipeline0Desc": "Scripts index lens listings from each brand's official website",
-    "pipeline1Label": "Collection",
-    "pipeline1Desc": "AI Agents collect official lens descriptions and hero images from manufacturer sources",
+    "pipeline1Label": "Raw Data Recall",
+    "pipeline1Desc": "AI Agents collect official lens descriptions and raw spec text from manufacturer sources",
     "pipeline2Label": "Structuring",
     "pipeline2Desc": "Script rules compute deterministic fields; AI Agents derive semantic fields",
     "pipelineRLabel": "Human Review",
-    "pipelineRDesc": "Maintainer reviews each entry and applies any manual overrides",
+    "pipelineRDesc": "Maintainer reviews each entry and applies necessary corrections",
     "pipelinePLabel": "Publish Gate",
-    "pipelinePDesc": "Validation, normalization, and final merge into the database",
+    "pipelinePDesc": "Data validity checks, normalization, and final merge into the database",
     "dataUpdateNote": "The database is updated when new lenses launch or when existing data needs correction.",
     "dataVersionNote": "The version number and last-updated timestamp in the footer reflect the latest published data release.",
 
@@ -309,16 +309,17 @@
     "privacyBody": "X-Glass does not require user accounts and does not collect personal information.",
 
     "donationTitle": "Support the Project",
-    "donationBody": "X-Glass is free and will stay free. If you find it useful, you're welcome to show your support through any of the options below.",
+    "donationBody": "X-Glass is free and will stay free. Building and maintaining the data pipeline — including manual data review and corrections — takes considerable time and effort. If you find it useful, you're welcome to show your support through any of the options below.",
     "donationGitHubSponsors": "GitHub Sponsors",
     "donationBMC": "Buy Me a Coffee",
     "donationAfdian": "Afdian (爱发电)",
 
     "ackTitle": "Acknowledgments",
-    "ackBody": "I could not have imagined building something at this scale on my own, let alone in under a month. It could take forever for me without large language models or AI coding agents. I am genuinely grateful for the era of technology we live in — one where ideas that once felt impossibly ambitious can actually be brought to life.",
+    "ackBody": "Large language models have emerged with remarkable capabilities over the past year. I could not have imagined building something at this scale on my own, let alone in under a month. It could take forever for me without large language models or AI coding agents. I am genuinely grateful for the era of technology we live in — one where ideas that once felt impossibly ambitious can actually be brought to life by a solo developer.",
     "ackClaudeArchitect": "Chief Architect",
     "ackClaudeEngineer": "Chief Engineer",
     "ackGeminiDesigner": "Chief UX Designer",
+    "ackClosing": "My deepest gratitude to the AI coding agents whose contributions were decisive in making this project a reality.",
 
     "feedbackTitle": "Feedback & Contact",
     "feedbackBody": "Spotted incorrect data or a missing lens? Your report goes straight to the maintainer.",

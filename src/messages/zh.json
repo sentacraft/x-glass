@@ -263,7 +263,7 @@
 
     "backgroundTitle": "项目缘起",
     "backgroundBody1": "富士 X 卡口的镜头生态，已经从早年的原厂主导，成长为如今数十个品牌、上百颗镜头并存的繁荣局面。然而，镜头参数散落在各品牌官网与各类平台之间，格式不一，横向对比极其低效。X-Glass 的初衷，正是把这些碎片化的信息汇聚到一处，建立一个规范化、可横向对比的数据库，让选镜头这件事回归客观数据本身。",
-    "backgroundBody2": "X-Glass 由一位前大厂前端工程师创建。对打造一个在工程质量和用户体验上都不妥协的产品，我一直有很强的执念与热情——这份热情，同样是这个项目得以实现的重要驱动力之一。",
+    "backgroundBody2": "我是一名 Web 前端工程师，X-Glass 目前完全由我一人开发并维护。对打造一个在工程质量，用户体验和美学设计上都不妥协的产品，我一直有很强的执念与热情——这份热情，同样是这个项目得以实现的重要驱动力之一。",
 
     "coverageTitle": "收录范围",
     "coverageBody": "X-Glass 的愿景是收录富士 X 卡口有史以来的所有镜头，包括已经停产的型号。由于 data pipeline 的巨大工作量，目前以各品牌官网的在列镜头为索引起点，部分已下架的停产型号暂未纳入。当前已收录 8 个头部品牌；扩充更多活跃品牌的计划已列入 roadmap，将在后续阶段推进。其他卡口的转接镜头暂不在收录范围内。",
@@ -279,14 +279,14 @@
     "dataPipelineIntro": "X-Glass 的数据通过一套分阶段的 pipeline 生产：",
     "pipeline0Label": "镜头发现",
     "pipeline0Desc": "脚本从各品牌官网索引镜头列表",
-    "pipeline1Label": "信息采集",
-    "pipeline1Desc": "AI Agent 采集厂商官方发布的镜头描述与主图",
+    "pipeline1Label": "数据召回",
+    "pipeline1Desc": "AI Agent 采集厂商官方发布的镜头描述与规格文本",
     "pipeline2Label": "结构化推导",
     "pipeline2Desc": "脚本规则计算确定性字段；AI Agent 推导语义字段",
     "pipelineRLabel": "人工审阅",
-    "pipelineRDesc": "维护者逐条审阅，填写 overrides",
+    "pipelineRDesc": "维护者逐条审阅，并进行必要的修正",
     "pipelinePLabel": "发布门控",
-    "pipelinePDesc": "数据校验、归一化、合并写入",
+    "pipelinePDesc": "数据合法性校验、归一化、合并写入",
     "dataUpdateNote": "新镜头上市或已有数据需要修正时，数据库将随之更新。",
     "dataVersionNote": "页面底部显示的版本号和更新时间，对应的是最近一次正式发布的数据版本。",
 
@@ -309,16 +309,17 @@
     "privacyBody": "X-Glass 不要求用户注册，也不收集任何个人信息。",
 
     "donationTitle": "捐赠与支持",
-    "donationBody": "X-Glass 是完全免费的独立项目，不会向用户收费。如果它对你有所帮助，欢迎通过以下方式支持项目的持续维护。",
+    "donationBody": "X-Glass 是完全免费的独立项目，不会向用户收费。数据管线的搭建，维护以及数据的人工校准都需要大量时间和精力。如果它对你有所帮助，欢迎通过以下方式支持项目的持续维护。",
     "donationGitHubSponsors": "GitHub Sponsors",
     "donationBMC": "Buy Me a Coffee",
     "donationAfdian": "爱发电",
 
     "ackTitle": "致谢",
-    "ackBody": "凭一己之力，我过去不敢想象能做出这样规模的项目，更别说在不到一个月内实现。如果没有大语言模型和 AI 编程助手，这个项目可能永远都无法完成。感谢这个时代的技术进步，让那些曾经只是灵感火花的想法，能够真正变成现实。",
+    "ackBody": "过去的这一年，大语言模型涌现出了超凡的能力。凭一己之力，我过去不敢想象能做出这样规模的项目，更别说在不到一个月内实现。如果没有大语言模型和 AI Coding Agent，这个项目可能永远都无法完成。感谢这个时代的技术进步，让那些曾经只是灵感火花的想法，能够在一位个人开发者手中真正变成现实。",
     "ackClaudeArchitect": "首席架构师",
     "ackClaudeEngineer": "首席工程师",
     "ackGeminiDesigner": "首席 UX 设计师",
+    "ackClosing": "向在这个项目开发过程中给予了决定性帮助的 AI Coding Agent，致以最诚挚的感激。",
 
     "feedbackTitle": "反馈与联系",
     "feedbackBody": "如果你发现数据有误，或者想补充缺失镜头，可以直接在这里告诉我们。",

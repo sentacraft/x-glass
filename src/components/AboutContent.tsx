@@ -60,22 +60,26 @@ export default async function AboutContent() {
 
   const ackCredits = [
     {
-      role: t("ackClaudeArchitect"),
-      name: "Anthropic Claude",
+      roles: [t("ackClaudeArchitect"), t("ackClaudeEngineer")],
+      company: "Anthropic",
+      product: "Claude Code",
       logo: "/logos/anthropic.svg",
-      logoAlt: "Anthropic",
+      logoAlt: "Anthropic Claude",
+      // Wordmark SVG uses currentColor — invert in dark mode
+      logoClassName: "dark:invert opacity-60 dark:opacity-50",
+      logoWidth: 112,
+      logoHeight: 28,
     },
     {
-      role: t("ackClaudeEngineer"),
-      name: "Anthropic Claude",
-      logo: "/logos/anthropic.svg",
-      logoAlt: "Anthropic",
-    },
-    {
-      role: t("ackGeminiDesigner"),
-      name: "Google Gemini",
+      roles: [t("ackGeminiDesigner")],
+      company: "Google",
+      product: "Gemini",
       logo: "/logos/google-gemini.svg",
       logoAlt: "Google Gemini",
+      // Colorful gradient icon — no invert needed
+      logoClassName: "",
+      logoWidth: 32,
+      logoHeight: 32,
     },
   ];
 
@@ -233,32 +237,35 @@ export default async function AboutContent() {
         <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
           {t("ackBody")}
         </p>
-        <div className="flex flex-col gap-2 mt-1">
-          {ackCredits.map(({ role, name, logo, logoAlt }) => (
-            <div
-              key={`${role}-${name}`}
-              className="flex items-center gap-3 rounded-lg bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 px-4 py-2.5"
-            >
+
+        {/* Cast list — centered credits style */}
+        <div className="mt-4 flex flex-col items-center gap-8 text-center">
+          {ackCredits.map(({ roles, company, product, logo, logoAlt, logoClassName, logoWidth, logoHeight }) => (
+            <div key={`${company}-${product}`} className="flex flex-col items-center gap-2">
+              <p className="text-xs tracking-widest uppercase text-zinc-400 dark:text-zinc-500">
+                {roles.join(" · ")}
+              </p>
               <Image
                 src={logo}
                 alt={logoAlt}
-                width={18}
-                height={18}
-                className="flex-shrink-0 dark:invert opacity-60"
+                width={logoWidth}
+                height={logoHeight}
+                className={logoClassName}
               />
-              <div className="min-w-0">
-                <span className="text-xs text-zinc-500 dark:text-zinc-400">
-                  {role}
-                </span>
-                <span className="text-xs text-zinc-400 dark:text-zinc-600 mx-1.5">
-                  ·
-                </span>
-                <span className="text-sm font-medium text-zinc-800 dark:text-zinc-200">
-                  {name}
-                </span>
-              </div>
+              <p className="text-xs text-zinc-500 dark:text-zinc-400">
+                <span className="text-zinc-400 dark:text-zinc-500">{company}</span>
+                {" "}
+                <span className="font-medium text-zinc-600 dark:text-zinc-300">{product}</span>
+              </p>
             </div>
           ))}
+        </div>
+
+        {/* Closing line */}
+        <div className="mt-2 pt-6 border-t border-zinc-100 dark:border-zinc-800 text-center">
+          <p className="text-xs text-zinc-400 dark:text-zinc-500 leading-relaxed">
+            {t("ackClosing")}
+          </p>
         </div>
       </Section>
 
