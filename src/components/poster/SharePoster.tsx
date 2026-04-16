@@ -286,18 +286,7 @@ export function SharePoster({ lenses, labels, custom, shareUrl, ref }: SharePost
             }}
           >
             {shareUrl ? (
-              <QRCode
-                value={shareUrl}
-                size={64}
-                level="H"
-                style={{ display: "block" }}
-                imageSettings={{
-                  src: "/icons/icon-192-white.png",
-                  width: 12,
-                  height: 12,
-                  excavate: true,
-                }}
-              />
+              <QRCode value={shareUrl} size={64} level="M" style={{ display: "block" }} />
             ) : (
               <span style={{ fontSize: 8, color: "#d4d4d8", letterSpacing: 1 }}>QR</span>
             )}
