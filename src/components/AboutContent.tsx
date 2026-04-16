@@ -65,10 +65,10 @@ export default async function AboutContent() {
       product: "Claude Code",
       logo: "/logos/anthropic.svg",
       logoAlt: "Anthropic Claude",
-      // Wordmark SVG uses currentColor — invert in dark mode
-      logoClassName: "dark:invert opacity-60 dark:opacity-50",
-      logoWidth: 112,
-      logoHeight: 28,
+      // Color icon — no invert needed
+      logoClassName: "",
+      logoWidth: 32,
+      logoHeight: 32,
     },
     {
       roles: [t("ackGeminiDesigner")],
