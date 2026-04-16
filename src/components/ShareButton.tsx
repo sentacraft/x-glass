@@ -12,6 +12,31 @@ import { cn } from "@/lib/utils";
 import { Z } from "@/config/ui";
 import type { Lens } from "@/lib/types";
 import { rasterizePoster } from "@/lib/share-image";
+
+// ── Poster title / slogan auto-generation ────────────────────────────────────
+
+/** Focal-summary title for comparison, full model name for single lens. */
+function computePosterTitle(lenses: Lens[]): string {
+  if (lenses.length === 1) return lenses[0].model;
+  const parts = lenses.map((l) =>
+    l.focalLengthMin === l.focalLengthMax
+      ? `${l.focalLengthMin}`
+      : `${l.focalLengthMin}–${l.focalLengthMax}`
+  );
+  return [...new Set(parts)].join(" · ") + "mm";
+}
+
+/** Brand combination + "X-Mount" context line. */
+function computePosterSlogan(lenses: Lens[], tBrand: (key: string) => string): string {
+  const brands = [...new Set(lenses.map((l) => l.brand))].map(tBrand);
+  const brandStr =
+    brands.length === 1
+      ? brands[0]
+      : brands.length === 2
+      ? `${brands[0]} × ${brands[1]}`
+      : brands.join(" · ");
+  return `${brandStr} · X-Mount`;
+}
 import { SharePoster, type PosterLabels } from "@/components/poster/SharePoster";
 import {
   Dialog,
@@ -108,12 +133,16 @@ export function ShareButton({ lenses, variant = "default", triggerClassName }: S
       .slice(0, 60);
   }, [open, lenses]);
 
+  // Auto-compute poster title and slogan from lens data
+  const computedPosterTitle = computePosterTitle(lenses);
+  const computedPosterSlogan = computePosterSlogan(lenses, tBrand);
+
   // Build poster labels from i18n
   const posterLabels: PosterLabels = {
     appName: "X Glass",
     siteUrl: "x-glass.app",
-    cta: tImage("cta"),
-    comparison: lenses.length === 1 ? tImage("singleLens") : tImage("comparison"),
+    cta: lenses.length === 1 ? tImage("ctaSingle") : tImage("cta"),
+    comparison: computedPosterTitle,
     sectionFocalCoverage: tImage("sectionFocalCoverage"),
     sectionFocus: tImage("sectionFocus"),
     sectionSizeWeight: tImage("sectionSizeWeight"),
@@ -247,7 +276,8 @@ export function ShareButton({ lenses, variant = "default", triggerClassName }: S
 
   const posterCustom = {
     title: customTitle.trim() || undefined,
-    slogan: customSlogan.trim() || undefined,
+    // Fall back to auto-generated slogan when user input is empty
+    slogan: customSlogan.trim() || computedPosterSlogan,
   };
 
   const panelContent = (
@@ -451,7 +481,7 @@ export function ShareButton({ lenses, variant = "default", triggerClassName }: S
                             type="text"
                             value={customTitle}
                             onChange={(e) => setCustomTitle(e.target.value)}
-                            placeholder={lenses.length === 1 ? tImage("singleLens") : tImage("comparison")}
+                            placeholder={computedPosterTitle}
                             className={inputClass}
                           />
                         </div>
