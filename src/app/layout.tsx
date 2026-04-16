@@ -6,7 +6,9 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import RegisterSW from "@/components/RegisterSW";
 
 export const metadata: Metadata = {
-  metadataBase: process.env.VERCEL_URL
+  metadataBase: process.env.VERCEL_PROJECT_PRODUCTION_URL
+    ? new URL(`https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`)
+    : process.env.VERCEL_URL
     ? new URL(`https://${process.env.VERCEL_URL}`)
     : new URL("http://localhost:3000"),
 };
