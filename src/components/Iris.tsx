@@ -27,13 +27,13 @@ import {
   findThetaForInradius,
   findThetaForFStop,
 } from "@/lib/iris-kinematics";
-import { IRIS_HERO, R_HOUSING, type IrisConfig } from "@/config/iris-config";
+import { R_HOUSING, type IrisConfig } from "@/config/iris-config";
 import ApertureStrip from "@/components/ApertureStrip";
 
 // ── Component ─────────────────────────────────────────────────────────────────
 
 interface IrisProps {
-  config?: IrisConfig;
+  config: IrisConfig;
   /**
    * Render size override in px. Falls back to config.size when omitted.
    * Use this only when you need a one-off size that differs from the named
@@ -46,7 +46,7 @@ interface IrisProps {
 }
 
 export default function Iris({
-  config: rawConfig = IRIS_HERO,
+  config: rawConfig,
   size: sizeProp,
   uid = "logo",
   className,

@@ -1,7 +1,7 @@
 "use client";
 
 import type { Ref } from "react";
-import QRCode from "react-qr-code";
+import { QRCodeSVG } from "qrcode.react";
 import Iris from "@/components/Iris";
 import { IRIS_NAV } from "@/config/iris-config";
 import { FEATURE_ICONS } from "@/lib/feature-icons";
@@ -286,7 +286,18 @@ export function SharePoster({ lenses, labels, custom, shareUrl, ref }: SharePost
             }}
           >
             {shareUrl ? (
-              <QRCode value={shareUrl} size={64} level="M" style={{ display: "block" }} />
+              <QRCodeSVG
+                value={shareUrl}
+                size={64}
+                level="H"
+                style={{ display: "block" }}
+                imageSettings={{
+                  src: "/icons/icon-192-white.png",
+                  width: 12,
+                  height: 12,
+                  excavate: true,
+                }}
+              />
             ) : (
               <span style={{ fontSize: 8, color: "#d4d4d8", letterSpacing: 1 }}>QR</span>
             )}
