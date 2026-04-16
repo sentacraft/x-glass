@@ -28,8 +28,8 @@ export interface PosterLabels {
   siteUrl: string;
   /** Short CTA / tagline shown in the header top-right. */
   cta: string;
-  /** Fallback title when no custom title is set. */
-  comparison: string;
+  /** One line per lens — shown as stacked title lines when no custom title is set. */
+  comparison: string[];
   // Section titles
   sectionFocalCoverage: string;
   sectionFocus: string;
@@ -132,7 +132,10 @@ interface SharePosterProps {
 
 export function SharePoster({ lenses, labels, custom, shareUrl, ref }: SharePosterProps) {
   const n = lenses.length;
-  const title = custom?.title?.trim() || labels.comparison;
+  const titleLines: string[] = custom?.title?.trim()
+    ? [custom.title.trim()]
+    : labels.comparison;
+  const titleFontSize = titleLines.length <= 1 ? 28 : titleLines.length === 2 ? 22 : 17;
   const slogan = custom?.slogan?.trim();
 
   // Hero font sizes — scale down as more lenses are added
@@ -263,12 +266,17 @@ export function SharePoster({ lenses, labels, custom, shareUrl, ref }: SharePost
               X-Glass
             </span>
           </div>
-          {/* Title — fixed size, no jumping */}
-          <div
-            className="text-zinc-900"
-            style={{ fontSize: 32, fontWeight: 600, lineHeight: 1.2, marginBottom: slogan ? 8 : 0 }}
-          >
-            {title}
+          {/* Title lines — one per lens, font scales with count */}
+          <div style={{ marginBottom: slogan ? 8 : 0 }}>
+            {titleLines.map((line, i) => (
+              <div
+                key={i}
+                className="text-zinc-900"
+                style={{ fontSize: titleFontSize, fontWeight: 600, lineHeight: 1.25 }}
+              >
+                {line}
+              </div>
+            ))}
           </div>
           {/* Slogan */}
           {slogan && (

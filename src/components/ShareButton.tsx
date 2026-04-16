@@ -15,34 +15,9 @@ import { rasterizePoster } from "@/lib/share-image";
 
 // ── Poster title / slogan auto-generation ────────────────────────────────────
 
-/** Deduplicates brand/focal when all lenses share them, otherwise lists each. */
-function computePosterTitle(lenses: Lens[], tBrand: (key: string) => string): string {
-  if (lenses.length === 1) return lenses[0].model;
-
-  const brands = lenses.map((l) => tBrand(l.brand));
-  const focals = lenses.map((l) =>
-    l.focalLengthMin === l.focalLengthMax
-      ? `${l.focalLengthMin}mm`
-      : `${l.focalLengthMin}–${l.focalLengthMax}mm`
-  );
-
-  const allSameBrand = new Set(lenses.map((l) => l.brand)).size === 1;
-  const allSameFocal = new Set(focals).size === 1;
-
-  if (allSameBrand && allSameFocal) {
-    // "Fujifilm 23mm"
-    return `${brands[0]} ${focals[0]}`;
-  }
-  if (allSameBrand) {
-    // "Fujifilm 23mm · 35mm"
-    return `${brands[0]} ${focals.join(" · ")}`;
-  }
-  if (allSameFocal) {
-    // "Fujifilm · Viltrox 23mm"
-    return `${brands.join(" · ")} ${focals[0]}`;
-  }
-  // "Fujifilm 12mm · Viltrox 13mm"
-  return lenses.map((l, i) => `${brands[i]} ${focals[i]}`).join(" · ");
+/** One title line per lens: "{Brand} {model}" */
+function computePosterTitle(lenses: Lens[], tBrand: (key: string) => string): string[] {
+  return lenses.map((l) => `${tBrand(l.brand)} ${l.model}`);
 }
 
 import { SharePoster, type PosterLabels } from "@/components/poster/SharePoster";
@@ -487,7 +462,7 @@ export function ShareButton({ lenses, variant = "default", triggerClassName }: S
                             type="text"
                             value={customTitle}
                             onChange={(e) => setCustomTitle(e.target.value)}
-                            placeholder={computedPosterTitle}
+                            placeholder={computedPosterTitle.join(" · ")}
                             className={inputClass}
                           />
                         </div>
