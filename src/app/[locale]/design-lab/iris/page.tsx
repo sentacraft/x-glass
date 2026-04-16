@@ -34,7 +34,7 @@ const FSTOP_RING_GAP = 4;                                    // inset from inner
 const FSTOP_SEQUENCE: (number | "A")[] = ["A", 1.4, 2, 2.8, 4, 5.6, 8, 11, 16, 22];
 const FSTOP_ARC_SPAN = 125;                                  // degrees
 const FSTOP_ANGLE_STEP = FSTOP_ARC_SPAN / (FSTOP_SEQUENCE.length - 1);  // ~13.9° per step
-const FSTOP_A_COLOR = "#C0452D";                             // Auto marker red
+const FSTOP_A_COLOR = "#f87171";                             // Auto marker red (Tailwind red-400)
 
 // Continuous angle (degrees) in ring frame for a given f-stop value.
 // Uses the same log₂ scale as the sequence: f/1→0°, f/1.4→STEP, …, f/22→ARC_SPAN.

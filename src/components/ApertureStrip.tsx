@@ -238,8 +238,8 @@ export default function ApertureStrip({
             mark === "A" ? (
               <div
                 key={i}
-                className="flex-shrink-0 text-center text-xs font-semibold tracking-[0.03em]"
-                style={{ width: SPACING, opacity: 0.85, color: "#C0452D" }}
+                className="flex-shrink-0 text-center text-xs font-semibold tracking-[0.03em] text-red-400"
+                style={{ width: SPACING, opacity: 0.85 }}
               >
                 A
               </div>
