@@ -266,13 +266,13 @@ export function SharePoster({ lenses, labels, custom, shareUrl, ref }: SharePost
           {/* Title — fixed size, no jumping */}
           <div
             className="text-zinc-900"
-            style={{ fontSize: 22, fontWeight: 600, lineHeight: 1.2, marginBottom: slogan ? 5 : 0 }}
+            style={{ fontSize: 32, fontWeight: 600, lineHeight: 1.2, marginBottom: slogan ? 8 : 0 }}
           >
             {title}
           </div>
           {/* Slogan */}
           {slogan && (
-            <div className="text-zinc-400" style={{ fontSize: 12, lineHeight: 1.4 }}>
+            <div className="text-zinc-400" style={{ fontSize: 13, lineHeight: 1.4 }}>
               {slogan}
             </div>
           )}
