@@ -41,9 +41,9 @@
   "Home": {
     "cta": "浏览镜头",
     "ctaCompare": "对比",
-    "dataSnapshot": "数据管线已同步",
-    "dataSnapshotCount": "{count} 支镜头 · {brands} 个品牌 · 0 条 AI 瞎编参数",
-    "dataTooltip": "参数以厂商资料为依据，不靠 AI 脑补。"
+    "dataSnapshot": "lens.json loaded ✓",
+    "dataSnapshotCount": "{count} 支镜头 · {brands} 个品牌 · 0 hallucination",
+    "dataTooltip": "数据来源于制造商官方规格，非 AI 生成。"
   },
   "LensList": {
     "title": "镜头列表",

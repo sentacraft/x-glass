@@ -41,9 +41,9 @@
   "Home": {
     "cta": "Browse Lenses",
     "ctaCompare": "Compare",
-    "dataSnapshot": "Data pipeline synced",
-    "dataSnapshotCount": "{count} lenses · {brands} brands · zero AI-made specs",
-    "dataTooltip": "Specs are checked against manufacturer sources, not invented by AI."
+    "dataSnapshot": "lens.json loaded ✓",
+    "dataSnapshotCount": "{count} lenses · {brands} brands · 0 hallucination",
+    "dataTooltip": "Verified from manufacturer data. No AI-generated specs."
   },
   "LensList": {
     "title": "Lenses",
