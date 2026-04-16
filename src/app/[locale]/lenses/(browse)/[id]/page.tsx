@@ -101,7 +101,7 @@ function renderRowValue(
 }
 
 export default async function LensDetailPage({ params }: { params: Params }) {
-  const { id } = await params;
+  const { id, locale } = await params;
   const lens = allLenses.find((l) => l.id === id);
 
   if (!lens) {
@@ -110,7 +110,7 @@ export default async function LensDetailPage({ params }: { params: Params }) {
 
   const t = await getTranslations("LensDetail");
   const tBrand = await getTranslations("Brands");
-  const url = getLensUrl(lens);
+  const url = getLensUrl(lens, locale);
 
   const specGroups = buildSpecGroups({
     groupOptics: t("groupOptics"),

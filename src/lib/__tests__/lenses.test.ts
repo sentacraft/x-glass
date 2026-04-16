@@ -515,41 +515,40 @@ describe("getUniqueBrands", () => {
 // getLensUrl
 // ---------------------------------------------------------------------------
 describe("getLensUrl", () => {
-  it("returns global official link when present", () => {
-    const lens = makeLens({
-      focalLengthMin: 35,
-      focalLengthMax: 35,
-      officialLinks: { global: "https://example.com/lens" },
-    });
-    expect(getLensUrl(lens)).toBe("https://example.com/lens");
+  const bothLinks = { cn: "https://example.com/cn-lens", global: "https://example.com/global-lens" };
+
+  it("returns global link for en locale when both links are present", () => {
+    const lens = makeLens({ focalLengthMin: 35, focalLengthMax: 35, officialLinks: bothLinks });
+    expect(getLensUrl(lens, "en")).toBe("https://example.com/global-lens");
   });
 
-  it("falls back to cn official link when global link is absent", () => {
-    const lens = makeLens({
-      focalLengthMin: 35,
-      focalLengthMax: 35,
-      officialLinks: { cn: "https://example.com/cn-lens" },
-    });
-    expect(getLensUrl(lens)).toBe("https://example.com/cn-lens");
+  it("returns cn link for zh locale when both links are present", () => {
+    const lens = makeLens({ focalLengthMin: 35, focalLengthMax: 35, officialLinks: bothLinks });
+    expect(getLensUrl(lens, "zh")).toBe("https://example.com/cn-lens");
   });
 
-  it("returns undefined for Fujifilm without official links", () => {
+  it("falls back to global when zh locale but only global is present", () => {
+    const lens = makeLens({ focalLengthMin: 35, focalLengthMax: 35, officialLinks: { global: "https://example.com/global-lens" } });
+    expect(getLensUrl(lens, "zh")).toBe("https://example.com/global-lens");
+  });
+
+  it("falls back to cn when en locale but only cn is present", () => {
+    const lens = makeLens({ focalLengthMin: 35, focalLengthMax: 35, officialLinks: { cn: "https://example.com/cn-lens" } });
+    expect(getLensUrl(lens, "en")).toBe("https://example.com/cn-lens");
+  });
+
+  it("defaults to global-first when no locale is provided", () => {
+    const lens = makeLens({ focalLengthMin: 35, focalLengthMax: 35, officialLinks: bothLinks });
+    expect(getLensUrl(lens)).toBe("https://example.com/global-lens");
+  });
+
+  it("returns undefined when no official links exist", () => {
     const lens = makeLens({
       focalLengthMin: 35,
       focalLengthMax: 35,
-      brand: "Fujifilm",
       officialLinks: undefined as unknown as { global: string },
     });
-    expect(getLensUrl(lens)).toBeUndefined();
-  });
-
-  it("returns undefined for unknown brand without official links", () => {
-    const lens = makeLens({
-      focalLengthMin: 35,
-      focalLengthMax: 35,
-      brand: "UnknownBrand",
-      officialLinks: undefined as unknown as { global: string },
-    });
-    expect(getLensUrl(lens)).toBeUndefined();
+    expect(getLensUrl(lens, "zh")).toBeUndefined();
+    expect(getLensUrl(lens, "en")).toBeUndefined();
   });
 });

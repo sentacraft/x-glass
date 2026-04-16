@@ -171,8 +171,11 @@ export function getUniqueBrands(lenses: Lens[]): string[] {
   return [...new Set(lenses.map((l) => l.brand))].sort();
 }
 
-// Prioritize global official links for now. Can adjust logic later if we want to show region-specific links based on user locale or other signals.
-export function getLensUrl(lens: Lens): string | undefined {
+// Returns the locale-appropriate official link: zh → cn first, others → global first.
+export function getLensUrl(lens: Lens, locale?: string): string | undefined {
+  if (locale === "zh") {
+    return lens.officialLinks?.cn ?? lens.officialLinks?.global;
+  }
   return lens.officialLinks?.global ?? lens.officialLinks?.cn;
 }
 
