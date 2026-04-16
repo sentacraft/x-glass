@@ -23,10 +23,10 @@ export function PosterWeightBar({
 
   return (
     <div
+      className="bg-zinc-100"
       style={{
         width: "100%",
         height: 3,
-        background: "#f4f4f5",
         borderRadius: 2,
         overflow: "hidden",
       }}

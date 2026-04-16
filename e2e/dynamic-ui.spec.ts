@@ -3,32 +3,23 @@ import { test, expect } from "@playwright/test";
 const LENS_A = "fujifilm-mkx-18-55mmt29-xf";
 const LENS_B = "fujifilm-mkx-50-135mmt29-xf";
 
-// Scrolls the app's custom scroll container (not window — the layout uses a
-// div.overflow-y-auto instead of body scroll). Uses scrollBy() to ensure the
-// browser fires a real scroll event (unlike setting scrollTop directly).
+// Scrolls the page via window.scrollBy so the browser fires a real scroll event
+// on window (which is what Nav and other components now listen to).
 async function scrollBy(page: import("@playwright/test").Page, deltaY: number) {
-  await page.evaluate((dy) => {
-    const scroller = document.querySelector<HTMLElement>("div.overflow-y-auto");
-    scroller?.scrollBy(0, dy);
-  }, deltaY);
+  await page.evaluate((dy) => window.scrollBy(0, dy), deltaY);
+  // Brief pause so the scroll event has time to propagate to React state.
+  await page.waitForTimeout(50);
 }
 
 async function scrollToTop(page: import("@playwright/test").Page) {
-  await page.evaluate(() => {
-    const scroller = document.querySelector<HTMLElement>("div.overflow-y-auto");
-    if (!scroller) return;
-    scroller.scrollTop = 0;
-    scroller.dispatchEvent(new Event("scroll", { bubbles: false }));
-  });
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await page.waitForTimeout(50);
 }
 
-// Waits until the scroll container has enough content height to allow scrolling.
+// Waits until the document has enough content height to allow scrolling.
 async function waitForScrollable(page: import("@playwright/test").Page, minDelta = 200) {
   await page.waitForFunction(
-    (minY) => {
-      const el = document.querySelector<HTMLElement>("div.overflow-y-auto");
-      return el ? el.scrollHeight > el.clientHeight + minY : false;
-    },
+    (minY) => document.documentElement.scrollHeight > window.innerHeight + minY,
     minDelta,
     { timeout: 10000 }
   );
@@ -69,6 +60,16 @@ test.describe("Nav auto-hide (mobile only)", () => {
     await expect(header).toHaveAttribute("data-hidden", "true", { timeout: 3000 });
 
     await scrollBy(page, -400);
+    await expect(header).toHaveAttribute("data-hidden", "false", { timeout: 3000 });
+  });
+
+  test("nav resets to visible when navigating to a new page", async ({ page }) => {
+    const header = page.locator("header").first();
+
+    await scrollBy(page, 300);
+    await expect(header).toHaveAttribute("data-hidden", "true", { timeout: 3000 });
+
+    await page.goto("/en/about");
     await expect(header).toHaveAttribute("data-hidden", "false", { timeout: 3000 });
   });
 });
@@ -152,5 +153,35 @@ test.describe("Compare page share FAB", () => {
     // Hide FAB by returning to top
     await scrollToTop(page);
     await expect(fab).toHaveAttribute("aria-hidden", "true", { timeout: 3000 });
+  });
+});
+
+test.describe("Lens list scroll-to-top button", () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto("/en/lenses");
+    await waitForScrollable(page, 200);
+    // Wait for React hydration of LensListClient (which owns the scroll listener)
+    // before asserting scroll-driven state changes.
+    await page.waitForLoadState("networkidle");
+  });
+
+  test("scroll-to-top button is hidden at page top", async ({ page }) => {
+    const btn = page.getByRole("button", { name: /back to top/i });
+    await expect(btn).toBeHidden();
+  });
+
+  test("scroll-to-top button appears after scrolling down", async ({ page }) => {
+    await scrollBy(page, 500);
+    const btn = page.getByRole("button", { name: /back to top/i });
+    await expect(btn).toBeVisible({ timeout: 3000 });
+  });
+
+  test("clicking scroll-to-top returns to top", async ({ page }) => {
+    await scrollBy(page, 500);
+    const btn = page.getByRole("button", { name: /back to top/i });
+    await expect(btn).toBeVisible({ timeout: 3000 });
+    await btn.click();
+    await page.waitForFunction(() => window.scrollY < 50, { timeout: 3000 });
+    await expect(btn).toBeHidden({ timeout: 3000 });
   });
 });

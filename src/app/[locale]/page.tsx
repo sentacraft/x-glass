@@ -11,17 +11,13 @@ export default function Home() {
 
   return (
     <div
-      className="flex flex-col bg-stone-100 dark:bg-zinc-950 pb-[env(safe-area-inset-bottom,0px)]"
+      className="flex flex-col bg-stone-100 dark:bg-zinc-950"
       style={{
-        // `h-full` / `height: 100%` breaks inside overflow-y:auto on iOS Safari:
-        // the flex-computed height of the scroll container is not treated as a
-        // "specified" height, so percentage heights resolve to `auto`. Using
-        // viewport units (100svh) bypasses the parent-percentage chain entirely
-        // and always gives the correct absolute height.
-        // Subtracting --nav-height (fixed header + safe-area-top) fills exactly
-        // the space below the nav. pb-[safe-area-inset-bottom] above keeps content
-        // clear of the home indicator while the background still covers that zone.
-        height: "calc(100svh - var(--nav-height))",
+        // Fill the viewport below the fixed nav. 100svh is the small viewport
+        // height (toolbar visible), which is the stable baseline for a
+        // single-screen layout. The body's stone-100 background covers the
+        // narrow area behind Safari's transparent toolbar.
+        minHeight: "calc(100svh - var(--nav-height))",
       }}
     >
       {/* Hero */}

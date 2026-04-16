@@ -8,7 +8,7 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { useScrollContainer, useNavLock } from "@/context/ScrollContainerContext";
+import { useNavLock } from "@/context/ScrollContainerContext";
 import Image from "next/image";
 import { ExternalLink } from "@/components/ui/external-link";
 import { useTranslations } from "next-intl";
@@ -387,7 +387,6 @@ export default function CompareTable({ lenses: initialLenses, minColumns = 0 }: 
   }, [resolvedPerLens, allGroups, orderedLenses]);
 
   const totalColSpan = orderedLenses.length + 1 + emptySlotCount;
-  const scrollContainer = useScrollContainer();
   const { lockNav } = useNavLock();
 
   // --- Phantom sticky header ---
@@ -402,11 +401,11 @@ export default function CompareTable({ lenses: initialLenses, minColumns = 0 }: 
     if (!thead) return;
     const observer = new IntersectionObserver(
       ([entry]) => setShowPhantom(!entry.isIntersecting),
-      { root: scrollContainer, rootMargin: "0px", threshold: 0 },
+      { root: null, rootMargin: "0px", threshold: 0 },
     );
     observer.observe(thead);
     return () => observer.disconnect();
-  }, [scrollContainer]);
+  }, []);
 
   // Lock the nav hidden while the phantom header is active so only one
   // top-chrome element occupies the screen at a time on mobile.
@@ -449,7 +448,7 @@ export default function CompareTable({ lenses: initialLenses, minColumns = 0 }: 
     <>
     {/* Phantom sticky header: h-0 so it takes no layout space; sticky (not fixed)
         so it bounces with content during iOS overscroll instead of staying put */}
-    <div className="sticky top-0 z-20 h-0 overflow-x-clip">
+    <div className="sticky top-0 sm:top-[var(--nav-height)] z-20 h-0 overflow-x-clip">
       <div
         data-testid="compare-phantom-header"
         data-visible={String(showPhantom)}

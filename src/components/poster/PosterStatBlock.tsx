@@ -29,7 +29,7 @@ export function PosterStatBlock({ value, label, valueClassName, sup }: PosterSta
       <span className={cn("font-semibold tabular-nums text-zinc-900 leading-tight", valueClassName)}>
         {value}
         {sup !== undefined && (
-          <span style={{ fontSize: "0.55em", verticalAlign: "super", marginLeft: 1, color: "#a1a1aa", fontWeight: 500 }}>
+          <span className="text-zinc-400" style={{ fontSize: "0.55em", verticalAlign: "super", marginLeft: 1, fontWeight: 500 }}>
             {sup}
           </span>
         )}

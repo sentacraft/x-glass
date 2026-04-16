@@ -7,24 +7,21 @@ import LensSearchDialog from "@/components/LensSearchDialog";
 import Iris from "@/components/Iris";
 import { IRIS_NAV } from "@/config/iris-config";
 import { useCompare } from "@/context/CompareProvider";
-import { useScrollContainer, useNavLock } from "@/context/ScrollContainerContext";
+import { useNavLock } from "@/context/ScrollContainerContext";
 import { cn } from "@/lib/utils";
 
 export default function Nav() {
   const t = useTranslations("Nav");
   const pathname = usePathname();
   const { compareIds } = useCompare();
-  const scrollContainer = useScrollContainer();
   const { navLocked, lockNav } = useNavLock();
   const [hidden, setHidden] = useState(false);
   const lastScrollY = useRef(0);
 
   // Hide on scroll-down, reveal on scroll-up (mobile only — sm: always visible via CSS).
   useEffect(() => {
-    const el = scrollContainer;
-    if (!el) return;
     const onScroll = () => {
-      const y = el.scrollTop;
+      const y = window.scrollY;
       if (y > lastScrollY.current && y > 56) {
         setHidden(true);
       } else if (y < lastScrollY.current) {
@@ -32,9 +29,9 @@ export default function Nav() {
       }
       lastScrollY.current = y;
     };
-    el.addEventListener("scroll", onScroll, { passive: true });
-    return () => el.removeEventListener("scroll", onScroll);
-  }, [scrollContainer]);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   // Always reveal when navigating to a new page, and release any nav lock.
   useEffect(() => {

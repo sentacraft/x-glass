@@ -6,7 +6,7 @@ import Nav from "@/components/Nav";
 import ConsoleEgg from "@/components/ConsoleEgg";
 import TestHookPanel from "@/components/TestHookPanel";
 import { CompareProvider } from "@/context/CompareProvider";
-import { ScrollContainer, ScrollContainerProvider } from "@/context/ScrollContainerContext";
+import { ScrollContainerProvider } from "@/context/ScrollContainerContext";
 import { TestHookProvider } from "@/context/TestHookProvider";
 import { TESTHOOK_ALLOWED } from "@/lib/testhook";
 import { SITE } from "@/config/site";
@@ -64,30 +64,23 @@ export default async function LocaleLayout({
   const messages = await getMessages();
 
   return (
-    <div
-      lang={locale}
-      className="flex h-svh flex-col overflow-hidden"
-    >
+    <div lang={locale}>
       <NextIntlClientProvider messages={messages}>
         <CompareProvider>
           <ScrollContainerProvider>
             <ConsoleEgg />
             <Nav />
-            <ScrollContainer>
-              {/* Offset fixed nav at top; respect home indicator at bottom.
-                  safe-area-inset-bottom prevents content from sitting in the
-                  iOS gesture zone in standalone PWA mode (falls back to 0px). */}
-              <div className="pt-[var(--nav-height)] pb-[env(safe-area-inset-bottom,0px)] h-full">
-                {TESTHOOK_ALLOWED ? (
-                  <TestHookProvider>
-                    {children}
-                    <TestHookPanel />
-                  </TestHookProvider>
-                ) : (
-                  children
-                )}
-              </div>
-            </ScrollContainer>
+            {/* Offset fixed nav; respect home indicator in PWA mode. */}
+            <div className="pt-[var(--nav-height)] pb-[env(safe-area-inset-bottom,0px)] bg-background">
+              {TESTHOOK_ALLOWED ? (
+                <TestHookProvider>
+                  {children}
+                  <TestHookPanel />
+                </TestHookProvider>
+              ) : (
+                children
+              )}
+            </div>
           </ScrollContainerProvider>
         </CompareProvider>
       </NextIntlClientProvider>
