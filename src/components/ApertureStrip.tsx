@@ -131,9 +131,14 @@ export default function ApertureStrip({
     setOffset(target);
   }, [animating, fStop, defaultIdx, minOffset, maxOffset]);
 
-  // When init animation ends, snap back to A (resting position).
+  // Track animation start/end transitions.
+  // On start (false → true): release user-hold so the strip follows the animation.
+  // On end   (true → false): snap back to A if the user hasn't re-grabbed the strip.
   const prevAnimatingRef = useRef(animating);
   useEffect(() => {
+    if (!prevAnimatingRef.current && animating) {
+      userHasInteractedRef.current = false;
+    }
     if (prevAnimatingRef.current && !animating && !userHasInteractedRef.current) {
       setOffset(maxOffset);
     }
