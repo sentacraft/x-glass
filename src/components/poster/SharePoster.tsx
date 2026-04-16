@@ -28,8 +28,8 @@ export interface PosterLabels {
   siteUrl: string;
   /** Short CTA / tagline shown in the header top-right. */
   cta: string;
-  /** Fallback title when no custom title is set. */
-  comparison: string;
+  /** One line per lens — shown as stacked title lines when no custom title is set. */
+  comparison: string[];
   // Section titles
   sectionFocalCoverage: string;
   sectionFocus: string;
@@ -132,7 +132,10 @@ interface SharePosterProps {
 
 export function SharePoster({ lenses, labels, custom, shareUrl, ref }: SharePosterProps) {
   const n = lenses.length;
-  const title = custom?.title?.trim() || labels.comparison;
+  const titleLines: string[] = custom?.title?.trim()
+    ? [custom.title.trim()]
+    : labels.comparison;
+  const titleFontSize = titleLines.length <= 1 ? 32 : titleLines.length === 2 ? 22 : 17;
   const slogan = custom?.slogan?.trim();
 
   // Hero font sizes — scale down as more lenses are added
@@ -251,29 +254,40 @@ export function SharePoster({ lenses, labels, custom, shareUrl, ref }: SharePost
     >
       {/* ── Header ────────────────────────────────────────────── */}
       <div style={{ padding: `24px ${POSTER_PX}px 20px`, display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-        {/* Left: logo mark + title + optional slogan */}
-        <div>
-          <Iris config={IRIS_NAV} size={20} uid="poster" className="mb-[6px]" />
-          <div
-            className="text-zinc-900"
-            style={{
-              fontSize: slogan ? 22 : 36,
-              fontWeight: 600,
-              lineHeight: 1.2,
-              marginBottom: slogan ? 6 : 0,
-            }}
-          >
-            {title}
+        {/* Left: brand tag → title → slogan */}
+        <div style={{ flex: 1, minWidth: 0, paddingRight: 24 }}>
+          {/* Brand tag: Iris mark + app name inline */}
+          <div style={{ display: "flex", alignItems: "center", gap: 5, marginBottom: 10 }}>
+            <Iris config={IRIS_NAV} size={14} uid="poster" />
+            <span
+              className="text-zinc-400"
+              style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase" }}
+            >
+              X-Glass
+            </span>
           </div>
+          {/* Title lines — one per lens, font scales with count */}
+          <div style={{ marginBottom: slogan ? 8 : 0 }}>
+            {titleLines.map((line, i) => (
+              <div
+                key={i}
+                className="text-zinc-900"
+                style={{ fontSize: titleFontSize, fontWeight: 600, lineHeight: 1.25 }}
+              >
+                {line}
+              </div>
+            ))}
+          </div>
+          {/* Slogan */}
           {slogan && (
-            <div className="text-zinc-500" style={{ fontSize: 13 }}>
+            <div className="text-zinc-400" style={{ fontSize: 13, lineHeight: 1.4 }}>
               {slogan}
             </div>
           )}
         </div>
 
-        {/* Right: QR code + CTA below */}
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", flexShrink: 0, paddingLeft: 24, gap: 8 }}>
+        {/* Right: QR code + CTA */}
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", flexShrink: 0, gap: 8 }}>
           {/* QR code */}
           <div
             style={{
@@ -303,12 +317,12 @@ export function SharePoster({ lenses, labels, custom, shareUrl, ref }: SharePost
               <span className="text-zinc-300" style={{ fontSize: 8, letterSpacing: 1 }}>QR</span>
             )}
           </div>
-          {/* CTA tagline */}
+          {/* CTA + site URL (faded) */}
           <div style={{ textAlign: "right" }}>
-            <div className="text-zinc-900" style={{ fontSize: 10, fontWeight: 600, lineHeight: 1.5 }}>
+            <div className="text-zinc-700" style={{ fontSize: 9, fontWeight: 600, lineHeight: 1.5 }}>
               {labels.cta}
             </div>
-            <div className="text-zinc-400" style={{ fontSize: 9, marginTop: 2 }}>
+            <div className="text-zinc-300" style={{ fontSize: 8, marginTop: 2 }}>
               {labels.siteUrl}
             </div>
           </div>

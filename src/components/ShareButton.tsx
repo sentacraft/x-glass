@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback, useRef } from "react";
+import { createPortal } from "react-dom";
 import { Popover } from "@base-ui/react/popover";
 import { Drawer } from "@base-ui/react/drawer";
 import { Tabs } from "@base-ui/react/tabs";
@@ -11,6 +12,14 @@ import { cn } from "@/lib/utils";
 import { Z } from "@/config/ui";
 import type { Lens } from "@/lib/types";
 import { rasterizePoster } from "@/lib/share-image";
+
+// ── Poster title / slogan auto-generation ────────────────────────────────────
+
+/** One title line per lens: "{Brand} {model}" */
+function computePosterTitle(lenses: Lens[], tBrand: (key: string) => string): string[] {
+  return lenses.map((l) => `${tBrand(l.brand)} ${l.model}`);
+}
+
 import { SharePoster, type PosterLabels } from "@/components/poster/SharePoster";
 import {
   Dialog,
@@ -107,12 +116,15 @@ export function ShareButton({ lenses, variant = "default", triggerClassName }: S
       .slice(0, 60);
   }, [open, lenses]);
 
+  // Auto-compute poster title and slogan from lens data
+  const computedPosterTitle = computePosterTitle(lenses, tBrand);
+
   // Build poster labels from i18n
   const posterLabels: PosterLabels = {
-    appName: "X Glass",
-    siteUrl: "x-glass.app",
-    cta: tImage("cta"),
-    comparison: lenses.length === 1 ? tImage("singleLens") : tImage("comparison"),
+    appName: "X-Glass",
+    siteUrl: "xglass.sentacraft.com",
+    cta: lenses.length === 1 ? tImage("ctaSingle") : tImage("cta"),
+    comparison: computedPosterTitle,
     sectionFocalCoverage: tImage("sectionFocalCoverage"),
     sectionFocus: tImage("sectionFocus"),
     sectionSizeWeight: tImage("sectionSizeWeight"),
@@ -439,7 +451,7 @@ export function ShareButton({ lenses, variant = "default", triggerClassName }: S
                   <SlidersHorizontal className="size-4" />
                 </Popover.Trigger>
                 <Popover.Portal>
-                  <Popover.Positioner side="top" align="start" sideOffset={8}>
+                  <Popover.Positioner side="top" align="start" sideOffset={8} className={Z.overlay}>
                     <Popover.Popup className="w-72 origin-(--transform-origin) rounded-xl border border-zinc-200 bg-white p-3 shadow-lg duration-100 outline-none data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95 dark:border-zinc-700 dark:bg-zinc-900">
                       <div className="flex flex-col gap-3">
                         <div className="flex flex-col gap-1">
@@ -450,7 +462,7 @@ export function ShareButton({ lenses, variant = "default", triggerClassName }: S
                             type="text"
                             value={customTitle}
                             onChange={(e) => setCustomTitle(e.target.value)}
-                            placeholder={lenses.length === 1 ? tImage("singleLens") : tImage("comparison")}
+                            placeholder={computedPosterTitle.join(" · ")}
                             className={inputClass}
                           />
                         </div>
@@ -575,5 +587,24 @@ export function ShareButton({ lenses, variant = "default", triggerClassName }: S
     </Drawer.Root>
   );
 
-  return shareControl;
+  // On mobile the Drawer (z-50) covers anything inside a parent stacking
+  // context. Render the "Copied!" toast via portal at z-[70] so it is always
+  // above the Drawer regardless of where ShareButton appears in the tree.
+  const copiedToast =
+    mounted && copied && !isDesktop
+      ? createPortal(
+          <div className={`pointer-events-none fixed top-4 left-1/2 ${Z.overlay} flex -translate-x-1/2 items-center gap-1.5 rounded-full bg-green-600 px-4 py-2 text-sm font-medium text-white shadow-lg animate-in fade-in slide-in-from-top-2 duration-150`}>
+            <Check className="size-4" />
+            {t("copied")}
+          </div>,
+          document.body
+        )
+      : null;
+
+  return (
+    <>
+      {shareControl}
+      {copiedToast}
+    </>
+  );
 }
