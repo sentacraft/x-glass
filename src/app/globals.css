@@ -141,7 +141,7 @@
        page content, so only the narrow toolbar zone shows this color.
        overflow-x: hidden clips horizontal overflow without creating a
        vertical scroll container (unlike overflow-x: hidden on a div). */
-    background-color: #f5f5f4; /* stone-100 */
+    @apply bg-stone-100;
     /* clip avoids the CSS spec side effect where overflow-x: hidden promotes
        overflow-y to auto, turning body into a scroll container. clip trims
        paint without creating a block formatting context. */

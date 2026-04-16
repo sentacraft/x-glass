@@ -97,7 +97,7 @@ export function PosterFocalRuler({ lenses, lensLabels, width = 670 }: PosterFoca
               x={labelX}
               y={rowY + 11}
               fontSize={8}
-              fill="#a1a1aa"
+              className="fill-zinc-400"
               fontFamily={FONT_STACK}
               style={{ fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.07em" }}
             >
@@ -109,7 +109,7 @@ export function PosterFocalRuler({ lenses, lensLabels, width = 670 }: PosterFoca
               x={labelX}
               y={rowY + 24}
               fontSize={10}
-              fill="#18181b"
+              className="fill-zinc-900"
               fontFamily={FONT_STACK}
               style={{ fontWeight: 600 }}
             >
@@ -129,7 +129,7 @@ export function PosterFocalRuler({ lenses, lensLabels, width = 670 }: PosterFoca
               y1={barsH + 4}
               x2={x}
               y2={barsH + 8}
-              stroke="#d4d4d8"
+              className="stroke-zinc-300"
               strokeWidth={1}
             />
             <text
@@ -137,7 +137,7 @@ export function PosterFocalRuler({ lenses, lensLabels, width = 670 }: PosterFoca
               y={barsH + 6 + TICK_AREA}
               textAnchor="middle"
               fontSize={9}
-              fill="#a1a1aa"
+              className="fill-zinc-400"
               fontFamily={FONT_STACK}
             >
               {mm}

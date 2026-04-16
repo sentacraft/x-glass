@@ -15,7 +15,6 @@ interface PosterFeatureItemProps {
 export function PosterFeatureItem({ present, label, sub, sup, icon: Icon }: PosterFeatureItemProps) {
   const isPresent = present === true || present === "partial";
   const isPartial = present === "partial";
-  const iconColor = isPresent ? "#71717a" : "#d4d4d8";
 
   return (
     <div className="flex items-center gap-1.5">
@@ -34,7 +33,7 @@ export function PosterFeatureItem({ present, label, sub, sup, icon: Icon }: Post
         <Icon
           size={11}
           strokeWidth={1.75}
-          style={{ color: iconColor, flexShrink: 0 }}
+          className={cn("shrink-0", isPresent ? "text-zinc-500" : "text-zinc-300")}
         />
       )}
 
@@ -48,7 +47,7 @@ export function PosterFeatureItem({ present, label, sub, sup, icon: Icon }: Post
           <span className="text-zinc-400"> · {sub}</span>
         )}
         {sup !== undefined && (
-          <span style={{ fontSize: "0.7em", verticalAlign: "super", marginLeft: 1, color: "#a1a1aa" }}>
+          <span className="text-zinc-400" style={{ fontSize: "0.7em", verticalAlign: "super", marginLeft: 1 }}>
             {sup}
           </span>
         )}

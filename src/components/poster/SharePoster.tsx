@@ -246,7 +246,8 @@ export function SharePoster({ lenses, labels, custom, shareUrl, ref }: SharePost
   return (
     <div
       ref={ref as React.Ref<HTMLDivElement>}
-      style={{ width: POSTER_W, background: "#ffffff" }}
+      className="bg-white"
+      style={{ width: POSTER_W }}
     >
       {/* ── Header ────────────────────────────────────────────── */}
       <div style={{ padding: `24px ${POSTER_PX}px 20px`, display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
@@ -254,10 +255,10 @@ export function SharePoster({ lenses, labels, custom, shareUrl, ref }: SharePost
         <div>
           <Iris config={IRIS_NAV} size={20} uid="poster" className="mb-[6px]" />
           <div
+            className="text-zinc-900"
             style={{
               fontSize: slogan ? 22 : 36,
               fontWeight: 600,
-              color: "#18181b",
               lineHeight: 1.2,
               marginBottom: slogan ? 6 : 0,
             }}
@@ -265,7 +266,7 @@ export function SharePoster({ lenses, labels, custom, shareUrl, ref }: SharePost
             {title}
           </div>
           {slogan && (
-            <div style={{ fontSize: 13, color: "#71717a" }}>
+            <div className="text-zinc-500" style={{ fontSize: 13 }}>
               {slogan}
             </div>
           )}
@@ -299,15 +300,15 @@ export function SharePoster({ lenses, labels, custom, shareUrl, ref }: SharePost
                 }}
               />
             ) : (
-              <span style={{ fontSize: 8, color: "#d4d4d8", letterSpacing: 1 }}>QR</span>
+              <span className="text-zinc-300" style={{ fontSize: 8, letterSpacing: 1 }}>QR</span>
             )}
           </div>
           {/* CTA tagline */}
           <div style={{ textAlign: "right" }}>
-            <div style={{ fontSize: 10, fontWeight: 600, color: "#18181b", lineHeight: 1.5 }}>
+            <div className="text-zinc-900" style={{ fontSize: 10, fontWeight: 600, lineHeight: 1.5 }}>
               {labels.cta}
             </div>
-            <div style={{ fontSize: 9, color: "#a1a1aa", marginTop: 2 }}>
+            <div className="text-zinc-400" style={{ fontSize: 9, marginTop: 2 }}>
               {labels.siteUrl}
             </div>
           </div>
@@ -315,7 +316,7 @@ export function SharePoster({ lenses, labels, custom, shareUrl, ref }: SharePost
       </div>
 
       {/* separator */}
-      <div style={{ height: 1, background: "#e4e4e7" }} />
+      <div className="h-px bg-zinc-200" />
 
       {/* ── Product Row ───────────────────────────────────────── */}
       <div style={{ padding: `16px ${POSTER_PX}px` }}>
@@ -351,12 +352,12 @@ export function SharePoster({ lenses, labels, custom, shareUrl, ref }: SharePost
                 </div>
                 {/* Brand */}
                 <div
+                  className="text-zinc-400"
                   style={{
                     fontSize: 10,
                     fontWeight: 600,
                     letterSpacing: "0.08em",
                     textTransform: "uppercase",
-                    color: "#a1a1aa",
                     textAlign: "center",
                   }}
                 >
@@ -364,10 +365,10 @@ export function SharePoster({ lenses, labels, custom, shareUrl, ref }: SharePost
                 </div>
                 {/* Model */}
                 <div
+                  className="text-zinc-900"
                   style={{
                     fontSize: n <= 3 ? 12 : 11,
                     fontWeight: 600,
-                    color: "#18181b",
                     textAlign: "center",
                     lineHeight: 1.3,
                   }}
@@ -381,7 +382,7 @@ export function SharePoster({ lenses, labels, custom, shareUrl, ref }: SharePost
       </div>
 
       {/* separator */}
-      <div style={{ height: 1, background: "#e4e4e7" }} />
+      <div className="h-px bg-zinc-200" />
 
       {/* ── Hero Block ────────────────────────────────────────── */}
       <div style={{ padding: `20px ${POSTER_PX}px` }}>
@@ -397,7 +398,7 @@ export function SharePoster({ lenses, labels, custom, shareUrl, ref }: SharePost
                   ? lens.focalLengthMin
                   : `${lens.focalLengthMin}–${lens.focalLengthMax}`}
               </span>
-              <span style={{ fontSize: 11, color: "#a1a1aa", letterSpacing: "0.05em" }}>mm</span>
+              <span className="text-zinc-400" style={{ fontSize: 11, letterSpacing: "0.05em" }}>mm</span>
             </div>
           ))}
         </div>
@@ -417,7 +418,7 @@ export function SharePoster({ lenses, labels, custom, shareUrl, ref }: SharePost
                   <span className={cn("font-semibold tabular-nums text-zinc-900 leading-none", apertureSize)}>
                     {apertureDisplay(lens.maxAperture)}
                   </span>
-                  <span style={{ fontSize: 9, color: "#a1a1aa", letterSpacing: "0.08em", textTransform: "uppercase" }}>
+                  <span className="text-zinc-400" style={{ fontSize: 9, letterSpacing: "0.08em", textTransform: "uppercase" }}>
                     Aperture
                   </span>
                 </div>
@@ -430,17 +431,17 @@ export function SharePoster({ lenses, labels, custom, shareUrl, ref }: SharePost
                         <span className={cn("font-semibold tabular-nums text-zinc-900 leading-none", apertureSize)}>
                           {weightDisplay_}
                           {sup !== undefined && (
-                            <span style={{ fontSize: "0.55em", verticalAlign: "super", marginLeft: 1, color: "#a1a1aa", fontWeight: 500 }}>
+                            <span className="text-zinc-400" style={{ fontSize: "0.55em", verticalAlign: "super", marginLeft: 1, fontWeight: 500 }}>
                               {sup}
                             </span>
                           )}
                         </span>
-                        <span style={{ fontSize: 9, color: "#a1a1aa", letterSpacing: "0.08em", textTransform: "uppercase" }}>
+                        <span className="text-zinc-400" style={{ fontSize: 9, letterSpacing: "0.08em", textTransform: "uppercase" }}>
                           {labels.weightLabel}
                         </span>
                       </>
                     ) : (
-                      <span style={{ fontSize: 9, color: "#d4d4d8" }}>—</span>
+                      <span className="text-zinc-300" style={{ fontSize: 9 }}>—</span>
                     )}
                   </div>
                 )}
@@ -453,7 +454,7 @@ export function SharePoster({ lenses, labels, custom, shareUrl, ref }: SharePost
       {/* ── Focus Section ────────────────────────────────────── */}
       {(showMinFocus || showMaxMag || showFocusMotorRow) && (
         <>
-          <div style={{ height: 1, background: "#e4e4e7" }} />
+          <div className="h-px bg-zinc-200" />
           <div style={{ padding: `20px ${POSTER_PX}px` }}>
             <PosterSection title={labels.sectionFocus}>
               {/* Min focus distance */}
@@ -474,7 +475,7 @@ export function SharePoster({ lenses, labels, custom, shareUrl, ref }: SharePost
                         >
                           {lines.map((line, j) => (
                             <div key={j} style={{ display: "flex", alignItems: "baseline", gap: 4 }}>
-                              <span style={{ fontSize: 9, fontWeight: 600, color: "#a1a1aa", textTransform: "uppercase", letterSpacing: "0.06em" }}>
+                              <span className="text-zinc-400" style={{ fontSize: 9, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em" }}>
                                 {line.label}
                               </span>
                               <span className={cn("font-semibold tabular-nums text-zinc-900 leading-tight", statSize)}>
@@ -482,7 +483,7 @@ export function SharePoster({ lenses, labels, custom, shareUrl, ref }: SharePost
                               </span>
                             </div>
                           ))}
-                          <span style={{ fontSize: 9, color: "#a1a1aa", textTransform: "uppercase", letterSpacing: "0.08em" }}>
+                          <span className="text-zinc-400" style={{ fontSize: 9, textTransform: "uppercase", letterSpacing: "0.08em" }}>
                             {labels.minFocusLabel}
                             {sup !== undefined && (
                               <span style={{ fontSize: "0.7em", verticalAlign: "super", marginLeft: 1 }}>{sup}</span>
@@ -522,7 +523,7 @@ export function SharePoster({ lenses, labels, custom, shareUrl, ref }: SharePost
                         >
                           {lines.map((line, j) => (
                             <div key={j} style={{ display: "flex", alignItems: "baseline", gap: 4 }}>
-                              <span style={{ fontSize: 9, fontWeight: 600, color: "#a1a1aa", textTransform: "uppercase", letterSpacing: "0.06em" }}>
+                              <span className="text-zinc-400" style={{ fontSize: 9, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em" }}>
                                 {line.label}
                               </span>
                               <span className={cn("font-semibold tabular-nums text-zinc-900 leading-tight", statSize)}>
@@ -530,7 +531,7 @@ export function SharePoster({ lenses, labels, custom, shareUrl, ref }: SharePost
                               </span>
                             </div>
                           ))}
-                          <span style={{ fontSize: 9, color: "#a1a1aa", textTransform: "uppercase", letterSpacing: "0.08em" }}>
+                          <span className="text-zinc-400" style={{ fontSize: 9, textTransform: "uppercase", letterSpacing: "0.08em" }}>
                             {labels.maxMagLabel}
                             {sup !== undefined && (
                               <span style={{ fontSize: "0.7em", verticalAlign: "super", marginLeft: 1 }}>{sup}</span>
@@ -575,7 +576,7 @@ export function SharePoster({ lenses, labels, custom, shareUrl, ref }: SharePost
       {/* ── Size Section ─────────────────────────────────────── */}
       {(showDimensions || showFilter) && (
         <>
-          <div style={{ height: 1, background: "#e4e4e7" }} />
+          <div className="h-px bg-zinc-200" />
           <div style={{ padding: `20px ${POSTER_PX}px` }}>
             <PosterSection title={labels.sectionSizeWeight}>
               {/* Dimensions */}
@@ -613,7 +614,7 @@ export function SharePoster({ lenses, labels, custom, shareUrl, ref }: SharePost
 
       {/* ── Features Section ──────────────────────────────────── */}
       <>
-        <div style={{ height: 1, background: "#e4e4e7" }} />
+        <div className="h-px bg-zinc-200" />
         <div style={{ padding: `20px ${POSTER_PX}px` }}>
           <PosterSection title={labels.sectionFeatures}>
             <div style={gridStyle(n)}>
@@ -650,7 +651,7 @@ export function SharePoster({ lenses, labels, custom, shareUrl, ref }: SharePost
       {/* ── Details Section (specialty tags only, rarely shown) ── */}
       {showDetailsSection && (
         <>
-          <div style={{ height: 1, background: "#e4e4e7" }} />
+          <div className="h-px bg-zinc-200" />
           <div style={{ padding: `20px ${POSTER_PX}px` }}>
             <PosterSection title={labels.sectionDetails}>
               {showSpecialtyRow && (
@@ -673,14 +674,14 @@ export function SharePoster({ lenses, labels, custom, shareUrl, ref }: SharePost
       {/* ── Footnotes ─────────────────────────────────────────── */}
       {footnotes.length > 0 && (
         <>
-          <div style={{ height: 1, background: "#f4f4f5" }} />
+          <div className="h-px bg-zinc-100" />
           <div style={{ padding: `10px ${POSTER_PX}px`, display: "flex", flexDirection: "column", gap: 4 }}>
             {footnotes.map((fn) => (
               <div key={fn.sup} style={{ display: "flex", gap: 5, alignItems: "flex-start" }}>
-                <span style={{ fontSize: 7, color: "#a1a1aa", lineHeight: 1.6, flexShrink: 0, fontWeight: 600 }}>
+                <span className="text-zinc-400" style={{ fontSize: 7, lineHeight: 1.6, flexShrink: 0, fontWeight: 600 }}>
                   {fn.sup}
                 </span>
-                <span style={{ fontSize: 8, color: "#a1a1aa", lineHeight: 1.6 }}>
+                <span className="text-zinc-400" style={{ fontSize: 8, lineHeight: 1.6 }}>
                   <span style={{ fontWeight: 600 }}>{fn.lensModels.join(", ")}</span>
                   {" · "}
                   <span>{fn.fieldLabel}</span>
