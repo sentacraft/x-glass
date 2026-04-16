@@ -1,5 +1,10 @@
 # X-Glass — CLAUDE.md
 
+## Worktree Dev Server
+
+每次会话开始时，`SessionStart` hook 会自动执行 `npm install` 并启动 dev server。
+hook 的输出会注入到上下文中——**在第一条回复里把 dev server 端口号告诉用户**。
+
 ## 项目概述
 
 **X-Glass**：富士 X 卡口镜头对比工具。用户可浏览、筛选、并排对比富士原厂及第三方全品牌 X 卡口镜头。
