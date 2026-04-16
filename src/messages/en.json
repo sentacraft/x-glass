@@ -19,7 +19,6 @@
   },
   "Search": {
     "open": "Open lens search",
-    "close": "Close search",
     "title": "Search Lenses",
     "description": "Search by model, brand, or series to jump straight to the lens you want.",
     "addLens": "Add lens",
@@ -110,7 +109,6 @@
     "equivSuffix": "eq."
   },
   "LensDetail": {
-    "brand": "Brand",
     "groupOptics": "Optics",
     "groupFocus": "Autofocus",
     "groupStabilization": "Stabilization",
@@ -208,7 +206,6 @@
     "button": "Share",
     "title": "Share this comparison",
     "titleSingle": "Share this lens",
-    "description": "This link keeps the current lens selection and column order intact.",
     "copyLink": "Copy Link",
     "copied": "Copied!",
     "nativeShare": "Share",
@@ -217,8 +214,6 @@
     "posterDownload": "Download PNG",
     "posterShare": "Share Image",
     "close": "Close",
-    "posterZoomHint": "Zoom in",
-    "posterZoomOut": "Zoom out",
     "customize": "Customize",
     "customizeTitle": "Title",
     "customizeSlogan": "Slogan",
@@ -227,12 +222,6 @@
   "ShareImage": {
     "comparison": "Lens Comparison",
     "singleLens": "Lens Profile",
-    "focalLength": "Focal Length",
-    "maxAperture": "Max Aperture",
-    "weight": "Weight",
-    "ois": "OIS",
-    "wr": "Weather Resistant",
-    "minFocusDist": "Min Focus",
     "na": "N/A",
     "cta": "Compare X-Mount Lenses",
     "sectionFocalCoverage": "Focal Coverage",

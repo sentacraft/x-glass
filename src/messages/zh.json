@@ -19,7 +19,6 @@
   },
   "Search": {
     "open": "打开镜头搜索",
-    "close": "关闭搜索",
     "title": "搜索镜头",
     "description": "支持按型号、品牌或系列搜索，快速找到你想看的那支镜头。",
     "addLens": "添加镜头",
@@ -110,7 +109,6 @@
     "equivSuffix": "等效"
   },
   "LensDetail": {
-    "brand": "品牌",
     "groupOptics": "光学参数",
     "groupFocus": "对焦",
     "groupStabilization": "防抖",
@@ -208,7 +206,6 @@
     "button": "分享",
     "title": "分享当前对比",
     "titleSingle": "分享此镜头",
-    "description": "这个链接会保留当前选择的镜头和列顺序。",
     "copyLink": "复制链接",
     "copied": "已复制！",
     "nativeShare": "系统分享",
@@ -217,8 +214,6 @@
     "posterDownload": "下载 PNG",
     "posterShare": "分享图片",
     "close": "关闭",
-    "posterZoomHint": "放大",
-    "posterZoomOut": "缩小",
     "customize": "自定义",
     "customizeTitle": "标题",
     "customizeSlogan": "副标题",
@@ -227,12 +222,6 @@
   "ShareImage": {
     "comparison": "镜头横向对比",
     "singleLens": "镜头详情",
-    "focalLength": "焦段",
-    "maxAperture": "最大光圈",
-    "weight": "重量",
-    "ois": "防抖",
-    "wr": "防尘防滴",
-    "minFocusDist": "最近对焦",
     "na": "N/A",
     "cta": "对比富士 X 卡口镜头",
     "sectionFocalCoverage": "焦段覆盖",
