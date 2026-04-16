@@ -139,5 +139,10 @@
   }
   html {
     @apply font-sans;
+    /* Explicit html background fills the iOS Safari transparent toolbar area.
+       Without this, viewport-fit:cover exposes the default white canvas behind
+       non-white page content (e.g. homepage stone-100). stone-100 is close
+       enough to white that it's imperceptible on white-background pages. */
+    background-color: #f5f5f4; /* stone-100 */
   }
 }

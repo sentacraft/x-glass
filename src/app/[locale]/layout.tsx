@@ -66,13 +66,7 @@ export default async function LocaleLayout({
   return (
     <div
       lang={locale}
-      className="flex flex-col overflow-hidden"
-      style={{
-        // Include safe-area-inset-bottom so the container extends behind the
-        // iOS home indicator / Safari transparent bar. Without this, the body's
-        // white background leaks through when viewportFit is "cover".
-        height: "calc(100svh + env(safe-area-inset-bottom, 0px))",
-      }}
+      className="flex h-svh flex-col overflow-hidden"
     >
       <NextIntlClientProvider messages={messages}>
         <CompareProvider>
