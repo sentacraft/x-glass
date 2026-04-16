@@ -14,7 +14,7 @@ export default async function manifest({
   return {
     name: SITE.name,
     short_name: SITE.shortName,
-    description: messages.Metadata.siteDescription,
+    description: messages.Metadata.pwaDescription,
     id: "/",
     start_url: `/${resolvedLocale}`,
     scope: `/${resolvedLocale}`,

@@ -8,6 +8,8 @@
   "Metadata": {
     "siteTitleDefault": "X-Glass | Fujifilm X-Mount Lens Comparison Tool",
     "siteDescription": "A structured lens comparison tool for Fujifilm X users, covering all brands in one dataset.",
+    "seoDescription": "An objective, normalized database for Fujifilm X-Mount lenses. Compare raw specs across brands with zero bias. Data over opinions.",
+    "pwaDescription": "Your pocket database for X-Mount lenses. Instantly lookup and compare normalized lens specifications on the go. Pure data, zero noise.",
     "manifestLabelHome": "X-Glass home screen",
     "manifestLabelBrowser": "X-Glass lens browser",
     "ogTagline": "A clearer way to browse and compare Fujifilm X-mount lenses."
@@ -259,7 +261,7 @@
     "pageTitle": "About X-Glass",
 
     "backgroundTitle": "Background",
-    "backgroundBody": "X-Glass is an independent tool for browsing and comparing Fujifilm X-mount lenses across brands. It exists to fill a gap: there wasn't a single place that combined full X-mount coverage with clean, side-by-side comparison.",
+    "backgroundBody": "X-Glass is built on a simple philosophy: Data over opinions. In a space crowded with subjective reviews and inconsistent manufacturer specs, we provide a unified, objective database for Fujifilm X-Mount lenses. By normalizing the data across all brands—from native glass to third-party options—X-Glass strips away the noise and hallucination, letting the specifications speak for themselves.",
 
     "coverageTitle": "Lens Coverage",
     "coverageBody": "X-Glass aims to cover every commercially available lens made natively for the Fujifilm X-mount, including Fujifilm's XF, XC, and MK lines as well as third-party brands. Different generations of the same focal length are listed separately. Adapted lenses from other mounts are outside the current scope.",

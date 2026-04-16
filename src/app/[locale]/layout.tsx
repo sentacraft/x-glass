@@ -37,7 +37,7 @@ export async function generateMetadata({
       default: messages.Metadata.siteTitleDefault,
       template: `%s | ${SITE.name}`,
     },
-    description: messages.Metadata.siteDescription,
+    description: messages.Metadata.seoDescription,
     manifest: `/${resolvedLocale}/manifest.webmanifest`,
     // Explicit icon declarations — setting `icons` in metadata disables Next.js
     // file-convention auto-discovery, so both `icon` and `apple` must be listed.
@@ -56,7 +56,7 @@ export async function generateMetadata({
     openGraph: {
       siteName: SITE.name,
       type: "website",
-      description: messages.Metadata.siteDescription,
+      description: messages.Metadata.seoDescription,
       images: [{ url: `/${resolvedLocale}/opengraph-image`, width: 1200, height: 630 }],
     },
   };

@@ -8,6 +8,8 @@
   "Metadata": {
     "siteTitleDefault": "X-Glass｜富士 X 卡口镜头对比工具",
     "siteDescription": "给富士 X 用户用的镜头对比工具，把原厂和第三方镜头放进同一套数据里一起看。",
+    "seoDescription": "纯粹、规范化的富士 X 卡口镜头数据库。无主观评测，提供跨品牌镜头硬核参数的标准化对比。数据胜于观点。",
+    "pwaDescription": "随身的 X 卡口镜头数据手册。快速查阅、对比规范化的镜头参数与光学结构，你的纯粹数据工具。",
     "manifestLabelHome": "X-Glass 首页",
     "manifestLabelBrowser": "X-Glass 镜头浏览页",
     "ogTagline": "更清晰地浏览和对比富士 X 卡口镜头"
@@ -259,7 +261,7 @@
     "pageTitle": "关于 X-Glass",
 
     "backgroundTitle": "项目缘起",
-    "backgroundBody": "X-Glass 是一个独立开发的富士 X 卡口镜头工具。做它的原因很简单：一直缺少一个能把不同品牌的 X 卡口镜头放在一起查、一起比的地方。",
+    "backgroundBody": "X-Glass 建立在一个简单的理念之上：Data over opinions。在充斥着主观评测与玄学讨论的摄影圈，以及各家厂商参数口径不一的现状下，我们决定打造一个纯粹的、规范化的富士 X 卡口镜头数据库。通过将原厂及所有第三方镜头的参数进行深度标准化对齐，X-Glass 致力于剔除一切主观噪音，让客观数据自己说话。",
 
     "coverageTitle": "收录范围",
     "coverageBody": "X-Glass 的目标，是尽量收齐所有原生支持富士 X 卡口、目前仍在市场流通的镜头，包括富士自家的 XF、XC、MK 系列，以及各家第三方品牌。同焦段的不同代际会分开列出。其他卡口的转接镜头暂不在当前范围内。",
