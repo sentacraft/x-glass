@@ -29,11 +29,6 @@ function computePosterTitle(lenses: Lens[], tBrand: (key: string) => string): st
     .join(" · ");
 }
 
-/** Mount context line. Brand in slogan for single lens; title carries brand for comparisons. */
-function computePosterSlogan(lenses: Lens[], tBrand: (key: string) => string): string {
-  if (lenses.length === 1) return `${tBrand(lenses[0].brand)} · X-Mount`;
-  return "X-Mount";
-}
 import { SharePoster, type PosterLabels } from "@/components/poster/SharePoster";
 import {
   Dialog,
@@ -132,7 +127,6 @@ export function ShareButton({ lenses, variant = "default", triggerClassName }: S
 
   // Auto-compute poster title and slogan from lens data
   const computedPosterTitle = computePosterTitle(lenses, tBrand);
-  const computedPosterSlogan = computePosterSlogan(lenses, tBrand);
 
   // Build poster labels from i18n
   const posterLabels: PosterLabels = {
@@ -273,8 +267,7 @@ export function ShareButton({ lenses, variant = "default", triggerClassName }: S
 
   const posterCustom = {
     title: customTitle.trim() || undefined,
-    // Fall back to auto-generated slogan when user input is empty
-    slogan: customSlogan.trim() || computedPosterSlogan,
+    slogan: customSlogan.trim() || undefined,
   };
 
   const panelContent = (
