@@ -440,7 +440,7 @@ export function ShareButton({ lenses, variant = "default", triggerClassName }: S
                   <SlidersHorizontal className="size-4" />
                 </Popover.Trigger>
                 <Popover.Portal>
-                  <Popover.Positioner side="top" align="start" sideOffset={8} className={Z.dialog}>
+                  <Popover.Positioner side="top" align="start" sideOffset={8} className={Z.overlay}>
                     <Popover.Popup className="w-72 origin-(--transform-origin) rounded-xl border border-zinc-200 bg-white p-3 shadow-lg duration-100 outline-none data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95 dark:border-zinc-700 dark:bg-zinc-900">
                       <div className="flex flex-col gap-3">
                         <div className="flex flex-col gap-1">
@@ -582,7 +582,7 @@ export function ShareButton({ lenses, variant = "default", triggerClassName }: S
   const copiedToast =
     mounted && copied && !isDesktop
       ? createPortal(
-          <div className="pointer-events-none fixed top-4 left-1/2 z-[70] flex -translate-x-1/2 items-center gap-1.5 rounded-full bg-green-600 px-4 py-2 text-sm font-medium text-white shadow-lg animate-in fade-in slide-in-from-top-2 duration-150">
+          <div className={`pointer-events-none fixed top-4 left-1/2 ${Z.overlay} flex -translate-x-1/2 items-center gap-1.5 rounded-full bg-green-600 px-4 py-2 text-sm font-medium text-white shadow-lg animate-in fade-in slide-in-from-top-2 duration-150`}>
             <Check className="size-4" />
             {t("copied")}
           </div>,
