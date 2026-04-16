@@ -1,18 +1,37 @@
 #!/usr/bin/env tsx
-// Generates static icon PNGs from the live <Iris> component.
+// Generates static icon PNGs and the OG image from the live <Iris> component.
 // Uses react-dom/server to render the SVG, then resvg-js to convert to PNG.
 // Run automatically before every build via the "build" npm script,
 // or manually: npm run gen:icons
 
 import { renderToStaticMarkup } from "react-dom/server";
 import { createElement } from "react";
-import { writeFileSync, mkdirSync } from "node:fs";
-import { resolve } from "node:path";
-import { Resvg } from "@resvg/resvg-js";
+import { writeFileSync, mkdirSync, existsSync } from "node:fs";
+import { resolve, join, dirname } from "node:path";
+import { Resvg, type ResvgRenderOptions } from "@resvg/resvg-js";
 
 import Iris from "../src/components/Iris.tsx";
 import { IRIS_NAV, R_HOUSING } from "../src/config/iris-config.ts";
 import { buildDerivedConfig } from "../src/lib/iris-kinematics.ts";
+
+// ── Font resolution ───────────────────────────────────────────────────────────
+//
+// Walk up the directory tree to find a package file inside node_modules.
+// Matches the same strategy used by the (now-removed) opengraph-image.tsx.
+
+function resolvePackageFile(pkg: string, relPath: string): string {
+  let dir = process.cwd();
+  while (true) {
+    const candidate = join(dir, "node_modules", pkg, relPath);
+    if (existsSync(candidate)) return candidate;
+    const parent = dirname(dir);
+    if (parent === dir) throw new Error(`Cannot find ${pkg}/${relPath} in any node_modules`);
+    dir = parent;
+  }
+}
+
+const geistBoldPath    = resolvePackageFile("geist", "dist/fonts/geist-sans/Geist-Bold.ttf");
+const geistRegularPath = resolvePackageFile("geist", "dist/fonts/geist-sans/Geist-Regular.ttf");
 
 // ── ViewBox computation ───────────────────────────────────────────────────────
 //
@@ -83,9 +102,63 @@ function irisToSvg(size: number, padding: number, background?: string): string {
   return result;
 }
 
-function svgToPng(svg: string, size: number): Buffer {
-  const resvg = new Resvg(svg, { fitTo: { mode: "width", value: size } });
+function svgToPng(svg: string, size: number, opts?: ResvgRenderOptions): Buffer {
+  const resvg = new Resvg(svg, { fitTo: { mode: "width", value: size }, ...opts });
   return Buffer.from(resvg.render().asPng());
+}
+
+// ── OG image helpers ──────────────────────────────────────────────────────────
+//
+// Embeds the iris as a nested <svg x y> inside a larger canvas SVG, keeping
+// full mask/clipPath support (resvg handles these natively — Satori cannot).
+
+function irisEmbedSvg(x: number, y: number, size: number, padding: number): string {
+  const html = renderToStaticMarkup(
+    createElement(Iris, { config: IRIS_NAV, uid: "og", size })
+  );
+  const match = html.match(/<svg[\s\S]*<\/svg>/);
+  if (!match) throw new Error("gen-icons: no <svg> found in Iris render for OG");
+  return match[0]
+    .replace("<svg ", `<svg xmlns="http://www.w3.org/2000/svg" x="${x}" y="${y}" `)
+    .replace(tightViewBox, paddedViewBox(padding));
+}
+
+function generateOgSvg(): string {
+  const canvasW = 1200, canvasH = 630;
+  const irisSize = 380;
+  const irisX = 80;
+  const irisY = Math.round((canvasH - irisSize) / 2);   // 125
+
+  const dividerX  = irisX + irisSize + 48;              // 508
+  const dividerH  = 200;
+  const dividerY1 = Math.round((canvasH - dividerH) / 2); // 215
+  const dividerY2 = dividerY1 + dividerH;                  // 415
+
+  const textX = dividerX + 1 + 52;                      // 561
+
+  // SVG text y = baseline. Block layout mirrors the original flex column:
+  //   title (96px, lineHeight 1) + 24px gap + subtitle (26px, lineHeight 1)
+  // Ascent ≈ 80 % of font-size for Geist.
+  const titleSize    = 96;
+  const subtitleSize = 26;
+  const blockH    = titleSize + 24 + subtitleSize;
+  const blockTop  = Math.round((canvasH - blockH) / 2); // 242
+  const titleY    = blockTop + Math.round(titleSize    * 0.80); // ~319
+  const subtitleY = blockTop + titleSize + 24 + Math.round(subtitleSize * 0.80); // ~383
+
+  // letter-spacing in SVG is in absolute units (px-equivalent), not em.
+  const titleLS    = (-0.02 * titleSize).toFixed(2);    // -1.92
+  const subtitleLS = ( 0.12 * subtitleSize).toFixed(2); //  3.12
+
+  const irisSvg = irisEmbedSvg(irisX, irisY, irisSize, PADDING.standard);
+
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${canvasW}" height="${canvasH}" viewBox="0 0 ${canvasW} ${canvasH}">
+  <rect width="${canvasW}" height="${canvasH}" fill="#FAFAF9"/>
+  ${irisSvg}
+  <line x1="${dividerX}" y1="${dividerY1}" x2="${dividerX}" y2="${dividerY2}" stroke="#E5E5E5" stroke-width="1"/>
+  <text x="${textX}" y="${titleY}" font-family="Geist" font-weight="700" font-size="${titleSize}" fill="#1A1A1A" letter-spacing="${titleLS}">X-Glass</text>
+  <text x="${textX}" y="${subtitleY}" font-family="Geist" font-weight="400" font-size="${subtitleSize}" fill="#8A8A8A" letter-spacing="${subtitleLS}">LENS DATA, NORMALIZED.</text>
+</svg>`;
 }
 
 // Build a multi-size ICO file by embedding PNG data directly.
@@ -162,5 +235,18 @@ const faviconImages = faviconSizes.map((size) => ({
 }));
 writeFileSync(resolve("public/favicon.ico"), buildIco(faviconImages));
 console.log(`✓ public/favicon.ico (${faviconSizes.join("+")}px)`);
+
+// ── OG image (social sharing card) ───────────────────────────────────────────
+// Replaces the old opengraph-image.tsx (Satori) which couldn't render SVG masks.
+// resvg handles masks and clipPaths correctly, producing a sharper iris mark.
+
+const ogFontOpts: ResvgRenderOptions = {
+  font: {
+    fontFiles: [geistBoldPath, geistRegularPath],
+    loadSystemFonts: false,
+  },
+};
+writeFileSync(resolve("public/opengraph-image.png"), svgToPng(generateOgSvg(), 1200, ogFontOpts));
+console.log(`✓ public/opengraph-image.png (1200×630)`);
 
 console.log("\nDone.");
