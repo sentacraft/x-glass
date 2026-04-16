@@ -44,14 +44,14 @@ export default function manifest(): MetadataRoute.Manifest {
     screenshots: [
       {
         src: "/screenshots/screenshot-mobile.png",
-        sizes: "390x844",
+        sizes: "1206x2622",
         type: "image/png",
         // No form_factor → treated as mobile/narrow by Chrome.
         label: "X-Glass home screen",
       },
       {
         src: "/screenshots/screenshot-desktop.png",
-        sizes: "1280x800",
+        sizes: "2400x1854",
         type: "image/png",
         form_factor: "wide",
         label: "X-Glass lens browser",
