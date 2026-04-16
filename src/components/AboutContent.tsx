@@ -8,14 +8,16 @@ import { ExternalLink } from "@/components/ui/external-link";
 import type { FeedbackType } from "@/components/FeedbackDialog";
 
 function Section({
+  id,
   title,
   children,
 }: {
+  id?: string;
   title: string;
   children: React.ReactNode;
 }) {
   return (
-    <section className="flex flex-col gap-3">
+    <section id={id} className="flex flex-col gap-3 scroll-mt-6">
       <h2 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
         {title}
       </h2>
@@ -99,8 +101,34 @@ export default async function AboutContent() {
         </h1>
       </div>
 
+      {/* Table of Contents */}
+      <nav className="flex flex-col gap-1">
+        {[
+          { id: "background", label: t("backgroundTitle") },
+          { id: "coverage", label: t("coverageTitle") },
+          { id: "data-accuracy", label: t("dataAccuracyTitle") },
+          { id: "faq", label: t("faqTitle") },
+          { id: "disclaimer", label: t("disclaimerTitle") },
+          { id: "privacy", label: t("privacyTitle") },
+          { id: "donation", label: t("donationTitle") },
+          { id: "ack", label: t("ackTitle") },
+          { id: "feedback", label: t("feedbackTitle") },
+        ].map(({ id, label }, i) => (
+          <a
+            key={id}
+            href={`#${id}`}
+            className="flex items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
+          >
+            <span className="text-[10px] text-zinc-300 dark:text-zinc-600 w-4 text-right tabular-nums">
+              {String(i + 1).padStart(2, "0")}
+            </span>
+            {label}
+          </a>
+        ))}
+      </nav>
+
       {/* Background */}
-      <Section title={t("backgroundTitle")}>
+      <Section id="background" title={t("backgroundTitle")}>
         <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
           {t("backgroundBody1")}
         </p>
@@ -110,7 +138,7 @@ export default async function AboutContent() {
       </Section>
 
       {/* Coverage */}
-      <Section title={t("coverageTitle")}>
+      <Section id="coverage" title={t("coverageTitle")}>
         <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
           {t("coverageBody")}
         </p>
@@ -125,7 +153,7 @@ export default async function AboutContent() {
       </Section>
 
       {/* Data & Accuracy */}
-      <Section title={t("dataAccuracyTitle")}>
+      <Section id="data-accuracy" title={t("dataAccuracyTitle")}>
         <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
           {t("dataAccuracyIntro")}
         </p>
@@ -181,7 +209,7 @@ export default async function AboutContent() {
       </Section>
 
       {/* FAQ */}
-      <Section title={t("faqTitle")}>
+      <Section id="faq" title={t("faqTitle")}>
         <dl className="flex flex-col gap-5">
           {faqItems.map((item) => (
             <div key={item.q}>
@@ -197,7 +225,7 @@ export default async function AboutContent() {
       </Section>
 
       {/* Disclaimer */}
-      <Section title={t("disclaimerTitle")}>
+      <Section id="disclaimer" title={t("disclaimerTitle")}>
         <div className="rounded-lg bg-amber-50/70 dark:bg-amber-950/20 border border-amber-200/70 dark:border-amber-800/40 px-4 py-3 flex flex-col gap-2">
           <p className="text-sm text-zinc-700 dark:text-zinc-300 leading-relaxed">
             {t("disclaimerSources")}
@@ -212,14 +240,14 @@ export default async function AboutContent() {
       </Section>
 
       {/* Privacy */}
-      <Section title={t("privacyTitle")}>
+      <Section id="privacy" title={t("privacyTitle")}>
         <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
           {t("privacyBody")}
         </p>
       </Section>
 
       {/* Donation */}
-      <Section title={t("donationTitle")}>
+      <Section id="donation" title={t("donationTitle")}>
         <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
           {t("donationBody")}
         </p>
@@ -240,7 +268,7 @@ export default async function AboutContent() {
       </Section>
 
       {/* Acknowledgments */}
-      <Section title={t("ackTitle")}>
+      <Section id="ack" title={t("ackTitle")}>
         <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
           {t("ackBody")}
         </p>
@@ -277,7 +305,7 @@ export default async function AboutContent() {
       </Section>
 
       {/* Feedback */}
-      <Section title={t("feedbackTitle")}>
+      <Section id="feedback" title={t("feedbackTitle")}>
         <p className="text-sm text-zinc-600 dark:text-zinc-400">
           {t("feedbackBody")}
         </p>
