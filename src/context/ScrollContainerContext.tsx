@@ -45,7 +45,7 @@ export function ScrollContainer({ children }: { children: React.ReactNode }) {
   const { setEl } = useContext(ScrollContainerContext);
 
   return (
-    <div ref={setEl} className="flex-1 min-h-0 overflow-y-auto">
+    <div ref={setEl} className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden">
       {children}
     </div>
   );

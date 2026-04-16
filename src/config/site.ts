@@ -31,8 +31,9 @@ export const SITE: SiteConfig = {
     light: "#ffffff",
     dark: "#0a0a0a",
   },
-  // Matches dark-mode --background (oklch(0.145 0 0) ≈ #0a0a0a).
-  // Using the dark shade so the splash screen matches the app on dark-mode devices.
-  backgroundColor: "#0a0a0a",
+  // White splash screen — matches the light-mode app background so most users
+  // (light-mode default) see a seamless launch. Dark-mode users see a brief
+  // white flash, but that is preferable to the reverse on the majority case.
+  backgroundColor: "#ffffff",
   display: "standalone",
 };
