@@ -172,6 +172,9 @@
     "removeFromCompare": "移除",
     "officialSite": "官网页面",
     "reportIssue": "反馈参数问题",
+    "fieldOfficialLink": "官方链接",
+    "fieldLensImage": "镜头图片",
+    "fieldGroupMedia": "媒体与链接",
     "notFoundTitle": "未找到这支镜头"
   },
   "Brands": {
@@ -197,6 +200,8 @@
     "compareFullHint": "已达到最大数量，请先移除一个镜头再添加。",
     "removeLens": "移除 {model}",
     "reportIssue": "反馈问题",
+    "fieldOfficialLink": "官方链接",
+    "fieldLensImage": "镜头图片",
     "shiftLeft": "左移一列",
     "shiftRight": "右移一列"
   },
@@ -310,7 +315,7 @@
     "descriptionDataIssue": "参数不对、图片有问题、哪里写错了，都可以反馈给我们。",
     "descriptionMissingLens": "如果你发现有漏收录的 X 卡口镜头，发给我们，我们会加入处理队列。",
     "descriptionGeneral": "有想法、发现 Bug，或者想提功能建议，都欢迎。",
-    "contextLens": "相关镜头：{model}",
+    "affectedLensLabel": "相关镜头",
     "contextQuery": "搜索词：{query}",
     "fieldPickerLabel": "问题字段",
     "fieldPickerPlaceholder": "请选择字段…",

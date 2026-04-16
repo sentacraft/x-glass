@@ -172,6 +172,9 @@
     "removeFromCompare": "Remove",
     "officialSite": "Official site",
     "reportIssue": "Report a data issue",
+    "fieldOfficialLink": "Official Link",
+    "fieldLensImage": "Lens Image",
+    "fieldGroupMedia": "Media & Links",
     "notFoundTitle": "Lens Not Found"
   },
   "Brands": {
@@ -197,6 +200,8 @@
     "compareFullHint": "All slots are filled. Remove a lens to add another.",
     "removeLens": "Remove {model}",
     "reportIssue": "Report",
+    "fieldOfficialLink": "Official Link",
+    "fieldLensImage": "Lens Image",
     "shiftLeft": "Move left",
     "shiftRight": "Move right"
   },
@@ -310,7 +315,7 @@
     "descriptionDataIssue": "Wrong spec, broken image, typo, weird detail — tell us what you found. It goes straight to the maintainer.",
     "descriptionMissingLens": "Know an X-mount lens we're missing? Send it over and we'll add it to the queue.",
     "descriptionGeneral": "Thoughts, bug reports, and feature ideas are all welcome.",
-    "contextLens": "About: {model}",
+    "affectedLensLabel": "Affected lens",
     "contextQuery": "Search query: {query}",
     "fieldPickerLabel": "Affected field",
     "fieldPickerPlaceholder": "Choose a field…",

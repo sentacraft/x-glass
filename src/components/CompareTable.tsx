@@ -371,6 +371,7 @@ export default function CompareTable({ lenses: initialLenses, minColumns = 0 }: 
   // what is rendered in the table cells.
   const lensFields = useMemo(() => {
     const map = new Map<string, FeedbackField[]>();
+    const mediaGroupLabel = td("fieldGroupMedia");
     for (const lens of orderedLenses) {
       const rowMap = resolvedPerLens.get(lens.id);
       if (!rowMap) continue;
@@ -378,13 +379,16 @@ export default function CompareTable({ lenses: initialLenses, minColumns = 0 }: 
       for (const group of allGroups) {
         for (const row of group.rows) {
           const resolved = rowMap.get(row.label);
-          if (resolved) fields.push({ label: resolved.label, currentValue: resolved.plainText });
+          if (resolved) fields.push({ label: resolved.label, currentValue: resolved.plainText, group: group.label });
         }
       }
+      const url = getLensUrl(lens);
+      if (url) fields.push({ label: td("fieldOfficialLink"), currentValue: url, group: mediaGroupLabel });
+      fields.push({ label: td("fieldLensImage"), currentValue: getLensImageUrl(lens.id), group: mediaGroupLabel, hideCurrentValue: true });
       map.set(lens.id, fields);
     }
     return map;
-  }, [resolvedPerLens, allGroups, orderedLenses]);
+  }, [resolvedPerLens, allGroups, orderedLenses, td]);
 
   const totalColSpan = orderedLenses.length + 1 + emptySlotCount;
   const { lockNav } = useNavLock();
@@ -834,7 +838,7 @@ export default function CompareTable({ lenses: initialLenses, minColumns = 0 }: 
                     )}
                     <FeedbackTrigger
                       type="data_issue"
-                      context={{ lensId: lens.id, lensModel: lens.model }}
+                      context={{ lensId: lens.id, lensModel: lens.model, lensBrand: tBrand(lens.brand) }}
                       fields={fields}
                       className="inline-flex items-center gap-1 text-xs text-zinc-400 dark:text-zinc-500 transition-colors hover:text-zinc-600 dark:hover:text-zinc-300"
                     >
