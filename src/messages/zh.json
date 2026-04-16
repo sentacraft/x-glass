@@ -24,7 +24,7 @@
     "description": "支持按型号、品牌或系列搜索，快速找到你想看的那支镜头。",
     "addLens": "添加镜头",
     "add": "添加",
-    "cardHint": "按型号搜索，把另一支镜头加入当前对比。",
+    "cardHint": "支持按型号、品牌或系列搜索，快速找到目标镜头。",
     "placeholder": "按型号、品牌或系列搜索，比如 XF35mm、Sigma 或 XF",
     "emptyTitle": "输入一点内容开始搜索",
     "emptyDescription": "输入几个字符后，就会出现匹配建议。",
