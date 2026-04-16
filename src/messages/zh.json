@@ -39,8 +39,8 @@
     "cta": "浏览镜头",
     "ctaCompare": "对比",
     "dataSnapshot": "lens.json loaded ✓",
-    "dataSnapshotCount": "{count} 支镜头 · {brands} 个品牌 · 0 hallucination",
-    "dataTooltip": "数据来源于制造商官方规格，非 AI 生成。"
+    "dataSnapshotCount": "{count} lenses · {brands} brands · 0 hallucination",
+    "dataTooltip": "Verified from manufacturer data. No AI-generated specs."
   },
   "LensList": {
     "title": "镜头列表",
@@ -299,11 +299,11 @@
     "feedbackGeneral": "其他反馈"
   },
   "Footer": {
-    "updatedPrefix": "更新于",
-    "tagline1": "参数先于观点",
-    "tagline2": "镜头本身更重要",
-    "tagline3": "光圈环 > 模式转盘",
-    "tagline4": "f/2 总让人安心"
+    "updatedPrefix": "Updated",
+    "tagline1": "Data over opinions",
+    "tagline2": "Glass matters",
+    "tagline3": "aperture ring > mode dial",
+    "tagline4": "f/2 feels right"
   },
   "Feedback": {
     "titleDataIssue": "反馈数据问题",

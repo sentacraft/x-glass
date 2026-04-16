@@ -300,10 +300,10 @@
   },
   "Footer": {
     "updatedPrefix": "Updated",
-    "tagline1": "Data first, opinions second",
-    "tagline2": "Great glass matters",
-    "tagline3": "Aperture ring > mode dial",
-    "tagline4": "f/2 just feels right"
+    "tagline1": "Data over opinions",
+    "tagline2": "Glass matters",
+    "tagline3": "aperture ring > mode dial",
+    "tagline4": "f/2 feels right"
   },
   "Feedback": {
     "titleDataIssue": "Report a data issue",
