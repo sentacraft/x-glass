@@ -132,9 +132,14 @@ export async function POST(req: Request) {
   }
 
   const token = process.env.GITHUB_TOKEN;
-  const repo = process.env.GITHUB_FEEDBACK_REPO;
+  // data_issue and missing_lens → pipeline repo (data source of truth)
+  // general → app repo (product/UI feedback)
+  const repo =
+    payload.type === "general"
+      ? process.env.GITHUB_APP_REPO
+      : process.env.GITHUB_FEEDBACK_REPO;
   if (!token || !repo) {
-    console.error("[feedback] missing GITHUB_TOKEN or GITHUB_FEEDBACK_REPO");
+    console.error("[feedback] missing GITHUB_TOKEN or target repo env var");
     return NextResponse.json(
       { error: "server_misconfigured" },
       { status: 500 }
