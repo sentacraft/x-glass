@@ -260,7 +260,7 @@ export function SharePoster({ lenses, labels, custom, shareUrl, ref }: SharePost
               className="text-zinc-400"
               style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase" }}
             >
-              X Glass
+              X-Glass
             </span>
           </div>
           {/* Title — fixed size, no jumping */}

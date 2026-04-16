@@ -139,7 +139,7 @@ export function ShareButton({ lenses, variant = "default", triggerClassName }: S
 
   // Build poster labels from i18n
   const posterLabels: PosterLabels = {
-    appName: "X Glass",
+    appName: "X-Glass",
     siteUrl: "x-glass.app",
     cta: lenses.length === 1 ? tImage("ctaSingle") : tImage("cta"),
     comparison: computedPosterTitle,
