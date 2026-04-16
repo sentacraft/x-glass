@@ -37,7 +37,7 @@ interface LensSearchDialogProps {
   getResultState?: (lens: Lens) => LensSearchResultState | undefined;
   triggerClassName?: string;
   triggerLabel?: string;
-  triggerVariant?: "icon" | "button" | "card" | "slot";
+  triggerVariant?: "icon" | "button" | "slot";
 }
 
 export default function LensSearchDialog({
@@ -139,9 +139,7 @@ export default function LensSearchDialog({
             ? "inline-flex h-10 w-10 items-center justify-center rounded-xl border border-zinc-200 bg-white text-zinc-600 transition-colors hover:border-zinc-300 hover:text-zinc-900 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-300 dark:hover:border-zinc-700 dark:hover:text-zinc-50"
             : triggerVariant === "button"
               ? "inline-flex h-11 items-center justify-center gap-2 rounded-2xl border border-zinc-200 bg-white px-4 text-sm font-medium text-zinc-700 transition-colors hover:border-zinc-300 hover:text-zinc-950 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-200 dark:hover:border-zinc-700 dark:hover:text-zinc-50"
-              : triggerVariant === "slot"
-                ? "flex w-full flex-col items-center justify-center gap-2 rounded-[28px] border border-dashed border-zinc-300 bg-zinc-50/60 text-center text-zinc-500 transition-colors hover:border-zinc-400 hover:bg-zinc-100/70 hover:text-zinc-900 dark:border-zinc-800 dark:bg-zinc-950/60 dark:text-zinc-400 dark:hover:border-zinc-700 dark:hover:bg-zinc-900 dark:hover:text-zinc-50"
-                : "flex w-full flex-col items-center justify-center gap-3 rounded-[28px] border border-dashed border-zinc-300 bg-zinc-50/60 px-6 py-8 text-center text-zinc-500 transition-colors hover:border-zinc-400 hover:bg-zinc-100/70 hover:text-zinc-900 dark:border-zinc-800 dark:bg-zinc-950/60 dark:text-zinc-400 dark:hover:border-zinc-700 dark:hover:bg-zinc-900 dark:hover:text-zinc-50",
+              : "flex w-full flex-col items-center justify-center gap-2 rounded-[28px] border border-dashed border-zinc-300 bg-zinc-50/60 text-center text-zinc-500 transition-colors hover:border-zinc-400 hover:bg-zinc-100/70 hover:text-zinc-900 dark:border-zinc-800 dark:bg-zinc-950/60 dark:text-zinc-400 dark:hover:border-zinc-700 dark:hover:bg-zinc-900 dark:hover:text-zinc-50",
           triggerClassName
         )}
       >
@@ -152,17 +150,6 @@ export default function LensSearchDialog({
           <>
             <Search className="h-4 w-4" />
             <span>{triggerLabel ?? t("add")}</span>
-          </>
-        )}
-        {triggerVariant === "card" && (
-          <>
-            <Search className="h-7 w-7" />
-            <span className="text-lg font-medium text-zinc-800 dark:text-zinc-100">
-              {triggerLabel ?? t("addLens")}
-            </span>
-            <span className="max-w-[18rem] text-sm text-zinc-500 dark:text-zinc-400">
-              {t("cardHint")}
-            </span>
           </>
         )}
         {triggerVariant === "slot" && (
