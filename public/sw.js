@@ -68,11 +68,12 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Lens photos and PWA icons — cache first, refresh in background after TTL.
+  // Lens photos, PWA icons, and splash screens — cache first, refresh after TTL.
   if (
     url.pathname.startsWith('/lenses/') ||
     url.pathname.startsWith('/icons/') ||
-    url.pathname.startsWith('/screenshots/')
+    url.pathname.startsWith('/screenshots/') ||
+    url.pathname.startsWith('/splash/')
   ) {
     event.respondWith(cacheFirst(request, CACHE.images, IMAGE_TTL_S));
     return;
