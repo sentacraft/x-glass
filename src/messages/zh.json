@@ -7,7 +7,8 @@
     "additionalInfo": "补充说明"
   },
   "Metadata": {
-    "seoDescription": "纯粹、规范化的富士 X 卡口镜头数据库。无主观评测，提供跨品牌镜头硬核参数的标准化对比。数据胜于观点。"
+    "seoTitle": "X-Glass | 富士 X 卡口镜头参数库",
+    "seoDescription": "富士 X 卡口镜头数据库，收录富士 XF / XC / MK、适马、腾龙、唯卓仕、铭匠光学、七工匠、星耀光学、深光影像全品牌参数。规格统一标准，支持跨品牌横向对比。"
   },
   "Nav": {
     "lenses": "镜头库",
@@ -17,11 +18,11 @@
   "Search": {
     "open": "打开镜头搜索",
     "title": "找镜头",
-    "description": "按型号、品牌或系列搜索，直接跳到你想看的镜头。",
+    "description": "输入型号、品牌或系列，直接找到那支镜头。",
     "addLens": "添加镜头",
     "add": "添加",
     "placeholder": "搜索型号、品牌或系列，比如 XF35mm、Sigma 或 XF",
-    "emptyTitle": "输入型号、品牌或系列开始搜索",
+    "emptyTitle": "搜个型号或品牌试试",
     "emptyDescription": "输入几个字后，这里会显示匹配结果。",
     "noResults": "没找到匹配的镜头",
     "noResultsHint": "试试更短的型号，或者换个品牌名、系列关键词。",
@@ -37,7 +38,7 @@
     "ctaCompare": "对比",
     "dataSnapshot": "lens.json loaded ✓",
     "dataSnapshotCount": "{count} 支镜头 · {brands} 个品牌 · 0 hallucination",
-    "dataTooltip": "数据来源于制造商官方规格，非 AI 生成。"
+    "dataTooltip": "数据直接来自厂商官方规格，不靠 AI 猜。"
   },
   "LensList": {
     "title": "镜头库",
@@ -100,7 +101,7 @@
     "goCompare": "查看对比（{count}）",
     "clearCompare": "清空",
     "resultsCount": "{count} 支镜头",
-    "noResults": "没有符合当前筛选条件的镜头。",
+    "noResults": "没有符合筛选条件的镜头",
     "suggestLens": "没找到你要的镜头？",
     "suggestLensLink": "告诉我们",
     "equivSuffix": "等效"
@@ -259,7 +260,7 @@
     "backgroundBody": "X-Glass 建立在一个简单的理念之上：Data over opinions。在充斥着主观评测与玄学讨论的摄影圈，以及各家厂商参数口径不一的现状下，我们决定打造一个纯粹的、规范化的富士 X 卡口镜头数据库。通过将原厂及所有第三方镜头的参数进行深度标准化对齐，X-Glass 致力于剔除一切主观噪音，让客观数据自己说话。",
 
     "coverageTitle": "收录范围",
-    "coverageBody": "X-Glass 的目标，是尽量收齐所有原生支持富士 X 卡口、目前仍在市场流通的镜头，包括富士自家的 XF、XC、MK 系列，以及各家第三方品牌。同焦段的不同代际会分开列出。其他卡口的转接镜头暂不在当前范围内。",
+    "coverageBody": "X-Glass 想把市面上所有原生适配富士 X 卡口、还在卖的镜头都收进来，包括富士自家的 XF、XC、MK 系列以及各家第三方品牌。同焦段不同代会分开列出。转接镜头暂不在范围内。",
     "coverageBrands": "当前收录品牌",
     "coverageBrandList": "富士 · 适马 · 腾龙 · 唯卓仕 · 铭匠光学 · 七工匠 · 星耀光学 · 深光影像",
 
@@ -306,7 +307,7 @@
     "titleDataIssue": "反馈数据问题",
     "titleMissingLens": "推荐缺失镜头",
     "titleGeneral": "提交反馈",
-    "descriptionDataIssue": "参数不对、图片不对、文案有误，都可以在这里告诉我们。你的反馈会直接发给维护者。",
+    "descriptionDataIssue": "参数不对、图片有问题、哪里写错了，都可以告诉我们——直接到我们手里。",
     "descriptionMissingLens": "如果你发现有漏收录的 X 卡口镜头，发给我们，我们会加入处理队列。",
     "descriptionGeneral": "有想法、发现 Bug，或者想提功能建议，都欢迎。",
     "contextLens": "相关镜头：{model}",
@@ -330,14 +331,14 @@
   "Install": {
     "pageTitle": "安装应用",
     "headline": "将 X-Glass 添加到主屏幕",
-    "subheadline": "一键直达，全屏体验，支持离线使用。",
+    "subheadline": "像 App 一样打开，全屏体验，支持离线使用。",
 
     "installedTitle": "已完成安装",
     "installedBody": "X-Glass 已安装在此设备上。",
     "openApp": "打开 X-Glass",
 
     "promptTitle": "安装 X-Glass",
-    "promptBody": "添加到主屏幕或应用启动台，随时一键打开。",
+    "promptBody": "把 X-Glass 加到手机主屏幕，以后直接像 App 一样打开——不用找浏览器，也不用记网址。",
     "installButton": "安装",
 
     "iosTitle": "添加到主屏幕",
@@ -345,7 +346,7 @@
     "iosStep1": "点击 Safari 底部的「分享」按钮（方框加箭头图标）",
     "iosStep2": "向下滑动，点击「添加到主屏幕」",
     "iosStep3": "点击右上角的「添加」",
-    "iosNotSafari": "在 Safari 中打开可获得完整的独立应用体验；当前浏览器也支持添加到主屏幕。",
+    "iosNotSafari": "用 Safari 打开可以获得完整的 App 体验；当前浏览器也能添加到主屏幕。",
 
     "genericTitle": "添加到主屏幕",
     "genericBody": "打开浏览器菜单，寻找「添加到主屏幕」或「安装应用」选项。"

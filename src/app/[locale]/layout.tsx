@@ -32,7 +32,7 @@ export async function generateMetadata({
 
   return {
     title: {
-      default: "X-Glass | Fujifilm X Mount Lens Comparison Tool",
+      default: t("seoTitle"),
       template: "%s | X-Glass",
     },
     description: t("seoDescription"),
