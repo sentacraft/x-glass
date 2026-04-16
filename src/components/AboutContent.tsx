@@ -1,8 +1,6 @@
 import { getTranslations, getLocale } from "next-intl/server";
 import Image from "next/image";
 import { Flag, Mail, Heart } from "lucide-react";
-import Iris from "@/components/Iris";
-import { IRIS_NAV } from "@/config/iris-config";
 import FeedbackTrigger from "@/components/FeedbackTrigger";
 import { ExternalLink } from "@/components/ui/external-link";
 import type { FeedbackType } from "@/components/FeedbackDialog";
@@ -95,7 +93,6 @@ export default async function AboutContent() {
   return (
     <div className="w-full max-w-2xl mx-auto px-4 sm:px-6 pt-4 sm:pt-12 pb-12 flex flex-col gap-6">
       <div className="flex items-center gap-3">
-        <Iris config={IRIS_NAV} size={28} uid="about" />
         <h1 className="text-2xl font-bold text-zinc-900 dark:text-zinc-50">
           {t("pageTitle")}
         </h1>
