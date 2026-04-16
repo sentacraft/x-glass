@@ -222,9 +222,6 @@ export default async function AboutContent() {
       <Section id="disclaimer" title={t("disclaimerTitle")}>
         <div className="rounded-lg bg-amber-50/70 dark:bg-amber-950/20 border border-amber-200/70 dark:border-amber-800/40 px-4 py-3 flex flex-col gap-2">
           <p className="text-sm text-zinc-700 dark:text-zinc-300 leading-relaxed">
-            {t("disclaimerSources")}
-          </p>
-          <p className="text-sm text-zinc-700 dark:text-zinc-300 leading-relaxed">
             {t("disclaimerAccuracy")}
           </p>
           <p className="text-xs text-zinc-500 dark:text-zinc-500 mt-1">
