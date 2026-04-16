@@ -517,27 +517,27 @@ describe("getUniqueBrands", () => {
 describe("getLensUrl", () => {
   const bothLinks = { cn: "https://example.com/cn-lens", global: "https://example.com/global-lens" };
 
-  it("returns global link for en locale when both links are present", () => {
+  it("returns global link for en locale", () => {
     const lens = makeLens({ focalLengthMin: 35, focalLengthMax: 35, officialLinks: bothLinks });
     expect(getLensUrl(lens, "en")).toBe("https://example.com/global-lens");
   });
 
-  it("returns cn link for zh locale when both links are present", () => {
+  it("returns cn link for zh locale", () => {
     const lens = makeLens({ focalLengthMin: 35, focalLengthMax: 35, officialLinks: bothLinks });
     expect(getLensUrl(lens, "zh")).toBe("https://example.com/cn-lens");
   });
 
-  it("falls back to global when zh locale but only global is present", () => {
+  it("returns undefined for zh locale when only global link is present (no fallback)", () => {
     const lens = makeLens({ focalLengthMin: 35, focalLengthMax: 35, officialLinks: { global: "https://example.com/global-lens" } });
-    expect(getLensUrl(lens, "zh")).toBe("https://example.com/global-lens");
+    expect(getLensUrl(lens, "zh")).toBeUndefined();
   });
 
-  it("falls back to cn when en locale but only cn is present", () => {
+  it("returns undefined for en locale when only cn link is present (no fallback)", () => {
     const lens = makeLens({ focalLengthMin: 35, focalLengthMax: 35, officialLinks: { cn: "https://example.com/cn-lens" } });
-    expect(getLensUrl(lens, "en")).toBe("https://example.com/cn-lens");
+    expect(getLensUrl(lens, "en")).toBeUndefined();
   });
 
-  it("defaults to global-first when no locale is provided", () => {
+  it("defaults to global when no locale is provided", () => {
     const lens = makeLens({ focalLengthMin: 35, focalLengthMax: 35, officialLinks: bothLinks });
     expect(getLensUrl(lens)).toBe("https://example.com/global-lens");
   });

@@ -171,12 +171,13 @@ export function getUniqueBrands(lenses: Lens[]): string[] {
   return [...new Set(lenses.map((l) => l.brand))].sort();
 }
 
-// Returns the locale-appropriate official link: zh → cn first, others → global first.
+// Returns the locale-appropriate official link with no fallback:
+// zh → cn only, others → global only. Returns undefined if the locale's link is absent.
 export function getLensUrl(lens: Lens, locale?: string): string | undefined {
   if (locale === "zh") {
-    return lens.officialLinks?.cn ?? lens.officialLinks?.global;
+    return lens.officialLinks?.cn;
   }
-  return lens.officialLinks?.global ?? lens.officialLinks?.cn;
+  return lens.officialLinks?.global;
 }
 
 export function parseLensIds(ids: string | undefined): Lens[] {

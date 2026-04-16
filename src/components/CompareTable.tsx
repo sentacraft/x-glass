@@ -829,13 +829,17 @@ export default function CompareTable({ lenses: initialLenses, minColumns = 0 }: 
               return (
                 <td key={lens.id} className="px-3 py-2">
                   <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1">
-                    {url && (
+                    {url ? (
                       <ExternalLink
                         href={url}
                         className="inline-flex items-center gap-1 text-xs text-blue-500 transition-colors hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300"
                       >
                         {t("officialSite")}
                       </ExternalLink>
+                    ) : (
+                      <span className="inline-flex cursor-not-allowed items-center gap-1 text-xs text-zinc-300 dark:text-zinc-600">
+                        {t("officialSite")}
+                      </span>
                     )}
                     <FeedbackTrigger
                       type="data_issue"
