@@ -1,12 +1,11 @@
 import type { MetadataRoute } from "next";
 import { SITE } from "@/config/site";
-import enMessages from "@/messages/en.json";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
     name: SITE.name,
     short_name: SITE.shortName,
-    description: enMessages.Metadata.pwaDescription,
+    description: SITE.pwaDescription,
     // Explicit app ID — prevents DevTools warning about falling back to start_url.
     id: "/",
     start_url: "/",

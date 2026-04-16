@@ -11,6 +11,8 @@ export interface SiteConfig {
   shortName: string;
   /** One-line site description for <meta name="description"> and manifest. */
   description: string;
+  /** PWA manifest description — shown in install prompts and app stores. No locale context available. */
+  pwaDescription: string;
   /** Theme color for browser UI chrome, keyed by color scheme. */
   themeColor: { light: string; dark: string };
   /**
@@ -27,6 +29,8 @@ export const SITE: SiteConfig = {
   shortName: "X-Glass",
   description:
     "An independent tool for browsing and comparing Fujifilm X-mount lenses across all brands.",
+  pwaDescription:
+    "Your pocket database for X-Mount lenses. Instantly lookup and compare normalized lens specifications on the go. Pure data, zero noise.",
   themeColor: {
     light: "#ffffff",
     dark: "#0a0a0a",
