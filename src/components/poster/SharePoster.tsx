@@ -133,7 +133,7 @@ interface SharePosterProps {
 export function SharePoster({ lenses, labels, custom, shareUrl, ref }: SharePosterProps) {
   const n = lenses.length;
   const titleLines: string[] = custom?.title?.trim()
-    ? custom.title.split("\n").map((l) => l.trim()).filter(Boolean)
+    ? [custom.title.trim()]
     : labels.comparison;
   const titleFontSize = titleLines.length <= 1 ? 32 : titleLines.length === 2 ? 22 : 17;
   const slogan = custom?.slogan?.trim();

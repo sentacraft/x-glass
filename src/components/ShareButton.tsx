@@ -458,12 +458,12 @@ export function ShareButton({ lenses, variant = "default", triggerClassName }: S
                           <label className="text-xs text-zinc-400 dark:text-zinc-500">
                             {t("customizeTitle")}
                           </label>
-                          <textarea
-                            rows={3}
+                          <input
+                            type="text"
                             value={customTitle}
                             onChange={(e) => setCustomTitle(e.target.value)}
-                            placeholder={computedPosterTitle.join("\n")}
-                            className={`${inputClass} resize-none`}
+                            placeholder={computedPosterTitle.join(" · ")}
+                            className={inputClass}
                           />
                         </div>
                         <div className="flex flex-col gap-1">
