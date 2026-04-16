@@ -837,7 +837,7 @@ export default function CompareTable({ lenses: initialLenses, minColumns = 0 }: 
                     )}
                     <FeedbackTrigger
                       type="data_issue"
-                      context={{ lensId: lens.id, lensModel: lens.model }}
+                      context={{ lensId: lens.id, lensModel: lens.model, lensBrand: tBrand(lens.brand) }}
                       fields={fields}
                       className="inline-flex items-center gap-1 text-xs text-zinc-400 dark:text-zinc-500 transition-colors hover:text-zinc-600 dark:hover:text-zinc-300"
                     >

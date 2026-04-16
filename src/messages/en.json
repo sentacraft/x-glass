@@ -313,7 +313,7 @@
     "descriptionDataIssue": "Wrong spec, broken image, typo, weird detail — tell us what you found. It goes straight to the maintainer.",
     "descriptionMissingLens": "Know an X-mount lens we're missing? Send it over and we'll add it to the queue.",
     "descriptionGeneral": "Thoughts, bug reports, and feature ideas are all welcome.",
-    "contextLens": "About: {model}",
+    "affectedLensLabel": "Affected lens",
     "contextQuery": "Search query: {query}",
     "fieldPickerLabel": "Affected field",
     "fieldPickerPlaceholder": "Choose a field…",

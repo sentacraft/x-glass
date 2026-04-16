@@ -313,7 +313,7 @@
     "descriptionDataIssue": "参数不对、图片不对、文案有误，都可以在这里告诉我们。你的反馈会直接发给维护者。",
     "descriptionMissingLens": "如果你发现有漏收录的 X 卡口镜头，发给我们，我们会加入处理队列。",
     "descriptionGeneral": "有想法、发现 Bug，或者想提功能建议，都欢迎。",
-    "contextLens": "相关镜头：{model}",
+    "affectedLensLabel": "相关镜头",
     "contextQuery": "搜索词：{query}",
     "fieldPickerLabel": "问题字段",
     "fieldPickerPlaceholder": "请选择字段…",
