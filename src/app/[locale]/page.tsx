@@ -8,7 +8,6 @@ import { IRIS_HERO } from "@/config/iris-config";
 export default function Home() {
   const t = useTranslations("Common");
   const h = useTranslations("Home");
-  const m = useTranslations("Metadata");
 
   return (
     <div
@@ -27,8 +26,8 @@ export default function Home() {
         <h1 className="mt-8 text-5xl sm:text-6xl font-bold tracking-tight text-zinc-800 dark:text-zinc-50">
           {t("appName")}
         </h1>
-        <p className="mt-4 max-w-xl text-lg text-zinc-500 dark:text-zinc-400">
-          {m("siteDescription")}
+        <p className="mt-4 text-lg text-zinc-500 dark:text-zinc-400 max-w-sm">
+          {t("appDesc")}
         </p>
         <div className="mt-8 flex flex-col items-center gap-3">
           <div className="flex flex-wrap items-center justify-center gap-3">

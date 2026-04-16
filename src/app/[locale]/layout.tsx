@@ -2,7 +2,6 @@ import type { Metadata, Viewport } from "next";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { routing } from "@/i18n/routing";
-import { getMessagesForLocale, resolveLocale } from "@/i18n/messages";
 import Nav from "@/components/Nav";
 import ConsoleEgg from "@/components/ConsoleEgg";
 import TestHookPanel from "@/components/TestHookPanel";
@@ -11,6 +10,8 @@ import { ScrollContainerProvider } from "@/context/ScrollContainerContext";
 import { TestHookProvider } from "@/context/TestHookProvider";
 import { TESTHOOK_ALLOWED } from "@/lib/testhook";
 import { SITE } from "@/config/site";
+import enMessages from "@/messages/en.json";
+import zhMessages from "@/messages/zh.json";
 import "../globals.css";
 
 export const viewport: Viewport = {
@@ -29,16 +30,14 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  const resolvedLocale = resolveLocale(locale);
-  const messages = await getMessagesForLocale(resolvedLocale);
+  const messages = locale === "zh" ? zhMessages : enMessages;
 
   return {
     title: {
-      default: messages.Metadata.siteTitleDefault,
-      template: `%s | ${SITE.name}`,
+      default: "X-Glass | Fujifilm X Mount Lens Comparison Tool",
+      template: "%s | X-Glass",
     },
     description: messages.Metadata.seoDescription,
-    manifest: `/${resolvedLocale}/manifest.webmanifest`,
     // Explicit icon declarations — setting `icons` in metadata disables Next.js
     // file-convention auto-discovery, so both `icon` and `apple` must be listed.
     // Safari requires an explicit favicon.ico link tag; it won't auto-discover it.
@@ -57,7 +56,7 @@ export async function generateMetadata({
       siteName: SITE.name,
       type: "website",
       description: messages.Metadata.seoDescription,
-      images: [{ url: `/${resolvedLocale}/opengraph-image`, width: 1200, height: 630 }],
+      images: [{ url: "/opengraph-image.png", width: 1200, height: 630 }],
     },
   };
 }

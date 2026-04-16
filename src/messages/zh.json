@@ -1,18 +1,14 @@
 {
   "Common": {
     "appName": "X-Glass",
+    "appDesc": "Lens data, normalized.",
     "goBack": "返回上一页",
     "backToTop": "回到顶部",
     "additionalInfo": "补充说明"
   },
   "Metadata": {
-    "siteTitleDefault": "X-Glass｜富士 X 卡口镜头对比工具",
-    "siteDescription": "给富士 X 用户用的镜头对比工具，把原厂和第三方镜头放进同一套数据里一起看。",
     "seoDescription": "纯粹、规范化的富士 X 卡口镜头数据库。无主观评测，提供跨品牌镜头硬核参数的标准化对比。数据胜于观点。",
-    "pwaDescription": "随身的 X 卡口镜头数据手册。快速查阅、对比规范化的镜头参数与光学结构，你的纯粹数据工具。",
-    "manifestLabelHome": "X-Glass 首页",
-    "manifestLabelBrowser": "X-Glass 镜头浏览页",
-    "ogTagline": "更清晰地浏览和对比富士 X 卡口镜头"
+    "pwaDescription": "随身的 X 卡口镜头数据手册。快速查阅、对比规范化的镜头参数与光学结构，你的纯粹数据工具。"
   },
   "Nav": {
     "lenses": "镜头库",

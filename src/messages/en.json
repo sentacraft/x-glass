@@ -1,18 +1,14 @@
 {
   "Common": {
     "appName": "X-Glass",
+    "appDesc": "Lens data, normalized.",
     "goBack": "Go back",
     "backToTop": "Back to top",
     "additionalInfo": "Additional information"
   },
   "Metadata": {
-    "siteTitleDefault": "X-Glass | Fujifilm X-Mount Lens Comparison Tool",
-    "siteDescription": "A structured lens comparison tool for Fujifilm X users, covering all brands in one dataset.",
     "seoDescription": "An objective, normalized database for Fujifilm X-Mount lenses. Compare raw specs across brands with zero bias. Data over opinions.",
-    "pwaDescription": "Your pocket database for X-Mount lenses. Instantly lookup and compare normalized lens specifications on the go. Pure data, zero noise.",
-    "manifestLabelHome": "X-Glass home screen",
-    "manifestLabelBrowser": "X-Glass lens browser",
-    "ogTagline": "A clearer way to browse and compare Fujifilm X-mount lenses."
+    "pwaDescription": "Your pocket database for X-Mount lenses. Instantly lookup and compare normalized lens specifications on the go. Pure data, zero noise."
   },
   "Nav": {
     "lenses": "Browse",
