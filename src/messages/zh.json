@@ -291,7 +291,7 @@
     "changelogPlaceholder": "即将推出",
 
     "feedbackTitle": "反馈与联系",
-    "feedbackBody": "如果你发现数据有误，或者想补充缺失镜头，可以直接在这里告诉我们。反馈会直接送达维护者。",
+    "feedbackBody": "如果你发现数据有误，或者想补充缺失镜头，可以直接在这里告诉我们。",
     "feedbackReport": "反馈数据问题",
     "feedbackSuggest": "推荐缺失镜头",
     "feedbackGeneral": "其他反馈"
@@ -307,7 +307,7 @@
     "titleDataIssue": "反馈数据问题",
     "titleMissingLens": "推荐缺失镜头",
     "titleGeneral": "提交反馈",
-    "descriptionDataIssue": "参数不对、图片有问题、哪里写错了，都可以告诉我们——直接到我们手里。",
+    "descriptionDataIssue": "参数不对、图片有问题、哪里写错了，都可以反馈给我们。",
     "descriptionMissingLens": "如果你发现有漏收录的 X 卡口镜头，发给我们，我们会加入处理队列。",
     "descriptionGeneral": "有想法、发现 Bug，或者想提功能建议，都欢迎。",
     "contextLens": "相关镜头：{model}",
@@ -320,7 +320,7 @@
     "descriptionLabel": "补充说明",
     "descriptionOptional": "选填",
     "contentRequired": "请至少填写“建议改成”或“补充说明”中的一项。",
-    "descriptionPlaceholder": "把你发现的问题尽量说清楚一点…",
+    "descriptionPlaceholder": "你可以在这里提供更多细节，这有助于我们更快更准确地处理你的反馈。",
     "submit": "提交",
     "submitting": "提交中…",
     "cancel": "取消",
@@ -343,10 +343,10 @@
 
     "iosTitle": "添加到主屏幕",
     "iosSubtitle": "在 Safari 中按以下步骤操作：",
-    "iosStep1": "点击 Safari 底部的「分享」按钮（方框加箭头图标）",
+    "iosStep1": "点击 Safari 菜单中的「分享」按钮",
     "iosStep2": "向下滑动，点击「添加到主屏幕」",
     "iosStep3": "点击右上角的「添加」",
-    "iosNotSafari": "用 Safari 打开可以获得完整的 App 体验；当前浏览器也能添加到主屏幕。",
+    "iosNotSafari": "推荐在 Safari 中打开可获得完整的独立应用体验；当前浏览器也支持添加到主屏幕。",
 
     "genericTitle": "添加到主屏幕",
     "genericBody": "打开浏览器菜单，寻找「添加到主屏幕」或「安装应用」选项。"
