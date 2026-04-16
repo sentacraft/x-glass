@@ -1,9 +1,8 @@
 # X-Glass — CLAUDE.md
 
-## Worktree Dev Server
+## Worktree Setup
 
-每次会话开始时，`SessionStart` hook 会自动执行 `npm install` 并启动 dev server。
-hook 的输出会注入到上下文中——**在第一条回复里把 dev server 端口号告诉用户**。
+每次会话开始时，`SessionStart` hook 会自动执行 `npm install`（仅在 node_modules 不存在或 package.json 有变化时）。dev server 不再自动启动，需要时手动运行 `npm run dev`。
 
 ## 项目概述
 
