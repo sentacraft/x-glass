@@ -1,7 +1,7 @@
 {
   "Common": {
     "appName": "X-Glass",
-    "appDesc": "Lens data, normalized.",
+    "appDesc": "富士党专属的镜头图鉴",
     "goBack": "返回上一页",
     "backToTop": "回到顶部",
     "additionalInfo": "补充说明"
@@ -37,8 +37,8 @@
     "cta": "浏览镜头",
     "ctaCompare": "对比",
     "dataSnapshot": "lens.json loaded ✓",
-    "dataSnapshotCount": "{count} lenses · {brands} brands · 0 hallucination",
-    "dataTooltip": "Verified from manufacturer data. No AI-generated specs."
+    "dataSnapshotCount": "{count} 支镜头 · {brands} 个品牌 · 0 hallucination",
+    "dataTooltip": "数据来源于制造商官方规格，非 AI 生成。"
   },
   "LensList": {
     "title": "镜头库",
@@ -297,7 +297,7 @@
     "feedbackGeneral": "其他反馈"
   },
   "Footer": {
-    "updatedPrefix": "Updated",
+    "updatedPrefix": "更新于",
     "tagline1": "Data over opinions",
     "tagline2": "Glass matters",
     "tagline3": "aperture ring > mode dial",

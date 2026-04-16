@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { NextIntlClientProvider } from "next-intl";
-import { getMessages } from "next-intl/server";
+import { getMessages, getTranslations } from "next-intl/server";
 import { routing } from "@/i18n/routing";
 import Nav from "@/components/Nav";
 import ConsoleEgg from "@/components/ConsoleEgg";
@@ -10,8 +10,6 @@ import { ScrollContainerProvider } from "@/context/ScrollContainerContext";
 import { TestHookProvider } from "@/context/TestHookProvider";
 import { TESTHOOK_ALLOWED } from "@/lib/testhook";
 import { SITE } from "@/config/site";
-import enMessages from "@/messages/en.json";
-import zhMessages from "@/messages/zh.json";
 import "../globals.css";
 
 export const viewport: Viewport = {
@@ -30,14 +28,14 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  const messages = locale === "zh" ? zhMessages : enMessages;
+  const t = await getTranslations({ locale, namespace: "Metadata" });
 
   return {
     title: {
       default: "X-Glass | Fujifilm X Mount Lens Comparison Tool",
       template: "%s | X-Glass",
     },
-    description: messages.Metadata.seoDescription,
+    description: t("seoDescription"),
     // Explicit icon declarations — setting `icons` in metadata disables Next.js
     // file-convention auto-discovery, so both `icon` and `apple` must be listed.
     // Safari requires an explicit favicon.ico link tag; it won't auto-discover it.
@@ -55,7 +53,7 @@ export async function generateMetadata({
     openGraph: {
       siteName: SITE.name,
       type: "website",
-      description: messages.Metadata.seoDescription,
+      description: t("seoDescription"),
       images: [{ url: "/opengraph-image.png", width: 1200, height: 630 }],
     },
   };
