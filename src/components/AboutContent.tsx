@@ -1,8 +1,10 @@
-import { getTranslations } from "next-intl/server";
-import { Flag, Mail } from "lucide-react";
+import { getTranslations, getLocale } from "next-intl/server";
+import Image from "next/image";
+import { Flag, Mail, Heart } from "lucide-react";
 import Iris from "@/components/Iris";
 import { IRIS_NAV } from "@/config/iris-config";
 import FeedbackTrigger from "@/components/FeedbackTrigger";
+import { ExternalLink } from "@/components/ui/external-link";
 import type { FeedbackType } from "@/components/FeedbackDialog";
 
 function Section({
@@ -23,13 +25,17 @@ function Section({
 }
 
 export default async function AboutContent() {
-  const t = await getTranslations("About");
+  const [t, locale] = await Promise.all([
+    getTranslations("About"),
+    getLocale(),
+  ]);
 
   const faqItems = [
     { q: t("faq1Q"), a: t("faq1A") },
     { q: t("faq2Q"), a: t("faq2A") },
     { q: t("faq3Q"), a: t("faq3A") },
     { q: t("faq4Q"), a: t("faq4A") },
+    { q: t("faq5Q"), a: t("faq5A") },
   ];
 
   const feedbackLinks: {
@@ -40,6 +46,48 @@ export default async function AboutContent() {
     { label: t("feedbackReport"), type: "data_issue", icon: <Flag size={13} /> },
     { label: t("feedbackSuggest"), type: "missing_lens", icon: <Flag size={13} /> },
     { label: t("feedbackGeneral"), type: "general", icon: <Mail size={13} /> },
+  ];
+
+  const pipelineStages = [
+    { badge: "0", label: t("pipeline0Label"), desc: t("pipeline0Desc") },
+    { badge: "1", label: t("pipeline1Label"), desc: t("pipeline1Desc") },
+    { badge: "2", label: t("pipeline2Label"), desc: t("pipeline2Desc") },
+    { badge: "R", label: t("pipelineRLabel"), desc: t("pipelineRDesc") },
+    { badge: "P", label: t("pipelinePLabel"), desc: t("pipelinePDesc") },
+  ];
+
+  const donationLinks = [
+    { label: t("donationGitHubSponsors"), href: "#" /* TODO: add GitHub Sponsors URL */ },
+    { label: t("donationBMC"), href: "#" /* TODO: add Buy Me a Coffee URL */ },
+    // Afdian is only relevant for Chinese mainland users
+    ...(locale === "zh"
+      ? [{ label: t("donationAfdian"), href: "#" /* TODO: add Afdian URL */ }]
+      : []),
+  ];
+
+  const ackCredits = [
+    {
+      roles: [t("ackClaudeArchitect"), t("ackClaudeEngineer")],
+      company: "Anthropic",
+      product: "Claude Code",
+      logo: "/logos/anthropic.svg",
+      logoAlt: "Anthropic Claude",
+      // Color icon — no invert needed
+      logoClassName: "",
+      logoWidth: 32,
+      logoHeight: 32,
+    },
+    {
+      roles: [t("ackGeminiDesigner")],
+      company: "Google",
+      product: "Gemini",
+      logo: "/logos/google-gemini.svg",
+      logoAlt: "Google Gemini",
+      // Colorful gradient icon — no invert needed
+      logoClassName: "",
+      logoWidth: 32,
+      logoHeight: 32,
+    },
   ];
 
   return (
@@ -54,7 +102,10 @@ export default async function AboutContent() {
       {/* Background */}
       <Section title={t("backgroundTitle")}>
         <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
-          {t("backgroundBody")}
+          {t("backgroundBody1")}
+        </p>
+        <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+          {t("backgroundBody2")}
         </p>
       </Section>
 
@@ -73,13 +124,59 @@ export default async function AboutContent() {
         </div>
       </Section>
 
-      {/* Data Maintenance */}
-      <Section title={t("dataTitle")}>
+      {/* Data & Accuracy */}
+      <Section title={t("dataAccuracyTitle")}>
         <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
-          {t("dataBody")}
+          {t("dataAccuracyIntro")}
         </p>
-        <p className="text-xs text-zinc-500 dark:text-zinc-500 mt-1">
-          {t("dataVersionNote")}
+
+        {/* Two core principles */}
+        <div className="flex flex-col gap-3 mt-1">
+          <div>
+            <p className="text-sm font-medium text-zinc-800 dark:text-zinc-200 mb-1">
+              {t("dataPrinciple1Title")}
+            </p>
+            <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+              {t("dataPrinciple1Body")}
+            </p>
+          </div>
+          <div>
+            <p className="text-sm font-medium text-zinc-800 dark:text-zinc-200 mb-1">
+              {t("dataPrinciple2Title")}
+            </p>
+            <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+              {t("dataPrinciple2Body")}
+            </p>
+          </div>
+        </div>
+
+        {/* Pipeline overview */}
+        <div className="rounded-lg bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 px-4 py-3 mt-1">
+          <p className="text-xs font-medium text-zinc-500 dark:text-zinc-400 mb-3">
+            {t("dataPipelineIntro")}
+          </p>
+          <ol className="flex flex-col gap-2.5">
+            {pipelineStages.map((stage) => (
+              <li key={stage.badge} className="flex items-start gap-3">
+                <span className="mt-0.5 flex-shrink-0 w-5 h-5 rounded bg-zinc-200 dark:bg-zinc-700 flex items-center justify-center font-mono text-[10px] font-semibold text-zinc-600 dark:text-zinc-300">
+                  {stage.badge}
+                </span>
+                <div className="min-w-0">
+                  <span className="text-sm font-medium text-zinc-800 dark:text-zinc-200">
+                    {stage.label}
+                  </span>
+                  <span className="text-xs text-zinc-500 dark:text-zinc-500 ml-2">
+                    {stage.desc}
+                  </span>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+
+        {/* Update cadence */}
+        <p className="text-xs text-zinc-500 dark:text-zinc-500">
+          {t("dataUpdateNote")}{"  "}{t("dataVersionNote")}
         </p>
       </Section>
 
@@ -121,14 +218,60 @@ export default async function AboutContent() {
         </p>
       </Section>
 
-      {/* Changelog */}
-      <Section title={t("changelogTitle")}>
-        <div className="rounded-lg border border-dashed border-zinc-200 dark:border-zinc-800 px-4 py-4">
-          <p className="text-sm text-zinc-600 dark:text-zinc-400">
-            {t("changelogBody")}
-          </p>
-          <p className="text-xs text-zinc-400 dark:text-zinc-600 mt-1">
-            {t("changelogPlaceholder")}
+      {/* Donation */}
+      <Section title={t("donationTitle")}>
+        <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+          {t("donationBody")}
+        </p>
+        <div className="flex flex-col gap-2 mt-1">
+          {donationLinks.map(({ label, href }) => (
+            <ExternalLink
+              key={label}
+              href={href}
+              className="inline-flex items-center gap-2 text-sm text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors self-start"
+            >
+              <span className="text-zinc-400 dark:text-zinc-500">
+                <Heart size={13} />
+              </span>
+              {label}
+            </ExternalLink>
+          ))}
+        </div>
+      </Section>
+
+      {/* Acknowledgments */}
+      <Section title={t("ackTitle")}>
+        <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+          {t("ackBody")}
+        </p>
+
+        {/* Cast list — centered credits style */}
+        <div className="mt-4 flex flex-col items-center gap-8 text-center">
+          {ackCredits.map(({ roles, company, product, logo, logoAlt, logoClassName, logoWidth, logoHeight }) => (
+            <div key={`${company}-${product}`} className="flex flex-col items-center gap-2">
+              <p className="text-xs tracking-widest uppercase text-zinc-400 dark:text-zinc-500">
+                {roles.join(" · ")}
+              </p>
+              <Image
+                src={logo}
+                alt={logoAlt}
+                width={logoWidth}
+                height={logoHeight}
+                className={logoClassName}
+              />
+              <p className="text-xs text-zinc-500 dark:text-zinc-400">
+                <span className="text-zinc-400 dark:text-zinc-500">{company}</span>
+                {" "}
+                <span className="font-medium text-zinc-600 dark:text-zinc-300">{product}</span>
+              </p>
+            </div>
+          ))}
+        </div>
+
+        {/* Closing line */}
+        <div className="mt-2 pt-6 border-t border-zinc-100 dark:border-zinc-800 text-center">
+          <p className="text-xs text-zinc-400 dark:text-zinc-500 leading-relaxed">
+            {t("ackClosing")}
           </p>
         </div>
       </Section>
