@@ -1,8 +1,10 @@
 import { getTranslations } from "next-intl/server";
-import { Flag, Mail } from "lucide-react";
+import Image from "next/image";
+import { Flag, Mail, Heart } from "lucide-react";
 import Iris from "@/components/Iris";
 import { IRIS_NAV } from "@/config/iris-config";
 import FeedbackTrigger from "@/components/FeedbackTrigger";
+import { ExternalLink } from "@/components/ui/external-link";
 import type { FeedbackType } from "@/components/FeedbackDialog";
 
 function Section({
@@ -42,6 +44,41 @@ export default async function AboutContent() {
     { label: t("feedbackGeneral"), type: "general", icon: <Mail size={13} /> },
   ];
 
+  const pipelineStages = [
+    { badge: "0", label: t("pipeline0Label"), desc: t("pipeline0Desc") },
+    { badge: "1", label: t("pipeline1Label"), desc: t("pipeline1Desc") },
+    { badge: "2", label: t("pipeline2Label"), desc: t("pipeline2Desc") },
+    { badge: "R", label: t("pipelineRLabel"), desc: t("pipelineRDesc") },
+    { badge: "P", label: t("pipelinePLabel"), desc: t("pipelinePDesc") },
+  ];
+
+  const donationLinks = [
+    { label: t("donationGitHubSponsors"), href: "#" /* TODO: add GitHub Sponsors URL */ },
+    { label: t("donationBMC"), href: "#" /* TODO: add Buy Me a Coffee URL */ },
+    { label: t("donationAfdian"), href: "#" /* TODO: add Afdian URL */ },
+  ];
+
+  const ackCredits = [
+    {
+      role: t("ackClaudeArchitect"),
+      name: "Anthropic Claude",
+      logo: "/logos/anthropic.svg",
+      logoAlt: "Anthropic",
+    },
+    {
+      role: t("ackClaudeEngineer"),
+      name: "Anthropic Claude",
+      logo: "/logos/anthropic.svg",
+      logoAlt: "Anthropic",
+    },
+    {
+      role: t("ackGeminiDesigner"),
+      name: "Google Gemini",
+      logo: "/logos/google-gemini.svg",
+      logoAlt: "Google Gemini",
+    },
+  ];
+
   return (
     <div className="w-full max-w-2xl mx-auto px-4 sm:px-6 pt-4 sm:pt-12 pb-12 flex flex-col gap-6">
       <div className="flex items-center gap-3">
@@ -54,7 +91,10 @@ export default async function AboutContent() {
       {/* Background */}
       <Section title={t("backgroundTitle")}>
         <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
-          {t("backgroundBody")}
+          {t("backgroundBody1")}
+        </p>
+        <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+          {t("backgroundBody2")}
         </p>
       </Section>
 
@@ -73,13 +113,59 @@ export default async function AboutContent() {
         </div>
       </Section>
 
-      {/* Data Maintenance */}
-      <Section title={t("dataTitle")}>
+      {/* Data & Accuracy */}
+      <Section title={t("dataAccuracyTitle")}>
         <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
-          {t("dataBody")}
+          {t("dataAccuracyIntro")}
         </p>
-        <p className="text-xs text-zinc-500 dark:text-zinc-500 mt-1">
-          {t("dataVersionNote")}
+
+        {/* Two core principles */}
+        <div className="flex flex-col gap-3 mt-1">
+          <div>
+            <p className="text-sm font-medium text-zinc-800 dark:text-zinc-200 mb-1">
+              {t("dataPrinciple1Title")}
+            </p>
+            <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+              {t("dataPrinciple1Body")}
+            </p>
+          </div>
+          <div>
+            <p className="text-sm font-medium text-zinc-800 dark:text-zinc-200 mb-1">
+              {t("dataPrinciple2Title")}
+            </p>
+            <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+              {t("dataPrinciple2Body")}
+            </p>
+          </div>
+        </div>
+
+        {/* Pipeline overview */}
+        <div className="rounded-lg bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 px-4 py-3 mt-1">
+          <p className="text-xs font-medium text-zinc-500 dark:text-zinc-400 mb-3">
+            {t("dataPipelineIntro")}
+          </p>
+          <ol className="flex flex-col gap-2.5">
+            {pipelineStages.map((stage) => (
+              <li key={stage.badge} className="flex items-start gap-3">
+                <span className="mt-0.5 flex-shrink-0 w-5 h-5 rounded bg-zinc-200 dark:bg-zinc-700 flex items-center justify-center font-mono text-[10px] font-semibold text-zinc-600 dark:text-zinc-300">
+                  {stage.badge}
+                </span>
+                <div className="min-w-0">
+                  <span className="text-sm font-medium text-zinc-800 dark:text-zinc-200">
+                    {stage.label}
+                  </span>
+                  <span className="text-xs text-zinc-500 dark:text-zinc-500 ml-2">
+                    {stage.desc}
+                  </span>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+
+        {/* Update cadence */}
+        <p className="text-xs text-zinc-500 dark:text-zinc-500">
+          {t("dataUpdateNote")}{"  "}{t("dataVersionNote")}
         </p>
       </Section>
 
@@ -121,15 +207,58 @@ export default async function AboutContent() {
         </p>
       </Section>
 
-      {/* Changelog */}
-      <Section title={t("changelogTitle")}>
-        <div className="rounded-lg border border-dashed border-zinc-200 dark:border-zinc-800 px-4 py-4">
-          <p className="text-sm text-zinc-600 dark:text-zinc-400">
-            {t("changelogBody")}
-          </p>
-          <p className="text-xs text-zinc-400 dark:text-zinc-600 mt-1">
-            {t("changelogPlaceholder")}
-          </p>
+      {/* Donation */}
+      <Section title={t("donationTitle")}>
+        <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+          {t("donationBody")}
+        </p>
+        <div className="flex flex-col gap-2 mt-1">
+          {donationLinks.map(({ label, href }) => (
+            <ExternalLink
+              key={label}
+              href={href}
+              className="inline-flex items-center gap-2 text-sm text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors self-start"
+            >
+              <span className="text-zinc-400 dark:text-zinc-500">
+                <Heart size={13} />
+              </span>
+              {label}
+            </ExternalLink>
+          ))}
+        </div>
+      </Section>
+
+      {/* Acknowledgments */}
+      <Section title={t("ackTitle")}>
+        <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+          {t("ackBody")}
+        </p>
+        <div className="flex flex-col gap-2 mt-1">
+          {ackCredits.map(({ role, name, logo, logoAlt }) => (
+            <div
+              key={`${role}-${name}`}
+              className="flex items-center gap-3 rounded-lg bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 px-4 py-2.5"
+            >
+              <Image
+                src={logo}
+                alt={logoAlt}
+                width={18}
+                height={18}
+                className="flex-shrink-0 dark:invert opacity-60"
+              />
+              <div className="min-w-0">
+                <span className="text-xs text-zinc-500 dark:text-zinc-400">
+                  {role}
+                </span>
+                <span className="text-xs text-zinc-400 dark:text-zinc-600 mx-1.5">
+                  ·
+                </span>
+                <span className="text-sm font-medium text-zinc-800 dark:text-zinc-200">
+                  {name}
+                </span>
+              </div>
+            </div>
+          ))}
         </div>
       </Section>
 
