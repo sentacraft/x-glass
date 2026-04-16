@@ -14,7 +14,9 @@ import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
+  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
@@ -26,6 +28,10 @@ export interface FeedbackField {
   label: string;
   /** Current display value for this field on this lens, shown read-only after selection. */
   currentValue?: string;
+  /** Group label for the dropdown. Fields with the same group are rendered together. */
+  group?: string;
+  /** When true, the current value is not shown to the user (e.g. internal image paths). */
+  hideCurrentValue?: boolean;
 }
 
 export interface FeedbackContext {
@@ -68,6 +74,24 @@ export default function FeedbackDialog({
   const showFieldPicker = type === "data_issue" && fields && fields.length > 0;
 
   const selectedField = fields?.find((f) => f.label === selectedFieldLabel);
+
+  // Group fields by their `group` property, preserving insertion order.
+  const groupedFields = showFieldPicker
+    ? (() => {
+        const groups: { label: string; fields: FeedbackField[] }[] = [];
+        const index = new Map<string, number>();
+        for (const f of fields) {
+          const key = f.group ?? "";
+          if (!index.has(key)) {
+            index.set(key, groups.length);
+            groups.push({ label: key, fields: [f] });
+          } else {
+            groups[index.get(key)!].fields.push(f);
+          }
+        }
+        return groups;
+      })()
+    : [];
 
   useEffect(() => {
     if (!open) {
@@ -208,17 +232,22 @@ export default function FeedbackDialog({
                     <SelectValue placeholder={t("fieldPickerPlaceholder")} />
                   </SelectTrigger>
                   <SelectContent portalContainer={dialogLayerRef}>
-                    {fields.map((f) => (
-                      <SelectItem key={f.label} value={f.label}>
-                        {f.label}
-                      </SelectItem>
+                    {groupedFields.map((group) => (
+                      <SelectGroup key={group.label}>
+                        {group.label && <SelectLabel>{group.label}</SelectLabel>}
+                        {group.fields.map((f) => (
+                          <SelectItem key={f.label} value={f.label}>
+                            {f.label}
+                          </SelectItem>
+                        ))}
+                      </SelectGroup>
                     ))}
                   </SelectContent>
                 </Select>
 
                 {selectedField && (
                   <div className="flex flex-col gap-2 rounded-lg bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 px-3 py-2.5">
-                    {selectedField.currentValue && (
+                    {selectedField.currentValue && !selectedField.hideCurrentValue && (
                       <div className="flex items-baseline gap-2">
                         <span className="shrink-0 text-xs text-zinc-400 dark:text-zinc-500">
                           {t("currentValueLabel")}

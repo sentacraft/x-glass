@@ -195,12 +195,13 @@ export default async function LensDetailPage({ params }: { params: Params }) {
 
   // Field options for the Report Dialog — taken directly from resolved values,
   // identical to what is rendered in the spec table below.
+  const mediaGroupLabel = t("fieldGroupMedia");
   const reportableFields = [
     ...resolvedGroups.flatMap((group) =>
-      group.rows.map((row) => ({ label: row.label, currentValue: row.plainText }))
+      group.rows.map((row) => ({ label: row.label, currentValue: row.plainText, group: group.label }))
     ),
-    ...(url ? [{ label: t("fieldOfficialLink"), currentValue: url }] : []),
-    { label: t("fieldLensImage"), currentValue: getLensImageUrl(lens.id) },
+    ...(url ? [{ label: t("fieldOfficialLink"), currentValue: url, group: mediaGroupLabel }] : []),
+    { label: t("fieldLensImage"), currentValue: getLensImageUrl(lens.id), group: mediaGroupLabel, hideCurrentValue: true },
   ];
 
   return (
