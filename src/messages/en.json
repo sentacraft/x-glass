@@ -319,9 +319,10 @@
 
     "ackTitle": "Acknowledgments",
     "ackBody": "Large language models have emerged with remarkable capabilities over the past year. I could not have imagined building something at this scale on my own, let alone in under a month. It could take forever for me without large language models or AI coding agents. I am genuinely grateful for the era of technology we live in — one where ideas that once felt impossibly ambitious can actually be brought to life by a solo developer.",
-    "ackClaudeArchitect": "Chief Architect",
-    "ackClaudeEngineer": "Chief Engineer",
-    "ackGeminiDesigner": "Chief UX Designer",
+    "ackClaudeArchitect": "Architect",
+    "ackClaudeEngineer": "Engineer",
+    "ackGeminiDesigner": "UX Designer",
+    "ackGeminiBrandStrategist": "Brand Strategist",
     "ackClosing": "My deepest gratitude to the AI coding agents whose contributions were decisive in making this project a reality.",
 
     "feedbackTitle": "Feedback & Contact",

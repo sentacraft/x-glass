@@ -80,7 +80,7 @@ export default async function AboutContent() {
       logoHeight: 32,
     },
     {
-      roles: [t("ackGeminiDesigner")],
+      roles: [t("ackGeminiDesigner"), t("ackGeminiBrandStrategist")],
       company: "Google",
       product: "Gemini",
       logo: "/logos/google-gemini.svg",

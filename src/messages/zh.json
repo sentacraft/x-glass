@@ -319,9 +319,10 @@
 
     "ackTitle": "致谢",
     "ackBody": "过去的这一年，大语言模型涌现出了超凡的能力。凭一己之力，我过去不敢想象能做出这样规模的项目，更别说在不到一个月内实现。如果没有大语言模型和 AI Coding Agent，这个项目可能永远都无法完成。感谢这个时代的技术进步，让那些曾经只是灵感火花的想法，能够在一位个人开发者手中真正变成现实。",
-    "ackClaudeArchitect": "首席架构师",
-    "ackClaudeEngineer": "首席工程师",
-    "ackGeminiDesigner": "首席 UX 设计师",
+    "ackClaudeArchitect": "架构师",
+    "ackClaudeEngineer": "工程师",
+    "ackGeminiDesigner": "UX 设计师",
+    "ackGeminiBrandStrategist": "品牌策略师",
     "ackClosing": "向在这个项目开发过程中给予了决定性帮助的 AI Coding Agent，致以最诚挚的感激。",
 
     "feedbackTitle": "反馈与联系",
