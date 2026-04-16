@@ -319,6 +319,12 @@
 
     "ackTitle": "Acknowledgments",
     "ackBody": "Large language models have emerged with remarkable capabilities over the past year. I could not have imagined building something at this scale on my own, let alone in under a month. It could take forever for me without large language models or AI coding agents. I am genuinely grateful for the era of technology we live in — one where ideas that once felt impossibly ambitious can actually be brought to life by a solo developer.",
+    "ackStory1Tag": "Claude Code",
+    "ackStory1Heading": "Iris",
+    "ackStory1Body": "Iris, the aperture animation woven throughout the site, is built on a genuine kinematic model — a three-body constraint mechanism with forward and inverse kinematics solved analytically in real time, aperture openings computed from arc-intersection geometry, and f-stop values mapped to a logarithmic scale. I had zero domain knowledge in mechanism kinematics. Claude modeled and implemented the entire system from scratch. Of everything on this site, Iris is what I'm most proud of — it brings a distinctly photographer-community energy that makes the whole experience feel alive.",
+    "ackStory2Tag": "Google Gemini",
+    "ackStory2Heading": "Design Literacy",
+    "ackStory2Body": "As a frontend engineer, I could feel when something was off about the UX — but I couldn't name it. Gemini brought professional UI/UX and HCI frameworks to those frustrations: proximity, cognitive load, trigger displacement, visual grouping. It gave me both the vocabulary to diagnose problems and concrete directions to fix them. The site reached a level of polish I simply couldn't have gotten to on my own — and I walked away with a genuine foundation in design theory.",
     "ackClaudeArchitect": "Architect",
     "ackClaudeEngineer": "Engineer",
     "ackGeminiDesigner": "UX Designer",

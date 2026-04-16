@@ -268,6 +268,22 @@ export default async function AboutContent() {
           {t("ackBody")}
         </p>
 
+        {/* Collaboration stories */}
+        <div className="flex flex-col gap-5 mt-1">
+          {[
+            { tag: t("ackStory1Tag"), heading: t("ackStory1Heading"), body: t("ackStory1Body") },
+            { tag: t("ackStory2Tag"), heading: t("ackStory2Heading"), body: t("ackStory2Body") },
+          ].map(({ tag, heading, body }) => (
+            <div key={heading} className="border-l-2 border-zinc-200 dark:border-zinc-700 pl-4 flex flex-col gap-1.5">
+              <div className="flex items-baseline gap-2">
+                <span className="text-[10px] font-medium tracking-widest uppercase text-zinc-400 dark:text-zinc-500">{tag}</span>
+                <span className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">{heading}</span>
+              </div>
+              <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">{body}</p>
+            </div>
+          ))}
+        </div>
+
         {/* Cast list — horizontal movie credits style */}
         <div className="mt-4 flex flex-col divide-y divide-zinc-100 dark:divide-zinc-800/60">
           {ackCredits.map(({ roles, company, product, logo, logoAlt, logoClassName, logoSize, glowColor }) => (
