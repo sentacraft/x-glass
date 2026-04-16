@@ -37,6 +37,7 @@ interface Props {
 
 export default function LensListClient({ lenses }: Props) {
   const t = useTranslations("LensList");
+  const tc = useTranslations("Common");
   const hookAttr = useUiHookAttr();
   const [filters, setFilters] = useState<FilterState>(defaultFilters);
   const { compareIds, toggleCompare, canToggle } = useCompare();
@@ -225,7 +226,7 @@ export default function LensListClient({ lenses }: Props) {
             transition={spring.bounce}
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             className={`fixed bottom-24 right-6 ${Z.fixed} w-10 h-10 flex items-center justify-center rounded-full bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 shadow-md text-zinc-600 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-700 transition-colors`}
-            aria-label="Back to top"
+            aria-label={tc("backToTop")}
           >
             <ChevronUp size={16} />
           </motion.button>

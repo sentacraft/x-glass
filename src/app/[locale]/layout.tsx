@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { NextIntlClientProvider } from "next-intl";
-import { getMessages } from "next-intl/server";
+import { getMessages, getTranslations } from "next-intl/server";
 import { routing } from "@/i18n/routing";
 import Nav from "@/components/Nav";
 import ConsoleEgg from "@/components/ConsoleEgg";
@@ -22,32 +22,42 @@ export const viewport: Viewport = {
   ],
 };
 
-export const metadata: Metadata = {
-  title: {
-    default: "X-Glass | Fujifilm X Mount Lens Comparison Tool",
-    template: "%s | X-Glass",
-  },
-  description: SITE.description,
-  // Explicit icon declarations — setting `icons` in metadata disables Next.js
-  // file-convention auto-discovery, so both `icon` and `apple` must be listed.
-  // Safari requires an explicit favicon.ico link tag; it won't auto-discover it.
-  icons: {
-    icon: [
-      { url: "/favicon.ico", sizes: "32x32", type: "image/x-icon" },
-      { url: "/icon.png", sizes: "32x32", type: "image/png" },
-    ],
-  },
-  appleWebApp: {
-    capable: true,
-    title: SITE.shortName,
-    statusBarStyle: "black-translucent",
-  },
-  openGraph: {
-    siteName: SITE.name,
-    type: "website",
-    images: [{ url: "/opengraph-image.png", width: 1200, height: 630 }],
-  },
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "Metadata" });
+
+  return {
+    title: {
+      default: "X-Glass | Fujifilm X Mount Lens Comparison Tool",
+      template: "%s | X-Glass",
+    },
+    description: t("seoDescription"),
+    // Explicit icon declarations — setting `icons` in metadata disables Next.js
+    // file-convention auto-discovery, so both `icon` and `apple` must be listed.
+    // Safari requires an explicit favicon.ico link tag; it won't auto-discover it.
+    icons: {
+      icon: [
+        { url: "/favicon.ico", sizes: "32x32", type: "image/x-icon" },
+        { url: "/icon.png", sizes: "32x32", type: "image/png" },
+      ],
+    },
+    appleWebApp: {
+      capable: true,
+      title: SITE.shortName,
+      statusBarStyle: "black-translucent",
+    },
+    openGraph: {
+      siteName: SITE.name,
+      type: "website",
+      description: t("seoDescription"),
+      images: [{ url: "/opengraph-image.png", width: 1200, height: 630 }],
+    },
+  };
+}
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
