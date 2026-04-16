@@ -11,7 +11,8 @@ import { resolve, join, dirname } from "node:path";
 import { Resvg, type ResvgRenderOptions } from "@resvg/resvg-js";
 
 import Iris from "../src/components/Iris.tsx";
-import { IRIS_NAV, R_HOUSING } from "../src/config/iris-config.ts";
+import { IRIS_NAV, R_HOUSING, type IrisConfig } from "../src/config/iris-config.ts";
+import { SPLASH_DEVICES, SPLASH_BG, splashUrl, type SplashScheme } from "../src/config/splash.ts";
 import { buildDerivedConfig } from "../src/lib/iris-kinematics.ts";
 
 // ── Font resolution ───────────────────────────────────────────────────────────
@@ -112,16 +113,30 @@ function svgToPng(svg: string, size: number, opts?: ResvgRenderOptions): Buffer 
 // Embeds the iris as a nested <svg x y> inside a larger canvas SVG, keeping
 // full mask/clipPath support (resvg handles these natively — Satori cannot).
 
-function irisEmbedSvg(x: number, y: number, size: number, padding: number): string {
+function irisEmbedSvg(
+  x: number,
+  y: number,
+  size: number,
+  padding: number,
+  config: IrisConfig = IRIS_NAV,
+  uid = "og",
+): string {
   const html = renderToStaticMarkup(
-    createElement(Iris, { config: IRIS_NAV, uid: "og", size })
+    createElement(Iris, { config, uid, size })
   );
   const match = html.match(/<svg[\s\S]*<\/svg>/);
-  if (!match) throw new Error("gen-icons: no <svg> found in Iris render for OG");
+  if (!match) throw new Error("gen-icons: no <svg> found in Iris render");
   return match[0]
     .replace("<svg ", `<svg xmlns="http://www.w3.org/2000/svg" x="${x}" y="${y}" `)
     .replace(tightViewBox, paddedViewBox(padding));
 }
+
+// Iris config with inverted colours for dark-background splash screens.
+const IRIS_NAV_DARK: IrisConfig = {
+  ...IRIS_NAV,
+  bladeColor:  "#e8e8e8",
+  strokeColor: "#0a0a0a",
+};
 
 function generateOgSvg(): string {
   const canvasW = 1200, canvasH = 630;
@@ -248,5 +263,40 @@ const ogFontOpts: ResvgRenderOptions = {
 };
 writeFileSync(resolve("public/opengraph-image.png"), svgToPng(generateOgSvg(), 1200, ogFontOpts));
 console.log(`✓ public/opengraph-image.png (1200×630)`);
+
+// ── iOS PWA splash screens ────────────────────────────────────────────────────
+// One PNG per device × color-scheme combination.  iOS Safari shows the matching
+// image during the WebKit startup gap, eliminating the white-screen flash.
+//
+// Layout: full-screen background + Iris centered horizontally, placed at 40 %
+// from the top (slightly above centre — matches the iOS native aesthetic).
+// Icon size: 28 % of the shorter dimension so it reads well on all screen sizes.
+
+function generateSplashSvg(canvasW: number, canvasH: number, scheme: SplashScheme): string {
+  const bg     = SPLASH_BG[scheme];
+  const config = scheme === "dark" ? IRIS_NAV_DARK : IRIS_NAV;
+  const iconSize = Math.round(Math.min(canvasW, canvasH) * 0.28);
+  const x = Math.round((canvasW - iconSize) / 2);
+  const y = Math.round(canvasH * 0.40 - iconSize / 2);
+  const iris = irisEmbedSvg(x, y, iconSize, PADDING.standard, config, "splash");
+  return [
+    `<svg xmlns="http://www.w3.org/2000/svg" width="${canvasW}" height="${canvasH}" viewBox="0 0 ${canvasW} ${canvasH}">`,
+    `  <rect width="${canvasW}" height="${canvasH}" fill="${bg}"/>`,
+    `  ${iris}`,
+    `</svg>`,
+  ].join("\n");
+}
+
+const splashDir = resolve("public/splash");
+mkdirSync(splashDir, { recursive: true });
+
+for (const device of SPLASH_DEVICES) {
+  for (const scheme of ["light", "dark"] as const) {
+    const outPath = resolve(splashDir, `splash-${device.label}-${scheme}.png`);
+    writeFileSync(outPath, svgToPng(generateSplashSvg(device.w, device.h, scheme), device.w));
+    // Use splashUrl to ensure filename convention stays in sync with the config.
+    console.log(`✓ public${splashUrl(device.label, scheme)} (${device.w}×${device.h}) — ${device.devices}`);
+  }
+}
 
 console.log("\nDone.");
