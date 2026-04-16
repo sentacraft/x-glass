@@ -6,6 +6,13 @@
     "backToTop": "Back to top",
     "additionalInfo": "Additional information"
   },
+  "Metadata": {
+    "siteTitleDefault": "X-Glass | Fujifilm X-Mount Lens Comparison Tool",
+    "siteDescription": "A structured lens comparison tool for Fujifilm X users, covering all brands in one dataset.",
+    "manifestLabelHome": "X-Glass home screen",
+    "manifestLabelBrowser": "X-Glass lens browser",
+    "ogTagline": "A clearer way to browse and compare Fujifilm X-mount lenses."
+  },
   "Nav": {
     "lenses": "Browse",
     "compare": "Compare",

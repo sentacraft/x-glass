@@ -6,6 +6,13 @@
     "backToTop": "回到顶部",
     "additionalInfo": "补充说明"
   },
+  "Metadata": {
+    "siteTitleDefault": "X-Glass｜富士 X 卡口镜头对比工具",
+    "siteDescription": "面向富士 X 用户的结构化镜头对比工具，覆盖原厂与第三方品牌，一套数据看全局。",
+    "manifestLabelHome": "X-Glass 首页",
+    "manifestLabelBrowser": "X-Glass 镜头浏览页",
+    "ogTagline": "更清晰地浏览和对比富士 X 卡口镜头"
+  },
   "Nav": {
     "lenses": "浏览",
     "compare": "对比",
