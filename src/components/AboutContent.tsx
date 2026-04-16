@@ -16,7 +16,7 @@ function Section({
 }) {
   return (
     <section id={id} className="flex flex-col gap-3 scroll-mt-20">
-      <h2 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+      <h2 className="text-base font-semibold text-zinc-900 dark:text-zinc-100">
         {title}
       </h2>
       {children}
@@ -72,10 +72,9 @@ export default async function AboutContent() {
       product: "Claude Code",
       logo: "/logos/anthropic.svg",
       logoAlt: "Anthropic Claude",
-      // Color icon — no invert needed
       logoClassName: "",
-      logoWidth: 32,
-      logoHeight: 32,
+      logoSize: 44,
+      glowColor: "rgba(226, 112, 37, 0.06)",
     },
     {
       roles: [t("ackGeminiDesigner"), t("ackGeminiBrandStrategist")],
@@ -83,10 +82,9 @@ export default async function AboutContent() {
       product: "Gemini",
       logo: "/logos/google-gemini.svg",
       logoAlt: "Google Gemini",
-      // Colorful gradient icon — no invert needed
       logoClassName: "",
-      logoWidth: 32,
-      logoHeight: 32,
+      logoSize: 44,
+      glowColor: "rgba(66, 133, 244, 0.06)",
     },
   ];
 
@@ -270,25 +268,33 @@ export default async function AboutContent() {
           {t("ackBody")}
         </p>
 
-        {/* Cast list — centered credits style */}
-        <div className="mt-4 flex flex-col items-center gap-8 text-center">
-          {ackCredits.map(({ roles, company, product, logo, logoAlt, logoClassName, logoWidth, logoHeight }) => (
-            <div key={`${company}-${product}`} className="flex flex-col items-center gap-2">
-              <p className="text-xs tracking-widest uppercase text-zinc-400 dark:text-zinc-500">
-                {roles.join(" · ")}
-              </p>
+        {/* Cast list — horizontal movie credits style */}
+        <div className="mt-4 flex flex-col divide-y divide-zinc-100 dark:divide-zinc-800/60">
+          {ackCredits.map(({ roles, company, product, logo, logoAlt, logoClassName, logoSize, glowColor }) => (
+            <div
+              key={`${company}-${product}`}
+              className="flex items-center gap-6 py-6 rounded-lg"
+              style={{ background: `radial-gradient(ellipse at center, ${glowColor} 0%, transparent 70%)` }}
+            >
+              {/* Roles — right-aligned */}
+              <div className="flex-1 text-right">
+                <p className="text-[10px] tracking-widest uppercase text-zinc-400 dark:text-zinc-500 leading-5">
+                  {roles.join(" · ")}
+                </p>
+              </div>
+              {/* Logo — center */}
               <Image
                 src={logo}
                 alt={logoAlt}
-                width={logoWidth}
-                height={logoHeight}
-                className={logoClassName}
+                width={logoSize}
+                height={logoSize}
+                className={`flex-shrink-0 ${logoClassName}`}
               />
-              <p className="text-xs text-zinc-500 dark:text-zinc-400">
-                <span className="text-zinc-400 dark:text-zinc-500">{company}</span>
-                {" "}
-                <span className="font-medium text-zinc-600 dark:text-zinc-300">{product}</span>
-              </p>
+              {/* Brand — left-aligned */}
+              <div className="flex-1 flex flex-col gap-0.5">
+                <p className="text-sm font-semibold text-zinc-800 dark:text-zinc-100">{product}</p>
+                <p className="text-xs text-zinc-400 dark:text-zinc-500">{company}</p>
+              </div>
             </div>
           ))}
         </div>
