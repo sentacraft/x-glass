@@ -1,4 +1,4 @@
-import { getTranslations } from "next-intl/server";
+import { getTranslations, getLocale } from "next-intl/server";
 import Image from "next/image";
 import { Flag, Mail, Heart } from "lucide-react";
 import Iris from "@/components/Iris";
@@ -25,13 +25,17 @@ function Section({
 }
 
 export default async function AboutContent() {
-  const t = await getTranslations("About");
+  const [t, locale] = await Promise.all([
+    getTranslations("About"),
+    getLocale(),
+  ]);
 
   const faqItems = [
     { q: t("faq1Q"), a: t("faq1A") },
     { q: t("faq2Q"), a: t("faq2A") },
     { q: t("faq3Q"), a: t("faq3A") },
     { q: t("faq4Q"), a: t("faq4A") },
+    { q: t("faq5Q"), a: t("faq5A") },
   ];
 
   const feedbackLinks: {
@@ -55,7 +59,10 @@ export default async function AboutContent() {
   const donationLinks = [
     { label: t("donationGitHubSponsors"), href: "#" /* TODO: add GitHub Sponsors URL */ },
     { label: t("donationBMC"), href: "#" /* TODO: add Buy Me a Coffee URL */ },
-    { label: t("donationAfdian"), href: "#" /* TODO: add Afdian URL */ },
+    // Afdian is only relevant for Chinese mainland users
+    ...(locale === "zh"
+      ? [{ label: t("donationAfdian"), href: "#" /* TODO: add Afdian URL */ }]
+      : []),
   ];
 
   const ackCredits = [

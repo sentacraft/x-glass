@@ -299,6 +299,8 @@
     "faq3A": "No. X-Glass is an independent project with no affiliation to Fujifilm or any other manufacturer. Lens names and brand marks are the property of their respective owners.",
     "faq4Q": "Why do some fields show \"—\"?",
     "faq4A": "A dash means the data hasn't been collected yet, or the manufacturer hasn't publicly published that spec.",
+    "faq5Q": "Why is there no pricing information?",
+    "faq5A": "Price data is extremely difficult to keep accurate: distributor networks vary by region, promotions frequently push actual prices well below list price, and prices change constantly. My principle is — if I can't guarantee the data quality of a field, I'd rather leave it out entirely. Inaccurate price data is more misleading than no data at all, and risks undermining trust in the database as a whole.",
 
     "disclaimerTitle": "Disclaimer & Data Sources",
     "disclaimerSources": "Specifications are sourced primarily from manufacturer official websites and product pages.",
