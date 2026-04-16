@@ -9,8 +9,6 @@ export interface SiteConfig {
   name: string;
   /** Short name for home screen icons (≤ 12 chars recommended). */
   shortName: string;
-  /** One-line site description for <meta name="description"> and manifest. */
-  description: string;
   /** PWA manifest description — shown in install prompts and app stores. No locale context available. */
   pwaDescription: string;
   /** Theme color for browser UI chrome, keyed by color scheme. */
@@ -27,8 +25,6 @@ export interface SiteConfig {
 export const SITE: SiteConfig = {
   name: "X-Glass",
   shortName: "X-Glass",
-  description:
-    "An independent tool for browsing and comparing Fujifilm X-mount lenses across all brands.",
   pwaDescription:
     "Your pocket database for X-Mount lenses. Instantly lookup and compare normalized lens specifications on the go. Pure data, zero noise.",
   themeColor: {
