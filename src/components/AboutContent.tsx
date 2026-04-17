@@ -204,18 +204,28 @@ export default async function AboutContent() {
 
       {/* FAQ */}
       <Section id="faq" title={t("faqTitle")}>
-        <dl className="flex flex-col gap-5">
+        <div className="flex flex-col divide-y divide-zinc-100 dark:divide-zinc-800">
           {faqItems.map((item) => (
-            <div key={item.q}>
-              <dt className="text-sm font-medium text-zinc-800 dark:text-zinc-200 mb-1">
+            <details key={item.q} className="group py-3 first:pt-0 last:pb-0">
+              <summary className="flex items-center justify-between gap-3 cursor-pointer list-none text-sm font-medium text-zinc-800 dark:text-zinc-200 select-none">
                 {item.q}
-              </dt>
-              <dd className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+                <svg
+                  viewBox="0 0 16 16"
+                  width="14"
+                  height="14"
+                  fill="currentColor"
+                  className="flex-shrink-0 text-zinc-400 dark:text-zinc-500 transition-transform duration-200 group-open:rotate-180"
+                  aria-hidden="true"
+                >
+                  <path d="M8 10.94 2.53 5.47l.94-.94L8 9.06l4.53-4.53.94.94L8 10.94Z" />
+                </svg>
+              </summary>
+              <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
                 {item.a}
-              </dd>
-            </div>
+              </p>
+            </details>
           ))}
-        </dl>
+        </div>
       </Section>
 
       {/* Disclaimer */}
