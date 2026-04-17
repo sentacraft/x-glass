@@ -19,12 +19,13 @@ export function isZoom(lens: Lens): boolean {
 // Boolean Lens fields that can be used as filter conditions.
 // satisfies (keyof Lens)[] enforces at compile time that each key exists on Lens.
 export const FILTER_FEATURE_KEYS = [
-  "af",
   "ois",
   "wr",
   "apertureRing",
   "powerZoom",
 ] as const satisfies readonly (keyof Lens)[];
+
+export type FocusFilter = "auto" | "manual";
 
 export type FilterFeatureKey = (typeof FILTER_FEATURE_KEYS)[number];
 
@@ -112,6 +113,7 @@ export function classifyFocusMotor(lens: Lens): FocusMotorClass | undefined {
 export interface FilterState {
   brands: string[]; // empty = all brands
   typeFilter: LensType | null; // null = all types
+  focusFilter: FocusFilter | null; // null = all
   specialtyTag: SpecialtyTag | null; // null = no filter
   focusMotorClass: FocusMotorClass | null; // null = no filter
   features: FilterFeatureKey[]; // empty = no requirement
@@ -123,6 +125,7 @@ export interface FilterState {
 export const defaultFilters: FilterState = {
   brands: [],
   typeFilter: null,
+  focusFilter: null,
   specialtyTag: null,
   focusMotorClass: null,
   features: [],
@@ -140,6 +143,9 @@ export function filterLenses(lenses: Lens[], filters: FilterState): Lens[] {
     if (filters.typeFilter && filters.typeFilter !== (isZoom(lens) ? "zoom" : "prime")) {
       return false;
     }
+
+    if (filters.focusFilter === "auto" && !lens.af) return false;
+    if (filters.focusFilter === "manual" && lens.af) return false;
 
     if (filters.specialtyTag && !lens.specialtyTags?.includes(filters.specialtyTag)) {
       return false;

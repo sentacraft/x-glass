@@ -5,7 +5,7 @@ import { useTranslations } from "next-intl";
 import { ChevronDown, SlidersHorizontal } from "lucide-react";
 import { FEATURE_ICONS } from "@/lib/feature-icons";
 import { FILTER_FEATURE_KEYS, FOCAL_CATEGORIES, LENS_TYPES } from "@/lib/lens";
-import type { FilterState, FocusMotorClass, LensType, SpecialtyTag } from "@/lib/lens";
+import type { FilterState, FocusFilter, FocusMotorClass, LensType, SpecialtyTag } from "@/lib/lens";
 import { cn } from "@/lib/utils";
 import FeatureToggleGroup from "./lens-filters/FeatureToggleGroup";
 import FilterRow from "./lens-filters/FilterRow";
@@ -30,7 +30,6 @@ export default function LensFilters({
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
   const featureMeta = {
-    af: { label: t("featureAutofocus"), icon: FEATURE_ICONS.af },
     ois: { label: t("featureOis"), icon: FEATURE_ICONS.ois },
     wr: { label: t("featureWr"), icon: FEATURE_ICONS.wr },
     apertureRing: { label: t("featureApertureRing"), icon: FEATURE_ICONS.apertureRing },
@@ -88,8 +87,15 @@ export default function LensFilters({
     { value: "other" as FocusMotorClass, label: t("motorOther") },
   ] as { value: FocusMotorClass | null; label: string }[];
 
+  const focusOptions = [
+    { value: null, label: t("allTypes") },
+    { value: "auto" as FocusFilter, label: t("focusAuto") },
+    { value: "manual" as FocusFilter, label: t("focusManual") },
+  ] as { value: FocusFilter | null; label: string }[];
+
   const hasHiddenActiveFilters =
     filters.typeFilter !== null ||
+    filters.focusFilter !== null ||
     filters.specialtyTag !== null ||
     filters.focusMotorClass !== null ||
     filters.features.length > 0;
@@ -196,6 +202,15 @@ export default function LensFilters({
                 options={typeOptions}
                 value={filters.typeFilter}
                 onChange={(v) => updateFilters("typeFilter", v)}
+              />
+            </FilterRow>
+
+            <FilterRow label={t("focusFilter")}>
+              <TypeSegmentedControl
+                ariaLabel={t("focusFilter")}
+                options={focusOptions}
+                value={filters.focusFilter}
+                onChange={(v) => updateFilters("focusFilter", v)}
               />
             </FilterRow>
 

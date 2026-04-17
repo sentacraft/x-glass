@@ -261,23 +261,33 @@ describe("filterLenses", () => {
     expect(result[0].id).toBe("with-ois");
   });
 
-  it("filters by multiple required features (af + wr)", () => {
+  it("filters by focusFilter=auto + wr feature", () => {
     const result = filterLenses(lensPool, {
       ...defaultFilters,
-      features: ["af", "wr"],
+      focusFilter: "auto",
+      features: ["wr"],
     });
     expect(result.every((l) => l.af && l.wr)).toBe(true);
     expect(result).toHaveLength(1);
     expect(result[0].id).toBe("fuji-zoom");
   });
 
-  it("filters by required feature: af", () => {
+  it("filters by focusFilter: auto", () => {
     const result = filterLenses(lensPool, {
       ...defaultFilters,
-      features: ["af"],
+      focusFilter: "auto",
     });
     expect(result.every((l) => l.af)).toBe(true);
     expect(result.map((l) => l.id)).not.toContain("mf-prime");
+  });
+
+  it("filters by focusFilter: manual", () => {
+    const result = filterLenses(lensPool, {
+      ...defaultFilters,
+      focusFilter: "manual",
+    });
+    expect(result.every((l) => !l.af)).toBe(true);
+    expect(result.map((l) => l.id)).toContain("mf-prime");
   });
 
   it("filters by required feature: wr", () => {
