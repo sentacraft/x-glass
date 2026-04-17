@@ -339,7 +339,7 @@ export default async function AboutContent() {
             return (
               <details
                 key={`${company}-${product}`}
-                className="group max-w-sm mx-auto rounded-2xl overflow-hidden"
+                className="group rounded-2xl overflow-hidden"
                 style={{ background: `radial-gradient(ellipse at center, ${glowColor} 0%, transparent 70%)` }}
               >
                 {/* summary = card header / trigger */}
@@ -362,7 +362,7 @@ export default async function AboutContent() {
                   />
                   <div className="flex-1 flex items-center gap-3">
                     <div className="flex flex-col gap-0.5">
-                      <p className="text-sm font-semibold text-zinc-800 dark:text-zinc-100">{product}</p>
+                      <p className="text-sm font-semibold text-zinc-800 dark:text-zinc-100 whitespace-nowrap">{product}</p>
                       <p className="text-xs text-zinc-400 dark:text-zinc-500">{company}</p>
                     </div>
                     <svg
