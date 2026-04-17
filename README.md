@@ -27,7 +27,6 @@ Browse, filter, and compare every Fujifilm X-mount lens side by side — native 
 | Framework | Next.js (App Router) + TypeScript |
 | Styling | Tailwind CSS |
 | Deployment | Vercel |
-| Data | `src/data/lenses.json` (co-located with source) |
 | i18n | next-intl |
 
 ## Data Pipeline
@@ -82,6 +81,8 @@ To report a data issue (wrong spec, broken image) or suggest a missing lens, use
 ## Acknowledgments
 
 Built with significant help from [Claude Code](https://claude.ai/code) (architecture and engineering) and [Google Gemini](https://gemini.google.com) (UX design).
+
+Built on the shoulders of great open source work: [Base UI](https://base-ui.com), [Motion](https://motion.dev), [Lucide](https://lucide.dev), [next-intl](https://next-intl.dev), [modern-screenshot](https://github.com/qq15725/modern-screenshot), [qrcode.react](https://github.com/zpao/qrcode.react), [Geist](https://vercel.com/font).
 
 ## License
 
