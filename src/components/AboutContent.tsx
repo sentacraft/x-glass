@@ -339,7 +339,7 @@ export default async function AboutContent() {
             return (
               <details
                 key={`${company}-${product}`}
-                className="group max-w-sm rounded-2xl border border-zinc-100 dark:border-zinc-800/60 overflow-hidden"
+                className="group max-w-sm mx-auto rounded-2xl overflow-hidden"
                 style={{ background: `radial-gradient(ellipse at center, ${glowColor} 0%, transparent 70%)` }}
               >
                 {/* summary = card header / trigger */}
@@ -378,7 +378,7 @@ export default async function AboutContent() {
                   </div>
                 </summary>
                 {/* Story content — inside the card */}
-                <div className="px-8 pb-7 pt-5 flex flex-col gap-3 border-t border-zinc-100 dark:border-zinc-800/60">
+                <div className="px-8 pb-7 pt-5 flex flex-col gap-3">
                   <p className="text-sm font-semibold text-zinc-600 dark:text-zinc-300 text-center">{heading}</p>
                   {body.split("\n\n").map((para, j) => (
                     <p key={j} className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
