@@ -110,7 +110,7 @@
     "groupOptics": "Optics",
     "groupFocus": "Autofocus",
     "groupStabilization": "Stabilization",
-    "groupPhysical": "Physical",
+    "groupPhysical": "Build",
     "groupFeatures": "Features",
     "groupRelease": "Release",
     "focalLength": "Focal Length",
@@ -203,7 +203,9 @@
     "fieldOfficialLink": "Official Link",
     "fieldLensImage": "Lens Image",
     "shiftLeft": "Move left",
-    "shiftRight": "Move right"
+    "shiftRight": "Move right",
+    "curatedTitle": "Curated Comparisons",
+    "curatedHint": "Not sure what to compare? Try one of these curated scenarios."
   },
   "Share": {
     "button": "Share",

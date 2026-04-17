@@ -22,6 +22,7 @@ import { useRouter } from "@/i18n/navigation";
 import FeedbackTrigger from "@/components/FeedbackTrigger";
 import type { FeedbackField } from "@/components/FeedbackDialog";
 import { useCompare } from "@/context/CompareProvider";
+import { useCompareUrl } from "@/hooks/useCompareUrl";
 import { allLenses, getLensUrl, MAX_COMPARE } from "@/lib/lens";
 import LensSearchDialog from "@/components/LensSearchDialog";
 import { lensImageStyle, getLensImageUrl } from "@/lib/lens-image";
@@ -158,51 +159,33 @@ interface Props {
   lenses: Lens[];
   /** Minimum number of columns to display; empty slot headers fill the gap. */
   minColumns?: number;
+  /** When true and the compare list is empty, only the header row is rendered (no skeleton body). */
+  hideBodyWhenEmpty?: boolean;
 }
 
 const LABEL_COLUMN_WIDTH = "6rem";
 const LENS_COLUMN_MIN_WIDTH = "9rem";
 
-export default function CompareTable({ lenses: initialLenses, minColumns = 0 }: Props) {
+export default function CompareTable({ lenses: initialLenses, minColumns = 0, hideBodyWhenEmpty = false }: Props) {
   const t = useTranslations("Compare");
   const td = useTranslations("LensDetail");
   const tBrand = useTranslations("Brands");
   const locale = useLocale();
   const router = useRouter();
-  const { compareIds, replaceCompare } = useCompare();
+  const { replaceCompare } = useCompare();
+  const { buildCompareUrl } = useCompareUrl();
   const initialLensIds = useMemo(
     () => initialLenses.map((lens) => lens.id),
     [initialLenses]
   );
   const [orderedIds, setOrderedIds] = useState(initialLensIds);
 
-  // Keep a ref to the latest compareIds so the init effect can read the
-  // current context value without re-running every time it changes.
-  const compareIdsRef = useRef(compareIds);
-  useEffect(() => { compareIdsRef.current = compareIds; }, [compareIds]);
-
+  // URL is the single source of truth. Sync context and local state whenever
+  // the server-rendered lens list changes (navigation, lens add/remove).
   useEffect(() => {
-    if (initialLensIds.length > 0) {
-      // URL has IDs — URL is the source of truth.
-      replaceCompare(initialLensIds);
-      setOrderedIds(initialLensIds);
-    } else {
-      const existing = compareIdsRef.current;
-      if (existing.length > 0) {
-        // URL has no IDs but context does (e.g. user navigated via a bare
-        // /compare link). Restore from context and sync the URL so the
-        // server can hydrate the correct lenses.
-        setOrderedIds(existing);
-        startTransition(() => {
-          router.replace(`/lenses/compare?ids=${existing.join(",")}`);
-        });
-      } else {
-        // Genuine cold start — nothing to restore.
-        replaceCompare([]);
-        setOrderedIds([]);
-      }
-    }
-  }, [initialLensIds, replaceCompare, router]);
+    replaceCompare(initialLensIds);
+    setOrderedIds(initialLensIds);
+  }, [initialLensIds, replaceCompare]);
 
   const orderedLenses = orderedIds
     .map((id) => allLenses.find((lens) => lens.id === id))
@@ -218,10 +201,10 @@ export default function CompareTable({ lenses: initialLenses, minColumns = 0 }: 
       replaceCompare(nextIds);
       setOrderedIds(nextIds);
       startTransition(() => {
-        router.replace(`/lenses/compare?ids=${nextIds.join(",")}`);
+        router.replace(buildCompareUrl(nextIds));
       });
     },
-    [orderedIds, replaceCompare, router]
+    [orderedIds, replaceCompare, router, buildCompareUrl]
   );
 
   const getAddResultState = useCallback(
@@ -249,7 +232,7 @@ export default function CompareTable({ lenses: initialLenses, minColumns = 0 }: 
     replaceCompare(nextIds);
     setOrderedIds(nextIds);
     startTransition(() => {
-      router.replace(`/lenses/compare?ids=${nextIds.join(",")}`);
+      router.replace(buildCompareUrl(nextIds));
     });
   }
 
@@ -498,10 +481,12 @@ export default function CompareTable({ lenses: initialLenses, minColumns = 0 }: 
     </div>
     <div ref={containerRef} className="isolate overflow-x-auto overflow-y-clip rounded-xl border border-zinc-200 dark:border-zinc-800">
       <table
-        className="w-full min-w-max table-fixed text-sm border-collapse"
-        style={{
-          minWidth: `calc(${LABEL_COLUMN_WIDTH} + ${orderedLenses.length} * ${LENS_COLUMN_MIN_WIDTH})`,
-        }}
+        className={cn("w-full table-fixed text-sm border-collapse", orderedLenses.length > 0 && "min-w-max")}
+        style={
+          orderedLenses.length > 0
+            ? { minWidth: `calc(${LABEL_COLUMN_WIDTH} + ${orderedLenses.length} * ${LENS_COLUMN_MIN_WIDTH})` }
+            : undefined
+        }
       >
         <colgroup>
           <col style={{ width: LABEL_COLUMN_WIDTH }} />
@@ -509,7 +494,8 @@ export default function CompareTable({ lenses: initialLenses, minColumns = 0 }: 
             <col key={lens.id} style={{ width: LENS_COLUMN_MIN_WIDTH }} />
           ))}
           {Array.from({ length: emptySlotCount }).map((_, i) => (
-            <col key={`empty-col-${i}`} style={{ width: LENS_COLUMN_MIN_WIDTH }} />
+            // Empty state: no fixed width — table-fixed distributes remaining space evenly
+            <col key={`empty-col-${i}`} style={orderedLenses.length > 0 ? { width: LENS_COLUMN_MIN_WIDTH } : undefined} />
           ))}
         </colgroup>
 
@@ -553,7 +539,7 @@ export default function CompareTable({ lenses: initialLenses, minColumns = 0 }: 
 
         <tbody>
           {/* Cold-start skeleton: show all spec dimensions with placeholder cells */}
-          {orderedLenses.length === 0 && allGroups.map((group) => (
+          {orderedLenses.length === 0 && !hideBodyWhenEmpty && allGroups.map((group) => (
             <React.Fragment key={group.label}>
               <tr className="border-b border-zinc-100 bg-zinc-100/80 dark:border-zinc-800/60 dark:bg-zinc-800/60">
                 <td colSpan={totalColSpan} className="h-8 text-center">

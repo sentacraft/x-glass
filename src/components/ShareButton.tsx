@@ -37,9 +37,11 @@ interface ShareButtonProps {
   variant?: "default" | "fab";
   /** Override the default trigger button class (non-fab variant only). */
   triggerClassName?: string;
+  /** Pre-fill the poster title from a curated preset. User can still override in Customize. */
+  presetTitle?: string;
 }
 
-export function ShareButton({ lenses, variant = "default", triggerClassName }: ShareButtonProps) {
+export function ShareButton({ lenses, variant = "default", triggerClassName, presetTitle }: ShareButtonProps) {
   const t = useTranslations("Share");
   const tImage = useTranslations("ShareImage");
   const tBrand = useTranslations("Brands");
@@ -57,8 +59,8 @@ export function ShareButton({ lenses, variant = "default", triggerClassName }: S
   // Ref to the rendered <SharePoster /> root node
   const posterRef = useRef<HTMLDivElement>(null);
 
-  // Customization
-  const [customTitle, setCustomTitle] = useState("");
+  // Customization — preset title is used as the default if provided
+  const [customTitle, setCustomTitle] = useState(presetTitle ?? "");
   const [customSlogan, setCustomSlogan] = useState("");
   const [customOpen, setCustomOpen] = useState(false);
 

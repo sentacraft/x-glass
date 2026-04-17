@@ -110,7 +110,7 @@
     "groupOptics": "光学",
     "groupFocus": "对焦",
     "groupStabilization": "防抖",
-    "groupPhysical": "规格",
+    "groupPhysical": "外形规格",
     "groupFeatures": "特性",
     "groupRelease": "上市信息",
     "focalLength": "焦距",
@@ -203,7 +203,9 @@
     "fieldOfficialLink": "官方链接",
     "fieldLensImage": "镜头图片",
     "shiftLeft": "左移一列",
-    "shiftRight": "右移一列"
+    "shiftRight": "右移一列",
+    "curatedTitle": "精选对比",
+    "curatedHint": "还没想好比什么？先试试这些精选场景。"
   },
   "Share": {
     "button": "分享",
