@@ -43,7 +43,7 @@ export function PresetCard({ preset, onSelect }: { preset: TrendingPreset; onSel
           lens && (
             <span
               key={lens.id}
-              className="inline-block rounded-md bg-zinc-100 px-1.5 py-0.5 text-[10px] text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400"
+              className="inline-block rounded-md bg-zinc-100 px-1.5 py-0.5 text-xs text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400"
             >
               {lens.model}
             </span>
@@ -97,10 +97,7 @@ export default function CuratedComparisons() {
 
   return (
     <div className="mb-2">
-      <p className="text-xs font-medium text-zinc-500 dark:text-zinc-400 mb-2 uppercase tracking-wide">
-        {t("curatedTitle")}
-      </p>
-      <p className="text-sm text-zinc-500 dark:text-zinc-400 mb-3">
+      <p className="text-sm text-zinc-500 dark:text-zinc-400 mb-3 mt-1">
         {t("curatedHint")}
       </p>
 
