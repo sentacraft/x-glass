@@ -1,8 +1,7 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { spring } from "@/lib/animation";
 import { useTranslations } from "next-intl";
 import type { Lens } from "@/lib/types";
 import {
@@ -17,7 +16,8 @@ import {
 import { useCompare } from "@/context/CompareProvider";
 import { useUiHookAttr } from "@/context/TestHookProvider";
 import { Z } from "@/config/ui";
-import { ArrowDownNarrowWide, ArrowUpNarrowWide, ChevronUp } from "lucide-react";
+import { ArrowDownNarrowWide, ArrowUpNarrowWide } from "lucide-react";
+import BackToTopButton from "@/components/BackToTopButton";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -37,17 +37,9 @@ interface Props {
 
 export default function LensListClient({ lenses }: Props) {
   const t = useTranslations("LensList");
-  const tc = useTranslations("Common");
   const hookAttr = useUiHookAttr();
   const [filters, setFilters] = useState<FilterState>(defaultFilters);
   const { compareIds, toggleCompare, canToggle } = useCompare();
-  const [showScrollTop, setShowScrollTop] = useState(false);
-
-  useEffect(() => {
-    const onScroll = () => setShowScrollTop(window.scrollY > 400);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
 
   const brands = useMemo(() => getUniqueBrands(lenses), [lenses]);
 
@@ -217,21 +209,7 @@ export default function LensListClient({ lenses }: Props) {
         </AnimatePresence>
       </div>
 
-      <AnimatePresence>
-        {showScrollTop && (
-          <motion.button
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.8 }}
-            transition={spring.bounce}
-            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            className={`fixed bottom-24 right-6 ${Z.fixed} w-10 h-10 flex items-center justify-center rounded-full bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 shadow-md text-zinc-600 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-700 transition-colors`}
-            aria-label={tc("backToTop")}
-          >
-            <ChevronUp size={16} />
-          </motion.button>
-        )}
-      </AnimatePresence>
+      <BackToTopButton />
     </>
   );
 }

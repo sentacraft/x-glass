@@ -11,6 +11,7 @@ import { ExternalLink } from "@/components/ui/external-link";
 import { Link } from "@/i18n/navigation";
 import AddToCompareButton from "@/components/AddToCompareButton";
 import BackButton from "@/components/BackButton";
+import BackToTopButton from "@/components/BackToTopButton";
 import { ShareButton } from "@/components/ShareButton";
 import FeedbackTrigger from "@/components/FeedbackTrigger";
 import { ACTION_OUTLINE_CLS } from "@/lib/ui-tokens";
@@ -308,5 +309,6 @@ export default async function LensDetailPage({ params }: { params: Params }) {
         </div>
       </div>
     </div>
+    <BackToTopButton />
   );
 }
