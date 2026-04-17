@@ -205,7 +205,7 @@ export interface LensConfiguration {
 
   /**
    * Raw source wording kept for traceability and future parser refinement.
-   * @example "10组14片(包括4片非球面镜片和4片ED镜片)"
+   * @example "10 groups 14 elements (incl. 4 aspherical, 4 ED)"
    */
   sourceText?: string;
 }
@@ -384,7 +384,7 @@ export interface Lens {
 
   /**
    * Whether the lens includes optical image stabilization.
-   * Set to true when the source mentions OIS, IS, VC, OS, VR, 光学防抖,
+   * Set to true when the source mentions OIS, IS, VC, OS, VR, "optical image stabilization",
    * "Image Stabilization", or equivalent terminology.
    *
    * @example true
@@ -393,7 +393,7 @@ export interface Lens {
 
   /**
    * OIS effectiveness in stops of compensation, when the source explicitly
-   * states a numeric value (e.g. "6.0-stop", "5.5档"). Store the number only.
+   * states a numeric value (e.g. "6.0-stop", "5.5 stops"). Store the number only.
    * Omit when the source says OIS is present but does not quantify stops.
    *
    * @example 6
@@ -403,7 +403,7 @@ export interface Lens {
   /**
    * Whether the lens is weather-resistant / weather-sealed.
    * - `true`     — full weather sealing; source uses WR, "Weather Resistant",
-   *                "Weather Sealed", "防滴防尘", or equivalent.
+   *                "Weather Sealed", "dustproof and splash-resistant", or equivalent.
    * - `"partial"` — some environmental protection but not full sealing (e.g.
    *                dust-resistant only, splash-resistant, a subset of seals).
    *                Always add a {@link fieldNotes} entry for "wr" explaining
@@ -540,7 +540,7 @@ export interface Lens {
    * breakdown of zoom lenses.
    *
    * Convert from common source notations:
-   * - "0.15x" or "0.15倍" → 0.15
+   * - "0.15x" or "0.15 times" → 0.15
    * - "1:6.7" → 1 / 6.7 ≈ 0.149 (round to reasonable precision)
    * - "1:1" → 1.0
    * - "2:1" or "2x" → 2.0
@@ -578,7 +578,7 @@ export interface Lens {
   /**
    * Structured optical construction data parsed from the source spec.
    * Store sourceText when you need to preserve the original wording.
-   * @example { groups: 10, elements: 14, aspherical: 4, ed: 4, sourceText: "10组14片(包括4片非球面镜片和4片ED镜片)" }
+   * @example { groups: 10, elements: 14, aspherical: 4, ed: 4, sourceText: "10 groups 14 elements (incl. 4 aspherical, 4 ED)" }
    */
   lensConfiguration?: LensConfiguration;
 
