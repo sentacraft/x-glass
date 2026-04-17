@@ -154,12 +154,7 @@ export default function LensSearchDialog({
         )}
         {triggerVariant === "slot" && (
           <>
-            {/* Lens front-view icon: three concentric circles */}
-            <svg viewBox="0 0 24 24" fill="none" className="h-8 w-8 opacity-40 transition-opacity group-hover:opacity-70" aria-hidden="true">
-              <circle cx="12" cy="12" r="9.5" stroke="currentColor" strokeWidth="1.25" />
-              <circle cx="12" cy="12" r="5" stroke="currentColor" strokeWidth="1.25" />
-              <circle cx="12" cy="12" r="1.5" fill="currentColor" />
-            </svg>
+            <Search className="h-6 w-6 opacity-40 transition-opacity group-hover:opacity-70" />
             <span className="text-xs font-medium">
               {triggerLabel ?? t("addLens")}
             </span>
