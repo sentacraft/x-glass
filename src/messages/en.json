@@ -306,11 +306,12 @@
     "faq5A": "Price data is extremely difficult to keep accurate: distributor networks vary by region, promotions frequently push actual prices well below list price, and prices change constantly. My principle is — if I can't guarantee the data quality of a field, I'd rather leave it out entirely. Inaccurate price data is more misleading than no data at all, and risks undermining trust in the database as a whole.",
 
     "disclaimerTitle": "Disclaimer",
-    "disclaimerAccuracy": "Data can contain errors, and specs may change without notice. Always verify important details directly with the manufacturer before making a purchase decision.",
+    "disclaimerAccuracy": "X-Glass data is sourced from public materials and refined through manual review. We make every effort to keep specs accurate and up to date, but errors and delays are inevitable. Always verify key specifications on the manufacturer's official page before making a purchase decision.",
     "disclaimerLiability": "X-Glass is not responsible for any decisions made based on information presented here.",
 
     "privacyTitle": "Privacy",
-    "privacyBody": "X-Glass does not require user accounts and does not collect personal information.",
+    "privacyBody": "X-Glass does not require registration, does not collect personal information, and does not use cookies.",
+    "privacyAnalytics": "This site uses Vercel Analytics to collect aggregated, anonymous data such as page views, referrers, and device types — solely to help improve the product. No personally identifiable information is collected.",
 
     "donationTitle": "Support the Project",
     "donationBody": "X-Glass is free and will stay free. Building and maintaining the data pipeline — including manual data review and corrections — takes considerable time and effort. If you find it useful, you're welcome to show your support through any of the options below.",

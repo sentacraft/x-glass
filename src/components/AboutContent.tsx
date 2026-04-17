@@ -245,6 +245,9 @@ export default async function AboutContent() {
         <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
           {t("privacyBody")}
         </p>
+        <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+          {t("privacyAnalytics")}
+        </p>
       </Section>
 
       {/* Donation */}
