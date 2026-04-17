@@ -339,11 +339,13 @@ export default async function AboutContent() {
             return (
               <details
                 key={`${company}-${product}`}
-                className="group rounded-2xl overflow-hidden"
-                style={{ background: `radial-gradient(ellipse at center, ${glowColor} 0%, transparent 70%)` }}
+                className="group rounded-2xl"
               >
                 {/* summary = card header / trigger */}
-                <summary className="flex items-center gap-5 px-8 py-6 cursor-pointer list-none select-none">
+                <summary
+                  className="flex items-center gap-5 px-8 py-6 cursor-pointer list-none select-none rounded-2xl group-open:rounded-b-none"
+                  style={{ background: `radial-gradient(ellipse at center, ${glowColor} 0%, transparent 70%)` }}
+                >
                   <div className="flex-1 text-right">
                     {roles.map((role) => (
                       <p key={role} className="text-[10px] tracking-widest uppercase text-zinc-400 dark:text-zinc-500 leading-5">
@@ -392,7 +394,7 @@ export default async function AboutContent() {
         </div>
 
         {/* Closing line */}
-        <div className="mt-2 pt-6 border-t border-zinc-100 dark:border-zinc-800 text-center">
+        <div className="pt-6 border-t border-zinc-100 dark:border-zinc-800 text-center">
           <p className="text-xs text-zinc-400 dark:text-zinc-500 leading-relaxed">
             {t("ackClosing")}
           </p>
