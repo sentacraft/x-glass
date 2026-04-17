@@ -1,3 +1,4 @@
+import React from "react";
 import { getTranslations, getLocale } from "next-intl/server";
 import { Flag, Mail, Coffee, Zap } from "lucide-react";
 import FeedbackTrigger from "@/components/FeedbackTrigger";
@@ -119,7 +120,7 @@ export default async function AboutContent() {
       logo: "/logos/anthropic.svg",
       logoAlt: "Anthropic Claude",
       logoClassName: "",
-      logoSize: 44,
+      logoSize: 37,
       glowColor: "rgba(226, 112, 37, 0.06)",
     },
     {
@@ -129,7 +130,7 @@ export default async function AboutContent() {
       logo: "/logos/google-gemini.svg",
       logoAlt: "Google Gemini",
       logoClassName: "",
-      logoSize: 44,
+      logoSize: 37,
       glowColor: "rgba(66, 133, 244, 0.06)",
     },
   ];
@@ -331,19 +332,25 @@ export default async function AboutContent() {
         </p>
 
         {/* Card + story pairs — card IS the accordion trigger */}
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-0">
           {ackCredits.map(({ roles, company, product, logo, logoAlt, logoClassName, logoSize, glowColor }, i) => {
             const storyKey = i === 0 ? "1" : "2";
             const heading = t(`ackStory${storyKey}Heading` as "ackStory1Heading");
             const body = t(`ackStory${storyKey}Body` as "ackStory1Body");
             return (
+              <React.Fragment key={`${company}-${product}`}>
+                {i > 0 && (
+                  <div className="flex justify-center py-1">
+                    <div className="w-px h-5 bg-zinc-200 dark:bg-zinc-700" />
+                  </div>
+                )}
               <details
                 key={`${company}-${product}`}
                 className="group rounded-2xl overflow-hidden"
                 style={{ background: `radial-gradient(ellipse at center, ${glowColor} 0%, transparent 70%)` }}
               >
                 {/* summary = card header / trigger */}
-                <summary className="flex items-center gap-5 px-8 py-7 cursor-pointer list-none select-none">
+                <summary className="flex items-center gap-5 px-8 py-[34px] cursor-pointer list-none select-none">
                   <div className="flex-1 text-right">
                     {roles.map((role) => (
                       <p key={role} className="text-[10px] tracking-widest uppercase text-zinc-400 dark:text-zinc-500 leading-5">
@@ -370,7 +377,7 @@ export default async function AboutContent() {
                       width="13"
                       height="13"
                       fill="currentColor"
-                      className="flex-shrink-0 text-zinc-300 dark:text-zinc-600 transition-transform duration-200 group-open:rotate-180 ml-1"
+                      className="flex-shrink-0 text-zinc-300 dark:text-zinc-600 transition-transform duration-200 group-open:rotate-180 ml-auto"
                       aria-hidden="true"
                     >
                       <path d="M8 10.94 2.53 5.47l.94-.94L8 9.06l4.53-4.53.94.94L8 10.94Z" />
@@ -387,6 +394,7 @@ export default async function AboutContent() {
                   ))}
                 </div>
               </details>
+              </React.Fragment>
             );
           })}
         </div>
