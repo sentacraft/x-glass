@@ -31,14 +31,14 @@ export default function manifest(): MetadataRoute.Manifest {
         short_name: "Browse",
         description: "Browse and filter all X-mount lenses",
         url: "/lenses",
-        icons: [{ src: "/icons/icon-192-white.png", sizes: "192x192" }],
+        icons: [{ src: "/icons/icon-192.png", sizes: "192x192" }],
       },
       {
         name: "Compare Lenses",
         short_name: "Compare",
         description: "Compare lenses side by side",
         url: "/lenses/compare",
-        icons: [{ src: "/icons/icon-192-white.png", sizes: "192x192" }],
+        icons: [{ src: "/icons/icon-192.png", sizes: "192x192" }],
       },
     ],
     screenshots: [
@@ -58,14 +58,19 @@ export default function manifest(): MetadataRoute.Manifest {
       },
     ],
     icons: [
+      // purpose: "any" — transparent background so Chrome's omnibox install
+      // chip, Mac dock, and Windows taskbar render the mark without a white
+      // square around it. iOS apple-touch-icon (declared separately in
+      // metadata) keeps the opaque white variant because iOS fills
+      // transparent pixels with an uncontrolled color.
       {
-        src: "/icons/icon-192-white.png",
+        src: "/icons/icon-192.png",
         sizes: "192x192",
         type: "image/png",
         purpose: "any",
       },
       {
-        src: "/icons/icon-512-white.png",
+        src: "/icons/icon-512.png",
         sizes: "512x512",
         type: "image/png",
         purpose: "any",
@@ -73,7 +78,7 @@ export default function manifest(): MetadataRoute.Manifest {
       {
         // 1024px for Retina macOS Dock — Chrome PWA picks the largest "any"
         // icon, and @2x displays need 1024px physical pixels for crisp rendering.
-        src: "/icons/icon-1024-white.png",
+        src: "/icons/icon-1024.png",
         sizes: "1024x1024",
         type: "image/png",
         purpose: "any",

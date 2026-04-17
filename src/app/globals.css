@@ -171,12 +171,7 @@ details[open] > div {
     @apply border-border outline-ring/50;
   }
   body {
-    @apply text-foreground;
-    /* stone-100 shows through the pb-safe-inset-bottom strip at the very
-       bottom of the layout wrapper (home indicator / Safari toolbar zone).
-       The layout wrapper itself carries bg-background and min-h-svh, so
-       pages never expose the body background over large areas. */
-    @apply bg-stone-100;
+    @apply text-foreground bg-background;
     /* clip avoids the CSS spec side effect where overflow-x: hidden promotes
        overflow-y to auto, turning body into a scroll container. clip trims
        paint without creating a block formatting context. */
