@@ -339,15 +339,17 @@ export default async function AboutContent() {
             return (
               <details
                 key={`${company}-${product}`}
-                className="group w-fit rounded-2xl border border-zinc-100 dark:border-zinc-800/60 overflow-hidden"
+                className="group max-w-sm rounded-2xl border border-zinc-100 dark:border-zinc-800/60 overflow-hidden"
                 style={{ background: `radial-gradient(ellipse at center, ${glowColor} 0%, transparent 70%)` }}
               >
                 {/* summary = card header / trigger */}
                 <summary className="flex items-center gap-5 px-8 py-7 cursor-pointer list-none select-none">
-                  <div className="text-right">
-                    <p className="text-[10px] tracking-widest uppercase text-zinc-400 dark:text-zinc-500 leading-5">
-                      {roles.join("\n")}
-                    </p>
+                  <div className="flex-1 text-right">
+                    {roles.map((role) => (
+                      <p key={role} className="text-[10px] tracking-widest uppercase text-zinc-400 dark:text-zinc-500 leading-5">
+                        {role}
+                      </p>
+                    ))}
                   </div>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
@@ -358,7 +360,7 @@ export default async function AboutContent() {
                     className={`flex-shrink-0 ${logoClassName}`}
                     loading="lazy"
                   />
-                  <div className="flex items-center gap-3">
+                  <div className="flex-1 flex items-center gap-3">
                     <div className="flex flex-col gap-0.5">
                       <p className="text-sm font-semibold text-zinc-800 dark:text-zinc-100">{product}</p>
                       <p className="text-xs text-zinc-400 dark:text-zinc-500">{company}</p>
@@ -377,7 +379,7 @@ export default async function AboutContent() {
                 </summary>
                 {/* Story content — inside the card */}
                 <div className="px-8 pb-7 pt-5 flex flex-col gap-3 border-t border-zinc-100 dark:border-zinc-800/60">
-                  <p className="text-xs font-medium text-zinc-400 dark:text-zinc-500 text-center">{heading}</p>
+                  <p className="text-sm font-semibold text-zinc-600 dark:text-zinc-300 text-center">{heading}</p>
                   {body.split("\n\n").map((para, j) => (
                     <p key={j} className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
                       {para}
