@@ -4,6 +4,7 @@ import FeedbackTrigger from "@/components/FeedbackTrigger";
 import { ExternalLink } from "@/components/ui/external-link";
 import { cn } from "@/lib/utils";
 import type { FeedbackType } from "@/components/FeedbackDialog";
+import IrisTooltip from "@/components/IrisTooltip";
 
 function Section({
   id,
@@ -334,7 +335,6 @@ export default async function AboutContent() {
         <div className="flex flex-col divide-y divide-zinc-100 dark:divide-zinc-800">
           {ackCredits.map(({ roles, company, product, logo, logoAlt, logoClassName, logoSize, glowColor }, i) => {
             const storyKey = i === 0 ? "1" : "2";
-            const heading = t(`ackStory${storyKey}Heading` as "ackStory1Heading");
             const body = t(`ackStory${storyKey}Body` as "ackStory1Body");
             return (
               <details
@@ -367,26 +367,42 @@ export default async function AboutContent() {
                       <p className="text-sm font-semibold text-zinc-800 dark:text-zinc-100 whitespace-nowrap">{product}</p>
                       <p className="text-xs text-zinc-400 dark:text-zinc-500">{company}</p>
                     </div>
-                    <svg
-                      viewBox="0 0 16 16"
-                      width="13"
-                      height="13"
-                      fill="currentColor"
-                      className="flex-shrink-0 text-zinc-300 dark:text-zinc-600 transition-transform duration-200 group-open:rotate-180 ml-auto"
-                      aria-hidden="true"
-                    >
-                      <path d="M8 10.94 2.53 5.47l.94-.94L8 9.06l4.53-4.53.94.94L8 10.94Z" />
-                    </svg>
+                    <span className="ml-auto flex items-center justify-center w-6 h-6 rounded-full transition-colors group-hover:bg-zinc-100 dark:group-hover:bg-zinc-800">
+                      <svg
+                        viewBox="0 0 16 16"
+                        width="13"
+                        height="13"
+                        fill="currentColor"
+                        className="flex-shrink-0 text-zinc-300 dark:text-zinc-600 transition-transform duration-200 group-open:rotate-180"
+                        aria-hidden="true"
+                      >
+                        <path d="M8 10.94 2.53 5.47l.94-.94L8 9.06l4.53-4.53.94.94L8 10.94Z" />
+                      </svg>
+                    </span>
                   </div>
                 </summary>
                 {/* Story content — inside the card */}
                 <div className="px-8 pb-7 pt-5 flex flex-col gap-3">
-                  <p className="text-sm font-semibold text-zinc-600 dark:text-zinc-300 text-center">{heading}</p>
-                  {body.split("\n\n").map((para, j) => (
-                    <p key={j} className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
-                      {para}
-                    </p>
-                  ))}
+                  {body.split("\n\n").map((para, j) => {
+                    if (i === 0 && j === 0) {
+                      const parts = para.split("Iris");
+                      return (
+                        <p key={j} className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+                          {parts.map((part, k) => (
+                            <span key={k}>
+                              {part}
+                              {k < parts.length - 1 && <IrisTooltip>Iris</IrisTooltip>}
+                            </span>
+                          ))}
+                        </p>
+                      );
+                    }
+                    return (
+                      <p key={j} className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+                        {para}
+                      </p>
+                    );
+                  })}
                 </div>
               </details>
             );
