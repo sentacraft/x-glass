@@ -226,11 +226,19 @@ const outputs: Array<{
   // PWA manifest icons — maskable (Android safe zone)
   { path: `${iconsDir}/icon-maskable-192.png`,  size: 192,  padding: PADDING.maskable },
   { path: `${iconsDir}/icon-maskable-512.png`,  size: 512,  padding: PADDING.maskable },
-  // PWA manifest icons — white-background (purpose: any)
-  // Used by Safari "Add to Home Screen" (via manifest fallback) and install UI.
-  { path: `${iconsDir}/icon-192-white.png`,         size: 192, padding: PADDING.standard, background: "white" },
-  { path: `${iconsDir}/icon-512-white.png`,         size: 512, padding: PADDING.standard, background: "white" },
-  { path: `${iconsDir}/icon-1024-white.png`,        size: 1024, padding: PADDING.standard, background: "white" },
+  // PWA manifest icons — transparent background (purpose: "any").
+  // Chrome renders these as-is in the omnibox install chip, the Mac dock, and
+  // the Windows taskbar. A transparent canvas lets the host UI chrome (e.g.
+  // Chrome's gray pill) show through, matching how native-feeling PWAs look.
+  { path: `${iconsDir}/icon-192.png`,   size: 192,  padding: PADDING.standard },
+  { path: `${iconsDir}/icon-512.png`,   size: 512,  padding: PADDING.standard },
+  { path: `${iconsDir}/icon-1024.png`,  size: 1024, padding: PADDING.standard },
+  // Opaque white-background variants — iOS apple-touch-icon only. iOS fills
+  // transparent pixels with an uncontrolled color (often black), so the
+  // apple-touch-icon must ship a solid background baked into the PNG.
+  { path: `${iconsDir}/icon-192-white.png`,   size: 192,  padding: PADDING.standard, background: "white" },
+  { path: `${iconsDir}/icon-512-white.png`,   size: 512,  padding: PADDING.standard, background: "white" },
+  { path: `${iconsDir}/icon-1024-white.png`,  size: 1024, padding: PADDING.standard, background: "white" },
 ];
 
 for (const { path, size, padding, background } of outputs) {
