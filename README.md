@@ -10,12 +10,15 @@ Browse, filter, and compare every Fujifilm X-mount lens side by side — native 
 
 ## Features
 
-- **121 lenses** across 8 brands: Fujifilm, Sigma, Tamron, Viltrox, TTArtisan, 7Artisans, Brightin Star, SG Image
-- Multi-axis filtering: focal length, aperture, AF, OIS, weather resistance, specialty tags
-- Side-by-side comparison of up to 6 lenses
-- Shareable comparison posters
-- PWA — installable on iOS and Android
-- English + Chinese (中文)
+- **Growing lens database** — 8 major brands covered in the first release (Fujifilm, Sigma, Tamron, Viltrox, TTArtisan, 7Artisans, Brightin Star, SG Image), with more brands on the roadmap
+- **Clean, focused UI** — distraction-free interface designed around the comparison workflow
+- **Filter and sort** — multi-axis filtering (focal length, aperture, AF, OIS, weather resistance, specialty tags) combined with flexible sorting
+- **Side-by-side comparison** of up to 4 lenses
+- **Normalized data** — specs from different manufacturers use inconsistent formats and terminology; X-Glass maps everything to a consistent schema so comparisons are fair and objective
+- **Pipeline-backed accuracy** — every spec originates from official manufacturer sources and goes through a staged pipeline with human review at every step
+- **Shareable comparison posters**
+- **PWA** — installable on iOS and Android
+- **English + Chinese** (中文)
 
 ## Tech Stack
 
