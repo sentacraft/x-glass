@@ -448,13 +448,16 @@ export interface Lens {
    * brand-specific name, use the most descriptive term available:
    * "Lead Screw", "DC Motor", "Focus Motor", etc.
    *
-   * Manual-focus-only lenses should omit this field entirely (undefined).
+   * Manual-focus-only lenses must use the value `"N/A"` (not applicable).
+   * This is set automatically by the compute stage and should not be filled
+   * by the agent or overridden in review.
    *
    * @example "LM"
    * @example "HLA"
    * @example "STM"
    * @example "VXD"
    * @example "Lead Screw"
+   * @example "N/A"
    */
   focusMotor?: string;
 
