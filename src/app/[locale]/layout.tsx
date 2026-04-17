@@ -89,11 +89,10 @@ export default async function LocaleLayout({
           <ScrollContainerProvider>
             <ConsoleEgg />
             <Nav />
-            {/* Offset fixed nav; fill at least the small viewport so short pages
-                never expose the body background. bg-background is the single
-                source of truth for page canvas color — individual pages no
-                longer need to set it themselves. */}
-            <div className="pt-[var(--nav-height)] pb-[var(--safe-inset-bottom)] bg-background min-h-svh">
+            {/* Offset fixed nav and iOS home indicator. Body also carries
+                bg-background, so the safe-area strip and any short-page gap
+                render as a single seamless canvas color. */}
+            <div className="pt-[var(--nav-height)] pb-[var(--safe-inset-bottom)] min-h-svh">
               {TESTHOOK_ALLOWED ? (
                 <TestHookProvider>
                   {children}
