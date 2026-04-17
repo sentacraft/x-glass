@@ -65,11 +65,11 @@ export default function ComparePageHeader({ lenses, fallbackHref, minColumns = 0
       <div
         data-testid="compare-share-fab"
         className={`fixed bottom-6 right-4 ${Z.fixed} transition-all duration-200 sm:right-6 ${
-          showFab
+          showFab && lenses.length >= 1
             ? "opacity-100 translate-y-0 pointer-events-auto"
             : "opacity-0 translate-y-3 pointer-events-none"
         }`}
-        aria-hidden={!showFab}
+        aria-hidden={!(showFab && lenses.length >= 1)}
       >
         <ShareButton lenses={lenses} variant="fab" presetTitle={presetTitle} />
       </div>
