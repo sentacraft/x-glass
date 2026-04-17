@@ -34,6 +34,14 @@ export default defineConfig({
       name: "ios-safari-landscape",
       use: { ...devices["iPhone 15 landscape"] },
     },
+    // Simulated PWA environment: iPhone 15 viewport with injected notch CSS variables.
+    // Tests in pwa-safe-area.spec.ts override --safe-inset-* to verify that every
+    // consumer of those variables correctly translates the values into layout offsets.
+    {
+      name: "ios-pwa",
+      use: { ...devices["iPhone 15"] },
+      testMatch: /pwa-safe-area\.spec\.ts/,
+    },
   ],
 
   webServer: {

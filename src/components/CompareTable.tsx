@@ -453,7 +453,7 @@ export default function CompareTable({ lenses: initialLenses, minColumns = 0 }: 
     <>
     {/* Phantom sticky header: h-0 so it takes no layout space; sticky (not fixed)
         so it bounces with content during iOS overscroll instead of staying put */}
-    <div className="sticky top-[var(--safe-inset-top)] sm:top-[var(--nav-height)] z-20 h-0 overflow-x-clip">
+    <div data-testid="compare-phantom-container" className="sticky top-[var(--safe-inset-top)] sm:top-[var(--nav-height)] z-20 h-0 overflow-x-clip">
       <div
         data-testid="compare-phantom-header"
         data-visible={String(showPhantom)}
