@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useCompareUrl } from "@/hooks/useCompareUrl";
 import { useCompare } from "@/context/CompareProvider";
 import { trendingPresets, type TrendingPreset } from "@/lib/trending";
 import { allLenses } from "@/lib/lens";
@@ -13,14 +14,14 @@ export function PresetCard({ preset, onSelect }: { preset: TrendingPreset; onSel
   const router = useRouter();
   const locale = useLocale();
   const lang = locale === "zh" ? "zh" : "en";
+  const { buildCompareUrl } = useCompareUrl();
 
   const lenses = preset.lensIds
     .map((id) => allLenses.find((l) => l.id === id))
     .filter(Boolean);
 
   function handleClick() {
-    const idsParam = preset.lensIds.join(",");
-    router.replace(`/lenses/compare?ids=${idsParam}&preset=${preset.slug}`);
+    router.replace(buildCompareUrl(preset.lensIds, { preset: preset.slug }));
     onSelect?.();
   }
 

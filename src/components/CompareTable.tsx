@@ -21,6 +21,7 @@ import { useRouter } from "@/i18n/navigation";
 import FeedbackTrigger from "@/components/FeedbackTrigger";
 import type { FeedbackField } from "@/components/FeedbackDialog";
 import { useCompare } from "@/context/CompareProvider";
+import { useCompareUrl } from "@/hooks/useCompareUrl";
 import { allLenses, getLensUrl, MAX_COMPARE } from "@/lib/lens";
 import LensSearchDialog from "@/components/LensSearchDialog";
 import { lensImageStyle, getLensImageUrl } from "@/lib/lens-image";
@@ -171,6 +172,7 @@ export default function CompareTable({ lenses: initialLenses, minColumns = 0, hi
   const locale = useLocale();
   const router = useRouter();
   const { replaceCompare } = useCompare();
+  const { buildCompareUrl } = useCompareUrl();
   const initialLensIds = useMemo(
     () => initialLenses.map((lens) => lens.id),
     [initialLenses]
@@ -198,10 +200,10 @@ export default function CompareTable({ lenses: initialLenses, minColumns = 0, hi
       replaceCompare(nextIds);
       setOrderedIds(nextIds);
       startTransition(() => {
-        router.replace(`/lenses/compare?ids=${nextIds.join(",")}`);
+        router.replace(buildCompareUrl(nextIds));
       });
     },
-    [orderedIds, replaceCompare, router]
+    [orderedIds, replaceCompare, router, buildCompareUrl]
   );
 
   const getAddResultState = useCallback(
@@ -229,7 +231,7 @@ export default function CompareTable({ lenses: initialLenses, minColumns = 0, hi
     replaceCompare(nextIds);
     setOrderedIds(nextIds);
     startTransition(() => {
-      router.replace(`/lenses/compare?ids=${nextIds.join(",")}`);
+      router.replace(buildCompareUrl(nextIds));
     });
   }
 

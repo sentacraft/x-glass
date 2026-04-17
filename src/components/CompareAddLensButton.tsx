@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
+import { useCompareUrl } from "@/hooks/useCompareUrl";
 import { Popover } from "@base-ui/react/popover";
 import LensSearchDialog from "@/components/LensSearchDialog";
 import { MAX_COMPARE } from "@/lib/lens";
@@ -16,6 +17,7 @@ interface Props {
 export default function CompareAddLensButton({ lenses, triggerClassName }: Props) {
   const t = useTranslations("Compare");
   const router = useRouter();
+  const { buildCompareUrl } = useCompareUrl();
 
   const canAddMore = lenses.length < MAX_COMPARE;
   const currentIds = lenses.map((l) => l.id);
@@ -24,9 +26,9 @@ export default function CompareAddLensButton({ lenses, triggerClassName }: Props
     (lens: Lens) => {
       if (currentIds.includes(lens.id) || currentIds.length >= MAX_COMPARE) return;
       const nextIds = [...currentIds, lens.id];
-      router.replace(`/lenses/compare?ids=${nextIds.join(",")}`);
+      router.replace(buildCompareUrl(nextIds));
     },
-    [currentIds, router]
+    [currentIds, router, buildCompareUrl]
   );
 
   const getResultState = useCallback(
