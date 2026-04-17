@@ -17,8 +17,6 @@ export async function generateMetadata({
 
 export default function LensesPage() {
   return (
-    <div className="bg-background">
-      <LensListClient lenses={allLenses} />
-    </div>
+    <LensListClient lenses={allLenses} />
   );
 }

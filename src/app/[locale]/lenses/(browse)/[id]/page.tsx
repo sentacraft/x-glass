@@ -11,6 +11,7 @@ import { ExternalLink } from "@/components/ui/external-link";
 import { Link } from "@/i18n/navigation";
 import AddToCompareButton from "@/components/AddToCompareButton";
 import BackButton from "@/components/BackButton";
+import BackToTopButton from "@/components/BackToTopButton";
 import { ShareButton } from "@/components/ShareButton";
 import FeedbackTrigger from "@/components/FeedbackTrigger";
 import { ACTION_OUTLINE_CLS } from "@/lib/ui-tokens";
@@ -205,7 +206,8 @@ export default async function LensDetailPage({ params }: { params: Params }) {
   ];
 
   return (
-    <div className="bg-background w-full max-w-4xl mx-auto px-4 sm:px-6 py-8 flex flex-col gap-8">
+    <>
+    <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 py-8 flex flex-col gap-8">
       {/* Back button */}
       <BackButton fallbackHref="/lenses" />
 
@@ -308,5 +310,7 @@ export default async function LensDetailPage({ params }: { params: Params }) {
         </div>
       </div>
     </div>
+    <BackToTopButton />
+    </>
   );
 }

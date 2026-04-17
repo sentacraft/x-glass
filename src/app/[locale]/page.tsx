@@ -10,16 +10,7 @@ export default function Home() {
   const h = useTranslations("Home");
 
   return (
-    <div
-      className="flex flex-col bg-stone-100 dark:bg-zinc-950"
-      style={{
-        // Fill the viewport below the fixed nav. 100svh is the small viewport
-        // height (toolbar visible), which is the stable baseline for a
-        // single-screen layout. The body's stone-100 background covers the
-        // narrow area behind Safari's transparent toolbar.
-        minHeight: "calc(100svh - var(--nav-height))",
-      }}
-    >
+    <div className="flex flex-col bg-stone-100 dark:bg-zinc-950 min-h-[calc(100svh-var(--nav-height))]">
       {/* Hero */}
       <section className="flex flex-col items-center justify-center text-center px-4 py-16 flex-1">
         <Iris config={IRIS_HERO} uid="hero" />

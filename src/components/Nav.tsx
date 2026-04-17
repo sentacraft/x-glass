@@ -8,6 +8,7 @@ import Iris from "@/components/Iris";
 import { IRIS_NAV } from "@/config/iris-config";
 import { useCompare } from "@/context/CompareProvider";
 import { useNavLock } from "@/context/ScrollContainerContext";
+import { usePwa } from "@/lib/usePwa";
 import { cn } from "@/lib/utils";
 
 export default function Nav() {
@@ -15,14 +16,21 @@ export default function Nav() {
   const pathname = usePathname();
   const { compareIds } = useCompare();
   const { navLocked, lockNav } = useNavLock();
+  const isPwa = usePwa();
   const [hidden, setHidden] = useState(false);
   const lastScrollY = useRef(0);
+  const headerRef = useRef<HTMLElement>(null);
 
   // Hide on scroll-down, reveal on scroll-up (mobile only — sm: always visible via CSS).
+  // In PWA mode the nav is always pinned, so skip the scroll listener entirely.
+  // Threshold is derived from the header's actual rendered height so it stays
+  // in sync if the nav height ever changes.
   useEffect(() => {
+    if (isPwa) return;
     const onScroll = () => {
       const y = window.scrollY;
-      if (y > lastScrollY.current && y > 56) {
+      const threshold = headerRef.current?.offsetHeight ?? 56;
+      if (y > lastScrollY.current && y > threshold) {
         setHidden(true);
       } else if (y < lastScrollY.current) {
         setHidden(false);
@@ -31,7 +39,7 @@ export default function Nav() {
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [isPwa]);
 
   // Always reveal when navigating to a new page, and release any nav lock.
   useEffect(() => {
@@ -52,12 +60,13 @@ export default function Nav() {
 
   return (
     <header
-      data-hidden={String(hidden || navLocked)}
+      ref={headerRef}
+      data-hidden={String(!isPwa && (hidden || navLocked))}
       className={cn(
         "wco-drag",
         "fixed top-0 inset-x-0 border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-black z-30",
         "transition-transform duration-300 ease-in-out",
-        (hidden || navLocked) && "-translate-y-full sm:translate-y-0"
+        !isPwa && (hidden || navLocked) && "-translate-y-full sm:translate-y-0"
       )}
       style={{ paddingTop: "calc(var(--safe-inset-top) + var(--titlebar-height))" }}
     >
