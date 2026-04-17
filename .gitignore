@@ -61,3 +61,10 @@ skills-lock.json
 /*.jpg
 /*.jpeg
 /*.webp
+
+# local working screenshots (pick finals and upload to GitHub CDN instead)
+/docs/*.png
+/docs/*.jpg
+/docs/*.jpeg
+/docs/*.webp
+/docs/*.gif
