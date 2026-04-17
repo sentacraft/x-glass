@@ -37,23 +37,33 @@ Lens data and images are maintained by the private [`x-glass-pipeline`](https://
 flowchart TD
   subgraph pipeline["x-glass-pipeline (private)"]
     S0["Stage 0 · Discovery\nScript indexes lens listings from brand websites"]
-    S1["Stage 1 · Raw Recall\nAI Agent collects official descriptions and raw spec text"]
-    S2a["Stage 2a · Deterministic\nScript computes rule-based fields\n(equiv. focal length, angle of view, etc.)"]
-    S2b["Stage 2b · Semantic\nAI Agent derives categorical fields\n(specialty tags, etc.)"]
-    SR["Stage R · Human Review\nMaintainer inspects every record and applies corrections"]
+    S1["Stage 1 · Collect\nAI Agent fetches official spec text\nand product images from each brand's pages"]
+    S2a["Stage 2a · Deterministic Fields\nScript parses model names and applies brand rules\nAF · OIS · WR · aperture ring · specialty tags"]
+    S2b["Stage 2b · Semantic Fields\nAI Agent reads spec text to extract\nweight · dimensions · focus distance · lens formula · release year"]
+    S2c["Stage 2c · Image Processing\nScript optimizes and transforms\nproduct images"]
+    SR["Stage R · Human Review\nMaintainer inspects every record\nand applies corrections"]
     SP["Stage P · Publish Gate\nValidation, normalization, version stamp"]
   end
 
   S0 --> S1
-  S1 --> S2a & S2b
-  S2a & S2b --> SR
+  S1 --> S2a & S2b & S2c
+  S2a & S2b & S2c --> SR
   SR --> SP
   SP -->|"writes src/data/lenses.json"| DB[("x-glass\n(this repo)")]
+
+  classDef script fill:#dbeafe,stroke:#3b82f6,color:#1e3a5f
+  classDef agent fill:#fef9c3,stroke:#ca8a04,color:#713f12
+  classDef human fill:#dcfce7,stroke:#16a34a,color:#14532d
+  classDef gate fill:#f3e8ff,stroke:#9333ea,color:#3b0764
+
+  class S0,S2a,S2c,SP script
+  class S1,S2b agent
+  class SR human
 ```
 
 **Key principles:**
 - Every spec originates from official manufacturer sources, with human review at every stage
-- Deterministic fields (angle of view, equivalent focal length) are computed in code — never inferred by LLM
+- Deterministic fields are computed in code — never inferred by LLM
 - Stage isolation: each step may only build on facts confirmed in the prior step
 
 ## Local Development
