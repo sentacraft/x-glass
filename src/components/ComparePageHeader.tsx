@@ -7,6 +7,7 @@ import { ShareButton } from "@/components/ShareButton";
 import CompareAddLensButton from "@/components/CompareAddLensButton";
 import BackButton from "@/components/BackButton";
 import { useCompare } from "@/context/CompareProvider";
+import { useRouter } from "@/i18n/navigation";
 import type { Lens } from "@/lib/types";
 
 interface Props {
@@ -22,6 +23,7 @@ export default function ComparePageHeader({ lenses, fallbackHref, minColumns = 0
   const t = useTranslations("Compare");
   const tList = useTranslations("LensList");
   const { clearCompare } = useCompare();
+  const router = useRouter();
   const headerRef = useRef<HTMLDivElement>(null);
   const [showFab, setShowFab] = useState(false);
   // Show the FAB when the header row scrolls behind the nav bar
@@ -46,7 +48,7 @@ export default function ComparePageHeader({ lenses, fallbackHref, minColumns = 0
         {lenses.length >= minColumns && <CompareAddLensButton lenses={lenses} />}
         {lenses.length > 0 && (
           <button
-            onClick={clearCompare}
+            onClick={() => { clearCompare(); router.replace("/lenses/compare"); }}
             className="shrink-0 text-sm font-medium px-3 py-2 rounded-xl text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-200 transition-colors"
           >
             {tList("clearCompare")}
