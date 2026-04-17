@@ -39,7 +39,7 @@ Browse, filter, and compare every Fujifilm X-mount lens side by side — native 
 
 ## Data Pipeline
 
-Lens data and images are maintained by the private [`x-glass-pipeline`](https://github.com/ericzeyuzhang/x-glass-pipeline) repo and written into `src/data/lenses.json` via a staged pipeline:
+Lens data and images are maintained by a private pipeline repo and written into `src/data/lenses.json` via a staged pipeline:
 
 ```mermaid
 flowchart TD
