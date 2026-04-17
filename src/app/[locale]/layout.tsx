@@ -40,10 +40,16 @@ export async function generateMetadata({
     // Explicit icon declarations — setting `icons` in metadata disables Next.js
     // file-convention auto-discovery, so both `icon` and `apple` must be listed.
     // Safari requires an explicit favicon.ico link tag; it won't auto-discover it.
+    // The apple entry points to an opaque white-bg PNG because iOS fills
+    // transparent pixels with an uncontrolled color on the home screen.
     icons: {
       icon: [
         { url: "/favicon.ico", sizes: "32x32", type: "image/x-icon" },
         { url: "/icon.png", sizes: "32x32", type: "image/png" },
+      ],
+      apple: [
+        { url: "/icons/icon-192-white.png", sizes: "192x192", type: "image/png" },
+        { url: "/icons/icon-512-white.png", sizes: "512x512", type: "image/png" },
       ],
     },
     appleWebApp: {
@@ -64,6 +70,14 @@ export async function generateMetadata({
       type: "website",
       description: t("seoDescription"),
       images: [{ url: "/opengraph-image.png", width: 1200, height: 630 }],
+    },
+    // Next.js 15+ stopped emitting `apple-mobile-web-app-capable` in favour of
+    // the standardised `mobile-web-app-capable` (see next.js PR #70363). iOS
+    // Safari still gates the apple-touch-startup-image splash feature on the
+    // legacy `apple-` tag, so we emit it explicitly here. See
+    // https://github.com/vercel/next.js/issues/74524 for the upstream bug.
+    other: {
+      "apple-mobile-web-app-capable": "yes",
     },
   };
 }
@@ -89,11 +103,10 @@ export default async function LocaleLayout({
           <ScrollContainerProvider>
             <ConsoleEgg />
             <Nav />
-            {/* Offset fixed nav; fill at least the small viewport so short pages
-                never expose the body background. bg-background is the single
-                source of truth for page canvas color — individual pages no
-                longer need to set it themselves. */}
-            <div className="pt-[var(--nav-height)] pb-[var(--safe-inset-bottom)] bg-background min-h-svh">
+            {/* Offset fixed nav and iOS home indicator. Body also carries
+                bg-background, so the safe-area strip and any short-page gap
+                render as a single seamless canvas color. */}
+            <div className="pt-[var(--nav-height)] pb-[var(--safe-inset-bottom)] min-h-svh">
               {TESTHOOK_ALLOWED ? (
                 <TestHookProvider>
                   {children}

@@ -366,7 +366,7 @@ export default function Iris({
                     <path
                       d={shape}
                       fill="none"
-                      className={strokeColor ? undefined : "stroke-stone-100 dark:stroke-zinc-950"}
+                      className={strokeColor ? undefined : "stroke-background"}
                       stroke={strokeColor}
                       strokeWidth={strokeWidth}
                     />
