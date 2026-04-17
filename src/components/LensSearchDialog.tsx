@@ -139,7 +139,7 @@ export default function LensSearchDialog({
             ? "inline-flex h-10 w-10 items-center justify-center rounded-xl border border-zinc-200 bg-white text-zinc-600 transition-colors hover:border-zinc-300 hover:text-zinc-900 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-300 dark:hover:border-zinc-700 dark:hover:text-zinc-50"
             : triggerVariant === "button"
               ? "inline-flex h-11 items-center justify-center gap-2 rounded-2xl border border-zinc-200 bg-white px-4 text-sm font-medium text-zinc-700 transition-colors hover:border-zinc-300 hover:text-zinc-950 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-200 dark:hover:border-zinc-700 dark:hover:text-zinc-50"
-              : "flex w-full flex-col items-center justify-center gap-2 rounded-[28px] border border-dashed border-zinc-300 bg-zinc-50/60 text-center text-zinc-500 transition-colors hover:border-zinc-400 hover:bg-zinc-100/70 hover:text-zinc-900 dark:border-zinc-800 dark:bg-zinc-950/60 dark:text-zinc-400 dark:hover:border-zinc-700 dark:hover:bg-zinc-900 dark:hover:text-zinc-50",
+              : "group flex w-full flex-col items-center justify-center gap-2 rounded-[28px] border border-dashed border-zinc-300 bg-zinc-50/60 text-center text-zinc-500 transition-colors hover:border-zinc-400 hover:bg-zinc-100/70 hover:text-zinc-900 dark:border-zinc-800 dark:bg-zinc-950/60 dark:text-zinc-400 dark:hover:border-zinc-700 dark:hover:bg-zinc-900 dark:hover:text-zinc-50",
           triggerClassName
         )}
       >
@@ -154,8 +154,13 @@ export default function LensSearchDialog({
         )}
         {triggerVariant === "slot" && (
           <>
-            <Search className="h-5 w-5" />
-            <span className="text-sm font-medium text-zinc-700 dark:text-zinc-200">
+            {/* Lens front-view icon: three concentric circles */}
+            <svg viewBox="0 0 24 24" fill="none" className="h-8 w-8 opacity-40 transition-opacity group-hover:opacity-70" aria-hidden="true">
+              <circle cx="12" cy="12" r="9.5" stroke="currentColor" strokeWidth="1.25" />
+              <circle cx="12" cy="12" r="5" stroke="currentColor" strokeWidth="1.25" />
+              <circle cx="12" cy="12" r="1.5" fill="currentColor" />
+            </svg>
+            <span className="text-xs font-medium">
               {triggerLabel ?? t("addLens")}
             </span>
           </>
