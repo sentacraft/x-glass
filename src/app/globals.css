@@ -138,6 +138,28 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+/* Accordion open animation — FAQ (details > p) and ack stories (details > div) */
+@keyframes accordion-open {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+details[open] > p,
+details[open] > div {
+  animation: accordion-open 0.18s ease-out both;
+}
+
+/* Donation card brand-color hover — driven by CSS custom properties set inline per card */
+.donation-card:hover {
+  border-color: var(--donation-border);
+  background-color: var(--donation-bg-light);
+}
+.dark .donation-card:hover {
+  background-color: var(--donation-bg-dark);
+}
+.donation-card:hover .donation-icon {
+  color: var(--donation-icon);
+}
+
 /* Window Controls Overlay drag regions.
    The header background extends into the WCO title bar area; the strip
    above the nav links acts as a drag handle for moving the window. */
