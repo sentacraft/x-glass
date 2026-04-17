@@ -157,12 +157,14 @@ interface Props {
   lenses: Lens[];
   /** Minimum number of columns to display; empty slot headers fill the gap. */
   minColumns?: number;
+  /** When true and the compare list is empty, only the header row is rendered (no skeleton body). */
+  hideBodyWhenEmpty?: boolean;
 }
 
 const LABEL_COLUMN_WIDTH = "6rem";
 const LENS_COLUMN_MIN_WIDTH = "9rem";
 
-export default function CompareTable({ lenses: initialLenses, minColumns = 0 }: Props) {
+export default function CompareTable({ lenses: initialLenses, minColumns = 0, hideBodyWhenEmpty = false }: Props) {
   const t = useTranslations("Compare");
   const td = useTranslations("LensDetail");
   const tBrand = useTranslations("Brands");
@@ -549,7 +551,7 @@ export default function CompareTable({ lenses: initialLenses, minColumns = 0 }: 
 
         <tbody>
           {/* Cold-start skeleton: show all spec dimensions with placeholder cells */}
-          {orderedLenses.length === 0 && allGroups.map((group) => (
+          {orderedLenses.length === 0 && !hideBodyWhenEmpty && allGroups.map((group) => (
             <React.Fragment key={group.label}>
               <tr className="border-b border-zinc-100 bg-zinc-100/80 dark:border-zinc-800/60 dark:bg-zinc-800/60">
                 <td colSpan={totalColSpan} className="h-8 text-center">

@@ -64,11 +64,13 @@ export default async function ComparePage({
       {/* Header */}
       <ComparePageHeader lenses={lenses} fallbackHref={fallbackHref} minColumns={2} presetTitle={presetTitle} />
 
+      {/* Table — minColumns=2 ensures cold start always shows 2 search-trigger columns.
+          hideBodyWhenEmpty keeps cold start compact: only the slot headers are shown,
+          the spec rows appear once the user adds the first lens. */}
+      <CompareTable lenses={lenses} minColumns={2} hideBodyWhenEmpty />
+
       {/* Curated presets — client component, self-hides when compare list is non-empty */}
       <CuratedComparisons />
-
-      {/* Table — minColumns=2 ensures cold start always shows 2 search-trigger columns */}
-      <CompareTable lenses={lenses} minColumns={2} />
 
       {lenses.length > 0 && (
         <BackButton fallbackHref={fallbackHref} />
