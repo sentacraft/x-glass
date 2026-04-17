@@ -340,9 +340,7 @@ export default async function AboutContent() {
             return (
               <React.Fragment key={`${company}-${product}`}>
                 {i > 0 && (
-                  <div className="flex justify-center py-1">
-                    <div className="w-px h-5 bg-zinc-200 dark:bg-zinc-700" />
-                  </div>
+                  <div className="h-px w-full bg-zinc-100 dark:bg-zinc-800" />
                 )}
               <details
                 key={`${company}-${product}`}
