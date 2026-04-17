@@ -24,6 +24,7 @@
     "angleOfView": 105,
     "angleOfViewCalc": 109.5,
     "apertureBladeCount": 7,
+    "releaseYear": 2025,
     "compatibleMounts": [
       "Sony E",
       "Fujifilm X",
@@ -72,6 +73,7 @@
     "angleOfView": 58.3,
     "angleOfViewCalc": 59,
     "apertureBladeCount": 9,
+    "releaseYear": 2021,
     "compatibleMounts": [
       "Sony E",
       "Fujifilm X"
@@ -113,6 +115,7 @@
     "angleOfView": 55,
     "angleOfViewCalc": 55.3,
     "apertureBladeCount": 6,
+    "releaseYear": 2025,
     "lensMaterial": "Metal",
     "filterMm": 39,
     "lensConfiguration": {
@@ -138,6 +141,7 @@
     "wr": false,
     "apertureRing": true,
     "powerZoom": false,
+    "focusMotor": "STM",
     "weightG": 184,
     "diameterMm": 68,
     "length": {
@@ -149,6 +153,7 @@
     "angleOfView": 42.5,
     "angleOfViewCalc": 44,
     "apertureBladeCount": 7,
+    "releaseYear": 2025,
     "lensMaterial": "Metal",
     "filterMm": 62,
     "lensConfiguration": {
@@ -188,6 +193,7 @@
     "angleOfView": 44,
     "angleOfViewCalc": 44,
     "apertureBladeCount": 9,
+    "releaseYear": 2025,
     "compatibleMounts": [
       "Sony E",
       "Fujifilm X"
@@ -229,6 +235,7 @@
     "angleOfView": 31.4,
     "angleOfViewCalc": 31.6,
     "apertureBladeCount": 5,
+    "releaseYear": 2025,
     "compatibleMounts": [
       "Sony E",
       "Fujifilm X"
@@ -266,6 +273,7 @@
     "angleOfView": 225,
     "angleOfViewCalc": 148.4,
     "apertureBladeCount": 7,
+    "releaseYear": 2022,
     "compatibleMounts": [
       "Sony E",
       "Fujifilm X",
@@ -307,6 +315,7 @@
     "angleOfView": 220,
     "angleOfViewCalc": 134,
     "apertureBladeCount": 9,
+    "releaseYear": 2025,
     "compatibleMounts": [
       "Sony E",
       "Fujifilm X",
@@ -352,6 +361,7 @@
     "angleOfView": 108,
     "angleOfViewCalc": 109.5,
     "apertureBladeCount": 5,
+    "releaseYear": 2025,
     "compatibleMounts": [
       "Sony E",
       "Fujifilm X",
@@ -395,6 +405,7 @@
     "angleOfView": 100,
     "angleOfViewCalc": 99.4,
     "apertureBladeCount": 5,
+    "releaseYear": 2018,
     "compatibleMounts": [
       "Sony E",
       "Fujifilm X",
@@ -438,6 +449,7 @@
     },
     "angleOfView": 74,
     "angleOfViewCalc": 76.3,
+    "releaseYear": 2020,
     "compatibleMounts": [
       "Sony E",
       "Fujifilm X",
@@ -483,6 +495,7 @@
     "angleOfView": 68,
     "angleOfViewCalc": 59,
     "apertureBladeCount": 12,
+    "releaseYear": 2021,
     "compatibleMounts": [
       "Sony E",
       "Fujifilm X",
@@ -526,6 +539,7 @@
     "angleOfView": 43,
     "angleOfViewCalc": 44,
     "apertureBladeCount": 10,
+    "releaseYear": 2018,
     "compatibleMounts": [
       "Sony E",
       "Fujifilm X",
@@ -569,6 +583,7 @@
     "angleOfView": 43,
     "angleOfViewCalc": 44,
     "apertureBladeCount": 9,
+    "releaseYear": 2019,
     "compatibleMounts": [
       "Sony E",
       "Fujifilm X",
@@ -616,6 +631,7 @@
     "angleOfView": 46,
     "angleOfViewCalc": 31.6,
     "apertureBladeCount": 12,
+    "releaseYear": 2024,
     "compatibleMounts": [
       "Sony E",
       "Fujifilm X",
@@ -657,6 +673,7 @@
     "angleOfView": 32,
     "angleOfViewCalc": 31.6,
     "apertureBladeCount": 12,
+    "releaseYear": 2018,
     "compatibleMounts": [
       "Sony E",
       "Fujifilm X",
@@ -695,6 +712,7 @@
     },
     "angleOfViewCalc": 28.9,
     "apertureBladeCount": 14,
+    "releaseYear": 2021,
     "compatibleMounts": [
       "Sony E",
       "Fujifilm X",
@@ -742,6 +760,7 @@
     "angleOfView": 25,
     "angleOfViewCalc": 26.5,
     "apertureBladeCount": 9,
+    "releaseYear": 2019,
     "compatibleMounts": [
       "Sony E",
       "Fujifilm X",
@@ -773,6 +792,7 @@
     "wr": false,
     "apertureRing": false,
     "powerZoom": false,
+    "focusMotor": "STM",
     "weightG": 450,
     "diameterMm": 72,
     "length": {
@@ -784,6 +804,7 @@
     "angleOfView": 32,
     "angleOfViewCalc": 31.6,
     "apertureBladeCount": 9,
+    "releaseYear": 2024,
     "compatibleMounts": [
       "Sony E",
       "Fujifilm X"
@@ -826,6 +847,7 @@
     "angleOfView": 190,
     "angleOfViewCalc": 124.1,
     "apertureBladeCount": 5,
+    "releaseYear": 2020,
     "compatibleMounts": [
       "Sony E",
       "Canon RF",
@@ -872,6 +894,7 @@
     },
     "angleOfView": 175,
     "angleOfViewCalc": 109.5,
+    "releaseYear": 2021,
     "compatibleMounts": [
       "Sony E",
       "Fujifilm X",
@@ -916,6 +939,7 @@
     "angleOfView": 175,
     "angleOfViewCalc": 109.5,
     "apertureBladeCount": 5,
+    "releaseYear": 2025,
     "compatibleMounts": [
       "Sony E",
       "Nikon Z",
@@ -961,6 +985,7 @@
     "angleOfView": 97,
     "angleOfViewCalc": 99.4,
     "apertureBladeCount": 10,
+    "releaseYear": 2020,
     "filterMm": 62,
     "lensConfiguration": {
       "groups": 9,
@@ -998,6 +1023,7 @@
     "angleOfView": 57.4,
     "angleOfViewCalc": 59,
     "apertureBladeCount": 10,
+    "releaseYear": 2020,
     "compatibleMounts": [
       "Sony E",
       "Canon EF-M",
@@ -1038,6 +1064,7 @@
     "angleOfView": 44,
     "angleOfViewCalc": 44,
     "apertureBladeCount": 12,
+    "releaseYear": 2023,
     "compatibleMounts": [
       "Sony E",
       "Nikon Z",
@@ -1082,6 +1109,7 @@
     "angleOfView": 43,
     "angleOfViewCalc": 44,
     "apertureBladeCount": 10,
+    "releaseYear": 2020,
     "lensMaterial": "Metal",
     "filterMm": 43,
     "lensConfiguration": {
@@ -1117,6 +1145,7 @@
     "angleOfView": 42,
     "angleOfViewCalc": 44,
     "apertureBladeCount": 10,
+    "releaseYear": 2020,
     "lensMaterial": "Metal",
     "filterMm": 43,
     "lensConfiguration": {
@@ -1153,6 +1182,7 @@
     "angleOfView": 32,
     "angleOfViewCalc": 31.6,
     "apertureBladeCount": 13,
+    "releaseYear": 2024,
     "compatibleMounts": [
       "Sony E",
       "Nikon Z",
@@ -1199,6 +1229,7 @@
     "angleOfView": 29.5,
     "angleOfViewCalc": 31.6,
     "apertureBladeCount": 9,
+    "releaseYear": 2020,
     "filterMm": 55,
     "lensConfiguration": {
       "groups": 5,
@@ -1236,6 +1267,7 @@
     "angleOfView": 32,
     "angleOfViewCalc": 31.6,
     "apertureBladeCount": 10,
+    "releaseYear": 2022,
     "compatibleMounts": [
       "Sony E",
       "Nikon Z",
@@ -1295,6 +1327,7 @@
       28.9
     ],
     "apertureBladeCount": 9,
+    "releaseYear": 2018,
     "accessories": [
       "Tripod collar foot",
       "Support foot",
@@ -1359,6 +1392,7 @@
       12
     ],
     "apertureBladeCount": 9,
+    "releaseYear": 2018,
     "accessories": [
       "Tripod collar foot",
       "Support foot",
@@ -1433,6 +1467,7 @@
       34.9
     ],
     "apertureBladeCount": 7,
+    "releaseYear": 2018,
     "accessories": [
       "Lens cap FLCP-52II",
       "Lens rear cap"
@@ -1481,6 +1516,7 @@
     "angleOfView": 44.2,
     "angleOfViewCalc": 44,
     "apertureBladeCount": 9,
+    "releaseYear": 2020,
     "accessories": [
       "Lens cap FLCP-43"
     ],
@@ -1549,6 +1585,7 @@
       7
     ],
     "apertureBladeCount": 7,
+    "releaseYear": 2015,
     "accessories": [
       "Lens cap",
       "Lens hood"
@@ -1605,6 +1642,7 @@
       83
     ],
     "apertureBladeCount": 9,
+    "releaseYear": 2018,
     "accessories": [
       "Lens cap FLCP-8-16",
       "Lens rear cap RLCP-001",
@@ -1655,6 +1693,7 @@
     "angleOfView": 121,
     "angleOfViewCalc": 121,
     "apertureBladeCount": 9,
+    "releaseYear": 2023,
     "accessories": [
       "Front lens cap FLCP-62 II",
       "Rear lens cap RLCP-001",
@@ -1714,6 +1753,7 @@
       61
     ],
     "apertureBladeCount": 7,
+    "releaseYear": 2020,
     "filterMm": 72,
     "lensConfiguration": {
       "groups": 10,
@@ -1757,6 +1797,7 @@
     "angleOfView": 90.8,
     "angleOfViewCalc": 90.6,
     "apertureBladeCount": 7,
+    "releaseYear": 2012,
     "filterMm": 58,
     "lensConfiguration": {
       "groups": 7,
@@ -1809,6 +1850,7 @@
       83,
       31.6
     ],
+    "releaseYear": 2024,
     "accessories": [
       "Front lens cap FLCP-58 II",
       "Rear lens cap RLCP-001",
@@ -1876,6 +1918,7 @@
       28.9
     ],
     "apertureBladeCount": 9,
+    "releaseYear": 2015,
     "filterMm": 77,
     "lensConfiguration": {
       "groups": 12,
@@ -1931,6 +1974,7 @@
       28.9
     ],
     "apertureBladeCount": 11,
+    "releaseYear": 2024,
     "accessories": [
       "Front lens cap FLCP-72 II",
       "Rear lens cap RLCP-001",
@@ -1996,6 +2040,7 @@
       20.1
     ],
     "apertureBladeCount": 9,
+    "releaseYear": 2019,
     "accessories": [
       "Front lens cap FLCP-72II",
       "Rear lens cap RLCP-001",
@@ -2046,6 +2091,7 @@
     "angleOfView": 83.2,
     "angleOfViewCalc": 83,
     "apertureBladeCount": 9,
+    "releaseYear": 2015,
     "accessories": [
       "Lens hood LH-XF16"
     ],
@@ -2093,6 +2139,7 @@
     "angleOfView": 83.2,
     "angleOfViewCalc": 83,
     "apertureBladeCount": 9,
+    "releaseYear": 2019,
     "accessories": [
       "Lens cap FLCP-49",
       "Lens rear cap RLCP-001",
@@ -2164,6 +2211,7 @@
       28.9
     ],
     "apertureBladeCount": 7,
+    "releaseYear": 2012,
     "filterMm": 58,
     "lensConfiguration": {
       "groups": 10,
@@ -2217,6 +2265,7 @@
       13.5
     ],
     "apertureBladeCount": 7,
+    "releaseYear": 2022,
     "filterMm": 72,
     "lensConfiguration": {
       "groups": 12,
@@ -2278,6 +2327,7 @@
       12
     ],
     "apertureBladeCount": 7,
+    "releaseYear": 2014,
     "filterMm": 67,
     "lensConfiguration": {
       "groups": 12,
@@ -2322,6 +2372,7 @@
     "angleOfView": 76.5,
     "angleOfViewCalc": 76.3,
     "apertureBladeCount": 9,
+    "releaseYear": 2021,
     "accessories": [
       "Lens hood LH-XF18"
     ],
@@ -2368,6 +2419,7 @@
     "angleOfView": 76.5,
     "angleOfViewCalc": 76.3,
     "apertureBladeCount": 7,
+    "releaseYear": 2012,
     "filterMm": 52,
     "lensConfiguration": {
       "groups": 7,
@@ -2411,6 +2463,7 @@
     "angleOfView": 63.4,
     "angleOfViewCalc": 63.2,
     "apertureBladeCount": 9,
+    "releaseYear": 2021,
     "filterMm": 58,
     "lensConfiguration": {
       "groups": 10,
@@ -2455,6 +2508,7 @@
     "angleOfView": 63.4,
     "angleOfViewCalc": 63.2,
     "apertureBladeCount": 9,
+    "releaseYear": 2016,
     "accessories": [
       "Lens cap FLCP-43",
       "Lens rear cap RLCP-001",
@@ -2502,6 +2556,7 @@
     "angleOfView": 55.5,
     "angleOfViewCalc": 55.3,
     "apertureBladeCount": 7,
+    "releaseYear": 2021,
     "filterMm": 39,
     "lensConfiguration": {
       "groups": 5,
@@ -2548,6 +2603,7 @@
     "angleOfView": 50.7,
     "angleOfViewCalc": 50.5,
     "apertureBladeCount": 9,
+    "releaseYear": 2022,
     "filterMm": 43,
     "lensConfiguration": {
       "groups": 9,
@@ -2592,6 +2648,7 @@
     "angleOfView": 46.6,
     "angleOfViewCalc": 46.4,
     "apertureBladeCount": 9,
+    "releaseYear": 2021,
     "filterMm": 58,
     "lensConfiguration": {
       "groups": 10,
@@ -2635,6 +2692,7 @@
     "angleOfView": 44.2,
     "angleOfViewCalc": 44,
     "apertureBladeCount": 7,
+    "releaseYear": 2012,
     "accessories": [
       "Lens cap",
       "Rear cap",
@@ -2686,6 +2744,7 @@
     "angleOfView": 44.2,
     "angleOfViewCalc": 44,
     "apertureBladeCount": 9,
+    "releaseYear": 2015,
     "accessories": [
       "Lens cap FLCP-43",
       "Lens rear cap RLCP-001",
@@ -2745,6 +2804,7 @@
       11.5
     ],
     "apertureBladeCount": 7,
+    "releaseYear": 2014,
     "accessories": [
       "Lens cap",
       "Lens rear cap",
@@ -2797,6 +2857,7 @@
     "angleOfView": 31.7,
     "angleOfViewCalc": 31.6,
     "apertureBladeCount": 9,
+    "releaseYear": 2020,
     "filterMm": 77,
     "lensConfiguration": {
       "groups": 9,
@@ -2841,6 +2902,7 @@
     "angleOfView": 31.7,
     "angleOfViewCalc": 31.6,
     "apertureBladeCount": 9,
+    "releaseYear": 2017,
     "accessories": [
       "Lens cap FLCP-46",
       "Lens rear cap RLCP-001",
@@ -2908,6 +2970,7 @@
       8.1
     ],
     "apertureBladeCount": 7,
+    "releaseYear": 2013,
     "filterMm": 62,
     "lensConfiguration": {
       "groups": 10,
@@ -2953,6 +3016,7 @@
     "angleOfView": 28.5,
     "angleOfViewCalc": 28.4,
     "apertureBladeCount": 11,
+    "releaseYear": 2022,
     "accessories": [
       "Front lens cap FLCP-67 II",
       "Rear lens cap RLCP-001",
@@ -3005,6 +3069,7 @@
     "angleOfView": 26.6,
     "angleOfViewCalc": 26.5,
     "apertureBladeCount": 9,
+    "releaseYear": 2012,
     "filterMm": 39,
     "lensConfiguration": {
       "groups": 8,
@@ -3067,6 +3132,7 @@
       5.4
     ],
     "apertureBladeCount": 9,
+    "releaseYear": 2021,
     "filterMm": 67,
     "lensConfiguration": {
       "groups": 12,
@@ -3115,6 +3181,7 @@
     "angleOfView": 20.1,
     "angleOfViewCalc": 20.1,
     "apertureBladeCount": 9,
+    "releaseYear": 2017,
     "accessories": [
       "Lens cap FLCP-62II",
       "Lens rear cap RLCP-002",
@@ -3166,6 +3233,7 @@
     "angleOfView": 17.9,
     "angleOfViewCalc": 17.9,
     "apertureBladeCount": 7,
+    "releaseYear": 2015,
     "filterMm": 62,
     "lensConfiguration": {
       "groups": 8,
@@ -3225,6 +3293,7 @@
       4.1
     ],
     "apertureBladeCount": 9,
+    "releaseYear": 2016,
     "filterMm": 77,
     "lensConfiguration": {
       "groups": 14,
@@ -3282,6 +3351,7 @@
       2.7
     ],
     "apertureBladeCount": 9,
+    "releaseYear": 2022,
     "accessories": [
       "Front lens cap FLCP-82",
       "Rear lens cap RLCP-001",
@@ -3335,6 +3405,7 @@
     "angleOfView": 8.1,
     "angleOfViewCalc": 8.1,
     "apertureBladeCount": 9,
+    "releaseYear": 2018,
     "accessories": [
       "Lens cap FLCP-105",
       "Lens rear cap RLCP-001",
@@ -3386,6 +3457,7 @@
     "angleOfView": 3.3,
     "angleOfViewCalc": 3.2,
     "apertureBladeCount": 9,
+    "releaseYear": 2024,
     "accessories": [
       "Front lens cap FLCP-95",
       "Rear lens cap RLCP-001",
@@ -3432,6 +3504,7 @@
     "angleOfView": 58,
     "angleOfViewCalc": 59,
     "apertureBladeCount": 9,
+    "releaseYear": 2025,
     "compatibleMounts": [
       "Sony E",
       "Micro Four Thirds",
@@ -3478,6 +3551,7 @@
     "angleOfView": 168,
     "angleOfViewCalc": 124.1,
     "apertureBladeCount": 7,
+    "releaseYear": 2025,
     "compatibleMounts": [
       "Sony E",
       "Fujifilm X",
@@ -3525,6 +3599,7 @@
     },
     "angleOfView": 76,
     "angleOfViewCalc": 76.3,
+    "releaseYear": 2025,
     "compatibleMounts": [
       "Sony E",
       "Micro Four Thirds",
@@ -3570,6 +3645,7 @@
     "angleOfView": 58,
     "angleOfViewCalc": 59,
     "apertureBladeCount": 7,
+    "releaseYear": 2025,
     "compatibleMounts": [
       "Sony E",
       "Micro Four Thirds",
@@ -3616,6 +3692,7 @@
     "angleOfView": 44,
     "angleOfViewCalc": 44,
     "apertureBladeCount": 12,
+    "releaseYear": 2024,
     "compatibleMounts": [
       "Sony E",
       "Micro Four Thirds",
@@ -3661,6 +3738,7 @@
     "angleOfView": 44,
     "angleOfViewCalc": 44,
     "apertureBladeCount": 9,
+    "releaseYear": 2025,
     "compatibleMounts": [
       "Sony E",
       "Micro Four Thirds",
@@ -3707,6 +3785,7 @@
     "angleOfView": 32,
     "angleOfViewCalc": 31.6,
     "apertureBladeCount": 10,
+    "releaseYear": 2025,
     "compatibleMounts": [
       "Sony E",
       "Micro Four Thirds",
@@ -3884,7 +3963,7 @@
     "angleOfView": 86.9,
     "angleOfViewCalc": 86.7,
     "apertureBladeCount": 9,
-    "releaseYear": 2026,
+    "releaseYear": 2025,
     "compatibleMounts": [
       "Canon RF",
       "Fujifilm X",
@@ -4023,7 +4102,7 @@
     "angleOfView": 83.2,
     "angleOfViewCalc": 83,
     "apertureBladeCount": 9,
-    "releaseYear": 2017,
+    "releaseYear": 2022,
     "compatibleMounts": [
       "L-Mount",
       "Canon EF-M",
@@ -4159,7 +4238,7 @@
       31.6
     ],
     "apertureBladeCount": 7,
-    "releaseYear": 2021,
+    "releaseYear": 2022,
     "compatibleMounts": [
       "L-Mount",
       "Canon RF",
@@ -4267,7 +4346,7 @@
     "angleOfView": 50.7,
     "angleOfViewCalc": 50.5,
     "apertureBladeCount": 9,
-    "releaseYear": 2016,
+    "releaseYear": 2022,
     "compatibleMounts": [
       "L-Mount",
       "Canon EF-M",
@@ -4322,7 +4401,7 @@
     "angleOfView": 28.5,
     "angleOfViewCalc": 28.4,
     "apertureBladeCount": 9,
-    "releaseYear": 2018,
+    "releaseYear": 2022,
     "compatibleMounts": [
       "L-Mount",
       "Canon EF-M",
@@ -4393,7 +4472,7 @@
       4.1
     ],
     "apertureBladeCount": 9,
-    "releaseYear": 2020,
+    "releaseYear": 2023,
     "compatibleMounts": [
       "L-Mount",
       "Fujifilm X",
@@ -4462,7 +4541,7 @@
       70.6
     ],
     "apertureBladeCount": 7,
-    "releaseYear": 2021,
+    "releaseYear": 2023,
     "compatibleMounts": [
       "Sony E",
       "Fujifilm X",
@@ -4529,7 +4608,7 @@
       22.9
     ],
     "apertureBladeCount": 9,
-    "releaseYear": 2021,
+    "releaseYear": 2022,
     "compatibleMounts": [
       "Sony E",
       "Fujifilm X"
@@ -4723,6 +4802,7 @@
     "angleOfView": 63,
     "angleOfViewCalc": 44,
     "apertureBladeCount": 11,
+    "releaseYear": 2025,
     "compatibleMounts": [
       "Sony E",
       "Fujifilm X",
@@ -4768,6 +4848,7 @@
     "angleOfView": 62,
     "angleOfViewCalc": 63.2,
     "apertureBladeCount": 9,
+    "releaseYear": 2025,
     "compatibleMounts": [
       "Sony E",
       "Fujifilm X",
@@ -4818,6 +4899,7 @@
     "angleOfView": 56,
     "angleOfViewCalc": 55.3,
     "apertureBladeCount": 7,
+    "releaseYear": 2022,
     "compatibleMounts": [
       "Sony E",
       "Fujifilm X",
@@ -4866,6 +4948,7 @@
     "angleOfView": 45,
     "angleOfViewCalc": 44,
     "apertureBladeCount": 9,
+    "releaseYear": 2024,
     "compatibleMounts": [
       "Sony E",
       "Fujifilm X",
@@ -4920,6 +5003,7 @@
     "angleOfView": 28,
     "angleOfViewCalc": 28.4,
     "apertureBladeCount": 9,
+    "releaseYear": 2024,
     "compatibleMounts": [
       "Sony E",
       "Fujifilm X",
@@ -4976,6 +5060,7 @@
     "angleOfView": 180,
     "angleOfViewCalc": 124.1,
     "apertureBladeCount": 7,
+    "releaseYear": 2021,
     "compatibleMounts": [
       "Sony E",
       "Fujifilm X",
@@ -5026,6 +5111,7 @@
     "angleOfView": 105,
     "angleOfViewCalc": 109.5,
     "apertureBladeCount": 8,
+    "releaseYear": 2024,
     "compatibleMounts": [
       "Sony E",
       "Fujifilm X",
@@ -5076,6 +5162,7 @@
     "angleOfView": 62,
     "angleOfViewCalc": 63.2,
     "apertureBladeCount": 10,
+    "releaseYear": 2021,
     "compatibleMounts": [
       "Sony E",
       "Fujifilm X",
@@ -5128,6 +5215,7 @@
     "angleOfView": 61,
     "angleOfViewCalc": 59,
     "apertureBladeCount": 7,
+    "releaseYear": 2022,
     "compatibleMounts": [
       "Sony E",
       "Fujifilm X",
@@ -5177,6 +5265,7 @@
     "angleOfView": 45,
     "angleOfViewCalc": 44,
     "apertureBladeCount": 10,
+    "releaseYear": 2022,
     "compatibleMounts": [
       "Sony E",
       "Fujifilm X",
@@ -5222,6 +5311,7 @@
     "angleOfView": 45,
     "angleOfViewCalc": 44,
     "apertureBladeCount": 10,
+    "releaseYear": 2020,
     "compatibleMounts": [
       "Sony E",
       "Fujifilm X",
@@ -5276,6 +5366,7 @@
     "angleOfView": 40,
     "angleOfViewCalc": 39,
     "apertureBladeCount": 11,
+    "releaseYear": 2021,
     "compatibleMounts": [
       "Sony E",
       "Fujifilm X",
@@ -5322,6 +5413,7 @@
     "angleOfView": 32,
     "angleOfViewCalc": 31.6,
     "apertureBladeCount": 10,
+    "releaseYear": 2020,
     "compatibleMounts": [
       "Sony E",
       "Fujifilm X",
@@ -5366,6 +5458,7 @@
     "angleOfView": 32,
     "angleOfViewCalc": 31.6,
     "apertureBladeCount": 10,
+    "releaseYear": 2021,
     "compatibleMounts": [
       "Sony E",
       "Fujifilm X",
@@ -5417,6 +5510,7 @@
     "angleOfView": 45,
     "angleOfViewCalc": 44,
     "apertureBladeCount": 10,
+    "releaseYear": 2025,
     "compatibleMounts": [
       "Sony E",
       "Fujifilm X",
@@ -5452,16 +5546,22 @@
     "wr": false,
     "apertureRing": false,
     "powerZoom": false,
+    "focusMotor": "STM+Lead screw",
     "weightG": 175,
     "diameterMm": 65,
     "length": {
-      "mm": 56.4
+      "mm": 56.7
     },
     "minFocusDistance": {
       "cm": 13
     },
+    "maxMagnification": {
+      "value": 0.15
+    },
     "angleOfView": 113.8,
     "angleOfViewCalc": 115.1,
+    "apertureBladeCount": 7,
+    "releaseYear": 2025,
     "compatibleMounts": [
       "Sony E",
       "Nikon Z",
@@ -5506,6 +5606,7 @@
     },
     "angleOfViewCalc": 94.9,
     "apertureBladeCount": 9,
+    "releaseYear": 2022,
     "compatibleMounts": [
       "Sony E",
       "Fujifilm X",
@@ -5547,13 +5648,22 @@
     "wr": false,
     "apertureRing": false,
     "powerZoom": false,
+    "focusMotor": "STM",
     "weightG": 180,
     "diameterMm": 65,
     "length": {
-      "mm": 56.4
+      "mm": 56.7
+    },
+    "minFocusDistance": {
+      "cm": 23
+    },
+    "maxMagnification": {
+      "value": 0.1
     },
     "angleOfView": 84.9,
     "angleOfViewCalc": 86.7,
+    "apertureBladeCount": 9,
+    "releaseYear": 2025,
     "compatibleMounts": [
       "Sony E",
       "Nikon Z",
@@ -5602,6 +5712,7 @@
     "angleOfView": 63.4,
     "angleOfViewCalc": 63.2,
     "apertureBladeCount": 9,
+    "releaseYear": 2020,
     "compatibleMounts": [
       "Sony E",
       "Fujifilm X",
@@ -5646,7 +5757,7 @@
     "weightG": 170,
     "diameterMm": 64,
     "length": {
-      "mm": 56
+      "mm": 54.7
     },
     "minFocusDistance": {
       "cm": 30
@@ -5657,6 +5768,7 @@
     "angleOfView": 60,
     "angleOfViewCalc": 59,
     "apertureBladeCount": 9,
+    "releaseYear": 2025,
     "compatibleMounts": [
       "Sony E",
       "Nikon Z",
@@ -5703,6 +5815,7 @@
     "angleOfView": 55.3,
     "angleOfViewCalc": 55.3,
     "apertureBladeCount": 11,
+    "releaseYear": 2023,
     "compatibleMounts": [
       "Sony E",
       "Nikon Z",
@@ -5746,6 +5859,7 @@
     },
     "angleOfView": 52.07,
     "angleOfViewCalc": 53.6,
+    "releaseYear": 2025,
     "lensMaterial": "Metal",
     "filterMm": "N/A",
     "lensConfiguration": {
@@ -5791,6 +5905,7 @@
     "angleOfView": 45.7,
     "angleOfViewCalc": 46.4,
     "apertureBladeCount": 9,
+    "releaseYear": 2020,
     "compatibleMounts": [
       "Sony E",
       "Fujifilm X",
@@ -5834,9 +5949,13 @@
     "minFocusDistance": {
       "cm": 33
     },
+    "maxMagnification": {
+      "value": 0.13
+    },
     "angleOfView": 45,
     "angleOfViewCalc": 44,
     "apertureBladeCount": 9,
+    "releaseYear": 2025,
     "compatibleMounts": [
       "Sony E",
       "Nikon Z",
@@ -5880,6 +5999,7 @@
       "cm": 50
     },
     "angleOfViewCalc": 28.4,
+    "releaseYear": 2025,
     "compatibleMounts": [
       "Sony E",
       "Fujifilm X"
@@ -5925,6 +6045,7 @@
       "cm": 60
     },
     "angleOfViewCalc": 28.4,
+    "releaseYear": 2020,
     "compatibleMounts": [
       "Sony E",
       "Fujifilm X",
@@ -5969,9 +6090,13 @@
     "minFocusDistance": {
       "cm": 55
     },
+    "maxMagnification": {
+      "value": 0.11
+    },
     "angleOfView": 29.8,
     "angleOfViewCalc": 28.4,
     "apertureBladeCount": 9,
+    "releaseYear": 2024,
     "compatibleMounts": [
       "Fujifilm X",
       "Nikon Z"
@@ -6015,6 +6140,7 @@
     },
     "angleOfViewCalc": 21.4,
     "apertureBladeCount": 11,
+    "releaseYear": 2022,
     "compatibleMounts": [
       "Sony E",
       "Nikon Z",
@@ -6059,6 +6185,7 @@
       "mm": 92
     },
     "angleOfViewCalc": 18.9,
+    "releaseYear": 2020,
     "lensMaterial": "Metal",
     "filterMm": 72,
     "lensConfiguration": {
