@@ -4,7 +4,12 @@ Browse, filter, and compare every Fujifilm X-mount lens side by side — native 
 
 **[xglass.sentacraft.com](https://xglass.sentacraft.com)**
 
-![X-Glass screenshot](docs/screenshot.png)
+<table>
+  <tr>
+    <td><img src="https://github.com/user-attachments/assets/d94d443a-0651-46b1-a992-dc22001ec60c" alt="Lens browser" /></td>
+    <td><img src="https://github.com/user-attachments/assets/eb2be185-f5f3-4744-afc6-7d871f93203e" alt="Mobile" /></td>
+  </tr>
+</table>
 
 ---
 
