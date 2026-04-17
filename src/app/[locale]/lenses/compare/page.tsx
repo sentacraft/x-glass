@@ -44,7 +44,7 @@ export default async function ComparePage({
   searchParams,
 }: {
   params: Promise<{ locale: string }>;
-  searchParams: Promise<{ ids?: string; from?: string; lensId?: string; preset?: string }>;
+  searchParams: Promise<{ ids?: string; from?: "lens" | "home"; lensId?: string; preset?: string }>;
 }) {
   const { locale } = await params;
   const { ids, from, lensId, preset } = await searchParams;
@@ -53,8 +53,11 @@ export default async function ComparePage({
   const lang = locale === "zh" ? "zh" : "en";
   const presetTitle = preset ? (getPresetBySlug(preset)?.title[lang] ?? undefined) : undefined;
 
-  // Determine back destination: lens detail page if navigated from one, else lens list
-  const fallbackHref = from === "lens" && lensId ? `/lenses/${lensId}` : "/lenses";
+  // Determine back destination based on referrer context
+  const fallbackHref =
+    from === "lens" && lensId ? `/lenses/${lensId}` :
+    from === "home" ? "/" :
+    "/lenses";
 
   return (
     <div className="bg-background w-full max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-8 flex flex-col gap-3 sm:gap-4">
