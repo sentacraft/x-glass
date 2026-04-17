@@ -51,6 +51,7 @@ next-env.d.ts
 .agents/
 .claude/*
 !.claude/settings.json
+CLAUDE.md
 .playwright-mcp/
 skills-lock.json
 
