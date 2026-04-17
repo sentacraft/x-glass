@@ -417,8 +417,8 @@ export default function CompareTable({ lenses: initialLenses, minColumns = 0 }: 
   // Lock the nav hidden while the phantom header is active so only one
   // top-chrome element occupies the screen at a time on mobile.
   useEffect(() => {
-    if (!isPwa) lockNav(showPhantom);
-  }, [showPhantom, lockNav, isPwa]);
+    if (!isPwa) lockNav(showPhantom && orderedLenses.length > 0);
+  }, [showPhantom, lockNav, isPwa, orderedLenses.length]);
 
   useEffect(() => {
     const container = containerRef.current;
