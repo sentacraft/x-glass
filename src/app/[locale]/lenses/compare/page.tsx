@@ -1,18 +1,32 @@
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { parseLensIds } from "@/lib/lens";
+import { getPresetBySlug } from "@/lib/trending";
 import CompareTable from "@/components/CompareTable";
 import ComparePageHeader from "@/components/ComparePageHeader";
+import CuratedComparisons from "@/components/CuratedComparisons";
 import BackButton from "@/components/BackButton";
 
 export async function generateMetadata({
+  params,
   searchParams,
 }: {
-  searchParams: Promise<{ ids?: string }>;
+  params: Promise<{ locale: string }>;
+  searchParams: Promise<{ ids?: string; preset?: string }>;
 }): Promise<Metadata> {
   const t = await getTranslations("Compare");
-  const { ids } = await searchParams;
+  const { locale } = await params;
+  const { ids, preset } = await searchParams;
   const lenses = parseLensIds(ids);
+
+  if (preset) {
+    const found = getPresetBySlug(preset);
+    if (found) {
+      const lang = locale === "zh" ? "zh" : "en";
+      const title = found.title[lang];
+      return { title, openGraph: { title: `${title} | X-Glass` } };
+    }
+  }
 
   if (lenses.length < 2) {
     return { title: t("title") };
@@ -26,12 +40,18 @@ export async function generateMetadata({
 }
 
 export default async function ComparePage({
+  params,
   searchParams,
 }: {
-  searchParams: Promise<{ ids?: string; from?: string; lensId?: string }>;
+  params: Promise<{ locale: string }>;
+  searchParams: Promise<{ ids?: string; from?: string; lensId?: string; preset?: string }>;
 }) {
-  const { ids, from, lensId } = await searchParams;
+  const { locale } = await params;
+  const { ids, from, lensId, preset } = await searchParams;
   const lenses = parseLensIds(ids);
+
+  const lang = locale === "zh" ? "zh" : "en";
+  const presetTitle = preset ? (getPresetBySlug(preset)?.title[lang] ?? undefined) : undefined;
 
   // Determine back destination: lens detail page if navigated from one, else lens list
   const fallbackHref = from === "lens" && lensId ? `/lenses/${lensId}` : "/lenses";
@@ -39,7 +59,10 @@ export default async function ComparePage({
   return (
     <div className="bg-background w-full max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-8 flex flex-col gap-3 sm:gap-4">
       {/* Header */}
-      <ComparePageHeader lenses={lenses} fallbackHref={fallbackHref} minColumns={2} />
+      <ComparePageHeader lenses={lenses} fallbackHref={fallbackHref} minColumns={2} presetTitle={presetTitle} />
+
+      {/* Curated presets — client component, self-hides when compare list is non-empty */}
+      <CuratedComparisons />
 
       {/* Table — minColumns=2 ensures cold start always shows 2 search-trigger columns */}
       <CompareTable lenses={lenses} minColumns={2} />

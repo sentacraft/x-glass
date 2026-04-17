@@ -13,9 +13,11 @@ interface Props {
   fallbackHref: string;
   /** Matches CompareTable minColumns — button is hidden while empty slot columns are visible. */
   minColumns?: number;
+  /** Preset title to use as the default share poster title. */
+  presetTitle?: string;
 }
 
-export default function ComparePageHeader({ lenses, fallbackHref, minColumns = 0 }: Props) {
+export default function ComparePageHeader({ lenses, fallbackHref, minColumns = 0, presetTitle }: Props) {
   const t = useTranslations("Compare");
   const headerRef = useRef<HTMLDivElement>(null);
   const [showFab, setShowFab] = useState(false);
@@ -41,7 +43,7 @@ export default function ComparePageHeader({ lenses, fallbackHref, minColumns = 0
         {lenses.length >= minColumns && <CompareAddLensButton lenses={lenses} />}
         {lenses.length >= 1 && (
           <div className="ml-auto">
-            <ShareButton lenses={lenses} />
+            <ShareButton lenses={lenses} presetTitle={presetTitle} />
           </div>
         )}
       </div>
@@ -56,7 +58,7 @@ export default function ComparePageHeader({ lenses, fallbackHref, minColumns = 0
         }`}
         aria-hidden={!showFab}
       >
-        <ShareButton lenses={lenses} variant="fab" />
+        <ShareButton lenses={lenses} variant="fab" presetTitle={presetTitle} />
       </div>
     </>
   );

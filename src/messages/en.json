@@ -203,7 +203,9 @@
     "fieldOfficialLink": "Official Link",
     "fieldLensImage": "Lens Image",
     "shiftLeft": "Move left",
-    "shiftRight": "Move right"
+    "shiftRight": "Move right",
+    "curatedTitle": "Curated Comparisons",
+    "curatedHint": "Not sure where to start? Pick a common selection scenario."
   },
   "Share": {
     "button": "Share",

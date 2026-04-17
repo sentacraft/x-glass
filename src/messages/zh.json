@@ -203,7 +203,9 @@
     "fieldOfficialLink": "官方链接",
     "fieldLensImage": "镜头图片",
     "shiftLeft": "左移一列",
-    "shiftRight": "右移一列"
+    "shiftRight": "右移一列",
+    "curatedTitle": "精选对比",
+    "curatedHint": "不知从何开始？试试这些常见选型场景。"
   },
   "Share": {
     "button": "分享",

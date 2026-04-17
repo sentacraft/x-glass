@@ -1,0 +1,73 @@
+"use client";
+
+import { useLocale, useTranslations } from "next-intl";
+import { useRouter } from "@/i18n/navigation";
+import { useCompare } from "@/context/CompareProvider";
+import { trendingPresets, type TrendingPreset } from "@/lib/trending";
+import { allLenses } from "@/lib/lens";
+
+function PresetCard({ preset }: { preset: TrendingPreset }) {
+  const router = useRouter();
+  const locale = useLocale();
+  const lang = locale === "zh" ? "zh" : "en";
+
+  const lenses = preset.lensIds
+    .map((id) => allLenses.find((l) => l.id === id))
+    .filter(Boolean);
+
+  function handleClick() {
+    const idsParam = preset.lensIds.join(",");
+    router.replace(`/lenses/compare?ids=${idsParam}&preset=${preset.slug}`);
+  }
+
+  return (
+    <button
+      onClick={handleClick}
+      className="group text-left w-full rounded-xl border border-zinc-200 bg-white px-4 py-3.5 transition-colors hover:border-zinc-400 hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-950 dark:hover:border-zinc-500 dark:hover:bg-zinc-900"
+    >
+      <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100 leading-snug">
+        {preset.title[lang]}
+      </p>
+      <p className="mt-0.5 text-xs text-zinc-500 dark:text-zinc-400 leading-snug">
+        {preset.subtitle[lang]}
+      </p>
+
+      {/* Lens model badge strip */}
+      <div className="mt-2.5 flex flex-wrap gap-1">
+        {lenses.map((lens) => (
+          lens && (
+            <span
+              key={lens.id}
+              className="inline-block rounded-md bg-zinc-100 px-1.5 py-0.5 text-[10px] text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400"
+            >
+              {lens.model}
+            </span>
+          )
+        ))}
+      </div>
+    </button>
+  );
+}
+
+export default function CuratedComparisons() {
+  const { compareIds } = useCompare();
+  const t = useTranslations("Compare");
+
+  if (compareIds.length > 0) return null;
+
+  return (
+    <div className="mb-2">
+      <p className="text-xs font-medium text-zinc-500 dark:text-zinc-400 mb-2 uppercase tracking-wide">
+        {t("curatedTitle")}
+      </p>
+      <p className="text-sm text-zinc-500 dark:text-zinc-400 mb-3">
+        {t("curatedHint")}
+      </p>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+        {trendingPresets.map((preset) => (
+          <PresetCard key={preset.slug} preset={preset} />
+        ))}
+      </div>
+    </div>
+  );
+}
