@@ -150,11 +150,10 @@
   }
   body {
     @apply text-foreground;
-    /* stone-100 fills the safe-area zones visible in iOS Safari (bottom toolbar)
-       and iOS PWA standalone (home indicator zone). The layout wrapper has no
-       background, so stone-100 shows through the pt/pb padding zones regardless
-       of whether the page content is short or non-scrolling. Each page that
-       needs white sets bg-background on its own root element. */
+    /* stone-100 shows through the pb-safe-inset-bottom strip at the very
+       bottom of the layout wrapper (home indicator / Safari toolbar zone).
+       The layout wrapper itself carries bg-background and min-h-svh, so
+       pages never expose the body background over large areas. */
     @apply bg-stone-100;
     /* clip avoids the CSS spec side effect where overflow-x: hidden promotes
        overflow-y to auto, turning body into a scroll container. clip trims

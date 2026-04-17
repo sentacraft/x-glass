@@ -37,7 +37,7 @@ export default async function ComparePage({
   const fallbackHref = from === "lens" && lensId ? `/lenses/${lensId}` : "/lenses";
 
   return (
-    <div className="bg-background w-full max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-8 flex flex-col gap-3 sm:gap-4">
+    <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-8 flex flex-col gap-3 sm:gap-4">
       {/* Header */}
       <ComparePageHeader lenses={lenses} fallbackHref={fallbackHref} minColumns={2} />
 
