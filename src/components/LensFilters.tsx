@@ -27,7 +27,7 @@ export default function LensFilters({
 }: Props) {
   const t = useTranslations("LensList");
   const tBrand = useTranslations("Brands");
-  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+  const [secondaryOpen, setSecondaryOpen] = useState(false);
 
   const featureMeta = {
     ois: { label: t("featureOis"), icon: FEATURE_ICONS.ois },
@@ -140,22 +140,21 @@ export default function LensFilters({
         "inline-flex items-center gap-1.5 self-start text-[11px] font-medium uppercase tracking-[0.08em]",
         "text-zinc-700 transition-colors hover:text-zinc-900",
         "dark:text-zinc-300 dark:hover:text-zinc-100",
-        "sm:hidden",
       )}
-      onClick={() => setMobileFiltersOpen((v) => !v)}
-      aria-expanded={mobileFiltersOpen}
+      onClick={() => setSecondaryOpen((v) => !v)}
+      aria-expanded={secondaryOpen}
     >
       <SlidersHorizontal className="size-3.5" />
       <span className="underline decoration-zinc-300 underline-offset-4 hover:decoration-zinc-500 dark:decoration-zinc-600 dark:hover:decoration-zinc-400">
-        {mobileFiltersOpen ? t("fewerFilters") : t("moreFilters")}
+        {secondaryOpen ? t("fewerFilters") : t("moreFilters")}
       </span>
       <ChevronDown
         className={cn(
           "size-3.5 transition-transform duration-200",
-          mobileFiltersOpen && "rotate-180",
+          secondaryOpen && "rotate-180",
         )}
       />
-      {hasHiddenActiveFilters && !mobileFiltersOpen && (
+      {hasHiddenActiveFilters && !secondaryOpen && (
         <span className="h-1.5 w-1.5 rounded-full bg-zinc-900 dark:bg-zinc-100" />
       )}
     </button>
@@ -199,7 +198,7 @@ export default function LensFilters({
       <div
         className={cn(
           "grid overflow-hidden transition-[grid-template-rows] duration-500 ease-in-out",
-          mobileFiltersOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr] sm:grid-rows-[1fr]",
+          secondaryOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]",
         )}
       >
         <div className="min-h-0 overflow-hidden">
