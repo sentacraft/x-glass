@@ -5,6 +5,7 @@ import { Z } from "@/config/ui";
 import { useTranslations } from "next-intl";
 import { ShareButton } from "@/components/ShareButton";
 import CompareAddLensButton from "@/components/CompareAddLensButton";
+import CuratedPresetsButton from "@/components/CuratedPresetsButton";
 import BackButton from "@/components/BackButton";
 import type { Lens } from "@/lib/types";
 
@@ -41,6 +42,7 @@ export default function ComparePageHeader({ lenses, fallbackHref, minColumns = 0
           {t("title")}
         </h1>
         {lenses.length >= minColumns && <CompareAddLensButton lenses={lenses} />}
+        <CuratedPresetsButton />
         {lenses.length >= 1 && (
           <div className="ml-auto">
             <ShareButton lenses={lenses} presetTitle={presetTitle} />

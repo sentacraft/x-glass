@@ -6,7 +6,7 @@ import { useCompare } from "@/context/CompareProvider";
 import { trendingPresets, type TrendingPreset } from "@/lib/trending";
 import { allLenses } from "@/lib/lens";
 
-function PresetCard({ preset }: { preset: TrendingPreset }) {
+export function PresetCard({ preset, onSelect }: { preset: TrendingPreset; onSelect?: () => void }) {
   const router = useRouter();
   const locale = useLocale();
   const lang = locale === "zh" ? "zh" : "en";
@@ -18,6 +18,7 @@ function PresetCard({ preset }: { preset: TrendingPreset }) {
   function handleClick() {
     const idsParam = preset.lensIds.join(",");
     router.replace(`/lenses/compare?ids=${idsParam}&preset=${preset.slug}`);
+    onSelect?.();
   }
 
   return (
