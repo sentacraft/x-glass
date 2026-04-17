@@ -330,72 +330,64 @@ export default async function AboutContent() {
           {t("ackBody")}
         </p>
 
-        {/* Collaboration stories — accordion */}
-        <div className="flex flex-col divide-y divide-zinc-100 dark:divide-zinc-800">
-          {[
-            { tag: t("ackStory1Tag"), heading: t("ackStory1Heading"), body: t("ackStory1Body") },
-            { tag: t("ackStory2Tag"), heading: t("ackStory2Heading"), body: t("ackStory2Body") },
-          ].map(({ tag, heading, body }) => (
-            <details key={heading} className="group py-4 first:pt-0">
-              <summary className="flex items-center justify-between gap-3 cursor-pointer list-none select-none">
-                <div className="flex items-baseline gap-2">
-                  <span className="text-[10px] font-medium tracking-widest uppercase text-zinc-400 dark:text-zinc-500">{tag}</span>
-                  <span className="text-sm font-semibold text-zinc-700 dark:text-zinc-300">{heading}</span>
-                </div>
-                <svg
-                  viewBox="0 0 16 16"
-                  width="14"
-                  height="14"
-                  fill="currentColor"
-                  className="flex-shrink-0 text-zinc-400 dark:text-zinc-500 transition-transform duration-200 group-open:rotate-180"
-                  aria-hidden="true"
+        {/* Card + story pairs */}
+        <div className="flex flex-col gap-3">
+          {ackCredits.map(({ roles, company, product, logo, logoAlt, logoClassName, logoSize, glowColor }, i) => {
+            const storyKey = i === 0 ? "1" : "2";
+            const heading = t(`ackStory${storyKey}Heading` as "ackStory1Heading");
+            const body = t(`ackStory${storyKey}Body` as "ackStory1Body");
+            return (
+              <div key={`${company}-${product}`} className="flex flex-col">
+                {/* Credit card */}
+                <div
+                  className="flex items-center gap-6 px-4 py-5 rounded-xl border border-zinc-100 dark:border-zinc-800/60"
+                  style={{ background: `radial-gradient(ellipse at center, ${glowColor} 0%, transparent 70%)` }}
                 >
-                  <path d="M8 10.94 2.53 5.47l.94-.94L8 9.06l4.53-4.53.94.94L8 10.94Z" />
-                </svg>
-              </summary>
-              <div className="mt-3 flex flex-col gap-3">
-                {body.split("\n\n").map((para, i) => (
-                  <p key={i} className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
-                    {para}
-                  </p>
-                ))}
+                  <div className="flex-1 text-right">
+                    <p className="text-[10px] tracking-widest uppercase text-zinc-400 dark:text-zinc-500 leading-5">
+                      {roles.join(" · ")}
+                    </p>
+                  </div>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={logo}
+                    alt={logoAlt}
+                    width={logoSize}
+                    height={logoSize}
+                    className={`flex-shrink-0 ${logoClassName}`}
+                    loading="lazy"
+                  />
+                  <div className="flex-1 flex flex-col gap-0.5">
+                    <p className="text-sm font-semibold text-zinc-800 dark:text-zinc-100">{product}</p>
+                    <p className="text-xs text-zinc-400 dark:text-zinc-500">{company}</p>
+                  </div>
+                </div>
+                {/* Story accordion */}
+                <details className="group">
+                  <summary className="flex items-center justify-between gap-3 px-4 py-3 cursor-pointer list-none select-none border-x border-b border-zinc-100 dark:border-zinc-800/60 rounded-b-xl">
+                    <span className="text-sm font-medium text-zinc-600 dark:text-zinc-400">{heading}</span>
+                    <svg
+                      viewBox="0 0 16 16"
+                      width="14"
+                      height="14"
+                      fill="currentColor"
+                      className="flex-shrink-0 text-zinc-400 dark:text-zinc-500 transition-transform duration-200 group-open:rotate-180"
+                      aria-hidden="true"
+                    >
+                      <path d="M8 10.94 2.53 5.47l.94-.94L8 9.06l4.53-4.53.94.94L8 10.94Z" />
+                    </svg>
+                  </summary>
+                  <div className="mt-3 px-1 flex flex-col gap-3">
+                    {body.split("\n\n").map((para, j) => (
+                      <p key={j} className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+                        {para}
+                      </p>
+                    ))}
+                  </div>
+                </details>
               </div>
-            </details>
-          ))}
-        </div>
-
-        {/* Cast list — horizontal movie credits style */}
-        <div className="mt-4 flex flex-col divide-y divide-zinc-100 dark:divide-zinc-800/60">
-          {ackCredits.map(({ roles, company, product, logo, logoAlt, logoClassName, logoSize, glowColor }) => (
-            <div
-              key={`${company}-${product}`}
-              className="flex items-center gap-6 py-6 rounded-lg"
-              style={{ background: `radial-gradient(ellipse at center, ${glowColor} 0%, transparent 70%)` }}
-            >
-              {/* Roles — right-aligned */}
-              <div className="flex-1 text-right">
-                <p className="text-[10px] tracking-widest uppercase text-zinc-400 dark:text-zinc-500 leading-5">
-                  {roles.join(" · ")}
-                </p>
-              </div>
-              {/* Logo — center. Native img ensures SVG is served as a vector
-                  without Next.js image optimization potentially rasterizing it. */}
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={logo}
-                alt={logoAlt}
-                width={logoSize}
-                height={logoSize}
-                className={`flex-shrink-0 ${logoClassName}`}
-                loading="lazy"
-              />
-              {/* Brand — left-aligned */}
-              <div className="flex-1 flex flex-col gap-0.5">
-                <p className="text-sm font-semibold text-zinc-800 dark:text-zinc-100">{product}</p>
-                <p className="text-xs text-zinc-400 dark:text-zinc-500">{company}</p>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         {/* Closing line */}
