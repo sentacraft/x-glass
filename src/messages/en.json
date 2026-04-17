@@ -314,10 +314,13 @@
     "privacyAnalytics": "This site uses Vercel Analytics to collect aggregated, anonymous data such as page views, referrers, and device types — solely to help improve the product. No personally identifiable information is collected.",
 
     "donationTitle": "Support the Project",
-    "donationBody": "X-Glass is free and will stay free. Building and maintaining the data pipeline — including manual data review and corrections — takes considerable time and effort. If you find it useful, you're welcome to show your support through any of the options below.",
+    "donationBody": "X-Glass is a free, open-source project. Every spec in this database went through tedious data extraction and manual cross-checking. If it helped you find the right lens — or saved you some time — consider buying me a coffee.",
     "donationGitHubSponsors": "GitHub Sponsors",
+    "donationGitHubSponsorsDesc": "Ongoing monthly support",
     "donationBMC": "Buy Me a Coffee",
+    "donationBMCDesc": "A one-time tip",
     "donationAfdian": "Afdian (爱发电)",
+    "donationAfdianDesc": "For users in mainland China",
 
     "ackTitle": "Acknowledgments",
     "ackBody": "Large language models have emerged with remarkable capabilities over the past year. I could not have imagined building something at this scale on my own, let alone in under a month. It could take forever for me without large language models or AI coding agents. I am genuinely grateful for the era of technology we live in — one where ideas that once felt impossibly ambitious can actually be brought to life by a solo developer.",
