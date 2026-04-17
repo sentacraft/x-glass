@@ -475,10 +475,12 @@ export default function CompareTable({ lenses: initialLenses, minColumns = 0, hi
     </div>
     <div ref={containerRef} className="isolate overflow-x-auto overflow-y-clip rounded-xl border border-zinc-200 dark:border-zinc-800">
       <table
-        className="w-full min-w-max table-fixed text-sm border-collapse"
-        style={{
-          minWidth: `calc(${LABEL_COLUMN_WIDTH} + ${orderedLenses.length} * ${LENS_COLUMN_MIN_WIDTH})`,
-        }}
+        className={cn("w-full table-fixed text-sm border-collapse", orderedLenses.length > 0 && "min-w-max")}
+        style={
+          orderedLenses.length > 0
+            ? { minWidth: `calc(${LABEL_COLUMN_WIDTH} + ${orderedLenses.length} * ${LENS_COLUMN_MIN_WIDTH})` }
+            : undefined
+        }
       >
         <colgroup>
           <col style={{ width: LABEL_COLUMN_WIDTH }} />
@@ -486,7 +488,8 @@ export default function CompareTable({ lenses: initialLenses, minColumns = 0, hi
             <col key={lens.id} style={{ width: LENS_COLUMN_MIN_WIDTH }} />
           ))}
           {Array.from({ length: emptySlotCount }).map((_, i) => (
-            <col key={`empty-col-${i}`} style={{ width: LENS_COLUMN_MIN_WIDTH }} />
+            // Empty state: no fixed width — table-fixed distributes remaining space evenly
+            <col key={`empty-col-${i}`} style={orderedLenses.length > 0 ? { width: LENS_COLUMN_MIN_WIDTH } : undefined} />
           ))}
         </colgroup>
 
