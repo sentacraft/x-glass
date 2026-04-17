@@ -12,7 +12,7 @@ Browse, filter, and compare every Fujifilm X-mount lens side by side — native 
 
 **Mobile**
 
-![Mobile](https://github.com/user-attachments/assets/eb2be185-f5f3-4744-afc6-7d871f93203e)
+![Mobile](https://github.com/user-attachments/assets/0d0953c5-5ed4-4f5d-88c9-38f4fd8f279e)
 
 ---
 
