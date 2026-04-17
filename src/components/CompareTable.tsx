@@ -170,40 +170,19 @@ export default function CompareTable({ lenses: initialLenses, minColumns = 0, hi
   const tBrand = useTranslations("Brands");
   const locale = useLocale();
   const router = useRouter();
-  const { compareIds, replaceCompare } = useCompare();
+  const { replaceCompare } = useCompare();
   const initialLensIds = useMemo(
     () => initialLenses.map((lens) => lens.id),
     [initialLenses]
   );
   const [orderedIds, setOrderedIds] = useState(initialLensIds);
 
-  // Keep a ref to the latest compareIds so the init effect can read the
-  // current context value without re-running every time it changes.
-  const compareIdsRef = useRef(compareIds);
-  useEffect(() => { compareIdsRef.current = compareIds; }, [compareIds]);
-
+  // URL is the single source of truth. Sync context and local state whenever
+  // the server-rendered lens list changes (navigation, lens add/remove).
   useEffect(() => {
-    if (initialLensIds.length > 0) {
-      // URL has IDs — URL is the source of truth.
-      replaceCompare(initialLensIds);
-      setOrderedIds(initialLensIds);
-    } else {
-      const existing = compareIdsRef.current;
-      if (existing.length > 0) {
-        // URL has no IDs but context does (e.g. user navigated via a bare
-        // /compare link). Restore from context and sync the URL so the
-        // server can hydrate the correct lenses.
-        setOrderedIds(existing);
-        startTransition(() => {
-          router.replace(`/lenses/compare?ids=${existing.join(",")}`);
-        });
-      } else {
-        // Genuine cold start — nothing to restore.
-        replaceCompare([]);
-        setOrderedIds([]);
-      }
-    }
-  }, [initialLensIds, replaceCompare, router]);
+    replaceCompare(initialLensIds);
+    setOrderedIds(initialLensIds);
+  }, [initialLensIds, replaceCompare]);
 
   const orderedLenses = orderedIds
     .map((id) => allLenses.find((lens) => lens.id === id))
