@@ -74,7 +74,7 @@ x-glass/
 ## 开发规范
 
 - **UI Token 规范**：所有视觉设计语言（交互状态颜色、通用按钮样式、选中态等）必须在 `src/lib/ui-tokens.ts` 中集中定义并导出，组件通过导入 token 使用，**禁止各处自行内联重复的样式字符串**。新增交互样式时，先判断是否为可复用的设计语言——若是，先写入 `ui-tokens.ts` 再引用；若是一次性局部样式才允许内联。
-- **PWA / 设备环境 inset 规范**：iOS 刘海、Home Bar、WCO 标题栏等偏移量，**统一通过 `src/app/globals.css` `:root` 中定义的 CSS 变量引用**，禁止在组件里直接调用 `env(safe-area-inset-*)` 或 `env(titlebar-area-height)`。可用变量：`--safe-inset-top/bottom/left/right`、`--titlebar-height`。新增需要处理此类偏移的组件时：① 引用对应变量；② 在 `e2e/pwa-safe-area.spec.ts` 补一个 `computedPx` 断言（测试原理见该文件顶部注释）。
+- **PWA / 设备环境 inset 规范**：iOS 刘海、Home Bar、WCO 等偏移量统一通过 `globals.css :root` 的 `--safe-inset-*` / `--titlebar-height` 变量引用，禁止在组件里直接调用 `env(safe-area-inset-*)`。新增相关偏移时同步在 `e2e/pwa-safe-area.spec.ts` 补测试。
 - **Design Lab 约定**：所有用于 demo、design exploration、UX 研究的页面与实验组件都必须放在 `src/app/[locale]/design-lab/` 下，避免污染生产代码。
 - **Design Lab 约定**：`src/app/[locale]/design-lab/` 下的所有页面与实验组件，以及所有 Test Hook 相关页面与组件，一律直接写死英文文案，不接入 `next-intl`，也不要把实验文案写入 `en.json` / `zh.json`。
 
