@@ -24,6 +24,8 @@ export interface StructuredLine {
 interface BaseRow {
   /** Resolved label string (pre-translated by the caller). */
   label: string;
+  /** Static note shown in a ⓘ popover next to the label (not the value). Pre-translated by the caller. */
+  labelNote?: string;
   /** If set, look up lens.fieldNotes[fieldNoteKey] and show a ⓘ popover. */
   fieldNoteKey?: FieldNoteKey;
   /**
@@ -110,6 +112,8 @@ export interface SpecValueTextLabels {
 export interface ResolvedTextRow {
   kind: "text";
   label: string;
+  /** Static note shown in a ⓘ popover next to the label (not the value). */
+  labelNote?: string;
   /** Resolved note for the ⓘ popover, if any. */
   note?: string;
   displayValue?: string;
@@ -121,6 +125,7 @@ export interface ResolvedTextRow {
 export interface ResolvedNumericRow {
   kind: "numeric";
   label: string;
+  labelNote?: string;
   note?: string;
   displayValue?: string;
   subValue?: string;
@@ -134,6 +139,7 @@ export interface ResolvedNumericRow {
 export interface ResolvedBoolRow {
   kind: "bool";
   label: string;
+  labelNote?: string;
   note?: string;
   boolValue: boolean | "partial" | undefined;
   subValue?: string;
@@ -186,6 +192,7 @@ export interface SpecGroupLabels {
   powerZoom: string;
   specialtyTags: string;
   releaseYear: string;
+  releaseYearLabelNote: string;
   accessories: string;
 
   // Sub-labels used inside formatters
@@ -230,6 +237,8 @@ export function resolveSpecRow(
     (row.fieldNoteKey ? lens.fieldNotes?.[row.fieldNoteKey] : undefined) ??
     row.getNote?.(lens);
 
+  const labelNote = row.labelNote;
+
   if (row.kind === "bool") {
     const boolValue = row.getValue(lens);
     const subValue = row.getSubValue?.(lens);
@@ -244,6 +253,7 @@ export function resolveSpecRow(
     return {
       kind: "bool",
       label: row.label,
+      labelNote,
       note,
       boolValue,
       subValue,
@@ -264,6 +274,7 @@ export function resolveSpecRow(
     return {
       kind: "numeric",
       label: row.label,
+      labelNote,
       note,
       displayValue,
       subValue,
@@ -281,6 +292,7 @@ export function resolveSpecRow(
   return {
     kind: "text",
     label: row.label,
+    labelNote,
     note,
     displayValue,
     subValue,
@@ -612,6 +624,7 @@ export function buildSpecGroups(labels: SpecGroupLabels): SpecGroup[] {
         {
           kind: "numeric",
           label: labels.releaseYear,
+          labelNote: labels.releaseYearLabelNote,
           hasData: (l) => l.releaseYear !== undefined,
           getDisplayValue: (l) => fmt.optionalNumber(l.releaseYear, ""),
           toComparable: (l) => l.releaseYear,
