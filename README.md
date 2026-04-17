@@ -96,6 +96,6 @@ Built on the shoulders of great open source work: [Base UI](https://base-ui.com)
 
 ## License
 
-© 2026 Eric Zhang. All rights reserved.
+© 2026 SentaCraft. All rights reserved.
 
 Source code is made available for reference. No license is granted to use, copy, modify, or distribute this software.
