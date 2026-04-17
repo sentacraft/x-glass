@@ -24,7 +24,7 @@ export function PresetCard({ preset, onSelect }: { preset: TrendingPreset; onSel
   return (
     <button
       onClick={handleClick}
-      className="group text-left w-full rounded-xl border border-zinc-200 bg-white px-4 py-3.5 transition-colors hover:border-zinc-400 hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-950 dark:hover:border-zinc-500 dark:hover:bg-zinc-900"
+      className="group text-left w-full h-full flex flex-col rounded-xl border border-zinc-200 bg-white px-4 py-3.5 transition-all hover:-translate-y-0.5 hover:border-zinc-400 hover:bg-zinc-50 hover:shadow-sm dark:border-zinc-700 dark:bg-zinc-950 dark:hover:border-zinc-500 dark:hover:bg-zinc-900"
     >
       <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100 leading-snug">
         {preset.title[lang]}
@@ -46,6 +46,11 @@ export function PresetCard({ preset, onSelect }: { preset: TrendingPreset; onSel
           )
         ))}
       </div>
+
+      {/* CTA — fades in on hover */}
+      <p className="mt-auto pt-3 text-xs font-medium text-zinc-400 opacity-0 transition-opacity group-hover:opacity-100 dark:text-zinc-500">
+        Compare Now →
+      </p>
     </button>
   );
 }
@@ -65,8 +70,8 @@ export default function CuratedComparisons() {
         {t("curatedHint")}
       </p>
       {/* Mobile: horizontal snap carousel showing ~1.5 cards to signal swipeability */}
-      <div className="sm:hidden -mx-4 overflow-x-auto snap-x snap-mandatory">
-        <div className="flex gap-2 px-4 pb-0.5">
+      <div className="sm:hidden -mx-4 overflow-x-auto snap-x snap-mandatory scroll-pl-4">
+        <div className="flex items-stretch gap-2 px-4 pb-0.5">
           {trendingPresets.map((preset) => (
             <div key={preset.slug} className="shrink-0 snap-start w-[calc((100vw-2.5rem)/1.5)]">
               <PresetCard preset={preset} />
