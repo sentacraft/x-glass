@@ -155,11 +155,11 @@ export const IRIS_HERO: IrisConfig = {
   // Interaction — tap triggers a sweep animation; hover is disabled on the homepage
   interactive: {
     type: "tap",
-    animation: { type: "sweep", sweepMs: 800, totalMs: 1000 },
+    animation: { type: "sweep", sweepMs: 800, totalMs: 1500 },
   },
   apertureStrip: true,
   // Animation
-  onMount: { type: "sweep", sweepMs: 800, totalMs: 1000 },
+  onMount: { type: "sweep", sweepMs: 800, totalMs: 1500 },
   chaseTauMs: 60,
 };
 
