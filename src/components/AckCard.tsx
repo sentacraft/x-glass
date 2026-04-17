@@ -97,7 +97,7 @@ export default function AckCard({
         }}
       >
         <div style={{ overflow: "hidden" }}>
-          <div className="px-8 pb-7 pt-5 flex flex-col gap-3">
+          <div className="px-8 pb-10 pt-5 flex flex-col gap-3">
             {paragraphs.map((para, j) => {
               if (isClaudeCard && j === 0) {
                 const parts = para.split("Iris");
