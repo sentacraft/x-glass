@@ -93,7 +93,7 @@ export default async function LocaleLayout({
                 No background here — body stone-100 shows through the bottom
                 padding zone, so safe-area always matches the page canvas color
                 regardless of whether the page content is short or non-scrolling. */}
-            <div className="pt-[var(--nav-height)] pb-[env(safe-area-inset-bottom,0px)]">
+            <div className="pt-[var(--nav-height)] pb-[var(--safe-inset-bottom)]">
               {TESTHOOK_ALLOWED ? (
                 <TestHookProvider>
                   {children}
