@@ -206,6 +206,7 @@ export default async function LensDetailPage({ params }: { params: Params }) {
   ];
 
   return (
+    <>
     <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 py-8 flex flex-col gap-8">
       {/* Back button */}
       <BackButton fallbackHref="/lenses" />
@@ -310,5 +311,6 @@ export default async function LensDetailPage({ params }: { params: Params }) {
       </div>
     </div>
     <BackToTopButton />
+    </>
   );
 }
