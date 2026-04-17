@@ -330,22 +330,22 @@ export default async function AboutContent() {
           {t("ackBody")}
         </p>
 
-        {/* Card + story pairs */}
-        <div className="flex flex-col gap-3">
+        {/* Card + story pairs — card IS the accordion trigger */}
+        <div className="flex flex-col gap-4">
           {ackCredits.map(({ roles, company, product, logo, logoAlt, logoClassName, logoSize, glowColor }, i) => {
             const storyKey = i === 0 ? "1" : "2";
             const heading = t(`ackStory${storyKey}Heading` as "ackStory1Heading");
             const body = t(`ackStory${storyKey}Body` as "ackStory1Body");
             return (
-              <div key={`${company}-${product}`} className="flex flex-col">
-                {/* Credit card */}
-                <div
-                  className="flex items-center gap-6 px-4 py-5 rounded-xl border border-zinc-100 dark:border-zinc-800/60"
+              <details key={`${company}-${product}`} className="group">
+                {/* summary = the credit card */}
+                <summary
+                  className="flex items-center gap-5 px-8 py-7 rounded-2xl border border-zinc-100 dark:border-zinc-800/60 cursor-pointer list-none select-none w-fit"
                   style={{ background: `radial-gradient(ellipse at center, ${glowColor} 0%, transparent 70%)` }}
                 >
-                  <div className="flex-1 text-right">
+                  <div className="text-right">
                     <p className="text-[10px] tracking-widest uppercase text-zinc-400 dark:text-zinc-500 leading-5">
-                      {roles.join(" · ")}
+                      {roles.join("\n")}
                     </p>
                   </div>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -357,35 +357,33 @@ export default async function AboutContent() {
                     className={`flex-shrink-0 ${logoClassName}`}
                     loading="lazy"
                   />
-                  <div className="flex-1 flex flex-col gap-0.5">
-                    <p className="text-sm font-semibold text-zinc-800 dark:text-zinc-100">{product}</p>
-                    <p className="text-xs text-zinc-400 dark:text-zinc-500">{company}</p>
-                  </div>
-                </div>
-                {/* Story accordion */}
-                <details className="group">
-                  <summary className="flex items-center justify-between gap-3 px-4 py-3 cursor-pointer list-none select-none border-x border-b border-zinc-100 dark:border-zinc-800/60 rounded-b-xl">
-                    <span className="text-sm font-medium text-zinc-600 dark:text-zinc-400">{heading}</span>
+                  <div className="flex items-center gap-3">
+                    <div className="flex flex-col gap-0.5">
+                      <p className="text-sm font-semibold text-zinc-800 dark:text-zinc-100">{product}</p>
+                      <p className="text-xs text-zinc-400 dark:text-zinc-500">{company}</p>
+                    </div>
                     <svg
                       viewBox="0 0 16 16"
-                      width="14"
-                      height="14"
+                      width="13"
+                      height="13"
                       fill="currentColor"
-                      className="flex-shrink-0 text-zinc-400 dark:text-zinc-500 transition-transform duration-200 group-open:rotate-180"
+                      className="flex-shrink-0 text-zinc-300 dark:text-zinc-600 transition-transform duration-200 group-open:rotate-180 ml-1"
                       aria-hidden="true"
                     >
                       <path d="M8 10.94 2.53 5.47l.94-.94L8 9.06l4.53-4.53.94.94L8 10.94Z" />
                     </svg>
-                  </summary>
-                  <div className="mt-3 px-1 flex flex-col gap-3">
-                    {body.split("\n\n").map((para, j) => (
-                      <p key={j} className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
-                        {para}
-                      </p>
-                    ))}
                   </div>
-                </details>
-              </div>
+                </summary>
+                {/* Story content */}
+                <div className="mt-3 flex flex-col gap-3">
+                  <p className="text-xs font-medium text-zinc-400 dark:text-zinc-500 text-center">{heading}</p>
+                  {body.split("\n\n").map((para, j) => (
+                    <p key={j} className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+                      {para}
+                    </p>
+                  ))}
+                </div>
+              </details>
             );
           })}
         </div>
