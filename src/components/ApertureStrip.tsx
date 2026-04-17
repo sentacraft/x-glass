@@ -214,7 +214,7 @@ export default function ApertureStrip({
       {/* Centre indicator tick */}
       <div
         aria-hidden="true"
-        className="absolute left-1/2 top-0 -translate-x-1/2 w-px h-1.5 bg-current opacity-50 text-zinc-500 dark:text-zinc-400"
+        className="absolute left-1/2 -top-0.5 -translate-x-1/2 w-px h-1.5 bg-current opacity-70 text-zinc-400 dark:text-zinc-300"
       />
 
       {/* Scrollable label track — overflow clips the marks row */}
