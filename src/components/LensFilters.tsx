@@ -94,11 +94,10 @@ export default function LensFilters({
   ] as { value: FocusFilter | null; label: string }[];
 
   const hasHiddenActiveFilters =
-    filters.typeFilter !== null ||
-    filters.focusFilter !== null ||
+    filters.focalCategories.length > 0 ||
+    filters.features.length > 0 ||
     filters.specialtyTag !== null ||
-    filters.focusMotorClass !== null ||
-    filters.features.length > 0;
+    filters.focusMotorClass !== null;
 
   const allOptionLabel = t("allTypes");
 
@@ -175,12 +174,21 @@ export default function LensFilters({
           />
         </FilterRow>
 
-        <FilterRow label={t("focalRange")}>
-          <MultiSelectChipGroup
-            allLabel={allOptionLabel}
-            allSelected={filters.focalCategories.length === 0}
-            onSelectAll={() => updateFilters("focalCategories", [])}
-            options={focalOptions}
+        <FilterRow label={t("lensType")}>
+          <TypeSegmentedControl
+            ariaLabel={t("lensType")}
+            options={typeOptions}
+            value={filters.typeFilter}
+            onChange={(v) => updateFilters("typeFilter", v)}
+          />
+        </FilterRow>
+
+        <FilterRow label={t("focusFilter")}>
+          <TypeSegmentedControl
+            ariaLabel={t("focusFilter")}
+            options={focusOptions}
+            value={filters.focusFilter}
+            onChange={(v) => updateFilters("focusFilter", v)}
           />
         </FilterRow>
 
@@ -196,22 +204,17 @@ export default function LensFilters({
       >
         <div className="min-h-0 overflow-hidden">
           <div className="flex flex-col gap-3 pt-3 pb-1">
-            <FilterRow label={t("lensType")}>
-              <TypeSegmentedControl
-                ariaLabel={t("lensType")}
-                options={typeOptions}
-                value={filters.typeFilter}
-                onChange={(v) => updateFilters("typeFilter", v)}
+            <FilterRow label={t("focalRange")}>
+              <MultiSelectChipGroup
+                allLabel={allOptionLabel}
+                allSelected={filters.focalCategories.length === 0}
+                onSelectAll={() => updateFilters("focalCategories", [])}
+                options={focalOptions}
               />
             </FilterRow>
 
-            <FilterRow label={t("focusFilter")}>
-              <TypeSegmentedControl
-                ariaLabel={t("focusFilter")}
-                options={focusOptions}
-                value={filters.focusFilter}
-                onChange={(v) => updateFilters("focusFilter", v)}
-              />
+            <FilterRow label={t("features")}>
+              <FeatureToggleGroup options={featureOptions} />
             </FilterRow>
 
             {availableSpecialtyTags.length > 0 && (
@@ -234,10 +237,6 @@ export default function LensFilters({
                 onChange={(v) => updateFilters("focusMotorClass", v)}
                 wrap
               />
-            </FilterRow>
-
-            <FilterRow label={t("features")}>
-              <FeatureToggleGroup options={featureOptions} />
             </FilterRow>
           </div>
         </div>
