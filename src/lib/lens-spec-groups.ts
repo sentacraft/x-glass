@@ -419,6 +419,48 @@ export function buildSpecGroups(labels: SpecGroupLabels): SpecGroup[] {
     },
 
     // -----------------------------------------------------------------------
+    // Physical
+    // -----------------------------------------------------------------------
+    {
+      label: labels.groupPhysical,
+      rows: [
+        {
+          kind: "numeric",
+          label: labels.weight,
+          fieldNoteKey: "weightG" as FieldNoteKey,
+          hasData: (l) => l.weightG !== undefined,
+          getDisplayValue: (l) => fmt.weightDisplay(l.weightG, "g"),
+          toComparable: (l) =>
+            Array.isArray(l.weightG) ? l.weightG[0] : l.weightG,
+          bestDir: "min",
+        },
+        {
+          kind: "text",
+          label: labels.dimensions,
+          hasData: (l) =>
+            l.diameterMm !== undefined || l.length !== undefined,
+          getDisplayValue: (l) =>
+            fmt.dimensionsPrimaryDisplay(l.diameterMm, l.length),
+          getSubValue: (l) =>
+            fmt.dimensionsVariantsDisplay(l.length, { retracted, wide, tele }),
+        },
+        {
+          kind: "text",
+          label: labels.filterSize,
+          fieldNoteKey: "filterMm" as FieldNoteKey,
+          hasData: (l) => l.filterMm !== undefined,
+          getDisplayValue: (l) => fmt.filterSizeDisplay(l.filterMm),
+        },
+        {
+          kind: "text",
+          label: labels.lensMaterial,
+          hasData: (l) => l.lensMaterial !== undefined,
+          getDisplayValue: (l) => l.lensMaterial,
+        },
+      ] satisfies SpecRow[],
+    },
+
+    // -----------------------------------------------------------------------
     // Autofocus
     // -----------------------------------------------------------------------
     {
@@ -522,48 +564,6 @@ export function buildSpecGroups(labels: SpecGroupLabels): SpecGroup[] {
             l.ois && l.oisStops !== undefined
               ? `${l.oisStops} stops`
               : undefined,
-        },
-      ] satisfies SpecRow[],
-    },
-
-    // -----------------------------------------------------------------------
-    // Physical
-    // -----------------------------------------------------------------------
-    {
-      label: labels.groupPhysical,
-      rows: [
-        {
-          kind: "numeric",
-          label: labels.weight,
-          fieldNoteKey: "weightG" as FieldNoteKey,
-          hasData: (l) => l.weightG !== undefined,
-          getDisplayValue: (l) => fmt.weightDisplay(l.weightG, "g"),
-          toComparable: (l) =>
-            Array.isArray(l.weightG) ? l.weightG[0] : l.weightG,
-          bestDir: "min",
-        },
-        {
-          kind: "text",
-          label: labels.dimensions,
-          hasData: (l) =>
-            l.diameterMm !== undefined || l.length !== undefined,
-          getDisplayValue: (l) =>
-            fmt.dimensionsPrimaryDisplay(l.diameterMm, l.length),
-          getSubValue: (l) =>
-            fmt.dimensionsVariantsDisplay(l.length, { retracted, wide, tele }),
-        },
-        {
-          kind: "text",
-          label: labels.filterSize,
-          fieldNoteKey: "filterMm" as FieldNoteKey,
-          hasData: (l) => l.filterMm !== undefined,
-          getDisplayValue: (l) => fmt.filterSizeDisplay(l.filterMm),
-        },
-        {
-          kind: "text",
-          label: labels.lensMaterial,
-          hasData: (l) => l.lensMaterial !== undefined,
-          getDisplayValue: (l) => l.lensMaterial,
         },
       ] satisfies SpecRow[],
     },
