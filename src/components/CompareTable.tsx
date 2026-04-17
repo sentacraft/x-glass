@@ -414,11 +414,13 @@ export default function CompareTable({ lenses: initialLenses, minColumns = 0 }: 
     return () => observer.disconnect();
   }, []);
 
-  // Lock the nav hidden while the phantom header is active so only one
-  // top-chrome element occupies the screen at a time on mobile.
+  // phantomVisible is the single source of truth for whether the phantom header
+  // is active. lockNav mirrors it so the two stay in sync automatically.
+  const phantomVisible = showPhantom && orderedLenses.length > 0;
+
   useEffect(() => {
-    if (!isPwa) lockNav(showPhantom && orderedLenses.length > 0);
-  }, [showPhantom, lockNav, isPwa, orderedLenses.length]);
+    if (!isPwa) lockNav(phantomVisible);
+  }, [phantomVisible, lockNav, isPwa]);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -458,9 +460,9 @@ export default function CompareTable({ lenses: initialLenses, minColumns = 0 }: 
     <div data-testid="compare-phantom-container" className={`sticky z-20 h-0 overflow-x-clip ${isPwa ? "top-[var(--nav-height)]" : "top-[var(--safe-inset-top)] sm:top-[var(--nav-height)]"}`}>
       <div
         data-testid="compare-phantom-header"
-        data-visible={String(showPhantom)}
+        data-visible={String(phantomVisible)}
         className={`absolute left-0 right-0 top-0 transition-all duration-200 ${
-          showPhantom
+          phantomVisible
             ? "opacity-100 translate-y-0"
             : "opacity-0 -translate-y-1 pointer-events-none"
         }`}
