@@ -64,7 +64,21 @@ export default function CuratedComparisons() {
       <p className="text-sm text-zinc-500 dark:text-zinc-400 mb-3">
         {t("curatedHint")}
       </p>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+      {/* Mobile: horizontal snap carousel showing ~1.5 cards to signal swipeability */}
+      <div className="sm:hidden -mx-4 overflow-x-auto snap-x snap-mandatory">
+        <div className="flex gap-2 px-4 pb-0.5">
+          {trendingPresets.map((preset) => (
+            <div key={preset.slug} className="shrink-0 snap-start w-[calc((100vw-2.5rem)/1.5)]">
+              <PresetCard preset={preset} />
+            </div>
+          ))}
+          {/* Trailing spacer so the last card can reach its snap point */}
+          <div className="shrink-0 w-2" aria-hidden="true" />
+        </div>
+      </div>
+
+      {/* Desktop: grid */}
+      <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-2">
         {trendingPresets.map((preset) => (
           <PresetCard key={preset.slug} preset={preset} />
         ))}
