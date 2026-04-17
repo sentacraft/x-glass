@@ -9,6 +9,7 @@ import React, {
   useState,
 } from "react";
 import { useNavLock } from "@/context/ScrollContainerContext";
+import { usePwa } from "@/lib/usePwa";
 import Image from "next/image";
 import { ExternalLink } from "@/components/ui/external-link";
 import { useTranslations, useLocale } from "next-intl";
@@ -393,6 +394,7 @@ export default function CompareTable({ lenses: initialLenses, minColumns = 0 }: 
 
   const totalColSpan = orderedLenses.length + 1 + emptySlotCount;
   const { lockNav } = useNavLock();
+  const isPwa = usePwa();
 
   // --- Phantom sticky header ---
   const theadRef = useRef<HTMLTableSectionElement>(null);
@@ -415,8 +417,8 @@ export default function CompareTable({ lenses: initialLenses, minColumns = 0 }: 
   // Lock the nav hidden while the phantom header is active so only one
   // top-chrome element occupies the screen at a time on mobile.
   useEffect(() => {
-    lockNav(showPhantom);
-  }, [showPhantom, lockNav]);
+    if (!isPwa) lockNav(showPhantom);
+  }, [showPhantom, lockNav, isPwa]);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -453,7 +455,7 @@ export default function CompareTable({ lenses: initialLenses, minColumns = 0 }: 
     <>
     {/* Phantom sticky header: h-0 so it takes no layout space; sticky (not fixed)
         so it bounces with content during iOS overscroll instead of staying put */}
-    <div data-testid="compare-phantom-container" className="sticky top-[var(--safe-inset-top)] sm:top-[var(--nav-height)] z-20 h-0 overflow-x-clip">
+    <div data-testid="compare-phantom-container" className={`sticky z-20 h-0 overflow-x-clip ${isPwa ? "top-[var(--nav-height)]" : "top-[var(--safe-inset-top)] sm:top-[var(--nav-height)]"}`}>
       <div
         data-testid="compare-phantom-header"
         data-visible={String(showPhantom)}
