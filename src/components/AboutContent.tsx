@@ -1,4 +1,3 @@
-import React from "react";
 import { getTranslations, getLocale } from "next-intl/server";
 import { Flag, Mail, Coffee, Zap } from "lucide-react";
 import FeedbackTrigger from "@/components/FeedbackTrigger";
@@ -332,23 +331,19 @@ export default async function AboutContent() {
         </p>
 
         {/* Card + story pairs — card IS the accordion trigger */}
-        <div className="flex flex-col gap-0">
+        <div className="flex flex-col divide-y divide-zinc-100 dark:divide-zinc-800">
           {ackCredits.map(({ roles, company, product, logo, logoAlt, logoClassName, logoSize, glowColor }, i) => {
             const storyKey = i === 0 ? "1" : "2";
             const heading = t(`ackStory${storyKey}Heading` as "ackStory1Heading");
             const body = t(`ackStory${storyKey}Body` as "ackStory1Body");
             return (
-              <React.Fragment key={`${company}-${product}`}>
-                {i > 0 && (
-                  <div className="h-px w-full bg-zinc-100 dark:bg-zinc-800" />
-                )}
               <details
                 key={`${company}-${product}`}
                 className="group rounded-2xl overflow-hidden"
                 style={{ background: `radial-gradient(ellipse at center, ${glowColor} 0%, transparent 70%)` }}
               >
                 {/* summary = card header / trigger */}
-                <summary className="flex items-center gap-5 px-8 py-[34px] cursor-pointer list-none select-none">
+                <summary className="flex items-center gap-5 px-8 py-6 cursor-pointer list-none select-none">
                   <div className="flex-1 text-right">
                     {roles.map((role) => (
                       <p key={role} className="text-[10px] tracking-widest uppercase text-zinc-400 dark:text-zinc-500 leading-5">
@@ -392,7 +387,6 @@ export default async function AboutContent() {
                   ))}
                 </div>
               </details>
-              </React.Fragment>
             );
           })}
         </div>
