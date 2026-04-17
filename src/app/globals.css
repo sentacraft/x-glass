@@ -138,13 +138,14 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
-/* FAQ accordion open animation */
-@keyframes faq-open {
+/* Accordion open animation — FAQ (details > p) and ack stories (details > div) */
+@keyframes accordion-open {
   from { opacity: 0; transform: translateY(-4px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-details[open] > p {
-  animation: faq-open 0.18s ease-out both;
+details[open] > p,
+details[open] > div {
+  animation: accordion-open 0.18s ease-out both;
 }
 
 /* Window Controls Overlay drag regions.

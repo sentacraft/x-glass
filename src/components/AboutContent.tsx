@@ -324,19 +324,37 @@ export default async function AboutContent() {
           {t("ackBody")}
         </p>
 
-        {/* Collaboration stories */}
-        <div className="flex flex-col gap-5 mt-1">
+        {/* Collaboration stories — accordion */}
+        <div className="flex flex-col divide-y divide-zinc-100 dark:divide-zinc-800">
           {[
             { tag: t("ackStory1Tag"), heading: t("ackStory1Heading"), body: t("ackStory1Body") },
             { tag: t("ackStory2Tag"), heading: t("ackStory2Heading"), body: t("ackStory2Body") },
           ].map(({ tag, heading, body }) => (
-            <div key={heading} className="border-l-2 border-zinc-200 dark:border-zinc-700 pl-4 flex flex-col gap-1.5">
-              <div className="flex items-baseline gap-2">
-                <span className="text-[10px] font-medium tracking-widest uppercase text-zinc-400 dark:text-zinc-500">{tag}</span>
-                <span className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">{heading}</span>
+            <details key={heading} className="group py-4 first:pt-0">
+              <summary className="flex items-center justify-between gap-3 cursor-pointer list-none select-none">
+                <div className="flex items-baseline gap-2">
+                  <span className="text-[10px] font-medium tracking-widest uppercase text-zinc-400 dark:text-zinc-500">{tag}</span>
+                  <span className="text-sm font-semibold text-zinc-700 dark:text-zinc-300">{heading}</span>
+                </div>
+                <svg
+                  viewBox="0 0 16 16"
+                  width="14"
+                  height="14"
+                  fill="currentColor"
+                  className="flex-shrink-0 text-zinc-400 dark:text-zinc-500 transition-transform duration-200 group-open:rotate-180"
+                  aria-hidden="true"
+                >
+                  <path d="M8 10.94 2.53 5.47l.94-.94L8 9.06l4.53-4.53.94.94L8 10.94Z" />
+                </svg>
+              </summary>
+              <div className="mt-3 flex flex-col gap-3">
+                {body.split("\n\n").map((para, i) => (
+                  <p key={i} className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+                    {para}
+                  </p>
+                ))}
               </div>
-              <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">{body}</p>
-            </div>
+            </details>
           ))}
         </div>
 
