@@ -19,14 +19,18 @@ export default function Nav() {
   const isPwa = usePwa();
   const [hidden, setHidden] = useState(false);
   const lastScrollY = useRef(0);
+  const headerRef = useRef<HTMLElement>(null);
 
   // Hide on scroll-down, reveal on scroll-up (mobile only — sm: always visible via CSS).
   // In PWA mode the nav is always pinned, so skip the scroll listener entirely.
+  // Threshold is derived from the header's actual rendered height so it stays
+  // in sync if the nav height ever changes.
   useEffect(() => {
     if (isPwa) return;
     const onScroll = () => {
       const y = window.scrollY;
-      if (y > lastScrollY.current && y > 56) {
+      const threshold = headerRef.current?.offsetHeight ?? 56;
+      if (y > lastScrollY.current && y > threshold) {
         setHidden(true);
       } else if (y < lastScrollY.current) {
         setHidden(false);
@@ -56,6 +60,7 @@ export default function Nav() {
 
   return (
     <header
+      ref={headerRef}
       data-hidden={String(!isPwa && (hidden || navLocked))}
       className={cn(
         "wco-drag",
