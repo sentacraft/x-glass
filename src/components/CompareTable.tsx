@@ -283,6 +283,7 @@ export default function CompareTable({ lenses: initialLenses, minColumns = 0, hi
         powerZoom: td("powerZoom"),
         specialtyTags: td("specialtyTags"),
         releaseYear: td("releaseYear"),
+        releaseYearLabelNote: td("releaseYearLabelNote"),
         accessories: td("accessories"),
         yes: td("yes"),
         no: td("no"),
@@ -551,7 +552,10 @@ export default function CompareTable({ lenses: initialLenses, minColumns = 0, hi
               {group.rows.map((row) => (
                 <tr key={row.label} className="border-b border-zinc-100 dark:border-zinc-800/60 last:border-0">
                   <td className="sticky left-0 z-10 px-3 py-3 text-right text-xs font-medium text-zinc-500 dark:text-zinc-400 bg-zinc-50 dark:bg-zinc-900 break-words">
-                    {row.label}
+                    <div className="flex items-center justify-end gap-1">
+                      {row.labelNote && <FieldNotePopover note={row.labelNote} />}
+                      <span>{row.label}</span>
+                    </div>
                   </td>
                   {Array.from({ length: emptySlotCount }).map((_, i) => (
                     <td key={i} className="px-3 py-3 text-center text-xs text-zinc-200 dark:text-zinc-800">
@@ -605,7 +609,10 @@ export default function CompareTable({ lenses: initialLenses, minColumns = 0, hi
                     >
                       {/* Label cell */}
                       <td className="sticky left-0 z-10 px-3 py-3 text-right text-xs font-medium text-zinc-500 dark:text-zinc-400 bg-zinc-50 dark:bg-zinc-900 break-words">
-                        {row.label}
+                        <div className="flex items-center justify-end gap-1">
+                          {row.labelNote && <FieldNotePopover note={row.labelNote} />}
+                          <span>{row.label}</span>
+                        </div>
                       </td>
 
                       {/* Value cells — filled lenses */}

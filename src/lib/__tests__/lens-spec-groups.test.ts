@@ -34,6 +34,7 @@ const labels = {
   powerZoom: "Power Zoom",
   specialtyTags: "Specialty Tags",
   releaseYear: "Release Year",
+  releaseYearLabelNote: "For lenses available in multiple mounts, this is the year the Fujifilm X mount version was released.",
   accessories: "Accessories",
   yes: "Yes",
   no: "No",

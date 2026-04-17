@@ -145,6 +145,7 @@ export default async function LensDetailPage({ params }: { params: Params }) {
     powerZoom: t("powerZoom"),
     specialtyTags: t("specialtyTags"),
     releaseYear: t("releaseYear"),
+    releaseYearLabelNote: t("releaseYearLabelNote"),
     accessories: t("accessories"),
     yes: t("yes"),
     no: t("no"),
@@ -291,8 +292,11 @@ export default async function LensDetailPage({ params }: { params: Params }) {
                         key={resolved.label}
                         className="border-b border-zinc-100 dark:border-zinc-800/60 last:border-0"
                       >
-                        <td className="px-4 py-2.5 text-xs font-medium text-zinc-500 dark:text-zinc-400 bg-zinc-50/60 dark:bg-zinc-900/30 w-40 whitespace-nowrap align-top">
-                          {resolved.label}
+                        <td className="px-4 py-2.5 text-xs font-medium text-zinc-500 dark:text-zinc-400 bg-zinc-50/60 dark:bg-zinc-900/30 w-40 align-top">
+                          <div className="flex items-center gap-1">
+                            <span className="whitespace-nowrap">{resolved.label}</span>
+                            {resolved.labelNote && <FieldNotePopover note={resolved.labelNote} />}
+                          </div>
                         </td>
                         <td className="px-4 py-2.5 text-zinc-700 dark:text-zinc-300">
                           <div className="flex items-center gap-1.5">
