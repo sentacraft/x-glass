@@ -343,9 +343,7 @@
 
     "feedbackTitle": "Feedback & Contact",
     "feedbackBody": "Spotted incorrect data or a missing lens? Your report goes straight to the maintainer.",
-    "feedbackReport": "Report a data issue",
-    "feedbackSuggest": "Suggest a missing lens",
-    "feedbackGeneral": "General feedback",
+    "feedbackReport": "Report an issue",
     "feedbackEmailLabel": "xglass@sentacraft.com"
   },
   "Footer": {
@@ -356,10 +354,10 @@
     "tagline4": "f/2 feels right"
   },
   "Feedback": {
-    "titleDataIssue": "Report a data issue",
+    "titleDataIssue": "Report an issue",
     "titleMissingLens": "Suggest a missing lens",
     "titleGeneral": "Send feedback",
-    "descriptionDataIssue": "Wrong spec, broken image, typo, weird detail — tell us what you found. It goes straight to the maintainer.",
+    "descriptionDataIssue": "Wrong spec, broken image, typo, missing lens — tell us what you found. It goes straight to the maintainer.",
     "descriptionMissingLens": "Know an X-mount lens we're missing? Send it over and we'll add it to the queue.",
     "descriptionGeneral": "Thoughts, bug reports, and feature ideas are all welcome.",
     "affectedLensLabel": "Affected lens",

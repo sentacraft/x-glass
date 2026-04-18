@@ -343,9 +343,7 @@
 
     "feedbackTitle": "反馈与联系",
     "feedbackBody": "如果你发现数据有误，或者想补充缺失镜头，可以直接在这里告诉我们。",
-    "feedbackReport": "反馈数据问题",
-    "feedbackSuggest": "推荐缺失镜头",
-    "feedbackGeneral": "其他反馈",
+    "feedbackReport": "反馈问题",
     "feedbackEmailLabel": "xglass@sentacraft.com"
   },
   "Footer": {
@@ -356,10 +354,10 @@
     "tagline4": "f/2 feels right"
   },
   "Feedback": {
-    "titleDataIssue": "反馈数据问题",
+    "titleDataIssue": "反馈问题",
     "titleMissingLens": "推荐缺失镜头",
     "titleGeneral": "提交反馈",
-    "descriptionDataIssue": "参数不对、图片有问题、哪里写错了，都可以反馈给我们。",
+    "descriptionDataIssue": "参数不对、图片有问题、哪里写错了、发现缺失镜头——都可以反馈给我们。",
     "descriptionMissingLens": "如果你发现有漏收录的 X 卡口镜头，发给我们，我们会加入处理队列。",
     "descriptionGeneral": "有想法、发现 Bug，或者想提功能建议，都欢迎。",
     "affectedLensLabel": "相关镜头",
