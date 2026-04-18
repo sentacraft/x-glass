@@ -396,6 +396,12 @@
     "iosStep3": "Tap \"Add\" in the top-right corner",
     "iosNotSafari": "For the full standalone experience, open this page in Safari. You can still add it from your current browser.",
 
+    "macosTitle": "Add to Dock",
+    "macosSubtitle": "Follow these steps in Safari:",
+    "macosStep1": "Click the Share button (the square with an arrow) in the Safari toolbar",
+    "macosStep2": "Choose \"Add to Dock\"",
+    "macosStep3": "Click \"Add\" to confirm",
+
     "genericTitle": "Add to Home Screen",
     "genericBody": "Open your browser menu and look for \"Add to Home Screen\" or \"Install app\"."
   }

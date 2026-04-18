@@ -11,12 +11,13 @@ interface BeforeInstallPromptEvent extends Event {
 }
 
 type Platform =
-  | "loading"    // initial — waiting for beforeinstallprompt or timeout
-  | "installed"  // already running as a standalone PWA
-  | "prompt"     // Chrome/Edge/Android — programmatic install available
-  | "ios"        // iOS Safari — manual Add to Home Screen flow
-  | "ios-other"  // iOS non-Safari (CriOS, FxiOS) — must open in Safari first
-  | "generic";   // everything else — show browser menu hint
+  | "loading"       // initial — waiting for beforeinstallprompt or timeout
+  | "installed"     // already running as a standalone PWA
+  | "prompt"        // Chrome/Edge/Android — programmatic install available
+  | "ios"           // iOS Safari — manual Add to Home Screen flow
+  | "ios-other"     // iOS non-Safari (CriOS, FxiOS) — must open in Safari first
+  | "macos-safari"  // macOS Safari — Share → Add to Dock
+  | "generic";      // everything else — show browser menu hint
 
 function detectSync(): Platform | null {
   // Check standalone mode first (works everywhere).
@@ -32,10 +33,16 @@ function detectSync(): Platform | null {
     return "ios";
   }
 
+  // macOS Safari — does not fire beforeinstallprompt; uses Share → Add to Dock.
+  if (/Macintosh/.test(ua) && /Safari\//.test(ua) && !/Chrome|Edg\//.test(ua)) {
+    return "macos-safari";
+  }
+
   return null; // unknown — wait for beforeinstallprompt
 }
 
 const IOS_STEPS = ["iosStep1", "iosStep2", "iosStep3"] as const;
+const MACOS_STEPS = ["macosStep1", "macosStep2", "macosStep3"] as const;
 
 export default function InstallPage() {
   const t = useTranslations("Install");
@@ -162,6 +169,28 @@ export default function InstallPage() {
               </ol>
             </>
           )}
+        </div>
+      )}
+
+      {platform === "macos-safari" && (
+        <div className="max-w-xs w-full">
+          <h1 className="text-3xl font-bold tracking-tight text-zinc-800 dark:text-zinc-50">
+            {t("macosTitle")}
+          </h1>
+          <p className="mt-3 text-zinc-500 dark:text-zinc-400 text-sm">{t("macosSubtitle")}</p>
+          <ol className="mt-6 space-y-3 text-left">
+            {MACOS_STEPS.map((key, i) => (
+              <li
+                key={key}
+                className="flex items-start gap-4 bg-white dark:bg-zinc-900 rounded-xl px-4 py-3"
+              >
+                <span className="shrink-0 w-6 h-6 rounded-full bg-zinc-800 dark:bg-zinc-50 text-zinc-50 dark:text-zinc-900 text-xs font-bold flex items-center justify-center mt-0.5">
+                  {i + 1}
+                </span>
+                <span className="text-sm text-zinc-700 dark:text-zinc-300">{t(key)}</span>
+              </li>
+            ))}
+          </ol>
         </div>
       )}
 

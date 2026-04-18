@@ -25,8 +25,14 @@ Browse, filter, and compare every Fujifilm X-mount lens side by side — native 
 - **Normalized data** — specs from different manufacturers use inconsistent formats and terminology; X-Glass maps everything to a consistent schema so comparisons are fair and objective
 - **Pipeline-backed accuracy** — every spec originates from official manufacturer sources and goes through a staged pipeline with human review at every step
 - **Shareable comparison posters**
-- **PWA** — installable on iOS and Android
+- **PWA** — installable on iOS, Android, and desktop (macOS)
 - **English + Chinese** (中文)
+
+## Install
+
+X-Glass is a PWA — add it to your home screen or dock for a native app experience with offline support.
+
+**[Get the app →](https://xglass.sentacraft.com/get)**
 
 ## Tech Stack
 
