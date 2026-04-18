@@ -386,7 +386,7 @@
     "openApp": "打开 X-Glass",
 
     "promptTitle": "安装 X-Glass",
-    "promptBody": "把 X-Glass 加到手机主屏幕，以后直接像 App 一样打开——不用找浏览器，也不用记网址。",
+    "promptBody": "把 X-Glass 安装到设备上，以后直接像 App 一样打开——不用找浏览器，也不用记网址。",
     "installButton": "安装",
 
     "iosTitle": "添加到主屏幕",
