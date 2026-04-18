@@ -314,6 +314,7 @@ export default async function AboutContent() {
                 glowColor={glowColor}
                 body={body}
                 isClaudeCard={i === 0}
+                locale={locale}
               />
             );
           })}

@@ -14,6 +14,7 @@ interface AckCardProps {
   glowColor: string;
   body: string;
   isClaudeCard?: boolean;
+  locale?: string;
 }
 
 export default function AckCard({
@@ -27,6 +28,7 @@ export default function AckCard({
   glowColor,
   body,
   isClaudeCard,
+  locale,
 }: AckCardProps) {
   const [open, setOpen] = useState(false);
   const paragraphs = body.split("\n\n");
@@ -102,7 +104,7 @@ export default function AckCard({
               if (isClaudeCard && j === 0) {
                 const parts = para.split("Iris");
                 return (
-                  <p key={j} className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed font-heading italic">
+                  <p key={j} className={`text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed font-heading${locale !== "zh" ? " italic" : ""}`}>
                     {parts.map((part, k) => (
                       <span key={k}>
                         {part}
@@ -113,7 +115,7 @@ export default function AckCard({
                 );
               }
               return (
-                <p key={j} className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed font-heading italic">
+                <p key={j} className={`text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed font-heading${locale !== "zh" ? " italic" : ""}`}>
                   {para}
                 </p>
               );
