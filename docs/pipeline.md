@@ -11,10 +11,10 @@ flowchart TD
 
     subgraph s1["Stage 1 · Collect"]
       S1p1["<b>Phase 1 · Locate & Image</b>  (batch per brand)<br/>Navigates listing pages → records official detail page URLs<br/>Downloads main product image from listing thumbnails"]
-      S1p2["<b>Phase 2 · Fetch rawSpecs</b>  (per lens)<br/>Fetches spec text from spec extraction sources<br/>Tools: Jina Reader · Playwright · FireCrawl<br/>No parsing — raw material only"]
+      S1p2["<b>Phase 2 · Fetch Raw Content</b>  (per lens)<br/>Retrieves spec text, product descriptions, and feature images<br/>Tools: Jina Reader · Playwright · FireCrawl<br/>No parsing — raw material only"]
       S1r["<b>Maintainer · Review</b><br/>Inspects fetched text and image quality"]
       S1h["<b>Maintainer · Manual Fetch</b><br/>Hand-collects raw text and images<br/>if Agent recall is insufficient"]
-      S1b["<b>AI Agent · Read & Merge</b><br/>Applies vision to read text embedded in spec images<br/>Merges with webpage text into one raw block<br/>No field extraction — structured parsing in Stage 2"]
+      S1b["<b>AI Agent · Read & Merge</b><br/>Applies vision to extract text from feature images<br/>Merges with retrieved text into one high-recall product description<br/>No field extraction — structured parsing in Stage 2"]
       S1out(["Merged high-recall product description"])
     end
 

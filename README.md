@@ -56,7 +56,7 @@ flowchart TD
 
     subgraph s1["Stage 1 · Collect"]
       S1p1["<b>Phase 1 · Locate & Image</b><br/>Detail page URLs + main product image"]
-      S1p2["<b>Phase 2 · Fetch rawSpecs</b><br/>Spec text extraction — no parsing"]
+      S1p2["<b>Phase 2 · Fetch Raw Content</b><br/>Retrieves spec text, product descriptions, and feature images"]
       S1r["<b>Maintainer · Review</b>"]
       S1h["<b>Maintainer · Manual Fetch</b>"]
       S1b["<b>AI Agent · Read & Merge</b><br/>Vision on spec images + text merge<br/>No field extraction"]
