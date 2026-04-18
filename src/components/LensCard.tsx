@@ -104,7 +104,7 @@ export default function LensCard({
 
         <div
           {...hookAttr("cardBody")}
-          className="flex flex-1 flex-col gap-2 p-3 sm:gap-2.5 sm:p-4"
+          className="flex flex-1 flex-col gap-2 p-3 sm:gap-2.5 sm:p-4 max-[499px]:min-w-0"
         >
           <div className="flex flex-col gap-1">
             <p className="text-[11px] uppercase tracking-[0.14em] text-zinc-500 dark:text-zinc-400 truncate max-[499px]:pr-9">
