@@ -167,7 +167,7 @@
     "motorStepping": "Stepping",
     "motorOther": "Other",
     "releaseYear": "Release Year",
-    "releaseYearLabelNote": "For lenses available in multiple mounts, this is the year the Fujifilm X mount version was released. Note: data coverage for this field is limited — some values may be inaccurate.",
+    "releaseYearLabelNote": "Note: values in this field may be inaccurate — the data is not sourced from official publications. For lenses available in multiple mounts, this is the year the Fujifilm X mount version was released.",
     "accessories": "Accessories",
     "yes": "Yes",
     "no": "No",
