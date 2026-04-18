@@ -44,29 +44,58 @@ Lens data and images are maintained by a private pipeline repo and written into 
 ```mermaid
 flowchart TD
   subgraph pipeline["x-glass-pipeline (private)"]
-    S0["Stage 0 · Discovery\nScript indexes lens listings from brand websites"]
-    S1["Stage 1 · Collect\nAI Agent fetches official spec text\nand product images from each brand's pages"]
-    S2a["Stage 2a · Deterministic Fields\nScript parses model names and applies brand rules\nAF · OIS · WR · aperture ring · specialty tags"]
-    S2b["Stage 2b · Semantic Fields\nAI Agent reads spec text to extract\nweight · dimensions · focus distance · lens formula · release year"]
-    S2c["Stage 2c · Image Processing\nScript optimizes and transforms\nproduct images"]
+    SOURCES[("sources.yaml\n· Brand aliases\n· Listing URLs per brand\n· Spec extraction sources per brand")]
+
+    S0["Stage 0 · Index\nDiscovers X-mount lenses from brand listing pages\n· Normalizes brand names via aliases\n· Deduplicates via generated lens ID"]
+
+    subgraph s1["Stage 1 · Collect"]
+      S1p1["Phase 1 · Locate & Image  (batch per brand)\nNavigates listing pages → records official detail page URLs\nDownloads main product image from listing thumbnails"]
+      S1p2["Phase 2 · Fetch rawSpecs  (per lens)\nFetches spec text from spec extraction sources\nTools: Jina Reader · Playwright · FireCrawl\nNo parsing — raw material only"]
+      S1r["Maintainer · Review\nInspects fetched text and image quality"]
+      S1h["Maintainer · Manual Fetch\nHand-collects raw text and images\nif Agent recall is insufficient"]
+      S1b["AI Agent · Read & Merge\nApplies vision to read text embedded in spec images\nMerges with webpage text into one raw block\nNo field extraction — structured parsing in Stage 2"]
+      S1out(["Merged high-recall product description"])
+    end
+
+    S2a["Stage 2a · Derive\nAI Agent reads rawSpecs to extract\nweight · dimensions · focus distance · lens formula · release year"]
+    S2b["Stage 2b · Compute\nScript applies brand rules to derive\nAF · OIS · WR · aperture ring · specialty tags"]
+    S2c["Stage 2c · Image Processing\nScript optimizes, crops, and normalizes\nproduct images for visual consistency"]
     SR["Stage R · Human Review\nMaintainer inspects every record\nand applies corrections"]
-    SP["Stage P · Publish Gate\nValidation, normalization, version stamp"]
+
+    subgraph sp["Stage P · Publish Gate"]
+      SP1["Zod schema validation against x-glass schema\n· Intra-lens: field formats, focal range, aperture ordering, lens formula integrity\n· Cross-lens: duplicate IDs, URLs, brand-models, and spec tuples (with known-distinct allowlist)"]
+      SP2["Normalization + version stamp"]
+    end
   end
 
-  S0 --> S1
-  S1 --> S2a & S2b & S2c
-  S2a & S2b & S2c --> SR
-  SR --> SP
-  SP -->|"writes src/data/lenses.json"| DB[("x-glass\n(this repo)")]
+  SOURCES -->|"aliases + listing URLs"| S0
+  SOURCES -->|"listing URLs"| S1p1
+  SOURCES -->|"spec extraction sources"| S1p2
+  S0 -->|"discovered lens list"| S1p1
+  S1p1 --> S1p2
+  S1p2 --> S1r
+  S1r -->|"quality OK"| S1b
+  S1r -->|"insufficient"| S1h
+  S1h --> S1b
+  S1b --> S1out
+  S1out --> S2a & S2c
+  S2a --> S2b
+  S2b & S2c --> SR
+  SR --> SP1
+  SP1 --> SP2
+  SP2 -->|"writes src/data/lenses.json"| DB[("x-glass\n(this repo)")]
 
   classDef script fill:#dbeafe,stroke:#3b82f6,color:#1e3a5f
   classDef agent fill:#fef9c3,stroke:#ca8a04,color:#713f12
   classDef human fill:#dcfce7,stroke:#16a34a,color:#14532d
   classDef gate fill:#f3e8ff,stroke:#9333ea,color:#3b0764
+  classDef config fill:#f1f5f9,stroke:#64748b,color:#1e293b
 
-  class S0,S2a,S2c,SP script
-  class S1,S2b agent
-  class SR human
+  class S0,S2b,S2c script
+  class S1p1,S1p2,S1b,S2a agent
+  class S1r,S1h,SR human
+  class SP1,SP2 gate
+  class SOURCES config
 ```
 
 **Key principles:**
