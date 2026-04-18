@@ -271,7 +271,7 @@ export default async function AboutContent() {
                 target="_blank"
                 rel="noopener noreferrer"
                 style={brandVars}
-                className="donation-card flex flex-col gap-2.5 p-4 rounded-xl flex-1 basis-[140px] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60 transition-all duration-200 hover:scale-[1.02] hover:shadow-sm"
+                className="donation-card flex flex-col gap-2.5 p-4 rounded-xl w-fit border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60 transition-all duration-200 hover:scale-[1.02] hover:shadow-sm"
               >
                 <span className="donation-icon text-zinc-400 dark:text-zinc-500 transition-colors duration-200">
                   {icon}
