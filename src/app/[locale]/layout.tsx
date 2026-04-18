@@ -40,17 +40,13 @@ export async function generateMetadata({
     // Explicit icon declarations — setting `icons` in metadata disables Next.js
     // file-convention auto-discovery, so both `icon` and `apple` must be listed.
     // Safari requires an explicit favicon.ico link tag; it won't auto-discover it.
-    // The apple entry uses transparent-bg PNGs. iOS Safari fills transparent
-    // pixels with white on the home screen; iOS Chrome renders them cleanly
-    // in the address bar without the white-box artifact from opaque variants.
+    // No `apple` entry: iOS Chrome falls back to favicon.ico (tight 90% fill,
+    // transparent bg) for the address bar. iOS Safari home screen uses the
+    // manifest icon (transparent; iOS fills with white automatically).
     icons: {
       icon: [
         { url: "/favicon.ico", sizes: "32x32", type: "image/x-icon" },
         { url: "/icon.png", sizes: "32x32", type: "image/png" },
-      ],
-      apple: [
-        { url: "/icons/icon-192.png", sizes: "192x192", type: "image/png" },
-        { url: "/icons/icon-512.png", sizes: "512x512", type: "image/png" },
       ],
     },
     appleWebApp: {
