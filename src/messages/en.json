@@ -338,7 +338,7 @@
     "ackClosing": "My deepest gratitude to the AI collaborators whose contributions were decisive in making this project a reality.",
 
     "installTitle": "Get the App",
-    "installBody": "X-Glass is a PWA — add it to your home screen or dock for a full-screen, offline-capable experience.",
+    "installBody": "X-Glass is a Progressive Web App (PWA) — a web app that installs and feels just like a native app, no App Store required. Add it to your home screen or dock for full-screen, offline-capable access.",
     "installCta": "Install X-Glass →",
 
     "feedbackTitle": "Feedback & Contact",
@@ -389,7 +389,7 @@
     "openApp": "Open X-Glass",
 
     "promptTitle": "Install X-Glass",
-    "promptBody": "Add it to your home screen or app launcher for one-tap access.",
+    "promptBody": "X-Glass is a web app that installs and works just like a native app — no App Store needed. Add it to your home screen or app launcher for one-tap access.",
     "installButton": "Install",
 
     "iosTitle": "Add to Home Screen",
@@ -404,6 +404,6 @@
     "macosStep3": "Click \"Add\" to confirm",
 
     "genericTitle": "Add to Home Screen",
-    "genericBody": "Open your browser menu and look for \"Add to Home Screen\" or \"Install app\"."
+    "genericBody": "X-Glass is a web app that installs and works just like a native app — no App Store needed. Open your browser menu and look for \"Add to Home Screen\" or \"Install app\"."
   }
 }

@@ -27,12 +27,12 @@ If you find X-Glass useful, a ⭐ on this repo goes a long way — and if you'd 
 - **Normalized data** — specs from different manufacturers use inconsistent formats and terminology; X-Glass maps everything to a consistent schema so comparisons are fair and objective
 - **Pipeline-backed accuracy** — every spec originates from official manufacturer sources and goes through a staged pipeline with human review at every step
 - **Shareable comparison posters**
-- **PWA** — installable on iOS, Android, and desktop (macOS)
+- **Progressive Web App (PWA)** — X-Glass is a web app at its core, but installs and runs like a native app. Add it to your home screen (iOS / Android) or dock (macOS) for instant, full-screen access — no App Store required
 - **English + Chinese** (中文)
 
 ## Install
 
-X-Glass is a PWA — add it to your home screen or dock for a native app experience with offline support.
+X-Glass is a **Progressive Web App (PWA)** — a web application that installs and behaves just like a native app, without going through an app store. Add it to your home screen (iOS / Android) or dock (macOS) for instant, full-screen access with offline support.
 
 **[Get the app →](https://xglass.sentacraft.com/get)**
 
