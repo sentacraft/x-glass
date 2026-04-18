@@ -64,12 +64,14 @@ export default function FeedbackDialog({
   const [description, setDescription] = useState("");
   const [selectedFieldLabel, setSelectedFieldLabel] = useState("");
   const [suggestedCorrection, setSuggestedCorrection] = useState("");
+  const [replyEmail, setReplyEmail] = useState("");
   const [status, setStatus] = useState<Status>("idle");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [submitAttempted, setSubmitAttempted] = useState(false);
   const dialogLayerRef = useRef<HTMLDivElement | null>(null);
   const textareaId = useId();
   const correctionId = useId();
+  const emailId = useId();
 
   const showFieldPicker = type === "data_issue" && fields && fields.length > 0;
 
@@ -98,6 +100,7 @@ export default function FeedbackDialog({
       setDescription("");
       setSelectedFieldLabel("");
       setSuggestedCorrection("");
+      setReplyEmail("");
       setStatus("idle");
       setErrorMessage(null);
       setSubmitAttempted(false);
@@ -147,6 +150,7 @@ export default function FeedbackDialog({
         body: JSON.stringify({
           type,
           description: description.trim(),
+          ...(replyEmail.trim() ? { replyEmail: replyEmail.trim() } : {}),
           context: {
             ...(context ?? {}),
             ...(selectedFieldLabel ? { field: selectedFieldLabel } : {}),
@@ -299,6 +303,26 @@ export default function FeedbackDialog({
               maxLength={2000}
               className="w-full resize-none rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 outline-none focus:border-zinc-400 dark:border-zinc-800 dark:bg-zinc-950 dark:text-zinc-50 dark:placeholder:text-zinc-600 dark:focus:border-zinc-600"
             />
+            <div className="flex flex-col gap-1.5">
+              <label
+                htmlFor={emailId}
+                className="text-xs font-medium text-zinc-600 dark:text-zinc-400"
+              >
+                {t("replyEmailLabel")}
+                <span className="ml-1 font-normal text-zinc-400 dark:text-zinc-500">
+                  ({t("descriptionOptional")})
+                </span>
+              </label>
+              <input
+                id={emailId}
+                type="email"
+                value={replyEmail}
+                onChange={(e) => setReplyEmail(e.target.value)}
+                placeholder={t("replyEmailPlaceholder")}
+                className="w-full rounded-md border border-zinc-200 bg-white px-2.5 py-1.5 text-sm text-zinc-900 placeholder:text-zinc-400 outline-none focus:border-zinc-400 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-50 dark:placeholder:text-zinc-600 dark:focus:border-zinc-600"
+              />
+            </div>
+
             {showFieldPicker && submitAttempted && !hasContent && (
               <p className="text-xs text-amber-600 dark:text-amber-400">
                 {t("contentRequired")}

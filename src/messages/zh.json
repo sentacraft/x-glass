@@ -371,6 +371,8 @@
     "descriptionOptional": "选填",
     "contentRequired": "请至少填写“建议改成”或“补充说明”中的一项。",
     "descriptionPlaceholder": "你可以在这里提供更多细节，这有助于我们更快更准确地处理你的反馈。",
+    "replyEmailLabel": "你的邮箱",
+    "replyEmailPlaceholder": "you@example.com",
     "submit": "提交",
     "submitting": "提交中…",
     "cancel": "取消",
