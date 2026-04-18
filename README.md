@@ -44,26 +44,26 @@ Lens data and images are maintained by a private pipeline repo and written into 
 ```mermaid
 flowchart TD
   subgraph pipeline["x-glass-pipeline (private)"]
-    SOURCES[("sources.yaml\n· Brand aliases\n· Listing URLs per brand\n· Spec extraction sources per brand")]
+    SOURCES[("sources.yaml")]
 
-    S0["Stage 0 · Index\nDiscovers X-mount lenses from brand listing pages\n· Normalizes brand names via aliases\n· Deduplicates via generated lens ID"]
+    S0["Stage 0 · Index\nDiscovers X-mount lenses from brand listing pages"]
 
     subgraph s1["Stage 1 · Collect"]
-      S1p1["Phase 1 · Locate & Image  (batch per brand)\nNavigates listing pages → records official detail page URLs\nDownloads main product image from listing thumbnails"]
-      S1p2["Phase 2 · Fetch rawSpecs  (per lens)\nFetches spec text from spec extraction sources\nTools: Jina Reader · Playwright · FireCrawl\nNo parsing — raw material only"]
-      S1r["Maintainer · Review\nInspects fetched text and image quality"]
-      S1h["Maintainer · Manual Fetch\nHand-collects raw text and images\nif Agent recall is insufficient"]
-      S1b["AI Agent · Read & Merge\nApplies vision to read text embedded in spec images\nMerges with webpage text into one raw block\nNo field extraction — structured parsing in Stage 2"]
-      S1out(["Merged high-recall product description"])
+      S1p1["Phase 1 · Locate & Image\nDetail page URLs + main product image"]
+      S1p2["Phase 2 · Fetch rawSpecs\nSpec text extraction — no parsing"]
+      S1r["Maintainer · Review"]
+      S1h["Maintainer · Manual Fetch"]
+      S1b["AI Agent · Read & Merge\nVision on spec images + text merge\nNo field extraction"]
+      S1out(["High-recall product description"])
     end
 
-    S2a["Stage 2a · Derive\nAI Agent reads rawSpecs to extract\nweight · dimensions · focus distance · lens formula · release year"]
-    S2b["Stage 2b · Compute\nScript applies brand rules to derive\nAF · OIS · WR · aperture ring · specialty tags"]
-    S2c["Stage 2c · Image Processing\nScript optimizes, crops, and normalizes\nproduct images for visual consistency"]
-    SR["Stage R · Human Review\nMaintainer inspects every record\nand applies corrections"]
+    S2a["Stage 2a · Derive\nAI extracts semantic fields from rawSpecs"]
+    S2b["Stage 2b · Compute\nScript derives deterministic fields"]
+    S2c["Stage 2c · Image Processing\nNormalizes product images"]
+    SR["Stage R · Human Review\nMaintainer inspects and applies corrections"]
 
     subgraph sp["Stage P · Publish Gate"]
-      SP1["Zod schema validation against x-glass schema\n· Intra-lens: field formats, focal range, aperture ordering, lens formula integrity\n· Cross-lens: duplicate IDs, URLs, brand-models, and spec tuples (with known-distinct allowlist)"]
+      SP1["Zod schema validation\nIntra-lens + cross-lens checks"]
       SP2["Normalization + version stamp"]
     end
   end
