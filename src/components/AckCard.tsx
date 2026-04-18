@@ -102,7 +102,7 @@ export default function AckCard({
               if (isClaudeCard && j === 0) {
                 const parts = para.split("Iris");
                 return (
-                  <p key={j} className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+                  <p key={j} className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed font-heading italic">
                     {parts.map((part, k) => (
                       <span key={k}>
                         {part}
@@ -113,7 +113,7 @@ export default function AckCard({
                 );
               }
               return (
-                <p key={j} className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+                <p key={j} className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed font-heading italic">
                   {para}
                 </p>
               );
