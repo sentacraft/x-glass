@@ -26,6 +26,8 @@ interface BaseRow {
   label: string;
   /** Static note shown in a ⓘ popover next to the label (not the value). Pre-translated by the caller. */
   labelNote?: string;
+  /** When true, renders a low-confidence indicator next to the label on all lenses. */
+  lowConfidence?: boolean;
   /** If set, look up lens.fieldNotes[fieldNoteKey] and show a ⓘ popover. */
   fieldNoteKey?: FieldNoteKey;
   /**
@@ -114,6 +116,7 @@ export interface ResolvedTextRow {
   label: string;
   /** Static note shown in a ⓘ popover next to the label (not the value). */
   labelNote?: string;
+  lowConfidence?: boolean;
   /** Resolved note for the ⓘ popover, if any. */
   note?: string;
   displayValue?: string;
@@ -126,6 +129,7 @@ export interface ResolvedNumericRow {
   kind: "numeric";
   label: string;
   labelNote?: string;
+  lowConfidence?: boolean;
   note?: string;
   displayValue?: string;
   subValue?: string;
@@ -140,6 +144,7 @@ export interface ResolvedBoolRow {
   kind: "bool";
   label: string;
   labelNote?: string;
+  lowConfidence?: boolean;
   note?: string;
   boolValue: boolean | "partial" | undefined;
   subValue?: string;
@@ -238,6 +243,7 @@ export function resolveSpecRow(
     row.getNote?.(lens);
 
   const labelNote = row.labelNote;
+  const lowConfidence = row.lowConfidence;
 
   if (row.kind === "bool") {
     const boolValue = row.getValue(lens);
@@ -254,6 +260,7 @@ export function resolveSpecRow(
       kind: "bool",
       label: row.label,
       labelNote,
+      lowConfidence,
       note,
       boolValue,
       subValue,
@@ -275,6 +282,7 @@ export function resolveSpecRow(
       kind: "numeric",
       label: row.label,
       labelNote,
+      lowConfidence,
       note,
       displayValue,
       subValue,
@@ -293,6 +301,7 @@ export function resolveSpecRow(
     kind: "text",
     label: row.label,
     labelNote,
+    lowConfidence,
     note,
     displayValue,
     subValue,
@@ -620,6 +629,7 @@ export function buildSpecGroups(labels: SpecGroupLabels): SpecGroup[] {
           kind: "numeric",
           label: labels.releaseYear,
           labelNote: labels.releaseYearLabelNote,
+          lowConfidence: true,
           hasData: (l) => l.releaseYear !== undefined,
           getDisplayValue: (l) => fmt.optionalNumber(l.releaseYear, ""),
           toComparable: (l) => l.releaseYear,
