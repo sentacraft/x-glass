@@ -64,6 +64,7 @@ export default function LensListClient({ lenses }: Props) {
     filters.features.length > 0;
     
   const sortOptions = [
+    { value: "releaseYear", label: t("sortReleaseYear") },
     { value: "focalLength", label: t("sortFocalLength") },
     { value: "maxAperture", label: t("sortAperture") },
     { value: "weightG", label: t("sortWeight") },
@@ -116,7 +117,7 @@ export default function LensListClient({ lenses }: Props) {
                   onValueChange={(value) =>
                     setFilters((current) => ({
                       ...current,
-                      sort: (value ?? "focalLength") as SortKey,
+                      sort: (value ?? "releaseYear") as SortKey,
                     }))
                   }
                   items={sortOptions.map((option) => ({ ...option }))}
