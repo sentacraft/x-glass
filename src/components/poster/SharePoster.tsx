@@ -159,7 +159,7 @@ export function SharePoster({ lenses, labels, custom, shareUrl, ref }: SharePost
 
   // ── Feature row visibility ─────────────────────────────────────
   // A feature row is shown only when at least one lens has a defined value.
-  const showInternalFocusing = lenses.some((l) => l.internalFocusing !== undefined);
+  // showInternalFocusing hidden — data quality issues, to be re-added later
 
   // ── Conditional Details visibility ────────────────────────────
   const focusMotorValues = lenses.map((l) => {
@@ -647,13 +647,6 @@ export function SharePoster({ lenses, labels, custom, shareUrl, ref }: SharePost
                   />
                   <PosterFeatureItem present={lens.af} label={labels.featureAF} icon={FEATURE_ICONS.af} />
                   <PosterFeatureItem present={lens.apertureRing} label={labels.featureApertureRing} icon={FEATURE_ICONS.apertureRing} />
-                  {showInternalFocusing && (
-                    <PosterFeatureItem
-                      present={lens.internalFocusing}
-                      label={labels.featureInternalFocusing}
-                      icon={FEATURE_ICONS.internalFocusing}
-                    />
-                  )}
                   </div>
                 </div>
               ))}

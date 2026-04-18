@@ -495,12 +495,7 @@ export function buildSpecGroups(labels: SpecGroupLabels): SpecGroup[] {
           },
           getSubValue: (l) => l.focusMotor,
         },
-        {
-          kind: "bool",
-          label: labels.internalFocusing,
-          hasData: (l) => l.internalFocusing !== undefined,
-          getValue: (l) => l.internalFocusing,
-        },
+        // internalFocusing row hidden — data quality issues, to be re-added later
         {
           kind: "numeric",
           label: labels.minFocusDist,
