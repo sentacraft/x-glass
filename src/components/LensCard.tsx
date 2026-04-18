@@ -110,8 +110,12 @@ export default function LensCard({
             <p className="text-[11px] uppercase tracking-[0.14em] text-zinc-500 dark:text-zinc-400 truncate max-[499px]:pr-9">
               {tBrand(lens.brand)}
               {lens.series ? ` · ${lens.series}` : ""}
-              {lens.releaseYear ? ` · ${lens.releaseYear}` : ""}
             </p>
+            {lens.releaseYear ? (
+              <p className="text-[11px] uppercase tracking-[0.14em] text-zinc-500 dark:text-zinc-400">
+                {lens.releaseYear}
+              </p>
+            ) : null}
             <h3
               className="font-semibold text-sm text-zinc-900 dark:text-zinc-50 leading-snug line-clamp-2 min-h-[2.5rem]"
               title={lens.model}
