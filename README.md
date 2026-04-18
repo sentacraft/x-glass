@@ -45,7 +45,9 @@ X-Glass is a PWA — add it to your home screen or dock for a native app experie
 
 ## Data Pipeline
 
-Lens data and images are maintained by a private pipeline repo and written into `src/data/lenses.json` via a staged pipeline:
+For a lens comparison tool, data accuracy isn't a nice-to-have — it's the product. To keep specs accurate and up to date while minimizing AI hallucination during collection and parsing, X-Glass is backed by a purpose-built, multi-stage data pipeline:
+
+Lens data and images are maintained in a private pipeline repo and written into `src/data/lenses.json`.
 
 ```mermaid
 flowchart TD
