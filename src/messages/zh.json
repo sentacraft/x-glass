@@ -320,13 +320,10 @@
     "privacyAnalytics": "本站接入了 Vercel Analytics，用于统计页面访问量、来源及设备类型等聚合匿名数据，以便持续改善产品体验。这些数据不包含任何可识别个人身份的信息。",
 
     "donationTitle": "捐赠与支持",
-    "donationBody": "X-Glass 是一个完全免费的开源项目。这里的每一组镜头参数，都经历了繁琐的数据抓取与人工交叉校准。如果你觉得这个数据库帮你选到了心仪的镜头，或者为你节省了时间，欢迎通过以下方式支持我。",
-    "donationGitHubSponsors": "GitHub Sponsors",
-    "donationGitHubSponsorsDesc": "月度赞助，持续支持",
-    "donationBMC": "Buy Me a Coffee",
-    "donationBMCDesc": "一次性请我喝杯咖啡",
+    "donationBody": "X-Glass 是一个完全免费的开源项目。这里的每一组镜头参数，都经历了繁琐的数据抓取与人工交叉校准。如果你觉得这个数据库帮你选到了心仪的镜头，或者为你节省了时间，欢迎通过爱发电支持我。",
+    "donationComingSoon": "",
     "donationAfdian": "爱发电",
-    "donationAfdianDesc": "国内用户推荐",
+    "donationAfdianDesc": "支持一下",
 
     "ackTitle": "致谢",
     "ackBody": "过去的这一年，大语言模型展现出了超凡的能力。过去，我很难想象仅凭一己之力就能完成如此规模的项目，更不敢奢望在不到一个月内将其落地。如果没有大语言模型和 AI Coding Agent，这个项目可能永远只会停留在构想阶段。感谢这个时代的技术红利，让那些曾经只是灵感火花的想法，能够在一个独立开发者手中真正变成现实。",

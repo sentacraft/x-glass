@@ -1,5 +1,5 @@
 import { getTranslations, getLocale } from "next-intl/server";
-import { Flag, Mail, Coffee, Zap } from "lucide-react";
+import { Flag, Mail, Zap } from "lucide-react";
 import FeedbackTrigger from "@/components/FeedbackTrigger";
 import { ExternalLink } from "@/components/ui/external-link";
 import { Link } from "@/i18n/navigation";
@@ -58,60 +58,19 @@ export default async function AboutContent() {
     { badge: "P", label: t("pipelinePLabel"), desc: t("pipelinePDesc") },
   ];
 
-  const donationPlatforms: {
-    id: string;
-    label: string;
-    desc: string;
-    href: string;
-    icon: React.ReactNode;
-    brandVars: React.CSSProperties;
-  }[] = [
-    {
-      id: "github-sponsors",
-      label: t("donationGitHubSponsors"),
-      desc: t("donationGitHubSponsorsDesc"),
-      href: "#", // TODO: add GitHub Sponsors URL
-      icon: (
-        <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
-          <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z" />
-        </svg>
-      ),
-      brandVars: {
-        "--donation-border": "rgba(234,74,170,0.4)",
-        "--donation-bg-light": "rgba(234,74,170,0.05)",
-        "--donation-bg-dark": "rgba(234,74,170,0.1)",
-        "--donation-icon": "#ea4aaa",
-      } as React.CSSProperties,
-    },
-    {
-      id: "bmc",
-      label: t("donationBMC"),
-      desc: t("donationBMCDesc"),
-      href: "#", // TODO: add Buy Me a Coffee URL
-      icon: <Coffee size={22} />,
-      brandVars: {
-        "--donation-border": "rgba(255,221,0,0.6)",
-        "--donation-bg-light": "rgba(255,221,0,0.05)",
-        "--donation-bg-dark": "rgba(255,221,0,0.1)",
-        "--donation-icon": "#d4a800",
-      } as React.CSSProperties,
-    },
-    ...(locale === "zh"
-      ? [{
-          id: "afdian",
-          label: t("donationAfdian"),
-          desc: t("donationAfdianDesc"),
-          href: "#", // TODO: add Afdian URL
-          icon: <Zap size={22} />,
-          brandVars: {
-            "--donation-border": "rgba(124,77,255,0.4)",
-            "--donation-bg-light": "rgba(124,77,255,0.05)",
-            "--donation-bg-dark": "rgba(124,77,255,0.1)",
-            "--donation-icon": "#7c4dff",
-          } as React.CSSProperties,
-        }]
-      : []),
-  ];
+  const afdianCard = {
+    id: "afdian",
+    label: t("donationAfdian"),
+    desc: t("donationAfdianDesc"),
+    href: "https://www.ifdian.net/a/sentacraft",
+    icon: <Zap size={22} />,
+    brandVars: {
+      "--donation-border": "rgba(124,77,255,0.4)",
+      "--donation-bg-light": "rgba(124,77,255,0.05)",
+      "--donation-bg-dark": "rgba(124,77,255,0.1)",
+      "--donation-icon": "#7c4dff",
+    } as React.CSSProperties,
+  };
 
   const ackCredits = [
     {
@@ -305,26 +264,32 @@ export default async function AboutContent() {
         <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
           {t("donationBody")}
         </p>
-        <div className="flex flex-wrap gap-3 mt-1">
-          {donationPlatforms.map(({ id, label, desc, href, icon, brandVars }) => (
-            <a
-              key={id}
-              href={href}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={brandVars}
-              className="donation-card flex flex-col gap-2.5 p-4 rounded-xl flex-1 basis-[140px] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60 transition-all duration-200 hover:scale-[1.02] hover:shadow-sm"
-            >
-              <span className="donation-icon text-zinc-400 dark:text-zinc-500 transition-colors duration-200">
-                {icon}
-              </span>
-              <div>
-                <p className="text-sm font-semibold text-zinc-800 dark:text-zinc-200">{label}</p>
-                <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">{desc}</p>
-              </div>
-            </a>
-          ))}
-        </div>
+        {locale === "zh" ? (
+          <div className="flex flex-wrap gap-3 mt-1">
+            {[afdianCard].map(({ id, label, desc, href, icon, brandVars }) => (
+              <a
+                key={id}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={brandVars}
+                className="donation-card flex flex-col gap-2.5 p-4 rounded-xl flex-1 basis-[140px] border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/60 transition-all duration-200 hover:scale-[1.02] hover:shadow-sm"
+              >
+                <span className="donation-icon text-zinc-400 dark:text-zinc-500 transition-colors duration-200">
+                  {icon}
+                </span>
+                <div>
+                  <p className="text-sm font-semibold text-zinc-800 dark:text-zinc-200">{label}</p>
+                  <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">{desc}</p>
+                </div>
+              </a>
+            ))}
+          </div>
+        ) : (
+          <p className="text-sm text-zinc-400 dark:text-zinc-500 leading-relaxed mt-1">
+            {t("donationComingSoon")}
+          </p>
+        )}
       </Section>
 
       {/* Acknowledgments */}
