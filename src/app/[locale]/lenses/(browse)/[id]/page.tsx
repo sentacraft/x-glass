@@ -239,7 +239,7 @@ export default async function LensDetailPage({ params }: { params: Params }) {
               {tBrand(lens.brand)}
               {lens.series ? ` · ${lens.series}` : ""}
             </p>
-            <h1 className="text-2xl font-bold text-zinc-900 dark:text-zinc-50 mt-1">
+            <h1 className="text-2xl font-bold text-zinc-900 dark:text-zinc-50 mt-1 font-heading">
               {lens.model}
             </h1>
           </div>
