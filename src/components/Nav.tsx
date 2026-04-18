@@ -111,6 +111,18 @@ export default function Nav() {
           >
             {t("about")}
           </Link>
+          {!isPwa && (
+            <Link
+              href="/get"
+              className={`text-sm transition-colors ${
+                pathname === "/get"
+                  ? "text-zinc-900 dark:text-zinc-50 font-medium"
+                  : "text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50"
+              }`}
+            >
+              {t("getApp")}
+            </Link>
+          )}
           <a
             href="https://github.com/ericzeyuzhang/x-glass"
             target="_blank"

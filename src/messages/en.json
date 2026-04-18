@@ -13,7 +13,8 @@
   "Nav": {
     "lenses": "Browse",
     "compare": "Compare",
-    "about": "About"
+    "about": "About",
+    "getApp": "Get App"
   },
   "Search": {
     "open": "Open lens search",
@@ -337,6 +338,10 @@
     "ackGeminiDesigner": "UX Designer",
     "ackGeminiBrandStrategist": "Brand Strategist",
     "ackClosing": "My deepest gratitude to the AI collaborators whose contributions were decisive in making this project a reality.",
+
+    "installTitle": "Get the App",
+    "installBody": "X-Glass is a PWA — add it to your home screen or dock for a full-screen, offline-capable experience.",
+    "installCta": "Install X-Glass →",
 
     "feedbackTitle": "Feedback & Contact",
     "feedbackBody": "Spotted incorrect data or a missing lens? Your report goes straight to the maintainer.",

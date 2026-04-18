@@ -2,6 +2,7 @@ import { getTranslations, getLocale } from "next-intl/server";
 import { Flag, Mail, Coffee, Zap } from "lucide-react";
 import FeedbackTrigger from "@/components/FeedbackTrigger";
 import { ExternalLink } from "@/components/ui/external-link";
+import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 import type { FeedbackType } from "@/components/FeedbackDialog";
 import AckCard from "@/components/AckCard";
@@ -154,6 +155,7 @@ export default async function AboutContent() {
           { id: "privacy", label: t("privacyTitle") },
           { id: "donation", label: t("donationTitle") },
           { id: "ack", label: t("ackTitle") },
+          { id: "install", label: t("installTitle") },
           { id: "feedback", label: t("feedbackTitle") },
         ].map(({ id, label }, i) => (
           <a
@@ -359,6 +361,25 @@ export default async function AboutContent() {
           <p className="text-xs text-zinc-400 dark:text-zinc-500 leading-relaxed">
             {t("ackClosing")}
           </p>
+        </div>
+      </Section>
+
+      {/* Install */}
+      <Section id="install" title={t("installTitle")}>
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/50 px-4 py-4">
+          <div className="flex items-center gap-3">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/icons/icon-192-white.png" alt="X-Glass" className="w-10 h-10 rounded-[22%] shadow-sm shrink-0" />
+            <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+              {t("installBody")}
+            </p>
+          </div>
+          <Link
+            href="/get"
+            className="shrink-0 text-sm font-medium text-zinc-900 dark:text-zinc-50 hover:opacity-70 transition-opacity whitespace-nowrap"
+          >
+            {t("installCta")}
+          </Link>
         </div>
       </Section>
 

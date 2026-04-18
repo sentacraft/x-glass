@@ -13,7 +13,8 @@
   "Nav": {
     "lenses": "镜头库",
     "compare": "对比",
-    "about": "关于"
+    "about": "关于",
+    "getApp": "获取应用"
   },
   "Search": {
     "open": "打开镜头搜索",
@@ -337,6 +338,10 @@
     "ackGeminiDesigner": "UX 设计师",
     "ackGeminiBrandStrategist": "品牌策略师",
     "ackClosing": "向在这个项目开发过程中给予了决定性帮助的 AI 协作者们，致以最诚挚的感激。",
+
+    "installTitle": "获取应用",
+    "installBody": "X-Glass 支持 PWA 安装，可添加到主屏幕或程序坞，享受全屏、可离线的原生 App 体验。",
+    "installCta": "安装 X-Glass →",
 
     "feedbackTitle": "反馈与联系",
     "feedbackBody": "如果你发现数据有误，或者想补充缺失镜头，可以直接在这里告诉我们。",
