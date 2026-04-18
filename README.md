@@ -52,25 +52,25 @@ flowchart TD
   subgraph pipeline["x-glass-pipeline (private)"]
     SOURCES[("sources.yaml")]
 
-    S0["Stage 0 · Index\nDiscovers X-mount lenses from brand listing pages"]
+    S0["<b>Stage 0 · Index</b><br/>Discovers X-mount lenses from brand listing pages"]
 
     subgraph s1["Stage 1 · Collect"]
-      S1p1["Phase 1 · Locate & Image\nDetail page URLs + main product image"]
-      S1p2["Phase 2 · Fetch rawSpecs\nSpec text extraction — no parsing"]
-      S1r["Maintainer · Review"]
-      S1h["Maintainer · Manual Fetch"]
-      S1b["AI Agent · Read & Merge\nVision on spec images + text merge\nNo field extraction"]
+      S1p1["<b>Phase 1 · Locate & Image</b><br/>Detail page URLs + main product image"]
+      S1p2["<b>Phase 2 · Fetch rawSpecs</b><br/>Spec text extraction — no parsing"]
+      S1r["<b>Maintainer · Review</b>"]
+      S1h["<b>Maintainer · Manual Fetch</b>"]
+      S1b["<b>AI Agent · Read & Merge</b><br/>Vision on spec images + text merge<br/>No field extraction"]
       S1out(["High-recall product description"])
     end
 
-    S2a["Stage 2a · Derive\nAI extracts semantic fields from rawSpecs"]
-    S2b["Stage 2b · Compute\nScript derives deterministic fields"]
-    S2c["Stage 2c · Image Processing\nNormalizes product images"]
-    SR["Stage R · Human Review\nMaintainer inspects and applies corrections"]
+    S2a["<b>Stage 2a · Derive</b><br/>AI extracts semantic fields from rawSpecs"]
+    S2b["<b>Stage 2b · Compute</b><br/>Script derives deterministic fields"]
+    S2c["<b>Stage 2c · Image Processing</b><br/>Normalizes product images"]
+    SR["<b>Stage R · Human Review</b><br/>Maintainer inspects and applies corrections"]
 
     subgraph sp["Stage P · Publish Gate"]
-      SP1["Zod schema validation\nIntra-lens + cross-lens checks"]
-      SP2["Normalization + version stamp"]
+      SP1["<b>Zod schema validation</b><br/>Intra-lens + cross-lens checks"]
+      SP2["<b>Normalization + version stamp</b>"]
     end
   end
 
@@ -89,7 +89,7 @@ flowchart TD
   S2b & S2c --> SR
   SR --> SP1
   SP1 --> SP2
-  SP2 -->|"writes src/data/lenses.json"| DB[("x-glass\n(this repo)")]
+  SP2 -->|"writes src/data/lenses.json"| DB[("x-glass<br/>(this repo)")]
 
   classDef script fill:#dbeafe,stroke:#3b82f6,color:#1e3a5f
   classDef agent fill:#fef9c3,stroke:#ca8a04,color:#713f12

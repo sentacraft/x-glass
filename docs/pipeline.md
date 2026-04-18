@@ -5,27 +5,27 @@ Full architecture of the `x-glass-pipeline` (private repo) that produces `src/da
 ```mermaid
 flowchart TD
   subgraph pipeline["x-glass-pipeline (private)"]
-    SOURCES[("sources.yaml\n· Brand aliases\n· Listing URLs per brand\n· Spec extraction sources per brand")]
+    SOURCES[("<b>sources.yaml</b><br/>· Brand aliases<br/>· Listing URLs per brand<br/>· Spec extraction sources per brand")]
 
-    S0["Stage 0 · Index\nDiscovers X-mount lenses from brand listing pages\n· Normalizes brand names via aliases\n· Deduplicates via generated lens ID"]
+    S0["<b>Stage 0 · Index</b><br/>Discovers X-mount lenses from brand listing pages<br/>· Normalizes brand names via aliases<br/>· Deduplicates via generated lens ID"]
 
     subgraph s1["Stage 1 · Collect"]
-      S1p1["Phase 1 · Locate & Image  (batch per brand)\nNavigates listing pages → records official detail page URLs\nDownloads main product image from listing thumbnails"]
-      S1p2["Phase 2 · Fetch rawSpecs  (per lens)\nFetches spec text from spec extraction sources\nTools: Jina Reader · Playwright · FireCrawl\nNo parsing — raw material only"]
-      S1r["Maintainer · Review\nInspects fetched text and image quality"]
-      S1h["Maintainer · Manual Fetch\nHand-collects raw text and images\nif Agent recall is insufficient"]
-      S1b["AI Agent · Read & Merge\nApplies vision to read text embedded in spec images\nMerges with webpage text into one raw block\nNo field extraction — structured parsing in Stage 2"]
+      S1p1["<b>Phase 1 · Locate & Image</b>  (batch per brand)<br/>Navigates listing pages → records official detail page URLs<br/>Downloads main product image from listing thumbnails"]
+      S1p2["<b>Phase 2 · Fetch rawSpecs</b>  (per lens)<br/>Fetches spec text from spec extraction sources<br/>Tools: Jina Reader · Playwright · FireCrawl<br/>No parsing — raw material only"]
+      S1r["<b>Maintainer · Review</b><br/>Inspects fetched text and image quality"]
+      S1h["<b>Maintainer · Manual Fetch</b><br/>Hand-collects raw text and images<br/>if Agent recall is insufficient"]
+      S1b["<b>AI Agent · Read & Merge</b><br/>Applies vision to read text embedded in spec images<br/>Merges with webpage text into one raw block<br/>No field extraction — structured parsing in Stage 2"]
       S1out(["Merged high-recall product description"])
     end
 
-    S2a["Stage 2a · Derive\nAI Agent reads rawSpecs to extract\nweight · dimensions · focus distance · lens formula · release year"]
-    S2b["Stage 2b · Compute\nScript applies brand rules to derive\nAF · OIS · WR · aperture ring · specialty tags"]
-    S2c["Stage 2c · Image Processing\nScript optimizes, crops, and normalizes\nproduct images for visual consistency"]
-    SR["Stage R · Human Review\nMaintainer inspects every record\nand applies corrections"]
+    S2a["<b>Stage 2a · Derive</b><br/>AI Agent reads rawSpecs to extract<br/>weight · dimensions · focus distance · lens formula · release year"]
+    S2b["<b>Stage 2b · Compute</b><br/>Script applies brand rules to derive<br/>AF · OIS · WR · aperture ring · specialty tags"]
+    S2c["<b>Stage 2c · Image Processing</b><br/>Script optimizes, crops, and normalizes<br/>product images for visual consistency"]
+    SR["<b>Stage R · Human Review</b><br/>Maintainer inspects every record<br/>and applies corrections"]
 
     subgraph sp["Stage P · Publish Gate"]
-      SP1["Zod schema validation against x-glass schema\n· Intra-lens: field formats, focal range, aperture ordering, lens formula integrity\n· Cross-lens: duplicate IDs, URLs, brand-models, and spec tuples (with known-distinct allowlist)"]
-      SP2["Normalization + version stamp"]
+      SP1["<b>Zod schema validation</b> against x-glass schema<br/>· Intra-lens: field formats, focal range, aperture ordering, lens formula integrity<br/>· Cross-lens: duplicate IDs, URLs, brand-models, and spec tuples (with known-distinct allowlist)"]
+      SP2["<b>Normalization + version stamp</b>"]
     end
   end
 
@@ -44,7 +44,7 @@ flowchart TD
   S2b & S2c --> SR
   SR --> SP1
   SP1 --> SP2
-  SP2 -->|"writes src/data/lenses.json"| DB[("x-glass\n(this repo)")]
+  SP2 -->|"writes src/data/lenses.json"| DB[("<b>x-glass</b><br/>(this repo)")]
 
   classDef script fill:#dbeafe,stroke:#3b82f6,color:#1e3a5f
   classDef agent fill:#fef9c3,stroke:#ca8a04,color:#713f12
