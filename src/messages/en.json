@@ -345,7 +345,8 @@
     "feedbackBody": "Spotted incorrect data or a missing lens? Your report goes straight to the maintainer.",
     "feedbackReport": "Report a data issue",
     "feedbackSuggest": "Suggest a missing lens",
-    "feedbackGeneral": "General feedback"
+    "feedbackGeneral": "General feedback",
+    "feedbackEmailLabel": "xglass@sentacraft.com"
   },
   "Footer": {
     "updatedPrefix": "Updated",

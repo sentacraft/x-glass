@@ -345,7 +345,8 @@
     "feedbackBody": "如果你发现数据有误，或者想补充缺失镜头，可以直接在这里告诉我们。",
     "feedbackReport": "反馈数据问题",
     "feedbackSuggest": "推荐缺失镜头",
-    "feedbackGeneral": "其他反馈"
+    "feedbackGeneral": "其他反馈",
+    "feedbackEmailLabel": "xglass@sentacraft.com"
   },
   "Footer": {
     "updatedPrefix": "更新于",

@@ -364,6 +364,13 @@ export default async function AboutContent() {
               {label}
             </FeedbackTrigger>
           ))}
+          <a
+            href="mailto:xglass@sentacraft.com"
+            className="inline-flex items-center gap-2 text-sm text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors self-start"
+          >
+            <span className="text-zinc-400 dark:text-zinc-500"><Mail size={13} /></span>
+            {t("feedbackEmailLabel")}
+          </a>
         </div>
       </Section>
     </div>
