@@ -14,8 +14,7 @@ type Platform =
   | "loading"       // initial — waiting for beforeinstallprompt or timeout
   | "installed"     // already running as a standalone PWA
   | "prompt"        // Chrome/Edge/Android — programmatic install available
-  | "ios"           // iOS Safari — manual Add to Home Screen flow
-  | "ios-other"     // iOS non-Safari (CriOS, FxiOS) — must open in Safari first
+  | "ios"           // iOS — manual Add to Home Screen flow
   | "macos-safari"  // macOS Safari — Share → Add to Dock
   | "generic";      // everything else — show browser menu hint
 
@@ -28,8 +27,6 @@ function detectSync(): Platform | null {
 
   const ua = navigator.userAgent;
   if (/iPad|iPhone|iPod/.test(ua)) {
-    // Chrome on iOS includes "CriOS"; Firefox includes "FxiOS".
-    if (/CriOS|FxiOS/.test(ua)) return "ios-other";
     return "ios";
   }
 
@@ -124,51 +121,25 @@ export default function InstallPage() {
         </div>
       )}
 
-      {(platform === "ios" || platform === "ios-other") && (
+      {platform === "ios" && (
         <div className="max-w-xs w-full">
           <h1 className="text-3xl font-bold tracking-tight text-zinc-800 dark:text-zinc-50">
             {t("iosTitle")}
           </h1>
-
-          {platform === "ios-other" ? (
-            // Chrome/Firefox on iOS can add to home screen, but it creates a
-            // bookmark shortcut rather than a standalone PWA. Recommend Safari
-            // for the full experience, but still show the steps since they work.
-            <>
-              <p className="mt-3 text-zinc-500 dark:text-zinc-400 text-sm">{t("iosNotSafari")}</p>
-              <p className="mt-2 text-zinc-400 dark:text-zinc-500 text-sm">{t("iosSubtitle")}</p>
-              <ol className="mt-6 space-y-3 text-left">
-                {IOS_STEPS.map((key, i) => (
-                  <li
-                    key={key}
-                    className="flex items-start gap-4 bg-white dark:bg-zinc-900 rounded-xl px-4 py-3"
-                  >
-                    <span className="shrink-0 w-6 h-6 rounded-full bg-zinc-800 dark:bg-zinc-50 text-zinc-50 dark:text-zinc-900 text-xs font-bold flex items-center justify-center mt-0.5">
-                      {i + 1}
-                    </span>
-                    <span className="text-sm text-zinc-700 dark:text-zinc-300">{t(key)}</span>
-                  </li>
-                ))}
-              </ol>
-            </>
-          ) : (
-            <>
-              <p className="mt-3 text-zinc-500 dark:text-zinc-400 text-sm">{t("iosSubtitle")}</p>
-              <ol className="mt-6 space-y-3 text-left">
-                {IOS_STEPS.map((key, i) => (
-                  <li
-                    key={key}
-                    className="flex items-start gap-4 bg-white dark:bg-zinc-900 rounded-xl px-4 py-3"
-                  >
-                    <span className="shrink-0 w-6 h-6 rounded-full bg-zinc-800 dark:bg-zinc-50 text-zinc-50 dark:text-zinc-900 text-xs font-bold flex items-center justify-center mt-0.5">
-                      {i + 1}
-                    </span>
-                    <span className="text-sm text-zinc-700 dark:text-zinc-300">{t(key)}</span>
-                  </li>
-                ))}
-              </ol>
-            </>
-          )}
+          <p className="mt-3 text-zinc-500 dark:text-zinc-400 text-sm">{t("iosSubtitle")}</p>
+          <ol className="mt-6 space-y-3 text-left">
+            {IOS_STEPS.map((key, i) => (
+              <li
+                key={key}
+                className="flex items-start gap-4 bg-white dark:bg-zinc-900 rounded-xl px-4 py-3"
+              >
+                <span className="shrink-0 w-6 h-6 rounded-full bg-zinc-800 dark:bg-zinc-50 text-zinc-50 dark:text-zinc-900 text-xs font-bold flex items-center justify-center mt-0.5">
+                  {i + 1}
+                </span>
+                <span className="text-sm text-zinc-700 dark:text-zinc-300">{t(key)}</span>
+              </li>
+            ))}
+          </ol>
         </div>
       )}
 

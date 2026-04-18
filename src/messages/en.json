@@ -394,8 +394,6 @@
     "iosStep1": "Tap the Share button (the square with an arrow) at the bottom of Safari",
     "iosStep2": "Scroll down and tap \"Add to Home Screen\"",
     "iosStep3": "Tap \"Add\" in the top-right corner",
-    "iosNotSafari": "For the full standalone experience, open this page in Safari. You can still add it from your current browser.",
-
     "macosTitle": "Add to Dock",
     "macosSubtitle": "Follow these steps in Safari:",
     "macosStep1": "Click the Share button (the square with an arrow) in the Safari toolbar",
