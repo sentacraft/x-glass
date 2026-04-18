@@ -629,7 +629,6 @@ export function buildSpecGroups(labels: SpecGroupLabels): SpecGroup[] {
           kind: "numeric",
           label: labels.releaseYear,
           labelNote: labels.releaseYearLabelNote,
-          lowConfidence: true,
           hasData: (l) => l.releaseYear !== undefined,
           getDisplayValue: (l) => fmt.optionalNumber(l.releaseYear, ""),
           toComparable: (l) => l.releaseYear,

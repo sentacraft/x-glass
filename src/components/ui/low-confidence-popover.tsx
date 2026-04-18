@@ -1,7 +1,7 @@
 "use client";
 
 import { Popover } from "@base-ui/react/popover";
-import { CircleHelp } from "lucide-react";
+import { TriangleAlert } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 export function LowConfidencePopover() {
@@ -10,10 +10,10 @@ export function LowConfidencePopover() {
   return (
     <Popover.Root>
       <Popover.Trigger
-        className="inline-flex shrink-0 items-center justify-center rounded-full text-amber-400 outline-none transition-colors hover:text-amber-500 focus-visible:ring-2 focus-visible:ring-amber-400 dark:text-amber-500 dark:hover:text-amber-400"
+        className="inline-flex shrink-0 items-center justify-center rounded-full text-amber-500 outline-none transition-colors hover:text-amber-600 focus-visible:ring-2 focus-visible:ring-amber-400 dark:text-amber-400 dark:hover:text-amber-300"
         aria-label={t("additionalInfo")}
       >
-        <CircleHelp className="size-3.5" />
+        <TriangleAlert className="size-3.5" />
       </Popover.Trigger>
       <Popover.Portal>
         <Popover.Positioner side="top" align="center" sideOffset={6}>

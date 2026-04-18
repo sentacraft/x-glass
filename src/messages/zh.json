@@ -168,7 +168,7 @@
     "motorStepping": "步进马达",
     "motorOther": "其他",
     "releaseYear": "发布年份",
-    "releaseYearLabelNote": "若该镜头同时拥有多个卡口版本，此处显示的是富士 X 卡口版本的发布年份。",
+    "releaseYearLabelNote": "若该镜头同时拥有多个卡口版本，此处显示的是富士 X 卡口版本的发布年份。注意：该字段数据覆盖率较低，部分数值可能存在偏差。",
     "accessories": "附带配件",
     "yes": "有",
     "no": "无",
