@@ -6,9 +6,9 @@ Browse, filter, and compare every Fujifilm X-mount lens side by side — native 
 
 **Desktop**
 
-![Lens browser](https://github.com/user-attachments/assets/256ed68d-ccde-4961-9303-19f3899f5b36)
-
 ![Lens browser](https://github.com/user-attachments/assets/107d9263-cf2a-4ab1-905b-ed9b6d56d523)
+
+![Lens browser](https://github.com/user-attachments/assets/256ed68d-ccde-4961-9303-19f3899f5b36)
 
 **Mobile**
 
