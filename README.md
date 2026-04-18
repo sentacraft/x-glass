@@ -4,6 +4,8 @@ Browse, filter, and compare every Fujifilm X-mount lens side by side — native 
 
 **[xglass.sentacraft.com](https://xglass.sentacraft.com)**
 
+If you find X-Glass useful, a ⭐ on this repo goes a long way — and if you'd like to support the project, [donations are welcome](https://xglass.sentacraft.com/about#donation).
+
 **Desktop**
 
 ![Lens browser](https://github.com/user-attachments/assets/107d9263-cf2a-4ab1-905b-ed9b6d56d523)
