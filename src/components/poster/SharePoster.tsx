@@ -465,6 +465,45 @@ export function SharePoster({ lenses, labels, custom, shareUrl, ref }: SharePost
         </div>
       </div>
 
+      {/* ── Size Section ─────────────────────────────────────── */}
+      {(showDimensions || showFilter) && (
+        <>
+          <div className="h-px bg-zinc-200" />
+          <div style={{ padding: `20px ${POSTER_PX}px` }}>
+            <PosterSection title={labels.sectionSizeWeight}>
+              {/* Dimensions */}
+              {showDimensions && (
+                <div style={gridStyle(n)}>
+                  {lenses.map((lens, i) => (
+                    <PosterStatBlock
+                      key={i}
+                      value={dimensionsPrimaryDisplay(lens.diameterMm, lens.length)}
+                      label={labels.dimensionsLabel}
+                      valueClassName={cn("text-base font-medium")}
+                    />
+                  ))}
+                </div>
+              )}
+
+              {/* Filter size */}
+              {showFilter && (
+                <div style={gridStyle(n)}>
+                  {lenses.map((lens, i) => (
+                    <PosterStatBlock
+                      key={i}
+                      value={filterSizeDisplay(lens.filterMm) ?? undefined}
+                      label={labels.filterLabel}
+                      valueClassName={cn("text-base font-medium")}
+                      sup={noteSup(i, "filterMm")}
+                    />
+                  ))}
+                </div>
+              )}
+            </PosterSection>
+          </div>
+        </>
+      )}
+
       {/* ── Focus Section ────────────────────────────────────── */}
       {(showMinFocus || showMaxMag || showFocusMotorRow) && (
         <>
@@ -582,45 +621,6 @@ export function SharePoster({ lenses, labels, custom, shareUrl, ref }: SharePost
                 </div>
               )}
 
-            </PosterSection>
-          </div>
-        </>
-      )}
-
-      {/* ── Size Section ─────────────────────────────────────── */}
-      {(showDimensions || showFilter) && (
-        <>
-          <div className="h-px bg-zinc-200" />
-          <div style={{ padding: `20px ${POSTER_PX}px` }}>
-            <PosterSection title={labels.sectionSizeWeight}>
-              {/* Dimensions */}
-              {showDimensions && (
-                <div style={gridStyle(n)}>
-                  {lenses.map((lens, i) => (
-                    <PosterStatBlock
-                      key={i}
-                      value={dimensionsPrimaryDisplay(lens.diameterMm, lens.length)}
-                      label={labels.dimensionsLabel}
-                      valueClassName={cn("text-sm font-medium")}
-                    />
-                  ))}
-                </div>
-              )}
-
-              {/* Filter size */}
-              {showFilter && (
-                <div style={gridStyle(n)}>
-                  {lenses.map((lens, i) => (
-                    <PosterStatBlock
-                      key={i}
-                      value={filterSizeDisplay(lens.filterMm) ?? undefined}
-                      label={labels.filterLabel}
-                      valueClassName={cn("text-sm font-medium")}
-                      sup={noteSup(i, "filterMm")}
-                    />
-                  ))}
-                </div>
-              )}
             </PosterSection>
           </div>
         </>
