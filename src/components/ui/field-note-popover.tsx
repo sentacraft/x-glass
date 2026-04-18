@@ -1,23 +1,28 @@
 "use client";
 
 import { Popover } from "@base-ui/react/popover";
-import { Info } from "lucide-react";
+import { Info, TriangleAlert } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 interface Props {
   note: string;
+  variant?: "info" | "warning";
 }
 
-export function FieldNotePopover({ note }: Props) {
+export function FieldNotePopover({ note, variant = "info" }: Props) {
   const t = useTranslations("Common");
 
   return (
     <Popover.Root>
       <Popover.Trigger
-        className="inline-flex shrink-0 items-center justify-center rounded-full text-zinc-400 outline-none transition-colors hover:text-zinc-600 focus-visible:ring-2 focus-visible:ring-zinc-400 dark:text-zinc-500 dark:hover:text-zinc-300"
+        className={
+          variant === "warning"
+            ? "inline-flex shrink-0 items-center justify-center rounded-full text-amber-500 outline-none transition-colors hover:text-amber-600 focus-visible:ring-2 focus-visible:ring-amber-400 dark:text-amber-400 dark:hover:text-amber-300"
+            : "inline-flex shrink-0 items-center justify-center rounded-full text-zinc-400 outline-none transition-colors hover:text-zinc-600 focus-visible:ring-2 focus-visible:ring-zinc-400 dark:text-zinc-500 dark:hover:text-zinc-300"
+        }
         aria-label={t("additionalInfo")}
       >
-        <Info className="size-3.5" />
+        {variant === "warning" ? <TriangleAlert className="size-3.5" /> : <Info className="size-3.5" />}
       </Popover.Trigger>
       <Popover.Portal>
         <Popover.Positioner side="top" align="center" sideOffset={6}>

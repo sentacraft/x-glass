@@ -18,7 +18,6 @@ import { cn } from "@/lib/utils";
 import { ICON_CLOSE_BTN_CLS } from "@/lib/ui-tokens";
 import { BoolCell } from "@/components/ui/bool-cell";
 import { FieldNotePopover } from "@/components/ui/field-note-popover";
-import { LowConfidencePopover } from "@/components/ui/low-confidence-popover";
 import { useRouter } from "@/i18n/navigation";
 import FeedbackTrigger from "@/components/FeedbackTrigger";
 import type { FeedbackField } from "@/components/FeedbackDialog";
@@ -554,8 +553,7 @@ export default function CompareTable({ lenses: initialLenses, minColumns = 0, hi
                 <tr key={row.label} className="border-b border-zinc-100 dark:border-zinc-800/60 last:border-0">
                   <td className="sticky left-0 z-10 px-3 py-3 text-right text-xs font-medium text-zinc-500 dark:text-zinc-400 bg-zinc-50 dark:bg-zinc-900 break-words">
                     <div className="flex items-center justify-end gap-1">
-                      {row.lowConfidence && <LowConfidencePopover />}
-                      {row.labelNote && <FieldNotePopover note={row.labelNote} />}
+                      {row.labelNote && <FieldNotePopover note={row.labelNote} variant={row.labelNoteVariant} />}
                       <span>{row.label}</span>
                     </div>
                   </td>
@@ -612,8 +610,7 @@ export default function CompareTable({ lenses: initialLenses, minColumns = 0, hi
                       {/* Label cell */}
                       <td className="sticky left-0 z-10 px-3 py-3 text-right text-xs font-medium text-zinc-500 dark:text-zinc-400 bg-zinc-50 dark:bg-zinc-900 break-words">
                         <div className="flex items-center justify-end gap-1">
-                          {row.lowConfidence && <LowConfidencePopover />}
-                          {row.labelNote && <FieldNotePopover note={row.labelNote} />}
+                          {row.labelNote && <FieldNotePopover note={row.labelNote} variant={row.labelNoteVariant} />}
                           <span>{row.label}</span>
                         </div>
                       </td>

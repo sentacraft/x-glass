@@ -17,7 +17,6 @@ import FeedbackTrigger from "@/components/FeedbackTrigger";
 import { ACTION_OUTLINE_CLS } from "@/lib/ui-tokens";
 import { BoolCell } from "@/components/ui/bool-cell";
 import { FieldNotePopover } from "@/components/ui/field-note-popover";
-import { LowConfidencePopover } from "@/components/ui/low-confidence-popover";
 
 type Params = Promise<{ locale: string; id: string }>;
 
@@ -296,8 +295,7 @@ export default async function LensDetailPage({ params }: { params: Params }) {
                         <td className="px-4 py-2.5 text-xs font-medium text-zinc-500 dark:text-zinc-400 bg-zinc-50/60 dark:bg-zinc-900/30 w-40 align-top">
                           <div className="flex items-center gap-1">
                             <span className="whitespace-nowrap">{resolved.label}</span>
-                            {resolved.labelNote && <FieldNotePopover note={resolved.labelNote} />}
-                            {resolved.lowConfidence && <LowConfidencePopover />}
+                            {resolved.labelNote && <FieldNotePopover note={resolved.labelNote} variant={resolved.labelNoteVariant} />}
                           </div>
                         </td>
                         <td className="px-4 py-2.5 text-zinc-700 dark:text-zinc-300">
