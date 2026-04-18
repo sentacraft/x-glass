@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
+import { Smartphone } from "lucide-react";
 import { Link, usePathname } from "@/i18n/navigation";
 import LensSearchDialog from "@/components/LensSearchDialog";
 import Iris from "@/components/Iris";
@@ -114,13 +115,14 @@ export default function Nav() {
           {!isPwa && (
             <Link
               href="/get"
-              className={`text-sm transition-colors ${
+              aria-label={t("getApp")}
+              className={`transition-colors ${
                 pathname === "/get"
-                  ? "text-zinc-900 dark:text-zinc-50 font-medium"
-                  : "text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50"
+                  ? "text-zinc-900 dark:text-zinc-50"
+                  : "text-zinc-400 dark:text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-50"
               }`}
             >
-              {t("getApp")}
+              <Smartphone width={17} height={17} />
             </Link>
           )}
           <a
