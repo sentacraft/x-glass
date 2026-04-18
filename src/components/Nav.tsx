@@ -118,11 +118,12 @@ export default function Nav() {
               aria-label={t("getApp")}
               className={`transition-colors ${
                 pathname === "/get"
-                  ? "text-zinc-900 dark:text-zinc-50"
-                  : "text-zinc-400 dark:text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-50"
+                  ? "text-zinc-900 dark:text-zinc-50 font-medium"
+                  : "text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50"
               }`}
             >
-              <Smartphone width={17} height={17} />
+              <Smartphone width={17} height={17} className="sm:hidden" />
+              <span className="hidden sm:inline text-sm">{t("getApp")}</span>
             </Link>
           )}
           <a
