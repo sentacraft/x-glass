@@ -338,7 +338,7 @@
     "ackClosing": "向在这个项目开发过程中给予了决定性帮助的 AI 协作者们，致以最诚挚的感激。",
 
     "installTitle": "获取应用",
-    "installBody": "X-Glass 是一款 PWA（渐进式网页应用）—— 本质上是网页，但安装后的体验与原生 App 无异，无需通过 App Store。可添加到手机主屏幕或电脑程序坞，全屏启动，支持离线使用。",
+    "installBody": "X-Glass 是一款网页应用，在浏览器中打开即可直接使用。同时支持以 PWA（渐进式网页应用）形式安装，添加到手机主屏幕或电脑程序坞后，可全屏启动、支持离线，体验更接近原生 App。",
     "installCta": "安装 X-Glass →",
 
     "feedbackTitle": "反馈与联系",
@@ -389,7 +389,7 @@
     "openApp": "打开 X-Glass",
 
     "promptTitle": "安装 X-Glass",
-    "promptBody": "X-Glass 是一款网页应用，安装后体验与原生 App 无异——无需通过 App Store，直接添加到设备，以后一键打开，不用记网址。",
+    "promptBody": "X-Glass 是一款网页应用，同时支持 PWA 安装——无需通过 App Store，直接添加到设备，以后一键打开，体验更接近原生 App。",
     "installButton": "安装",
 
     "iosTitle": "添加到主屏幕",
@@ -404,6 +404,6 @@
     "macosStep3": "点击「添加」确认",
 
     "genericTitle": "添加到主屏幕",
-    "genericBody": "X-Glass 是一款网页应用，安装后体验与原生 App 无异。打开浏览器菜单，寻找「添加到主屏幕」或「安装应用」选项。"
+    "genericBody": "X-Glass 是一款网页应用，同时支持 PWA 安装，体验更接近原生 App。打开浏览器菜单，寻找「添加到主屏幕」或「安装应用」选项。"
   }
 }
