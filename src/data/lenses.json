@@ -1,5 +1,155 @@
 [
   {
+    "id": "7artisans-7p5mm-f28-ii-xf",
+    "brand": "7artisans",
+    "model": "7.5mm F2.8 Mark II",
+    "generation": 2,
+    "focalLengthMin": 7.5,
+    "focalLengthMax": 7.5,
+    "maxAperture": 2.8,
+    "minAperture": 16,
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "powerZoom": false,
+    "focusMotor": "N/A",
+    "weightG": 265,
+    "diameterMm": 62.3,
+    "length": {
+      "mm": 50.6
+    },
+    "minFocusDistance": {
+      "cm": 15
+    },
+    "angleOfView": 190,
+    "angleOfViewCalc": 124.1,
+    "apertureBladeCount": 5,
+    "releaseYear": 2021,
+    "compatibleMounts": [
+      "Sony E",
+      "Canon RF",
+      "Fujifilm X",
+      "Micro Four Thirds",
+      "Nikon Z"
+    ],
+    "lensMaterial": "Metal",
+    "filterMm": "N/A",
+    "lensConfiguration": {
+      "groups": 9,
+      "elements": 11,
+      "ed": 2,
+      "sourceText": "11 elements in 9 groups"
+    },
+    "fieldNotes": {
+      "filterMm": "190° fisheye design with bulbous front element; no front filter thread."
+    },
+    "officialLinks": {
+      "cn": "https://www.7artisans.com/prod_view.aspx?nid=3&typeid=104&id=398",
+      "global": "https://en.7artisans.com/prod_view.aspx?nid=3&typeid=104&id=398"
+    }
+  },
+  {
+    "id": "7artisans-mf-12mm-t29-aps-c-cine-xf",
+    "brand": "7artisans",
+    "model": "12mm T2.9 APS-C Cine",
+    "focalLengthMin": 12,
+    "focalLengthMax": 12,
+    "maxAperture": 2.8,
+    "minAperture": 16,
+    "maxTStop": 2.9,
+    "minTStop": 16,
+    "specialtyTags": [
+      "cine"
+    ],
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "powerZoom": false,
+    "focusMotor": "N/A",
+    "weightG": 602,
+    "diameterMm": 89,
+    "length": {
+      "mm": 70
+    },
+    "minFocusDistance": {
+      "cm": 14
+    },
+    "angleOfView": 100,
+    "angleOfViewCalc": 99.4,
+    "apertureBladeCount": 9,
+    "releaseYear": 2022,
+    "compatibleMounts": [
+      "Sony E",
+      "Micro Four Thirds",
+      "Fujifilm X",
+      "Nikon Z",
+      "Leica L",
+      "Canon RF"
+    ],
+    "lensMaterial": "Metal",
+    "filterMm": 82,
+    "lensConfiguration": {
+      "groups": 10,
+      "elements": 12,
+      "sourceText": "12 elements in 10 groups"
+    },
+    "fieldNotes": {},
+    "officialLinks": {
+      "cn": "https://www.7artisans.com/prod_view.aspx?nid=3&typeid=99&id=442",
+      "global": "https://en.7artisans.com/prod_view.aspx?nid=3&typeid=99&id=442"
+    }
+  },
+  {
+    "id": "7artisans-25mm-f095-xf",
+    "brand": "7artisans",
+    "model": "25mm F0.95",
+    "focalLengthMin": 25,
+    "focalLengthMax": 25,
+    "maxAperture": 0.95,
+    "minAperture": 16,
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "powerZoom": false,
+    "focusMotor": "N/A",
+    "weightG": 589,
+    "diameterMm": 63,
+    "length": {
+      "mm": 99.7
+    },
+    "minFocusDistance": {
+      "cm": 25
+    },
+    "angleOfView": 58.6,
+    "angleOfViewCalc": 59,
+    "apertureBladeCount": 13,
+    "releaseYear": 2021,
+    "compatibleMounts": [
+      "Sony E",
+      "Nikon Z",
+      "Leica L",
+      "Canon RF",
+      "Fujifilm X",
+      "Canon EF-M",
+      "Micro Four Thirds"
+    ],
+    "lensMaterial": "Metal",
+    "filterMm": 52,
+    "lensConfiguration": {
+      "groups": 9,
+      "elements": 11,
+      "sourceText": "9 groups, 11 elements"
+    },
+    "fieldNotes": {},
+    "officialLinks": {
+      "cn": "https://www.7artisans.com/prod_view.aspx?id=386&nid=3&typeid=102",
+      "global": "https://en.7artisans.com/prod_view.aspx?id=386&nid=3&typeid=102"
+    }
+  },
+  {
     "id": "7artisans-af-10mm-f28-xf",
     "brand": "7artisans",
     "model": "AF 10mm F2.8",
@@ -253,6 +403,293 @@
     }
   },
   {
+    "id": "7artisans-10mm-t21-xf",
+    "brand": "7artisans",
+    "model": "Hope Prime 10mm T2.1",
+    "focalLengthMin": 10,
+    "focalLengthMax": 10,
+    "maxAperture": 2,
+    "minAperture": 22,
+    "maxTStop": 2.1,
+    "minTStop": 22,
+    "specialtyTags": [
+      "cine"
+    ],
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "powerZoom": false,
+    "focusMotor": "N/A",
+    "weightG": 620,
+    "diameterMm": 83,
+    "length": {
+      "mm": 91
+    },
+    "minFocusDistance": {
+      "cm": 30
+    },
+    "angleOfViewCalc": 109.5,
+    "apertureBladeCount": 10,
+    "releaseYear": 2024,
+    "compatibleMounts": [
+      "Sony E",
+      "Fujifilm X",
+      "Canon RF",
+      "Micro Four Thirds"
+    ],
+    "lensMaterial": "Metal",
+    "filterMm": 77,
+    "lensConfiguration": {
+      "groups": 12,
+      "elements": 15,
+      "sourceText": "15 elements in 12 groups"
+    },
+    "fieldNotes": {},
+    "officialLinks": {
+      "cn": "https://www.7artisans.com/prod_view.aspx?nid=3&typeid=121&id=464",
+      "global": "https://en.7artisans.com/prod_view.aspx?nid=3&typeid=112&id=455"
+    }
+  },
+  {
+    "id": "7artisans-16mm-t21-xf",
+    "brand": "7artisans",
+    "model": "Hope Prime 16mm T2.1",
+    "focalLengthMin": 16,
+    "focalLengthMax": 16,
+    "maxAperture": 2,
+    "minAperture": 22,
+    "maxTStop": 2.1,
+    "minTStop": 22,
+    "specialtyTags": [
+      "cine"
+    ],
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "powerZoom": false,
+    "focusMotor": "N/A",
+    "weightG": 706,
+    "diameterMm": 83,
+    "length": {
+      "mm": 88
+    },
+    "minFocusDistance": {
+      "cm": 25
+    },
+    "angleOfViewCalc": 83,
+    "apertureBladeCount": 10,
+    "releaseYear": 2024,
+    "compatibleMounts": [
+      "Sony E",
+      "Fujifilm X",
+      "Canon RF",
+      "Micro Four Thirds"
+    ],
+    "lensMaterial": "Metal",
+    "filterMm": 77,
+    "lensConfiguration": {
+      "groups": 11,
+      "elements": 14,
+      "sourceText": "14 elements in 11 groups"
+    },
+    "fieldNotes": {
+      "filterMm": "Canon RF mount variant does not have a front filter thread."
+    },
+    "officialLinks": {
+      "cn": "https://www.7artisans.com/prod_view.aspx?nid=3&typeid=121&id=465",
+      "global": "https://en.7artisans.com/prod_view.aspx?nid=3&typeid=112&id=456"
+    }
+  },
+  {
+    "id": "7artisans-25mm-t21-xf",
+    "brand": "7artisans",
+    "model": "Hope Prime 25mm T2.1",
+    "focalLengthMin": 25,
+    "focalLengthMax": 25,
+    "maxAperture": 2,
+    "minAperture": 22,
+    "maxTStop": 2.1,
+    "minTStop": 22,
+    "specialtyTags": [
+      "cine"
+    ],
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "powerZoom": false,
+    "focusMotor": "N/A",
+    "weightG": 712,
+    "diameterMm": 83,
+    "length": {
+      "mm": 104
+    },
+    "minFocusDistance": {
+      "cm": 25
+    },
+    "angleOfViewCalc": 59,
+    "releaseYear": 2024,
+    "compatibleMounts": [
+      "Sony E",
+      "Fujifilm X",
+      "Canon RF",
+      "Micro Four Thirds"
+    ],
+    "lensMaterial": "Metal",
+    "filterMm": 77,
+    "lensConfiguration": {
+      "groups": 9,
+      "elements": 12,
+      "sourceText": "12 elements in 9 groups"
+    },
+    "fieldNotes": {},
+    "officialLinks": {
+      "cn": "https://www.7artisans.com/prod_view.aspx?nid=3&typeid=121&id=466",
+      "global": "https://en.7artisans.com/prod_view.aspx?nid=3&typeid=112&id=457"
+    }
+  },
+  {
+    "id": "7artisans-35mm-t21-xf",
+    "brand": "7artisans",
+    "model": "Hope Prime 35mm T2.1",
+    "focalLengthMin": 35,
+    "focalLengthMax": 35,
+    "maxAperture": 2,
+    "minAperture": 22,
+    "maxTStop": 2.1,
+    "minTStop": 22,
+    "specialtyTags": [
+      "cine"
+    ],
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "powerZoom": false,
+    "focusMotor": "N/A",
+    "weightG": 602,
+    "diameterMm": 83,
+    "length": {
+      "mm": 104
+    },
+    "minFocusDistance": {
+      "cm": 51
+    },
+    "angleOfViewCalc": 44,
+    "releaseYear": 2024,
+    "compatibleMounts": [
+      "Sony E",
+      "Fujifilm X",
+      "Canon RF",
+      "Micro Four Thirds"
+    ],
+    "lensMaterial": "Metal",
+    "filterMm": 77,
+    "lensConfiguration": {
+      "groups": 10,
+      "elements": 12,
+      "sourceText": "12 elements in 10 groups"
+    },
+    "fieldNotes": {},
+    "officialLinks": {
+      "cn": "https://www.7artisans.com/prod_view.aspx?nid=3&typeid=121&id=467",
+      "global": "https://en.7artisans.com/prod_view.aspx?nid=3&typeid=112&id=458"
+    }
+  },
+  {
+    "id": "7artisans-50mm-t21-xf",
+    "brand": "7artisans",
+    "model": "Hope Prime 50mm T2.1",
+    "focalLengthMin": 50,
+    "focalLengthMax": 50,
+    "maxAperture": 2,
+    "minAperture": 22,
+    "maxTStop": 2.1,
+    "minTStop": 22,
+    "specialtyTags": [
+      "cine"
+    ],
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "powerZoom": false,
+    "focusMotor": "N/A",
+    "weightG": 705,
+    "diameterMm": 83,
+    "length": {
+      "mm": 104
+    },
+    "minFocusDistance": {
+      "cm": 60
+    },
+    "angleOfViewCalc": 31.6,
+    "releaseYear": 2024,
+    "compatibleMounts": [
+      "Sony E",
+      "Fujifilm X",
+      "Canon RF",
+      "Micro Four Thirds"
+    ],
+    "lensMaterial": "Metal",
+    "filterMm": 77,
+    "lensConfiguration": {
+      "groups": 7,
+      "elements": 9,
+      "sourceText": "9 elements in 7 groups"
+    },
+    "fieldNotes": {},
+    "officialLinks": {
+      "cn": "https://www.7artisans.com/prod_view.aspx?nid=3&typeid=121&id=468",
+      "global": "https://en.7artisans.com/prod_view.aspx?nid=3&typeid=112&id=459"
+    }
+  },
+  {
+    "id": "7artisans-85mm-t21-xf",
+    "brand": "7artisans",
+    "model": "Hope Prime 85mm T2.1",
+    "focalLengthMin": 85,
+    "focalLengthMax": 85,
+    "maxAperture": 2,
+    "minAperture": 22,
+    "maxTStop": 2.1,
+    "minTStop": 22,
+    "specialtyTags": [
+      "cine"
+    ],
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "powerZoom": false,
+    "focusMotor": "N/A",
+    "weightG": 805,
+    "diameterMm": 83,
+    "length": {
+      "mm": 104
+    },
+    "minFocusDistance": {
+      "cm": 90
+    },
+    "angleOfViewCalc": 18.9,
+    "releaseYear": 2024,
+    "compatibleMounts": [
+      "Sony E",
+      "Fujifilm X",
+      "Canon RF",
+      "Micro Four Thirds"
+    ],
+    "lensMaterial": "Metal",
+    "filterMm": 77,
+    "fieldNotes": {},
+    "officialLinks": {
+      "cn": "https://www.7artisans.com/prod_view.aspx?nid=3&typeid=121&id=469",
+      "global": "https://en.7artisans.com/prod_view.aspx?nid=3&typeid=112&id=460"
+    }
+  },
+  {
     "id": "7artisans-4mm-f28-xf",
     "brand": "7artisans",
     "model": "MF 4mm F2.8",
@@ -265,6 +702,7 @@
     "wr": false,
     "apertureRing": true,
     "powerZoom": false,
+    "focusMotor": "N/A",
     "weightG": 201,
     "diameterMm": 60,
     "length": {
@@ -307,6 +745,7 @@
     "wr": false,
     "apertureRing": true,
     "powerZoom": false,
+    "focusMotor": "N/A",
     "weightG": 418,
     "diameterMm": 69,
     "length": {
@@ -350,6 +789,7 @@
     "wr": false,
     "apertureRing": true,
     "powerZoom": false,
+    "focusMotor": "N/A",
     "weightG": 125,
     "diameterMm": 59,
     "length": {
@@ -394,6 +834,7 @@
     "wr": false,
     "apertureRing": true,
     "powerZoom": false,
+    "focusMotor": "N/A",
     "weightG": 301,
     "diameterMm": 70,
     "length": {
@@ -439,6 +880,7 @@
     "wr": false,
     "apertureRing": true,
     "powerZoom": false,
+    "focusMotor": "N/A",
     "weightG": 58,
     "diameterMm": 56,
     "length": {
@@ -484,6 +926,7 @@
     "wr": false,
     "apertureRing": true,
     "powerZoom": false,
+    "focusMotor": "N/A",
     "weightG": 143,
     "diameterMm": 60,
     "length": {
@@ -528,6 +971,7 @@
     "wr": false,
     "apertureRing": true,
     "powerZoom": false,
+    "focusMotor": "N/A",
     "weightG": 218,
     "diameterMm": 62,
     "length": {
@@ -572,6 +1016,7 @@
     "wr": false,
     "apertureRing": true,
     "powerZoom": false,
+    "focusMotor": "N/A",
     "weightG": 228,
     "diameterMm": 60,
     "length": {
@@ -620,6 +1065,7 @@
     "wr": false,
     "apertureRing": true,
     "powerZoom": false,
+    "focusMotor": "N/A",
     "weightG": 364,
     "diameterMm": 75,
     "length": {
@@ -662,6 +1108,7 @@
     "wr": false,
     "apertureRing": true,
     "powerZoom": false,
+    "focusMotor": "N/A",
     "weightG": 168,
     "diameterMm": 55,
     "length": {
@@ -705,6 +1152,7 @@
     "wr": false,
     "apertureRing": true,
     "powerZoom": false,
+    "focusMotor": "N/A",
     "weightG": 272,
     "diameterMm": 56,
     "length": {
@@ -746,6 +1194,7 @@
     "wr": false,
     "apertureRing": true,
     "powerZoom": false,
+    "focusMotor": "N/A",
     "weightG": 339,
     "diameterMm": 60,
     "length": {
@@ -777,6 +1226,164 @@
     "officialLinks": {
       "cn": "https://www.7artisans.com/prod_view.aspx?nid=3&typeid=104&id=408",
       "global": "https://en.7artisans.com/prod_view.aspx?nid=3&typeid=104&id=408"
+    }
+  },
+  {
+    "id": "brightinstar-mf-35mm-f14-xf",
+    "brand": "brightinstar",
+    "model": "35mm F1.4",
+    "focalLengthMin": 35,
+    "focalLengthMax": 35,
+    "maxAperture": 1.4,
+    "minAperture": 16,
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "powerZoom": false,
+    "focusMotor": "N/A",
+    "weightG": 218,
+    "diameterMm": 55,
+    "length": {
+      "mm": 42
+    },
+    "minFocusDistance": {
+      "cm": 30
+    },
+    "angleOfView": 63.2,
+    "angleOfViewCalc": 44,
+    "apertureBladeCount": 10,
+    "releaseYear": 2025,
+    "compatibleMounts": [
+      "Sony E",
+      "Canon RF",
+      "Nikon Z",
+      "Leica L",
+      "Fujifilm X"
+    ],
+    "filterMm": 49,
+    "lensConfiguration": {
+      "groups": 6,
+      "elements": 7,
+      "ed": 1,
+      "highRefractive": 1,
+      "sourceText": "6组7片 双高斯结构"
+    },
+    "fieldNotes": {},
+    "officialLinks": {
+      "cn": "https://brightinstar.com.cn/products/35mm-f1-4-%E5%85%A8%E7%94%BB%E5%B9%85",
+      "global": "https://brightinstar.com/products/brightin-star-35mm-f1-4-full-frame-large-aperture-manual-focus-lens-for-fuji-x-mount"
+    }
+  },
+  {
+    "id": "brightinstar-mf-60mm-f28-xf",
+    "brand": "brightinstar",
+    "model": "60mm F2.8 Macro 2X",
+    "focalLengthMin": 60,
+    "focalLengthMax": 60,
+    "maxAperture": 2.8,
+    "minAperture": 16,
+    "specialtyTags": [
+      "macro",
+      "ultra_macro"
+    ],
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "powerZoom": false,
+    "focusMotor": "N/A",
+    "weightG": 698,
+    "diameterMm": 73,
+    "length": {
+      "mm": 112
+    },
+    "minFocusDistance": {
+      "cm": 18.2
+    },
+    "maxMagnification": {
+      "value": 2
+    },
+    "angleOfView": 26.5,
+    "angleOfViewCalc": 26.5,
+    "apertureBladeCount": 9,
+    "releaseYear": 2026,
+    "compatibleMounts": [
+      "Sony E",
+      "Canon EF-M",
+      "Micro Four Thirds",
+      "Canon RF",
+      "Fujifilm X",
+      "Nikon Z"
+    ],
+    "filterMm": 67,
+    "lensConfiguration": {
+      "groups": 7,
+      "elements": 10,
+      "highRefractive": 1,
+      "sourceText": "7组10片"
+    },
+    "fieldNotes": {},
+    "officialLinks": {
+      "cn": "https://brightinstar.com.cn/products/mf-60mm-f2-8-%E5%8D%8A%E7%94%BB%E5%B9%85",
+      "global": "https://brightinstar.com/products/brightin-star-60mm-f2-8-2x-macro-aps-c-manual-focus-prime-lens-for-fuji-x-mount"
+    }
+  },
+  {
+    "id": "brightinstar-mf-60mm-f28-ii-xf",
+    "brand": "brightinstar",
+    "model": "60mm F2.8 Macro 2X II",
+    "generation": 2,
+    "focalLengthMin": 60,
+    "focalLengthMax": 60,
+    "maxAperture": 2.8,
+    "minAperture": 22,
+    "specialtyTags": [
+      "macro",
+      "ultra_macro"
+    ],
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "powerZoom": false,
+    "focusMotor": "N/A",
+    "weightG": 660,
+    "diameterMm": 73,
+    "length": {
+      "mm": 118
+    },
+    "minFocusDistance": {
+      "cm": 18.2
+    },
+    "maxMagnification": {
+      "value": 2
+    },
+    "angleOfViewCalc": 26.5,
+    "apertureBladeCount": 10,
+    "releaseYear": 2026,
+    "compatibleMounts": [
+      "Sony E",
+      "Fujifilm X",
+      "Canon RF",
+      "Micro Four Thirds",
+      "Canon EF-M",
+      "Nikon Z"
+    ],
+    "accessories": [
+      "Front lens cap",
+      "Rear lens cap"
+    ],
+    "lensMaterial": "Metal",
+    "filterMm": 67,
+    "lensConfiguration": {
+      "groups": 7,
+      "elements": 10,
+      "sourceText": "7组10片"
+    },
+    "fieldNotes": {},
+    "officialLinks": {
+      "cn": "https://brightinstar.com.cn/products/mf-60mm-f2-8-%E2%85%B1-%E5%85%A8%E7%94%BB%E5%B9%85"
     }
   },
   {
@@ -836,6 +1443,7 @@
     "wr": false,
     "apertureRing": true,
     "powerZoom": false,
+    "focusMotor": "N/A",
     "weightG": 260,
     "diameterMm": 62,
     "length": {
@@ -884,6 +1492,7 @@
     "wr": false,
     "apertureRing": false,
     "powerZoom": false,
+    "focusMotor": "N/A",
     "weightG": 100,
     "diameterMm": 53,
     "length": {
@@ -928,6 +1537,7 @@
     "wr": false,
     "apertureRing": false,
     "powerZoom": false,
+    "focusMotor": "N/A",
     "weightG": 100,
     "diameterMm": 53,
     "length": {
@@ -974,6 +1584,7 @@
     "wr": false,
     "apertureRing": true,
     "powerZoom": false,
+    "focusMotor": "N/A",
     "weightG": 268,
     "diameterMm": 69.5,
     "length": {
@@ -1012,6 +1623,7 @@
     "wr": false,
     "apertureRing": true,
     "powerZoom": false,
+    "focusMotor": "N/A",
     "weightG": 192,
     "diameterMm": 57,
     "length": {
@@ -1053,6 +1665,7 @@
     "wr": false,
     "apertureRing": true,
     "powerZoom": false,
+    "focusMotor": "N/A",
     "weightG": 370,
     "diameterMm": 62,
     "length": {
@@ -1098,6 +1711,7 @@
     "wr": false,
     "apertureRing": true,
     "powerZoom": false,
+    "focusMotor": "N/A",
     "weightG": 212,
     "diameterMm": 57,
     "length": {
@@ -1134,6 +1748,7 @@
     "wr": false,
     "apertureRing": true,
     "powerZoom": false,
+    "focusMotor": "N/A",
     "weightG": 171,
     "diameterMm": 57,
     "length": {
@@ -1171,6 +1786,7 @@
     "wr": false,
     "apertureRing": true,
     "powerZoom": false,
+    "focusMotor": "N/A",
     "weightG": 443,
     "diameterMm": 68,
     "length": {
@@ -1218,6 +1834,7 @@
     "wr": false,
     "apertureRing": true,
     "powerZoom": false,
+    "focusMotor": "N/A",
     "weightG": 395,
     "diameterMm": 63,
     "length": {
@@ -1256,6 +1873,7 @@
     "wr": false,
     "apertureRing": true,
     "powerZoom": false,
+    "focusMotor": "N/A",
     "weightG": 227,
     "diameterMm": 54,
     "length": {
@@ -3481,6 +4099,95 @@
     }
   },
   {
+    "id": "sgimage-mf-12mm-f28-aps-c-ultra-wide-xf",
+    "brand": "sgimage",
+    "model": "12mm F2.8",
+    "focalLengthMin": 12,
+    "focalLengthMax": 12,
+    "maxAperture": 2.8,
+    "minAperture": 16,
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "powerZoom": false,
+    "focusMotor": "N/A",
+    "weightG": 334,
+    "diameterMm": 63,
+    "length": {
+      "mm": 60
+    },
+    "minFocusDistance": {
+      "cm": 20
+    },
+    "angleOfView": 98,
+    "angleOfViewCalc": 99.4,
+    "apertureBladeCount": 7,
+    "releaseYear": 2025,
+    "lensMaterial": "Metal",
+    "filterMm": "N/A",
+    "lensConfiguration": {
+      "groups": 8,
+      "elements": 10,
+      "sourceText": "8组10片"
+    },
+    "fieldNotes": {
+      "filterMm": "Integrated lens hood design; no front filter thread."
+    },
+    "officialLinks": {
+      "cn": "https://www.sg-image.cn/pd.jsp?id=5",
+      "global": "https://www.sg-image.com/products/mf-12mm-f2-8-aps-c-ultra-wide-lens-copy"
+    }
+  },
+  {
+    "id": "sgimage-mf-24mm-f63-full-frame-ultra-slim-pancake-xf",
+    "brand": "sgimage",
+    "model": "24mm F6.3",
+    "focalLengthMin": 24,
+    "focalLengthMax": 24,
+    "maxAperture": 6.3,
+    "minAperture": 6.3,
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": false,
+    "powerZoom": false,
+    "focusMotor": "N/A",
+    "weightG": 74,
+    "diameterMm": 58,
+    "length": {
+      "mm": 16.7
+    },
+    "minFocusDistance": {
+      "cm": 25
+    },
+    "angleOfView": 76.2,
+    "angleOfViewCalc": 61,
+    "apertureBladeCount": 1,
+    "releaseYear": 2025,
+    "compatibleMounts": [
+      "Leica L",
+      "Sony E",
+      "Nikon Z",
+      "Canon RF",
+      "Fujifilm X"
+    ],
+    "lensMaterial": "Metal",
+    "filterMm": 37,
+    "lensConfiguration": {
+      "groups": 5,
+      "elements": 6,
+      "sourceText": "5组6片"
+    },
+    "fieldNotes": {
+      "filterMm": "49mm filters can be used when the optional lens hood is attached as an adapter",
+      "lensConfiguration": "Includes high-refractive-index glass elements; count not specified by manufacturer."
+    },
+    "officialLinks": {
+      "global": "https://www.sg-image.com/products/mf-24mm-f6-3-full-frame-ultra-slim-pancake-lens"
+    }
+  },
+  {
     "id": "sgimage-af-25mm-f18-aps-c-mirrorless-lens-xf",
     "brand": "sgimage",
     "model": "AF 25mm F1.8",
@@ -3528,6 +4235,44 @@
     }
   },
   {
+    "id": "sgimage-af-55mm-f18-full-frame-lens-xf",
+    "brand": "sgimage",
+    "model": "AF 55mm F1.8",
+    "focalLengthMin": 55,
+    "focalLengthMax": 55,
+    "maxAperture": 1.8,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": false,
+    "apertureRing": false,
+    "powerZoom": false,
+    "weightG": 365,
+    "diameterMm": 69,
+    "length": {
+      "mm": 78
+    },
+    "minFocusDistance": {
+      "cm": 50
+    },
+    "angleOfView": 42,
+    "angleOfViewCalc": 28.9,
+    "apertureBladeCount": 9,
+    "releaseYear": 2024,
+    "lensMaterial": "Metal",
+    "filterMm": 58,
+    "lensConfiguration": {
+      "groups": 8,
+      "elements": 10,
+      "highRefractive": 5
+    },
+    "fieldNotes": {},
+    "officialLinks": {
+      "cn": "https://www.sg-image.cn/pd.jsp?id=22",
+      "global": "https://www.sg-image.com/products/af-55mm-f1-8"
+    }
+  },
+  {
     "id": "sgimage-mf-7p5mm-f28-aps-c-fisheye-lens-xf",
     "brand": "sgimage",
     "model": "MF 7.5mm F2.8",
@@ -3540,6 +4285,7 @@
     "wr": false,
     "apertureRing": true,
     "powerZoom": false,
+    "focusMotor": "N/A",
     "weightG": 326,
     "diameterMm": 63,
     "length": {
@@ -3589,6 +4335,7 @@
     "wr": false,
     "apertureRing": false,
     "powerZoom": false,
+    "focusMotor": "N/A",
     "weightG": 78,
     "diameterMm": 60,
     "length": {
@@ -3614,7 +4361,7 @@
       "sourceText": "4组6片"
     },
     "fieldNotes": {
-      "filterMm": "37mm native filter thread. 49mm filters can be used when the optional lens hood is attached."
+      "filterMm": "49mm filters can be used when the optional lens hood is attached as an adapter"
     },
     "officialLinks": {
       "cn": "https://www.sg-image.cn/pd.jsp?id=21",
@@ -3634,6 +4381,7 @@
     "wr": false,
     "apertureRing": true,
     "powerZoom": false,
+    "focusMotor": "N/A",
     "weightG": 186,
     "diameterMm": 55,
     "length": {
@@ -3681,6 +4429,7 @@
     "wr": false,
     "apertureRing": true,
     "powerZoom": false,
+    "focusMotor": "N/A",
     "weightG": 393,
     "diameterMm": 55,
     "length": {
@@ -3727,6 +4476,7 @@
     "wr": false,
     "apertureRing": true,
     "powerZoom": false,
+    "focusMotor": "N/A",
     "weightG": 200,
     "diameterMm": 57,
     "length": {
@@ -3774,6 +4524,7 @@
     "wr": false,
     "apertureRing": true,
     "powerZoom": false,
+    "focusMotor": "N/A",
     "weightG": 249,
     "diameterMm": 58,
     "length": {
@@ -3805,6 +4556,54 @@
     "officialLinks": {
       "cn": "https://www.sg-image.cn/pd.jsp?id=2",
       "global": "https://www.sg-image.com/products/mf-25mm-f2-8-aps-c-lens-copy"
+    }
+  },
+  {
+    "id": "sgimage-mf-50mm-f18-full-frame-lens-with-shaped-aperture-xf",
+    "brand": "sgimage",
+    "model": "MF 50mm F1.8",
+    "focalLengthMin": 50,
+    "focalLengthMax": 50,
+    "maxAperture": 1.8,
+    "minAperture": 1.8,
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": false,
+    "powerZoom": false,
+    "focusMotor": "N/A",
+    "weightG": 311,
+    "diameterMm": 69,
+    "length": {
+      "mm": 48
+    },
+    "minFocusDistance": {
+      "cm": 50
+    },
+    "angleOfView": 44,
+    "angleOfViewCalc": 31.6,
+    "apertureBladeCount": 1,
+    "releaseYear": 2024,
+    "compatibleMounts": [
+      "Sony E",
+      "Nikon Z",
+      "Fujifilm X",
+      "Micro Four Thirds",
+      "Canon EF-M",
+      "Canon RF",
+      "Leica L"
+    ],
+    "lensMaterial": "Metal",
+    "filterMm": 58,
+    "lensConfiguration": {
+      "groups": 5,
+      "elements": 7,
+      "highRefractive": 3
+    },
+    "fieldNotes": {},
+    "officialLinks": {
+      "cn": "https://www.sg-image.cn/pd.jsp?id=23",
+      "global": "https://www.sg-image.com/products/50mm-f1-8-mf-full-frame-lens-with-shaped-aperture"
     }
   },
   {
@@ -4791,6 +5590,7 @@
     "wr": false,
     "apertureRing": true,
     "powerZoom": false,
+    "focusMotor": "N/A",
     "weightG": 669,
     "diameterMm": 81,
     "length": {
@@ -4821,6 +5621,162 @@
     "officialLinks": {
       "cn": "https://cn.ttartisan.com/?Cine-Lens/35T21-6.html",
       "global": "https://www.ttartisan.com/?cine-lens/81.html"
+    }
+  },
+  {
+    "id": "ttartisan-100mm-f28-2x-macro-xf",
+    "brand": "ttartisan",
+    "model": "100mm F2.8 Macro 2X",
+    "focalLengthMin": 100,
+    "focalLengthMax": 100,
+    "maxAperture": 2.8,
+    "minAperture": 22,
+    "specialtyTags": [
+      "macro",
+      "ultra_macro"
+    ],
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "powerZoom": false,
+    "focusMotor": "N/A",
+    "weightG": [
+      700,
+      748
+    ],
+    "diameterMm": 72,
+    "length": {
+      "mm": 150
+    },
+    "minFocusDistance": {
+      "cm": 25
+    },
+    "maxMagnification": {
+      "value": 2
+    },
+    "angleOfView": 24,
+    "angleOfViewCalc": 16.1,
+    "apertureBladeCount": 12,
+    "releaseYear": 2024,
+    "compatibleMounts": [
+      "Sony E",
+      "Fujifilm X",
+      "Nikon Z",
+      "Canon RF",
+      "Leica L",
+      "Fujifilm GFX",
+      "Canon EF",
+      "Nikon F"
+    ],
+    "lensMaterial": "Metal",
+    "filterMm": 67,
+    "lensConfiguration": {
+      "groups": 10,
+      "elements": 14,
+      "sourceText": "10组14片"
+    },
+    "fieldNotes": {
+      "weightG": "Weight varies by mount variant (E / X / Z / RF / L / GFX / EF / F)."
+    },
+    "officialLinks": {
+      "cn": "https://cn.ttartisan.com/?list-9/TS-100-Macro-18.html",
+      "global": "https://www.ttartisan.com/?full-frame-lenses/TS-100-Macro.html"
+    }
+  },
+  {
+    "id": "ttartisan-af-14mm-f35-xf",
+    "brand": "ttartisan",
+    "model": "AF 14mm F3.5",
+    "focalLengthMin": 14,
+    "focalLengthMax": 14,
+    "maxAperture": 3.5,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "powerZoom": false,
+    "focusMotor": "STM",
+    "weightG": 98,
+    "diameterMm": 62,
+    "length": {
+      "mm": 31
+    },
+    "minFocusDistance": {
+      "cm": 25
+    },
+    "angleOfView": 92,
+    "angleOfViewCalc": 90.6,
+    "apertureBladeCount": 7,
+    "releaseYear": 2025,
+    "compatibleMounts": [
+      "Sony E",
+      "Fujifilm X"
+    ],
+    "accessories": [
+      "Lens hood"
+    ],
+    "lensMaterial": "Metal",
+    "filterMm": 39,
+    "lensConfiguration": {
+      "groups": 7,
+      "elements": 8,
+      "sourceText": "7组8片"
+    },
+    "fieldNotes": {},
+    "officialLinks": {
+      "cn": "https://cn.ttartisan.com/?AFlens/AF14-10.html",
+      "global": "https://www.ttartisan.com/?af-lens/AF14.html"
+    }
+  },
+  {
+    "id": "ttartisan-af-17mm-f18-air-xf",
+    "brand": "ttartisan",
+    "model": "AF 17mm F1.8 Air",
+    "focalLengthMin": 17,
+    "focalLengthMax": 17,
+    "maxAperture": 1.8,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "powerZoom": false,
+    "focusMotor": "STM",
+    "weightG": [
+      161,
+      178
+    ],
+    "diameterMm": 60,
+    "length": {
+      "mm": 47
+    },
+    "minFocusDistance": {
+      "cm": 18
+    },
+    "angleOfView": 81,
+    "angleOfViewCalc": 79.5,
+    "apertureBladeCount": 6,
+    "releaseYear": 2026,
+    "compatibleMounts": [
+      "Fujifilm X",
+      "Sony E",
+      "Nikon Z"
+    ],
+    "lensMaterial": "Metal",
+    "filterMm": 52,
+    "lensConfiguration": {
+      "groups": 10,
+      "elements": 14,
+      "sourceText": "10组14片"
+    },
+    "fieldNotes": {
+      "weightG": "Weight varies by mount variant (X / E / Z)."
+    },
+    "officialLinks": {
+      "cn": "https://cn.ttartisan.com/?AFlens/351.html",
+      "global": "https://www.ttartisan.com/?af-lens/350.html"
     }
   },
   {
@@ -5031,6 +5987,57 @@
     }
   },
   {
+    "id": "ttartisan-af-75mm-f2-xf",
+    "brand": "ttartisan",
+    "model": "AF 75mm F2",
+    "focalLengthMin": 75,
+    "focalLengthMax": 75,
+    "maxAperture": 2,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "powerZoom": false,
+    "focusMotor": "Stepper Motor",
+    "weightG": [
+      328,
+      340
+    ],
+    "diameterMm": 67,
+    "length": {
+      "mm": 74
+    },
+    "minFocusDistance": {
+      "cm": 75
+    },
+    "angleOfView": 32,
+    "angleOfViewCalc": 21.4,
+    "apertureBladeCount": 9,
+    "releaseYear": 2024,
+    "compatibleMounts": [
+      "Sony E",
+      "Nikon Z",
+      "Leica L",
+      "Fujifilm X"
+    ],
+    "accessories": [
+      "Lens hood"
+    ],
+    "lensMaterial": "Metal",
+    "filterMm": 62,
+    "lensConfiguration": {
+      "groups": 7,
+      "elements": 10,
+      "sourceText": "7组10片"
+    },
+    "fieldNotes": {},
+    "officialLinks": {
+      "cn": "https://cn.ttartisan.com/?AFlens/FF-AF75-17.html",
+      "global": "https://www.ttartisan.com/?af-lens/FF-AF75.html"
+    }
+  },
+  {
     "id": "ttartisan-aps-c-7p5mm-f2-fisheye-xf",
     "brand": "ttartisan",
     "model": "APS-C 7.5mm F2 Fisheye",
@@ -5046,6 +6053,7 @@
     "wr": false,
     "apertureRing": true,
     "powerZoom": false,
+    "focusMotor": "N/A",
     "weightG": [
       343,
       370
@@ -5097,6 +6105,7 @@
     "wr": false,
     "apertureRing": true,
     "powerZoom": false,
+    "focusMotor": "N/A",
     "weightG": [
       333,
       345
@@ -5148,6 +6157,7 @@
     "wr": false,
     "apertureRing": true,
     "powerZoom": false,
+    "focusMotor": "N/A",
     "weightG": [
       222,
       250
@@ -5201,6 +6211,7 @@
     "wr": false,
     "apertureRing": true,
     "powerZoom": false,
+    "focusMotor": "N/A",
     "weightG": [
       166,
       189
@@ -5251,6 +6262,7 @@
     "wr": false,
     "apertureRing": true,
     "powerZoom": false,
+    "focusMotor": "N/A",
     "weightG": [
       247,
       267
@@ -5300,6 +6312,7 @@
     "wr": false,
     "apertureRing": true,
     "powerZoom": false,
+    "focusMotor": "N/A",
     "weightG": 180,
     "diameterMm": 56,
     "length": {
@@ -5349,6 +6362,7 @@
     "wr": false,
     "apertureRing": true,
     "powerZoom": false,
+    "focusMotor": "N/A",
     "weightG": [
       371,
       403
@@ -5402,6 +6416,7 @@
     "wr": false,
     "apertureRing": true,
     "powerZoom": false,
+    "focusMotor": "N/A",
     "weightG": 411,
     "diameterMm": 64,
     "length": {
@@ -5447,6 +6462,7 @@
     "wr": false,
     "apertureRing": true,
     "powerZoom": false,
+    "focusMotor": "N/A",
     "weightG": 336,
     "diameterMm": 62,
     "length": {
@@ -5481,6 +6497,55 @@
     }
   },
   {
+    "id": "ttartisan-tilt-50mm-f14-xf",
+    "brand": "ttartisan",
+    "model": "Tilt 50mm F1.4",
+    "focalLengthMin": 50,
+    "focalLengthMax": 50,
+    "maxAperture": 1.4,
+    "minAperture": 16,
+    "specialtyTags": [
+      "tilt"
+    ],
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "powerZoom": false,
+    "focusMotor": "N/A",
+    "weightG": 452,
+    "diameterMm": 70,
+    "length": {
+      "mm": 68
+    },
+    "minFocusDistance": {
+      "cm": 50
+    },
+    "angleOfView": 45,
+    "angleOfViewCalc": 31.6,
+    "apertureBladeCount": 13,
+    "releaseYear": 2022,
+    "compatibleMounts": [
+      "Sony E",
+      "Fujifilm X",
+      "Nikon Z",
+      "Canon RF",
+      "Leica L"
+    ],
+    "lensMaterial": "Metal",
+    "filterMm": 62,
+    "lensConfiguration": {
+      "groups": 6,
+      "elements": 7,
+      "sourceText": "6组7片"
+    },
+    "fieldNotes": {},
+    "officialLinks": {
+      "cn": "https://cn.ttartisan.com/?list-9/255.html",
+      "global": "https://www.ttartisan.com/?full-frame-lenses/60.html"
+    }
+  },
+  {
     "id": "ttartisan-tilt-aps-c-35mm-f14-xf",
     "brand": "ttartisan",
     "model": "Tilt APS-C 35mm F1.4",
@@ -5496,6 +6561,7 @@
     "wr": false,
     "apertureRing": true,
     "powerZoom": false,
+    "focusMotor": "N/A",
     "weightG": [
       341,
       350
@@ -5530,6 +6596,74 @@
     "officialLinks": {
       "cn": "https://cn.ttartisan.com/?list-10/TC35.html",
       "global": "https://www.ttartisan.com/?aps-c-lenses/Tilt-C-35.html"
+    }
+  },
+  {
+    "id": "ttartisan-tilt-shift-100mm-f28-2x-macro-xf",
+    "brand": "ttartisan",
+    "model": "Tilt-Shift 100mm F2.8 Macro 2X",
+    "focalLengthMin": 100,
+    "focalLengthMax": 100,
+    "maxAperture": 2.8,
+    "minAperture": 22,
+    "specialtyTags": [
+      "tilt",
+      "shift",
+      "macro",
+      "ultra_macro"
+    ],
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "powerZoom": false,
+    "focusMotor": "N/A",
+    "weightG": [
+      700,
+      748
+    ],
+    "diameterMm": 72,
+    "length": {
+      "mm": 150
+    },
+    "minFocusDistance": {
+      "cm": 25
+    },
+    "maxMagnification": {
+      "value": 2
+    },
+    "angleOfView": 24,
+    "angleOfViewCalc": 16.1,
+    "apertureBladeCount": 12,
+    "releaseYear": 2023,
+    "compatibleMounts": [
+      "Sony E",
+      "Canon RF",
+      "Fujifilm X",
+      "Nikon Z",
+      "Leica L",
+      "Micro Four Thirds",
+      "Fujifilm GFX",
+      "Canon EF",
+      "Nikon F"
+    ],
+    "accessories": [
+      "Cold shoe mount bracket"
+    ],
+    "lensMaterial": "Metal",
+    "filterMm": 67,
+    "lensConfiguration": {
+      "groups": 10,
+      "elements": 14,
+      "highRefractive": 6,
+      "sourceText": "10组14片，其中包6片高折射镜片"
+    },
+    "fieldNotes": {
+      "weightG": "Weight varies by mount and configuration variant (Tilt-Shift + Macro vs. Macro-only mounts)."
+    },
+    "officialLinks": {
+      "cn": "https://cn.ttartisan.com/?review-article/333.html",
+      "global": "https://www.ttartisan.com/?review-article/333.html"
     }
   },
   {
