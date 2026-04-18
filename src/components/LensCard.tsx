@@ -104,14 +104,18 @@ export default function LensCard({
 
         <div
           {...hookAttr("cardBody")}
-          className="flex flex-1 flex-col gap-2 p-3 sm:gap-2.5 sm:p-4"
+          className="flex flex-1 flex-col gap-2 p-3 sm:gap-2.5 sm:p-4 max-[499px]:min-w-0"
         >
           <div className="flex flex-col gap-1">
-            <p className="text-[11px] uppercase tracking-[0.14em] text-zinc-500 dark:text-zinc-400 truncate">
+            <p className="text-[11px] uppercase tracking-[0.14em] text-zinc-500 dark:text-zinc-400 truncate max-[499px]:pr-9">
               {tBrand(lens.brand)}
               {lens.series ? ` · ${lens.series}` : ""}
-              {lens.releaseYear ? ` · ${lens.releaseYear}` : ""}
             </p>
+            {lens.releaseYear ? (
+              <p className="text-[11px] uppercase tracking-[0.14em] text-zinc-500 dark:text-zinc-400">
+                {lens.releaseYear}
+              </p>
+            ) : null}
             <h3
               className="font-semibold text-sm text-zinc-900 dark:text-zinc-50 leading-snug line-clamp-2 min-h-[2.5rem]"
               title={lens.model}

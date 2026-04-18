@@ -130,8 +130,8 @@ export const defaultFilters: FilterState = {
   focusMotorClass: null,
   features: [],
   focalCategories: [],
-  sort: "focalLength",
-  sortDir: "asc",
+  sort: "releaseYear",
+  sortDir: "desc",
 };
 
 export function filterLenses(lenses: Lens[], filters: FilterState): Lens[] {
@@ -195,7 +195,7 @@ export function parseLensIds(ids: string | undefined): Lens[] {
     .filter((l): l is Lens => l !== undefined);
 }
 
-export type SortKey = "focalLength" | "maxAperture" | "weightG";
+export type SortKey = "focalLength" | "maxAperture" | "weightG" | "releaseYear";
 
 function getSortableMaxAperture(lens: Lens): number {
   return Array.isArray(lens.maxAperture) ? lens.maxAperture[0] : lens.maxAperture;
@@ -209,6 +209,13 @@ export function sortLenses(
   return [...lenses].sort((a, b) => {
     if (key === "maxAperture") {
       const delta = getSortableMaxAperture(a) - getSortableMaxAperture(b);
+      return dir === "asc" ? delta : -delta;
+    }
+
+    if (key === "releaseYear") {
+      const aYear = a.releaseYear ?? 0;
+      const bYear = b.releaseYear ?? 0;
+      const delta = aYear - bYear;
       return dir === "asc" ? delta : -delta;
     }
 
