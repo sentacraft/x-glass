@@ -60,9 +60,9 @@ export default function manifest(): MetadataRoute.Manifest {
     icons: [
       // purpose: "any" — transparent background so Chrome's omnibox install
       // chip, Mac dock, and Windows taskbar render the mark without a white
-      // square around it. iOS apple-touch-icon (declared separately in
-      // metadata) keeps the opaque white variant because iOS fills
-      // transparent pixels with an uncontrolled color.
+      // square around it. iOS Safari home screen fills transparent pixels with
+      // manifest background_color (#fff), producing the same white-bg result
+      // without needing a separate apple-touch-icon.
       {
         src: "/icons/icon-192.png",
         sizes: "192x192",
