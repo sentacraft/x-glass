@@ -1,13 +1,22 @@
 import type { Metadata } from "next";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
-import { Source_Serif_4 } from "next/font/google";
+import localFont from "next/font/local";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import RegisterSW from "@/components/RegisterSW";
 
-const sourceSerif4 = Source_Serif_4({
-  subsets: ["latin"],
+const sourceSerif4 = localFont({
+  src: [
+    {
+      path: "../../node_modules/@fontsource-variable/source-serif-4/files/source-serif-4-latin-wght-normal.woff2",
+      style: "normal",
+    },
+    {
+      path: "../../node_modules/@fontsource-variable/source-serif-4/files/source-serif-4-latin-wght-italic.woff2",
+      style: "italic",
+    },
+  ],
   variable: "--font-source-serif-4",
 });
 
