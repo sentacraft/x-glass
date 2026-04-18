@@ -282,6 +282,10 @@ const KNOWN_DISTINCT_SPEC_PAIRS = new Set([
   makeAllowlistKey(
     "ttartisan-aps-c-35mm-f14-xf",
     "ttartisan-tilt-aps-c-35mm-f14-xf"),
+  // Tilt-shift variant adds tilt/shift mechanism; mechanically distinct from standard macro
+  makeAllowlistKey(
+    "ttartisan-100mm-f28-2x-macro-xf",
+    "ttartisan-tilt-shift-100mm-f28-2x-macro-xf"),
 ]);
 
 export const lensCatalogSchema = z.array(lensSchema).superRefine((lenses, ctx) => {
