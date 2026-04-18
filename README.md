@@ -44,6 +44,7 @@ X-Glass is a PWA — add it to your home screen or dock for a native app experie
 | Styling | Tailwind CSS |
 | Deployment | Vercel |
 | i18n | next-intl |
+| Data Validation | Zod |
 
 ## Data Pipeline
 
@@ -139,7 +140,7 @@ To report a data issue (wrong spec, broken image) or suggest a missing lens, use
 
 Built with significant help from [Claude Code](https://claude.ai/code) (architecture and engineering) and [Google Gemini](https://gemini.google.com) (UX design).
 
-Built on the shoulders of great open source work: [Base UI](https://base-ui.com), [Motion](https://motion.dev), [Lucide](https://lucide.dev), [next-intl](https://next-intl.dev), [modern-screenshot](https://github.com/qq15725/modern-screenshot), [qrcode.react](https://github.com/zpao/qrcode.react), [Geist](https://vercel.com/font).
+Built on the shoulders of great open source work: [Base UI](https://base-ui.com), [Motion](https://motion.dev), [Lucide](https://lucide.dev), [next-intl](https://next-intl.dev), [Zod](https://zod.dev), [Tailwind CSS](https://tailwindcss.com), [modern-screenshot](https://github.com/qq15725/modern-screenshot), [qrcode.react](https://github.com/zpao/qrcode.react), [Geist](https://vercel.com/font).
 
 ## License
 
