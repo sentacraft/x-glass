@@ -37,7 +37,6 @@ export default async function AboutContent() {
     { q: t("faq2Q"), a: t("faq2A") },
     { q: t("faq3Q"), a: t("faq3A") },
     { q: t("faq4Q"), a: t("faq4A") },
-    { q: t("faq5Q"), a: t("faq5A") },
   ];
 
   const feedbackLinks: {
