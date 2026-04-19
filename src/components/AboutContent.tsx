@@ -244,6 +244,12 @@ export default async function AboutContent() {
           <p className="text-xs text-zinc-500 dark:text-zinc-500 mt-1">
             {t("disclaimerLiability")}
           </p>
+          <p className="text-xs text-zinc-500 dark:text-zinc-500 mt-1">
+            {t("disclaimerIndependent")}
+          </p>
+          <p className="text-xs text-zinc-500 dark:text-zinc-500 mt-1">
+            {t("disclaimerCopyright")}
+          </p>
         </div>
       </Section>
 

@@ -314,6 +314,8 @@
     "disclaimerTitle": "Disclaimer",
     "disclaimerAccuracy": "X-Glass data is sourced from public materials and refined through manual review. We make every effort to keep specs accurate and up to date, but errors and delays are inevitable. Always verify key specifications on the manufacturer's official page before making a purchase decision.",
     "disclaimerLiability": "X-Glass is not responsible for any decisions made based on information presented here.",
+    "disclaimerIndependent": "X-Glass is an independent third-party tool and is not affiliated with, endorsed by, or sponsored by Fujifilm or any lens manufacturer.",
+    "disclaimerCopyright": "Product images and brand trademarks are the property of their respective owners. If you are a rights holder and believe your content has been used improperly, please contact xglass@sentacraft.com.",
 
     "privacyTitle": "Privacy",
     "privacyBody": "X-Glass does not require registration, does not collect personal information, and does not use cookies.",

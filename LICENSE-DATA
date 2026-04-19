@@ -1,6 +1,8 @@
 Data License — CC BY-NC-ND 4.0
 
 Applies to: src/data/lenses.json
+Excludes: product images (src/data/images/) — all product images and brand trademarks
+  are the property of their respective owners.
 
 Copyright (c) 2026 SentaCraft
 

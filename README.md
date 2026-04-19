@@ -150,3 +150,7 @@ Built on the shoulders of great open source work: [Base UI](https://base-ui.com)
 
 **Lens data** (`src/data/lenses.json`) — [CC BY-NC-ND 4.0](LICENSE-DATA) © 2026 SentaCraft
 Free to share with attribution; commercial use and derivative datasets are not permitted.
+
+**Product images and brand trademarks** are the property of their respective owners.
+X-Glass is an independent third-party tool, not affiliated with or endorsed by any manufacturer.
+Rights holders may contact [xglass@sentacraft.com](mailto:xglass@sentacraft.com) for takedown requests.
