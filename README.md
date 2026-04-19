@@ -146,6 +146,7 @@ Built on the shoulders of great open source work: [Base UI](https://base-ui.com)
 
 ## License
 
-© 2026 SentaCraft. All rights reserved.
+**Source code** — [MIT](LICENSE) © 2026 SentaCraft
 
-Source code is made available for reference. No license is granted to use, copy, modify, or distribute this software.
+**Lens data** (`src/data/lenses.json`) — [CC BY-NC-ND 4.0](LICENSE-DATA) © 2026 SentaCraft
+Free to share with attribution; commercial use and derivative datasets are not permitted.
