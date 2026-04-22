@@ -208,10 +208,10 @@
     "apertureRing": true,
     "powerZoom": false,
     "focusMotor": "STM",
-    "weightG": 95,
+    "weightG": 183,
     "diameterMm": 67,
     "length": {
-      "mm": 51.7
+      "mm": 51
     },
     "minFocusDistance": {
       "cm": 25
@@ -221,10 +221,11 @@
     "apertureBladeCount": 9,
     "compatibleMounts": [
       "Sony E",
-      "Fujifilm X"
+      "Fujifilm X",
+      "Nikon Z"
     ],
     "lensMaterial": "Metal",
-    "filterMm": 52,
+    "filterMm": 58,
     "lensConfiguration": {
       "groups": 5,
       "elements": 8
@@ -325,10 +326,10 @@
     "apertureRing": true,
     "powerZoom": false,
     "focusMotor": "STM",
-    "weightG": 99,
+    "weightG": 181,
     "diameterMm": 67,
     "length": {
-      "mm": 31.3
+      "mm": 51
     },
     "minFocusDistance": {
       "cm": 35
@@ -338,12 +339,13 @@
     "apertureBladeCount": 9,
     "compatibleMounts": [
       "Sony E",
-      "Fujifilm X"
+      "Fujifilm X",
+      "Nikon Z"
     ],
     "lensMaterial": "Metal",
-    "filterMm": 46,
+    "filterMm": 58,
     "lensConfiguration": {
-      "groups": 5,
+      "groups": 6,
       "elements": 7
     },
     "fieldNotes": {},
@@ -366,23 +368,24 @@
     "apertureRing": true,
     "powerZoom": false,
     "focusMotor": "STM",
-    "weightG": 73,
+    "weightG": 178,
     "diameterMm": 67,
     "length": {
-      "mm": 37
+      "mm": 51
     },
     "minFocusDistance": {
       "cm": 55
     },
     "angleOfView": 31.4,
     "angleOfViewCalc": 31.6,
-    "apertureBladeCount": 5,
+    "apertureBladeCount": 9,
     "compatibleMounts": [
       "Sony E",
-      "Fujifilm X"
+      "Fujifilm X",
+      "Nikon Z"
     ],
     "lensMaterial": "Metal",
-    "filterMm": 46,
+    "filterMm": 58,
     "lensConfiguration": {
       "groups": 5,
       "elements": 6
