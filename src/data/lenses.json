@@ -1,54 +1,5 @@
 [
   {
-    "id": "7artisans-7p5mm-f28-ii-xf",
-    "brand": "7artisans",
-    "model": "7.5mm F2.8 Mark II",
-    "generation": 2,
-    "focalLengthMin": 7.5,
-    "focalLengthMax": 7.5,
-    "maxAperture": 2.8,
-    "minAperture": 16,
-    "af": false,
-    "ois": false,
-    "wr": false,
-    "apertureRing": true,
-    "powerZoom": false,
-    "focusMotor": "N/A",
-    "weightG": 265,
-    "diameterMm": 62.3,
-    "length": {
-      "mm": 50.6
-    },
-    "minFocusDistance": {
-      "cm": 15
-    },
-    "angleOfView": 190,
-    "angleOfViewCalc": 124.1,
-    "apertureBladeCount": 5,
-    "compatibleMounts": [
-      "Sony E",
-      "Canon RF",
-      "Fujifilm X",
-      "Micro Four Thirds",
-      "Nikon Z"
-    ],
-    "lensMaterial": "Metal",
-    "filterMm": "N/A",
-    "lensConfiguration": {
-      "groups": 9,
-      "elements": 11,
-      "ed": 2,
-      "sourceText": "11 elements in 9 groups"
-    },
-    "fieldNotes": {
-      "filterMm": "190° fisheye design with bulbous front element; no front filter thread."
-    },
-    "officialLinks": {
-      "cn": "https://www.7artisans.com/prod_view.aspx?nid=3&typeid=104&id=398",
-      "global": "https://en.7artisans.com/prod_view.aspx?nid=3&typeid=104&id=398"
-    }
-  },
-  {
     "id": "7artisans-mf-12mm-t29-aps-c-cine-xf",
     "brand": "7artisans",
     "model": "12mm T2.9 APS-C Cine",
@@ -113,7 +64,7 @@
     "apertureRing": true,
     "powerZoom": false,
     "focusMotor": "N/A",
-    "weightG": 589,
+    "weightG": 582,
     "diameterMm": 63,
     "length": {
       "mm": 99.7
@@ -129,18 +80,25 @@
       "Nikon Z",
       "Leica L",
       "Canon RF",
-      "Fujifilm X",
-      "Canon EF-M",
-      "Micro Four Thirds"
+      "Micro Four Thirds",
+      "Canon EF-M"
+    ],
+    "accessories": [
+      "Flannel bag",
+      "Focus wrench",
+      "Cleaning kit"
     ],
     "lensMaterial": "Metal",
     "filterMm": 52,
     "lensConfiguration": {
       "groups": 9,
       "elements": 11,
-      "sourceText": "9 groups, 11 elements"
+      "ed": 3,
+      "sourceText": "11 elements in 9 groups"
     },
-    "fieldNotes": {},
+    "fieldNotes": {
+      "lensConfiguration": "All HOYA glass; includes 3 ultra-low dispersion (ED) elements."
+    },
     "officialLinks": {
       "cn": "https://www.7artisans.com/prod_view.aspx?id=386&nid=3&typeid=102",
       "global": "https://en.7artisans.com/prod_view.aspx?id=386&nid=3&typeid=102"
@@ -197,7 +155,7 @@
   {
     "id": "7artisans-af-25mm-f18-xf",
     "brand": "7artisans",
-    "model": "AF 25mm F1.8",
+    "model": "AF 25mm F1.8 LITE",
     "focalLengthMin": 25,
     "focalLengthMax": 25,
     "maxAperture": 1.8,
@@ -205,7 +163,7 @@
     "af": true,
     "ois": false,
     "wr": false,
-    "apertureRing": true,
+    "apertureRing": false,
     "powerZoom": false,
     "focusMotor": "STM",
     "weightG": 183,
@@ -221,14 +179,14 @@
     "apertureBladeCount": 9,
     "compatibleMounts": [
       "Sony E",
-      "Fujifilm X",
       "Nikon Z"
     ],
     "lensMaterial": "Metal",
     "filterMm": 58,
     "lensConfiguration": {
       "groups": 5,
-      "elements": 8
+      "elements": 8,
+      "sourceText": "8 elements in 5 groups"
     },
     "fieldNotes": {},
     "officialLinks": {
@@ -247,7 +205,7 @@
     "af": true,
     "ois": false,
     "wr": false,
-    "apertureRing": true,
+    "apertureRing": false,
     "powerZoom": false,
     "focusMotor": "STM",
     "weightG": 144,
@@ -261,11 +219,12 @@
     "angleOfView": 55,
     "angleOfViewCalc": 55.3,
     "apertureBladeCount": 6,
-    "lensMaterial": "Metal",
+    "lensMaterial": "Aluminum alloy",
     "filterMm": 39,
     "lensConfiguration": {
       "groups": 5,
-      "elements": 6
+      "elements": 6,
+      "sourceText": "6 elements in 5 groups"
     },
     "fieldNotes": {},
     "officialLinks": {
@@ -284,9 +243,8 @@
     "af": true,
     "ois": false,
     "wr": false,
-    "apertureRing": true,
+    "apertureRing": false,
     "powerZoom": false,
-    "focusMotor": "STM",
     "weightG": 184,
     "diameterMm": 68,
     "length": {
@@ -295,16 +253,15 @@
     "minFocusDistance": {
       "cm": 35
     },
-    "angleOfView": 42.5,
+    "angleOfView": 43.5,
     "angleOfViewCalc": 44,
     "apertureBladeCount": 7,
-    "lensMaterial": "Metal",
+    "lensMaterial": "Metal+polymer plastic",
     "filterMm": 62,
     "lensConfiguration": {
       "groups": 5,
       "elements": 8,
-      "ed": 1,
-      "sourceText": "5组8片"
+      "sourceText": "8 elements in 5 groups"
     },
     "fieldNotes": {},
     "officialLinks": {
@@ -315,7 +272,7 @@
   {
     "id": "7artisans-af-35mm-f18-xf",
     "brand": "7artisans",
-    "model": "AF 35mm F1.8",
+    "model": "AF 35mm F1.8 LITE",
     "focalLengthMin": 35,
     "focalLengthMax": 35,
     "maxAperture": 1.8,
@@ -323,7 +280,7 @@
     "af": true,
     "ois": false,
     "wr": false,
-    "apertureRing": true,
+    "apertureRing": false,
     "powerZoom": false,
     "focusMotor": "STM",
     "weightG": 181,
@@ -339,14 +296,14 @@
     "apertureBladeCount": 9,
     "compatibleMounts": [
       "Sony E",
-      "Fujifilm X",
       "Nikon Z"
     ],
     "lensMaterial": "Metal",
     "filterMm": 58,
     "lensConfiguration": {
       "groups": 6,
-      "elements": 7
+      "elements": 7,
+      "sourceText": "7 elements in 6 groups"
     },
     "fieldNotes": {},
     "officialLinks": {
@@ -357,7 +314,7 @@
   {
     "id": "7artisans-af-50mm-f18-xf",
     "brand": "7artisans",
-    "model": "AF 50mm F1.8",
+    "model": "AF 50mm F1.8 LITE",
     "focalLengthMin": 50,
     "focalLengthMax": 50,
     "maxAperture": 1.8,
@@ -365,7 +322,7 @@
     "af": true,
     "ois": false,
     "wr": false,
-    "apertureRing": true,
+    "apertureRing": false,
     "powerZoom": false,
     "focusMotor": "STM",
     "weightG": 178,
@@ -381,14 +338,14 @@
     "apertureBladeCount": 9,
     "compatibleMounts": [
       "Sony E",
-      "Fujifilm X",
       "Nikon Z"
     ],
     "lensMaterial": "Metal",
     "filterMm": 58,
     "lensConfiguration": {
       "groups": 5,
-      "elements": 6
+      "elements": 6,
+      "sourceText": "6 elements in 5 groups"
     },
     "fieldNotes": {},
     "officialLinks": {
@@ -472,10 +429,9 @@
       "cm": 25
     },
     "angleOfViewCalc": 83,
-    "apertureBladeCount": 10,
+    "apertureBladeCount": 11,
     "compatibleMounts": [
       "Sony E",
-      "Fujifilm X",
       "Canon RF",
       "Micro Four Thirds"
     ],
@@ -486,9 +442,7 @@
       "elements": 14,
       "sourceText": "14 elements in 11 groups"
     },
-    "fieldNotes": {
-      "filterMm": "Canon RF mount variant does not have a front filter thread."
-    },
+    "fieldNotes": {},
     "officialLinks": {
       "cn": "https://www.7artisans.com/prod_view.aspx?nid=3&typeid=121&id=465",
       "global": "https://en.7artisans.com/prod_view.aspx?nid=3&typeid=112&id=456"
@@ -763,6 +717,54 @@
     }
   },
   {
+    "id": "7artisans-7p5mm-f28-ii-xf",
+    "brand": "7artisans",
+    "model": "MF 7.5mm F2.8 II",
+    "generation": 2,
+    "focalLengthMin": 7.5,
+    "focalLengthMax": 7.5,
+    "maxAperture": 2.8,
+    "minAperture": 16,
+    "af": false,
+    "ois": false,
+    "wr": false,
+    "apertureRing": true,
+    "powerZoom": false,
+    "focusMotor": "N/A",
+    "weightG": 265,
+    "diameterMm": 62.3,
+    "length": {
+      "mm": 50.6
+    },
+    "minFocusDistance": {
+      "cm": 15
+    },
+    "angleOfView": 190,
+    "angleOfViewCalc": 124.1,
+    "apertureBladeCount": 5,
+    "compatibleMounts": [
+      "Sony E",
+      "Micro Four Thirds",
+      "Canon EF-M",
+      "Nikon Z"
+    ],
+    "lensMaterial": "Metal",
+    "filterMm": "N/A",
+    "lensConfiguration": {
+      "groups": 9,
+      "elements": 11,
+      "ed": 2,
+      "sourceText": "11 elements in 9 groups"
+    },
+    "fieldNotes": {
+      "filterMm": "Bulbous fisheye front element with built-in petal hood; no filter thread."
+    },
+    "officialLinks": {
+      "cn": "https://www.7artisans.com/prod_view.aspx?nid=3&typeid=104&id=398",
+      "global": "https://en.7artisans.com/prod_view.aspx?nid=3&typeid=104&id=398"
+    }
+  },
+  {
     "id": "7artisans-10mm-f35-xf",
     "brand": "7artisans",
     "model": "MF 10mm F3.5",
@@ -962,21 +964,21 @@
     "minFocusDistance": {
       "cm": 28
     },
-    "angleOfView": 43,
+    "angleOfView": 43.9,
     "angleOfViewCalc": 44,
     "apertureBladeCount": 10,
     "compatibleMounts": [
       "Sony E",
-      "Fujifilm X",
-      "Micro Four Thirds",
       "Nikon Z",
-      "Canon EF-M"
+      "Canon EF-M",
+      "Micro Four Thirds"
     ],
     "lensMaterial": "Metal",
     "filterMm": 46,
     "lensConfiguration": {
       "groups": 5,
-      "elements": 6
+      "elements": 6,
+      "sourceText": "5组6片"
     },
     "fieldNotes": {},
     "officialLinks": {
@@ -1464,22 +1466,23 @@
     "apertureRing": false,
     "powerZoom": false,
     "focusMotor": "N/A",
-    "weightG": 100,
-    "diameterMm": 53,
+    "weightG": 120,
+    "diameterMm": 54,
     "length": {
-      "mm": 19
+      "mm": 37
     },
     "minFocusDistance": {
       "cm": 20
     },
-    "angleOfView": 175,
+    "angleOfView": 172,
     "angleOfViewCalc": 109.5,
     "compatibleMounts": [
       "Sony E",
       "Fujifilm X",
       "Micro Four Thirds",
-      "Canon RF",
-      "Nikon Z"
+      "Nikon Z",
+      "Canon EF-M",
+      "Canon RF"
     ],
     "filterMm": "N/A",
     "lensConfiguration": {
@@ -1487,7 +1490,7 @@
       "elements": 6
     },
     "fieldNotes": {
-      "filterMm": "No filter can be installed on this lens. Official spec states: \"Filter Size: Do not install\"."
+      "filterMm": "Bulbous fisheye front element; no filter thread."
     },
     "officialLinks": {
       "cn": "https://brightinstar.com.cn/products/mf-10mm-f5-6-%E5%8D%8A%E7%94%BB%E5%B9%85",
@@ -1505,7 +1508,7 @@
     "af": false,
     "ois": false,
     "wr": false,
-    "apertureRing": false,
+    "apertureRing": true,
     "powerZoom": false,
     "focusMotor": "N/A",
     "weightG": 100,
@@ -1532,7 +1535,8 @@
       "elements": 6
     },
     "fieldNotes": {
-      "filterMm": "175° fisheye pancake design; no front filter thread."
+      "weightG": "Weight varies by mount: XF/E 100g, M4/3 94g, RF-S 104g, Z 116g. Value given is for XF mount.",
+      "filterMm": "Bulbous fisheye front element; no filter thread."
     },
     "officialLinks": {
       "cn": "https://brightinstar.com.cn/products/10mm-f5-6-pro",
@@ -1879,11 +1883,12 @@
     "specialtyTags": [
       "cine"
     ],
-    "af": true,
+    "af": false,
     "ois": false,
     "wr": false,
     "apertureRing": true,
     "powerZoom": false,
+    "focusMotor": "N/A",
     "internalFocusing": true,
     "weightG": 1100,
     "diameterMm": 87,
@@ -1944,11 +1949,12 @@
     "specialtyTags": [
       "cine"
     ],
-    "af": true,
+    "af": false,
     "ois": false,
     "wr": false,
     "apertureRing": true,
     "powerZoom": false,
+    "focusMotor": "N/A",
     "internalFocusing": true,
     "weightG": 1100,
     "diameterMm": 87,
@@ -1993,6 +1999,70 @@
     "officialLinks": {
       "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/mkx50-135mmt29/",
       "global": "https://www.fujifilm-x.com/global/products/lenses/mkx50-135mmt29/"
+    }
+  },
+  {
+    "id": "fujifilm-xc-13-33mmf35-63-ois-xf",
+    "brand": "fujifilm",
+    "series": "XC",
+    "model": "XC 13-33mm F3.5-6.3 OIS",
+    "focalLengthMin": 13,
+    "focalLengthMax": 33,
+    "maxAperture": [
+      3.5,
+      6.3
+    ],
+    "minAperture": 22,
+    "af": true,
+    "ois": true,
+    "wr": false,
+    "apertureRing": false,
+    "powerZoom": false,
+    "weightG": 125,
+    "diameterMm": 61.9,
+    "length": {
+      "mm": 37.5,
+      "variants": {
+        "retracted": 37.5,
+        "wide": 55.6,
+        "tele": 57.2
+      }
+    },
+    "minFocusDistance": {
+      "cm": 20
+    },
+    "maxMagnification": {
+      "value": 0.25,
+      "variants": {
+        "tele": 0.25
+      }
+    },
+    "angleOfView": [
+      95.1,
+      46.6
+    ],
+    "angleOfViewCalc": [
+      94.9,
+      46.4
+    ],
+    "apertureBladeCount": 9,
+    "releaseYear": 2025,
+    "accessories": [
+      "Front lens cap FLCP-49",
+      "Rear lens cap"
+    ],
+    "filterMm": 49,
+    "lensConfiguration": {
+      "groups": 9,
+      "elements": 10,
+      "aspherical": 4,
+      "ed": 3,
+      "sourceText": "10 elements in 9 groups (includes 4 aspherical and 3 ED elements)"
+    },
+    "fieldNotes": {},
+    "officialLinks": {
+      "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/xc13-33mmf35-63-ois/",
+      "global": "https://www.fujifilm-x.com/global/products/lenses/xc13-33mmf35-63-ois/"
     }
   },
   {
@@ -3105,6 +3175,55 @@
     "officialLinks": {
       "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/xf23mmf2-r-wr/",
       "global": "https://www.fujifilm-x.com/global/products/lenses/xf23mmf2-r-wr/"
+    }
+  },
+  {
+    "id": "fujifilm-xf-23mmf28-r-wr-xf",
+    "brand": "fujifilm",
+    "series": "XF",
+    "model": "XF 23mm F2.8 R WR",
+    "focalLengthMin": 23,
+    "focalLengthMax": 23,
+    "maxAperture": 2.8,
+    "minAperture": 16,
+    "af": true,
+    "ois": false,
+    "wr": true,
+    "apertureRing": true,
+    "powerZoom": false,
+    "weightG": 90,
+    "diameterMm": 61.8,
+    "length": {
+      "mm": 23
+    },
+    "minFocusDistance": {
+      "cm": 20
+    },
+    "maxMagnification": {
+      "value": 0.15
+    },
+    "angleOfView": 63.4,
+    "angleOfViewCalc": 63.2,
+    "apertureBladeCount": 11,
+    "releaseYear": 2025,
+    "accessories": [
+      "Front lens cap FLCP-39 II",
+      "Rear lens cap RLCP-001",
+      "Lens hood LH-X27",
+      "Lens hood cap LHCP-27",
+      "Lens protective cloth"
+    ],
+    "filterMm": 39,
+    "lensConfiguration": {
+      "groups": 6,
+      "elements": 8,
+      "aspherical": 2,
+      "sourceText": "8 elements in 6 groups (includes 2 aspherical elements)"
+    },
+    "fieldNotes": {},
+    "officialLinks": {
+      "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/xf23mmf28-r-wr/",
+      "global": "https://www.fujifilm-x.com/global/products/lenses/xf23mmf28-r-wr/"
     }
   },
   {
