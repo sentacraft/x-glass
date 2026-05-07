@@ -9,22 +9,22 @@
  * third-party retailers (B&H / Amazon / Adorama / Taobao), to avoid implicit
  * endorsement of any commercial partner.
  *
- * Templates take a `model` string (the lens model field) and return the URL
- * to navigate to. They prepend a brand keyword so the search results surface
- * the official store first, even on JD where no `exbrand` filter is applied.
+ * Each template takes the prebuilt query string ("<brand> <model>") and
+ * returns the destination URL. The brand portion of the query is sourced from
+ * the i18n message catalogs — no separate keyword registry is maintained.
  *
- * Returning `undefined` for a market means "no brand-official channel
- * available in that market" — the corresponding button is not rendered.
+ * `buildGlobalUrl` absent ⇒ no working brand-official global channel ⇒ the
+ * corresponding button is not rendered (currently only `sgimage`).
  */
 
 import type { Lens } from "@/lib/types";
+import enMessages from "@/messages/en.json";
+import zhMessages from "@/messages/zh.json";
+
+const EN_BRAND_NAMES = enMessages.Brands as Record<string, string>;
+const ZH_BRAND_NAMES = zhMessages.Brands as Record<string, string>;
 
 interface BrandShop {
-  /** Display brand keyword used inside the search query in the CN market. */
-  cnKeyword: string;
-  /** Display brand keyword used inside the search query for the global market. */
-  globalKeyword: string;
-  /** Build the global market shop URL. Return undefined if the brand has no global official channel. */
   buildGlobalUrl?: (query: string) => string;
 }
 
@@ -35,53 +35,27 @@ const SHOPIFY_SEARCH = (origin: string) => (query: string) =>
   `${origin}/search?q=${encodeURIComponent(query)}`;
 
 const BRAND_SHOPS: Record<string, BrandShop> = {
+  // Magento-based storefront.
   fujifilm: {
-    cnKeyword: "富士",
-    globalKeyword: "Fujifilm",
-    // Magento-based storefront.
     buildGlobalUrl: (q) =>
       `https://shopusa.fujifilm-x.com/catalogsearch/result/?q=${encodeURIComponent(q)}`,
   },
   sigma: {
-    cnKeyword: "适马",
-    globalKeyword: "Sigma",
     buildGlobalUrl: (q) =>
       `https://www.sigmaphoto.com/catalogsearch/result/?q=${encodeURIComponent(q)}`,
   },
+  // Tamron Americas does not sell direct; search returns the brand's own
+  // product/article hits, which is still preferable to any 3rd-party retailer.
   tamron: {
-    cnKeyword: "腾龙",
-    globalKeyword: "Tamron",
-    // Tamron Americas does not sell direct; search returns the brand's own
-    // product/article hits, which is still preferable to any 3rd-party retailer.
     buildGlobalUrl: (q) =>
       `https://www.tamron-americas.com/?s=${encodeURIComponent(q)}`,
   },
-  viltrox: {
-    cnKeyword: "唯卓仕",
-    globalKeyword: "Viltrox",
-    buildGlobalUrl: SHOPIFY_SEARCH("https://viltrox.com"),
-  },
-  ttartisan: {
-    cnKeyword: "铭匠光学",
-    globalKeyword: "TTArtisan",
-    buildGlobalUrl: SHOPIFY_SEARCH("https://ttartisan.store"),
-  },
-  "7artisans": {
-    cnKeyword: "七工匠",
-    globalKeyword: "7Artisans",
-    buildGlobalUrl: SHOPIFY_SEARCH("https://7artisans.store"),
-  },
-  brightinstar: {
-    cnKeyword: "星曜光学",
-    globalKeyword: "Brightin Star",
-    buildGlobalUrl: SHOPIFY_SEARCH("https://brightinstar.com"),
-  },
-  sgimage: {
-    cnKeyword: "深光影像",
-    globalKeyword: "SG Image",
-    // No working brand-official storefront found at sgimage.com (parked).
-    // Skip the global button rather than fall back to a third-party retailer.
-  },
+  viltrox: { buildGlobalUrl: SHOPIFY_SEARCH("https://viltrox.com") },
+  ttartisan: { buildGlobalUrl: SHOPIFY_SEARCH("https://ttartisan.store") },
+  "7artisans": { buildGlobalUrl: SHOPIFY_SEARCH("https://7artisans.store") },
+  brightinstar: { buildGlobalUrl: SHOPIFY_SEARCH("https://brightinstar.com") },
+  // sgimage.com is a parked domain — no global button.
+  sgimage: {},
 };
 
 export interface ShopLink {
@@ -94,17 +68,23 @@ export function getShopLinks(lens: Lens): ShopLink[] {
   if (!brand) {
     return [];
   }
-  const links: ShopLink[] = [
-    {
-      market: "cn",
-      url: JD_SEARCH(`${brand.cnKeyword} ${lens.model}`),
-    },
-  ];
-  if (brand.buildGlobalUrl) {
+  const links: ShopLink[] = [];
+
+  const cnBrand = ZH_BRAND_NAMES[lens.brand];
+  if (cnBrand) {
     links.push({
-      market: "global",
-      url: brand.buildGlobalUrl(`${brand.globalKeyword} ${lens.model}`),
+      market: "cn",
+      url: JD_SEARCH(`${cnBrand} ${lens.model}`),
     });
   }
+
+  const globalBrand = EN_BRAND_NAMES[lens.brand];
+  if (brand.buildGlobalUrl && globalBrand) {
+    links.push({
+      market: "global",
+      url: brand.buildGlobalUrl(`${globalBrand} ${lens.model}`),
+    });
+  }
+
   return links;
 }
