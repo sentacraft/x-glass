@@ -10,12 +10,16 @@
  * Currently every channel entry is exposed as its own button (debug mode —
  * surfacing all sources for evaluation). Quality-based filtering / merging
  * happens later, before re-enabling auto-deploy.
+ *
+ * Search query: just `lens.model` (no brand prefix). Each search_url already
+ * targets the brand's official store, so the brand name in the query is
+ * redundant — and dropping it sidesteps the Tmall/Taobao GBK-vs-UTF-8
+ * decoding ambiguity that surfaced in early testing (Tmall defaulted to
+ * GBK and rendered the URL-encoded UTF-8 brand bytes as garbage Chinese).
  */
 
 import type { Lens } from "@/lib/types";
 import shopData from "@/data/brand-shops.json";
-import enMessages from "@/messages/en.json";
-import zhMessages from "@/messages/zh.json";
 
 interface ChannelEntry {
   kind: string;
@@ -29,8 +33,6 @@ interface BrandChannels {
 }
 
 const SHOP_DATA = shopData as Record<string, BrandChannels | string>;
-const EN_BRAND_NAMES = enMessages.Brands as Record<string, string>;
-const ZH_BRAND_NAMES = zhMessages.Brands as Record<string, string>;
 
 export interface ShopLink {
   market: "cn" | "global";
@@ -39,25 +41,23 @@ export interface ShopLink {
   url: string;
 }
 
-function buildUrl(template: string, brandName: string, model: string): string {
-  const query = encodeURIComponent(`${brandName} ${model}`);
-  return template.replace(/\{q\}/g, query);
+function buildUrl(template: string, model: string): string {
+  return template.replace(/\{q\}/g, encodeURIComponent(model));
 }
 
 function expandMarket(
   market: "cn" | "global",
   entries: ChannelEntry[] | undefined,
-  brandName: string | undefined,
   lens: Lens,
 ): ShopLink[] {
-  if (!entries || !brandName) {
+  if (!entries) {
     return [];
   }
   return entries.map((entry) => ({
     market,
     kind: entry.kind,
     region: entry.region,
-    url: buildUrl(entry.search_url, brandName, lens.model),
+    url: buildUrl(entry.search_url, lens.model),
   }));
 }
 
@@ -67,7 +67,7 @@ export function getShopLinks(lens: Lens): ShopLink[] {
     return [];
   }
   return [
-    ...expandMarket("cn", channels.cn, ZH_BRAND_NAMES[lens.brand], lens),
-    ...expandMarket("global", channels.global, EN_BRAND_NAMES[lens.brand], lens),
+    ...expandMarket("cn", channels.cn, lens),
+    ...expandMarket("global", channels.global, lens),
   ];
 }
