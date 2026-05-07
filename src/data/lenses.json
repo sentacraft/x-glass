@@ -1887,7 +1887,6 @@
     "maxAperture": 2.8,
     "minAperture": 22,
     "maxTStop": 2.9,
-    "minTStop": 2.9,
     "specialtyTags": [
       "cine"
     ],
@@ -1955,7 +1954,6 @@
     "maxAperture": 2.8,
     "minAperture": 22,
     "maxTStop": 2.9,
-    "minTStop": 2.9,
     "specialtyTags": [
       "cine"
     ],
