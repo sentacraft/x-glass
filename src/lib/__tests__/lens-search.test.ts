@@ -265,14 +265,16 @@ describe("searchLenses — focal & aperture tokens", () => {
 // ---------------------------------------------------------------------------
 // Brand alias matching
 //
-// Aliases are sourced exclusively from the i18n catalog's `Brands.<key>`
-// display names — variant spellings ("Fuji", "Fujinon", "フジ") are not
-// indexed. CJK display names from messages/zh.json are still matched.
+// Aliases come exclusively from the i18n catalog's `Brands.<key>` display
+// names. Prefix abbreviations ("Fuji" → Fujifilm, "唯卓" → 唯卓仕) still
+// work via the search engine's wordPrefix matching. Non-prefix variants
+// ("Fujinon", "フジ") are not covered and would require an explicit alias
+// table to recover.
 // ---------------------------------------------------------------------------
 
 describe("searchLenses — brand aliases", () => {
-  it("'Fujifilm' matches Fujifilm lenses", () => {
-    const results = searchLenses(lenses, "Fujifilm");
+  it("'Fuji' (prefix abbreviation) matches Fujifilm lenses", () => {
+    const results = searchLenses(lenses, "Fuji");
     const ids = results.map((l) => l.id);
     expect(ids).toContain("fuji-xf35-14");
     expect(ids).toContain("fuji-xf40-28");
@@ -295,8 +297,8 @@ describe("searchLenses — brand aliases", () => {
     expect(results.map((l) => l.id)).toContain("sigma-35-14");
   });
 
-  it("'Fujifilm 40' hits the 40mm Fujifilm lens", () => {
-    const results = searchLenses(lenses, "Fujifilm 40");
+  it("'Fuji 40' hits the 40mm Fujifilm lens", () => {
+    const results = searchLenses(lenses, "Fuji 40");
     expect(results[0]?.id).toBe("fuji-xf40-28");
   });
 
