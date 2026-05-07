@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { Flag } from "lucide-react";
 import { allLenses, getLensUrl } from "@/lib/lens";
+import { getShopLinks } from "@/lib/brand-shops";
 import { lensImageStyle, getLensImageUrl } from "@/lib/lens-image";
 import { buildSpecGroups, resolveSpecGroups } from "@/lib/lens-spec-groups";
 import type { ResolvedSpecRow, StructuredLine } from "@/lib/lens-spec-groups";
@@ -114,6 +115,7 @@ export default async function LensDetailPage({ params }: { params: Params }) {
   const t = await getTranslations("LensDetail");
   const tBrand = await getTranslations("Brands");
   const url = getLensUrl(lens, locale);
+  const shopLinks = getShopLinks(lens);
 
   const specGroups = buildSpecGroups({
     groupOptics: t("groupOptics"),
@@ -271,6 +273,30 @@ export default async function LensDetailPage({ params }: { params: Params }) {
               {t("reportIssue")}
             </FeedbackTrigger>
           </div>
+
+          {/* Where to buy — links to each brand's own official channel.
+              X-Glass does not store prices; the brand's store shows them. */}
+          {shopLinks.length > 0 && (
+            <div className="flex flex-col gap-2 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/30 p-4">
+              <span className="text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+                {t("whereToBuyHeading")}
+              </span>
+              <div className="flex flex-wrap gap-2">
+                {shopLinks.map((link) => (
+                  <ExternalLink
+                    key={link.market}
+                    href={link.url}
+                    className={ACTION_OUTLINE_CLS}
+                  >
+                    {link.market === "cn" ? t("whereToBuyCn") : t("whereToBuyGlobal")}
+                  </ExternalLink>
+                ))}
+              </div>
+              <p className="text-[11px] leading-relaxed text-zinc-400 dark:text-zinc-500">
+                {t("whereToBuyDisclaimer")}
+              </p>
+            </div>
+          )}
 
           {/* Grouped spec table */}
           <div className="rounded-xl border border-zinc-200 dark:border-zinc-800 overflow-hidden">
