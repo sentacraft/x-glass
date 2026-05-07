@@ -5,8 +5,6 @@
     "model": "12mm T2.9 APS-C Cine",
     "focalLengthMin": 12,
     "focalLengthMax": 12,
-    "maxAperture": 2.8,
-    "minAperture": 16,
     "maxTStop": 2.9,
     "minTStop": 16,
     "specialtyTags": [
@@ -359,8 +357,6 @@
     "model": "Hope Prime 10mm T2.1",
     "focalLengthMin": 10,
     "focalLengthMax": 10,
-    "maxAperture": 2,
-    "minAperture": 22,
     "maxTStop": 2.1,
     "minTStop": 22,
     "specialtyTags": [
@@ -407,8 +403,6 @@
     "model": "Hope Prime 16mm T2.1",
     "focalLengthMin": 16,
     "focalLengthMax": 16,
-    "maxAperture": 2,
-    "minAperture": 22,
     "maxTStop": 2.1,
     "minTStop": 22,
     "specialtyTags": [
@@ -454,8 +448,6 @@
     "model": "Hope Prime 25mm T2.1",
     "focalLengthMin": 25,
     "focalLengthMax": 25,
-    "maxAperture": 2,
-    "minAperture": 22,
     "maxTStop": 2.1,
     "minTStop": 22,
     "specialtyTags": [
@@ -501,8 +493,6 @@
     "model": "Hope Prime 35mm T2.1",
     "focalLengthMin": 35,
     "focalLengthMax": 35,
-    "maxAperture": 2,
-    "minAperture": 22,
     "maxTStop": 2.1,
     "minTStop": 22,
     "specialtyTags": [
@@ -548,8 +538,6 @@
     "model": "Hope Prime 50mm T2.1",
     "focalLengthMin": 50,
     "focalLengthMax": 50,
-    "maxAperture": 2,
-    "minAperture": 22,
     "maxTStop": 2.1,
     "minTStop": 22,
     "specialtyTags": [
@@ -595,8 +583,6 @@
     "model": "Hope Prime 85mm T2.1",
     "focalLengthMin": 85,
     "focalLengthMax": 85,
-    "maxAperture": 2,
-    "minAperture": 22,
     "maxTStop": 2.1,
     "minTStop": 22,
     "specialtyTags": [
@@ -639,6 +625,9 @@
     "focalLengthMax": 4,
     "maxAperture": 2.8,
     "minAperture": 16,
+    "specialtyTags": [
+      "fisheye"
+    ],
     "af": false,
     "ois": false,
     "wr": false,
@@ -681,6 +670,9 @@
     "focalLengthMax": 6,
     "maxAperture": 2,
     "minAperture": 16,
+    "specialtyTags": [
+      "fisheye"
+    ],
     "af": false,
     "ois": false,
     "wr": false,
@@ -725,6 +717,9 @@
     "focalLengthMax": 7.5,
     "maxAperture": 2.8,
     "minAperture": 16,
+    "specialtyTags": [
+      "fisheye"
+    ],
     "af": false,
     "ois": false,
     "wr": false,
@@ -877,6 +872,7 @@
     },
     "angleOfView": 74,
     "angleOfViewCalc": 76.3,
+    "apertureBladeCount": "N/A",
     "compatibleMounts": [
       "Sony E",
       "Fujifilm X",
@@ -891,7 +887,8 @@
       "sourceText": "5组6片"
     },
     "fieldNotes": {
-      "filterMm": "Fixed-aperture pancake design; no filter thread."
+      "filterMm": "Fixed-aperture pancake design; no filter thread.",
+      "apertureBladeCount": "Fixed aperture; no diaphragm."
     },
     "officialLinks": {
       "cn": "https://www.7artisans.com/prod_view.aspx?nid=3&typeid=104&id=401",
@@ -1412,6 +1409,9 @@
     "focalLengthMax": 7.5,
     "maxAperture": 2.8,
     "minAperture": 16,
+    "specialtyTags": [
+      "fisheye"
+    ],
     "af": false,
     "ois": false,
     "wr": false,
@@ -1460,6 +1460,9 @@
     "focalLengthMax": 10,
     "maxAperture": 5.6,
     "minAperture": 5.6,
+    "specialtyTags": [
+      "fisheye"
+    ],
     "af": false,
     "ois": false,
     "wr": false,
@@ -1476,6 +1479,7 @@
     },
     "angleOfView": 172,
     "angleOfViewCalc": 109.5,
+    "apertureBladeCount": "N/A",
     "compatibleMounts": [
       "Sony E",
       "Fujifilm X",
@@ -1490,7 +1494,8 @@
       "elements": 6
     },
     "fieldNotes": {
-      "filterMm": "Bulbous fisheye front element; no filter thread."
+      "filterMm": "Bulbous fisheye front element; no filter thread.",
+      "apertureBladeCount": "Fixed aperture; no diaphragm."
     },
     "officialLinks": {
       "cn": "https://brightinstar.com.cn/products/mf-10mm-f5-6-%E5%8D%8A%E7%94%BB%E5%B9%85",
@@ -1505,6 +1510,9 @@
     "focalLengthMax": 10,
     "maxAperture": 5.6,
     "minAperture": 22,
+    "specialtyTags": [
+      "fisheye"
+    ],
     "af": false,
     "ois": false,
     "wr": false,
@@ -1929,7 +1937,9 @@
       "superEd": 6,
       "sourceText": "22 elements 17 groups (includes 2 extra low dispersion elements and 6 super extra low dispersion elements)"
     },
-    "fieldNotes": {},
+    "fieldNotes": {
+      "minAperture": "Iris closes fully beyond F22 for in-camera fades."
+    },
     "officialLinks": {
       "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/mkx18-55mmt29/",
       "global": "https://www.fujifilm-x.com/global/products/lenses/mkx18-55mmt29/"
@@ -1995,7 +2005,9 @@
       "superEd": 2,
       "sourceText": "22 elements 17 groups (includes 2 extra low dispersion elements and 2 super extra low dispersion elements)"
     },
-    "fieldNotes": {},
+    "fieldNotes": {
+      "minAperture": "Iris closes fully beyond F22 for in-camera fades."
+    },
     "officialLinks": {
       "cn": "https://www.fujifilm-x.com/zh-cn/products/lenses/mkx50-135mmt29/",
       "global": "https://www.fujifilm-x.com/global/products/lenses/mkx50-135mmt29/"
@@ -4242,7 +4254,7 @@
     },
     "angleOfView": 76.2,
     "angleOfViewCalc": 61,
-    "apertureBladeCount": 1,
+    "apertureBladeCount": "N/A",
     "compatibleMounts": [
       "Leica L",
       "Sony E",
@@ -4259,7 +4271,8 @@
     },
     "fieldNotes": {
       "filterMm": "49mm filters can be used when the optional lens hood is attached as an adapter",
-      "lensConfiguration": "Includes high-refractive-index glass elements; count not specified by manufacturer."
+      "lensConfiguration": "Includes high-refractive-index glass elements; count not specified by manufacturer.",
+      "apertureBladeCount": "Fixed aperture; no diaphragm."
     },
     "officialLinks": {
       "global": "https://www.sg-image.com/products/mf-24mm-f6-3-full-frame-ultra-slim-pancake-lens"
@@ -4356,6 +4369,9 @@
     "focalLengthMax": 7.5,
     "maxAperture": 2.8,
     "minAperture": 16,
+    "specialtyTags": [
+      "fisheye"
+    ],
     "af": false,
     "ois": false,
     "wr": false,
@@ -4421,6 +4437,7 @@
     },
     "angleOfView": 76,
     "angleOfViewCalc": 76.3,
+    "apertureBladeCount": "N/A",
     "compatibleMounts": [
       "Sony E",
       "Micro Four Thirds",
@@ -4435,7 +4452,8 @@
       "sourceText": "4组6片"
     },
     "fieldNotes": {
-      "filterMm": "49mm filters can be used when the optional lens hood is attached as an adapter"
+      "filterMm": "49mm filters can be used when the optional lens hood is attached as an adapter",
+      "apertureBladeCount": "Fixed aperture; no diaphragm."
     },
     "officialLinks": {
       "cn": "https://www.sg-image.cn/pd.jsp?id=21",
@@ -4652,7 +4670,7 @@
     },
     "angleOfView": 44,
     "angleOfViewCalc": 31.6,
-    "apertureBladeCount": 1,
+    "apertureBladeCount": "N/A",
     "compatibleMounts": [
       "Sony E",
       "Nikon Z",
@@ -4669,7 +4687,9 @@
       "elements": 7,
       "highRefractive": 3
     },
-    "fieldNotes": {},
+    "fieldNotes": {
+      "apertureBladeCount": "Shaped aperture plate; not a multi-blade diaphragm."
+    },
     "officialLinks": {
       "cn": "https://www.sg-image.cn/pd.jsp?id=23",
       "global": "https://www.sg-image.com/products/50mm-f1-8-mf-full-frame-lens-with-shaped-aperture"
@@ -5648,9 +5668,8 @@
     "model": "35mm T2.1",
     "focalLengthMin": 35,
     "focalLengthMax": 35,
-    "maxAperture": 2,
-    "minAperture": 22,
     "maxTStop": 2.1,
+    "minTStop": 22,
     "specialtyTags": [
       "cine"
     ],
@@ -7035,6 +7054,7 @@
     },
     "angleOfView": 52.07,
     "angleOfViewCalc": 53.6,
+    "apertureBladeCount": "N/A",
     "lensMaterial": "Metal",
     "filterMm": "N/A",
     "lensConfiguration": {
@@ -7044,7 +7064,8 @@
       "ed": 2
     },
     "fieldNotes": {
-      "filterMm": "This lens uses a proprietary slide cap design and has no front filter thread."
+      "filterMm": "This lens uses a proprietary slide cap design and has no front filter thread.",
+      "apertureBladeCount": "Fixed aperture; no diaphragm."
     },
     "officialLinks": {
       "cn": "https://www.viltrox.com.cn/productinfo/6118530.html",
