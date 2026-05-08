@@ -46,7 +46,7 @@ function PriceInfoPopover({
           <Popover.Popup className="max-w-72 origin-(--transform-origin) rounded-lg border border-zinc-200 bg-white px-3 py-2.5 text-xs leading-relaxed text-zinc-700 shadow-lg duration-100 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300">
             <div className="flex flex-col gap-1.5">
               {/* Price + used badge + source on one line */}
-              <p className={cn("flex items-center gap-1.5 text-sm font-semibold tabular-nums text-zinc-900 dark:text-zinc-100", isUsed && "text-zinc-500 dark:text-zinc-400")}>
+              <p className="flex items-center gap-1.5 text-sm font-semibold tabular-nums text-zinc-900 dark:text-zinc-100">
                 {priceDisplay}
                 {isUsed && (
                   <span className="inline-flex items-center rounded bg-zinc-100 px-1 py-px text-[10px] font-medium text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400">
@@ -109,9 +109,7 @@ export function PriceBand({ lens, compact = false }: Props) {
         className={cn(
           "font-semibold tabular-nums tracking-wide",
           compact ? "text-sm" : "text-base",
-          isUsed
-            ? "text-zinc-400 dark:text-zinc-500 italic"
-            : "text-zinc-700 dark:text-zinc-200"
+          "text-zinc-700 dark:text-zinc-200"
         )}
         aria-hidden="true"
       >
