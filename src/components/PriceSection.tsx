@@ -48,7 +48,7 @@ export function PriceSection({ lens }: Props) {
   const sampledDisplay = formatSampledAt(entry.sampledAt, locale);
 
   return (
-    <div className="rounded-xl border border-zinc-100 bg-zinc-50/60 px-4 py-3 flex flex-col gap-2.5 dark:border-zinc-800 dark:bg-zinc-900/40">
+    <div className="flex flex-col gap-2.5">
       {/* Price + used badge + source · sampled date — all one tight group */}
       <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1">
         <span className="text-xl font-semibold tabular-nums text-zinc-900 dark:text-zinc-50">
