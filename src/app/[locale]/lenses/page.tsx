@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
 
-export default function LensesRedirect() {
+export default function LensesRoot() {
   redirect("/lenses/x");
 }
