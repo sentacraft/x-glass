@@ -4,6 +4,7 @@ import { useSearchParams } from "next/navigation";
 import { useLocale } from "next-intl";
 import { useEffectiveMount } from "@/hooks/useMountParam";
 import { mountToUrlSegment } from "@/lib/mount";
+import { comparePath } from "@/lib/routes";
 
 /**
  * Builds mount-aware compare page URLs while preserving back-navigation context
@@ -45,13 +46,13 @@ export function useCompareUrl() {
   function buildCompareUrl(ids: string[], extra?: { preset?: string }) {
     const seg = mountToUrlSegment(mount);
     const qs = buildQuery(ids, extra);
-    return qs ? `/lenses/${seg}/compare?${qs}` : `/lenses/${seg}/compare`;
+    return qs ? `${comparePath(seg)}?${qs}` : comparePath(seg);
   }
 
   function buildLocalizedCompareUrl(ids: string[], extra?: { preset?: string }) {
     const seg = mountToUrlSegment(mount);
     const qs = buildQuery(ids, extra);
-    const path = `/${locale}/lenses/${seg}/compare`;
+    const path = `/${locale}${comparePath(seg)}`;
     return qs ? `${path}?${qs}` : path;
   }
 

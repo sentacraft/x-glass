@@ -14,6 +14,7 @@ import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 import { getLensesByMount } from "@/lib/lens";
 import { mountToUrlSegment } from "@/lib/mount";
+import { lensDetailPath } from "@/lib/routes";
 import { useEffectiveMount } from "@/hooks/useMountParam";
 import { buildLensSearchIndex, searchLensIndex } from "@/lib/lens-search";
 import type { Lens } from "@/lib/types";
@@ -105,7 +106,7 @@ export default function LensSearchDialog({
       return;
     }
 
-    router.push(`/lenses/${mountToUrlSegment(lens.mount)}/${lens.id}`);
+    router.push(lensDetailPath(mountToUrlSegment(lens.mount), lens.id));
   }
 
   function handleInputKeyDown(event: KeyboardEvent<HTMLInputElement>) {

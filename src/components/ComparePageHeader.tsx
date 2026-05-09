@@ -9,6 +9,7 @@ import BackButton from "@/components/BackButton";
 import { useMountedCompare } from "@/context/CompareProvider";
 import { useEffectiveMount } from "@/hooks/useMountParam";
 import { mountToUrlSegment } from "@/lib/mount";
+import { comparePath } from "@/lib/routes";
 import { useRouter } from "@/i18n/navigation";
 import type { Lens } from "@/lib/types";
 
@@ -51,7 +52,7 @@ export default function ComparePageHeader({ lenses, fallbackHref, minColumns = 0
         {lenses.length >= minColumns && <CompareAddLensButton lenses={lenses} />}
         {lenses.length > 0 && (
           <button
-            onClick={() => { clearCompare(); router.replace(`/lenses/${mountToUrlSegment(mount)}/compare`); }}
+            onClick={() => { clearCompare(); router.replace(comparePath(mountToUrlSegment(mount))); }}
             className="shrink-0 text-sm font-medium px-3 py-2 rounded-xl text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-200 transition-colors"
           >
             {tList("clearCompare")}

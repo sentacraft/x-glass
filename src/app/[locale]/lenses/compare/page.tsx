@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import { comparePath } from "@/lib/routes";
 
 export default async function CompareRedirect({
   params,
@@ -15,5 +16,5 @@ export default async function CompareRedirect({
   if (sp.lensId) qs.set("lensId", sp.lensId);
   if (sp.preset) qs.set("preset", sp.preset);
   const query = qs.toString();
-  redirect(`/${locale}/lenses/x/compare${query ? `?${query}` : ""}`);
+  redirect(`/${locale}${comparePath("x")}${query ? `?${query}` : ""}`);
 }

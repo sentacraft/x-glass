@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { Aperture, Plus, Check } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { mountToUrlSegment } from "@/lib/mount";
+import { lensDetailPath } from "@/lib/routes";
 import { FEATURE_ICONS } from "@/lib/feature-icons";
 import { ACTION_PRIMARY_CLS, CARD_SELECTED_BORDER_CLS } from "@/lib/ui-tokens";
 import type { Lens } from "@/lib/types";
@@ -77,7 +78,7 @@ export default function LensCard({
     >
       {/* Clickable detail area */}
       <Link
-        href={`/lenses/${mountToUrlSegment(lens.mount)}/${lens.id}`}
+        href={lensDetailPath(mountToUrlSegment(lens.mount), lens.id)}
         className="flex-1 flex flex-col hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors max-[499px]:flex-row"
       >
         <div

@@ -9,6 +9,7 @@ import { IRIS_NAV } from "@/config/iris-config";
 import { useCompare } from "@/context/CompareProvider";
 import { useEffectiveMount } from "@/hooks/useMountParam";
 import { mountToUrlSegment } from "@/lib/mount";
+import { lensListPath, comparePath } from "@/lib/routes";
 import { useNavLock } from "@/context/ScrollContainerContext";
 import { usePwa } from "@/lib/usePwa";
 import { cn } from "@/lib/utils";
@@ -69,10 +70,10 @@ export default function Nav() {
 
   const compareIds = compareState[effectiveMount];
   const seg = mountToUrlSegment(effectiveMount);
-  const browseHref = `/lenses/${seg}`;
+  const browseHref = lensListPath(seg);
   const compareHref = compareIds.length > 0
-    ? `/lenses/${seg}/compare?ids=${compareIds.join(",")}`
-    : `/lenses/${seg}/compare`;
+    ? `${comparePath(seg)}?ids=${compareIds.join(",")}`
+    : comparePath(seg);
 
   const linkCls = (active: boolean) =>
     `text-xs sm:text-sm transition-colors px-1.5 sm:px-2 ${

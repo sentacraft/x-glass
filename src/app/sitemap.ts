@@ -3,6 +3,7 @@ import { SITE } from "@/config/site";
 import { routing } from "@/i18n/routing";
 import xLensesData from "@/data/lenses.json";
 import gfxLensesData from "@/data/lenses-g.json";
+import { lensListPath, comparePath, lensDetailPath } from "@/lib/routes";
 
 const LOCALES = routing.locales;
 
@@ -13,10 +14,10 @@ function url(path: string): string {
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticPaths = [
     "/lenses",
-    "/lenses/x",
-    "/lenses/x/compare",
-    "/lenses/gfx",
-    "/lenses/gfx/compare",
+    lensListPath("x"),
+    comparePath("x"),
+    lensListPath("gfx"),
+    comparePath("gfx"),
     "/about",
     "/get",
   ];
@@ -37,7 +38,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const xLensEntries: MetadataRoute.Sitemap = (xLensesData as { id: string }[]).flatMap(
     (lens) =>
       LOCALES.map((locale) => ({
-        url: url(`/${locale}/lenses/x/${lens.id}`),
+        url: url(`/${locale}${lensDetailPath("x", lens.id)}`),
         changeFrequency: "monthly" as const,
         priority: 0.6,
       }))
@@ -46,7 +47,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const gfxLensEntries: MetadataRoute.Sitemap = (gfxLensesData as { id: string }[]).flatMap(
     (lens) =>
       LOCALES.map((locale) => ({
-        url: url(`/${locale}/lenses/gfx/${lens.id}`),
+        url: url(`/${locale}${lensDetailPath("gfx", lens.id)}`),
         changeFrequency: "monthly" as const,
         priority: 0.6,
       }))

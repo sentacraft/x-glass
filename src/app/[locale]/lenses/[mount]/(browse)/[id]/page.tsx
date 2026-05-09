@@ -5,6 +5,7 @@ import { getTranslations } from "next-intl/server";
 import { Flag } from "lucide-react";
 import { getLensesByMount, getLensUrl } from "@/lib/lens";
 import { urlSegmentToMount } from "@/lib/mount";
+import { lensListPath } from "@/lib/routes";
 import { lensImageStyle, getLensImageUrl } from "@/lib/lens-image";
 import { buildSpecGroups, resolveSpecGroups } from "@/lib/lens-spec-groups";
 import type { ResolvedSpecRow, StructuredLine } from "@/lib/lens-spec-groups";
@@ -222,7 +223,7 @@ export default async function LensDetailPage({ params }: { params: Params }) {
     <>
     <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 pt-8 pb-[max(6rem,calc(var(--compare-bar-height,0px)+2rem))] flex flex-col gap-8">
       {/* Back button */}
-      <BackButton fallbackHref={`/lenses/${mount}`} />
+      <BackButton fallbackHref={lensListPath(mount)} />
 
       {/* Header: image + key info side by side */}
       <div className="flex flex-col sm:flex-row gap-8">

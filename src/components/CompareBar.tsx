@@ -7,6 +7,7 @@ import { getLensesByMount } from "@/lib/lens";
 import { useMountedCompare } from "@/context/CompareProvider";
 import { useEffectiveMount } from "@/hooks/useMountParam";
 import { mountToUrlSegment } from "@/lib/mount";
+import { comparePath } from "@/lib/routes";
 import { motion, AnimatePresence } from "motion/react";
 import { spring } from "@/lib/animation";
 import { X } from "lucide-react";
@@ -65,7 +66,7 @@ export default function CompareBar() {
     const ids = selectedLenses.map((l) => l.id).join(",");
     const seg = mountToUrlSegment(mount);
     const fromParam = currentLensId ? `&from=lens&lensId=${currentLensId}` : "";
-    router.push(`/lenses/${seg}/compare?ids=${ids}${fromParam}`);
+    router.push(`${comparePath(seg)}?ids=${ids}${fromParam}`);
   }
 
   return (

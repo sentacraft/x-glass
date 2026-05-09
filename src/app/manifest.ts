@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { SITE } from "@/config/site";
+import { lensListPath, comparePath } from "@/lib/routes";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
@@ -30,14 +31,14 @@ export default function manifest(): MetadataRoute.Manifest {
         name: "Browse Lenses",
         short_name: "Browse",
         description: "Browse and filter all X Mount and G Mount lenses",
-        url: "/lenses/x",
+        url: lensListPath("x"),
         icons: [{ src: "/icons/icon-192.png", sizes: "192x192" }],
       },
       {
         name: "Compare Lenses",
         short_name: "Compare",
         description: "Compare lenses side by side",
-        url: "/lenses/x/compare",
+        url: comparePath("x"),
         icons: [{ src: "/icons/icon-192.png", sizes: "192x192" }],
       },
     ],

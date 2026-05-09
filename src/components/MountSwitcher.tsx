@@ -7,6 +7,7 @@ import { useRouter } from "@/i18n/navigation";
 import { useMountParam, useEffectiveMount } from "@/hooks/useMountParam";
 import { useMountPreference } from "@/context/MountPreferenceProvider";
 import { mountToUrlSegment } from "@/lib/mount";
+import { lensListPath } from "@/lib/routes";
 import type { Mount } from "@/lib/types";
 
 
@@ -41,7 +42,7 @@ export default function MountSwitcher() {
     setPreference(mount);
     setOpen(false);
     if (urlMount !== null) {
-      router.push(`/lenses/${mountToUrlSegment(mount)}`);
+      router.push(lensListPath(mountToUrlSegment(mount)));
     }
   };
 
