@@ -73,11 +73,13 @@ export interface LensLength {
 
 /**
  * MFD for one focus mode. Fill as follows:
- * 1. `cm` — always required. Use the value the manufacturer states for this mode.
- *    - Single value (prime, or zoom with one uniform distance): fill `cm` only.
- *    - Two values per focal length (zoom): fill `cm` = wide-end, `teleCm` = tele-end.
- * 2. `teleCm` — only when the source explicitly gives a different tele-end distance.
- *    Omit when the manufacturer gives only one number, regardless of lens type.
+ * 1. `cm` — always required. Use the manufacturer's stated minimum focus distance.
+ *    - Prime, or zoom with one uniform value: fill `cm` only.
+ *    - Zoom with explicit per-focal-length values (e.g. "Wide 30cm / Tele 40cm"):
+ *      fill `cm` = wide-end MFD, `teleCm` = tele-end MFD.
+ * 2. `teleCm` — only when the source separately lists a tele-end MFD that differs
+ *    from the wide-end. A hyphenated range like "1.1m – 3m" is a min–max focus
+ *    range (near bound to far bound), NOT a wide/tele pair — do not fill `teleCm`.
  */
 export interface FocusDistanceMode {
   /** Wide-end or single MFD value in cm. @example 15 */
