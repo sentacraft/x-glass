@@ -840,7 +840,7 @@ export function SharePoster({ lenses, labels, custom, shareUrl, ref }: SharePost
                     <>
                       <div className="h-px bg-zinc-100" style={{ marginTop: 3, marginBottom: 3 }} />
                       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 2 }}>
-                        <span className="text-zinc-400" style={{ fontSize: 9, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.05em" }}>
+                        <span className="text-zinc-400" style={{ fontSize: 9, textTransform: "uppercase", letterSpacing: "0.08em" }}>
                           {labels.sectionDetails}
                         </span>
                         {specialtyValues[i] ? (
