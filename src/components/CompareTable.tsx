@@ -132,10 +132,11 @@ function LensHeader({
           </button>
         </div>
       </div>
-      <div className="mt-1 flex flex-col items-center text-center sm:mt-0">
+      <div className="mt-1 flex h-full flex-col items-center text-center sm:mt-0">
         <LensHeaderContent lens={lens} />
-        {/* Official site + report links */}
-        <div className="mt-1.5 flex flex-col items-center gap-0">
+        {/* Official site + report links — mt-auto pushes to bottom so
+            links across columns align even when model names differ in height */}
+        <div className="mt-auto flex flex-col items-center gap-0 pt-1.5">
           {url ? (
             <a
               href={url}
