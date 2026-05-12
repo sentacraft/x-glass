@@ -386,28 +386,48 @@ export function SharePoster({ lenses, labels, custom, shareUrl, ref }: SharePost
     >
       {/* ── Header ────────────────────────────────────────────── */}
       <div style={{ padding: `28px ${POSTER_PX}px 24px` }}>
-        {/* Top row: brand+tagline (left) ↔ QR+CTA (right), aligned to top */}
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 24 }}>
-          {/* Left: brand stack */}
-          <div style={{ display: "flex", flexDirection: "column", gap: 6, paddingTop: 2 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-              <Iris config={IRIS_NAV} size={20} uid="poster" />
-              <span
-                className="text-zinc-700"
-                style={{ fontSize: 14, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase" }}
+          {/* Left column: brand-stack on top, title+slogan below */}
+          <div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column" }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                <Iris config={IRIS_NAV} size={20} uid="poster" />
+                <span
+                  className="text-zinc-700"
+                  style={{ fontSize: 14, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase" }}
+                >
+                  X-Glass
+                </span>
+              </div>
+              <div
+                className="text-zinc-400"
+                style={{ fontSize: 12, fontWeight: 500, lineHeight: 1.4 }}
               >
-                X-Glass
-              </span>
+                {labels.brandTagline}
+              </div>
             </div>
-            <div
-              className="text-zinc-400"
-              style={{ fontSize: 12, fontWeight: 500, lineHeight: 1.4 }}
-            >
-              {labels.brandTagline}
+
+            <div style={{ marginTop: 28 }}>
+              <div style={{ marginBottom: slogan ? 8 : 0 }}>
+                {titleLines.map((line, i) => (
+                  <div
+                    key={i}
+                    className="text-zinc-900"
+                    style={{ fontSize: titleFontSize, fontWeight: 600, lineHeight: 1.25 }}
+                  >
+                    {line}
+                  </div>
+                ))}
+              </div>
+              {slogan && (
+                <div className="text-zinc-400" style={{ fontSize: 13, lineHeight: 1.4 }}>
+                  {slogan}
+                </div>
+              )}
             </div>
           </div>
 
-          {/* Right: QR + CTA */}
+          {/* Right column: QR + CTA */}
           <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", flexShrink: 0, gap: 8 }}>
             <div
               style={{
@@ -444,26 +464,6 @@ export function SharePoster({ lenses, labels, custom, shareUrl, ref }: SharePost
               </div>
             </div>
           </div>
-        </div>
-
-        {/* Title + per-share slogan block */}
-        <div style={{ marginTop: 20 }}>
-          <div style={{ marginBottom: slogan ? 8 : 0 }}>
-            {titleLines.map((line, i) => (
-              <div
-                key={i}
-                className="text-zinc-900"
-                style={{ fontSize: titleFontSize, fontWeight: 600, lineHeight: 1.25 }}
-              >
-                {line}
-              </div>
-            ))}
-          </div>
-          {slogan && (
-            <div className="text-zinc-400" style={{ fontSize: 13, lineHeight: 1.4 }}>
-              {slogan}
-            </div>
-          )}
         </div>
       </div>
 
