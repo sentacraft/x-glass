@@ -159,7 +159,6 @@ export function ShareButton({ lenses, variant = "default", triggerClassName, pre
       await navigator.share({
         title: posterTitle,
         text: `${cta}\n👉 ${pageUrl}`,
-        url: pageUrl,
       });
     } catch (err) {
       if (err instanceof Error && err.name === "AbortError") return;
@@ -205,7 +204,6 @@ export function ShareButton({ lenses, variant = "default", triggerClassName, pre
         files: [file],
         title: posterTitle,
         text,
-        url: pageUrl,
       });
     } catch (err) {
       if (err instanceof Error && err.name === "AbortError") return;
