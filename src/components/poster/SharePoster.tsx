@@ -389,21 +389,21 @@ export function SharePoster({ lenses, labels, custom, shareUrl, ref }: SharePost
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 24 }}>
           {/* Left column: brand-stack on top, title+slogan below */}
           <div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column" }}>
-            <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                <Iris config={IRIS_NAV} size={20} uid="poster" />
+            <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+              <Iris config={IRIS_NAV} size={40} uid="poster" />
+              <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
                 <span
                   className="text-zinc-700"
-                  style={{ fontSize: 14, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase" }}
+                  style={{ fontSize: 14, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", lineHeight: 1 }}
                 >
                   X-Glass
                 </span>
-              </div>
-              <div
-                className="text-zinc-400"
-                style={{ fontSize: 12, fontWeight: 500, lineHeight: 1.4 }}
-              >
-                {labels.brandTagline}
+                <span
+                  className="text-zinc-400"
+                  style={{ fontSize: 12, fontWeight: 500, lineHeight: 1.2 }}
+                >
+                  {labels.brandTagline}
+                </span>
               </div>
             </div>
 
