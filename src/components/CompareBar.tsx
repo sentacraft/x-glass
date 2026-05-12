@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useEffect, useRef } from "react";
+import { useMemo, useRef, useCallback } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { useRouter, usePathname } from "@/i18n/navigation";
 import { getLensesByMount } from "@/lib/lens";
@@ -34,30 +34,25 @@ export default function CompareBar() {
     [compareIds, mount, locale]
   );
 
-  // Track bar height and expose it as a CSS variable so other fixed elements
-  // (BackToTopButton, page bottom padding) can stay above the bar dynamically.
-  const barRef = useRef<HTMLDivElement>(null);
+  const observerRef = useRef<ResizeObserver | null>(null);
 
-  useEffect(() => {
-    const el = barRef.current;
-    if (!el) {
-      return;
+  const barRef = useCallback((el: HTMLDivElement | null) => {
+    if (observerRef.current) {
+      observerRef.current.disconnect();
+      observerRef.current = null;
     }
-    const observer = new ResizeObserver(([entry]) => {
-      document.documentElement.style.setProperty(
-        "--compare-bar-height",
-        `${entry.contentRect.height}px`
-      );
-    });
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    if (selectedLenses.length === 0) {
+    if (el) {
+      observerRef.current = new ResizeObserver(([entry]) => {
+        document.documentElement.style.setProperty(
+          "--compare-bar-height",
+          `${entry.contentRect.height}px`
+        );
+      });
+      observerRef.current.observe(el);
+    } else {
       document.documentElement.style.setProperty("--compare-bar-height", "0px");
     }
-  }, [selectedLenses.length]);
+  }, []);
 
   // Extract lens ID if currently on a lens detail page (/lenses/[mount]/[id])
   const currentLensId = useMemo(() => {
