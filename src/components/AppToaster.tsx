@@ -10,7 +10,7 @@ export default function AppToaster() {
     <Toaster
       position={isDesktop ? "top-center" : "bottom-center"}
       offset={16}
-      toastOptions={{ className: "whitespace-nowrap !w-auto !max-w-[calc(100vw-2rem)] !rounded-full !px-5" }}
+      toastOptions={{ className: "!rounded-full !px-5" }}
     />
   );
 }
