@@ -279,7 +279,7 @@ export default async function LensDetailPage({ params }: { params: Params }) {
 
           {/* Actions — mt-auto pushes them to the bottom of the stretched
               info column so the row aligns with the image card's bottom. */}
-          <div className="flex flex-wrap gap-3 mt-auto">
+          <div className="flex flex-wrap gap-2 sm:gap-3 mt-auto">
             <AddToCompareButton lensId={lens.id} />
             {url ? (
               <ExternalLink href={url} className={ACTION_OUTLINE_CLS}>
