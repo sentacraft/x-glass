@@ -9,7 +9,10 @@ import { useEffectiveMount } from "@/hooks/useMountParam";
 import { mountToUrlSegment } from "@/lib/mount";
 import { motion, AnimatePresence } from "motion/react";
 import { spring } from "@/lib/animation";
-import { X } from "lucide-react";
+import { Plus, X } from "lucide-react";
+import LensSearchDialog from "@/components/LensSearchDialog";
+import { MAX_COMPARE } from "@/lib/lens";
+import type { Lens } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { ACTION_PRIMARY_CLS, ICON_CLOSE_BTN_CLS } from "@/lib/ui-tokens";
 import { Z } from "@/config/ui";
@@ -23,7 +26,30 @@ export default function CompareBar() {
   const pathname = usePathname();
   const locale = useLocale();
   const mount = useEffectiveMount();
-  const { compareIds, toggleCompare, clearCompare } = useMountedCompare();
+  const { compareIds, toggleCompare, replaceCompare, clearCompare } = useMountedCompare();
+
+  const handleAddLens = useCallback(
+    (lens: Lens) => {
+      if (compareIds.includes(lens.id) || compareIds.length >= MAX_COMPARE) {
+        return;
+      }
+      replaceCompare([...compareIds, lens.id]);
+    },
+    [compareIds, replaceCompare]
+  );
+
+  const getAddResultState = useCallback(
+    (candidate: Lens) => ({
+      actionLabel: compareIds.includes(candidate.id)
+        ? tCompare("alreadyAdded")
+        : compareIds.length >= MAX_COMPARE
+          ? tCompare("compareFull")
+          : tCompare("addToCompareAction"),
+      disabled:
+        compareIds.includes(candidate.id) || compareIds.length >= MAX_COMPARE,
+    }),
+    [compareIds, tCompare]
+  );
 
   const selectedLenses = useMemo(
     () =>
@@ -118,6 +144,14 @@ export default function CompareBar() {
               </AnimatePresence>
             </div>
             <div className="flex items-center justify-end gap-3 sm:shrink-0">
+              <LensSearchDialog
+                onSelectLens={handleAddLens}
+                getResultState={getAddResultState}
+                triggerVariant="icon"
+                triggerIcon={Plus}
+                triggerLabel={tCompare("addLens")}
+                triggerClassName="h-9 w-9 shrink-0 rounded-xl"
+              />
               <button
                 onClick={clearCompare}
                 className="shrink-0 text-sm font-medium px-3 py-2 rounded-xl text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-200 transition-colors"
