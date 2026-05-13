@@ -18,6 +18,32 @@ import { useEffect, useState, type DependencyList, type RefObject } from "react"
  * The 4px epsilon on each side absorbs subpixel rounding so a perfectly-
  * scrolled-to-edge container doesn't oscillate between "can/can't scroll".
  */
+/**
+ * Build a CSS `mask-image` value that fades the overflowing edges of a
+ * horizontally-scrolling container — but only on the edges where there's
+ * still content to scroll to. Returns `undefined` when both sides are
+ * fully visible so the caller can omit the inline style entirely (no
+ * mask is cheaper than a "no-op" mask).
+ *
+ * The 2rem fade width matches the visual weight of the chevron buttons
+ * in `<ScrollChevron>` so they layer cleanly on top of the fade region.
+ */
+export function buildHorizontalScrollMask(
+  canScrollLeft: boolean,
+  canScrollRight: boolean,
+): string | undefined {
+  if (canScrollLeft && canScrollRight) {
+    return "linear-gradient(to right, transparent, black 2rem, black calc(100% - 2rem), transparent)";
+  }
+  if (canScrollLeft) {
+    return "linear-gradient(to right, transparent, black 2rem)";
+  }
+  if (canScrollRight) {
+    return "linear-gradient(to right, black calc(100% - 2rem), transparent)";
+  }
+  return undefined;
+}
+
 export function useHorizontalScrollAffordance(
   ref: RefObject<HTMLElement | null>,
   deps: DependencyList = [],

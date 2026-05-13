@@ -6,12 +6,13 @@ import { useRouter } from "@/i18n/navigation";
 import { getLensesByMount } from "@/lib/lens";
 import { useMountedCompare } from "@/context/CompareProvider";
 import { useEffectiveMount } from "@/hooks/useMountParam";
-import { useHorizontalScrollAffordance } from "@/hooks/useHorizontalScrollAffordance";
+import { buildHorizontalScrollMask, useHorizontalScrollAffordance } from "@/hooks/useHorizontalScrollAffordance";
 import { mountToUrlSegment } from "@/lib/mount";
 import { motion, AnimatePresence } from "motion/react";
 import { spring } from "@/lib/animation";
-import { ChevronLeft, ChevronRight, Plus, X } from "lucide-react";
+import { Plus, X } from "lucide-react";
 import LensSearchDialog from "@/components/LensSearchDialog";
+import { ScrollChevron } from "@/components/ui/scroll-chevron";
 import { MAX_COMPARE } from "@/lib/lens";
 import type { Lens } from "@/lib/types";
 import { cn } from "@/lib/utils";
@@ -64,18 +65,7 @@ export default function CompareBar() {
   // a static CSS mask leaves on a fully-visible chip row.
   const chipsRef = useRef<HTMLDivElement>(null);
   const { canScrollLeft, canScrollRight } = useHorizontalScrollAffordance(chipsRef, [compareIds.length]);
-  const chipsMask = (() => {
-    if (canScrollLeft && canScrollRight) {
-      return "linear-gradient(to right, transparent, black 2rem, black calc(100% - 2rem), transparent)";
-    }
-    if (canScrollLeft) {
-      return "linear-gradient(to right, transparent, black 2rem)";
-    }
-    if (canScrollRight) {
-      return "linear-gradient(to right, black calc(100% - 2rem), transparent)";
-    }
-    return undefined;
-  })();
+  const chipsMask = buildHorizontalScrollMask(canScrollLeft, canScrollRight);
 
   const observerRef = useRef<ResizeObserver | null>(null);
 
@@ -160,37 +150,21 @@ export default function CompareBar() {
             </div>
             {/* Desktop-only scroll affordance — touch users already have
                 natural swipe, but mouse/trackpad users can't easily scroll
-                a horizontal row, so the fade alone teases content they
-                can't actually reach. Buttons appear only on the side
-                where there's more to scroll to. */}
-            <button
-              type="button"
+                a horizontal row. Hidden on mobile via className override. */}
+            <ScrollChevron
+              direction="left"
+              visible={canScrollLeft}
               onClick={() => chipsRef.current?.scrollBy({ left: -160, behavior: "smooth" })}
-              aria-label={tCompare("scrollChipsLeft")}
-              className={cn(
-                "hidden sm:inline-flex absolute left-1 top-1/2 -translate-y-1/2 z-10",
-                "h-7 w-7 items-center justify-center rounded-full border border-zinc-200/80 bg-white/95 shadow-sm backdrop-blur-sm",
-                "text-zinc-500 hover:text-zinc-900 hover:bg-white transition-opacity",
-                "dark:border-zinc-700/80 dark:bg-zinc-900/95 dark:text-zinc-400 dark:hover:text-zinc-50",
-                canScrollLeft ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
-              )}
-            >
-              <ChevronLeft className="h-3.5 w-3.5" />
-            </button>
-            <button
-              type="button"
+              ariaLabel={tCompare("scrollChipsLeft")}
+              className="hidden sm:inline-flex"
+            />
+            <ScrollChevron
+              direction="right"
+              visible={canScrollRight}
               onClick={() => chipsRef.current?.scrollBy({ left: 160, behavior: "smooth" })}
-              aria-label={tCompare("scrollChipsRight")}
-              className={cn(
-                "hidden sm:inline-flex absolute right-1 top-1/2 -translate-y-1/2 z-10",
-                "h-7 w-7 items-center justify-center rounded-full border border-zinc-200/80 bg-white/95 shadow-sm backdrop-blur-sm",
-                "text-zinc-500 hover:text-zinc-900 hover:bg-white transition-opacity",
-                "dark:border-zinc-700/80 dark:bg-zinc-900/95 dark:text-zinc-400 dark:hover:text-zinc-50",
-                canScrollRight ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
-              )}
-            >
-              <ChevronRight className="h-3.5 w-3.5" />
-            </button>
+              ariaLabel={tCompare("scrollChipsRight")}
+              className="hidden sm:inline-flex"
+            />
             </div>
             {/* Cluster ordering: destructive (清空) → additive (+) → primary CTA (查看对比).
                 Left-to-right rising visual weight, and keeps the two button-shaped

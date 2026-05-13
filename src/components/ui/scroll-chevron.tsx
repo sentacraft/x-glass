@@ -1,0 +1,51 @@
+"use client";
+
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { cn } from "@/lib/utils";
+
+interface ScrollChevronProps {
+  direction: "left" | "right";
+  /** Visibility is driven by canScrollLeft / canScrollRight from `useHorizontalScrollAffordance`. */
+  visible: boolean;
+  onClick: () => void;
+  ariaLabel: string;
+  /** Extra classes — typically responsive visibility (e.g. `hidden sm:inline-flex`). */
+  className?: string;
+}
+
+/**
+ * Small circular chevron button used to scroll a horizontal carousel one
+ * step in the given direction. Designed to float over the carousel's fade
+ * affordance (see `useHorizontalScrollAffordance` + the mask-image helper)
+ * rather than be the fade itself, so the chip / card underneath stays
+ * visually intact and only one element handles the click.
+ *
+ * Positioning is absolute; the caller must wrap it in a `relative` parent.
+ */
+export function ScrollChevron({
+  direction,
+  visible,
+  onClick,
+  ariaLabel,
+  className,
+}: ScrollChevronProps) {
+  const Icon = direction === "left" ? ChevronLeft : ChevronRight;
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-label={ariaLabel}
+      className={cn(
+        "absolute top-1/2 -translate-y-1/2 z-10 h-7 w-7 inline-flex items-center justify-center rounded-full",
+        "border border-zinc-200/80 bg-white/95 shadow-sm backdrop-blur-sm",
+        "text-zinc-500 hover:text-zinc-900 hover:bg-white transition-opacity",
+        "dark:border-zinc-700/80 dark:bg-zinc-900/95 dark:text-zinc-400 dark:hover:text-zinc-50",
+        direction === "left" ? "left-1" : "right-1",
+        visible ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none",
+        className
+      )}
+    >
+      <Icon className="h-3.5 w-3.5" />
+    </button>
+  );
+}

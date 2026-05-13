@@ -3,14 +3,13 @@
 import { useRef } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useCompareUrl } from "@/hooks/useCompareUrl";
-import { useHorizontalScrollAffordance } from "@/hooks/useHorizontalScrollAffordance";
+import { buildHorizontalScrollMask, useHorizontalScrollAffordance } from "@/hooks/useHorizontalScrollAffordance";
 import { useMountedCompare } from "@/context/CompareProvider";
 import { curatedPresets, type CuratedPreset } from "@/lib/curated-presets";
 import { getAllLenses } from "@/lib/lens";
-import { cn } from "@/lib/utils";
 import { lensDisplayName } from "@/lib/lens.format";
+import { ScrollChevron } from "@/components/ui/scroll-chevron";
 
 export function PresetCard({ preset, onSelect }: { preset: CuratedPreset; onSelect?: () => void }) {
   const router = useRouter();
@@ -70,6 +69,7 @@ export default function CuratedComparisons() {
   const t = useTranslations("Compare");
   const scrollRef = useRef<HTMLDivElement>(null);
   const { canScrollLeft, canScrollRight } = useHorizontalScrollAffordance(scrollRef);
+  const scrollerMask = buildHorizontalScrollMask(canScrollLeft, canScrollRight);
 
   function scrollToDir(dir: -1 | 1) {
     const el = scrollRef.current;
@@ -94,22 +94,11 @@ export default function CuratedComparisons() {
 
       {/* Mobile: horizontal snap carousel */}
       <div className="sm:hidden relative -mx-4">
-        {/* Left chevron */}
-        <button
-          onClick={() => scrollToDir(-1)}
-          aria-label="Scroll left"
-          className={cn(
-            "absolute left-0 top-0 bottom-0 z-10 flex items-center pl-1 pr-6 bg-gradient-to-r from-white/90 to-transparent transition-opacity dark:from-zinc-950/90",
-            canScrollLeft ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
-          )}
-        >
-          <ChevronLeft className="h-5 w-5 text-zinc-500 dark:text-zinc-400" />
-        </button>
-
-        {/* Scroll container — scrollbar hidden */}
+        {/* Scroll container — scrollbar hidden, edges feather via mask */}
         <div
           ref={scrollRef}
           className="overflow-x-auto snap-x snap-mandatory scroll-pl-4 [&::-webkit-scrollbar]:hidden [scrollbar-width:none] [-ms-overflow-style:none]"
+          style={scrollerMask ? { maskImage: scrollerMask, WebkitMaskImage: scrollerMask } : undefined}
         >
           <div className="flex items-stretch gap-2 px-4 pb-0.5">
             {curatedPresets.map((preset) => (
@@ -121,17 +110,18 @@ export default function CuratedComparisons() {
           </div>
         </div>
 
-        {/* Right chevron */}
-        <button
+        <ScrollChevron
+          direction="left"
+          visible={canScrollLeft}
+          onClick={() => scrollToDir(-1)}
+          ariaLabel={t("scrollChipsLeft")}
+        />
+        <ScrollChevron
+          direction="right"
+          visible={canScrollRight}
           onClick={() => scrollToDir(1)}
-          aria-label="Scroll right"
-          className={cn(
-            "absolute right-0 top-0 bottom-0 z-10 flex items-center pl-6 pr-1 bg-gradient-to-l from-white/90 to-transparent transition-opacity dark:from-zinc-950/90",
-            canScrollRight ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
-          )}
-        >
-          <ChevronRight className="h-5 w-5 text-zinc-500 dark:text-zinc-400" />
-        </button>
+          ariaLabel={t("scrollChipsRight")}
+        />
       </div>
 
       {/* Desktop: grid */}
