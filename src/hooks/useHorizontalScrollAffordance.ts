@@ -25,21 +25,22 @@ import { useEffect, useState, type DependencyList, type RefObject } from "react"
  * fully visible so the caller can omit the inline style entirely (no
  * mask is cheaper than a "no-op" mask).
  *
- * The 2rem fade width matches the visual weight of the chevron buttons
- * in `<ScrollChevron>` so they layer cleanly on top of the fade region.
+ * 4rem fade width gives a clear "there's more here" hint on small
+ * surfaces (mobile compare bar chip row), while still leaving the
+ * scroll-chevron buttons' visual weight a clear focal point on top.
  */
 export function buildHorizontalScrollMask(
   canScrollLeft: boolean,
   canScrollRight: boolean,
 ): string | undefined {
   if (canScrollLeft && canScrollRight) {
-    return "linear-gradient(to right, transparent, black 2rem, black calc(100% - 2rem), transparent)";
+    return "linear-gradient(to right, transparent, black 4rem, black calc(100% - 4rem), transparent)";
   }
   if (canScrollLeft) {
-    return "linear-gradient(to right, transparent, black 2rem)";
+    return "linear-gradient(to right, transparent, black 4rem)";
   }
   if (canScrollRight) {
-    return "linear-gradient(to right, black calc(100% - 2rem), transparent)";
+    return "linear-gradient(to right, black calc(100% - 4rem), transparent)";
   }
   return undefined;
 }
