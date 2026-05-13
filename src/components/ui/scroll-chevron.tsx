@@ -2,6 +2,7 @@
 
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { FROSTED_OVERLAY_CHROME_CLS } from "@/lib/ui-tokens";
 
 interface ScrollChevronProps {
   direction: "left" | "right";
@@ -39,9 +40,9 @@ export function ScrollChevron({
         "absolute top-1/2 -translate-y-1/2 z-10 inline-flex items-center justify-center rounded-full",
         // Touch-friendly on mobile (≥40px tap target, per iOS HIG), compact on desktop.
         "h-10 w-10 sm:h-7 sm:w-7",
-        "border border-zinc-200/80 bg-white/95 shadow-sm backdrop-blur-sm",
+        FROSTED_OVERLAY_CHROME_CLS,
         "text-zinc-500 hover:text-zinc-900 hover:bg-white transition-opacity",
-        "dark:border-zinc-700/80 dark:bg-zinc-900/95 dark:text-zinc-400 dark:hover:text-zinc-50",
+        "dark:text-zinc-400 dark:hover:text-zinc-50",
         direction === "left" ? "left-1" : "right-1",
         visible ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none",
         className

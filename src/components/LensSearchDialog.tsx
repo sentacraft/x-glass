@@ -196,7 +196,7 @@ export default function LensSearchDialog({
               <DialogDescription className="sr-only">{t("description")}</DialogDescription>
             </div>
 
-            <div className="mt-1 flex items-center gap-3 rounded-2xl border border-zinc-200 bg-zinc-50 px-4 py-3 shadow-inner shadow-zinc-200/30 dark:border-zinc-800 dark:bg-zinc-900 dark:shadow-black/20">
+            <div className="mt-3 flex items-center gap-3 rounded-2xl border border-zinc-200 bg-zinc-50 px-4 py-3 shadow-inner shadow-zinc-200/30 dark:border-zinc-800 dark:bg-zinc-900 dark:shadow-black/20">
               <label htmlFor={inputId} className="sr-only">
                 {t("placeholder")}
               </label>

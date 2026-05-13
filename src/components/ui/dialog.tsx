@@ -5,7 +5,7 @@ import { Dialog as DialogPrimitive } from "@base-ui/react/dialog";
 import { X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
-import { ICON_CLOSE_BTN_CLS } from "@/lib/ui-tokens";
+import { FROSTED_OVERLAY_CHROME_CLS, ICON_CLOSE_BTN_CLS } from "@/lib/ui-tokens";
 import { Z } from "@/config/ui";
 
 function Dialog({
@@ -110,7 +110,7 @@ const DialogContent = React.forwardRef<
         >
           {children}
           {showCloseButton && (
-            <DialogPrimitive.Close className={cn(ICON_CLOSE_BTN_CLS, "absolute right-4 top-4 z-10 h-9 w-9 bg-white/90 shadow-sm backdrop-blur-sm dark:bg-zinc-800/90")}>
+            <DialogPrimitive.Close className={cn(ICON_CLOSE_BTN_CLS, FROSTED_OVERLAY_CHROME_CLS, "absolute right-4 top-4 z-10 h-9 w-9")}>
               <X className="h-4 w-4" />
             </DialogPrimitive.Close>
           )}
