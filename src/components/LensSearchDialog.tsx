@@ -20,6 +20,7 @@ import { buildLensSearchIndex, searchLensIndex } from "@/lib/lens-search";
 import type { Lens } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { lensSubtitleLine } from "@/lib/lens.format";
+import { track } from "@/lib/analytics";
 import {
   Dialog,
   DialogContent,
@@ -104,6 +105,20 @@ export default function LensSearchDialog({
     () => searchLensIndex(lensSearchIndex, deferredQuery),
     [deferredQuery]
   );
+
+  useEffect(() => {
+    if (!open) {
+      return;
+    }
+    const trimmed = deferredQuery.trim();
+    if (trimmed.length === 0) {
+      return;
+    }
+    const timer = setTimeout(() => {
+      track("search", { query: trimmed, results_count: results.length });
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [deferredQuery, results.length, open]);
 
   function handleSelect(lens: Lens) {
     setOpen(false);
