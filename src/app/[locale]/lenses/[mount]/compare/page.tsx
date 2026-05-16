@@ -5,7 +5,7 @@ import { urlSegmentToMount } from "@/lib/mount";
 import { findPresetByIds } from "@/lib/curated-presets";
 import CompareTable from "@/components/CompareTable";
 import ComparePageHeader from "@/components/ComparePageHeader";
-import CompareTelemetry from "@/components/CompareTelemetry";
+import CompareTelemetry from "@/components/telemetry/CompareTelemetry";
 import CuratedComparisons from "@/components/CuratedComparisons";
 import BackToTopButton from "@/components/BackToTopButton";
 import Breadcrumb from "@/components/Breadcrumb";
