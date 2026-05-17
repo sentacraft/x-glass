@@ -1,6 +1,6 @@
 # X-Glass
 
-Browse, filter, and compare Fujifilm X Mount and G Mount lenses side by side — native Fujifilm glass plus a growing set of third-party X-mount brands.
+Browse, filter, and compare Fujifilm X-mount lenses — native Fujifilm glass plus a growing set of third-party brands. G-mount (medium format) is also being added.
 
 **English**：[xglass.sentacraft.com/en](https://xglass.sentacraft.com/en)
 
@@ -20,7 +20,7 @@ Browse, filter, and compare Fujifilm X Mount and G Mount lenses side by side —
 
 ## Features
 
-- **Growing lens database** — full coverage of Fujifilm's own X and G mount lineups, plus a curated set of third-party X-mount brands (Sigma, Tamron, Viltrox, TTArtisan, 7Artisans, Brightin Star, SG Image), with more brands under evaluation
+- **Growing lens database** — focused on X-mount: full coverage of Fujifilm's first-party lineup plus a curated set of third-party brands (Sigma, Tamron, Viltrox, TTArtisan, 7Artisans, Brightin Star, SG Image), with more brands under evaluation. G-mount (medium format) coverage is also under way for Fujifilm's first-party GF lineup.
 - **Clean, focused UI** — distraction-free interface designed around the comparison workflow
 - **Filter and sort** — multi-axis filtering (focal length, aperture, AF, OIS, weather resistance, specialty tags) combined with flexible sorting
 - **Side-by-side comparison** of up to 4 lenses

@@ -13,7 +13,7 @@
   },
   "Metadata": {
     "seoTitle": "X-Glass | Fujifilm Lens Database & Comparison",
-    "seoDescription": "The Fujifilm lens database. X-mount and G-mount, first-party and major third-party brands. Normalized specs, cross-brand comparison."
+    "seoDescription": "The Fujifilm lens database. X-mount covers first-party plus major third-party brands — normalized specs, cross-brand comparison. G-mount (medium format) coverage is also under way."
   },
   "Nav": {
     "lenses": "Browse",
@@ -339,9 +339,9 @@
   },
   "About": {
     "pageTitle": "About",
-    "metaDescription": "The story behind X-Glass, who maintains it, and which Fujifilm X / GFX-mount lenses are covered. Built and maintained solo by an independent engineer, with open-source web code.",
+    "metaDescription": "The story behind X-Glass, who maintains it, and which Fujifilm lenses are covered — X-mount first, with G-mount also being added. Built and maintained solo by an independent engineer, with open-source web code.",
     "backgroundTitle": "Background",
-    "backgroundBody1": "Say you want a Fujifilm X-mount lens — a fast 50mm-equivalent prime, or a do-it-all travel zoom. You quickly hit the same question: what lenses actually exist that fit this? Between first-party and a dozen-plus third-party brands, each running its own site, just figuring out who makes what is a chore. X-Glass takes care of that step — X-mount and G-mount, first-party and third-party, all in one normalized database where cross-brand comparison actually works. Which one to buy is still up to you.",
+    "backgroundBody1": "Say you want a Fujifilm X-mount lens — a fast 50mm-equivalent prime, or a do-it-all travel zoom. You quickly hit the same question: what lenses actually exist that fit this? Between first-party and a dozen-plus third-party brands, each running its own site, just figuring out who makes what is a chore. X-Glass takes care of that step — every X-mount brand in one normalized database where cross-brand comparison actually works. Which one to buy is still up to you. G-mount (medium format) is also covered, though that side is much earlier — Fujifilm's first-party GF lineup is in.",
     "backgroundBody2": "I'm a web front-end engineer, and I build and maintain X-Glass on my own. I'm stubborn about tools — I don't want to cut corners on engineering, interaction, or visual craft. That stubbornness is most of why this project exists.",
     "coverageTitle": "Coverage & Roadmap",
     "coverageBody": "Coverage depth and discontinued lens inclusion vary by brand. Adapted lenses from other mounts are out of scope.",
@@ -362,7 +362,7 @@
     "dataSpecPoint1Title": "Data comes from official brand websites only",
     "dataSpecPoint1Body": "Canonical spec values are collected from brand official sites. Third-party material is not used as a source for published values.",
     "dataSpecPoint2Title": "Deterministic fields are computed in code",
-    "dataSpecPoint2Body": "Focal length, aperture, series name, and other fields strictly derivable from the lens ID are all computed in code. Fields requiring semantic understanding are extracted by the model from the collected official text — every value is traceable back to its source.",
+    "dataSpecPoint2Body": "Focal length, aperture, series name, and other fields strictly derivable from the lens model name are all computed in code. Fields requiring semantic understanding are extracted by an AI agent from the collected official text — every value is traceable back to its source.",
     "dataSpecPoint3Title": "Strict stage isolation",
     "dataSpecPoint3Body": "Pipeline stages execute in a fixed order. Each step uses only the previous step's output; intermediate stages cannot consult external sources or revise prior conclusions.",
     "dataSpecPoint4Title": "Independent cross-check before publish",
@@ -392,7 +392,7 @@
     "dataGitHubCardTitle": "Full pipeline architecture",
     "dataGitHubCardBody": "Detailed Mermaid diagram of data flow, branching, and human/AI nodes.",
     "dataGitHubCardButton": "View on GitHub",
-    "dataAccuracyReport": "All data defers to its official source. Spot something off?",
+    "dataAccuracyReport": "Spot something off?",
     "dataAccuracyReportCta": "Report it",
     "disclaimerTitle": "Disclaimer",
     "disclaimerAccuracy": "X-Glass data is sourced from public materials and refined through manual review. We make every effort to keep specs accurate and up to date, but errors and delays are inevitable. Always verify key specifications on the manufacturer's official page before making a purchase decision.",
