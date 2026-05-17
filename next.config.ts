@@ -53,6 +53,20 @@ const nextConfig: NextConfig = {
         destination: "/:locale/lenses/x/compare",
         permanent: false,
       },
+      // Bare /lenses/* (no locale prefix) — 308 so browsers cache the
+      // redirect. Without this, the next-intl middleware returns a 307
+      // per request, which is not cacheable.
+      {
+        source: "/lenses/:path*",
+        has: [{ type: "header", key: "accept-language", value: ".*zh.*" }],
+        destination: "/zh/lenses/:path*",
+        permanent: true,
+      },
+      {
+        source: "/lenses/:path*",
+        destination: "/en/lenses/:path*",
+        permanent: true,
+      },
     ];
   },
 };
