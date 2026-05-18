@@ -135,9 +135,8 @@ export default function LensCard({
             </h3>
           </div>
 
-          <SpecialtyBadges {...deriveSpecialty(lens)} />
-
-          <div className="flex gap-1 flex-wrap min-h-[20px]">
+          <div className="flex gap-1 flex-wrap items-center min-h-[20px]">
+            <SpecialtyBadges {...deriveSpecialty(lens)} />
             {badges.map((badge) => (
               <Badge
                 key={badge.label}

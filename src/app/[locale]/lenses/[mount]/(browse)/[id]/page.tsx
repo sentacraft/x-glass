@@ -315,7 +315,17 @@ export default async function LensDetailPage({ params }: { params: Params }) {
             <h1 className="text-2xl font-bold text-zinc-900 dark:text-zinc-50 font-heading">
               {displayName}
             </h1>
-            <SpecialtyBadges {...deriveSpecialty(lens)} />
+            {(() => {
+              const s = deriveSpecialty(lens);
+              if (!s.isCine && s.opticalTraits.length === 0) {
+                return null;
+              }
+              return (
+                <div className="flex flex-wrap items-center gap-1.5">
+                  <SpecialtyBadges {...s} />
+                </div>
+              );
+            })()}
           </div>
 
           {/* Price */}

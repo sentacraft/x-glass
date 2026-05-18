@@ -65,7 +65,9 @@ function LensHeaderContent({
       <p className="line-clamp-3 text-center font-semibold leading-snug text-zinc-900 dark:text-zinc-50">
         {lens.model}
       </p>
-      <SpecialtyBadges {...deriveSpecialty(lens)} className="mt-1 justify-center" />
+      <div className="mt-1 flex flex-wrap items-center justify-center gap-1.5 empty:hidden">
+        <SpecialtyBadges {...deriveSpecialty(lens)} />
+      </div>
     </>
   );
 }
