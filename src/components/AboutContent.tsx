@@ -65,18 +65,18 @@ function MountCoverageTable({
                 within the photo category); "Cinema" stands alone (orthogonal category presence). */}
             <tr className="bg-zinc-50 dark:bg-zinc-900/50">
               {/* Brand is the row identifier, kept as left-aligned standard header. */}
-              <th rowSpan={2} className="px-2 sm:px-3 py-2 text-left text-xs font-medium text-zinc-500 dark:text-zinc-400 align-middle border-b border-zinc-200 dark:border-zinc-800 w-24 sm:w-28">{col.brand}</th>
+              <th rowSpan={2} className="px-2 sm:px-3 py-2 text-left text-xs font-semibold text-zinc-500 dark:text-zinc-400 align-middle border-b border-r border-zinc-200 dark:border-zinc-800 w-24 sm:w-28">{col.brand}</th>
               {/* Three top-level column groups share the same eyebrow style
                   (11px uppercase, dim) so they read as parallel categories. */}
-              <th colSpan={2} className="px-2 sm:px-3 pt-2 pb-1 text-center text-[11px] font-medium uppercase tracking-wider text-zinc-400 dark:text-zinc-500 border-b border-zinc-200 dark:border-zinc-800/70">{col.photoGroup}</th>
-              <th rowSpan={2} className="px-2 sm:px-3 pt-2 pb-1 text-center text-[11px] font-medium uppercase tracking-wider text-zinc-400 dark:text-zinc-500 align-top border-b border-zinc-200 dark:border-zinc-800 w-16 sm:w-20 border-l border-zinc-200 dark:border-zinc-800">{col.cinema}</th>
-              <th rowSpan={2} className="px-2 sm:px-3 pt-2 pb-1 text-center text-[11px] font-medium uppercase tracking-wider text-zinc-400 dark:text-zinc-500 whitespace-nowrap align-top border-b border-zinc-200 dark:border-zinc-800 border-l border-zinc-200 dark:border-zinc-800 w-16 sm:w-20">{col.count}</th>
+              <th colSpan={2} className="px-2 sm:px-3 pt-2 pb-1 text-center text-[11px] font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 border-b border-zinc-200 dark:border-zinc-800/70">{col.photoGroup}</th>
+              <th rowSpan={2} className="px-2 sm:px-3 py-2 text-center text-[11px] font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 align-middle border-b border-zinc-200 dark:border-zinc-800 w-16 sm:w-20 border-l border-zinc-200 dark:border-zinc-800">{col.cinema}</th>
+              <th rowSpan={2} className="px-2 sm:px-3 py-2 text-center text-[11px] font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 whitespace-nowrap align-middle border-b border-zinc-200 dark:border-zinc-800 border-l border-zinc-200 dark:border-zinc-800 w-16 sm:w-20">{col.count}</th>
             </tr>
             <tr className="border-b border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/50">
               {/* Sub-headers under "Photo Lenses": visually subordinate via
-                  smaller text + dimmer color. */}
-              <th className="px-2 sm:px-3 pb-2 text-center text-[10px] font-normal text-zinc-400 dark:text-zinc-500 w-20 sm:w-28">{col.active}</th>
-              <th className="px-2 sm:px-3 pb-2 text-center text-[10px] font-normal text-zinc-400 dark:text-zinc-500 w-20 sm:w-28">{col.discontinued}</th>
+                  smaller text + dimmer color, vertically centered in the row. */}
+              <th className="px-2 sm:px-3 py-2 text-center text-[10px] font-medium text-zinc-400 dark:text-zinc-500 align-middle w-20 sm:w-28">{col.active}</th>
+              <th className="px-2 sm:px-3 py-2 text-center text-[10px] font-medium text-zinc-400 dark:text-zinc-500 align-middle w-20 sm:w-28">{col.discontinued}</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-zinc-100 dark:divide-zinc-800/60">
@@ -84,7 +84,7 @@ function MountCoverageTable({
               const m: CoverageMeta = (meta as Record<string, CoverageMeta>)[b] ?? { active: false, discontinued: false, cinema: false, notes: "" };
               return (
                 <tr key={b}>
-                  <td className="px-2 sm:px-3 py-2 font-medium text-zinc-800 dark:text-zinc-200 whitespace-nowrap">{brandNames[b] ?? b}</td>
+                  <td className="px-2 sm:px-3 py-2 font-medium text-zinc-800 dark:text-zinc-200 whitespace-nowrap border-r border-zinc-200 dark:border-zinc-800">{brandNames[b] ?? b}</td>
                   <td className="px-2 sm:px-3 py-2 text-center"><StateCell state={m.active} /></td>
                   <td className="px-2 sm:px-3 py-2 text-center"><StateCell state={m.discontinued} /></td>
                   <td className="px-2 sm:px-3 py-2 text-center border-l border-zinc-200 dark:border-zinc-800"><StateCell state={m.cinema} /></td>
@@ -101,7 +101,7 @@ function MountCoverageTable({
           </tbody>
           <tfoot>
             <tr className="border-t border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/50">
-              <td className="px-2 sm:px-3 py-2 text-xs font-medium text-zinc-500 dark:text-zinc-400">{rowTotal}</td>
+              <td className="px-2 sm:px-3 py-2 text-xs font-medium text-zinc-500 dark:text-zinc-400 border-r border-zinc-200 dark:border-zinc-800">{rowTotal}</td>
               <td colSpan={3} />
               <td className="px-2 sm:px-3 py-2 text-center tabular-nums text-xs font-semibold text-zinc-700 dark:text-zinc-300 border-l border-zinc-200 dark:border-zinc-800">{total}</td>
             </tr>
