@@ -136,8 +136,8 @@
   "SpecialtyBadge": {
     "cine": "电影",
     "anamorphic": "变形",
-    "tilt": "Tilt",
-    "shift": "Shift",
+    "tilt": "移轴 Tilt",
+    "shift": "移轴 Shift",
     "macro": "微距",
     "fisheye": "鱼眼",
     "probe": "探针"
