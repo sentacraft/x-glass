@@ -103,7 +103,7 @@
     "sortAsc": "升序",
     "sortDesc": "降序",
     "usage": "用途",
-    "usagePhoto": "拍照",
+    "usagePhoto": "摄影",
     "usageCine": "电影",
     "opticalTraitFilter": "光学特性",
     "focusFilter": "对焦",
@@ -136,8 +136,8 @@
   "SpecialtyBadge": {
     "cine": "电影",
     "anamorphic": "变形",
-    "tilt": "移轴-倾斜",
-    "shift": "移轴-平移",
+    "tilt": "Tilt",
+    "shift": "Shift",
     "macro": "微距",
     "fisheye": "鱼眼",
     "probe": "探针"
