@@ -229,10 +229,6 @@ export default async function AboutContent() {
 
       {/* Data & Accuracy */}
       <Section id="data-accuracy" title={t("dataAccuracyTitle")}>
-        <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
-          {t("dataAccuracyIntro")}
-        </p>
-
         <div className="rounded-lg bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 px-4 py-3">
           <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
             {t("dataAccuracyCaveat")}
@@ -245,6 +241,10 @@ export default async function AboutContent() {
             {t("dataAccuracyCaveatSuffix")}
           </p>
         </div>
+
+        <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+          {t("dataAccuracyIntro")}
+        </p>
 
         {/* ── Spec Data subsection ── */}
         <div className="flex flex-col gap-3 mt-1">
