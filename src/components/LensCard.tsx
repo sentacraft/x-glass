@@ -198,14 +198,18 @@ export default function LensCard({
           </div>
 
           {isPlaceholder ? (
-            // Placeholder lenses only have the equivalent focal length to
-            // surface — hide the MFD / filter / weight cells rather than
-            // filling them with em-dash fallbacks that look like a layout bug.
-            // Below the focal length, link out to the announcement article
-            // so curious readers can read the original coverage.
+            // Placeholder lenses only have equivalent focal length — fill
+            // the rest of the spec area with explanatory text so the user
+            // understands *why* this card looks different (no compare, no
+            // detail page, sparse data) instead of seeing it as a broken
+            // version of a normal lens card. The "P&E 2026" chip alone
+            // doesn't carry that meaning for non-insider readers.
             <dl className="mt-auto flex flex-col gap-1 text-xs text-zinc-600 dark:text-zinc-400">
               <div className="truncate">
                 {equivDisplay} {t("equivSuffix")}
+              </div>
+              <div className="text-zinc-500 dark:text-zinc-500">
+                {t("placeholderCardHint")}
               </div>
               {lens.announcement?.source && (
                 <a
