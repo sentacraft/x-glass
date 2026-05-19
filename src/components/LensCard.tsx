@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-import { Plus, Check } from "lucide-react";
+import { Plus, Check, ArrowUpRight } from "lucide-react";
 import { toast } from "sonner";
 import { Link } from "@/i18n/navigation";
 import { mountToUrlSegment } from "@/lib/mount";
@@ -15,6 +15,7 @@ import * as fmt from "@/lib/lens.format";
 import { Button } from "@/components/ui/button";
 import Iris from "@/components/Iris";
 import { IRIS_PLACEHOLDER } from "@/config/iris-config";
+import { LENS_IMAGES } from "@/data/lens-images.generated";
 
 interface Props {
   lens: Lens;
@@ -43,10 +44,10 @@ export default function LensCard({
   const hookAttr = useUiHookAttr();
   const isPlaceholder = lens.status === "placeholder";
   // Placeholder lenses fall back to the Iris logo only when no processed
-  // product image is available. `imageSource` is the persistent attribution
-  // URL; presence of it implies the pipeline has fetched + processed the
-  // raw image into public/lenses/<id>.webp.
-  const showIrisFallback = isPlaceholder && !lens.imageSource;
+  // product image has been shipped for this id. The build-time manifest
+  // (scripts/build-lens-image-manifest.mts) enumerates every lens whose
+  // webp exists in public/lenses/.
+  const showIrisFallback = isPlaceholder && !LENS_IMAGES.has(lens.id);
   const equivDisplay = fmt.focalRangeDisplay(fmt.focalEquiv(lens.focalLengthMin, lens.mount), fmt.focalEquiv(lens.focalLengthMax, lens.mount));
   const mfdDisplay = lens.minFocusDistance ? `${lens.minFocusDistance.normal.cm}cm` : "—";
   const filterDisplay = fmt.filterSizeDisplay(lens.filterMm);
@@ -200,10 +201,23 @@ export default function LensCard({
             // Placeholder lenses only have the equivalent focal length to
             // surface — hide the MFD / filter / weight cells rather than
             // filling them with em-dash fallbacks that look like a layout bug.
-            <dl className="mt-auto text-xs text-zinc-600 dark:text-zinc-400">
+            // Below the focal length, link out to the announcement article
+            // so curious readers can read the original coverage.
+            <dl className="mt-auto flex flex-col gap-1 text-xs text-zinc-600 dark:text-zinc-400">
               <div className="truncate">
                 {equivDisplay} {t("equivSuffix")}
               </div>
+              {lens.announcement?.source && (
+                <a
+                  href={lens.announcement.source}
+                  target="_blank"
+                  rel="nofollow noopener noreferrer"
+                  className="inline-flex w-fit items-center gap-0.5 text-zinc-500 underline-offset-2 transition-colors hover:text-zinc-900 hover:underline dark:text-zinc-500 dark:hover:text-zinc-200"
+                >
+                  {t("readAnnouncement")}
+                  <ArrowUpRight className="size-3" />
+                </a>
+              )}
             </dl>
           ) : (
             <>
