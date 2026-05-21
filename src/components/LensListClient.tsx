@@ -141,7 +141,7 @@ export default function LensListClient({ lenses }: Props) {
                   <SelectTrigger
                     id="results-sort"
                     hideChevronOnMobile
-                    className="h-9 justify-start gap-2 rounded-xl border-zinc-200/70 bg-white/80 pl-3 pr-3 text-[12px] shadow-sm shadow-zinc-950/[0.02] dark:border-zinc-800 dark:bg-zinc-900/30 sm:min-w-[12rem]"
+                    className="justify-start gap-2 rounded-xl border-zinc-200/70 bg-white/80 px-3 text-[12px] shadow-sm shadow-zinc-950/[0.02] data-[size=default]:h-9 dark:border-zinc-800 dark:bg-zinc-900/30 sm:min-w-[12rem]"
                   >
                     <span className="whitespace-nowrap text-[10px] font-medium uppercase tracking-[0.08em] text-zinc-500 dark:text-zinc-400">
                       {t("sortBy")}
