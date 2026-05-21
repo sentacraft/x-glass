@@ -127,7 +127,7 @@ export default function LensListClient({ lenses }: Props) {
                 ) : null}
               </div>
 
-              <div className="relative ml-auto inline-flex items-center">
+              <div className="ml-auto inline-flex items-center gap-2">
                 <Select
                   value={filters.sort}
                   onValueChange={(value) =>
@@ -141,7 +141,7 @@ export default function LensListClient({ lenses }: Props) {
                   <SelectTrigger
                     id="results-sort"
                     hideChevronOnMobile
-                    className="h-9 justify-start gap-2 rounded-xl border-zinc-200/70 bg-white/80 pl-3 pr-10 text-[12px] shadow-sm shadow-zinc-950/[0.02] dark:border-zinc-800 dark:bg-zinc-900/30 sm:min-w-[14rem]"
+                    className="h-9 justify-start gap-2 rounded-xl border-zinc-200/70 bg-white/80 pl-3 pr-3 text-[12px] shadow-sm shadow-zinc-950/[0.02] dark:border-zinc-800 dark:bg-zinc-900/30 sm:min-w-[12rem]"
                   >
                     <span className="whitespace-nowrap text-[10px] font-medium uppercase tracking-[0.08em] text-zinc-500 dark:text-zinc-400">
                       {t("sortBy")}
@@ -164,9 +164,8 @@ export default function LensListClient({ lenses }: Props) {
                   </SelectContent>
                 </Select>
                 <Button
-                  size="sm"
                   variant="outline"
-                  className="absolute right-1 top-1/2 z-10 h-7 -translate-y-1/2 rounded-lg border-zinc-200/80 bg-zinc-50/80 px-2 dark:border-zinc-700 dark:bg-zinc-800/70"
+                  className="h-9 rounded-xl border-zinc-200/70 bg-white/80 px-2.5 shadow-sm shadow-zinc-950/[0.02] dark:border-zinc-800 dark:bg-zinc-900/30"
                   onClick={() =>
                     updateFilters((current) => ({
                       ...current,
