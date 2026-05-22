@@ -28,15 +28,10 @@ export default function CompareBar() {
   const router = useRouter();
   const locale = useLocale();
   const mount = useEffectiveMount();
-  const { compareIds, toggleCompare, addToCompare } = useCompare();
+  const { compareIds, add, remove } = useCompare();
   const clearCompareWithUndo = useClearCompareWithUndo();
 
-  const handleAddLens = useCallback(
-    (lens: Lens) => {
-      addToCompare(lens.id);
-    },
-    [addToCompare]
-  );
+  const handleAddLens = (lens: Lens) => add(lens.id);
 
   const getAddResultState = useCallback(
     (candidate: Lens) => ({
@@ -136,7 +131,7 @@ export default function CompareBar() {
                         </span>
                       </span>
                       <button
-                        onClick={() => toggleCompare(lens.id)}
+                        onClick={() => remove(lens.id)}
                         // Visual size stays compact so the chip itself reads as
                         // the lens identity, but the touch target expands via
                         // a transparent `::before` overlay to ~36px — well

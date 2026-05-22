@@ -10,6 +10,19 @@ export type CompareAction =
   | { type: "clear"; mount: Mount }
   | { type: "seed"; ids: string[]; mount: Mount };
 
+// Mount-less shape the public useCompare hook accepts. The hook injects
+// `mount` from the URL before forwarding to the reducer, so call sites
+// don't restate something the URL already guarantees.
+//
+// Derived from CompareAction via distributive Omit — the `T extends any`
+// trick forces TypeScript to apply Omit to each member of the union
+// individually instead of merging them into a single intersection.
+export type ScopedCompareAction = CompareAction extends infer A
+  ? A extends { mount: Mount }
+    ? Omit<A, "mount">
+    : never
+  : never;
+
 export const initialCompareState: CompareState = { X: [], G: [] };
 
 export function compareReducer(

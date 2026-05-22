@@ -14,16 +14,11 @@ interface Props {
 
 export default function CompareAddLensButton({ triggerClassName }: Props) {
   const t = useTranslations("Compare");
-  const { compareIds, addToCompare } = useCompare();
+  const { compareIds, add } = useCompare();
 
   const canAddMore = compareIds.length < MAX_COMPARE;
 
-  const handleSelectLens = useCallback(
-    (lens: Lens) => {
-      addToCompare(lens.id);
-    },
-    [addToCompare]
-  );
+  const handleSelectLens = (lens: Lens) => add(lens.id);
 
   const getResultState = useCallback(
     (candidate: Lens) => ({

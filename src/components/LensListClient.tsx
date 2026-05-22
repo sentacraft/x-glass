@@ -12,6 +12,7 @@ import {
   sortLenses,
   defaultFilters,
   getOrderedUniqueBrands,
+  MAX_COMPARE,
   type FilterState,
   type SortKey,
 } from "@/lib/lens";
@@ -48,7 +49,7 @@ export default function LensListClient({ lenses }: Props) {
   const pathname = usePathname();
 
   const [filters, setFilters] = useState<FilterState>(() => parseFilters(searchParams));
-  const { compareIds, toggleCompare, canToggle } = useCompare();
+  const { compareIds, toggle } = useCompare();
 
   const brands = useMemo(() => getOrderedUniqueBrands(lenses), [lenses]);
 
@@ -231,8 +232,11 @@ export default function LensListClient({ lenses }: Props) {
                   key={lens.id}
                   lens={lens}
                   isSelected={compareIds.includes(lens.id)}
-                  selectionDisabled={!canToggle(lens.id)}
-                  onToggle={() => toggleCompare(lens.id)}
+                  selectionDisabled={
+                    !compareIds.includes(lens.id) &&
+                    compareIds.length >= MAX_COMPARE
+                  }
+                  onToggle={() => toggle(lens.id)}
                   priority={i < 8}
                 />
               ))}
