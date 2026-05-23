@@ -73,7 +73,7 @@ export default function MountSwitcher() {
             className="rounded-none py-2 sm:py-2 text-sm sm:text-base text-zinc-500 dark:text-zinc-400 data-[selected]:text-zinc-900 dark:data-[selected]:text-zinc-50"
           >
             <span className="flex flex-col leading-tight">
-              <span>{opt.label}</span>
+              <span className="font-medium">{opt.label}</span>
               <span className="text-xs font-normal !text-zinc-400 dark:!text-zinc-500 mt-0.5">
                 {opt.caption}
               </span>
