@@ -23,6 +23,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { cn } from "@/lib/utils";
 import { track } from "@/lib/analytics";
 
 export type FeedbackType = "data_issue" | "general";
@@ -267,37 +268,42 @@ export default function FeedbackDialog({
                   </SelectContent>
                 </Select>
 
-                {selectedField && selectedField !== otherField && (
-                  <div className="flex flex-col gap-2 rounded-lg bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 px-3 py-2.5">
-                    {selectedField.currentValue && !selectedField.hideCurrentValue && (
-                      <div className="flex items-baseline gap-2">
-                        <span className="shrink-0 text-xs text-zinc-400 dark:text-zinc-500">
-                          {t("currentValueLabel")}
-                        </span>
-                        <span className="text-xs font-medium text-zinc-700 dark:text-zinc-300">
-                          {selectedField.currentValue}
-                        </span>
+                <div className={cn(
+                  "grid transition-[grid-template-rows] duration-200 ease-out",
+                  selectedField && selectedField !== otherField ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+                )}>
+                  <div className="overflow-hidden min-h-0">
+                    <div className="flex flex-col gap-2 rounded-lg bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 px-3 py-2.5 mt-1.5">
+                      {selectedField?.currentValue && !selectedField.hideCurrentValue && (
+                        <div className="flex items-baseline gap-2">
+                          <span className="shrink-0 text-xs text-zinc-400 dark:text-zinc-500">
+                            {t("currentValueLabel")}
+                          </span>
+                          <span className="text-xs font-medium text-zinc-700 dark:text-zinc-300">
+                            {selectedField.currentValue}
+                          </span>
+                        </div>
+                      )}
+                      <div className="flex flex-col gap-1">
+                        <label
+                          htmlFor={correctionId}
+                          className="text-xs text-zinc-400 dark:text-zinc-500"
+                        >
+                          {t("suggestedCorrectionLabel")}
+                        </label>
+                        <input
+                          id={correctionId}
+                          type="text"
+                          value={suggestedCorrection}
+                          onChange={(e) => setSuggestedCorrection(e.target.value)}
+                          placeholder={t("suggestedCorrectionPlaceholder")}
+                          maxLength={200}
+                          className="w-full rounded-md border border-zinc-200 bg-white px-2.5 py-1.5 text-base sm:text-sm text-zinc-900 placeholder:text-zinc-400 outline-none focus:border-zinc-400 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-50 dark:placeholder:text-zinc-600 dark:focus:border-zinc-600"
+                        />
                       </div>
-                    )}
-                    <div className="flex flex-col gap-1">
-                      <label
-                        htmlFor={correctionId}
-                        className="text-xs text-zinc-400 dark:text-zinc-500"
-                      >
-                        {t("suggestedCorrectionLabel")}
-                      </label>
-                      <input
-                        id={correctionId}
-                        type="text"
-                        value={suggestedCorrection}
-                        onChange={(e) => setSuggestedCorrection(e.target.value)}
-                        placeholder={t("suggestedCorrectionPlaceholder")}
-                        maxLength={200}
-                        className="w-full rounded-md border border-zinc-200 bg-white px-2.5 py-1.5 text-base sm:text-sm text-zinc-900 placeholder:text-zinc-400 outline-none focus:border-zinc-400 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-50 dark:placeholder:text-zinc-600 dark:focus:border-zinc-600"
-                      />
                     </div>
                   </div>
-                )}
+                </div>
               </div>
             )}
 

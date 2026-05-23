@@ -430,7 +430,7 @@
     "fieldPickerPlaceholder": "请选择类型…",
     "fieldOther": "其他",
     "currentValueLabel": "当前显示：",
-    "suggestedCorrectionLabel": "建议改成",
+    "suggestedCorrectionLabel": "建议改成：",
     "suggestedCorrectionPlaceholder": "例如 55mm、f/1.8、有…",
     "descriptionLabel": "补充说明",
     "descriptionLabelMain": "反馈内容",
