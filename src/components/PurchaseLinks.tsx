@@ -7,6 +7,7 @@ import { ArrowUpRight, Info } from "lucide-react";
 import { buildPurchaseLinks } from "@/lib/purchase-links";
 import type { PurchaseLink } from "@/lib/purchase-links";
 import type { Lens } from "@/lib/types";
+import { cn } from "@/lib/utils";
 import { track } from "@/lib/analytics";
 
 interface Props {
@@ -89,6 +90,21 @@ export function PurchaseLinksCompact({ lens, countryCode, customId }: Props) {
   }
 
   return <PurchaseLinkList links={links} lensId={lens.id} customId={customId} compact />;
+}
+
+export function PurchaseDisclosureCaption({ className }: { className?: string }) {
+  const t = useTranslations("Purchase");
+  return (
+    <div
+      className={cn(
+        "flex items-start gap-2 px-3 py-2 text-[11px] leading-relaxed text-zinc-500 dark:text-zinc-400",
+        className,
+      )}
+    >
+      <Info className="size-3 shrink-0 mt-0.5 text-zinc-400 dark:text-zinc-500" aria-hidden="true" />
+      <span>{t("disclosureDetail")}</span>
+    </div>
+  );
 }
 
 function PurchaseDisclosure() {

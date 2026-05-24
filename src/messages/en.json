@@ -488,12 +488,14 @@
     "rowLabel": "Market Ref.",
     "rowWarn": "please do verify the latest price",
     "usedReason": "No new-price listing was found in official channels; showing a used-market reference instead.",
-    "sampledAt": "Sampled {date}"
+    "sampledAt": "Sampled {date}",
+    "approx": "approx."
   },
   "Purchase": {
     "whereToBuy": "Where to buy",
+    "buyAt": "Buy at",
     "officialStore": "Official Store",
     "disclosure": "May earn commission",
-    "disclosureDetail": "X-Glass may earn a small commission when you buy through these links. This does not affect rankings or pricing data."
+    "disclosureDetail": "Some retailer links are affiliate links. X-Glass may earn a small commission at no extra cost to you. This does not affect rankings or pricing data."
   }
 }

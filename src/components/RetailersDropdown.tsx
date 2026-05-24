@@ -1,0 +1,82 @@
+"use client";
+
+import { useMemo } from "react";
+import { useLocale, useTranslations } from "next-intl";
+import { Popover } from "@base-ui/react/popover";
+import { ArrowUpRight, ChevronDown } from "lucide-react";
+import { buildPurchaseLinks } from "@/lib/purchase-links";
+import type { PurchaseLink } from "@/lib/purchase-links";
+import type { Lens } from "@/lib/types";
+import { ACTION_OUTLINE_CLS } from "@/lib/ui-tokens";
+import { track } from "@/lib/analytics";
+import { PurchaseDisclosureCaption } from "@/components/PurchaseLinks";
+
+interface Props {
+  lens: Lens;
+  countryCode: string;
+  customId?: string;
+}
+
+export function RetailersDropdown({ lens, countryCode, customId }: Props) {
+  const locale = useLocale();
+  const t = useTranslations("Purchase");
+
+  const links = useMemo(
+    () => buildPurchaseLinks(lens, locale, countryCode, customId),
+    [lens, locale, countryCode, customId],
+  );
+
+  if (links.length === 0) {
+    return null;
+  }
+
+  const preview = links
+    .slice(0, 2)
+    .map((l) => l.label)
+    .join(", ");
+  const extra = links.length > 2 ? ` +${links.length - 2}` : "";
+
+  return (
+    <Popover.Root>
+      <Popover.Trigger className={ACTION_OUTLINE_CLS + " cursor-pointer"}>
+        {t("buyAt")}{" "}
+        <span className="text-zinc-400 dark:text-zinc-500">
+          {preview}{extra}
+        </span>
+        <ChevronDown size={12} />
+      </Popover.Trigger>
+      <Popover.Portal>
+        <Popover.Positioner side="bottom" align="start" sideOffset={6}>
+          <Popover.Popup className="min-w-56 origin-(--transform-origin) rounded-lg border border-zinc-200 bg-white py-1 shadow-lg duration-100 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95 dark:border-zinc-700 dark:bg-zinc-900">
+            {links.map((link) => (
+              <DropdownItem key={link.channel} link={link} lensId={lens.id} customId={customId} />
+            ))}
+            {links.some((l) => l.isAffiliate) && (
+              <PurchaseDisclosureCaption className="border-t border-zinc-100 dark:border-zinc-800/60" />
+            )}
+          </Popover.Popup>
+        </Popover.Positioner>
+      </Popover.Portal>
+    </Popover.Root>
+  );
+}
+
+function DropdownItem({ link, lensId, customId }: { link: PurchaseLink; lensId: string; customId?: string }) {
+  return (
+    <a
+      href={link.url}
+      target="_blank"
+      rel={`noopener noreferrer${link.isAffiliate ? " sponsored" : ""}`}
+      onClick={() => track("purchase_click", {
+        channel: link.channel,
+        lens_id: lensId,
+        source: customId ?? "unknown",
+        is_affiliate: link.isAffiliate,
+      })}
+      className="flex items-center justify-between px-3 py-2 text-sm text-zinc-700 hover:bg-zinc-50 dark:text-zinc-300 dark:hover:bg-zinc-800"
+    >
+      <span>{link.label}</span>
+      <ArrowUpRight size={12} className="text-zinc-400" />
+    </a>
+  );
+}

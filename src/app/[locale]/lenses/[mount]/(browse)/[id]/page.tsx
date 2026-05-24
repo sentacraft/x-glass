@@ -21,7 +21,9 @@ import JsonLd from "@/components/JsonLd";
 import Breadcrumb from "@/components/Breadcrumb";
 import SpecialtyBadges from "@/components/SpecialtyBadges";
 import { deriveSpecialty } from "@/lib/lens-specialty";
-import { ACTION_OUTLINE_CLS, ICON_NAV_BTN_CLS } from "@/lib/ui-tokens";
+import { RetailersDropdown } from "@/components/RetailersDropdown";
+import { PurchaseDisclosureCaption } from "@/components/PurchaseLinks";
+import { TEXT_LINK_CLS, UTILITY_BTN_CLS } from "@/lib/ui-tokens";
 import { BoolCell } from "@/components/ui/bool-cell";
 import { FieldNotePopover } from "@/components/ui/field-note-popover";
 import { buildAlternates, lensOgImages } from "@/lib/seo";
@@ -30,7 +32,6 @@ import { pickPriceEntry, formatPriceForReport } from "@/lib/lens-pricing";
 import { lensDisplayName } from "@/lib/lens.format";
 import { buildLensDescription, buildLensProductSchema } from "@/lib/lens-seo";
 import { PriceSection } from "@/components/PriceSection";
-import { PurchaseLinksSection } from "@/components/PurchaseLinks";
 
 type Params = Promise<{ locale: string; mount: string; id: string }>;
 
@@ -281,12 +282,24 @@ export default async function LensDetailPage({ params }: { params: Params }) {
         `</script>` defensive escape; see that component for rationale. */}
     <JsonLd data={productSchema} />
     <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 pt-8 pb-[max(6rem,calc(var(--compare-bar-height,0px)+2rem))] flex flex-col gap-8">
-      <Breadcrumb />
+      <div className="flex items-center justify-between">
+        <Breadcrumb />
+        <div className="flex items-center gap-1">
+          <ShareButton lenses={[lens]} triggerClassName={UTILITY_BTN_CLS} />
+          <FeedbackTrigger
+            type="data_issue"
+            context={{ lensId: lens.id, lensModel: lens.model, lensBrand: tBrand(lens.brand) }}
+            fields={reportableFields}
+            className={UTILITY_BTN_CLS}
+          >
+            <Flag size={12} />
+            <span className="hidden sm:inline">{t("reportIssue")}</span>
+          </FeedbackTrigger>
+        </div>
+      </div>
+
       {/* Header: image + key info side by side */}
       <div className="flex flex-col sm:flex-row gap-8">
-        {/* Image — 256px so the 1:1 card height still exceeds the info
-            column, letting mt-auto on the buttons row push them cleanly to
-            the image's bottom edge. */}
         <div className="w-full max-w-64 mx-auto sm:mx-0 shrink-0 sm:w-64">
           <div className="flex aspect-square items-center justify-center overflow-hidden rounded-2xl border border-zinc-100 bg-zinc-50/70 p-5 dark:border-zinc-800 dark:bg-zinc-900/50">
             <div className="relative aspect-square w-full overflow-hidden">
@@ -303,66 +316,39 @@ export default async function LensDetailPage({ params }: { params: Params }) {
           </div>
         </div>
 
-        {/* Info: title → price → actions.
-            @container so the actions row below can use container queries
-            to hide secondary button text when the info column gets narrow
-            (small desktop / portrait tablet), avoiding the 4-button row
-            wrapping into 2 rows. */}
-        <div className="@container flex-1 flex flex-col gap-5">
-          {/* Title row — h1 + utility icon buttons (share, feedback) */}
+        <div className="flex-1 flex flex-col gap-5">
           <div className="flex flex-col gap-2">
-            <div className="flex items-start justify-between gap-3">
-              <h1 className="text-2xl font-bold text-zinc-900 dark:text-zinc-50 font-heading">
-                {displayName}
-              </h1>
-              <div className="flex shrink-0 items-center gap-0.5 mt-0.5">
-                <ShareButton
-                  lenses={[lens]}
-                  iconOnly
-                  triggerClassName={`${ICON_NAV_BTN_CLS} h-8 w-8`}
-                />
-                <FeedbackTrigger
-                  type="data_issue"
-                  context={{ lensId: lens.id, lensModel: lens.model, lensBrand: tBrand(lens.brand) }}
-                  fields={reportableFields}
-                  className={`${ICON_NAV_BTN_CLS} h-8 w-8`}
-                >
-                  <Flag size={16} />
-                </FeedbackTrigger>
-              </div>
-            </div>
             {(() => {
               const s = deriveSpecialty(lens);
               if (!s.isCine && s.opticalTraits.length === 0) {
                 return null;
               }
               return (
-                <div className="flex flex-wrap items-center gap-1.5">
+                <div className="flex flex-wrap items-center gap-1.5 self-start">
                   <SpecialtyBadges {...s} />
                 </div>
               );
             })()}
+            <h1 className="text-2xl font-bold text-zinc-900 dark:text-zinc-50 font-heading leading-[1.1]">
+              {displayName}
+            </h1>
           </div>
 
-          {/* Price */}
           <PriceSection lens={lens} />
 
-          {/* Actions — mt-auto pushes them to the bottom of the stretched
-              info column so the row aligns with the image card's bottom. */}
-          <div className="flex flex-col gap-3 mt-auto">
-            <div className="flex flex-wrap gap-2 sm:gap-3">
+          <div className="flex flex-col gap-2">
+            <div className="flex flex-wrap items-center gap-2">
               <LensDetailCompareToggle lensId={lens.id} />
-              {url ? (
-                <ExternalLink href={url} className={ACTION_OUTLINE_CLS}>
+              <RetailersDropdown lens={lens} countryCode={countryCode} customId="detail" />
+              {url && (
+                <ExternalLink href={url} className={TEXT_LINK_CLS + " inline-flex items-center gap-1 text-sm px-1"}>
                   {t("officialSite")}
                 </ExternalLink>
-              ) : (
-                <span className={ACTION_OUTLINE_CLS + " cursor-not-allowed opacity-40"}>
-                  {t("officialSite")}
-                </span>
               )}
             </div>
-            <PurchaseLinksSection lens={lens} countryCode={countryCode} customId="detail" />
+            {locale !== "zh" && lens.purchaseChannels && lens.purchaseChannels.length > 0 && (
+              <PurchaseDisclosureCaption />
+            )}
           </div>
         </div>
       </div>

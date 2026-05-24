@@ -488,12 +488,14 @@
     "rowLabel": "市场价参考",
     "rowWarn": "请务必核实最新价格",
     "usedReason": "官方渠道未采集到该镜头的新品价格，此处展示二手市场参考价。",
-    "sampledAt": "采样于 {date}"
+    "sampledAt": "采样于 {date}",
+    "approx": "约"
   },
   "Purchase": {
     "whereToBuy": "购买渠道",
+    "buyAt": "购买",
     "officialStore": "官方商店",
     "disclosure": "可能获得佣金",
-    "disclosureDetail": "通过这些链接购买时，X-Glass 可能会获得少量佣金。这不会影响排名或价格数据。"
+    "disclosureDetail": "部分零售商链接为联盟链接，X-Glass 可能因此获得少量佣金，不会增加你的购买成本。这不会影响排名或价格数据。"
   }
 }

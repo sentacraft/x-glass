@@ -4,7 +4,6 @@ import { useMemo } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { toast } from "sonner";
 import LensSearchDialog from "@/components/LensSearchDialog";
-import { ShareButton } from "@/components/share/ShareButton";
 import ShareFAB from "@/components/ShareFAB";
 import { useCompare } from "@/context/CompareProvider";
 import { useClearCompareWithUndo } from "@/hooks/useClearCompareWithUndo";
@@ -94,11 +93,6 @@ export default function ComparePageHeader({ minColumns = 0 }: Props) {
           >
             {tList("clearCompare")}
           </button>
-        )}
-        {activeLenses.length >= 1 && (
-          <div className="ml-auto">
-            <ShareButton lenses={activeLenses} presetTitle={presetTitle} presetSubtitle={presetSubtitle} />
-          </div>
         )}
       </div>
 

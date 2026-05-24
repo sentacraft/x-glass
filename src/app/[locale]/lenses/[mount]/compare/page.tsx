@@ -10,6 +10,7 @@ import CompareTelemetry from "@/components/telemetry/CompareTelemetry";
 import CuratedComparisons from "@/components/CuratedComparisons";
 import BackToTopButton from "@/components/BackToTopButton";
 import Breadcrumb from "@/components/Breadcrumb";
+import CompareUtilityActions from "@/components/CompareUtilityActions";
 import { buildAlternates, defaultOgImages } from "@/lib/seo";
 import { lensDisplayName } from "@/lib/lens.format";
 import { notFound } from "next/navigation";
@@ -114,7 +115,10 @@ export default async function ComparePage({
 
   return (
     <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-8 flex flex-col gap-3 sm:gap-4">
-      <Breadcrumb />
+      <div className="flex items-center justify-between">
+        <Breadcrumb />
+        <CompareUtilityActions />
+      </div>
       <ComparePageHeader minColumns={2} />
       <CompareTable key={lenses.length === 0 ? "_empty_" : ids} lenses={lenses} countryCode={countryCode} minColumns={2} hideBodyWhenEmpty />
       {resolvedMount === "X" && <CuratedComparisons />}

@@ -30,11 +30,9 @@ import { lensImageStyle, getLensImageUrl } from "@/lib/lens-image";
 import { buildSpecGroups, resolveSpecRow } from "@/lib/lens-spec-groups";
 import type { StructuredLine, ResolvedSpecRow } from "@/lib/lens-spec-groups";
 import type { Lens } from "@/lib/types";
-import { Popover } from "@base-ui/react/popover";
-import { Info } from "lucide-react";
 import { PriceCell } from "@/components/PriceCell";
-import { PurchaseLinksCompact } from "@/components/PurchaseLinks";
-import { hasAffiliateUrl } from "@/lib/purchase-links";
+import { PurchaseLinksCompact, PurchaseDisclosureCaption } from "@/components/PurchaseLinks";
+import { CompareMobileBuyPanel } from "@/components/CompareMobileBuyPanel";
 import { pickPriceEntry, formatPriceForReport } from "@/lib/lens-pricing";
 import { lensDisplayName, lensSubtitleLine } from "@/lib/lens.format";
 
@@ -299,7 +297,6 @@ export default function CompareTable({ lenses: initialLenses, countryCode, minCo
   const td = useTranslations("LensDetail");
   const tBrand = useTranslations("Brands");
   const tPricing = useTranslations("Pricing");
-  const tPurchase = useTranslations("Purchase");
   const locale = useLocale();
   const priceFieldLabel = tPricing("fieldLabel");
   const priceGroupLabel = tPricing("groupLabel");
@@ -692,9 +689,6 @@ export default function CompareTable({ lenses: initialLenses, countryCode, minCo
             <React.Fragment>
               <tr className="border-b border-zinc-100 dark:border-zinc-800/60 last:border-0">
                 <td className="sticky left-0 z-10 px-3 py-3 bg-zinc-50 dark:bg-zinc-900 break-words align-middle">
-                  {/* Two-line label: row name on top, single action-oriented
-                      warn below. Compact enough to avoid orphan characters
-                      even in the narrow (6rem) sticky label column. */}
                   <div className="flex flex-col items-end gap-0.5 text-right">
                     <span className="text-xs font-medium text-zinc-500 dark:text-zinc-400">
                       {tPricing("rowLabel")}
@@ -715,9 +709,12 @@ export default function CompareTable({ lenses: initialLenses, countryCode, minCo
                     );
                   }
                   return (
-                    <td key={lens.id} className="px-3 py-3">
-                      <div className="flex justify-center">
+                    <td key={lens.id} className="px-3 py-3 align-top">
+                      <div className="flex flex-col items-center gap-2">
                         <PriceCell lens={lens} compact />
+                        {locale !== "zh" && (
+                          <PurchaseLinksCompact lens={lens} countryCode={countryCode} customId="compare" />
+                        )}
                       </div>
                     </td>
                   );
@@ -726,39 +723,6 @@ export default function CompareTable({ lenses: initialLenses, countryCode, minCo
                   <td key={`empty-price-${i}`} className="border-l border-zinc-100 bg-white dark:border-zinc-800/60 dark:bg-zinc-950" />
                 ))}
               </tr>
-
-              {/* Where to buy row — purchase links per lens, en locale only */}
-              {locale !== "zh" && (
-                <tr className="border-b border-zinc-100 dark:border-zinc-800/60 last:border-0">
-                  <td className="sticky left-0 z-10 px-3 py-3 text-right text-xs font-medium text-zinc-500 dark:text-zinc-400 bg-zinc-50 dark:bg-zinc-900 break-words">
-                    <div className="flex items-center justify-end gap-1">
-                      {orderedLenses.some((l) => l.purchaseChannels?.some((ch) => ch.channel === "ebay" || (ch.channel === "official" && ch.url && hasAffiliateUrl(ch.url)))) && (
-                        <Popover.Root>
-                          <Popover.Trigger className="inline-flex cursor-pointer items-center text-zinc-400 outline-none hover:text-zinc-500 focus-visible:ring-2 focus-visible:ring-zinc-400 dark:text-zinc-500 dark:hover:text-zinc-400">
-                            <Info className="size-3 opacity-70" aria-hidden="true" />
-                          </Popover.Trigger>
-                          <Popover.Portal>
-                            <Popover.Positioner side="top" align="start" sideOffset={6}>
-                              <Popover.Popup className="max-w-72 origin-(--transform-origin) rounded-lg border border-zinc-200 bg-white px-3 py-2 text-xs leading-relaxed text-zinc-700 shadow-lg duration-100 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300">
-                                {tPurchase("disclosureDetail")}
-                              </Popover.Popup>
-                            </Popover.Positioner>
-                          </Popover.Portal>
-                        </Popover.Root>
-                      )}
-                      <span>{tPurchase("whereToBuy")}</span>
-                    </div>
-                  </td>
-                  {orderedLenses.map((lens) => (
-                    <td key={lens.id} className="px-3 py-3">
-                      <PurchaseLinksCompact lens={lens} countryCode={countryCode} customId="compare" />
-                    </td>
-                  ))}
-                  {Array.from({ length: emptySlotCount }).map((_, i) => (
-                    <td key={`empty-purchase-${i}`} className="border-l border-zinc-100 bg-white dark:border-zinc-800/60 dark:bg-zinc-950" />
-                  ))}
-                </tr>
-              )}
             </React.Fragment>
           )}
 
@@ -1025,6 +989,13 @@ export default function CompareTable({ lenses: initialLenses, countryCode, minCo
         </tfoot>}
       </table>
     </div>
+
+    {locale !== "zh" && orderedLenses.length > 0 && (
+      <>
+        <CompareMobileBuyPanel lenses={orderedLenses} countryCode={countryCode} />
+        <PurchaseDisclosureCaption className="hidden sm:flex" />
+      </>
+    )}
     </>
   );
 }
