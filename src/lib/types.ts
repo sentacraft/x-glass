@@ -687,11 +687,11 @@ export interface Lens {
     };
   };
 
-  affiliateChannels?: {
-    official?: string;
-    ebay?: true;
-    bhphoto?: true;
-  };
+  purchaseChannels?: {
+    channel: 'official' | 'ebay' | 'bhphoto';
+    url?: string;
+    affiliate?: string;
+  }[];
 
   /**
    * Mount systems this lens is available for, as stated by the manufacturer.
