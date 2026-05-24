@@ -119,7 +119,6 @@ const lensBaseShape = {
   purchaseChannels: z.array(z.strictObject({
     channel: z.enum(['official', 'ebay', 'bhphoto']),
     url: nonEmptyStringSchema.optional(),
-    affiliate: nonEmptyStringSchema.optional(),
   })).min(1).optional(),
   compatibleMounts: z.array(nonEmptyStringSchema).min(1).optional(),
   accessories: z.array(nonEmptyStringSchema).min(1).optional(),

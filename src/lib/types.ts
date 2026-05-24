@@ -282,7 +282,6 @@ interface LensLocaleTranslations {
 export interface PurchaseChannel {
   channel: 'official' | 'ebay' | 'bhphoto';
   url?: string;
-  affiliate?: string;
 }
 
 /**
