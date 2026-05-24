@@ -1,7 +1,14 @@
-import type { Lens, PurchaseChannel } from "@/lib/types";
+import type { Lens } from "@/lib/types";
 
 const EPN_CAMPAIGN_ID = "5339154376";
 const EPN_TOOL_ID = "10001";
+
+const DOMAIN_AFFILIATES: Record<string, string> = {
+  "7artisans.store": "ref=omwzyqkn",
+  "ttartisan.store": "ref=idncwfkb",
+  "viltrox.com": "ref=owbtcyuk",
+  "brightinstar.com": "ref=mffdqyik",
+};
 
 interface EbayMarket {
   domain: string;
@@ -28,7 +35,7 @@ const EBAY_MARKETS: Record<string, EbayMarket> = {
 const EBAY_DEFAULT_MARKET = EBAY_MARKETS.US;
 
 export interface PurchaseLink {
-  channel: PurchaseChannel["channel"];
+  channel: "official" | "ebay" | "bhphoto";
   label: string;
   url: string;
   isAffiliate: boolean;
@@ -68,13 +75,26 @@ function buildBhPhotoUrl(lens: Lens, locale: string): string {
   return `https://www.bhphotovideo.com/c/search?Ntt=${encodeURIComponent(query)}`;
 }
 
-function buildOfficialUrl(ch: PurchaseChannel): string {
-  const base = ch.url!;
-  if (!ch.affiliate) {
-    return base;
+export function hasAffiliateUrl(url: string): boolean {
+  return getAffiliateParam(url) !== undefined;
+}
+
+function getAffiliateParam(url: string): string | undefined {
+  try {
+    const hostname = new URL(url).hostname.replace(/^www\./, "");
+    return DOMAIN_AFFILIATES[hostname];
+  } catch {
+    return undefined;
   }
-  const sep = base.includes("?") ? "&" : "?";
-  return `${base}${sep}${ch.affiliate}`;
+}
+
+function buildOfficialUrl(url: string): { url: string; isAffiliate: boolean } {
+  const param = getAffiliateParam(url);
+  if (!param) {
+    return { url, isAffiliate: false };
+  }
+  const sep = url.includes("?") ? "&" : "?";
+  return { url: `${url}${sep}${param}`, isAffiliate: true };
 }
 
 export function buildPurchaseLinks(
@@ -93,11 +113,12 @@ export function buildPurchaseLinks(
     switch (ch.channel) {
       case "official":
         if (ch.url) {
+          const official = buildOfficialUrl(ch.url);
           links.push({
             channel: "official",
             label: "Official",
-            url: buildOfficialUrl(ch),
-            isAffiliate: !!ch.affiliate,
+            url: official.url,
+            isAffiliate: official.isAffiliate,
           });
         }
         break;
