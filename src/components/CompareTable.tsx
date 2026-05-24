@@ -734,18 +734,20 @@ export default function CompareTable({ lenses: initialLenses, countryCode, minCo
                       <span className="text-xs font-medium text-zinc-500 dark:text-zinc-400">
                         {tPurchase("whereToBuy")}
                       </span>
-                      <Popover.Root>
-                        <Popover.Trigger className="inline-flex cursor-pointer items-center text-zinc-400 outline-none hover:text-zinc-500 focus-visible:ring-2 focus-visible:ring-zinc-400 dark:text-zinc-500 dark:hover:text-zinc-400">
-                          <Info className="size-3 opacity-70" aria-hidden="true" />
-                        </Popover.Trigger>
-                        <Popover.Portal>
-                          <Popover.Positioner side="top" align="start" sideOffset={6}>
-                            <Popover.Popup className="max-w-72 origin-(--transform-origin) rounded-lg border border-zinc-200 bg-white px-3 py-2 text-xs leading-relaxed text-zinc-700 shadow-lg duration-100 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300">
-                              {tPurchase("disclosureDetail")}
-                            </Popover.Popup>
-                          </Popover.Positioner>
-                        </Popover.Portal>
-                      </Popover.Root>
+                      {orderedLenses.some((l) => l.purchaseChannels?.some((ch) => ch.channel === "ebay" || ch.affiliate)) && (
+                        <Popover.Root>
+                          <Popover.Trigger className="inline-flex cursor-pointer items-center text-zinc-400 outline-none hover:text-zinc-500 focus-visible:ring-2 focus-visible:ring-zinc-400 dark:text-zinc-500 dark:hover:text-zinc-400">
+                            <Info className="size-3 opacity-70" aria-hidden="true" />
+                          </Popover.Trigger>
+                          <Popover.Portal>
+                            <Popover.Positioner side="top" align="start" sideOffset={6}>
+                              <Popover.Popup className="max-w-72 origin-(--transform-origin) rounded-lg border border-zinc-200 bg-white px-3 py-2 text-xs leading-relaxed text-zinc-700 shadow-lg duration-100 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300">
+                                {tPurchase("disclosureDetail")}
+                              </Popover.Popup>
+                            </Popover.Positioner>
+                          </Popover.Portal>
+                        </Popover.Root>
+                      )}
                     </div>
                   </td>
                   {orderedLenses.map((lens) => (

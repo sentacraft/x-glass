@@ -5,6 +5,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { Popover } from "@base-ui/react/popover";
 import { ArrowUpRight, Info } from "lucide-react";
 import { buildPurchaseLinks } from "@/lib/purchase-links";
+import type { PurchaseLink } from "@/lib/purchase-links";
 import type { Lens } from "@/lib/types";
 import { track } from "@/lib/analytics";
 
@@ -12,6 +13,41 @@ interface Props {
   lens: Lens;
   countryCode: string;
   customId?: string;
+}
+
+interface LinkListProps {
+  links: PurchaseLink[];
+  lensId: string;
+  customId?: string;
+  compact?: boolean;
+}
+
+const LINK_CLS = "inline-flex min-h-9 items-center gap-1.5 rounded-lg border border-zinc-200 bg-white px-4 py-2 text-sm font-medium text-zinc-700 transition-colors hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-300 dark:hover:bg-zinc-800";
+const LINK_COMPACT_CLS = "inline-flex items-center gap-1 rounded-md border border-zinc-200 bg-white px-2 py-0.5 text-[11px] font-medium text-zinc-600 transition-colors hover:bg-zinc-50 hover:text-zinc-900 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-200";
+
+function PurchaseLinkList({ links, lensId, customId, compact }: LinkListProps) {
+  return (
+    <div className={compact ? "flex flex-wrap justify-center gap-1.5" : "flex flex-wrap gap-2"}>
+      {links.map((link) => (
+        <a
+          key={link.channel}
+          href={link.url}
+          target="_blank"
+          rel={`noopener noreferrer${link.isAffiliate ? " sponsored" : ""}`}
+          onClick={() => track("purchase_click", {
+            channel: link.channel,
+            lens_id: lensId,
+            source: customId ?? "unknown",
+            is_affiliate: link.isAffiliate,
+          })}
+          className={compact ? LINK_COMPACT_CLS : LINK_CLS}
+        >
+          {link.label}
+          <ArrowUpRight className={compact ? "size-2.5" : "size-3.5"} aria-hidden="true" />
+        </a>
+      ))}
+    </div>
+  );
 }
 
 export function PurchaseLinksSection({ lens, countryCode, customId }: Props) {
@@ -33,28 +69,9 @@ export function PurchaseLinksSection({ lens, countryCode, customId }: Props) {
         <span className="text-xs font-medium text-zinc-400 dark:text-zinc-500">
           {t("whereToBuy")}
         </span>
-        <PurchaseDisclosure />
+        {links.some((l) => l.isAffiliate) && <PurchaseDisclosure />}
       </div>
-      <div className="flex flex-wrap gap-2">
-        {links.map((link) => (
-          <a
-            key={link.channel}
-            href={link.url}
-            target="_blank"
-            rel={`noopener noreferrer${link.isAffiliate ? " sponsored" : ""}`}
-            onClick={() => track("purchase_click", {
-              channel: link.channel,
-              lens_id: lens.id,
-              source: customId ?? "unknown",
-              is_affiliate: link.isAffiliate,
-            })}
-            className="inline-flex min-h-9 items-center gap-1.5 rounded-lg border border-zinc-200 bg-white px-4 py-2 text-sm font-medium text-zinc-700 transition-colors hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-300 dark:hover:bg-zinc-800"
-          >
-            {link.label}
-            <ArrowUpRight className="size-3.5" aria-hidden="true" />
-          </a>
-        ))}
-      </div>
+      <PurchaseLinkList links={links} lensId={lens.id} customId={customId} />
     </div>
   );
 }
@@ -71,28 +88,7 @@ export function PurchaseLinksCompact({ lens, countryCode, customId }: Props) {
     return null;
   }
 
-  return (
-    <div className="flex flex-wrap justify-center gap-1.5">
-      {links.map((link) => (
-        <a
-          key={link.channel}
-          href={link.url}
-          target="_blank"
-          rel={`noopener noreferrer${link.isAffiliate ? " sponsored" : ""}`}
-          onClick={() => track("purchase_click", {
-            channel: link.channel,
-            lens_id: lens.id,
-            source: customId ?? "unknown",
-            is_affiliate: link.isAffiliate,
-          })}
-          className="inline-flex items-center gap-1 rounded-md border border-zinc-200 bg-white px-2 py-0.5 text-[11px] font-medium text-zinc-600 transition-colors hover:bg-zinc-50 hover:text-zinc-900 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-200"
-        >
-          {link.label}
-          <ArrowUpRight className="size-2.5" aria-hidden="true" />
-        </a>
-      ))}
-    </div>
-  );
+  return <PurchaseLinkList links={links} lensId={lens.id} customId={customId} compact />;
 }
 
 function PurchaseDisclosure() {
