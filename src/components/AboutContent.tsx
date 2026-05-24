@@ -196,8 +196,7 @@ export default async function AboutContent() {
           { id: "data-accuracy", label: t("dataAccuracyTitle") },
           { id: "disclaimer", label: t("disclaimerTitle") },
           { id: "privacy", label: t("privacyTitle") },
-          ...(isPurchaseLocale(locale) ? [{ id: "affiliate", label: t("affiliateTitle") }] : []),
-          { id: "donation", label: t("donationTitle") },
+          { id: "support", label: t("supportTitle") },
           { id: "ack", label: t("ackTitle") },
         ].map(({ id, label }, i) => (
           <a
@@ -401,25 +400,23 @@ export default async function AboutContent() {
         </p>
       </Section>
 
-      {/* Affiliate Disclosure — en only; zh has no purchase links */}
-      {isPurchaseLocale(locale) && (
-        <Section id="affiliate" title={t("affiliateTitle")}>
-          <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
-            {t("affiliateBody1")}
-          </p>
-          <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
-            {t("affiliateBody2")}
-          </p>
-          <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
-            {t("affiliateBody3")}
-          </p>
-        </Section>
-      )}
-
-      {/* Donation */}
-      <Section id="donation" title={t("donationTitle")}>
+      {/* Support the Project — cost, affiliate (en only), donate */}
+      <Section id="support" title={t("supportTitle")}>
         <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
-          {t("donationBody")}
+          {t("supportCost")}
+        </p>
+        {isPurchaseLocale(locale) && (
+          <>
+            <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+              {t("supportAffiliate")}
+            </p>
+            <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+              {t("supportIntegrity")}
+            </p>
+          </>
+        )}
+        <p className="text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
+          {t("supportDonate")}
         </p>
         {locale === "zh" ? (
           <div className="mt-1">
