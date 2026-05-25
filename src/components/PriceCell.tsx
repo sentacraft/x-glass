@@ -39,8 +39,24 @@ export function PriceCell({ lens, compact = false }: Props) {
 
   return (
     <div className="flex flex-col items-center gap-1 text-center">
-      {/* Row 1: price + (optional) Used badge with info popover */}
       <div className="inline-flex items-center gap-1.5">
+        {compact && isUsed && (
+          <Popover.Root>
+            <Popover.Trigger
+              className="inline-flex shrink-0 cursor-pointer items-center gap-1 rounded bg-zinc-100 px-1 py-px text-[10px] font-medium text-zinc-500 outline-none transition-colors hover:bg-zinc-200 focus-visible:ring-2 focus-visible:ring-zinc-400 dark:bg-zinc-800 dark:text-zinc-400 dark:hover:bg-zinc-700"
+            >
+              <span>{t("usedBadge")}</span>
+              <Info className="size-2.5 opacity-70" aria-hidden="true" />
+            </Popover.Trigger>
+            <Popover.Portal>
+              <Popover.Positioner side="top" align="center" sideOffset={6}>
+                <Popover.Popup className="max-w-72 origin-(--transform-origin) rounded-lg border border-zinc-200 bg-white px-3 py-2 text-xs leading-relaxed text-zinc-700 shadow-lg duration-100 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300">
+                  {t("usedReason")}
+                </Popover.Popup>
+              </Popover.Positioner>
+            </Popover.Portal>
+          </Popover.Root>
+        )}
         <span
           className={cn(
             "font-semibold tabular-nums text-zinc-700 dark:text-zinc-200",
@@ -49,7 +65,12 @@ export function PriceCell({ lens, compact = false }: Props) {
         >
           {priceDisplay}
         </span>
-        {isUsed && (
+        {compact && (
+          <span className="text-[10px] text-zinc-400 dark:text-zinc-500">
+            {t("approx")}
+          </span>
+        )}
+        {!compact && isUsed && (
           <Popover.Root>
             <Popover.Trigger
               className="inline-flex shrink-0 cursor-pointer items-center gap-1 rounded bg-zinc-100 px-1 py-px text-[10px] font-medium text-zinc-500 outline-none transition-colors hover:bg-zinc-200 focus-visible:ring-2 focus-visible:ring-zinc-400 dark:bg-zinc-800 dark:text-zinc-400 dark:hover:bg-zinc-700"
@@ -68,20 +89,20 @@ export function PriceCell({ lens, compact = false }: Props) {
         )}
       </div>
 
-      {/* Row 2: source — persistent caption */}
-      <span
-        data-redact-hook="priceSource"
-        className="text-[10px] leading-tight text-zinc-400 dark:text-zinc-500 break-words"
-      >
-        {entry.source}
-      </span>
-
-      {/* Row 3: sampled date — persistent caption with calendar icon so the
-          row reads as data not prose. */}
-      <span className="inline-flex items-center gap-1 text-[10px] leading-tight text-zinc-400 dark:text-zinc-500 tabular-nums">
-        <Calendar className="size-2.5" aria-hidden="true" />
-        {sampledDisplay}
-      </span>
+      {!compact && (
+        <>
+          <span
+            data-redact-hook="priceSource"
+            className="text-[10px] leading-tight text-zinc-400 dark:text-zinc-500 break-words"
+          >
+            {entry.source}
+          </span>
+          <span className="inline-flex items-center gap-1 text-[10px] leading-tight text-zinc-400 dark:text-zinc-500 tabular-nums">
+            <Calendar className="size-2.5" aria-hidden="true" />
+            {sampledDisplay}
+          </span>
+        </>
+      )}
     </div>
   );
 }

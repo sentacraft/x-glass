@@ -109,13 +109,17 @@ const lensBaseShape = {
   apertureBladeCount: z.union([z.number().int().positive(), specNaSchema]).optional(),
   releaseYear: z.number().int().min(1900).max(2100).optional(),
   searchAliases: z.strictObject({
-    en: nonEmptyStringSchema.optional(),
+    en: nonEmptyStringSchema,
     zh: nonEmptyStringSchema.optional(),
-  }).optional(),
+  }),
   pricing: z.strictObject({
     cn: pricingMarketSchema.optional(),
     global: pricingMarketSchema.optional(),
   }).optional(),
+  purchaseChannels: z.array(z.strictObject({
+    channel: z.enum(['official', 'ebay', 'bhphoto']),
+    url: nonEmptyStringSchema.optional(),
+  })).min(1).optional(),
   compatibleMounts: z.array(nonEmptyStringSchema).min(1).optional(),
   accessories: z.array(nonEmptyStringSchema).min(1).optional(),
   lensMaterial: optionalNonEmptyStringSchema,
@@ -364,7 +368,7 @@ export const KNOWN_DISTINCT_PAIRS = new Set([
 // Identifiers, human-readable labels, links, and freeform notes are excluded;
 // all measurable optical/physical fields are included automatically.
 const SIMILARITY_EXCLUDE = new Set([
-  "id", "brand", "model", "series", "officialLinks", "fieldNotes", "translations", "searchAliases",
+  "id", "brand", "model", "series", "officialLinks", "fieldNotes", "translations", "searchAliases", "purchaseChannels",
 ]);
 
 // Threshold above which two same-brand lenses are flagged as suspiciously similar.
