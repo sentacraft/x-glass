@@ -131,6 +131,17 @@
         "en": "Every X-mount lens under 200 grams. Some of these are lighter than your phone. Great for travel kits, walk-around setups, or just not wanting a gym workout every time you pick up your camera.",
         "zh": "X 卡口所有不到 200 克的镜头，有些比手机还轻。出门旅行、日常挂机，或者单纯不想每次拿起相机都像在健身，看这里就对了。"
       }
+    },
+    {
+      "slug": "with-ois",
+      "title": {
+        "en": "OIS Lenses for Fujifilm X-Mount",
+        "zh": "富士 X 卡口带光学防抖的镜头"
+      },
+      "description": {
+        "en": "Every X-mount lens with built-in optical image stabilization. Handheld low-light, slower shutter speeds, smoother video — OIS does the work so you don't have to. Useful whether your body has IBIS or not.",
+        "zh": "X 卡口所有内置光学防抖的镜头。暗光手持、慢门、视频稳定，防抖替你干活。不管机身有没有五轴防抖，镜头端的 OIS 都有用。"
+      }
     }
   ]
 }

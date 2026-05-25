@@ -46,6 +46,8 @@ const FILTERS: Record<string, (lens: Lens) => boolean> = {
     const w = Array.isArray(lens.weightG) ? lens.weightG[1] : lens.weightG;
     return w != null && w < 200;
   },
+
+  "with-ois": (lens) => lens.mount === "X" && lens.ois === true,
 };
 
 const parsed: LensCollection[] = collectionsData.collections.map((entry) => {
@@ -62,7 +64,7 @@ export const COLLECTIONS: Record<string, LensCollection> = Object.fromEntries(
 
 const FOCAL_SLUGS = ["23mm", "35mm", "50mm", "56mm", "85mm"];
 const BRAND_SLUGS = ["7artisans", "viltrox", "ttartisan", "sigma"];
-const FEATURE_SLUGS = ["weather-sealed", "macro", "under-200g"];
+const FEATURE_SLUGS = ["weather-sealed", "macro", "under-200g", "with-ois"];
 
 function categoryOf(slug: string): string[] {
   if (FOCAL_SLUGS.includes(slug)) {
