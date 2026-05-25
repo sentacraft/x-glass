@@ -1,6 +1,7 @@
 "use client";
 
 import { useContext, useState } from "react";
+import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -11,10 +12,21 @@ import {
 } from "@/components/ui/select";
 import { TestHookContext } from "@/context/TestHookProvider";
 import { TESTHOOK_OPTION_DEFINITIONS } from "@/lib/testhook";
+import { COLLECTIONS } from "@/lib/collections";
+
+const HIDDEN_ROUTES: { label: string; href: string }[] = [
+  ...Object.values(COLLECTIONS).map((c) => ({
+    label: c.title.en,
+    href: `/collections/${c.slug}`,
+  })),
+  { label: "Design Lab — Iris", href: "/design-lab/iris" },
+  { label: "Design Lab — Iris Pheno", href: "/design-lab/iris-pheno" },
+];
 
 export default function TestHookPanel() {
   const context = useContext(TestHookContext);
   const [copied, setCopied] = useState(false);
+  const [linksOpen, setLinksOpen] = useState(false);
 
   if (!context || !context.state.testHook) {
     return null;
@@ -23,7 +35,7 @@ export default function TestHookPanel() {
   const { state, setOption, setTestHook, reset, buildShareableLink } = context;
 
   return (
-    <aside className="fixed bottom-4 right-4 z-50 w-[min(24rem,calc(100vw-2rem))] rounded-2xl border border-zinc-200/80 bg-white/95 p-4 shadow-xl backdrop-blur dark:border-zinc-800 dark:bg-zinc-950/90">
+    <aside className="fixed bottom-4 right-4 z-50 max-h-[calc(100dvh-2rem)] w-[min(24rem,calc(100vw-2rem))] overflow-y-auto rounded-2xl border border-zinc-200/80 bg-white/95 p-4 shadow-xl backdrop-blur dark:border-zinc-800 dark:bg-zinc-950/90">
       <div className="flex items-start justify-between gap-4">
         <div className="space-y-1">
           <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-50">
@@ -64,6 +76,35 @@ export default function TestHookPanel() {
             </span>
           </label>
         ))}
+      </div>
+
+      <div className="mt-4 border-t border-zinc-200 pt-4 dark:border-zinc-800">
+        <button
+          type="button"
+          className="flex w-full items-center justify-between"
+          onClick={() => setLinksOpen(!linksOpen)}
+        >
+          <span className="text-[11px] font-medium uppercase tracking-[0.14em] text-zinc-500 dark:text-zinc-400">
+            Hidden routes ({HIDDEN_ROUTES.length})
+          </span>
+          <span className="text-xs text-zinc-400 dark:text-zinc-500">
+            {linksOpen ? "▲" : "▼"}
+          </span>
+        </button>
+        {linksOpen && (
+          <ul className="mt-2 space-y-1">
+            {HIDDEN_ROUTES.map((route) => (
+              <li key={route.href}>
+                <Link
+                  href={route.href}
+                  className="block rounded-md px-2 py-1 text-xs text-zinc-600 transition-colors hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100"
+                >
+                  {route.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
 
       <div className="mt-4 flex justify-end gap-2">
