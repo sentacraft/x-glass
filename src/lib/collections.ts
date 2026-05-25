@@ -29,7 +29,7 @@ const FILTERS: Record<string, (lens: Lens) => boolean> = {
   "85mm": xPrime(83, 90),
 
   "7artisans": xBrand("7artisans"),
-  viltrox: xBrand("viltrox"),
+  viltrox: (lens) => lens.mount === "X" && lens.brand === "viltrox" && lens.af === true,
   ttartisan: xBrand("ttartisan"),
   sigma: xBrand("sigma"),
 
@@ -48,6 +48,20 @@ const FILTERS: Record<string, (lens: Lens) => boolean> = {
   },
 
   "with-ois": (lens) => lens.mount === "X" && lens.ois === true,
+
+  "fast-aperture": (lens) =>
+    lens.mount === "X" &&
+    !isZoom(lens) &&
+    lens.maxAperture != null &&
+    lens.maxAperture <= 1.4,
+
+  "compact-primes": (lens) => {
+    if (lens.mount !== "X" || isZoom(lens)) {
+      return false;
+    }
+    const w = Array.isArray(lens.weightG) ? lens.weightG[1] : lens.weightG;
+    return w != null && w < 150;
+  },
 };
 
 const parsed: LensCollection[] = collectionsData.collections.map((entry) => {
@@ -64,7 +78,7 @@ export const COLLECTIONS: Record<string, LensCollection> = Object.fromEntries(
 
 const FOCAL_SLUGS = ["23mm", "35mm", "50mm", "56mm", "85mm"];
 const BRAND_SLUGS = ["7artisans", "viltrox", "ttartisan", "sigma"];
-const FEATURE_SLUGS = ["weather-sealed", "macro", "under-200g", "with-ois"];
+const FEATURE_SLUGS = ["weather-sealed", "macro", "under-200g", "with-ois", "fast-aperture", "compact-primes"];
 
 function categoryOf(slug: string): string[] {
   if (FOCAL_SLUGS.includes(slug)) {

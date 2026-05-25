@@ -36,7 +36,7 @@
     {
       "slug": "56mm",
       "title": {
-        "en": "Fujifilm X-Mount 56mm Prime Lenses",
+        "en": "Fujifilm X-Mount 56mm Portrait Lenses",
         "zh": "富士 X 卡口 56mm 定焦镜头"
       },
       "description": {
@@ -130,6 +130,28 @@
       "description": {
         "en": "Prioritize mobility with every X-mount lens weighing less than 200 grams. Perfect for minimalist travel kits, daily walk-around photography, or stabilizing setups on compact gimbals, these lenses ensure your camera stays out of the bag and in your hand without the physical fatigue.",
         "zh": "收录所有重量低于 200 克的 X 卡口镜头，有些甚至比手机还轻。非常适合长途旅行减负、日常挂机或者上轻量级稳定器，让摄影回归纯粹，告别铁手练肌。"
+      }
+    },
+    {
+      "slug": "fast-aperture",
+      "title": {
+        "en": "Fast Aperture Primes for Fujifilm X-Mount (f/1.4 and Faster)",
+        "zh": "富士 X 卡口大光圈定焦镜头（f/1.4 及更大）"
+      },
+      "description": {
+        "en": "Every X-mount prime with a maximum aperture of f/1.4 or wider — from affordable f/1.4 options to exotic f/0.95 glass. More light, shallower depth of field, and faster shutter speeds in low light. The full selection across 9 brands, all in one place.",
+        "zh": "X 卡口所有最大光圈在 f/1.4 及以上的定焦镜头，从平价 f/1.4 到极端的 f/0.95 都有。更多进光量、更浅的景深、更快的快门速度，横跨 9 个品牌的完整选择。"
+      }
+    },
+    {
+      "slug": "compact-primes",
+      "title": {
+        "en": "Compact Primes for Fujifilm X-Mount (Under 150g)",
+        "zh": "富士 X 卡口紧凑型定焦镜头（150g 以下）"
+      },
+      "description": {
+        "en": "The most pocketable primes for X-mount — every fixed focal length lens under 150 grams. Pancake lenses, tiny wide-angles, and miniature normals that keep your kit light without compromising on image quality. Some weigh less than 60 grams.",
+        "zh": "X 卡口最口袋化的定焦镜头，所有重量在 150 克以下的定焦都在这里。饼干头、迷你广角、微型标头，让你的器材包轻到忘记它的存在。最轻的一支只有 58 克。"
       }
     },
     {
