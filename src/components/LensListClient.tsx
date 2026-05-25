@@ -19,7 +19,8 @@ import { serializeFilters, parseFilters } from "@/lib/filter-params";
 import { useCompare } from "@/context/CompareProvider";
 import { useUiHookAttr } from "@/context/TestHookProvider";
 import { useLensesApi } from "@/hooks/useLensesApi";
-import type { MountSegment } from "@/lib/mount";
+import { mountToUrlSegment } from "@/lib/mount";
+import { useEffectiveMount } from "@/hooks/useMountParam";
 import { ArrowDownNarrowWide, ArrowUpNarrowWide } from "lucide-react";
 import BackToTopButton from "@/components/BackToTopButton";
 import { Button } from "@/components/ui/button";
@@ -36,22 +37,19 @@ import LensSearchDialog from "./LensSearchDialog";
 import LensesLoading from "@/app/[locale]/lenses/[mount]/(browse)/loading";
 import FeedbackTrigger from "./FeedbackTrigger";
 
-interface Props {
-  mount: MountSegment;
-}
-
-export default function LensListClient({ mount }: Props) {
+export default function LensListClient() {
   const t = useTranslations("LensList");
   const tSearch = useTranslations("Search");
   const hookAttr = useUiHookAttr();
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const locale = useLocale();
+  const mount = useEffectiveMount();
 
   const [filters, setFilters] = useState<FilterState>(() => parseFilters(searchParams));
   const { compareIds, toggle } = useCompare();
 
-  const { lenses, brands, availableOpticalTraits, isLoading } = useLensesApi(mount, locale);
+  const { lenses, brands, availableOpticalTraits, isLoading } = useLensesApi(mountToUrlSegment(mount), locale);
 
   const displayed = useMemo(
     () =>
