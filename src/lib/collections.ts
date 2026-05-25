@@ -113,19 +113,6 @@ export const FOCAL_SLUGS = ["23mm", "35mm", "50mm", "56mm", "85mm"];
 export const BRAND_SLUGS = ["7artisans", "viltrox", "ttartisan", "sigma"];
 export const FEATURE_SLUGS = ["weather-sealed", "macro", "under-200g", "with-ois", "fast-aperture", "compact-primes", "under-200", "under-400", "cine", "fisheye", "tilt-shift"];
 
-function categoryOf(slug: string): string[] {
-  if (FOCAL_SLUGS.includes(slug)) {
-    return FOCAL_SLUGS;
-  }
-  if (BRAND_SLUGS.includes(slug)) {
-    return BRAND_SLUGS;
-  }
-  if (FEATURE_SLUGS.includes(slug)) {
-    return FEATURE_SLUGS;
-  }
-  return [];
-}
-
 export function getCategoryKey(slug: string): "focal" | "brand" | "feature" | null {
   if (FOCAL_SLUGS.includes(slug)) {
     return "focal";
@@ -139,9 +126,37 @@ export function getCategoryKey(slug: string): "focal" | "brand" | "feature" | nu
   return null;
 }
 
-export function getRelatedCollections(slug: string): LensCollection[] {
-  return categoryOf(slug)
-    .filter((s) => s !== slug)
-    .map((s) => COLLECTIONS[s])
-    .filter(Boolean);
+export function getRelatedCollections(
+  slug: string,
+  allLenses: Lens[],
+  locale: string,
+  limit = 4,
+): LensCollection[] {
+  const current = COLLECTIONS[slug];
+  if (!current) {
+    return [];
+  }
+  const currentSet = new Set(
+    allLenses.filter((l) => current.filter(l, locale)).map((l) => l.id),
+  );
+  if (currentSet.size === 0) {
+    return [];
+  }
+
+  const others = Object.values(COLLECTIONS).filter((c) => c.slug !== slug);
+  const scored = others.map((c) => {
+    let overlap = 0;
+    for (const l of allLenses) {
+      if (currentSet.has(l.id) && c.filter(l, locale)) {
+        overlap++;
+      }
+    }
+    return { collection: c, overlap };
+  });
+
+  scored.sort((a, b) => b.overlap - a.overlap);
+  return scored
+    .filter((s) => s.overlap > 0)
+    .slice(0, limit)
+    .map((s) => s.collection);
 }

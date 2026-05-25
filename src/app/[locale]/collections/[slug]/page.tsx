@@ -72,21 +72,24 @@ export default async function CollectionPage({
   const title = localized(collection.title, locale);
   const description = localized(collection.description, locale);
   const stats = t("stats", { count: lenses.length, brandCount });
-  const related = getRelatedCollections(slug);
   const allXLenses = getAllLenses(locale).filter((l) => l.mount === "X");
+  const related = getRelatedCollections(slug, allXLenses, locale);
   const allBrandCount = new Set(allXLenses.map((l) => l.brand)).size;
 
-  const categoryKey = getCategoryKey(slug);
-  const categoryTag = t(
-    categoryKey === "focal" ? "categoryFocalTag" :
-    categoryKey === "brand" ? "categoryBrandTag" :
-    "categoryFeatureTag",
-  );
+  function categoryTagFor(s: string): string {
+    const key = getCategoryKey(s);
+    return t(
+      key === "focal" ? "categoryFocalTag" :
+      key === "brand" ? "categoryBrandTag" :
+      "categoryFeatureTag",
+    );
+  }
 
   const relatedWithStats = related.map((c) => {
     const ls = allXLenses.filter((l) => c.filter(l, locale));
     return {
       collection: c,
+      categoryTag: categoryTagFor(c.slug),
       previewLens: ls[0],
       lensCount: ls.length,
       brandCount: new Set(ls.map((l) => l.brand)).size,
@@ -114,11 +117,11 @@ export default async function CollectionPage({
             {t("relatedCollections")}
           </h2>
           <ul className="grid grid-cols-2 gap-3 md:grid-cols-5">
-            {relatedWithStats.map(({ collection: c, previewLens, lensCount: lc, brandCount: bc }) => (
+            {relatedWithStats.map(({ collection: c, categoryTag: tag, previewLens, lensCount: lc, brandCount: bc }) => (
               <li key={c.slug}>
                 <RelatedCollectionCard
                   collection={c}
-                  categoryTag={categoryTag}
+                  categoryTag={tag}
                   previewLens={previewLens}
                   lensCount={lc}
                   brandCount={bc}
