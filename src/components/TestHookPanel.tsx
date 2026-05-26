@@ -18,10 +18,10 @@ const collectionsData = require("@/data/collections.json") as {
 };
 
 const HIDDEN_ROUTES: { label: string; href: string }[] = [
-  { label: "All Collections", href: "/collections" },
+  { label: "All Collections", href: "/lenses/x/collections" },
   ...collectionsData.collections.map((c) => ({
     label: c.title.en,
-    href: `/collections/${c.slug}`,
+    href: `/lenses/x/collections/${c.slug}`,
   })),
   { label: "Design Lab — Iris", href: "/design-lab/iris" },
   { label: "Design Lab — Iris Pheno", href: "/design-lab/iris-pheno" },

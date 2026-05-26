@@ -7,10 +7,9 @@ import { buildAlternates, defaultOgImages } from "@/lib/seo";
 import CollectionLensGrid from "@/components/CollectionLensGrid";
 import RelatedCollectionCard from "@/components/RelatedCollectionCard";
 import BrowseAllTile from "@/components/BrowseAllTile";
-import CompareBar from "@/components/CompareBar";
 import BackToTopButton from "@/components/BackToTopButton";
 
-type Params = Promise<{ locale: string; slug: string }>;
+type Params = Promise<{ locale: string; mount: string; slug: string }>;
 
 export function generateStaticParams() {
   return Object.keys(COLLECTIONS).map((slug) => ({ slug }));
@@ -48,7 +47,7 @@ export async function generateMetadata({
       description: metaDesc,
       images: defaultOgImages(),
     },
-    alternates: buildAlternates(locale, `collections/${slug}`),
+    alternates: buildAlternates(locale, `lenses/x/collections/${slug}`),
   };
 }
 
@@ -132,7 +131,6 @@ export default async function CollectionPage({
           </ul>
         </footer>
       </main>
-      <CompareBar />
       <BackToTopButton />
     </>
   );

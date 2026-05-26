@@ -18,7 +18,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/lenses/x/compare",
     "/lenses/gfx",
     "/lenses/gfx/compare",
-    "/collections",
+    "/lenses/x/collections",
     "/about",
     "/get",
   ];
@@ -57,7 +57,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const collectionEntries: MetadataRoute.Sitemap = Object.keys(COLLECTIONS).flatMap(
     (slug) =>
       LOCALES.map((locale) => ({
-        url: url(`/${locale}/collections/${slug}`),
+        url: url(`/${locale}/lenses/x/collections/${slug}`),
         changeFrequency: "weekly" as const,
         priority: 0.7,
       }))

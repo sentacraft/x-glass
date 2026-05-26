@@ -17,7 +17,7 @@ import {
 import { getAllLenses } from "@/lib/lens";
 import { buildAlternates, defaultOgImages } from "@/lib/seo";
 
-type Params = Promise<{ locale: string }>;
+type Params = Promise<{ locale: string; mount: string }>;
 
 function localized(field: { en: string; zh: string }, locale: string): string {
   return locale === "zh" ? field.zh : field.en;
@@ -42,7 +42,7 @@ export async function generateMetadata({
       description,
       images: defaultOgImages(),
     },
-    alternates: buildAlternates(locale, "collections"),
+    alternates: buildAlternates(locale, "lenses/x/collections"),
   };
 }
 
@@ -65,7 +65,7 @@ function CollectionCard({
   return (
     <li>
       <Link
-        href={`/collections/${slug}`}
+        href={`/lenses/x/collections/${slug}`}
         className="group block rounded-xl border border-zinc-200 p-4 transition-colors hover:bg-zinc-50 dark:border-zinc-800 dark:hover:bg-zinc-900/50"
       >
         <h3 className="text-sm font-semibold text-zinc-900 group-hover:text-zinc-700 dark:text-zinc-100 dark:group-hover:text-zinc-300">
