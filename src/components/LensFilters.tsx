@@ -13,7 +13,6 @@ import BrandFilterMenu from "./lens-filters/BrandFilterMenu";
 import FeatureToggleGroup from "./lens-filters/FeatureToggleGroup";
 import FilterRow from "./lens-filters/FilterRow";
 import MultiSelectChipGroup from "./lens-filters/MultiSelectChipGroup";
-import SingleSelectChipGroup from "./lens-filters/SingleSelectChipGroup";
 import TypeSegmentedControl from "./lens-filters/TypeSegmentedControl";
 import { useFiltersTelemetry } from "./LensFilters.telemetry";
 
@@ -76,6 +75,41 @@ export default function LensFilters({
   }
 
   const typeOptions = [
+    { value: null, label: t("allTypes") },
+    ...LENS_TYPES.map((type) => ({
+      value: type,
+      label: t(type === "prime" ? "primes" : "zooms"),
+    })),
+  ] as { value: LensType | null; label: string }[];
+
+  const usageOptions = [
+    { value: "photo" as UsageFilter, label: t("usagePhoto") },
+    { value: "cine" as UsageFilter, label: t("usageCine") },
+  ] as { value: UsageFilter; label: string }[];
+
+  const opticalTraitOptions = [
+    { value: null as OpticalTrait | null, label: t("allTypes") },
+    ...availableOpticalTraits.map((trait) => ({
+      value: trait as OpticalTrait | null,
+      label: tBadge(trait),
+    })),
+  ];
+
+  const focusMotorOptions = [
+    { value: null, label: t("allTypes") },
+    { value: "linear" as FocusMotorClass, label: t("motorLinear") },
+    { value: "stepping" as FocusMotorClass, label: t("motorStepping") },
+    { value: "dc" as FocusMotorClass, label: t("motorDc") },
+    { value: "other" as FocusMotorClass, label: t("motorOther") },
+  ] as { value: FocusMotorClass | null; label: string }[];
+
+  const focusOptions = [
+    { value: null, label: t("allTypes") },
+    { value: "auto" as FocusFilter, label: t("focusAuto") },
+    { value: "manual" as FocusFilter, label: t("focusManual") },
+  ] as { value: FocusFilter | null; label: string }[];
+
+  const mobileTypeOptions = [
     { value: null, label: t("anyType") },
     ...LENS_TYPES.map((type) => ({
       value: type,
@@ -83,28 +117,11 @@ export default function LensFilters({
     })),
   ] as { value: LensType | null; label: string }[];
 
-  const focusOptions = [
+  const mobileFocusOptions = [
     { value: null, label: t("anyFocus") },
     { value: "auto" as FocusFilter, label: t("focusAutoMobile") },
     { value: "manual" as FocusFilter, label: t("focusManualMobile") },
   ] as { value: FocusFilter | null; label: string }[];
-
-  const usageOptions = [
-    { value: "photo" as UsageFilter, label: t("usagePhoto") },
-    { value: "cine" as UsageFilter, label: t("usageCine") },
-  ] as { value: UsageFilter; label: string }[];
-
-  const opticalTraitChipOptions = availableOpticalTraits.map((trait) => ({
-    value: trait,
-    label: tBadge(trait),
-  }));
-
-  const focusMotorChipOptions = [
-    { value: "linear" as FocusMotorClass, label: t("motorLinear") },
-    { value: "stepping" as FocusMotorClass, label: t("motorStepping") },
-    { value: "dc" as FocusMotorClass, label: t("motorDc") },
-    { value: "other" as FocusMotorClass, label: t("motorOther") },
-  ];
 
   const hiddenActiveFilterCount =
     (filters.focalCategories.length > 0 ? 1 : 0) +
@@ -204,21 +221,41 @@ export default function LensFilters({
           </FilterRow>
         </div>
 
-        <div className="flex gap-2">
+        <div className="flex gap-2 sm:hidden">
           <TypeSegmentedControl
             ariaLabel={t("lensType")}
-            options={typeOptions}
+            options={mobileTypeOptions}
             value={filters.typeFilter}
             onChange={(v) => updateFilters("typeFilter", v)}
             compact
           />
           <TypeSegmentedControl
             ariaLabel={t("focusFilter")}
-            options={focusOptions}
+            options={mobileFocusOptions}
             value={filters.focusFilter}
             onChange={(v) => updateFilters("focusFilter", v)}
             compact
           />
+        </div>
+        <div className="hidden sm:block">
+          <FilterRow label={t("lensType")}>
+            <TypeSegmentedControl
+              ariaLabel={t("lensType")}
+              options={typeOptions}
+              value={filters.typeFilter}
+              onChange={(v) => updateFilters("typeFilter", v)}
+            />
+          </FilterRow>
+        </div>
+        <div className="hidden sm:block">
+          <FilterRow label={t("focusFilter")}>
+            <TypeSegmentedControl
+              ariaLabel={t("focusFilter")}
+              options={focusOptions}
+              value={filters.focusFilter}
+              onChange={(v) => updateFilters("focusFilter", v)}
+            />
+          </FilterRow>
         </div>
 
         <div className="my-1.5 hidden sm:block">{filtersToggle}</div>
@@ -261,21 +298,23 @@ export default function LensFilters({
 
             {availableOpticalTraits.length > 0 && (
               <FilterRow label={t("opticalTraitFilter")}>
-                <SingleSelectChipGroup
-                  allLabel={allOptionLabel}
-                  options={opticalTraitChipOptions}
+                <TypeSegmentedControl
+                  ariaLabel={t("opticalTraitFilter")}
+                  options={opticalTraitOptions}
                   value={filters.opticalTrait}
                   onChange={(v) => updateFilters("opticalTrait", v)}
+                  wrap
                 />
               </FilterRow>
             )}
 
             <FilterRow label={t("focusMotorFilter")}>
-              <SingleSelectChipGroup
-                allLabel={allOptionLabel}
-                options={focusMotorChipOptions}
+              <TypeSegmentedControl
+                ariaLabel={t("focusMotorFilter")}
+                options={focusMotorOptions}
                 value={filters.focusMotorClass}
                 onChange={(v) => updateFilters("focusMotorClass", v)}
+                wrap
               />
             </FilterRow>
           </div>
