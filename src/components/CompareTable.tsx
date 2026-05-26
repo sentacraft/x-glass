@@ -144,7 +144,7 @@ function LensHeader({
         </div>
         {/* flex-1 fills remaining space after action buttons so mt-auto
             on links works without overflowing the cell */}
-        <div className="mt-1 flex flex-1 flex-col items-center text-center sm:mt-0">
+        <div className="mt-1 flex flex-1 flex-col text-center sm:mt-0">
           <LensHeaderContent lens={lens} mountSegment={mountSegment} />
         </div>
 
