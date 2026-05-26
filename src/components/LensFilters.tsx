@@ -187,20 +187,18 @@ export default function LensFilters({
     <div className="flex min-w-0 flex-1 flex-col">
       {/* Primary filters: always visible on all viewports */}
       <div className="flex flex-col gap-2 sm:gap-3">
-        <div className="flex items-center gap-2 sm:hidden">
-          <div className="min-w-0 flex-1">
-            <BrandFilterMenu
-              brands={brands}
-              selected={filters.brands}
-              brandLabels={brandNames}
-              allLabel={allOptionLabel}
-              triggerLabel={brandTriggerLabel}
-              onToggle={(brand) =>
-                updateFilters("brands", toggleMultiFilter(filters.brands, brand, brands))
-              }
-              onClear={() => updateFilters("brands", [])}
-            />
-          </div>
+        <div className="flex items-center justify-between sm:hidden">
+          <BrandFilterMenu
+            brands={brands}
+            selected={filters.brands}
+            brandLabels={brandNames}
+            allLabel={allOptionLabel}
+            triggerLabel={brandTriggerLabel}
+            onToggle={(brand) =>
+              updateFilters("brands", toggleMultiFilter(filters.brands, brand, brands))
+            }
+            onClear={() => updateFilters("brands", [])}
+          />
           <div className="shrink-0">{filtersToggle}</div>
         </div>
         <div className="hidden sm:block">
