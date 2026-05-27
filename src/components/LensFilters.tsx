@@ -311,6 +311,10 @@ export default function LensFilters({
                   value={filters.opticalTrait}
                   onChange={(v) => updateFilters("opticalTrait", v)}
                   wrap
+                  mobileLabelOverrides={{
+                    tilt: "Tilt",
+                    shift: "Shift",
+                  }}
                 />
               </FilterRow>
             )}
@@ -322,6 +326,11 @@ export default function LensFilters({
                 value={filters.focusMotorClass}
                 onChange={(v) => updateFilters("focusMotorClass", v)}
                 wrap
+                mobileLabelOverrides={{
+                  linear: t("motorLinearMobile"),
+                  stepping: t("motorSteppingMobile"),
+                  dc: t("motorDcMobile"),
+                }}
               />
             </FilterRow>
           </div>
