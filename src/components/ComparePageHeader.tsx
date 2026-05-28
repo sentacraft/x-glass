@@ -93,19 +93,19 @@ export default function ComparePageHeader() {
             {tList("clearCompare")}
           </button>
         )}
-        {activeLenses.length >= 1 && (
-          <div className="ml-auto flex items-center gap-1">
+        <div className="ml-auto flex items-center gap-1">
+          {activeLenses.length >= 1 && (
             <ShareButton lenses={activeLenses} presetTitle={presetTitle} presetSubtitle={presetSubtitle} />
-            <FeedbackTrigger
-              type="general"
-              context={{}}
-              className={UTILITY_BTN_CLS}
-            >
-              <Flag className="size-4" />
-              <span className="hidden sm:inline">{t("reportIssue")}</span>
-            </FeedbackTrigger>
-          </div>
-        )}
+          )}
+          <FeedbackTrigger
+            type="general"
+            context={{}}
+            className={UTILITY_BTN_CLS}
+          >
+            <Flag className="size-4" />
+            <span className="hidden sm:inline">{t("reportIssue")}</span>
+          </FeedbackTrigger>
+        </div>
       </div>
 
       <ShareFAB
