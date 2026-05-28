@@ -52,16 +52,16 @@ export async function generateMetadata({
 }
 
 const CATEGORIES = [
-  { id: "section-prime", key: "category_prime", slugs: PRIME_SLUGS },
-  { id: "section-zoom", key: "category_zoom", slugs: ZOOM_SLUGS },
-  { id: "section-brand", key: "category_brand", slugs: BRAND_SLUGS },
-  { id: "section-series", key: "category_series", slugs: SERIES_SLUGS },
-  { id: "section-price", key: "category_price", slugs: PRICE_SLUGS },
-  { id: "section-portability", key: "category_portability", slugs: PORTABILITY_SLUGS },
-  { id: "section-aperture", key: "category_aperture", slugs: APERTURE_SLUGS },
-  { id: "section-trait", key: "category_trait", slugs: TRAIT_SLUGS },
-  { id: "section-dedicated", key: "category_dedicated", slugs: DEDICATED_SLUGS },
-  { id: "section-focus", key: "category_focus", slugs: FOCUS_SLUGS },
+  { id: "section-prime", key: "category_prime", slugs: PRIME_SLUGS, marker: ["PRIME"] },
+  { id: "section-zoom", key: "category_zoom", slugs: ZOOM_SLUGS, marker: ["ZOOM"] },
+  { id: "section-brand", key: "category_brand", slugs: BRAND_SLUGS, marker: ["BRAND"] },
+  { id: "section-series", key: "category_series", slugs: SERIES_SLUGS, marker: ["SERIES"] },
+  { id: "section-price", key: "category_price", slugs: PRICE_SLUGS, marker: ["$"] },
+  { id: "section-portability", key: "category_portability", slugs: PORTABILITY_SLUGS, marker: ["G"] },
+  { id: "section-aperture", key: "category_aperture", slugs: APERTURE_SLUGS, marker: ["ƒ"], markerItalic: true },
+  { id: "section-trait", key: "category_trait", slugs: TRAIT_SLUGS, marker: ["WR"] },
+  { id: "section-dedicated", key: "category_dedicated", slugs: DEDICATED_SLUGS, marker: ["★"] },
+  { id: "section-focus", key: "category_focus", slugs: FOCUS_SLUGS, marker: ["AF", "MF"] },
 ] as const;
 
 export default async function CollectionsIndexPage({
@@ -132,11 +132,15 @@ export default async function CollectionsIndexPage({
         >
           {/* Section head */}
           <div className="mb-4 flex items-center gap-3">
-            <span
-              aria-hidden="true"
-              className="flex h-[22px] w-[22px] shrink-0 items-center justify-center rounded border-[1.5px] border-dashed border-zinc-400 font-mono text-[9px] font-semibold tracking-[0.04em] text-zinc-400 dark:border-zinc-500 dark:text-zinc-500"
-            >
-              ICON
+            <span aria-hidden="true" className="inline-flex shrink-0 gap-[3px]">
+              {cat.marker.map((label) => (
+                <span
+                  key={label}
+                  className={`inline-flex items-center justify-center rounded-[3px] border border-zinc-900 px-1.5 py-0.5 font-mono text-[10px] font-semibold leading-none tracking-[0.04em] text-zinc-900 dark:border-zinc-400 dark:text-zinc-400 ${"markerItalic" in cat && cat.markerItalic ? "italic" : ""}`}
+                >
+                  {label}
+                </span>
+              ))}
             </span>
             <h2 className="font-heading text-[17px] font-bold leading-tight text-zinc-900 dark:text-zinc-100">
               {cat.label}
