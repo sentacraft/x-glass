@@ -27,7 +27,7 @@ export default function Nav() {
   const effectiveMount = useEffectiveMount();
   const { navLocked, lockNav, setNavHidden } = useNav();
   const isPwa = usePwa();
-  const [scrolledDown, setScrolledAway] = useState(false);
+  const [scrolledDown, setScrolledDown] = useState(false);
   const [feedbackOpen, setFeedbackOpen] = useState(false);
   const lastScrollY = useRef(0);
   const headerRef = useRef<HTMLElement>(null);
@@ -40,9 +40,9 @@ export default function Nav() {
       const y = window.scrollY;
       const threshold = headerRef.current?.offsetHeight ?? 56;
       if (y > lastScrollY.current && y > threshold) {
-        setScrolledAway(true);
+        setScrolledDown(true);
       } else if (y < lastScrollY.current) {
-        setScrolledAway(false);
+        setScrolledDown(false);
       }
       lastScrollY.current = y;
     };
@@ -51,22 +51,22 @@ export default function Nav() {
   }, [isPwa]);
 
   useEffect(() => {
-    setScrolledAway(false);
+    setScrolledDown(false);
     lastScrollY.current = 0;
     lockNav(false);
   }, [pathname, lockNav]);
 
   useEffect(() => {
     if (!navLocked) {
-      setScrolledAway(false);
+      setScrolledDown(false);
     }
   }, [navLocked]);
 
   const isDesktop = useBreakpoint("sm");
-  const offscreen = !isPwa && (scrolledDown || navLocked);
+  const hidden = !isPwa && !isDesktop && (scrolledDown || navLocked);
   useEffect(() => {
-    setNavHidden(offscreen && !isDesktop);
-  }, [offscreen, isDesktop, setNavHidden]);
+    setNavHidden(hidden);
+  }, [hidden, setNavHidden]);
 
   const seg = mountToUrlSegment(effectiveMount);
   const browseHref = `/lenses/${seg}`;
@@ -138,12 +138,12 @@ export default function Nav() {
     <>
     <header
       ref={headerRef}
-      data-hidden={String(offscreen)}
+      data-hidden={String(hidden)}
       className={cn(
         "wco-drag",
         "fixed top-0 inset-x-0 border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-black z-30",
         "transition-transform duration-300 ease-in-out",
-        offscreen && "-translate-y-full sm:translate-y-0"
+        hidden && "-translate-y-full"
       )}
       style={{ paddingTop: "calc(var(--safe-inset-top) + var(--titlebar-height))" }}
     >
