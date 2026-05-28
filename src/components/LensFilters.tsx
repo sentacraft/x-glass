@@ -294,8 +294,7 @@ export default function LensFilters({
           </FilterRow>
         </div>
 
-        <div className="sm:hidden">{filtersMetaRow}</div>
-        <div className="my-1.5 hidden sm:block">{filtersMetaRow}</div>
+        <div className="sm:my-1.5">{filtersMetaRow}</div>
       </div>
 
       {/* Secondary filters: collapsed on mobile by default, always open on desktop */}
