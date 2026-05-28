@@ -7,7 +7,7 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { useNav } from "@/context/ScrollContainerContext";
+import { useNav } from "@/context/NavContext";
 import { usePwa } from "@/lib/usePwa";
 import Image from "next/image";
 import { useTranslations, useLocale } from "next-intl";

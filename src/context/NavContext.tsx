@@ -2,21 +2,21 @@
 
 import { createContext, useContext, useMemo, useState } from "react";
 
-interface ScrollContainerContextValue {
+interface NavContextValue {
   navLocked: boolean;
   lockNav: (locked: boolean) => void;
   navHidden: boolean;
   setNavHidden: (hidden: boolean) => void;
 }
 
-const ScrollContainerContext = createContext<ScrollContainerContextValue>({
+const NavContext = createContext<NavContextValue>({
   navLocked: false,
   lockNav: () => {},
   navHidden: false,
   setNavHidden: () => {},
 });
 
-export function ScrollContainerProvider({
+export function NavProvider({
   children,
 }: {
   children: React.ReactNode;
@@ -29,12 +29,12 @@ export function ScrollContainerProvider({
   );
 
   return (
-    <ScrollContainerContext value={value}>
+    <NavContext value={value}>
       {children}
-    </ScrollContainerContext>
+    </NavContext>
   );
 }
 
 export function useNav() {
-  return useContext(ScrollContainerContext);
+  return useContext(NavContext);
 }

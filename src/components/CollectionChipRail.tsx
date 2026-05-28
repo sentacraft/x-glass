@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { useNav } from "@/context/ScrollContainerContext";
+import { useNav } from "@/context/NavContext";
 
 interface Section {
   id: string;

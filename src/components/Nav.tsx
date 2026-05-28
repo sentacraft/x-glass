@@ -12,7 +12,7 @@ import { useClearCompareWithUndo } from "@/hooks/useClearCompareWithUndo";
 import { useEffectiveMount } from "@/hooks/useMountParam";
 import { useBreakpoint } from "@/hooks/useBreakpoint";
 import { mountToUrlSegment } from "@/lib/mount";
-import { useNav } from "@/context/ScrollContainerContext";
+import { useNav } from "@/context/NavContext";
 import { usePwa } from "@/lib/usePwa";
 import { cn } from "@/lib/utils";
 import MountSwitcher from "@/components/MountSwitcher";
