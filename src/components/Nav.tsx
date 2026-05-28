@@ -146,13 +146,13 @@ export default function Nav() {
   }
 
   const lensesDropdownPanel = (
-    <div className="absolute right-0 top-full mt-1.5 w-56 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 shadow-lg shadow-zinc-950/10 py-1 overflow-hidden">
+    <div className="absolute right-0 top-full mt-1.5 w-48 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 shadow-lg shadow-zinc-950/10 py-1 overflow-hidden">
       <Link
         href={browseHref}
         onClick={() => setLensesMenuOpen(false)}
         className="block px-4 py-2.5 transition-colors hover:bg-zinc-50 dark:hover:bg-zinc-800/50"
       >
-        <span className={cn("text-sm", DROPDOWN_TITLE_CLS, isBrowseActive && !isCollectionsActive ? "text-zinc-900 dark:text-zinc-50" : "text-zinc-500 dark:text-zinc-400")}>
+        <span className={cn("text-sm text-zinc-900 dark:text-zinc-50", DROPDOWN_TITLE_CLS)}>
           {t("allLenses")}
         </span>
         <span className={cn("block", DROPDOWN_CAPTION_CLS)}>
@@ -164,7 +164,7 @@ export default function Nav() {
         onClick={() => setLensesMenuOpen(false)}
         className="block px-4 py-2.5 transition-colors hover:bg-zinc-50 dark:hover:bg-zinc-800/50"
       >
-        <span className={cn("text-sm", DROPDOWN_TITLE_CLS, isCollectionsActive ? "text-zinc-900 dark:text-zinc-50" : "text-zinc-500 dark:text-zinc-400")}>
+        <span className={cn("text-sm text-zinc-900 dark:text-zinc-50", DROPDOWN_TITLE_CLS)}>
           {t("collections")}
         </span>
         <span className={cn("block", DROPDOWN_CAPTION_CLS)}>
