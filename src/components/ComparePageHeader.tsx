@@ -4,8 +4,11 @@ import { useMemo } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { toast } from "sonner";
 import LensSearchDialog from "@/components/LensSearchDialog";
+import { Flag } from "lucide-react";
 import { ShareButton } from "@/components/share/ShareButton";
 import ShareFAB from "@/components/ShareFAB";
+import FeedbackTrigger from "@/components/FeedbackTrigger";
+import { UTILITY_BTN_CLS } from "@/lib/ui-tokens";
 import { useCompare } from "@/context/CompareProvider";
 import { useClearCompareWithUndo } from "@/hooks/useClearCompareWithUndo";
 import { useCompareLensSearch } from "@/hooks/useCompareLensSearch";
@@ -91,8 +94,16 @@ export default function ComparePageHeader() {
           </button>
         )}
         {activeLenses.length >= 1 && (
-          <div className="ml-auto">
+          <div className="ml-auto flex items-center gap-1">
             <ShareButton lenses={activeLenses} presetTitle={presetTitle} presetSubtitle={presetSubtitle} />
+            <FeedbackTrigger
+              type="general"
+              context={{}}
+              className={UTILITY_BTN_CLS}
+            >
+              <Flag className="size-4" />
+              <span className="hidden sm:inline">{t("reportIssue")}</span>
+            </FeedbackTrigger>
           </div>
         )}
       </div>
