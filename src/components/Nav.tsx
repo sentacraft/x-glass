@@ -28,11 +28,9 @@ export default function Nav() {
   const { navLocked, lockNav, setNavHidden } = useNav();
   const isPwa = usePwa();
   const [hidden, setHidden] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [feedbackOpen, setFeedbackOpen] = useState(false);
   const lastScrollY = useRef(0);
   const headerRef = useRef<HTMLElement>(null);
-  const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (isPwa) {
@@ -52,10 +50,9 @@ export default function Nav() {
     return () => window.removeEventListener("scroll", onScroll);
   }, [isPwa]);
 
-  // Close menus + reset scroll on navigation
+  // Reset scroll state on navigation
   useEffect(() => {
     setHidden(false);
-    setMobileMenuOpen(false);
     lastScrollY.current = 0;
     lockNav(false);
   }, [pathname, setHidden, lockNav]);
@@ -71,20 +68,6 @@ export default function Nav() {
   useEffect(() => {
     setNavHidden(collapsed && !isDesktop);
   }, [collapsed, isDesktop, setNavHidden]);
-
-  // Close mobile menu on outside click
-  useEffect(() => {
-    if (!mobileMenuOpen) {
-      return;
-    }
-    function onPointerDown(e: PointerEvent) {
-      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
-        setMobileMenuOpen(false);
-      }
-    }
-    document.addEventListener("pointerdown", onPointerDown);
-    return () => document.removeEventListener("pointerdown", onPointerDown);
-  }, [mobileMenuOpen]);
 
   const seg = mountToUrlSegment(effectiveMount);
   const browseHref = `/lenses/${seg}`;
@@ -149,7 +132,6 @@ export default function Nav() {
       return;
     }
     e.preventDefault();
-    setMobileMenuOpen(false);
     clearCompareWithUndo();
   }
 
@@ -229,49 +211,52 @@ export default function Nav() {
           </a>
 
           {/* Mobile-only overflow menu */}
-          <div ref={menuRef} className="relative sm:hidden">
-            <button
-              onClick={() => setMobileMenuOpen((v) => !v)}
-              className="pl-1 pr-2 py-2 -mr-2 text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 transition-colors"
+          <Menu.Root>
+            <Menu.Trigger
               aria-label="Menu"
-              aria-expanded={mobileMenuOpen}
+              className="pl-1 pr-2 py-2 -mr-2 text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 transition-colors sm:hidden"
             >
               <EllipsisVertical className="h-5 w-5" />
-            </button>
-
-            {mobileMenuOpen && (
-              <div className="absolute right-0 top-full mt-1.5 w-36 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 shadow-lg shadow-zinc-950/10 py-1 overflow-hidden">
-                <Link href="/about" className={mobileLinkCls(pathname === "/about")}>
-                  <Info className="h-4 w-4 shrink-0" />
-                  {t("about")}
-                </Link>
-                {!isPwa && (
-                  <Link href="/get" className={mobileLinkCls(pathname === "/get")}>
-                    <Download className="h-4 w-4 shrink-0" />
-                    {t("getApp")}
-                  </Link>
-                )}
-                <button
-                  type="button"
-                  onClick={() => { setMobileMenuOpen(false); setFeedbackOpen(true); }}
-                  className={mobileLinkCls(false) + " w-full text-left"}
-                >
-                  <Send className="h-4 w-4 shrink-0" />
-                  {t("feedback")}
-                </button>
-                <a
-                  href="https://github.com/sentacraft/x-glass"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={mobileLinkCls(false)}
-                  aria-label="GitHub"
-                >
-                  <GitHubMark size={16} className="shrink-0" />
-                  GitHub
-                </a>
-              </div>
-            )}
-          </div>
+            </Menu.Trigger>
+            <Menu.Portal>
+              <Menu.Positioner side="bottom" align="end" sideOffset={6} className="z-50 sm:hidden">
+                <Menu.Popup className="w-36 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 shadow-lg shadow-zinc-950/10 overflow-hidden origin-(--transform-origin) duration-100 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95">
+                  <Menu.LinkItem
+                    render={<Link href="/about" />}
+                    className={mobileLinkCls(pathname === "/about")}
+                  >
+                    <Info className="h-4 w-4 shrink-0" />
+                    {t("about")}
+                  </Menu.LinkItem>
+                  {!isPwa && (
+                    <Menu.LinkItem
+                      render={<Link href="/get" />}
+                      className={mobileLinkCls(pathname === "/get")}
+                    >
+                      <Download className="h-4 w-4 shrink-0" />
+                      {t("getApp")}
+                    </Menu.LinkItem>
+                  )}
+                  <Menu.Item
+                    onSelect={() => setFeedbackOpen(true)}
+                    className={mobileLinkCls(false)}
+                  >
+                    <Send className="h-4 w-4 shrink-0" />
+                    {t("feedback")}
+                  </Menu.Item>
+                  <Menu.LinkItem
+                    href="https://github.com/sentacraft/x-glass"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={mobileLinkCls(false)}
+                  >
+                    <GitHubMark size={16} className="shrink-0" />
+                    GitHub
+                  </Menu.LinkItem>
+                </Menu.Popup>
+              </Menu.Positioner>
+            </Menu.Portal>
+          </Menu.Root>
         </div>
       </nav>
     </header>
