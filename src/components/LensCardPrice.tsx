@@ -31,7 +31,7 @@ export default function LensCardPrice({ lens }: { lens: Lens }) {
   const priceDisplay = formatPrice(entry.price, entry.currency, locale, condition, t.raw("cnyAmount"));
 
   return (
-    <p className="flex items-baseline gap-1.5 text-sm">
+    <p className="flex items-baseline gap-1 text-sm">
       <span className="font-semibold whitespace-nowrap tabular-nums text-zinc-700 dark:text-zinc-200">
         {t.rich("priceApprox", {
           price: priceDisplay,
@@ -43,7 +43,7 @@ export default function LensCardPrice({ lens }: { lens: Lens }) {
         })}
       </span>
       {condition === "used" && (
-        <span className="rounded-md bg-zinc-100 px-1.5 py-0.5 text-[10px] font-medium text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400">
+        <span className="shrink-0 rounded bg-zinc-100 px-1 py-px text-[9px] font-medium leading-tight text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400">
           {t("usedBadge")}
         </span>
       )}

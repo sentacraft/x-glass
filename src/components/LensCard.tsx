@@ -141,7 +141,7 @@ export default memo(function LensCard({
               edge — price shares this line instead of taking its own. Badges
               flex-wrap in the flexible left column; price is shrink-0 so it
               never wraps, and the row grows downward if badges need a 2nd line. */}
-          <div className="flex min-h-[20px] items-start justify-between gap-2">
+          <div className="flex min-h-[20px] items-start justify-between gap-1">
             <div className="flex min-w-0 flex-1 flex-wrap items-center gap-1">
               {badges.map((badge) => (
                 <Badge
