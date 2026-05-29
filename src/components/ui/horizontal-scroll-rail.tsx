@@ -60,6 +60,7 @@ export function HorizontalScrollRail({
           className,
         )}
       >
+        <div className="shrink-0 w-6" aria-hidden="true" />
         {children}
         <div className="shrink-0 w-6" aria-hidden="true" />
       </div>
