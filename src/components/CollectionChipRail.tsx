@@ -2,6 +2,10 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useNav } from "@/context/NavContext";
+import {
+  useHorizontalScrollAffordance,
+  buildHorizontalScrollMask,
+} from "@/hooks/useHorizontalScrollAffordance";
 
 interface Section {
   id: string;
@@ -23,11 +27,11 @@ export default function CollectionChipRail({
   allLabel,
 }: CollectionChipRailProps) {
   const [activeId, setActiveId] = useState<string | null>(null);
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(false);
   const { navHidden } = useNav();
   const railRef = useRef<HTMLElement>(null);
   const isClickScrolling = useRef(false);
+  const { canScrollLeft, canScrollRight } = useHorizontalScrollAffordance(railRef);
+  const scrollMask = buildHorizontalScrollMask(canScrollLeft, canScrollRight);
 
   useEffect(() => {
     const ids = sections.map((s) => s.id);
@@ -86,40 +90,17 @@ export default function CollectionChipRail({
       rail.scrollTo({ left: 0, behavior: "smooth" });
       return;
     }
-    if (activeId === sections[sections.length - 1]?.id) {
-      rail.scrollTo({ left: rail.scrollWidth, behavior: "smooth" });
-      return;
-    }
     const active = rail.querySelector("[data-active=true]") as HTMLElement | null;
-    if (!active) {
-      return;
+    if (active) {
+      active.scrollIntoView({ behavior: "smooth", inline: "nearest", block: "nearest" });
     }
-    const railRect = rail.getBoundingClientRect();
-    const chipRect = active.getBoundingClientRect();
-    if (chipRect.left >= railRect.left && chipRect.right <= railRect.right) {
-      return;
-    }
-    const offset =
-      chipRect.left - railRect.left - (railRect.width - chipRect.width) / 2;
-    rail.scrollBy({ left: offset, behavior: "smooth" });
-  }, [activeId, sections]);
+  }, [activeId]);
 
   useEffect(() => {
     const rail = railRef.current;
     if (!rail) {
       return;
     }
-
-    function updateOverflow() {
-      if (!rail) {
-        return;
-      }
-      setCanScrollLeft(rail.scrollLeft > 1);
-      setCanScrollRight(
-        rail.scrollLeft + rail.clientWidth < rail.scrollWidth - 1
-      );
-    }
-
     function onWheel(e: WheelEvent) {
       if (!rail || rail.scrollWidth <= rail.clientWidth) {
         return;
@@ -130,18 +111,8 @@ export default function CollectionChipRail({
       e.preventDefault();
       rail.scrollBy({ left: e.deltaY });
     }
-
-    updateOverflow();
-    rail.addEventListener("scroll", updateOverflow, { passive: true });
     rail.addEventListener("wheel", onWheel, { passive: false });
-    const ro = new ResizeObserver(updateOverflow);
-    ro.observe(rail);
-
-    return () => {
-      rail.removeEventListener("scroll", updateOverflow);
-      rail.removeEventListener("wheel", onWheel);
-      ro.disconnect();
-    };
+    return () => rail.removeEventListener("wheel", onWheel);
   }, []);
 
   const scrollTo = useCallback(
@@ -173,55 +144,49 @@ export default function CollectionChipRail({
     "border-zinc-900 bg-zinc-900 text-white dark:border-zinc-100 dark:bg-zinc-100 dark:text-zinc-900";
 
   return (
-    <div
-      className="sticky z-20 -mx-6 relative border-b border-zinc-200 dark:border-zinc-800 bg-white/90 dark:bg-zinc-950/90 backdrop-blur-sm transition-[top] duration-300 ease-in-out"
-      style={{ top: navHidden ? 0 : "var(--nav-height)" }}
+    <nav
+      ref={railRef}
+      aria-label="Jump to section"
+      style={{
+        top: navHidden ? 0 : "var(--nav-height)",
+        maskImage: scrollMask,
+        WebkitMaskImage: scrollMask,
+      }}
+      className="sticky z-20 -mx-6 flex gap-1.5 overflow-x-auto border-b border-zinc-200 bg-white/90 px-6 py-3 backdrop-blur-sm transition-[top] duration-300 ease-in-out [scrollbar-width:none] [-webkit-overflow-scrolling:touch] [&::-webkit-scrollbar]:hidden dark:border-zinc-800 dark:bg-zinc-950/90"
     >
-      <nav
-        ref={railRef}
-        aria-label="Jump to section"
-        className="flex gap-1.5 overflow-x-auto px-6 py-3 [scrollbar-width:none] [-webkit-overflow-scrolling:touch] [&::-webkit-scrollbar]:hidden"
+      <button
+        type="button"
+        data-active={activeId === null}
+        onClick={() => scrollTo(null)}
+        className={`${chipBase} ${activeId === null ? chipActive : chipIdle}`}
       >
-        <button
-          type="button"
-          data-active={activeId === null}
-          onClick={() => scrollTo(null)}
-          className={`${chipBase} ${activeId === null ? chipActive : chipIdle}`}
+        {allLabel}
+        <span
+          className={`font-mono text-[10px] ${activeId === null ? "text-white/65 dark:text-zinc-900/65" : "text-zinc-400 dark:text-zinc-500"}`}
         >
-          {allLabel}
-          <span
-            className={`font-mono text-[10px] ${activeId === null ? "text-white/65 dark:text-zinc-900/65" : "text-zinc-400 dark:text-zinc-500"}`}
-          >
-            {totalCount}
-          </span>
-        </button>
+          {totalCount}
+        </span>
+      </button>
 
-        {sections.map((s) => {
-          const isActive = activeId === s.id;
-          return (
-            <button
-              key={s.id}
-              type="button"
-              data-active={isActive}
-              onClick={() => scrollTo(s.id)}
-              className={`${chipBase} ${isActive ? chipActive : chipIdle}`}
+      {sections.map((s) => {
+        const isActive = activeId === s.id;
+        return (
+          <button
+            key={s.id}
+            type="button"
+            data-active={isActive}
+            onClick={() => scrollTo(s.id)}
+            className={`${chipBase} ${isActive ? chipActive : chipIdle}`}
+          >
+            {s.label}
+            <span
+              className={`font-mono text-[10px] ${isActive ? "text-white/65 dark:text-zinc-900/65" : "text-zinc-400 dark:text-zinc-500"}`}
             >
-              {s.label}
-              <span
-                className={`font-mono text-[10px] ${isActive ? "text-white/65 dark:text-zinc-900/65" : "text-zinc-400 dark:text-zinc-500"}`}
-              >
-                {s.count}
-              </span>
-            </button>
-          );
-        })}
-      </nav>
-      {canScrollLeft && (
-        <div className="absolute left-0 top-0 bottom-0 w-12 pointer-events-none bg-gradient-to-r from-white dark:from-zinc-950" />
-      )}
-      {canScrollRight && (
-        <div className="absolute right-0 top-0 bottom-0 w-12 pointer-events-none bg-gradient-to-l from-white dark:from-zinc-950" />
-      )}
-    </div>
+              {s.count}
+            </span>
+          </button>
+        );
+      })}
+    </nav>
   );
 }
