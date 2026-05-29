@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
 import { Menu } from "@base-ui/react/menu";
-import { EllipsisVertical, Send, Info, Download } from "lucide-react";
+import { EllipsisVertical, Flag, Info, Download } from "lucide-react";
 import { Link, usePathname } from "@/i18n/navigation";
 import Iris from "@/components/Iris";
 import { IRIS_NAV } from "@/config/iris-config";
@@ -198,7 +198,7 @@ export default function Nav() {
                     onSelect={() => setFeedbackOpen(true)}
                     className={mobileLinkCls(false)}
                   >
-                    <Send className="h-4 w-4 shrink-0" />
+                    <Flag className="h-4 w-4 shrink-0" />
                     {t("feedback")}
                   </Menu.Item>
                   <Menu.LinkItem
