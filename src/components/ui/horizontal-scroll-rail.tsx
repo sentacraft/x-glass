@@ -56,11 +56,10 @@ export function HorizontalScrollRail({
       <div
         ref={ref}
         className={cn(
-          "flex overflow-x-auto [scrollbar-width:none] [-webkit-overflow-scrolling:touch] [&::-webkit-scrollbar]:hidden",
+          "flex overflow-x-auto overflow-y-clip [scrollbar-width:none] [-webkit-overflow-scrolling:touch] [&::-webkit-scrollbar]:hidden",
           className,
         )}
       >
-        <div className="shrink-0 w-6" aria-hidden="true" />
         {children}
         <div className="shrink-0 w-6" aria-hidden="true" />
       </div>
