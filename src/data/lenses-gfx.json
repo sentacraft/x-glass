@@ -62,10 +62,14 @@
     },
     "purchaseChannels": [
       {
-        "channel": "bhphoto"
+        "channel": "amazon",
+        "asin": "B0BCR6YBJR"
       },
       {
         "channel": "ebay"
+      },
+      {
+        "channel": "bhphoto"
       }
     ],
     "accessories": [
@@ -160,10 +164,14 @@
     },
     "purchaseChannels": [
       {
-        "channel": "bhphoto"
+        "channel": "amazon",
+        "asin": "B071R2XGWW"
       },
       {
         "channel": "ebay"
+      },
+      {
+        "channel": "bhphoto"
       }
     ],
     "accessories": [
@@ -253,10 +261,14 @@
     },
     "purchaseChannels": [
       {
-        "channel": "bhphoto"
+        "channel": "amazon",
+        "asin": "B08BQGD44P"
       },
       {
         "channel": "ebay"
+      },
+      {
+        "channel": "bhphoto"
       }
     ],
     "filterMm": 58,
@@ -334,10 +346,14 @@
     },
     "purchaseChannels": [
       {
-        "channel": "bhphoto"
+        "channel": "amazon",
+        "asin": "B0CHG2XF1Z"
       },
       {
         "channel": "ebay"
+      },
+      {
+        "channel": "bhphoto"
       }
     ],
     "accessories": [
@@ -450,10 +466,14 @@
     },
     "purchaseChannels": [
       {
-        "channel": "bhphoto"
+        "channel": "amazon",
+        "asin": "B01MR6Z8Z2"
       },
       {
         "channel": "ebay"
+      },
+      {
+        "channel": "bhphoto"
       }
     ],
     "accessories": [
@@ -543,10 +563,10 @@
     },
     "purchaseChannels": [
       {
-        "channel": "bhphoto"
+        "channel": "ebay"
       },
       {
-        "channel": "ebay"
+        "channel": "bhphoto"
       }
     ],
     "accessories": [
@@ -646,10 +666,14 @@
     },
     "purchaseChannels": [
       {
-        "channel": "bhphoto"
+        "channel": "amazon",
+        "asin": "B09DTJ9R5T"
       },
       {
         "channel": "ebay"
+      },
+      {
+        "channel": "bhphoto"
       }
     ],
     "accessories": [
@@ -751,10 +775,14 @@
     },
     "purchaseChannels": [
       {
-        "channel": "bhphoto"
+        "channel": "amazon",
+        "asin": "B08412X7BV"
       },
       {
         "channel": "ebay"
+      },
+      {
+        "channel": "bhphoto"
       }
     ],
     "accessories": [
@@ -844,10 +872,14 @@
     },
     "purchaseChannels": [
       {
-        "channel": "bhphoto"
+        "channel": "amazon",
+        "asin": "B0759FTQ4T"
       },
       {
         "channel": "ebay"
+      },
+      {
+        "channel": "bhphoto"
       }
     ],
     "accessories": [
@@ -938,10 +970,14 @@
     },
     "purchaseChannels": [
       {
-        "channel": "bhphoto"
+        "channel": "amazon",
+        "asin": "B07TWYNDQ2"
       },
       {
         "channel": "ebay"
+      },
+      {
+        "channel": "bhphoto"
       }
     ],
     "accessories": [
@@ -1032,10 +1068,14 @@
     },
     "purchaseChannels": [
       {
-        "channel": "bhphoto"
+        "channel": "amazon",
+        "asin": "B0CHG23DJC"
       },
       {
         "channel": "ebay"
+      },
+      {
+        "channel": "bhphoto"
       }
     ],
     "accessories": [
@@ -1124,10 +1164,14 @@
     },
     "purchaseChannels": [
       {
-        "channel": "bhphoto"
+        "channel": "amazon",
+        "asin": "B01MS8EWXM"
       },
       {
         "channel": "ebay"
+      },
+      {
+        "channel": "bhphoto"
       }
     ],
     "accessories": [
@@ -1216,10 +1260,14 @@
     },
     "purchaseChannels": [
       {
-        "channel": "bhphoto"
+        "channel": "amazon",
+        "asin": "B08TPBNCYM"
       },
       {
         "channel": "ebay"
+      },
+      {
+        "channel": "bhphoto"
       }
     ],
     "accessories": [
@@ -1317,10 +1365,14 @@
     },
     "purchaseChannels": [
       {
-        "channel": "bhphoto"
+        "channel": "amazon",
+        "asin": "B07MWBDQN3"
       },
       {
         "channel": "ebay"
+      },
+      {
+        "channel": "bhphoto"
       }
     ],
     "accessories": [
@@ -1412,10 +1464,14 @@
     },
     "purchaseChannels": [
       {
-        "channel": "bhphoto"
+        "channel": "amazon",
+        "asin": "B071CKRCN6"
       },
       {
         "channel": "ebay"
+      },
+      {
+        "channel": "bhphoto"
       }
     ],
     "accessories": [
@@ -1509,10 +1565,14 @@
     },
     "purchaseChannels": [
       {
-        "channel": "bhphoto"
+        "channel": "amazon",
+        "asin": "B0CHG2TGTD"
       },
       {
         "channel": "ebay"
+      },
+      {
+        "channel": "bhphoto"
       }
     ],
     "accessories": [
@@ -1604,10 +1664,14 @@
     },
     "purchaseChannels": [
       {
-        "channel": "bhphoto"
+        "channel": "amazon",
+        "asin": "B01MZARLEQ"
       },
       {
         "channel": "ebay"
+      },
+      {
+        "channel": "bhphoto"
       }
     ],
     "accessories": [
@@ -1696,10 +1760,14 @@
     },
     "purchaseChannels": [
       {
-        "channel": "bhphoto"
+        "channel": "amazon",
+        "asin": "B07C51T679"
       },
       {
         "channel": "ebay"
+      },
+      {
+        "channel": "bhphoto"
       }
     ],
     "accessories": [
@@ -1789,10 +1857,14 @@
     },
     "purchaseChannels": [
       {
-        "channel": "bhphoto"
+        "channel": "amazon",
+        "asin": "B0D3WJ7CKD"
       },
       {
         "channel": "ebay"
+      },
+      {
+        "channel": "bhphoto"
       }
     ],
     "accessories": [
@@ -1889,6 +1961,9 @@
         "url": "https://www.venuslens.net/product/laowa-8-15mm-f-2-8-ff-zoom-fisheye-2/"
       },
       {
+        "channel": "ebay"
+      },
+      {
         "channel": "bhphoto"
       }
     ],
@@ -1980,6 +2055,9 @@
         "url": "https://www.venuslens.net/product/laowa-17mm-f-4-zero-d-tilt-shift-shift/"
       },
       {
+        "channel": "ebay"
+      },
+      {
         "channel": "bhphoto"
       }
     ],
@@ -2065,6 +2143,9 @@
       {
         "channel": "official",
         "url": "https://www.venuslens.net/product/laowa-17mm-f-4-zero-d-tilt-shift-shift/"
+      },
+      {
+        "channel": "ebay"
       },
       {
         "channel": "bhphoto"
@@ -2155,6 +2236,9 @@
         "url": "https://www.venuslens.net/product/the-laowa-35mm-f-2-8-zero-d-tilt-shift-0-5x-macro/"
       },
       {
+        "channel": "ebay"
+      },
+      {
         "channel": "bhphoto"
       }
     ],
@@ -2240,6 +2324,9 @@
       {
         "channel": "official",
         "url": "https://www.venuslens.net/product/laowa-55mm-f-2-8-tilt-shift-1x-macro/"
+      },
+      {
+        "channel": "ebay"
       },
       {
         "channel": "bhphoto"
@@ -2329,6 +2416,9 @@
         "url": "https://www.venuslens.net/product/laowa-100mm-f-2-8-tilt-shift-1x-macro/"
       },
       {
+        "channel": "ebay"
+      },
+      {
         "channel": "bhphoto"
       }
     ],
@@ -2411,6 +2501,9 @@
         "url": "https://www.venuslens.net/product/laowa-17mm-f-4-gfx-zero-d/"
       },
       {
+        "channel": "ebay"
+      },
+      {
         "channel": "bhphoto"
       }
     ],
@@ -2483,6 +2576,9 @@
       {
         "channel": "official",
         "url": "https://www.venuslens.net/product/laowa-19mm-f-2-8-zero-d/"
+      },
+      {
+        "channel": "ebay"
       },
       {
         "channel": "bhphoto"
