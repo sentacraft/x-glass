@@ -116,9 +116,19 @@ const lensBaseShape = {
     cn: pricingMarketSchema.optional(),
     global: pricingMarketSchema.optional(),
   }).superRefine((value, ctx) => {
-    // Each market carries its own currency: cn → CNY, global → USD. The
-    // price filters compare raw amounts against currency-specific
-    // thresholds and trust this pairing, so enforce it at the data layer.
+    // Market → currency pairing (cn → CNY, global → USD) is enforced here at
+    // the validation layer on purpose, rather than baked into the schema/type.
+    // The schema deliberately keeps `currency` as the open CNY | USD union for
+    // both markets so it stays flexible: if a locale ever legitimately carries
+    // a different currency, we relax this single guard and handle conversion at
+    // presentation time — no schema or type migration needed. For now, one
+    // currency per market is sufficient. Upstream, the pipeline scripts and the
+    // data-collection agent already follow this rule; this guard is the runtime
+    // backstop that fails loudly if a row ever slips through, since the price
+    // filters compare raw amounts against currency-specific thresholds and
+    // trust this pairing. A type-level constraint cannot replace it anyway:
+    // the data is JSON validated at runtime and TS types are erased, so
+    // external data needs a runtime check regardless.
     const requireCurrency = (
       market: "cn" | "global",
       slot: "new" | "used",
