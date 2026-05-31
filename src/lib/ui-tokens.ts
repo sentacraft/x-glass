@@ -136,6 +136,15 @@ export const UTILITY_BTN_CLS =
   "dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100 transition-colors";
 
 /**
+ * Shared visual surface for every popup / overlay — border, radius, fill,
+ * shadow, and their dark-mode equivalents. Single source so menus, selects,
+ * and tooltips can't drift apart (the dark shades in particular). Compose with
+ * each popup's own behaviour (overflow, scroll, animation, padding).
+ */
+export const POPUP_SURFACE_CLS =
+  "rounded-lg border border-zinc-200 bg-white shadow-lg dark:border-zinc-700 dark:bg-zinc-900";
+
+/**
  * Full-bleed dropdown / menu popup (base-ui `Menu.Popup` or `Popover.Popup`)
  * whose children are edge-to-edge hoverable rows.
  *
@@ -146,11 +155,10 @@ export const UTILITY_BTN_CLS =
  * recurring "hover doesn't reach the edge / full height" bug.
  *
  * Compose width / anchor sizing per call site via `cn()`. Does not apply to
- * the inset rounded-pill item menu style (e.g. brand filter, select).
+ * the inset rounded-pill item menu style (e.g. brand filter).
  */
 export const MENU_POPUP_CLS =
-  "overflow-hidden rounded-lg border border-zinc-200 bg-white shadow-lg " +
-  "origin-(--transform-origin) duration-100 " +
+  POPUP_SURFACE_CLS + " " +
+  "overflow-hidden origin-(--transform-origin) duration-100 " +
   "data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 " +
-  "data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95 " +
-  "dark:border-zinc-700 dark:bg-zinc-900";
+  "data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95";
