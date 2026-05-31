@@ -11838,89 +11838,6 @@
     }
   },
   {
-    "id": "ttartisan-af-17mm-f18-air-x",
-    "brand": "ttartisan",
-    "mount": "X",
-    "model": "AF 17mm F1.8 Air",
-    "focalLengthMin": 17,
-    "focalLengthMax": 17,
-    "maxAperture": 1.8,
-    "minAperture": 16,
-    "af": true,
-    "ois": false,
-    "wr": false,
-    "apertureRing": true,
-    "powerZoom": false,
-    "focusMotor": "STM",
-    "weightG": [
-      161,
-      178
-    ],
-    "diameterMm": 60,
-    "length": {
-      "mm": 47
-    },
-    "minFocusDistance": {
-      "normal": {
-        "cm": 18
-      }
-    },
-    "angleOfView": 81,
-    "angleOfViewCalc": 79.5,
-    "apertureBladeCount": 6,
-    "searchAliases": {
-      "en": "TTArtisan AF 17mm f1.8 Air Fuji X",
-      "zh": "铭匠 AF 17mm f1.8 Air 富士"
-    },
-    "pricing": {
-      "cn": {
-        "new": [
-          {
-            "price": 790,
-            "currency": "CNY",
-            "source": "京东·铭匠官方旗舰店",
-            "url": "https://item.jd.com/10217000703513.html",
-            "sampledAt": "2026-05-09"
-          }
-        ]
-      },
-      "global": {
-        "new": [
-          {
-            "price": 148,
-            "currency": "USD",
-            "source": "ttartisan.store",
-            "url": "https://ttartisan.store/products/af-17mm-f1-8-air",
-            "purchasableChannel": "official",
-            "sampledAt": "2026-05-09"
-          }
-        ]
-      }
-    },
-    "compatibleMounts": [
-      "Fujifilm X",
-      "Sony E",
-      "Nikon Z"
-    ],
-    "lensMaterial": "Metal",
-    "filterMm": 52,
-    "lensConfiguration": {
-      "groups": 10,
-      "elements": 14,
-      "sourceText": "10组14片"
-    },
-    "fieldNotes": {},
-    "officialLinks": {
-      "cn": "https://cn.ttartisan.com/?AFlens/351.html",
-      "global": "https://www.ttartisan.com/?af-lens/350.html"
-    },
-    "translations": {
-      "zh": {
-        "lensMaterial": "金属"
-      }
-    }
-  },
-  {
     "id": "ttartisan-af-23mm-f18-x",
     "brand": "ttartisan",
     "mount": "X",
@@ -11932,7 +11849,7 @@
     "af": true,
     "ois": false,
     "wr": false,
-    "apertureRing": true,
+    "apertureRing": false,
     "powerZoom": false,
     "focusMotor": "STM+Lead screw",
     "weightG": 210,
@@ -12116,7 +12033,7 @@
     "af": true,
     "ois": false,
     "wr": false,
-    "apertureRing": true,
+    "apertureRing": false,
     "powerZoom": false,
     "focusMotor": "STM+Lead screw",
     "weightG": [
@@ -12216,7 +12133,7 @@
     "af": true,
     "ois": false,
     "wr": false,
-    "apertureRing": true,
+    "apertureRing": false,
     "powerZoom": false,
     "focusMotor": "STM+Lead screw",
     "weightG": [
