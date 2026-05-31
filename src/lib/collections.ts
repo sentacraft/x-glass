@@ -140,7 +140,7 @@ const FILTERS: Record<string, LensFilter> = {
     !isZoom(lens) &&
     !isSpecialOptic(lens) &&
     lens.length?.mm != null &&
-    lens.length.mm <= 40,
+    lens.length.mm <= 35,
 
   // --- Aperture ---
   "fast-aperture-primes": (lens) => {

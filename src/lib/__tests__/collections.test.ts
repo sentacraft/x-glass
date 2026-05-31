@@ -90,6 +90,18 @@ describe("specialty optics are excluded from framing collections", () => {
   }
 });
 
+describe("pancake", () => {
+  it("matches only primes with a barrel length of 35mm or less", () => {
+    const lenses = matchingLenses("pancake");
+    expect(lenses.length).toBeGreaterThan(0);
+    for (const l of lenses) {
+      expect(isZoom(l)).toBe(false);
+      expect(l.length?.mm).toBeDefined();
+      expect(l.length!.mm).toBeLessThanOrEqual(35);
+    }
+  });
+});
+
 // ---------------------------------------------------------------------------
 // Filter predicates — zoom collections
 // ---------------------------------------------------------------------------
