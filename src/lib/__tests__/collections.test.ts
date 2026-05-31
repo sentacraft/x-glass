@@ -73,6 +73,23 @@ describe("wide-angle-primes", () => {
   });
 });
 
+// General-purpose framing collections must not surface specialty optics
+// (fisheye / macro / tilt-shift) — those live in their dedicated collections.
+describe("specialty optics are excluded from framing collections", () => {
+  const SPECIAL = ["fisheye", "macro", "tilt", "shift"];
+  for (const slug of ["pancake", "wide-angle-primes", "wide-zoom"]) {
+    it(`${slug} excludes specialty optics`, () => {
+      const lenses = matchingLenses(slug);
+      expect(lenses.length).toBeGreaterThan(0);
+      for (const l of lenses) {
+        for (const trait of SPECIAL) {
+          expect(l.opticalTraits ?? []).not.toContain(trait);
+        }
+      }
+    });
+  }
+});
+
 // ---------------------------------------------------------------------------
 // Filter predicates — zoom collections
 // ---------------------------------------------------------------------------

@@ -21,6 +21,15 @@ function xPhoto(lens: Lens): boolean {
   return xMount(lens) && !lens.isCine;
 }
 
+// Specialty optics deliver a non-standard projection (fisheye) or workflow
+// (macro, tilt/shift) and have their own dedicated collections. They are
+// excluded from general-purpose framing collections so a fisheye never
+// surfaces as an everyday "pancake" or a rectilinear wide-angle option.
+const SPECIAL_OPTICS = ["fisheye", "macro", "tilt", "shift"];
+function isSpecialOptic(lens: Lens): boolean {
+  return lens.opticalTraits?.some((t) => SPECIAL_OPTICS.includes(t)) ?? false;
+}
+
 function xPrime(focalMin: number, focalMax: number): LensFilter {
   return (lens) =>
     xPhoto(lens) &&
@@ -45,11 +54,11 @@ const FILTERS: Record<string, LensFilter> = {
   "56mm": xPrime(55, 58),
   "85mm": xPrime(83, 90),
   "wide-angle-primes": (lens) =>
-    xPhoto(lens) && !isZoom(lens) && lens.focalLengthMin <= 18,
+    xPhoto(lens) && !isZoom(lens) && !isSpecialOptic(lens) && lens.focalLengthMin <= 18,
 
   // --- Zoom ---
   "wide-zoom": (lens) =>
-    xPhoto(lens) && isZoom(lens) && lens.focalLengthMin <= 12,
+    xPhoto(lens) && isZoom(lens) && !isSpecialOptic(lens) && lens.focalLengthMin <= 12,
 
   "standard-zoom": (lens) =>
     xPhoto(lens) &&
@@ -129,6 +138,7 @@ const FILTERS: Record<string, LensFilter> = {
   "pancake": (lens) =>
     xPhoto(lens) &&
     !isZoom(lens) &&
+    !isSpecialOptic(lens) &&
     lens.length?.mm != null &&
     lens.length.mm <= 40,
 
