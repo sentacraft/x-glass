@@ -32,6 +32,8 @@ import { ICON_CLOSE_BTN_CLS, FROSTED_OVERLAY_CHROME_CLS } from "@/lib/ui-tokens"
 import FeedbackTrigger from "./FeedbackTrigger";
 
 type SearchViewportStyle = CSSProperties & {
+  "--search-visual-top"?: string;
+  "--search-visual-left"?: string;
   "--search-visual-width"?: string;
   "--search-visual-height"?: string;
 };
@@ -95,14 +97,17 @@ export default function LensSearchDialog({
         return;
       }
 
-      // Size the dialog to the *visual* viewport, not the layout viewport. On
-      // iOS window.innerHeight stays full-screen when the keyboard opens, so a
-      // layout-height dialog overflows behind the keyboard and iOS lets the
-      // user pan that hidden strip — dragging the whole fixed dialog up/down.
-      // Matching visualViewport.height means nothing sits behind the keyboard,
-      // so there is nothing to pan; the results scroller ends exactly at the
-      // keyboard's top edge. Pinned to top-0 left-0, so offsetTop is unused.
+      // Glue the dialog to the *visual* viewport: follow its offset AND its
+      // size, updated on resize and scroll. A position:fixed element is
+      // anchored to the layout viewport, which on iOS diverges from the visual
+      // viewport whenever the keyboard is open. Pinning the size to the visual
+      // viewport but the position to the layout origin (top:0) is what let the
+      // dialog drift up on Chrome and let iOS pan it around — the size and the
+      // position were in different coordinate systems. Following
+      // offsetTop/offsetLeft keeps it locked over the visible area.
       setViewportStyle({
+        "--search-visual-top": `${viewport.offsetTop}px`,
+        "--search-visual-left": `${viewport.offsetLeft}px`,
         "--search-visual-width": `${viewport.width}px`,
         "--search-visual-height": `${viewport.height}px`,
       });
@@ -110,10 +115,12 @@ export default function LensSearchDialog({
 
     updateViewportStyle();
     viewport?.addEventListener("resize", updateViewportStyle);
+    viewport?.addEventListener("scroll", updateViewportStyle);
     window.addEventListener("orientationchange", updateViewportStyle);
 
     return () => {
       viewport?.removeEventListener("resize", updateViewportStyle);
+      viewport?.removeEventListener("scroll", updateViewportStyle);
       window.removeEventListener("orientationchange", updateViewportStyle);
     };
   }, [open]);
@@ -314,7 +321,7 @@ export default function LensSearchDialog({
           noDefaultPositioning
           style={viewportStyle}
           backdropClassName="bg-white dark:bg-zinc-950 sm:bg-zinc-950/55 sm:dark:bg-zinc-950/55"
-          className="fixed left-0 top-0 flex h-[var(--search-visual-height,100dvh)] w-[var(--search-visual-width,100vw)] max-w-none flex-col overflow-hidden rounded-none border-0 bg-white shadow-none sm:left-1/2 sm:top-1/2 sm:h-auto sm:max-h-[85svh] sm:w-full sm:max-w-2xl sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-[28px] sm:border sm:border-zinc-200 sm:shadow-2xl sm:shadow-zinc-950/20 dark:bg-zinc-950 sm:dark:border-zinc-800"
+          className="fixed left-[var(--search-visual-left,0px)] top-[var(--search-visual-top,0px)] flex h-[var(--search-visual-height,100dvh)] w-[var(--search-visual-width,100vw)] max-w-none flex-col overflow-hidden rounded-none border-0 bg-white shadow-none sm:left-1/2 sm:top-1/2 sm:h-auto sm:max-h-[85svh] sm:w-full sm:max-w-2xl sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-[28px] sm:border sm:border-zinc-200 sm:shadow-2xl sm:shadow-zinc-950/20 dark:bg-zinc-950 sm:dark:border-zinc-800"
           showCloseButton={false}
         >
           <DialogHeader className="shrink-0 border-b border-zinc-100 pr-5 pt-[calc(var(--safe-inset-top)_+_1rem)] sm:pt-4 dark:border-zinc-800">
