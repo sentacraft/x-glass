@@ -1,25 +1,16 @@
 "use client";
 
-import {
-  type CSSProperties,
-  type KeyboardEvent,
-  useDeferredValue,
-  useEffect,
-  useId,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { useState } from "react";
 import type { LucideIcon } from "lucide-react";
 import { Search, X } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { useRouter, Link } from "@/i18n/navigation";
+import { useRouter } from "@/i18n/navigation";
 import { mountToUrlSegment } from "@/lib/mount";
-import { buildLensSearchIndex, searchLensIndex } from "@/lib/lens-search";
+import { useEffectiveMount } from "@/hooks/useMountParam";
+import { useBreakpoint } from "@/hooks/useBreakpoint";
 import type { Lens } from "@/lib/types";
 import { cn } from "@/lib/utils";
-import { lensSubtitleLine } from "@/lib/lens.format";
-import { useSearchTelemetry } from "./LensSearchDialog.telemetry";
+import LensSearchPanel, { type LensSearchResultState } from "./LensSearchPanel";
 import {
   Dialog,
   DialogClose,
@@ -29,19 +20,6 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { ICON_CLOSE_BTN_CLS, FROSTED_OVERLAY_CHROME_CLS } from "@/lib/ui-tokens";
-import FeedbackTrigger from "./FeedbackTrigger";
-
-type SearchViewportStyle = CSSProperties & {
-  "--search-visual-top"?: string;
-  "--search-visual-left"?: string;
-  "--search-visual-width"?: string;
-  "--search-visual-height"?: string;
-};
-
-interface LensSearchResultState {
-  actionLabel?: string;
-  disabled?: boolean;
-}
 
 interface LensSearchDialogProps {
   lenses: Lens[];
@@ -64,187 +42,28 @@ export default function LensSearchDialog({
   triggerIcon: TriggerIcon = Search,
 }: LensSearchDialogProps) {
   const t = useTranslations("Search");
-  const tBrand = useTranslations("Brands");
   const router = useRouter();
+  const mount = useEffectiveMount();
+  const isDesktop = useBreakpoint("sm");
   const [open, setOpen] = useState(false);
-  const [query, setQuery] = useState("");
-  const [activeIndex, setActiveIndex] = useState(0);
-  const inputRef = useRef<HTMLInputElement>(null);
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const dialogLayerRef = useRef<HTMLDivElement>(null);
-  const dialogContentRef = useRef<HTMLDivElement>(null);
-  const touchYRef = useRef<number | null>(null);
-  const inputId = useId();
-  const resultsId = useId();
-  const deferredQuery = useDeferredValue(query);
-  const [viewportStyle, setViewportStyle] = useState<SearchViewportStyle>({});
 
-  useEffect(() => {
-    if (typeof window === "undefined") {
-      return;
+  // On mobile the search opens a real full-screen page (normal document flow)
+  // instead of a fixed overlay — that is the only layout that lets the result
+  // list scroll fully above the iOS on-screen keyboard, since fixed sheets are
+  // anchored to the layout viewport and stay behind the keyboard. Desktop has
+  // no keyboard constraint, so it keeps the centered dialog.
+  const mountSegment = mountToUrlSegment(mount);
+  const searchPageHref = onSelectLens
+    ? `/lenses/${mountSegment}/search?intent=compare`
+    : `/lenses/${mountSegment}/search`;
+
+  function handleTriggerClick() {
+    if (isDesktop) {
+      setOpen(true);
+    } else {
+      router.push(searchPageHref);
     }
-
-    if (!open) {
-      setViewportStyle({});
-      return;
-    }
-
-    const viewport = window.visualViewport;
-
-    function updateViewportStyle() {
-      if (!viewport) {
-        setViewportStyle({});
-        return;
-      }
-
-      // Glue the dialog to the *visual* viewport: follow its offset AND its
-      // size, updated on resize and scroll. A position:fixed element is
-      // anchored to the layout viewport, which on iOS diverges from the visual
-      // viewport whenever the keyboard is open. Pinning the size to the visual
-      // viewport but the position to the layout origin (top:0) is what let the
-      // dialog drift up on Chrome and let iOS pan it around — the size and the
-      // position were in different coordinate systems. Following
-      // offsetTop/offsetLeft keeps it locked over the visible area.
-      setViewportStyle({
-        "--search-visual-top": `${viewport.offsetTop}px`,
-        "--search-visual-left": `${viewport.offsetLeft}px`,
-        "--search-visual-width": `${viewport.width}px`,
-        "--search-visual-height": `${viewport.height}px`,
-      });
-    }
-
-    updateViewportStyle();
-    viewport?.addEventListener("resize", updateViewportStyle);
-    viewport?.addEventListener("scroll", updateViewportStyle);
-    window.addEventListener("orientationchange", updateViewportStyle);
-
-    return () => {
-      viewport?.removeEventListener("resize", updateViewportStyle);
-      viewport?.removeEventListener("scroll", updateViewportStyle);
-      window.removeEventListener("orientationchange", updateViewportStyle);
-    };
-  }, [open]);
-
-  // Background scroll is locked by Base UI's own scroll lock (overflow:hidden on
-  // iOS). We deliberately do NOT add a position:fixed body lock on top of it:
-  // Base UI avoids that on iOS on purpose because it breaks focus scroll-into-
-  // view (glitchy/bouncing) and drags fixed popups around with the keyboard.
-  // Background touch panning that overflow:hidden can't stop is handled by the
-  // capture-phase guard below instead.
-  useEffect(() => {
-    if (!open) {
-      return;
-    }
-
-    if (!dialogLayerRef.current && !dialogContentRef.current) {
-      return;
-    }
-
-    function getScrollableTarget(target: EventTarget | null) {
-      const scroller = scrollContainerRef.current;
-      if (!scroller || !(target instanceof Node) || !scroller.contains(target)) {
-        return null;
-      }
-      return scroller;
-    }
-
-    function canConsumeScroll(scroller: HTMLElement | null, deltaY: number) {
-      if (!scroller || Math.abs(deltaY) < 1) {
-        return false;
-      }
-
-      const maxScrollTop = scroller.scrollHeight - scroller.clientHeight;
-      if (maxScrollTop <= 1) {
-        return false;
-      }
-
-      if (deltaY < 0) {
-        return scroller.scrollTop > 0;
-      }
-
-      return scroller.scrollTop < maxScrollTop - 1;
-    }
-
-    function preventScrollLeak(event: Event, deltaY: number) {
-      if (!canConsumeScroll(getScrollableTarget(event.target), deltaY)) {
-        event.preventDefault();
-      }
-    }
-
-    function handleWheel(event: WheelEvent) {
-      preventScrollLeak(event, event.deltaY);
-    }
-
-    function handleTouchStart(event: TouchEvent) {
-      touchYRef.current = event.touches[0]?.clientY ?? null;
-    }
-
-    function handleTouchMove(event: TouchEvent) {
-      const currentY = event.touches[0]?.clientY ?? null;
-      if (touchYRef.current === null || currentY === null) {
-        event.preventDefault();
-        return;
-      }
-
-      preventScrollLeak(event, touchYRef.current - currentY);
-      touchYRef.current = currentY;
-    }
-
-    document.addEventListener("wheel", handleWheel, { capture: true, passive: false });
-    document.addEventListener("touchstart", handleTouchStart, { capture: true, passive: true });
-    document.addEventListener("touchmove", handleTouchMove, { capture: true, passive: false });
-
-    return () => {
-      document.removeEventListener("wheel", handleWheel, { capture: true });
-      document.removeEventListener("touchstart", handleTouchStart, { capture: true });
-      document.removeEventListener("touchmove", handleTouchMove, { capture: true });
-      touchYRef.current = null;
-    };
-  }, [open]);
-
-  // Auto-focus the input when the dialog opens
-  useEffect(() => {
-    if (open) {
-      const timer = setTimeout(() => {
-        inputRef.current?.focus();
-        inputRef.current?.select();
-      }, 0);
-      return () => clearTimeout(timer);
-    }
-  }, [open]);
-
-  // Reset state on close
-  useEffect(() => {
-    if (!open) {
-      setQuery("");
-      setActiveIndex(0);
-    }
-  }, [open]);
-
-  // Scroll active result into view when navigating with keyboard
-  useEffect(() => {
-    const container = scrollContainerRef.current;
-    if (!container) {
-      return;
-    }
-    const activeItem = container.querySelector('[aria-selected="true"]');
-    if (activeItem) {
-      (activeItem as HTMLElement).scrollIntoView({ block: "nearest" });
-    }
-  }, [activeIndex]);
-
-  const searchIndex = useMemo(
-    () => buildLensSearchIndex(lenses),
-    [lenses],
-  );
-  const results = useMemo(
-    () => deferredQuery.trim()
-      ? searchLensIndex(searchIndex, deferredQuery.trim(), 8)
-      : [],
-    [searchIndex, deferredQuery],
-  );
-
-  useSearchTelemetry({ query: deferredQuery, resultsCount: results.length, isOpen: open });
+  }
 
   function handleSelect(lens: Lens) {
     setOpen(false);
@@ -255,36 +74,11 @@ export default function LensSearchDialog({
     router.push(`/lenses/${mountToUrlSegment(lens.mount)}/${lens.id}`);
   }
 
-  function handleInputKeyDown(event: KeyboardEvent<HTMLInputElement>) {
-    if (event.key === "ArrowDown") {
-      event.preventDefault();
-      if (results.length === 0) {
-        return;
-      }
-      setActiveIndex((current) => (current + 1) % results.length);
-      return;
-    }
-
-    if (event.key === "ArrowUp") {
-      event.preventDefault();
-      if (results.length === 0) {
-        return;
-      }
-      setActiveIndex((current) => (current - 1 + results.length) % results.length);
-      return;
-    }
-
-    if (event.key === "Enter" && results[activeIndex]) {
-      event.preventDefault();
-      handleSelect(results[activeIndex]);
-    }
-  }
-
   return (
     <>
       <button
         type="button"
-        onClick={() => setOpen(true)}
+        onClick={handleTriggerClick}
         aria-label={triggerLabel ?? t("open")}
         className={cn(
           triggerVariant === "icon"
@@ -314,149 +108,33 @@ export default function LensSearchDialog({
         )}
       </button>
 
+      {/* Desktop only — mobile navigates to the search page instead. */}
       <Dialog open={open} onOpenChange={setOpen} responsive={false}>
         <DialogContent
-          ref={dialogContentRef}
-          layerRef={dialogLayerRef}
-          noDefaultPositioning
-          style={viewportStyle}
-          backdropClassName="bg-white dark:bg-zinc-950 sm:bg-zinc-950/55 sm:dark:bg-zinc-950/55"
-          className="fixed left-[var(--search-visual-left,0px)] top-[var(--search-visual-top,0px)] flex h-[var(--search-visual-height,100dvh)] w-[var(--search-visual-width,100vw)] max-w-none flex-col overflow-hidden rounded-none border-0 bg-white shadow-none sm:left-1/2 sm:top-1/2 sm:h-auto sm:max-h-[85svh] sm:w-full sm:max-w-2xl sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-[28px] sm:border sm:border-zinc-200 sm:shadow-2xl sm:shadow-zinc-950/20 dark:bg-zinc-950 sm:dark:border-zinc-800"
+          className="w-full max-w-2xl overflow-hidden rounded-[28px] border border-zinc-200 bg-white shadow-2xl shadow-zinc-950/20 dark:border-zinc-800 dark:bg-zinc-950"
           showCloseButton={false}
         >
-          <DialogHeader className="shrink-0 border-b border-zinc-100 pr-5 pt-[calc(var(--safe-inset-top)_+_1rem)] sm:pt-4 dark:border-zinc-800">
+          <DialogHeader className="border-b border-zinc-100 pr-5 dark:border-zinc-800">
             <div className="flex items-center justify-between">
               <div>
                 <DialogTitle>{t("title")}</DialogTitle>
                 <DialogDescription className="sr-only">{t("description")}</DialogDescription>
               </div>
-              <DialogClose aria-label={t("close")} className={cn(ICON_CLOSE_BTN_CLS, FROSTED_OVERLAY_CHROME_CLS, "inline-flex h-9 w-9")}>
+              <DialogClose className={cn(ICON_CLOSE_BTN_CLS, FROSTED_OVERLAY_CHROME_CLS, "h-9 w-9")}>
                 <X className="h-4 w-4" />
               </DialogClose>
             </div>
-
-            <div className="mt-3 flex items-center gap-3 rounded-2xl border border-zinc-200 bg-zinc-50 px-4 py-3 shadow-inner shadow-zinc-200/30 dark:border-zinc-800 dark:bg-zinc-900 dark:shadow-black/20">
-              <label htmlFor={inputId} className="sr-only">
-                {t("placeholder")}
-              </label>
-              <Search className="h-4 w-4 shrink-0 text-zinc-400" />
-              <input
-                id={inputId}
-                ref={inputRef}
-                type="text"
-                value={query}
-                onChange={(event) => {
-                  setQuery(event.target.value);
-                  setActiveIndex(0);
-                }}
-                onKeyDown={handleInputKeyDown}
-                placeholder={t("placeholder")}
-                aria-controls={resultsId}
-                aria-autocomplete="list"
-                className="w-full border-0 bg-transparent text-base sm:text-sm text-zinc-950 outline-none placeholder:text-zinc-400 dark:text-zinc-50"
-              />
-              {query && (
-                <button
-                  type="button"
-                  aria-label={t("clear")}
-                  onClick={() => {
-                    setQuery("");
-                    setActiveIndex(0);
-                    inputRef.current?.focus();
-                  }}
-                  className="shrink-0 text-zinc-400 transition-colors hover:text-zinc-600 dark:hover:text-zinc-300"
-                >
-                  <X className="h-4 w-4" />
-                </button>
-              )}
-            </div>
           </DialogHeader>
 
-          <div
-            ref={scrollContainerRef}
-            className="min-h-0 flex-1 touch-pan-y overscroll-contain overflow-y-auto px-3 py-3 pb-[calc(var(--safe-inset-bottom)_+_1.5rem)] sm:h-[300px] sm:flex-none sm:pb-3 [scrollbar-width:thin] [-webkit-overflow-scrolling:touch] [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-zinc-200 dark:[&::-webkit-scrollbar-thumb]:bg-zinc-700"
-          >
-            {query.trim().length === 0 ? null : results.length === 0 ? (
-              <div className="rounded-2xl border border-dashed border-zinc-200 px-5 py-10 text-center dark:border-zinc-800">
-                <p className="text-sm font-medium text-zinc-700 dark:text-zinc-200">
-                  {t("noResults")}
-                </p>
-                <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">
-                  {t("noResultsHint")}
-                </p>
-                <p className="mt-4 text-xs text-zinc-400 dark:text-zinc-500">
-                  {t("suggestLens")}{" "}
-                  <FeedbackTrigger
-                    type="general"
-                    context={{ searchQuery: deferredQuery.trim() }}
-                  >
-                    {t("suggestLensLink")}
-                  </FeedbackTrigger>
-                </p>
-                <Link
-                  href="/about#coverage"
-                  className="mt-2 inline-block text-xs text-zinc-400 dark:text-zinc-500 hover:text-zinc-600 dark:hover:text-zinc-300 transition-colors"
-                >
-                  {t("coverageLink")}
-                </Link>
-              </div>
-            ) : (
-              <div
-                id={resultsId}
-                role="listbox"
-                aria-label={t("results")}
-                className="space-y-2"
-              >
-                {results.map((lens, index) => {
-                  const isActive = index === activeIndex;
-                  const resultState = getResultState?.(lens);
-                  const actionLabel = resultState?.actionLabel ?? t("view");
-                  const isDisabled = resultState?.disabled ?? false;
-
-                  return (
-                    <button
-                      key={lens.id}
-                      type="button"
-                      role="option"
-                      aria-selected={isActive}
-                      disabled={isDisabled}
-                      onMouseEnter={() => setActiveIndex(index)}
-                      onClick={() => handleSelect(lens)}
-                      className={cn(
-                        "flex w-full items-center justify-between gap-4 rounded-2xl border px-4 py-3 text-left transition-colors",
-                        isDisabled
-                          ? "cursor-not-allowed border-transparent bg-zinc-50/80 opacity-60 dark:bg-zinc-900/60"
-                          : isActive
-                            ? "border-zinc-200 bg-zinc-50/80 dark:border-zinc-700 dark:bg-zinc-800/50"
-                            : "border-transparent bg-white hover:bg-zinc-50 dark:bg-zinc-950 dark:hover:bg-zinc-900"
-                      )}
-                    >
-                      <div className="min-w-0">
-                        <p className="truncate text-xs uppercase tracking-[0.14em] text-zinc-500 dark:text-zinc-400">
-                          {lensSubtitleLine(tBrand(lens.brand), lens.series)}
-                        </p>
-                        <p className="mt-0.5 truncate text-sm font-medium text-zinc-900 dark:text-zinc-50">
-                          {lens.model}
-                        </p>
-                      </div>
-                      <span className="shrink-0 text-xs font-medium text-zinc-400 dark:text-zinc-500">
-                        {actionLabel}
-                      </span>
-                    </button>
-                  );
-                })}
-                <p className="pt-1 text-center text-xs text-zinc-400 dark:text-zinc-500">
-                  {t("suggestLensResults")}{" "}
-                  <FeedbackTrigger
-                    type="general"
-                    context={{ searchQuery: deferredQuery.trim() }}
-                  >
-                    {t("suggestLensLink")}
-                  </FeedbackTrigger>
-                </p>
-              </div>
-            )}
-          </div>
+          {open && (
+            <LensSearchPanel
+              lenses={lenses}
+              onSelectLens={handleSelect}
+              getResultState={getResultState}
+              autoFocus
+              layout="container"
+            />
+          )}
         </DialogContent>
       </Dialog>
     </>
