@@ -69,17 +69,6 @@ export default function LensSearchDialog({
   const resultsId = useId();
   const deferredQuery = useDeferredValue(query);
 
-  // Auto-focus the input when the dialog opens
-  useEffect(() => {
-    if (open) {
-      const timer = setTimeout(() => {
-        inputRef.current?.focus();
-        inputRef.current?.select();
-      }, 0);
-      return () => clearTimeout(timer);
-    }
-  }, [open]);
-
   // Reset state on close
   useEffect(() => {
     if (!open) {
@@ -190,7 +179,12 @@ export default function LensSearchDialog({
       </button>
 
       <Dialog open={open} onOpenChange={setOpen}>
+        {/* Base UI focuses the popup (not the input) on touch-open to suppress the
+            keyboard; for a search box we want the keyboard, so we hand it the input
+            ref. Routing focus through the library's own open sequence (instead of a
+            post-open setTimeout) makes it deterministic on the first open too. */}
         <DialogContent
+          initialFocus={inputRef}
           className="w-full max-w-2xl overflow-hidden rounded-[28px] border border-zinc-200 bg-white shadow-2xl shadow-zinc-950/20 dark:border-zinc-800 dark:bg-zinc-950"
           showCloseButton={false}
         >
