@@ -7,7 +7,11 @@ import { COLLECTIONS, getCollectionStats, getRelatedCollectionsWithStats } from 
 import { getLensesByMount } from "@/lib/lens-data";
 import { urlSegmentToMount, mountSeoLabel, mountHasCollections } from "@/lib/mount";
 import { buildAlternates, defaultOgImages } from "@/lib/seo";
+import { buildCollectionItemListSchema } from "@/lib/lens-seo";
+import { lensDisplayName } from "@/lib/lens.format";
+import { SITE } from "@/config/site";
 import { ACTION_ESCAPE_CLS, UTILITY_BTN_CLS } from "@/lib/ui-tokens";
+import JsonLd from "@/components/JsonLd";
 import CollectionLensGrid from "@/components/CollectionLensGrid";
 import RelatedCollectionCard from "@/components/RelatedCollectionCard";
 import BackToTopButton from "@/components/BackToTopButton";
@@ -88,6 +92,7 @@ export default async function CollectionPage({
   const { collection, lenses, lensCount, brandCount } = collectionStats;
   const t = await getTranslations({ locale, namespace: "Collection" });
   const tNav = await getTranslations({ locale, namespace: "Nav" });
+  const tBrand = await getTranslations({ locale, namespace: "Brands" });
 
   const title = localized(collection.title, locale);
   const mountLabel = t("mountLabel", { mount: mountSeoLabel(resolvedMount) });
@@ -95,8 +100,22 @@ export default async function CollectionPage({
   const statsLabel = t("stats", { count: lensCount, brandCount });
   const relatedWithStats = getRelatedCollectionsWithStats(slug, mountLenses, locale);
 
+  // ItemList schema: declares this page as an ordered list of lenses, each
+  // pointing at its own detail page. URLs mirror the lens-detail canonical so
+  // the list resolves to the same entities Google already knows.
+  const itemListSchema = buildCollectionItemListSchema({
+    name: title,
+    description,
+    url: `${SITE.url}/${locale}/lenses/${mount}/collections/${slug}`,
+    items: lenses.map((lens) => ({
+      name: lensDisplayName(tBrand(lens.brand), lens.series, lens.model),
+      url: `${SITE.url}/${locale}/lenses/${mount}/${lens.id}`,
+    })),
+  });
+
   return (
     <>
+      <JsonLd data={itemListSchema} />
       <main className="mx-auto max-w-6xl px-4 py-8 pb-[max(10rem,calc(var(--compare-bar-height,0px)+8rem))]">
         <header className="mb-8">
           <div className="mb-4 flex items-center justify-between gap-3">
