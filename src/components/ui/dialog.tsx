@@ -117,14 +117,17 @@ const DialogContent = React.forwardRef<
 ) {
   const mode = useDialogMode();
   // iOS only shrinks the visual viewport for the keyboard; a `fixed; bottom: 0` drawer
-  // stays anchored to the layout viewport, i.e. behind the keyboard, and iOS's native
-  // scroll-into-view of the focused input is unreliable on the first open. Lift the whole
-  // drawer above the keyboard ourselves by its height (visualViewport-derived). Only
-  // `bottom` — not `max-height` — so a no-inner-scroll drawer (feedback) keeps its footer
-  // above the keyboard and clips at the top instead of pushing the footer back behind it.
-  // base-ui owns `transform` (slide/swipe), so driving `bottom` doesn't fight it.
+  // stays anchored to the layout viewport (behind the keyboard) and iOS's native
+  // scroll-into-view of the focused input is unreliable on the first open. Lift the
+  // CONTENT above the keyboard with padding-bottom = keyboard height (visualViewport-
+  // derived) — NOT by moving the box up via `bottom`. Keeping the box at `bottom: 0`
+  // means its background still fills the full height down to the screen edge, so nothing
+  // shows through behind the keyboard; and because the box still tops out at max-h-[85svh]
+  // rather than being pushed up, the input/header don't clip off the top. The padding
+  // replaces the safe-area bottom inset, which is irrelevant while the keyboard covers it.
+  // base-ui owns `transform` (slide/swipe), so driving padding/`bottom` doesn't fight it.
   const keyboardInset = useKeyboardInset();
-  const drawerLiftStyle = keyboardInset > 0 ? { bottom: keyboardInset } : undefined;
+  const drawerKeyboardStyle = keyboardInset > 0 ? { paddingBottom: keyboardInset } : undefined;
 
   if (mode === "drawer") {
     return (
@@ -146,7 +149,7 @@ const DialogContent = React.forwardRef<
               className,
               "rounded-t-2xl rounded-b-none"
             )}
-            style={drawerLiftStyle}
+            style={drawerKeyboardStyle}
             {...(props as Omit<typeof props, "style">)}
           >
             <div className="flex shrink-0 touch-none justify-center pb-1 pt-3">
