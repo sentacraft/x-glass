@@ -6,6 +6,12 @@ import { useSyncExternalStore } from "react";
 // viewport is still mobile. Purchase links use this to decide whether to target
 // the mobile H5 domains (native "open in app" handoff) or the desktop search
 // sites.
+//
+// The hand-rolled regex is deliberate: all we need is one mobile/desktop boolean
+// for a non-critical URL choice. If device classification ever gets more
+// demanding (precise OS/device, or handling UA spoofing like iPadOS posing as
+// macOS), reach for a maintained library (ua-parser-js) instead of growing this
+// regex.
 const MOBILE_UA = /Android|iPhone|iPad|iPod|Mobile|Windows Phone/i;
 
 function getSnapshot(): boolean {
