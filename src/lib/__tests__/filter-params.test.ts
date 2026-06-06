@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { serializeFilters, parseFilters } from "../filter-params";
+import { serializeFilters, parseFilters, FILTER_PARAM_KEYS } from "../filter-params";
 import { defaultFilters, type FilterState } from "../lens";
 
 describe("serializeFilters", () => {
@@ -154,5 +154,28 @@ describe("round-trip", () => {
     const state: FilterState = { ...defaultFilters, usage: "cine" };
     const result = parseFilters(serializeFilters(state));
     expect(result.usage).toBe("cine");
+  });
+});
+
+describe("FILTER_PARAM_KEYS", () => {
+  it("covers every key serializeFilters can emit", () => {
+    // A maximal state that activates every dimension, so serializeFilters emits
+    // all of its keys. The URL-sync merge deletes FILTER_PARAM_KEYS before
+    // re-writing; a key it can emit but does not list would never get cleared.
+    const maximal: FilterState = {
+      brands: ["fujifilm"],
+      typeFilter: "prime",
+      focusFilter: "auto",
+      usage: "cine",
+      opticalTrait: "macro",
+      focusMotorClass: "linear",
+      features: ["ois"],
+      focalCategories: ["wide"],
+      sort: "maxAperture",
+      sortDir: "desc",
+    };
+    for (const key of serializeFilters(maximal).keys()) {
+      expect([...FILTER_PARAM_KEYS]).toContain(key);
+    }
   });
 });

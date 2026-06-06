@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect } from "react";
 import { useCompare } from "@/context/CompareProvider";
+import { useUrlStateSync } from "@/hooks/useUrlStateSync";
 
 /**
  * Projects the current compare state onto the address bar for the compare
@@ -29,18 +29,15 @@ import { useCompare } from "@/context/CompareProvider";
 export function useCompareUrlSync() {
   const { compareIds } = useCompare();
 
-  useEffect(() => {
-    const url = new URL(window.location.href);
-    // Assign the query as a string (not url.searchParams.set) so the comma
-    // separators in `ids` stay raw (`A,B`) instead of percent-encoded (`A%2CB`).
-    url.search = compareIds.length > 0 ? `ids=${compareIds.join(",")}` : "";
-
-    // No-op when the URL already matches — avoids re-emitting a router event
-    // (and the associated subscriber re-renders) for an already-correct URL.
-    if (url.href === window.location.href) {
-      return;
-    }
-
-    window.history.replaceState(null, "", url);
+  useUrlStateSync((url) => {
+    // Own only `ids`; foreign params are left intact. Assign the query as a
+    // string (not url.searchParams.set) so the commas in `ids` stay raw (`A,B`)
+    // rather than percent-encoded.
+    url.searchParams.delete("ids");
+    const rest = url.searchParams.toString();
+    url.search =
+      compareIds.length > 0
+        ? (rest ? `${rest}&` : "") + `ids=${compareIds.join(",")}`
+        : rest;
   }, [compareIds]);
 }

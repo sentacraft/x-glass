@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo } from "react";
 import { useSearchParams } from "next/navigation";
 import { Link } from "@/i18n/navigation";
 import { motion, AnimatePresence } from "motion/react";
@@ -15,7 +15,8 @@ import {
   type FilterState,
 } from "@/lib/lens";
 import type { Lens } from "@/lib/types";
-import { serializeFilters, parseFilters } from "@/lib/filter-params";
+import { serializeFilters, parseFilters, FILTER_PARAM_KEYS } from "@/lib/filter-params";
+import { useUrlStateSync } from "@/hooks/useUrlStateSync";
 import { useCompare } from "@/context/CompareProvider";
 import { useUiHookAttr } from "@/context/TestHookProvider";
 import BackToTopButton from "@/components/BackToTopButton";
@@ -75,13 +76,10 @@ export default function LensListClient({ lenses }: LensListClientProps) {
     setFilters((current) => ({ ...defaultFilters, usage: current.usage }));
   }
 
-  useEffect(() => {
-    const url = new URL(window.location.href);
-    url.search = serializeFilters(filters).toString();
-    if (url.href === window.location.href) {
-      return;
-    }
-    window.history.replaceState(null, "", url);
+  useUrlStateSync((url) => {
+    // Own only the filter params; foreign params (utm, …) are left intact.
+    FILTER_PARAM_KEYS.forEach((k) => url.searchParams.delete(k));
+    serializeFilters(filters).forEach((v, k) => url.searchParams.set(k, v));
   }, [filters]);
 
   return (

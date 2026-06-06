@@ -16,6 +16,13 @@ import { isOneOf } from "./utils";
 
 const FOCAL_KEYS = FOCAL_CATEGORIES.map((c) => c.key) as FocalCategory[];
 
+// Every URL query key the filter state owns — the single list a URL-sync writer
+// deletes before re-writing, so it touches only its own params and leaves
+// foreign ones (utm, …) intact. Must stay in step with serializeFilters below
+// (asserted by a test).
+export const FILTER_PARAM_KEYS = ["b", "t", "f", "u", "ot", "m", "feat", "fc", "sort", "dir"] as const;
+type FilterParamKey = (typeof FILTER_PARAM_KEYS)[number];
+
 // Compact param keys — only non-default values are serialized.
 // b=brands, t=typeFilter, f=focusFilter, u=usage, m=focusMotorClass,
 // feat=features, fc=focalCategories, sort=sortKey, dir=sortDir
@@ -63,18 +70,11 @@ function parseUsage(raw: string | null): UsageFilter {
 }
 
 export function parseFilters(params: URLSearchParams): FilterState {
-  const raw = {
-    b: params.get("b"),
-    t: params.get("t"),
-    f: params.get("f"),
-    u: params.get("u"),
-    ot: params.get("ot"),
-    m: params.get("m"),
-    feat: params.get("feat"),
-    fc: params.get("fc"),
-    sort: params.get("sort"),
-    dir: params.get("dir"),
-  };
+  // Object.fromEntries widens the key type back to string, so re-narrow it so
+  // the per-key access below (raw.b, raw.t, …) still type-checks.
+  const raw = Object.fromEntries(
+    FILTER_PARAM_KEYS.map((k) => [k, params.get(k)]),
+  ) as Record<FilterParamKey, string | null>;
 
   return {
     brands: raw.b ? raw.b.split(",").filter(Boolean) : [],
