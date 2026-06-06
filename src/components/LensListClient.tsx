@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
-import { usePathname, Link } from "@/i18n/navigation";
+import { Link } from "@/i18n/navigation";
 import { motion, AnimatePresence } from "motion/react";
 import { useTranslations } from "next-intl";
 import {
@@ -36,7 +36,6 @@ export default function LensListClient({ lenses }: LensListClientProps) {
   const tSearch = useTranslations("Search");
   const hookAttr = useUiHookAttr();
   const searchParams = useSearchParams();
-  const pathname = usePathname();
   const [filters, setFilters] = useState<FilterState>(() => parseFilters(searchParams));
   const { compareIds, toggle } = useCompare();
 
@@ -69,20 +68,21 @@ export default function LensListClient({ lenses }: LensListClientProps) {
     filters.features.length > 0,
   ].filter(Boolean).length;
 
-  function updateFilters(updater: FilterState | ((prev: FilterState) => FilterState)) {
-    const next = typeof updater === "function" ? updater(filters) : updater;
-    setFilters(next);
-    const qs = serializeFilters(next).toString();
-    const path = qs ? `${pathname}?${qs}` : pathname;
-    window.history.replaceState(null, "", path);
-  }
-
   function clearAllFilters() {
     // Reset clears refinements but preserves the photo/cine view mode — usage
     // is a view partition, not a filter, so leaving the current view intact
     // mirrors how switching tabs would not reset the user's filters.
-    updateFilters((current) => ({ ...defaultFilters, usage: current.usage }));
+    setFilters((current) => ({ ...defaultFilters, usage: current.usage }));
   }
+
+  useEffect(() => {
+    const url = new URL(window.location.href);
+    url.search = serializeFilters(filters).toString();
+    if (url.href === window.location.href) {
+      return;
+    }
+    window.history.replaceState(null, "", url);
+  }, [filters]);
 
   return (
     <>
@@ -95,7 +95,7 @@ export default function LensListClient({ lenses }: LensListClientProps) {
               // resets refinements to a clean slate — only the chosen sort
               // order carries over. This also sidesteps stale brand selections
               // that no longer exist in the new view.
-              updateFilters((current) => ({
+              setFilters((current) => ({
                 ...defaultFilters,
                 usage,
                 sort: current.sort,
@@ -110,7 +110,7 @@ export default function LensListClient({ lenses }: LensListClientProps) {
           <LensFilters
             filters={filters}
             available={available}
-            onFiltersChange={updateFilters}
+            onFiltersChange={setFilters}
             activeFilterCount={activeFilterCount}
             onReset={clearAllFilters}
             // Search shares the brand row's right edge — it scopes the lens
@@ -154,10 +154,10 @@ export default function LensListClient({ lenses }: LensListClientProps) {
               sort={filters.sort}
               sortDir={filters.sortDir}
               onSortChange={(sort) =>
-                updateFilters((current) => ({ ...current, sort }))
+                setFilters((current) => ({ ...current, sort }))
               }
               onToggleDir={() =>
-                updateFilters((current) => ({
+                setFilters((current) => ({
                   ...current,
                   sortDir: current.sortDir === "asc" ? "desc" : "asc",
                 }))

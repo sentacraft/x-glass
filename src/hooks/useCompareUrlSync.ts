@@ -1,10 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { useLocale } from "next-intl";
 import { useCompare } from "@/context/CompareProvider";
-import { useEffectiveMount } from "@/hooks/useMountParam";
-import { buildComparePath } from "@/lib/compare-url";
 
 /**
  * Projects the current compare state onto the address bar for the compare
@@ -26,24 +23,24 @@ import { buildComparePath } from "@/lib/compare-url";
  * Anything else previously squatting on the query string (`preset`, `from`,
  * `lensId`) has been removed — `preset` is reverse-derived from `ids` where
  * needed, `from` / `lensId` were dead code. With nothing else to preserve,
- * the projection becomes a pure function of compare state, and the effect's
- * deps are all stable primitives. No race window between `useSearchParams`
- * updating synchronously after a router navigation and `compareIds` syncing
- * via `useLayoutEffect` moments later.
+ * the projection becomes a pure function of compare state — the effect
+ * depends only on `compareIds`.
  */
 export function useCompareUrlSync() {
   const { compareIds } = useCompare();
-  const mount = useEffectiveMount();
-  const locale = useLocale();
 
   useEffect(() => {
-    const url = buildComparePath(mount, compareIds, locale);
+    const url = new URL(window.location.href);
+    // Assign the query as a string (not url.searchParams.set) so the comma
+    // separators in `ids` stay raw (`A,B`) instead of percent-encoded (`A%2CB`).
+    url.search = compareIds.length > 0 ? `ids=${compareIds.join(",")}` : "";
 
     // No-op when the URL already matches — avoids re-emitting a router event
     // (and the associated subscriber re-renders) for an already-correct URL.
-    if (window.location.pathname + window.location.search === url) {
+    if (url.href === window.location.href) {
       return;
     }
+
     window.history.replaceState(null, "", url);
-  }, [compareIds, mount, locale]);
+  }, [compareIds]);
 }
