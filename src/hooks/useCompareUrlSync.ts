@@ -1,7 +1,8 @@
 "use client";
 
+import { useEffect } from "react";
 import { useCompare } from "@/context/CompareProvider";
-import { useUrlStateSync } from "@/hooks/useUrlStateSync";
+import { projectToUrl } from "@/lib/url-projection";
 
 /**
  * Projects the current compare state onto the address bar for the compare
@@ -29,15 +30,17 @@ import { useUrlStateSync } from "@/hooks/useUrlStateSync";
 export function useCompareUrlSync() {
   const { compareIds } = useCompare();
 
-  useUrlStateSync((url) => {
-    // Own only `ids`; foreign params are left intact. Assign the query as a
-    // string (not url.searchParams.set) so the commas in `ids` stay raw (`A,B`)
-    // rather than percent-encoded.
-    url.searchParams.delete("ids");
-    const rest = url.searchParams.toString();
-    url.search =
-      compareIds.length > 0
-        ? (rest ? `${rest}&` : "") + `ids=${compareIds.join(",")}`
-        : rest;
+  useEffect(() => {
+    projectToUrl((url) => {
+      // Own only `ids`; foreign params are left intact. Assign the query as a
+      // string (not url.searchParams.set) so the commas in `ids` stay raw
+      // (`A,B`) rather than percent-encoded.
+      url.searchParams.delete("ids");
+      const rest = url.searchParams.toString();
+      url.search =
+        compareIds.length > 0
+          ? (rest ? `${rest}&` : "") + `ids=${compareIds.join(",")}`
+          : rest;
+    });
   }, [compareIds]);
 }
