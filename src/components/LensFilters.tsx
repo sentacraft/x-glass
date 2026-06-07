@@ -4,7 +4,6 @@ import { useState, type ReactNode } from "react";
 import { useTranslations } from "next-intl";
 import { ChevronDown, RotateCcw, SlidersHorizontal } from "lucide-react";
 import { FEATURE_ICONS } from "@/lib/feature-icons";
-import { FOCAL_CATEGORIES } from "@/lib/lens";
 import type { AvailableFilterOptions, FilterState, FocusFilter, FocusMotorClass } from "@/lib/lens";
 import { cn } from "@/lib/utils";
 import { TEXT_LINK_CLS } from "@/lib/ui-tokens";
@@ -133,12 +132,10 @@ export default function LensFilters({
     key: brand,
     label: tBrand(brand),
   }));
-  const focalOptions = FOCAL_CATEGORIES.filter((category) =>
-    available.focalCategories.includes(category.key),
-  ).map((category) => ({
-    key: category.key,
-    label: t(`category-${category.key}`),
-    hint: t(`category-${category.key}Hint`),
+  const focalOptions = available.focalCategories.map((key) => ({
+    key,
+    label: t(`category-${key}`),
+    hint: t(`category-${key}Hint`),
   }));
   const featureOptions = available.features.map((key) => ({
     key,
