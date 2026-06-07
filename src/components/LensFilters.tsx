@@ -133,9 +133,6 @@ export default function LensFilters({
   const brandOptions = available.brands.map((brand) => ({
     key: brand,
     label: tBrand(brand),
-    selected: filters.brands.includes(brand),
-    onClick: () =>
-      updateFilters("brands", toggleMultiFilter(filters.brands, brand, available.brands)),
   }));
 
   const focalOptions = FOCAL_CATEGORIES.filter((category) =>
@@ -144,24 +141,12 @@ export default function LensFilters({
     key: category.key,
     label: t(`category-${category.key}`),
     hint: t(`category-${category.key}Hint`),
-    selected: filters.focalCategories.includes(category.key),
-    onClick: () =>
-      updateFilters(
-        "focalCategories",
-        toggleMultiFilter(
-          filters.focalCategories,
-          category.key,
-          available.focalCategories,
-        ),
-      ),
   }));
 
   const featureOptions = available.features.map((key) => ({
     key,
     label: featureMeta[key].label,
     icon: featureMeta[key].icon,
-    selected: filters.features.includes(key),
-    onClick: () => updateFilters("features", toggleValue(filters.features, key)),
   }));
 
   const filtersToggle = (
@@ -250,6 +235,10 @@ export default function LensFilters({
                   allSelected={filters.brands.length === 0}
                   onSelectAll={() => updateFilters("brands", [])}
                   options={brandOptions}
+                  selectedKeys={filters.brands}
+                  onToggle={(brand) =>
+                    updateFilters("brands", toggleMultiFilter(filters.brands, brand, available.brands))
+                  }
                 />
               </div>
             </div>
@@ -321,13 +310,24 @@ export default function LensFilters({
                   allSelected={filters.focalCategories.length === 0}
                   onSelectAll={() => updateFilters("focalCategories", [])}
                   options={focalOptions}
+                  selectedKeys={filters.focalCategories}
+                  onToggle={(key) =>
+                    updateFilters(
+                      "focalCategories",
+                      toggleMultiFilter(filters.focalCategories, key, available.focalCategories),
+                    )
+                  }
                 />
               </FilterRow>
             )}
 
             {available.features.length > 0 && (
               <FilterRow label={t("features")}>
-                <FeatureToggleGroup options={featureOptions} />
+                <FeatureToggleGroup
+                  options={featureOptions}
+                  selectedKeys={filters.features}
+                  onToggle={(key) => updateFilters("features", toggleValue(filters.features, key))}
+                />
               </FilterRow>
             )}
 
