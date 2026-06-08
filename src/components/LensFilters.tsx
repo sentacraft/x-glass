@@ -2,16 +2,16 @@
 
 import { useState, type ReactNode } from "react";
 import { useTranslations } from "next-intl";
-import { ChevronDown, RotateCcw, SlidersHorizontal } from "lucide-react";
+import { ChevronDown, type LucideIcon, RotateCcw, SlidersHorizontal } from "lucide-react";
 import { FEATURE_ICONS } from "@/lib/feature-icons";
-import type { AvailableFilterOptions, FilterState, FocusFilter, FocusMotorClass, LensType } from "@/lib/lens";
+import type { AvailableFilterOptions, FilterState, FocusFilter, FocusMotorClass, LensType, FilterFeatureKey, FocalCategory } from "@/lib/lens";
 import { OPTICAL_TRAITS, type OpticalTrait } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { TEXT_LINK_CLS } from "@/lib/ui-tokens";
 import BrandFilterMenu from "./lens-filters/BrandFilterMenu";
-import FeatureToggleGroup from "./lens-filters/FeatureToggleGroup";
+import FeatureToggleGroup, { type FeatureToggleOption } from "./lens-filters/FeatureToggleGroup";
 import FilterRow from "./lens-filters/FilterRow";
-import MultiSelectChipGroup from "./lens-filters/MultiSelectChipGroup";
+import MultiSelectChipGroup, { type MultiSelectChipOption } from "./lens-filters/MultiSelectChipGroup";
 import TypeSegmentedControl, { type SegmentedLabel, type SegmentedOption } from "./lens-filters/TypeSegmentedControl";
 import { rowLabelClass } from "./lens-filters/styles";
 import { useFiltersTelemetry } from "./LensFilters.telemetry";
@@ -91,7 +91,7 @@ export default function LensFilters({
     selectedBrandNames.length === 0
       ? t("brand")
       : selectedBrandNames.slice(0, BRAND_PREVIEW_LIMIT).join(brandJoiner);
-  const brandOptions = available.brands.map((brand) => ({
+  const brandOptions: MultiSelectChipOption<string>[] = available.brands.map((brand) => ({
     key: brand,
     label: tBrand(brand),
   }));
@@ -171,11 +171,12 @@ export default function LensFilters({
   );
 
   // ── Focal range ───────────────────────────────────────────────────────────────
-  const focalOptions = available.focalCategories.map((key) => ({
+  const focalOptions: MultiSelectChipOption<FocalCategory>[] = available.focalCategories.map((key) => ({
     key,
     label: t(`category-${key}`),
     hint: t(`category-${key}Hint`),
   }));
+
   const focalRow =
     available.focalCategories.length > 0 ? (
       <FilterRow label={t("focalRange")}>
@@ -195,17 +196,19 @@ export default function LensFilters({
     ) : null;
 
   // ── Features ──────────────────────────────────────────────────────────────────
-  const featureMeta = {
+  const featureMeta: Record<FilterFeatureKey, {label: string; icon: LucideIcon}> = {
     ois: { label: t("featureOis"), icon: FEATURE_ICONS.ois },
     wr: { label: t("featureWr"), icon: FEATURE_ICONS.wr },
     apertureRing: { label: t("featureApertureRing"), icon: FEATURE_ICONS.apertureRing },
     powerZoom: { label: t("featurePowerZoom"), icon: FEATURE_ICONS.powerZoom },
-  } as const;
-  const featureOptions = available.features.map((key) => ({
+  };
+
+  const featureOptions: FeatureToggleOption<FilterFeatureKey>[] = available.features.map((key) => ({
     key,
     label: featureMeta[key].label,
     icon: featureMeta[key].icon,
   }));
+
   const featuresRow =
     available.features.length > 0 ? (
       <FilterRow label={t("features")}>

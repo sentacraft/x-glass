@@ -8,7 +8,7 @@ import {
   filterPillDefaultActiveClass,
 } from "./styles";
 
-interface MultiSelectChipOption<K extends string> {
+export type MultiSelectChipOption<K extends string> = {
   key: K;
   label: string;
   hint?: string;

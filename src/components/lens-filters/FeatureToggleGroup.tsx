@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { featurePillClass, filterPillActiveClass } from "./styles";
 
-interface FeatureToggleOption<K extends string> {
+export type FeatureToggleOption<K extends string> = {
   key: K;
   label: string;
   icon: LucideIcon;
