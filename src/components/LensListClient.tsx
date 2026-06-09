@@ -3,7 +3,6 @@
 import { useState, useMemo, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { Link } from "@/i18n/navigation";
-import { motion, AnimatePresence } from "motion/react";
 import { useTranslations } from "next-intl";
 import {
   filterLenses,
@@ -170,58 +169,51 @@ export default function LensListClient({ lenses }: LensListClientProps) {
           </div>
         </div>
 
-        <AnimatePresence mode="wait" initial={false}>
-          {displayed.length === 0 ? (
-            <motion.div
-              key="empty"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.15 }}
-              className="flex flex-col gap-2"
-            >
-              <p className="text-sm text-zinc-500 dark:text-zinc-400">
-                {t("noResults")}
-              </p>
-              <p className="text-xs text-zinc-400 dark:text-zinc-500">
-                {t("suggestLens")}{" "}
-                <FeedbackTrigger type="general">
-                  {t("suggestLensLink")}
-                </FeedbackTrigger>
-                <span className="mx-2 opacity-40">·</span>
-                <Link
-                  href="/about#coverage"
-                  className="hover:text-zinc-600 dark:hover:text-zinc-300 transition-colors"
-                >
-                  {t("coverageLink")}
-                </Link>
-              </p>
-            </motion.div>
-          ) : (
-            <motion.div
-              key={displayed.map((l) => l.id).join()}
-              {...hookAttr("grid")}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.18, ease: "easeOut" }}
-              className="grid grid-cols-1 gap-4 xs:grid-cols-2 md:grid-cols-3 xl:grid-cols-4"
-            >
-              {displayed.map((lens, i) => (
-                <LensCard
-                  key={lens.id}
-                  lens={lens}
-                  isSelected={compareIds.includes(lens.id)}
-                  selectionDisabled={
-                    !compareIds.includes(lens.id) &&
-                    compareIds.length >= MAX_COMPARE
-                  }
-                  onToggle={toggle}
-                  priority={i < 8}
-                />
-              ))}
-            </motion.div>
-          )}
-        </AnimatePresence>
+        {displayed.length === 0 ? (
+          <div className="flex flex-col gap-2 animate-in fade-in duration-200">
+            <p className="text-sm text-zinc-500 dark:text-zinc-400">
+              {t("noResults")}
+            </p>
+            <p className="text-xs text-zinc-400 dark:text-zinc-500">
+              {t("suggestLens")}{" "}
+              <FeedbackTrigger type="general">
+                {t("suggestLensLink")}
+              </FeedbackTrigger>
+              <span className="mx-2 opacity-40">·</span>
+              <Link
+                href="/about#coverage"
+                className="hover:text-zinc-600 dark:hover:text-zinc-300 transition-colors"
+              >
+                {t("coverageLink")}
+              </Link>
+            </p>
+          </div>
+        ) : (
+          // Stable container — no content-fingerprint key. Filtering/sorting now
+          // reconciles cards in place instead of remounting the whole grid, so
+          // memo(LensCard) bails out unaffected cards on every filter change too
+          // (previously the keyed remount defeated memo on that path). The
+          // mount-only fade plays on first load and empty->results, not on
+          // filter-to-filter swaps, since the div stays mounted.
+          <div
+            {...hookAttr("grid")}
+            className="grid grid-cols-1 gap-4 xs:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 animate-in fade-in duration-200"
+          >
+            {displayed.map((lens, i) => (
+              <LensCard
+                key={lens.id}
+                lens={lens}
+                isSelected={compareIds.includes(lens.id)}
+                selectionDisabled={
+                  !compareIds.includes(lens.id) &&
+                  compareIds.length >= MAX_COMPARE
+                }
+                onToggle={toggle}
+                priority={i < 8}
+              />
+            ))}
+          </div>
+        )}
       </LensIndexShell>
 
       <BackToTopButton />
