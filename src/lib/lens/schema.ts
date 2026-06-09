@@ -1,7 +1,10 @@
 import { z } from "zod";
 
-import { FIELD_NOTE_KEYS, OPTICAL_TRAITS, SPEC_NA } from "@/lib/types";
-import type { ApertureValue, Lens } from "@/lib/types";
+// Relative import with explicit .ts extension (not the @/ alias): this module is
+// also loaded by scripts/validate-lenses.mts under raw `node --experimental-strip-types`,
+// which does not resolve tsconfig path aliases.
+import { FIELD_NOTE_KEYS, OPTICAL_TRAITS, SPEC_NA } from "../types.ts";
+import type { ApertureValue, Lens } from "../types.ts";
 
 const positiveNumberSchema = z.number().positive();
 const nonEmptyStringSchema = z.string().trim().min(1);
