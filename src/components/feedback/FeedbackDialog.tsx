@@ -196,22 +196,26 @@ export default function FeedbackDialog({
           stays put, instead of the cap clipping the footer off the bottom. No inner
           scroll region — the action row is always the bottom of the sheet. */}
       <DialogPopup className="max-w-md max-h-none">
-        <DialogHeader>
-          <DialogTitle>{t(titleKey)}</DialogTitle>
-          {status !== "success" && (
-            <p className="text-xs text-zinc-400 dark:text-zinc-500">
-              {t("emailLabel")}{" "}
-              <a
-                href="mailto:me@atlens.app"
-                className="underline underline-offset-2 hover:text-zinc-600 dark:hover:text-zinc-300 transition-colors"
-              >
-                me@atlens.app
-              </a>
-            </p>
-          )}
+        <DialogHeader className="flex-row items-start justify-between gap-3 pr-5">
+          <div className="flex min-w-0 flex-col gap-1.5">
+            <DialogTitle>{t(titleKey)}</DialogTitle>
+            {status !== "success" && (
+              <p className="text-xs text-zinc-400 dark:text-zinc-500">
+                {t("emailLabel")}{" "}
+                <a
+                  href="mailto:me@atlens.app"
+                  className="underline underline-offset-2 hover:text-zinc-600 dark:hover:text-zinc-300 transition-colors"
+                >
+                  me@atlens.app
+                </a>
+              </p>
+            )}
+          </div>
           {/* Desktop-only corner close; the mobile drawer dismisses via swipe /
-              the footer Cancel, matching LensSearchDialog. */}
-          <DialogClose className={cn(ICON_CLOSE_BTN_CLS, FROSTED_OVERLAY_CHROME_CLS, "absolute right-4 top-4 hidden h-9 w-9 sm:inline-flex")}>
+              the footer Cancel, matching LensSearchDialog. As a flex item (not
+              absolute) it occupies real space, so a long title wraps to its left
+              instead of running underneath it. */}
+          <DialogClose className={cn(ICON_CLOSE_BTN_CLS, FROSTED_OVERLAY_CHROME_CLS, "hidden h-9 w-9 shrink-0 sm:inline-flex")}>
             <X className="h-4 w-4" />
           </DialogClose>
         </DialogHeader>

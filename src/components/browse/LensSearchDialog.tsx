@@ -279,12 +279,12 @@ export default function LensSearchDialog({
           className="w-full max-w-2xl overflow-hidden rounded-[28px] border border-zinc-200 bg-white shadow-2xl shadow-zinc-950/20 dark:border-zinc-800 dark:bg-zinc-950"
         >
           <DialogHeader className="border-b border-zinc-100 pr-5 dark:border-zinc-800">
-            <div className="flex items-center justify-between">
-              <div>
+            <div className="flex items-center justify-between gap-3">
+              <div className="min-w-0">
                 <DialogTitle>{t("title")}</DialogTitle>
                 <DialogDescription className="sr-only">{t("description")}</DialogDescription>
               </div>
-              <DialogClose className={cn(ICON_CLOSE_BTN_CLS, FROSTED_OVERLAY_CHROME_CLS, "hidden h-9 w-9 sm:inline-flex")}>
+              <DialogClose className={cn(ICON_CLOSE_BTN_CLS, FROSTED_OVERLAY_CHROME_CLS, "hidden h-9 w-9 shrink-0 sm:inline-flex")}>
                 <X className="h-4 w-4" />
               </DialogClose>
             </div>
