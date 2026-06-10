@@ -23,7 +23,7 @@ import { useSearchTelemetry } from "@/components/browse/LensSearchDialog.telemet
 import {
   Dialog,
   DialogClose,
-  DialogContent,
+  DialogPopup,
   DialogDescription,
   DialogHeader,
   DialogTitle,
@@ -274,10 +274,9 @@ export default function LensSearchDialog({
             keyboard; for a search box we want the keyboard, so we hand it the input
             ref. Routing focus through the library's own open sequence (instead of a
             post-open setTimeout) makes it deterministic on the first open too. */}
-        <DialogContent
+        <DialogPopup
           initialFocus={inputRef}
           className="w-full max-w-2xl overflow-hidden rounded-[28px] border border-zinc-200 bg-white shadow-2xl shadow-zinc-950/20 dark:border-zinc-800 dark:bg-zinc-950"
-          showCloseButton={false}
         >
           <DialogHeader className="border-b border-zinc-100 pr-5 dark:border-zinc-800">
             <div className="flex items-center justify-between">
@@ -349,7 +348,7 @@ export default function LensSearchDialog({
               <div aria-hidden style={{ height: keyboardInset }} />
             )}
           </div>
-        </DialogContent>
+        </DialogPopup>
       </Dialog>
     </>
   );

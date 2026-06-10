@@ -7,7 +7,7 @@ import Iris from "@/components/iris/Iris";
 import type { IrisConfig } from "@/config/iris-config";
 import {
   Dialog,
-  DialogContent,
+  DialogPopup,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -192,10 +192,7 @@ export default function FeedbackDialog({
           the drawer grows upward from its pinned bottom edge so the Cancel/Submit row
           stays put, instead of the cap clipping the footer off the bottom. No inner
           scroll region — the action row is always the bottom of the sheet. */}
-      <DialogContent
-        layerRef={dialogLayerRef}
-        className="max-w-md max-h-none"
-      >
+      <DialogPopup className="max-w-md max-h-none">
         <DialogHeader>
           <DialogTitle>{t(titleKey)}</DialogTitle>
           {status !== "success" && (
@@ -400,7 +397,11 @@ export default function FeedbackDialog({
             </>
           )}
         </DialogFooter>
-      </DialogContent>
+        {/* Portal anchor for the nested field-picker Select: rendering its popup
+            inside the dialog (not document.body) keeps clicks within the dialog's
+            dismiss scope, so picking a field doesn't close the dialog. */}
+        <div ref={dialogLayerRef} />
+      </DialogPopup>
     </Dialog>
   );
 }
