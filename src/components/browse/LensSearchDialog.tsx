@@ -67,6 +67,10 @@ export default function LensSearchDialog({
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  // Set by the arrow keys so the scroll effect only reveals keyboard-driven
+  // moves. A pointer hover also changes the active row, but the row it lands on
+  // is already under the cursor (visible) — scrolling it would be unwanted.
+  const scrollActiveRef = useRef(false);
   const inputId = useId();
   const resultsId = useId();
   const deferredQuery = useDeferredValue(query);
@@ -103,11 +107,16 @@ export default function LensSearchDialog({
   const activeRow =
     activeIndex !== null && activeIndex < results.length ? activeIndex : null;
 
-  // Scroll the active row into view as keyboard navigation moves it. Layout
-  // effect (not passive) so the scroll lands in the same frame the highlight
-  // moves — otherwise the browser paints "highlight moved, list not scrolled"
-  // first, then scrolls, which reads as a jump.
+  // Reveal the active row only when the keyboard moved it (scrollActiveRef);
+  // pointer hover changes activeRow too, but that row is already under the
+  // cursor, so scrolling it would be wrong. Layout effect (not passive) so the
+  // scroll lands in the same frame the highlight moves, rather than the browser
+  // painting "highlight moved, list not scrolled" first and then scrolling.
   useLayoutEffect(() => {
+    if (!scrollActiveRef.current) {
+      return;
+    }
+    scrollActiveRef.current = false;
     const container = scrollContainerRef.current;
     if (!container) {
       return;
@@ -134,6 +143,7 @@ export default function LensSearchDialog({
       if (results.length === 0) {
         return;
       }
+      scrollActiveRef.current = true;
       setActiveIndex(
         activeRow === null || activeRow >= results.length - 1 ? 0 : activeRow + 1
       );
@@ -145,6 +155,7 @@ export default function LensSearchDialog({
       if (results.length === 0) {
         return;
       }
+      scrollActiveRef.current = true;
       setActiveIndex(
         activeRow === null || activeRow <= 0 ? results.length - 1 : activeRow - 1
       );
@@ -229,7 +240,7 @@ export default function LensSearchDialog({
               // scroll-my-2 keeps the active row a small gap clear of the
               // scroll-container edge when scrollIntoView lands it.
               className={cn(
-                "flex w-full scroll-my-2 items-center justify-between gap-4 rounded-2xl border px-4 py-3 text-left transition-colors",
+                "flex w-full scroll-my-2 items-center justify-between gap-4 rounded-2xl border px-4 py-3 text-left",
                 isDisabled
                   ? "cursor-not-allowed border-transparent bg-zinc-50/80 opacity-60 dark:bg-zinc-900/60"
                   // Highlight is driven solely by activeIndex (onMouseEnter sets it),
