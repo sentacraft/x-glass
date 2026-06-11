@@ -216,13 +216,19 @@ export default function LensSearchDialog({
               onMouseEnter={() => setActiveIndex(index)}
               onMouseLeave={() => setActiveIndex(null)}
               onClick={() => handleSelect(lens)}
+              // scroll-my-2 keeps the active row a small gap clear of the
+              // scroll-container edge when scrollIntoView lands it.
               className={cn(
-                "flex w-full items-center justify-between gap-4 rounded-2xl border px-4 py-3 text-left transition-colors",
+                "flex w-full scroll-my-2 items-center justify-between gap-4 rounded-2xl border px-4 py-3 text-left transition-colors",
                 isDisabled
                   ? "cursor-not-allowed border-transparent bg-zinc-50/80 opacity-60 dark:bg-zinc-900/60"
+                  // Highlight is driven solely by activeIndex (onMouseEnter sets it),
+                  // so the non-active row carries no CSS :hover background. A second
+                  // hover-based source would linger grey on the row the pointer still
+                  // rests on after the highlight moves away via keyboard/scroll.
                   : isActive
                     ? "border-zinc-200 bg-zinc-50/80 dark:border-zinc-700 dark:bg-zinc-800/50"
-                    : "border-transparent bg-white hover:bg-zinc-50 dark:bg-zinc-950 dark:hover:bg-zinc-900"
+                    : "border-transparent bg-white dark:bg-zinc-950"
               )}
             >
               <div className="min-w-0">
