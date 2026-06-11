@@ -194,6 +194,7 @@ export interface SpecGroupLabels {
   wr: string;
   apertureRing: string;
   powerZoom: string;
+  internalZoom: string;
   releaseYear: string;
   releaseYearLabelNote: string;
   accessories: string;
@@ -589,6 +590,14 @@ export function buildSpecGroups(labels: SpecGroupLabels): SpecGroup[] {
           label: labels.powerZoom,
           hasData: (l) => l.powerZoom !== undefined,
           getValue: (l) => l.powerZoom,
+        },
+        {
+          kind: "bool",
+          label: labels.internalZoom,
+          fieldNoteKey: "internalZoom" as FieldNoteKey,
+          // "N/A" (primes) carries no meaning here — hide the row for them.
+          hasData: (l) => l.internalZoom !== undefined && l.internalZoom !== SPEC_NA,
+          getValue: (l) => (l.internalZoom === SPEC_NA ? undefined : l.internalZoom),
         },
       ] satisfies SpecRow[],
     },

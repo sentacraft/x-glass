@@ -15,19 +15,45 @@ export function isZoom(lens: Lens): boolean {
   return lens.focalLengthMin !== lens.focalLengthMax;
 }
 
-// Boolean Lens fields that can be used as filter conditions.
+// Lens fields that can be used as filter conditions.
 // satisfies (keyof Lens)[] enforces at compile time that each key exists on Lens.
+// Most are plain booleans; wr and internalZoom carry richer semantics resolved
+// by lensHasFeature below.
 export const FILTER_FEATURE_KEYS = [
   "ois",
   "wr",
   "apertureRing",
   "powerZoom",
+  "internalZoom",
 ] as const satisfies readonly (keyof Lens)[];
 
 export const FOCUS_FILTERS = ["auto", "manual"] as const;
 export type FocusFilter = (typeof FOCUS_FILTERS)[number];
 
 export type FilterFeatureKey = (typeof FILTER_FEATURE_KEYS)[number];
+
+/**
+ * Whether a lens satisfies a feature toggle. Each key's semantics are spelled
+ * out here rather than riding on truthiness, so the two non-plain-boolean keys
+ * are handled on equal footing with the rest:
+ * - wr: "partial" weather sealing still counts as having WR.
+ * - internalZoom: tri-state (true | false | "N/A"); only a confirmed internal
+ *   zoom (true) counts — "N/A" (primes) and false (extending zooms) do not.
+ *
+ * Note: internalZoom is not orthogonal to the prime/zoom type facet (only zooms
+ * can be internal), same as powerZoom; selecting it alongside type=prime yields
+ * an empty set, which is the intended, consistent behavior.
+ */
+export function lensHasFeature(lens: Lens, key: FilterFeatureKey): boolean {
+  switch (key) {
+    case "wr":
+      return lens.wr === true || lens.wr === "partial";
+    case "internalZoom":
+      return lens.internalZoom === true;
+    default:
+      return lens[key] === true;
+  }
+}
 
 /**
  * Focal-length categories based on full-frame equivalent focal length.
@@ -207,7 +233,7 @@ export function filterLenses(lenses: Lens[], filters: FilterState): Lens[] {
     }
 
     for (const field of FILTER_FEATURE_KEYS) {
-      if (filters.features.includes(field) && !lens[field]) {
+      if (filters.features.includes(field) && !lensHasFeature(lens, field)) {
         return false;
       }
     }
@@ -288,7 +314,7 @@ export function getAvailableFilterOptions(lenses: Lens[]): AvailableFilterOption
 
   for (const lens of lenses) {
     for (const field of FILTER_FEATURE_KEYS) {
-      if (lens[field]) {
+      if (lensHasFeature(lens, field)) {
         features.add(field);
       }
     }
