@@ -221,6 +221,7 @@ const fieldNotesSchema = z.strictObject({
   maxAperture: nonEmptyStringSchema.optional(),
   minAperture: nonEmptyStringSchema.optional(),
   apertureBladeCount: nonEmptyStringSchema.optional(),
+  internalZoom: nonEmptyStringSchema.optional(),
 });
 
 // Compile-time check: the zod schema's keys must equal FIELD_NOTE_KEYS exactly.
