@@ -79,18 +79,6 @@ export default function LensSearchDialog({
     }
   }, [open]);
 
-  // Scroll active result into view when navigating with keyboard
-  useEffect(() => {
-    const container = scrollContainerRef.current;
-    if (!container) {
-      return;
-    }
-    const activeItem = container.querySelector('[aria-selected="true"]');
-    if (activeItem) {
-      (activeItem as HTMLElement).scrollIntoView({ block: "nearest" });
-    }
-  }, [activeIndex]);
-
   const searchIndex = useMemo(
     () => buildLensSearchIndex(lenses),
     [lenses],
@@ -104,6 +92,27 @@ export default function LensSearchDialog({
 
   const hasInput = query.trim().length > 0;
   const hasResults = results.length > 0;
+
+  // activeIndex is the user's intent (0 = "first row once results arrive").
+  // activeRow projects that intent onto the current result set, collapsing to
+  // null whenever it points past what's actually there (a query with no matches,
+  // or a result set that shrank under a deferred update). Read activeRow — never
+  // raw activeIndex — for highlight / Enter / scroll, so an out-of-range intent
+  // can never act as a real row.
+  const activeRow =
+    activeIndex !== null && activeIndex < results.length ? activeIndex : null;
+
+  // Scroll the active row into view as keyboard navigation moves it.
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+    if (!container) {
+      return;
+    }
+    const activeItem = container.querySelector('[aria-selected="true"]');
+    if (activeItem) {
+      (activeItem as HTMLElement).scrollIntoView({ block: "nearest" });
+    }
+  }, [activeRow]);
 
   useSearchTelemetry({ query: deferredQuery, resultsCount: results.length, isOpen: open });
 
@@ -121,8 +130,8 @@ export default function LensSearchDialog({
       if (results.length === 0) {
         return;
       }
-      setActiveIndex((current) =>
-        current === null || current >= results.length - 1 ? 0 : current + 1
+      setActiveIndex(
+        activeRow === null || activeRow >= results.length - 1 ? 0 : activeRow + 1
       );
       return;
     }
@@ -132,15 +141,15 @@ export default function LensSearchDialog({
       if (results.length === 0) {
         return;
       }
-      setActiveIndex((current) =>
-        current === null || current <= 0 ? results.length - 1 : current - 1
+      setActiveIndex(
+        activeRow === null || activeRow <= 0 ? results.length - 1 : activeRow - 1
       );
       return;
     }
 
-    if (event.key === "Enter" && activeIndex !== null && results[activeIndex]) {
+    if (event.key === "Enter" && activeRow !== null) {
       event.preventDefault();
-      handleSelect(results[activeIndex]);
+      handleSelect(results[activeRow]);
       return;
     }
   }
@@ -192,7 +201,7 @@ export default function LensSearchDialog({
         className="space-y-2"
       >
         {results.map((lens, index) => {
-          const isActive = index === activeIndex;
+          const isActive = index === activeRow;
           const resultState = getResultState?.(lens);
           const actionLabel = resultState?.actionLabel ?? t("view");
           const isDisabled = resultState?.disabled ?? false;
